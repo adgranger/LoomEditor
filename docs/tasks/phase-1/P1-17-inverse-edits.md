@@ -1,6 +1,6 @@
 # P1-17 — Edit operation types and pure edit helpers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-16
 - **Size:** M
 
@@ -48,14 +48,14 @@ computing where each edit's text ends up (the ranges needed for undo), and mergi
 
 ## Tests
 
-- [ ] `PieceTreeTextBuffer._getInverseEdits` — 17 tests (`single insert`, `Bug 19872: Undo is funky`, …, `many edits`)
-- [ ] `PieceTreeTextBuffer._toSingleEditOperation` — 12 tests (`one edit op is unchanged`, …, `advanced simplified`)
+- [x] `PieceTreeTextBuffer._getInverseEdits` — 17 tests (`single insert`, `Bug 19872: Undo is funky`, …, `many edits`)
+- [x] `PieceTreeTextBuffer._toSingleEditOperation` — 12 tests (`one edit op is unchanged`, …, `advanced simplified`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
