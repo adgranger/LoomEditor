@@ -1,13 +1,14 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model.Edits;
 using LoomEditor.Core.Text;
 using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Core.Model;
 
 /// <summary>
-/// The text storage used by <c>TextModel</c>: read queries and EOL changes. <c>ApplyEdits</c> is added by a later card.
+/// The text storage used by <c>TextModel</c>: read queries, EOL changes and batched edits.
 /// </summary>
 /// <remarks>
 /// <para>Monaco: <c>IReadonlyTextBuffer</c> + <c>ITextBuffer</c> merged into one interface.</para>
@@ -99,6 +100,16 @@ internal interface ITextBuffer
 
     /// <summary>The 1-based column just after the last non-whitespace character, or 0 for a blank line (Monaco: <c>getLineLastNonWhitespaceColumn</c>).</summary>
     int GetLineLastNonWhitespaceColumn(int lineNumber);
+
+    /// <summary>
+    /// Applies a batch of edits expressed against the text before the batch (Monaco: <c>applyEdits</c>).
+    /// Ranges must already be validated.
+    /// </summary>
+    /// <param name="operations">The edits, in any order; they must not overlap.</param>
+    /// <param name="recordTrimAutoWhitespace">True to compute <see cref="ApplyEditsResult.TrimAutoWhitespaceLineNumbers"/>.</param>
+    /// <param name="computeUndoEdits">True to compute <see cref="ApplyEditsResult.ReverseEdits"/>.</param>
+    /// <exception cref="ArgumentException">Two edits overlap.</exception>
+    ApplyEditsResult ApplyEdits(IReadOnlyList<ValidAnnotatedEditOperation> operations, bool recordTrimAutoWhitespace, bool computeUndoEdits);
 
     /// <summary>The nearest chunk of text after <paramref name="offset"/> (Monaco: <c>getNearestChunk</c>).</summary>
     string GetNearestChunk(int offset);
