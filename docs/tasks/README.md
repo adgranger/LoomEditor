@@ -50,7 +50,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P1-16](phase-1/P1-16-text-buffer-queries.md) | `ITextBuffer` + read queries | P1-15 | todo |
+| [P1-16](phase-1/P1-16-text-buffer-queries.md) | `ITextBuffer` + read queries | P1-15 | done |
 | [P1-17](phase-1/P1-17-inverse-edits.md) | Pure edit helpers: inverse ranges, single-edit merge | P1-16 | todo |
 | [P1-18](phase-1/P1-18-apply-edits.md) | `ApplyEdits` | P1-17 | todo |
 | [P1-19](phase-1/P1-19-piece-tree-benchmarks.md) | Benchmarks + reference numbers | P1-18 | todo |

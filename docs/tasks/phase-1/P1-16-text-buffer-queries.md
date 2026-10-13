@@ -1,6 +1,6 @@
 # P1-16 — `ITextBuffer` and `PieceTreeTextBuffer` read queries
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-15
 - **Size:** M
 
@@ -37,19 +37,19 @@ The `ITextBuffer` contract that `TextModel` will use, and every read-only method
 
 All new (Monaco tests these through `TextModel`; P1-20 ports those):
 
-- [ ] `GetRangeAt(offset, length)` for ranges inside a line and across lines
-- [ ] `GetValueInRange` with `TextDefined`, `LF` and `CRLF` on a CRLF buffer
-- [ ] `GetValueLengthInRange` equals `GetValueInRange(...).Length` for several ranges and EOL preferences
-- [ ] `GetCharacterCountInRange` counts a surrogate pair as 1 (e.g. `"a😀b"`)
-- [ ] `GetLineMinColumn` = 1, `GetLineMaxColumn` = length + 1
-- [ ] `GetLineFirstNonWhitespaceColumn` / `GetLineLastNonWhitespaceColumn`: `"  ab  "` → 3 / 5; whitespace-only line → 0
-- [ ] `MightContainRtl`, `MightContainNonBasicAscii`, `MightContainUnusualLineTerminators` reflect the initial text
+- [x] `GetRangeAt(offset, length)` for ranges inside a line and across lines
+- [x] `GetValueInRange` with `TextDefined`, `LF` and `CRLF` on a CRLF buffer
+- [x] `GetValueLengthInRange` equals `GetValueInRange(...).Length` for several ranges and EOL preferences
+- [x] `GetCharacterCountInRange` counts a surrogate pair as 1 (e.g. `"a😀b"`)
+- [x] `GetLineMinColumn` = 1, `GetLineMaxColumn` = length + 1
+- [x] `GetLineFirstNonWhitespaceColumn` / `GetLineLastNonWhitespaceColumn`: `"  ab  "` → 3 / 5; whitespace-only line → 0
+- [x] `MightContainRtl`, `MightContainNonBasicAscii`, `MightContainUnusualLineTerminators` reflect the initial text
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -1,11 +1,14 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Text;
+using Range = LoomEditor.Core.Text.Range;
+
 namespace LoomEditor.Core.Model.PieceTree;
 
 /// <summary>
 /// The text of a model: a <see cref="PieceTreeBase"/> plus the BOM and flags about its content.
-/// This part is a shell (fields, constructor, flags, BOM, EOL); queries and edits are added by later cards.
+/// Read queries are implemented here; edits are added by later cards.
 /// </summary>
 /// <remarks>
 /// <para>Monaco: <c>PieceTreeTextBuffer</c>.</para>
@@ -15,13 +18,13 @@ namespace LoomEditor.Core.Model.PieceTree;
 /// </para>
 /// <para>Threading: not thread-safe; callers must serialize access.</para>
 /// </remarks>
-internal sealed class PieceTreeTextBuffer
+internal sealed class PieceTreeTextBuffer : ITextBuffer
 {
     private readonly PieceTreeBase _pieceTree;
     private readonly string _bom;
     private readonly bool _mightContainRtl;
-    private readonly bool _mightContainUnusualLineTerminators;
     private readonly bool _mightContainNonBasicAscii;
+    private bool _mightContainUnusualLineTerminators;
 
     /// <summary>Creates a buffer over already-chunked text.</summary>
     /// <param name="chunks">The text, in order. Not copied.</param>
@@ -48,21 +51,181 @@ internal sealed class PieceTreeTextBuffer
         _pieceTree = new PieceTreeBase(chunks, eol, eolNormalized);
     }
 
-    /// <summary>True when the text may contain right-to-left characters (Monaco: <c>mightContainRTL</c>).</summary>
+    /// <inheritdoc />
+    public bool Equals(ITextBuffer other)
+    {
+        if (other is not PieceTreeTextBuffer o)
+        {
+            return false;
+        }
+
+        return _bom == o._bom && GetEol() == o.GetEol() && _pieceTree.Equal(o._pieceTree);
+    }
+
+    /// <inheritdoc />
     public bool MightContainRtl() => _mightContainRtl;
 
-    /// <summary>True when the text may contain U+2028 or U+2029 (Monaco: <c>mightContainUnusualLineTerminators</c>).</summary>
+    /// <inheritdoc />
     public bool MightContainUnusualLineTerminators() => _mightContainUnusualLineTerminators;
 
-    /// <summary>True when the text may contain non basic-ASCII characters (Monaco: <c>mightContainNonBasicASCII</c>).</summary>
+    /// <inheritdoc />
+    public void ResetMightContainUnusualLineTerminators() => _mightContainUnusualLineTerminators = false;
+
+    /// <inheritdoc />
     public bool MightContainNonBasicAscii() => _mightContainNonBasicAscii;
 
-    /// <summary>The BOM removed from the text, or an empty string (Monaco: <c>getBOM</c>).</summary>
+    /// <inheritdoc />
     public string GetBom() => _bom;
 
-    /// <summary>The EOL of the document (Monaco: <c>getEOL</c>).</summary>
+    /// <inheritdoc />
     public string GetEol() => _pieceTree.GetEol();
+
+    /// <inheritdoc />
+    public void SetEol(string newEol) => _pieceTree.SetEol(newEol);
+
+    /// <inheritdoc />
+    public ITextSnapshot CreateSnapshot(bool preserveBom) => _pieceTree.CreateSnapshot(preserveBom ? _bom : string.Empty);
+
+    /// <inheritdoc />
+    public int GetOffsetAt(int lineNumber, int column) => _pieceTree.GetOffsetAt(lineNumber, column);
+
+    /// <inheritdoc />
+    public Position GetPositionAt(int offset) => _pieceTree.GetPositionAt(offset);
+
+    /// <inheritdoc />
+    public Range GetRangeAt(int start, int length)
+    {
+        Position startPosition = GetPositionAt(start);
+        Position endPosition = GetPositionAt(start + length);
+        return new Range(startPosition.LineNumber, startPosition.Column, endPosition.LineNumber, endPosition.Column);
+    }
+
+    /// <inheritdoc />
+    public string GetValueInRange(Range range, EndOfLinePreference eol = EndOfLinePreference.TextDefined)
+    {
+        if (range.IsEmpty)
+        {
+            return string.Empty;
+        }
+
+        return _pieceTree.GetValueInRange(range, GetEndOfLine(eol));
+    }
+
+    /// <inheritdoc />
+    public int GetValueLengthInRange(Range range, EndOfLinePreference eol = EndOfLinePreference.TextDefined)
+    {
+        if (range.IsEmpty)
+        {
+            return 0;
+        }
+
+        if (range.StartLineNumber == range.EndLineNumber)
+        {
+            return range.EndColumn - range.StartColumn;
+        }
+
+        int startOffset = GetOffsetAt(range.StartLineNumber, range.StartColumn);
+        int endOffset = GetOffsetAt(range.EndLineNumber, range.EndColumn);
+
+        // Offsets use the text EOL, so compensate when the requested EOL has a different length.
+        int eolOffsetCompensation = 0;
+        string desiredEol = GetEndOfLine(eol);
+        string actualEol = GetEol();
+        if (desiredEol.Length != actualEol.Length)
+        {
+            int delta = desiredEol.Length - actualEol.Length;
+            int eolCount = range.EndLineNumber - range.StartLineNumber;
+            eolOffsetCompensation = delta * eolCount;
+        }
+
+        return endOffset - startOffset + eolOffsetCompensation;
+    }
+
+    /// <inheritdoc />
+    public int GetCharacterCountInRange(Range range, EndOfLinePreference eol = EndOfLinePreference.TextDefined)
+    {
+        if (!_mightContainNonBasicAscii)
+        {
+            return GetValueLengthInRange(range, eol);
+        }
+
+        // Must count by iterating: a surrogate pair is one character.
+        int result = 0;
+        int fromLineNumber = range.StartLineNumber;
+        int toLineNumber = range.EndLineNumber;
+        for (int lineNumber = fromLineNumber; lineNumber <= toLineNumber; lineNumber++)
+        {
+            string lineContent = GetLineContent(lineNumber);
+            int fromOffset = lineNumber == fromLineNumber ? range.StartColumn - 1 : 0;
+            int toOffset = lineNumber == toLineNumber ? range.EndColumn - 1 : lineContent.Length;
+
+            for (int offset = fromOffset; offset < toOffset; offset++)
+            {
+                if (char.IsHighSurrogate(lineContent[offset]))
+                {
+                    offset++;
+                }
+
+                result++;
+            }
+        }
+
+        result += GetEndOfLine(eol).Length * (toLineNumber - fromLineNumber);
+        return result;
+    }
+
+    /// <inheritdoc />
+    public string GetNearestChunk(int offset) => _pieceTree.GetNearestChunk(offset);
+
+    /// <inheritdoc />
+    public int GetLength() => _pieceTree.GetLength();
+
+    /// <inheritdoc />
+    public int GetLineCount() => _pieceTree.GetLineCount();
+
+    /// <inheritdoc />
+    public string[] GetLinesContent() => _pieceTree.GetLinesContent();
+
+    /// <inheritdoc />
+    public string GetLineContent(int lineNumber) => _pieceTree.GetLineContent(lineNumber);
+
+    /// <inheritdoc />
+    public char GetLineCharCode(int lineNumber, int index) => _pieceTree.GetLineCharCode(lineNumber, index);
+
+    /// <inheritdoc />
+    public char GetCharCode(int offset) => _pieceTree.GetCharCode(offset);
+
+    /// <inheritdoc />
+    public int GetLineLength(int lineNumber) => _pieceTree.GetLineLength(lineNumber);
+
+    /// <inheritdoc />
+    public int GetLineMinColumn(int lineNumber) => 1;
+
+    /// <inheritdoc />
+    public int GetLineMaxColumn(int lineNumber) => GetLineLength(lineNumber) + 1;
+
+    /// <inheritdoc />
+    public int GetLineFirstNonWhitespaceColumn(int lineNumber)
+    {
+        int result = StringClassification.FirstNonWhitespaceIndex(GetLineContent(lineNumber));
+        return result == -1 ? 0 : result + 1;
+    }
+
+    /// <inheritdoc />
+    public int GetLineLastNonWhitespaceColumn(int lineNumber)
+    {
+        int result = StringClassification.LastNonWhitespaceIndex(GetLineContent(lineNumber));
+        return result == -1 ? 0 : result + 2;
+    }
 
     /// <summary>The underlying piece tree, exposed for tests (Monaco: <c>getPieceTree</c>).</summary>
     internal PieceTreeBase GetPieceTree() => _pieceTree;
+
+    private string GetEndOfLine(EndOfLinePreference eol) => eol switch
+    {
+        EndOfLinePreference.LF => "\n",
+        EndOfLinePreference.CRLF => "\r\n",
+        EndOfLinePreference.TextDefined => GetEol(),
+        _ => throw new ArgumentOutOfRangeException(nameof(eol), eol, "Unknown EOL preference"),
+    };
 }
