@@ -6,7 +6,10 @@ namespace LoomEditor.Core.Model.PieceTree;
 // Insert.
 internal sealed partial class PieceTreeBase
 {
-    /// <summary>Inserts <paramref name="value"/> at <paramref name="offset"/> (Monaco: <c>insert</c>).</summary>
+    /// <summary>
+    /// Inserts <paramref name="value"/> at <paramref name="offset"/> (Monaco: <c>insert</c>).
+    /// Behavior difference: inserting an empty string is a no-op (Monaco would split a piece, and a CRLF pair, in two).
+    /// </summary>
     /// <param name="offset">Document offset, between 0 and <see cref="GetLength"/>.</param>
     /// <param name="value">The text to insert.</param>
     /// <param name="eolNormalized">True when every line break in <paramref name="value"/> equals the document's EOL.</param>
@@ -14,6 +17,11 @@ internal sealed partial class PieceTreeBase
     {
         _eolNormalized = _eolNormalized && eolNormalized;
         _lastVisitedLine = (0, "");
+
+        if (value.Length == 0)
+        {
+            return;
+        }
 
         if (!ReferenceEquals(_tree.Root, _tree.Sentinel))
         {

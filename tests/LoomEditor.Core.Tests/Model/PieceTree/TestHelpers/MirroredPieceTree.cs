@@ -13,6 +13,13 @@ internal sealed class MirroredPieceTree
         Tree = TestTextBuffers.Create([initial], normalizeEol).GetPieceTree();
     }
 
+    /// <summary>Starts from several original chunks, as Monaco's <c>createTextBuffer(chunks, false)</c>.</summary>
+    public MirroredPieceTree(string[] chunks, bool normalizeEol = true)
+    {
+        Text = string.Concat(chunks);
+        Tree = TestTextBuffers.Create(chunks, normalizeEol).GetPieceTree();
+    }
+
     public PieceTreeBase Tree { get; }
 
     /// <summary>The expected content (Monaco: <c>str</c>).</summary>
