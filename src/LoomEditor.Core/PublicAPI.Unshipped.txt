@@ -15,6 +15,19 @@ LoomEditor.Core.Model.EndOfLineSequence.CRLF = 1 -> LoomEditor.Core.Model.EndOfL
 LoomEditor.Core.Model.EndOfLineSequence.LF = 0 -> LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.ITextSnapshot
 LoomEditor.Core.Model.ITextSnapshot.Read() -> string?
+LoomEditor.Core.Model.ModelContentChange
+LoomEditor.Core.Model.ModelContentChange.<Clone>$() -> LoomEditor.Core.Model.ModelContentChange!
+LoomEditor.Core.Model.ModelContentChange.Deconstruct(out LoomEditor.Core.Text.Range Range, out int RangeOffset, out int RangeLength, out string! Text) -> void
+LoomEditor.Core.Model.ModelContentChange.Equals(LoomEditor.Core.Model.ModelContentChange? other) -> bool
+LoomEditor.Core.Model.ModelContentChange.ModelContentChange(LoomEditor.Core.Text.Range Range, int RangeOffset, int RangeLength, string! Text) -> void
+LoomEditor.Core.Model.ModelContentChange.Range.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Model.ModelContentChange.Range.init -> void
+LoomEditor.Core.Model.ModelContentChange.RangeLength.get -> int
+LoomEditor.Core.Model.ModelContentChange.RangeLength.init -> void
+LoomEditor.Core.Model.ModelContentChange.RangeOffset.get -> int
+LoomEditor.Core.Model.ModelContentChange.RangeOffset.init -> void
+LoomEditor.Core.Model.ModelContentChange.Text.get -> string!
+LoomEditor.Core.Model.ModelContentChange.Text.init -> void
 LoomEditor.Core.Text.Position
 LoomEditor.Core.Text.Position.Column.get -> int
 LoomEditor.Core.Text.Position.CompareTo(LoomEditor.Core.Text.Position other) -> int
@@ -81,6 +94,9 @@ LoomEditor.Core.Text.TextEdit.Range.get -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Text.TextEdit.Text.get -> string!
 LoomEditor.Core.Text.TextEdit.TextEdit() -> void
 LoomEditor.Core.Text.TextEdit.TextEdit(LoomEditor.Core.Text.Range range, string! text) -> void
+override LoomEditor.Core.Model.ModelContentChange.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.ModelContentChange.GetHashCode() -> int
+override LoomEditor.Core.Model.ModelContentChange.ToString() -> string!
 override LoomEditor.Core.Text.Position.GetHashCode() -> int
 override LoomEditor.Core.Text.Position.ToString() -> string!
 override LoomEditor.Core.Text.Range.GetHashCode() -> int
@@ -89,6 +105,8 @@ override LoomEditor.Core.Text.Selection.GetHashCode() -> int
 override LoomEditor.Core.Text.Selection.ToString() -> string!
 override LoomEditor.Core.Text.TextEdit.GetHashCode() -> int
 override LoomEditor.Core.Text.TextEdit.ToString() -> string!
+static LoomEditor.Core.Model.ModelContentChange.operator !=(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
+static LoomEditor.Core.Model.ModelContentChange.operator ==(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
 static LoomEditor.Core.Text.Position.Max(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
 static LoomEditor.Core.Text.Position.Min(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
 static LoomEditor.Core.Text.Position.operator !=(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool

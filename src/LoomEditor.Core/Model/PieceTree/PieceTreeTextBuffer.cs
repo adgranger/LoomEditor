@@ -18,7 +18,7 @@ namespace LoomEditor.Core.Model.PieceTree;
 /// </para>
 /// <para>Threading: not thread-safe; callers must serialize access.</para>
 /// </remarks>
-internal sealed class PieceTreeTextBuffer : ITextBuffer
+internal sealed partial class PieceTreeTextBuffer : ITextBuffer
 {
     private readonly PieceTreeBase _pieceTree;
     private readonly string _bom;
