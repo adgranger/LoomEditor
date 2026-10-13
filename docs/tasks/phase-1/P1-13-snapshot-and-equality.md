@@ -1,6 +1,6 @@
 # P1-13 — Snapshots, equality and buffer API tests
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-09
 - **Size:** S
 
@@ -37,14 +37,14 @@ copying everything), tree equality, and the "buffer api" Monaco tests.
 
 ## Tests
 
-- [ ] `buffer api` — 7 tests (`equal`, `equal with more chunks`, `equal 2, empty buffer`, `equal 3, empty buffer`, `getLineCharCode - issue #45735`, `getLineCharCode - issue #47733`, `getNearestChunk`)
-- [ ] `snapshot` — 4 tests
+- [x] `buffer api` — 7 tests (`equal`, `equal with more chunks`, `equal 2, empty buffer`, `equal 3, empty buffer`, `getLineCharCode - issue #45735`, `getLineCharCode - issue #47733`, `getNearestChunk`)
+- [x] `snapshot` — 4 tests
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
