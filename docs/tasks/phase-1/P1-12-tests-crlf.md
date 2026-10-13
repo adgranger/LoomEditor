@@ -1,6 +1,6 @@
 # P1-12 — Port tests: CRLF and centralized line starts with CRLF
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-09 (can be done in parallel with P1-10/P1-11)
 - **Size:** M (tests only, plus the bug fixes they reveal — expect some in `PieceTreeBase.Crlf.cs`)
 
@@ -33,14 +33,14 @@ chunks that end with `\r`. These are the hardest cases of the piece tree.
 
 ## Tests
 
-- [ ] `CRLF` — 12 tests
-- [ ] `centralized lineStarts with CRLF` — 16 tests
+- [x] `CRLF` — 12 tests
+- [x] `centralized lineStarts with CRLF` — 16 tests
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

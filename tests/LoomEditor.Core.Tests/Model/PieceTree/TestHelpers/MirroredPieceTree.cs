@@ -7,10 +7,10 @@ namespace LoomEditor.Core.Tests.Model.PieceTree.TestHelpers;
 /// <summary>A piece tree plus a plain string receiving the same edits, as Monaco's recorded tests keep in <c>str</c>.</summary>
 internal sealed class MirroredPieceTree
 {
-    public MirroredPieceTree(string initial)
+    public MirroredPieceTree(string initial, bool normalizeEol = true)
     {
         Text = initial;
-        Tree = TestTextBuffers.Create([initial]).GetPieceTree();
+        Tree = TestTextBuffers.Create([initial], normalizeEol).GetPieceTree();
     }
 
     public PieceTreeBase Tree { get; }
