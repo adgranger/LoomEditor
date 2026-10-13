@@ -1,6 +1,6 @@
 # P1-10 — Port tests: inserts and deletes, prefix sums, offset → position, search offset cache
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-09
 - **Size:** M (tests only, plus the bug fixes they reveal)
 
@@ -38,17 +38,17 @@ by comparing it line by line with Monaco — **never change the test's expected 
 
 ## Tests
 
-- [ ] `inserts and deletes` — 14 tests
-- [ ] `prefix sum for line feed` — 11 tests
-- [ ] `offset 2 position` — 1 test
-- [ ] `search offset cache` — 5 tests
+- [x] `inserts and deletes` — 14 tests
+- [x] `prefix sum for line feed` — 11 tests
+- [x] `offset 2 position` — 1 test
+- [x] `search offset cache` — 5 tests
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Every bug fix is listed in the PR description (Monaco line vs. our line)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Every bug fix is listed in the PR description (Monaco line vs. our line)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
