@@ -1,6 +1,6 @@
 # P1-14 — EOL normalization (`NormalizeEol`, `SetEol`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-09
 - **Size:** S
 
@@ -33,16 +33,16 @@ Monaco has no direct test for these two methods (they are tested through `TextMo
 
 ## Tests
 
-- [ ] LF text → `SetEol("\r\n")` → raw content uses `\r\n` everywhere; line count and line contents unchanged
-- [ ] Mixed `\r`, `\n`, `\r\n` → `SetEol("\n")` → only `\n`
-- [ ] Large text (> 3 × 65,535 chars, many lines) → content correct, `TreeInvariants.AssertValid` passes
-- [ ] After `SetEol`, inserts and deletes still work (`PieceTreeAssert.LinesContent`)
+- [x] LF text → `SetEol("\r\n")` → raw content uses `\r\n` everywhere; line count and line contents unchanged
+- [x] Mixed `\r`, `\n`, `\r\n` → `SetEol("\n")` → only `\n`
+- [x] Large text (> 3 × 65,535 chars, many lines) → content correct, `TreeInvariants.AssertValid` passes
+- [x] After `SetEol`, inserts and deletes still work (`PieceTreeAssert.LinesContent`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
