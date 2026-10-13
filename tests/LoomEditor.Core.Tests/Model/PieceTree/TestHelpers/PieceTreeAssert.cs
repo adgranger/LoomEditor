@@ -10,7 +10,7 @@ namespace LoomEditor.Core.Tests.Model.PieceTree.TestHelpers;
 internal static class PieceTreeAssert
 {
     // Monaco: splitLines (base/common/strings.ts): split on \r\n, \r or \n
-    private static List<string> SplitLines(string text)
+    internal static List<string> SplitLines(string text)
     {
         var lines = new List<string>();
         int start = 0;
