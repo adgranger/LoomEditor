@@ -1,6 +1,6 @@
 # P1-04 — Piece tree search cache
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-03
 - **Size:** S
 
@@ -32,16 +32,16 @@ The tiny cache that remembers the last node found for an offset or a line number
 
 ## Tests
 
-- [ ] `Get` hits when `NodeStartOffset <= offset <= NodeStartOffset + piece length`, misses otherwise (both edges)
-- [ ] `GetByLine` requires `NodeStartLineNumber` set and `start < line <= start + piece line feeds`
-- [ ] `Set` beyond the limit evicts the oldest entry
-- [ ] `Validate(offset)` removes entries with `NodeStartOffset >= offset` and entries whose node is detached, keeps the others
+- [x] `Get` hits when `NodeStartOffset <= offset <= NodeStartOffset + piece length`, misses otherwise (both edges)
+- [x] `GetByLine` requires `NodeStartLineNumber` set and `start < line <= start + piece line feeds`
+- [x] `Set` beyond the limit evicts the oldest entry
+- [x] `Validate(offset)` removes entries with `NodeStartOffset >= offset` and entries whose node is detached, keeps the others
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
