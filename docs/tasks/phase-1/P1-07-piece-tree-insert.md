@@ -1,6 +1,6 @@
 # P1-07 — `PieceTreeBase`: insert
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-06
 - **Size:** L in Monaco lines, but mechanical — do it in one card, split into partial files
 
@@ -45,18 +45,18 @@ Use `TestPieceTrees.FromChunks` and the `PieceTreeAssert` helpers (P1-06). After
 equals the same edit applied to a `string`, `PieceTreeAssert.LineStarts`, `PieceTreeAssert.LinesContent`,
 `TreeInvariants.AssertValid`.
 
-- [ ] Insert into an empty tree; at start, middle, end of a one-piece tree
-- [ ] Many consecutive inserts at the end (typing) → still one change-buffer piece appended (check node count stays small)
-- [ ] Insert text longer than `AverageBufferSize` (65,535) → split into several buffers; content correct
-- [ ] `"\r"` then `"\n"` inserted right after it → one line break (line count does not double)
-- [ ] Insert `"\n"` right after an existing `"\r"` at the end of a piece, and `"\r"` right before an existing `"\n"`
-- [ ] Seeded random inserts (200 operations, short random strings including `\r` and `\n`) on several seeds
+- [x] Insert into an empty tree; at start, middle, end of a one-piece tree
+- [x] Many consecutive inserts at the end (typing) → still one change-buffer piece appended (check node count stays small)
+- [x] Insert text longer than `AverageBufferSize` (65,535) → split into several buffers; content correct
+- [x] `"\r"` then `"\n"` inserted right after it → one line break (line count does not double)
+- [x] Insert `"\n"` right after an existing `"\r"` at the end of a piece, and `"\r"` right before an existing `"\n"`
+- [x] Seeded random inserts (200 operations, short random strings including `\r` and `\n`) on several seeds
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -31,7 +31,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 |---|---|---|---|
 | [P1-05](phase-1/P1-05-piece-tree-create-and-lines.md) | Construction and reading lines | P1-04 | done |
 | [P1-06](phase-1/P1-06-piece-tree-offsets-positions.md) | Offsets ↔ positions, ranges, char codes | P1-05 | done |
-| [P1-07](phase-1/P1-07-piece-tree-insert.md) | Insert (with CRLF handling) | P1-06 | todo |
+| [P1-07](phase-1/P1-07-piece-tree-insert.md) | Insert (with CRLF handling) | P1-06 | done |
 | [P1-08](phase-1/P1-08-piece-tree-delete.md) | Delete | P1-07 | todo |
 | [P1-09](phase-1/P1-09-text-buffer-builder.md) | `PieceTreeTextBufferBuilder` + factory + `PieceTreeTextBuffer` shell | P1-08 | todo |
 
