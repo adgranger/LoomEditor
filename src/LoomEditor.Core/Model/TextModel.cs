@@ -9,10 +9,10 @@ namespace LoomEditor.Core.Model;
 
 /// <summary>
 /// The text of an editor: a document of lines that can be read by line, offset, position or range.
-/// This version is read-only; edits, undo and snapshots come with later cards.
+/// It can be edited with <c>ApplyEdits</c>, <c>SetValue</c> and <c>SetEol</c>; undo and snapshots come with later cards.
 /// </summary>
 /// <remarks>
-/// <para>Monaco: <c>TextModel</c> (read API only).</para>
+/// <para>Monaco: <c>TextModel</c> (read and edit API).</para>
 /// <para>
 /// Not ported yet: language, options (tab size...), decorations, tokens, injected text, attached editors,
 /// <c>isTooLargeForSyncing</c> and disposal. Methods that take a position or range validate it first, like Monaco.
@@ -21,9 +21,10 @@ namespace LoomEditor.Core.Model;
 /// </remarks>
 public sealed partial class TextModel
 {
-    private readonly PieceTreeTextBuffer _buffer;
-    private readonly int _versionId = 1;
-    private readonly int _alternativeVersionId = 1;
+    private readonly DefaultEndOfLine _defaultEol;
+    private PieceTreeTextBuffer _buffer;
+    private int _versionId = 1;
+    private int _alternativeVersionId = 1;
 
     /// <summary>Creates a model holding <paramref name="text"/>.</summary>
     /// <param name="text">The initial text. A leading BOM is removed and remembered; line breaks are normalized to the EOL.</param>
@@ -33,10 +34,16 @@ public sealed partial class TextModel
     {
         ArgumentNullException.ThrowIfNull(text);
 
-        // Monaco: createTextBuffer(value, defaultEOL)
+        _defaultEol = defaultEol;
+        _buffer = CreateBuffer(text, defaultEol);
+    }
+
+    // Monaco: createTextBuffer(value, defaultEOL)
+    private static PieceTreeTextBuffer CreateBuffer(string text, DefaultEndOfLine defaultEol)
+    {
         var builder = new PieceTreeTextBufferBuilder();
         builder.AcceptChunk(text);
-        _buffer = builder.Finish(normalizeEol: true).Create(defaultEol);
+        return builder.Finish(normalizeEol: true).Create(defaultEol);
     }
 
     /// <summary>The version of the text; starts at 1 (Monaco: <c>getVersionId</c>).</summary>
