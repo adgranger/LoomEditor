@@ -53,7 +53,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 | [P1-16](phase-1/P1-16-text-buffer-queries.md) | `ITextBuffer` + read queries | P1-15 | done |
 | [P1-17](phase-1/P1-17-inverse-edits.md) | Pure edit helpers: inverse ranges, single-edit merge | P1-16 | done |
 | [P1-18](phase-1/P1-18-apply-edits.md) | `ApplyEdits` | P1-17 | done |
-| [P1-19](phase-1/P1-19-piece-tree-benchmarks.md) | Benchmarks + reference numbers | P1-18 | todo |
+| [P1-19](phase-1/P1-19-piece-tree-benchmarks.md) | Benchmarks + reference numbers | P1-18 | done |
 
 ### Step E — `TextModel`
 
@@ -75,6 +75,12 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 |---|---|---|---|
 | [P1-29](phase-1/P1-29-use-text-model-in-view.md) | `IEditorContext.Model` replaces `Lines` | P1-27, P1-28 | todo |
 | [P1-30](phase-1/P1-30-close-phase-1.md) | Close phase 1 (docs, porting map, roadmap) | all | todo |
+
+### Follow-ups found while working on the cards
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P1-31](phase-1/P1-31-edit-allocations.md) | Reduce per-edit allocations in `ApplyEdits` | P1-19 | todo |
 
 Cards in the same step that depend only on an earlier step (e.g. P1-10 … P1-14) can be done in any order.
 
