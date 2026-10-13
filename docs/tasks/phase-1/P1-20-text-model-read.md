@@ -1,6 +1,6 @@
 # P1-20 — `TextModel`: creation and read API
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-18
 - **Size:** M
 
@@ -19,7 +19,7 @@ This is the class the rest of the editor (and library users) will use.
 | same | 1168–1175 | `getFullModelRange` |
 | `src/vs/editor/test/common/testTextModel.ts` | `createTextModel` | test helper |
 | `src/vs/editor/test/common/model/textModel.test.ts` | 74–169 | suite `TextModelData.fromString` (5 tests) |
-| same | 189–239, 1053–1122 | from suite `Editor Model - TextModel`: `getValueLengthInRange`, `getValueLengthInRange different EOL`, `getLineFirstNonWhitespaceColumn`, `getLineLastNonWhitespaceColumn`, `#50471. getValueInRange with invalid range` |
+| same | 189–239, 1053–1096 | from suite `Editor Model - TextModel`: `getValueLengthInRange`, `getValueLengthInRange different EOL` (valid ranges only, see Tests), `getLineFirstNonWhitespaceColumn`, `getLineLastNonWhitespaceColumn` |
 | same | 1142–1174 | suite `TextModel.mightContainRTL` — only `nope` and `yes` (the two `setValue` tests go to P1-22) |
 
 ## Files to create or change
@@ -46,17 +46,17 @@ This is the class the rest of the editor (and library users) will use.
 
 ## Tests
 
-- [ ] `TextModelData.fromString` — 5 tests (`one line text`, `multiline text`, `Non Basic ASCII 1`, `containsRTL 1`, `containsRTL 2`)
-- [ ] The 5 listed tests from `Editor Model - TextModel`
-- [ ] `TextModel.mightContainRTL` › `nope`, `yes`
-- [ ] New: empty text → 1 line, `FullModelRange` = `[1,1 -> 1,1]`; BOM preserved only with `preserveBom: true`
+- [x] `TextModelData.fromString` — 5 tests (`one line text`, `multiline text`, `Non Basic ASCII 1`, `containsRTL 1`, `containsRTL 2`)
+- [x] The 4 listed tests from `Editor Model - TextModel`. In `getValueLengthInRange` and `getValueLengthInRange different EOL`, port only the assertions whose range is inside the text; the assertions with out-of-bounds ranges (`1000`) move to P1-21, which adds `ValidateRange`. `#50471` also moves to P1-21.
+- [x] `TextModel.mightContainRTL` › `nope`, `yes`
+- [x] New: empty text → 1 line, `FullModelRange` = `[1,1 -> 1,1]`; BOM preserved only with `preserveBom: true`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `textModel.ts` in progress
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `textModel.ts` in progress
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

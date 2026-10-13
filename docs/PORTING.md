@@ -61,6 +61,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `PieceTreeBase.Insert` | Inserting an empty string is a no-op (Monaco splits the piece; inside a CRLF pair this made `GetLineCount` count one line too many) | Found by the P1-15 property test; Monaco callers never insert empty text |
 | `PieceTreeTextBufferFactory.Create` | Returns the `PieceTreeTextBuffer` directly, not a `{ textBuffer, disposable }` pair; `PieceTreeTextBuffer` is not `IDisposable` and has no `onDidChangeContent` | Nothing to dispose in this port |
 | `ITextBuffer` | `IReadonlyTextBuffer` and `ITextBuffer` are one interface; no `onDidChangeContent`, not `IDisposable`, no `findMatchesLineByLine` yet (phase 5) | Simpler contract; search is deferred |
+| `TextModel.GetLineMinColumn` | Throws `ArgumentOutOfRangeException` for an illegal line number (Monaco ignores it and returns 1) | Consistent with the other line methods; avoids a static-able public instance method |
 
 ## Map: Monaco → LoomEditor
 
@@ -84,7 +85,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/test/common/model/linesTextBuffer/linesTextBuffer.test.ts` (`_getInverseEdits`, `_toSingleEditOperation`) | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferInverseEditsTests.cs`, `PieceTreeTextBufferToSingleEditOperationTests.cs` | ✅ all tests ported |
 | `base/common/strings.ts` (`containsRTL`, `isBasicASCII`, `containsUnusualLineTerminators`, BOM, `firstNonWhitespaceIndex`, `lastNonWhitespaceIndex`) | `LoomEditor.Core/Model/StringClassification.cs` | ✅ ported (P1-09, P1-16) |
 | `editor/test/common/model/linesTextBuffer/linesTextBufferBuilder.test.ts` | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferBuilderTests.cs` | ✅ all tests ported |
-| `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | ⏳ phase 1 |
+| `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | 🚧 in progress: read API (P1-20); `GetLineMinColumn` validates its line number (Monaco does not); out-of-bounds range handling comes with P1-21 |
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` | ⏳ phase 1 |
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 1–2 |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
