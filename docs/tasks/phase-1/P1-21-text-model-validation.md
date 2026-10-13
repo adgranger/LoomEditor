@@ -1,6 +1,6 @@
 # P1-21 — `TextModel`: position and range validation
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-20
 - **Size:** S
 
@@ -38,18 +38,18 @@ into the nearest valid one. Every public `TextModel` method that receives a posi
 
 ## Tests
 
-- [ ] `validatePosition`
-- [ ] `validatePosition around high-low surrogate pairs 1`, `… 2`
-- [ ] `validateRange around high-low surrogate pairs 1`, `… 2`
-- [ ] `modifyPosition`
-- [ ] Out-of-bounds assertions (`1000`) left out of `getValueLengthInRange` and `getValueLengthInRange different EOL` by P1-20
-- [ ] `#50471. getValueInRange with invalid range`, adapted: `NaN` does not exist in C#, use out-of-bounds ranges instead (e.g. `ValidateRange(1, int.MaxValue, 1, 3)` and a range far past the end)
+- [x] `validatePosition`
+- [x] `validatePosition around high-low surrogate pairs 1`, `… 2`
+- [x] `validateRange around high-low surrogate pairs 1`, `… 2`
+- [x] `modifyPosition`
+- [x] Out-of-bounds assertions (`1000`) left out of `getValueLengthInRange` and `getValueLengthInRange different EOL` by P1-20
+- [x] `#50471. getValueInRange with invalid range`, adapted: `NaN` does not exist in C#, use out-of-bounds ranges instead (e.g. `ValidateRange(1, int.MaxValue, 1, 3)` and a range far past the end)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -47,10 +47,16 @@ LoomEditor.Core.Model.TextModel.GetValue(LoomEditor.Core.Model.EndOfLinePreferen
 LoomEditor.Core.Model.TextModel.GetValueInRange(LoomEditor.Core.Text.Range range, LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined) -> string!
 LoomEditor.Core.Model.TextModel.GetValueLength(LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined, bool preserveBom = false) -> int
 LoomEditor.Core.Model.TextModel.GetValueLengthInRange(LoomEditor.Core.Text.Range range, LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined) -> int
+LoomEditor.Core.Model.TextModel.IsValidRange(LoomEditor.Core.Text.Range range) -> bool
 LoomEditor.Core.Model.TextModel.LineCount.get -> int
 LoomEditor.Core.Model.TextModel.MightContainNonBasicAscii.get -> bool
 LoomEditor.Core.Model.TextModel.MightContainRtl.get -> bool
+LoomEditor.Core.Model.TextModel.ModifyPosition(LoomEditor.Core.Text.Position position, int offset) -> LoomEditor.Core.Text.Position
 LoomEditor.Core.Model.TextModel.TextModel(string! text, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> void
+LoomEditor.Core.Model.TextModel.ValidatePosition(int lineNumber, int column) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Model.TextModel.ValidatePosition(LoomEditor.Core.Text.Position position) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Model.TextModel.ValidateRange(int startLineNumber, int startColumn, int endLineNumber, int endColumn) -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Model.TextModel.ValidateRange(LoomEditor.Core.Text.Range range) -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Model.TextModel.VersionId.get -> int
 LoomEditor.Core.Text.Position
 LoomEditor.Core.Text.Position.Column.get -> int
