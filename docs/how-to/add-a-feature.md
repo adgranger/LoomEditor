@@ -85,8 +85,8 @@ public sealed class DuplicateLineFeature : IEditorFeature
             DuplicateLineCommands.CopyLinesDown,
             execute: () =>
             {
-                TextEdit edit = DuplicateLineModel.ComputeEdit(context.Lines, context.Selection.PositionLineNumber);
-                // Phase 1: context.Model.ApplyEdit(edit);  (editing arrives with the TextModel)
+                TextEdit edit = DuplicateLineModel.ComputeEdit(context.Model, context.Selection.PositionLineNumber);
+                context.Model.ApplyEdits([edit]);
             }));
     }
 

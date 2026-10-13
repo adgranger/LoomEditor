@@ -1,4 +1,5 @@
 using System.Globalization;
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Themes;
 using LoomEditor.View.Features;
@@ -33,18 +34,19 @@ public sealed class TextViewRenderer
         ArgumentNullException.ThrowIfNull(context);
 
         FontMetrics metrics = surface.FontMetrics;
-        IReadOnlyList<string> lines = context.Lines;
-        int visibleLineCount = Math.Min(lines.Count, (int)Math.Ceiling(viewportHeight / metrics.LineHeight));
-        float textLeft = GetGutterWidth(lines.Count, metrics);
+        TextModel model = context.Model;
+        int lineCount = model.LineCount;
+        int visibleLineCount = Math.Min(lineCount, (int)Math.Ceiling(viewportHeight / metrics.LineHeight));
+        float textLeft = GetGutterWidth(lineCount, metrics);
 
         surface.Clear(Theme.Background);
-        DrawSelection(surface, context.Selection, lines, visibleLineCount, textLeft, metrics);
+        DrawSelection(surface, context.Selection, model, visibleLineCount, textLeft, metrics);
 
         for (int index = 0; index < visibleLineCount; index++)
         {
             float y = index * metrics.LineHeight;
-            DrawLineNumber(surface, index + 1, lines.Count, y, metrics);
-            surface.DrawText(lines[index], textLeft, y, Theme.Foreground);
+            DrawLineNumber(surface, index + 1, lineCount, y, metrics);
+            surface.DrawText(model.GetLineContent(index + 1), textLeft, y, Theme.Foreground);
         }
     }
 
@@ -61,7 +63,7 @@ public sealed class TextViewRenderer
     }
 
     private void DrawSelection(
-        IRenderSurface surface, Selection selection, IReadOnlyList<string> lines, int visibleLineCount, float textLeft, FontMetrics metrics)
+        IRenderSurface surface, Selection selection, TextModel model, int visibleLineCount, float textLeft, FontMetrics metrics)
     {
         if (selection.IsEmpty)
         {
@@ -74,7 +76,7 @@ public sealed class TextViewRenderer
         {
             int startColumn = lineNumber == range.StartLineNumber ? range.StartColumn : 1;
             // Selected line breaks are shown as one extra character, like in VS Code.
-            int endColumn = lineNumber == range.EndLineNumber ? range.EndColumn : lines[lineNumber - 1].Length + 2;
+            int endColumn = lineNumber == range.EndLineNumber ? range.EndColumn : model.GetLineLength(lineNumber) + 2;
 
             float x = textLeft + ((startColumn - 1) * metrics.CharacterWidth);
             float width = (endColumn - startColumn) * metrics.CharacterWidth;

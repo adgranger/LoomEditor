@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/cursor/cursorMoveCommands.ts (CursorMoveCommands.selectAll)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 
@@ -25,7 +26,7 @@ public sealed class SelectAllFeature : IEditorFeature
 
         _registration = context.Commands.Register(new EditorCommand(
             SelectAllCommands.SelectAll,
-            () => context.Selection = ComputeSelection(context.Lines)));
+            () => context.Selection = ComputeSelection(context.Model)));
     }
 
     /// <summary>
@@ -33,18 +34,11 @@ public sealed class SelectAllFeature : IEditorFeature
     /// with the caret at the end (like Monaco).
     /// </summary>
     /// <remarks>Pure function: easy to test without an editor.</remarks>
-    public static Selection ComputeSelection(IReadOnlyList<string> lines)
+    public static Selection ComputeSelection(TextModel model)
     {
-        ArgumentNullException.ThrowIfNull(lines);
+        ArgumentNullException.ThrowIfNull(model);
 
-        if (lines.Count == 0)
-        {
-            return Selection.Collapsed(new Position(1, 1));
-        }
-
-        int lastLineNumber = lines.Count;
-        int lastLineMaxColumn = lines[^1].Length + 1;
-        return new Selection(1, 1, lastLineNumber, lastLineMaxColumn);
+        return Selection.FromRange(model.FullModelRange, SelectionDirection.LeftToRight);
     }
 
     /// <inheritdoc />

@@ -1,3 +1,4 @@
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Features;
 using LoomEditor.View.Features.SelectAll;
@@ -9,7 +10,7 @@ public class SelectAllFeatureTests
     [Fact]
     public void ComputeSelection_SelectsFromStartToEndOfLastLine()
     {
-        Selection selection = SelectAllFeature.ComputeSelection(["first", "second", "end"]);
+        Selection selection = SelectAllFeature.ComputeSelection(new TextModel("first\nsecond\nend"));
 
         Assert.Equal(new Selection(1, 1, 3, 4), selection);
     }
@@ -17,7 +18,18 @@ public class SelectAllFeatureTests
     [Fact]
     public void ComputeSelection_EmptyDocument_ReturnsCaretAtStart()
     {
-        Assert.Equal(Selection.Collapsed(new Position(1, 1)), SelectAllFeature.ComputeSelection([""]));
+        Assert.Equal(Selection.Collapsed(new Position(1, 1)), SelectAllFeature.ComputeSelection(new TextModel(string.Empty)));
+    }
+
+    [Fact]
+    public void ComputeSelection_AfterApplyEdits_SelectsNewFullRange()
+    {
+        var model = new TextModel("one\ntwo");
+        model.ApplyEdits([new TextEdit(new Range(2, 4, 2, 4), "\nthree!")]);
+
+        Selection selection = SelectAllFeature.ComputeSelection(model);
+
+        Assert.Equal(new Selection(1, 1, 3, 7), selection);
     }
 
     [Fact]

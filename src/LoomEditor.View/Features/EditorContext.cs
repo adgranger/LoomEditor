@@ -1,3 +1,4 @@
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 
@@ -9,14 +10,13 @@ namespace LoomEditor.View.Features;
 /// <remarks>Threading: UI thread only. Not thread-safe.</remarks>
 public sealed class EditorContext : IEditorContext
 {
-    private string[] _lines = [string.Empty];
     private Selection _selection = Selection.Collapsed(new Position(1, 1));
 
     /// <inheritdoc />
     public CommandRegistry Commands { get; } = new();
 
     /// <inheritdoc />
-    public IReadOnlyList<string> Lines => _lines;
+    public TextModel Model { get; } = new(string.Empty);
 
     /// <inheritdoc />
     public Selection Selection
@@ -37,9 +37,6 @@ public sealed class EditorContext : IEditorContext
     /// <inheritdoc />
     public event EventHandler? SelectionChanged;
 
-    /// <summary>Raised after <see cref="SetText"/> replaced the text.</summary>
-    public event EventHandler? TextChanged;
-
     /// <summary>
     /// Replaces the whole text. Accepts <c>\r\n</c>, <c>\n</c> and <c>\r</c> line breaks.
     /// The selection is reset to the start of the document.
@@ -48,8 +45,7 @@ public sealed class EditorContext : IEditorContext
     {
         ArgumentNullException.ThrowIfNull(text);
 
-        _lines = text.Split(["\r\n", "\n", "\r"], StringSplitOptions.None);
-        TextChanged?.Invoke(this, EventArgs.Empty);
+        Model.SetValue(text);
         Selection = Selection.Collapsed(new Position(1, 1));
     }
 }
