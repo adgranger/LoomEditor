@@ -1,6 +1,6 @@
 # P1-08 — `PieceTreeBase`: delete
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-07
 - **Size:** M
 
@@ -33,16 +33,16 @@ Delete any range of text, keeping `\r\n` pairs consistent when a deletion joins 
 
 Same assertions as P1-07 after each operation.
 
-- [ ] Delete inside one piece; a whole piece; across several pieces; everything
-- [ ] Delete that joins `\r` and `\n` (e.g. text `"a\r\nb"`: delete then re-insert around the pair; text `"\rx\n"`: delete `x`)
-- [ ] Delete the `\r` of a `\r\n` pair → line count stays consistent
-- [ ] Seeded random inserts **and** deletes (300 operations) on several seeds, compared with a `string`
+- [x] Delete inside one piece; a whole piece; across several pieces; everything
+- [x] Delete that joins `\r` and `\n` (e.g. text `"a\r\nb"`: delete then re-insert around the pair; text `"\rx\n"`: delete `x`)
+- [x] Delete the `\r` of a `\r\n` pair → line count stays consistent
+- [x] Seeded random inserts **and** deletes (300 operations) on several seeds, compared with a `string`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
