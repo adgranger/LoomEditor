@@ -67,7 +67,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
-| `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ⏳ phase 1 — plan below |
+| `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ⏳ phase 1 — see docs/tasks |
 | `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | ⏳ phase 1 |
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` | ⏳ phase 1 |
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 1–2 |
@@ -76,52 +76,17 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
 
-## Plan: porting the piece tree (phase 1)
+## Plan: phase 1 (piece tree and text model)
 
-**Monaco sources** (`src/vs/editor/common/model/pieceTreeTextBuffer/`, line counts at the reference commit):
+The step-by-step plan is in **[docs/tasks/](tasks/README.md)**: 30 small task cards (P1-01 … P1-30), each with the
+exact Monaco lines to port, the files to create, the design decisions and the tests.
 
-| File | Lines | Content |
-|---|---|---|
-| `rbTreeBase.ts` | 425 | red-black tree node (`TreeNode`), sentinel, rotations, insert/delete fix-ups, metadata updates |
-| `pieceTreeBase.ts` | 1882 | `StringBuffer`, `Piece`, line starts, `PieceTreeSearchCache`, `PieceTreeBase` (insert, delete, offset ↔ position, line content, snapshots, search) |
-| `pieceTreeTextBuffer.ts` | 629 | `PieceTreeTextBuffer`: the `ITextBuffer` API used by `TextModel` (apply edits, EOL, BOM, line/column queries) |
-| `pieceTreeTextBufferBuilder.ts` | 188 | building a buffer from chunks (file loading), EOL detection |
+Summary of the main design decisions taken there:
 
-**C# classes** (all `internal`, in `LoomEditor.Core/Model/PieceTree/`, one class per file):
-
-| C# file | From | Notes |
-|---|---|---|
-| `NodeColor.cs`, `TreeNode.cs` | `rbTreeBase.ts` | node with `Left/Right/Parent`, `SizeLeft`, `LineFeedCountLeft`; the sentinel is a static singleton |
-| `RedBlackTree.cs` | `rbTreeBase.ts` | `LeftRotate`, `RightRotate`, `RbDelete`, `FixInsert`, `UpdateTreeMetadata` as static methods |
-| `StringBuffer.cs` | `pieceTreeBase.ts` | text + `LineStarts` (`List<int>`, append-only) |
-| `LineStarts.cs` | `createLineStarts*` | counts `\r`, `\n`, `\r\n`; returns line starts |
-| `BufferCursor.cs`, `Piece.cs` | `pieceTreeBase.ts` | `readonly record struct`s |
-| `PieceTreeSearchCache.cs` | `pieceTreeBase.ts` | small LRU of recent node lookups |
-| `PieceTreeBase.cs` | `pieceTreeBase.ts` | the tree itself; likely > 400 lines — allowed for a direct port, split with `partial` by concern (`.Insert.cs`, `.Delete.cs`, `.Query.cs`, `.Search.cs`) |
-| `PieceTreeSnapshot.cs` | `pieceTreeBase.ts` | read-only snapshot for saving / background work |
-| `PieceTreeTextBuffer.cs` | `pieceTreeTextBuffer.ts` | public-facing buffer used by `TextModel` |
-| `PieceTreeTextBufferBuilder.cs` | `pieceTreeTextBufferBuilder.ts` | chunked loading, EOL normalization, BOM |
-
-`ITextBuffer` (the contract) goes to `LoomEditor.Core/Model/ITextBuffer.cs`, so `TextModel` does not depend on
-the piece tree directly (and a naive `StringBuilder` buffer can implement it for tests).
-
-**Tests to port** (`src/vs/editor/test/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.test.ts`, 87 tests,
-2125 lines), suite by suite, into `tests/LoomEditor.Core.Tests/Model/PieceTree/`:
-`inserts and deletes`, `prefix sum for line feed`, `offset 2 position`, `get text in range`, `CRLF`,
-`centralized lineStarts with CRLF`, `random is unsupervised`, `buffer api`, `search offset cache`, `snapshot`,
-`chunk based search`. Then `textModel.test.ts`, `model.line.test.ts`, `editableTextModel.test.ts` and
-`editableTextModelAuto.test.ts` once `TextModel` exists.
-
-**Additional tests (LoomEditor):**
-- **Property/fuzz test**: thousands of random inserts/deletes (random seeds, logged on failure) applied both to the
-  piece tree and to a naive `StringBuilder` reference; after each step compare full text, line count, every line,
-  and `offset ↔ position` round-trips. Include CRLF splits (`\r` and `\n` inserted separately).
-- **Red-black invariants** checked after each operation in Debug builds (`Guard.Assert`): root black, no red-red,
-  equal black height, `SizeLeft`/`LineFeedCountLeft` consistent.
-
-**Benchmarks** (`tests/LoomEditor.Benchmarks/`): open a 100 MB file; 10,000 random edits; `GetLineContent` on
-random lines. Results go to `docs/performance.md`.
-
-**Order of work:** `LineStarts` → `StringBuffer`/`Piece` → `TreeNode`/`RedBlackTree` (+ invariant checker) →
-`PieceTreeBase` insert → delete → queries → fuzz test → snapshot/search → builder → `PieceTreeTextBuffer` →
-`TextModel`. Each step is one small pull request with its tests.
+- `PieceTreeBase` is split into `partial` files by concern (`.Lines`, `.Positions`, `.Insert`, `.Delete`, `.Crlf`,
+  `.Snapshot`, `.Eol`) and **owns** a `RedBlackTree` (composition) instead of mixing tree and text code.
+- **One sentinel node per tree** instead of Monaco's global mutable `SENTINEL` (thread safety, parallel tests).
+- `StringBuffer` is a growable `char[]`, not a `string` (appending to the change buffer must not be quadratic).
+- `PieceTreeTextBuffer` / `ITextBuffer` stay `internal`; the public API is `TextModel`, which uses `TextEdit` for edits.
+- Search in the piece tree is deferred to phase 5 (Find); decorations and injected text to phase 2+.
+- Monaco's workspace-wide `IUndoRedoService` is replaced by a per-model `UndoRedoStack`.

@@ -15,6 +15,12 @@ please open an issue.
 3. Run the demo: `dotnet run --project samples/LoomEditor.Gallery -p:Platform=x64`.
 4. Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (5 minutes) and skim [docs/GLOSSARY.md](docs/GLOSSARY.md).
 
+## Picking something to work on
+
+Work is split into small **task cards** in [docs/tasks/](docs/tasks/README.md): each one says which Monaco lines to
+port, which files to create, which decisions are already made and which tests to write. Pick the next `todo` card
+whose dependencies are `done`. Coding agents follow [CLAUDE.md](CLAUDE.md).
+
 ## Where is…?
 
 See the "Where do I find…?" table in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Most changes touch **one folder**:
