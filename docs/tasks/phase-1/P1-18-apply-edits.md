@@ -1,6 +1,6 @@
 # P1-18 — `PieceTreeTextBuffer.ApplyEdits`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-17
 - **Size:** M
 
@@ -37,19 +37,19 @@ Monaco tests `applyEdits` through `TextModel` (`editableTextModel.test.ts`, port
 
 ## Tests
 
-- [ ] Single insert, delete, replace → text, `Changes` (range, offset, length, text) and `ReverseEdits` correct
-- [ ] Several non-overlapping edits given in random order → same result as applying them back-to-front on a `string`
-- [ ] Applying `ReverseEdits` restores the original text exactly (seeded random batches, 200 iterations, several seeds)
-- [ ] Overlapping edits → `ArgumentException`
-- [ ] `computeUndoEdits: false` → `ReverseEdits` is `null`
-- [ ] Inserting RTL / non-ASCII text flips `MightContainRtl` / `MightContainNonBasicAscii`
+- [x] Single insert, delete, replace → text, `Changes` (range, offset, length, text) and `ReverseEdits` correct
+- [x] Several non-overlapping edits given in random order → same result as applying them back-to-front on a `string`
+- [x] Applying `ReverseEdits` restores the original text exactly (seeded random batches, 200 iterations, several seeds)
+- [x] Overlapping edits → `ArgumentException`
+- [x] `computeUndoEdits: false` → `ReverseEdits` is `null`
+- [x] Inserting RTL / non-ASCII text flips `MightContainRtl` / `MightContainNonBasicAscii`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `pieceTreeTextBuffer.ts` ported (except `findMatchesLineByLine` → phase 5)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `pieceTreeTextBuffer.ts` ported (except `findMatchesLineByLine` → phase 5)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

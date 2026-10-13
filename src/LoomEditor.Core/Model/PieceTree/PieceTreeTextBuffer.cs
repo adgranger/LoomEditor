@@ -22,8 +22,8 @@ internal sealed partial class PieceTreeTextBuffer : ITextBuffer
 {
     private readonly PieceTreeBase _pieceTree;
     private readonly string _bom;
-    private readonly bool _mightContainRtl;
-    private readonly bool _mightContainNonBasicAscii;
+    private bool _mightContainRtl;
+    private bool _mightContainNonBasicAscii;
     private bool _mightContainUnusualLineTerminators;
 
     /// <summary>Creates a buffer over already-chunked text.</summary>
