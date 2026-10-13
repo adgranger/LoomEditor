@@ -13,6 +13,8 @@ LoomEditor.Core.Model.EndOfLinePreference.TextDefined = 0 -> LoomEditor.Core.Mod
 LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.EndOfLineSequence.CRLF = 1 -> LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.EndOfLineSequence.LF = 0 -> LoomEditor.Core.Model.EndOfLineSequence
+LoomEditor.Core.Model.ITextSnapshot
+LoomEditor.Core.Model.ITextSnapshot.Read() -> string?
 LoomEditor.Core.Text.Position
 LoomEditor.Core.Text.Position.Column.get -> int
 LoomEditor.Core.Text.Position.CompareTo(LoomEditor.Core.Text.Position other) -> int
