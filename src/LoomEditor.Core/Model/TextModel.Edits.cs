@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.Core.Model.Edits;
+using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
 using LoomEditor.Core.Text;
 using Range = LoomEditor.Core.Text.Range;
@@ -13,6 +14,10 @@ public sealed partial class TextModel
     /// <summary>Raised after the text changed, once the model is fully updated (Monaco: <c>onDidChangeContent</c>).</summary>
     /// <remarks>Raised once per <c>ApplyEdits</c> call that changes something, once per <c>SetValue</c> and once per effective <c>SetEol</c>.</remarks>
     public event EventHandler<ModelContentChangedEventArgs>? ContentChanged;
+
+    /// <summary>Raised just before <see cref="ContentChanged"/>, describing the change per line (Monaco: the raw content changed event).</summary>
+    /// <remarks>Raised under the same conditions as <see cref="ContentChanged"/>.</remarks>
+    public event EventHandler<ModelRawContentChangedEventArgs>? RawContentChanged;
 
     /// <summary>Applies a batch of edits, all expressed against the text before the batch (Monaco: <c>applyEdits</c>).</summary>
     /// <param name="edits">The edits; their ranges are validated first and they must not overlap.</param>
@@ -43,7 +48,7 @@ public sealed partial class TextModel
         _buffer = newBuffer;
         IncreaseVersionId();
 
-        RaiseContentChanged(oldFullModelRange, oldValueLength, GetValue(), isFlush: true, isEolChange: false);
+        RaiseContentChanged(new ModelRawFlush(), oldFullModelRange, oldValueLength, GetValue(), isFlush: true, isEolChange: false);
     }
 
     /// <summary>Changes the end of line of the text, rewriting its line breaks (Monaco: <c>setEOL</c>).</summary>
@@ -62,7 +67,7 @@ public sealed partial class TextModel
         _buffer.SetEol(newEol);
         IncreaseVersionId();
 
-        RaiseContentChanged(oldFullModelRange, oldValueLength, GetValue(), isFlush: false, isEolChange: true);
+        RaiseContentChanged(new ModelRawEolChanged(), oldFullModelRange, oldValueLength, GetValue(), isFlush: false, isEolChange: true);
     }
 
     // Monaco: _increaseVersionId
@@ -73,8 +78,10 @@ public sealed partial class TextModel
     }
 
     // Monaco: _createContentChanged2 + _emitContentChangedEvent (public part)
-    private void RaiseContentChanged(Range oldRange, int oldLength, string newText, bool isFlush, bool isEolChange)
+    private void RaiseContentChanged(ModelRawChange rawChange, Range oldRange, int oldLength, string newText, bool isFlush, bool isEolChange)
     {
+        RawContentChanged?.Invoke(this, new ModelRawContentChangedEventArgs([rawChange], _versionId, isUndoing: false, isRedoing: false));
+
         var change = new ModelContentChange(oldRange, 0, oldLength, newText);
         ContentChanged?.Invoke(this, new ModelContentChangedEventArgs(
             [change], _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush, isEolChange));
@@ -91,7 +98,9 @@ public sealed partial class TextModel
             operations[i] = ValidateEditOperation(edits[i]);
         }
 
+        int oldLineCount = _buffer.GetLineCount();
         ApplyEditsResult result = _buffer.ApplyEdits(operations, recordTrimAutoWhitespace: false, computeUndoEdits);
+        int newLineCount = _buffer.GetLineCount();
 
         if (result.Changes.Count != 0)
         {
@@ -102,6 +111,9 @@ public sealed partial class TextModel
             {
                 changes[i] = result.Changes[i].Change;
             }
+
+            RawContentChanged?.Invoke(this, new ModelRawContentChangedEventArgs(
+                ComputeRawChanges(changes, oldLineCount, newLineCount), _versionId, isUndoing: false, isRedoing: false));
 
             ContentChanged?.Invoke(this, new ModelContentChangedEventArgs(
                 changes, _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush: false, isEolChange: false));
@@ -119,6 +131,55 @@ public sealed partial class TextModel
         }
 
         return reverse;
+    }
+
+    // Monaco: _doApplyEdits (the raw content changes)
+    private static List<ModelRawChange> ComputeRawChanges(ModelContentChange[] contentChanges, int oldLineCount, int newLineCount)
+    {
+        var rawChanges = new List<ModelRawChange>();
+        int lineCount = oldLineCount;
+        foreach (ModelContentChange change in contentChanges)
+        {
+            int eolCount = EolCounter.Count(change.Text).Count;
+
+            int startLineNumber = change.Range.StartLineNumber;
+            int endLineNumber = change.Range.EndLineNumber;
+
+            int deletingLinesCnt = endLineNumber - startLineNumber;
+            int insertingLinesCnt = eolCount;
+            int editingLinesCnt = Math.Min(deletingLinesCnt, insertingLinesCnt);
+
+            int changeLineCountDelta = insertingLinesCnt - deletingLinesCnt;
+
+            int currentEditStartLineNumber = newLineCount - lineCount - changeLineCountDelta + startLineNumber;
+
+            for (int j = editingLinesCnt; j >= 0; j--)
+            {
+                rawChanges.Add(new ModelRawLineChanged(startLineNumber + j, currentEditStartLineNumber + j));
+            }
+
+            if (editingLinesCnt < deletingLinesCnt)
+            {
+                // Must delete some lines
+                int spliceStartLineNumber = startLineNumber + editingLinesCnt;
+                int cnt = insertingLinesCnt - deletingLinesCnt;
+                int lastUntouchedLinePostEdit = newLineCount - lineCount - cnt + spliceStartLineNumber;
+                rawChanges.Add(new ModelRawLinesDeleted(spliceStartLineNumber + 1, endLineNumber, lastUntouchedLinePostEdit));
+            }
+
+            if (editingLinesCnt < insertingLinesCnt)
+            {
+                // Must insert some lines
+                int spliceLineNumber = startLineNumber + editingLinesCnt;
+                int cnt = insertingLinesCnt - editingLinesCnt;
+                int fromLineNumber = newLineCount - lineCount - cnt + spliceLineNumber + 1;
+                rawChanges.Add(new ModelRawLinesInserted(spliceLineNumber + 1, fromLineNumber, cnt));
+            }
+
+            lineCount += changeLineCountDelta;
+        }
+
+        return rawChanges;
     }
 
     // Monaco: _validateEditOperation

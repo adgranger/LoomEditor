@@ -3,6 +3,8 @@
 ~override LoomEditor.Core.Text.Range.Equals(object obj) -> bool
 ~override LoomEditor.Core.Text.Selection.Equals(object obj) -> bool
 ~override LoomEditor.Core.Text.TextEdit.Equals(object obj) -> bool
+abstract LoomEditor.Core.Model.Events.ModelRawChange.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawChange!
+abstract LoomEditor.Core.Model.Events.ModelRawChange.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
 LoomEditor.Core.Model.DefaultEndOfLine
 LoomEditor.Core.Model.DefaultEndOfLine.CRLF = 2 -> LoomEditor.Core.Model.DefaultEndOfLine
 LoomEditor.Core.Model.DefaultEndOfLine.LF = 1 -> LoomEditor.Core.Model.DefaultEndOfLine
@@ -13,6 +15,56 @@ LoomEditor.Core.Model.EndOfLinePreference.TextDefined = 0 -> LoomEditor.Core.Mod
 LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.EndOfLineSequence.CRLF = 1 -> LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.EndOfLineSequence.LF = 0 -> LoomEditor.Core.Model.EndOfLineSequence
+LoomEditor.Core.Model.Events.ModelRawChange
+LoomEditor.Core.Model.Events.ModelRawChange.ModelRawChange(LoomEditor.Core.Model.Events.ModelRawChange! original) -> void
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Model.Events.ModelRawChange!>!
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.ContainsEvent(LoomEditor.Core.Model.Events.RawContentChangedType type) -> bool
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.IsRedoing.get -> bool
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.IsUndoing.get -> bool
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.VersionId.get -> int
+LoomEditor.Core.Model.Events.ModelRawEolChanged
+LoomEditor.Core.Model.Events.ModelRawEolChanged.Equals(LoomEditor.Core.Model.Events.ModelRawEolChanged? other) -> bool
+LoomEditor.Core.Model.Events.ModelRawEolChanged.ModelRawEolChanged() -> void
+LoomEditor.Core.Model.Events.ModelRawFlush
+LoomEditor.Core.Model.Events.ModelRawFlush.Equals(LoomEditor.Core.Model.Events.ModelRawFlush? other) -> bool
+LoomEditor.Core.Model.Events.ModelRawFlush.ModelRawFlush() -> void
+LoomEditor.Core.Model.Events.ModelRawLineChanged
+LoomEditor.Core.Model.Events.ModelRawLineChanged.Deconstruct(out int LineNumber, out int LineNumberPostEdit) -> void
+LoomEditor.Core.Model.Events.ModelRawLineChanged.Equals(LoomEditor.Core.Model.Events.ModelRawLineChanged? other) -> bool
+LoomEditor.Core.Model.Events.ModelRawLineChanged.LineNumber.get -> int
+LoomEditor.Core.Model.Events.ModelRawLineChanged.LineNumber.init -> void
+LoomEditor.Core.Model.Events.ModelRawLineChanged.LineNumberPostEdit.get -> int
+LoomEditor.Core.Model.Events.ModelRawLineChanged.LineNumberPostEdit.init -> void
+LoomEditor.Core.Model.Events.ModelRawLineChanged.ModelRawLineChanged(int LineNumber, int LineNumberPostEdit) -> void
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.Deconstruct(out int FromLineNumber, out int ToLineNumber, out int LastUntouchedLinePostEdit) -> void
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.Equals(LoomEditor.Core.Model.Events.ModelRawLinesDeleted? other) -> bool
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.FromLineNumber.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.FromLineNumber.init -> void
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.LastUntouchedLinePostEdit.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.LastUntouchedLinePostEdit.init -> void
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.ModelRawLinesDeleted(int FromLineNumber, int ToLineNumber, int LastUntouchedLinePostEdit) -> void
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.ToLineNumber.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesDeleted.ToLineNumber.init -> void
+LoomEditor.Core.Model.Events.ModelRawLinesInserted
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.Count.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.Count.init -> void
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.Deconstruct(out int FromLineNumber, out int FromLineNumberPostEdit, out int Count) -> void
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.Equals(LoomEditor.Core.Model.Events.ModelRawLinesInserted? other) -> bool
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.FromLineNumber.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.FromLineNumber.init -> void
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.FromLineNumberPostEdit.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.FromLineNumberPostEdit.init -> void
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.ModelRawLinesInserted(int FromLineNumber, int FromLineNumberPostEdit, int Count) -> void
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.ToLineNumber.get -> int
+LoomEditor.Core.Model.Events.ModelRawLinesInserted.ToLineNumberPostEdit.get -> int
+LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Model.Events.RawContentChangedType.EolChanged = 5 -> LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Model.Events.RawContentChangedType.Flush = 1 -> LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Model.Events.RawContentChangedType.LineChanged = 2 -> LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Model.Events.RawContentChangedType.LinesDeleted = 3 -> LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Model.Events.RawContentChangedType.LinesInserted = 4 -> LoomEditor.Core.Model.Events.RawContentChangedType
 LoomEditor.Core.Model.ITextSnapshot
 LoomEditor.Core.Model.ITextSnapshot.Read() -> string?
 LoomEditor.Core.Model.ModelContentChange
@@ -63,6 +115,7 @@ LoomEditor.Core.Model.TextModel.LineCount.get -> int
 LoomEditor.Core.Model.TextModel.MightContainNonBasicAscii.get -> bool
 LoomEditor.Core.Model.TextModel.MightContainRtl.get -> bool
 LoomEditor.Core.Model.TextModel.ModifyPosition(LoomEditor.Core.Text.Position position, int offset) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Model.TextModel.RawContentChanged -> System.EventHandler<LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs!>?
 LoomEditor.Core.Model.TextModel.SetEol(LoomEditor.Core.Model.EndOfLineSequence eol) -> void
 LoomEditor.Core.Model.TextModel.SetValue(string! text) -> void
 LoomEditor.Core.Model.TextModel.TextModel(string! text, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> void
@@ -137,6 +190,34 @@ LoomEditor.Core.Text.TextEdit.Range.get -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Text.TextEdit.Text.get -> string!
 LoomEditor.Core.Text.TextEdit.TextEdit() -> void
 LoomEditor.Core.Text.TextEdit.TextEdit(LoomEditor.Core.Text.Range range, string! text) -> void
+override LoomEditor.Core.Model.Events.ModelRawChange.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.Events.ModelRawChange.GetHashCode() -> int
+override LoomEditor.Core.Model.Events.ModelRawChange.ToString() -> string!
+override LoomEditor.Core.Model.Events.ModelRawEolChanged.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawEolChanged!
+override LoomEditor.Core.Model.Events.ModelRawEolChanged.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+override LoomEditor.Core.Model.Events.ModelRawEolChanged.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.Events.ModelRawEolChanged.GetHashCode() -> int
+override LoomEditor.Core.Model.Events.ModelRawEolChanged.ToString() -> string!
+override LoomEditor.Core.Model.Events.ModelRawFlush.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawFlush!
+override LoomEditor.Core.Model.Events.ModelRawFlush.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+override LoomEditor.Core.Model.Events.ModelRawFlush.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.Events.ModelRawFlush.GetHashCode() -> int
+override LoomEditor.Core.Model.Events.ModelRawFlush.ToString() -> string!
+override LoomEditor.Core.Model.Events.ModelRawLineChanged.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawLineChanged!
+override LoomEditor.Core.Model.Events.ModelRawLineChanged.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+override LoomEditor.Core.Model.Events.ModelRawLineChanged.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.Events.ModelRawLineChanged.GetHashCode() -> int
+override LoomEditor.Core.Model.Events.ModelRawLineChanged.ToString() -> string!
+override LoomEditor.Core.Model.Events.ModelRawLinesDeleted.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawLinesDeleted!
+override LoomEditor.Core.Model.Events.ModelRawLinesDeleted.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+override LoomEditor.Core.Model.Events.ModelRawLinesDeleted.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.Events.ModelRawLinesDeleted.GetHashCode() -> int
+override LoomEditor.Core.Model.Events.ModelRawLinesDeleted.ToString() -> string!
+override LoomEditor.Core.Model.Events.ModelRawLinesInserted.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawLinesInserted!
+override LoomEditor.Core.Model.Events.ModelRawLinesInserted.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+override LoomEditor.Core.Model.Events.ModelRawLinesInserted.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.Events.ModelRawLinesInserted.GetHashCode() -> int
+override LoomEditor.Core.Model.Events.ModelRawLinesInserted.ToString() -> string!
 override LoomEditor.Core.Model.ModelContentChange.Equals(object? obj) -> bool
 override LoomEditor.Core.Model.ModelContentChange.GetHashCode() -> int
 override LoomEditor.Core.Model.ModelContentChange.ToString() -> string!
@@ -148,6 +229,23 @@ override LoomEditor.Core.Text.Selection.GetHashCode() -> int
 override LoomEditor.Core.Text.Selection.ToString() -> string!
 override LoomEditor.Core.Text.TextEdit.GetHashCode() -> int
 override LoomEditor.Core.Text.TextEdit.ToString() -> string!
+override sealed LoomEditor.Core.Model.Events.ModelRawEolChanged.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+override sealed LoomEditor.Core.Model.Events.ModelRawFlush.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+override sealed LoomEditor.Core.Model.Events.ModelRawLineChanged.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+override sealed LoomEditor.Core.Model.Events.ModelRawLinesDeleted.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+override sealed LoomEditor.Core.Model.Events.ModelRawLinesInserted.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+static LoomEditor.Core.Model.Events.ModelRawChange.operator !=(LoomEditor.Core.Model.Events.ModelRawChange? left, LoomEditor.Core.Model.Events.ModelRawChange? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawChange.operator ==(LoomEditor.Core.Model.Events.ModelRawChange? left, LoomEditor.Core.Model.Events.ModelRawChange? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawEolChanged.operator !=(LoomEditor.Core.Model.Events.ModelRawEolChanged? left, LoomEditor.Core.Model.Events.ModelRawEolChanged? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawEolChanged.operator ==(LoomEditor.Core.Model.Events.ModelRawEolChanged? left, LoomEditor.Core.Model.Events.ModelRawEolChanged? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawFlush.operator !=(LoomEditor.Core.Model.Events.ModelRawFlush? left, LoomEditor.Core.Model.Events.ModelRawFlush? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawFlush.operator ==(LoomEditor.Core.Model.Events.ModelRawFlush? left, LoomEditor.Core.Model.Events.ModelRawFlush? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawLineChanged.operator !=(LoomEditor.Core.Model.Events.ModelRawLineChanged? left, LoomEditor.Core.Model.Events.ModelRawLineChanged? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawLineChanged.operator ==(LoomEditor.Core.Model.Events.ModelRawLineChanged? left, LoomEditor.Core.Model.Events.ModelRawLineChanged? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawLinesDeleted.operator !=(LoomEditor.Core.Model.Events.ModelRawLinesDeleted? left, LoomEditor.Core.Model.Events.ModelRawLinesDeleted? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawLinesDeleted.operator ==(LoomEditor.Core.Model.Events.ModelRawLinesDeleted? left, LoomEditor.Core.Model.Events.ModelRawLinesDeleted? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawLinesInserted.operator !=(LoomEditor.Core.Model.Events.ModelRawLinesInserted? left, LoomEditor.Core.Model.Events.ModelRawLinesInserted? right) -> bool
+static LoomEditor.Core.Model.Events.ModelRawLinesInserted.operator ==(LoomEditor.Core.Model.Events.ModelRawLinesInserted? left, LoomEditor.Core.Model.Events.ModelRawLinesInserted? right) -> bool
 static LoomEditor.Core.Model.ModelContentChange.operator !=(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
 static LoomEditor.Core.Model.ModelContentChange.operator ==(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
 static LoomEditor.Core.Text.Position.Max(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
@@ -172,3 +270,6 @@ static LoomEditor.Core.Text.TextEdit.Insert(LoomEditor.Core.Text.Position positi
 static LoomEditor.Core.Text.TextEdit.operator !=(LoomEditor.Core.Text.TextEdit left, LoomEditor.Core.Text.TextEdit right) -> bool
 static LoomEditor.Core.Text.TextEdit.operator ==(LoomEditor.Core.Text.TextEdit left, LoomEditor.Core.Text.TextEdit right) -> bool
 static LoomEditor.Core.Text.TextEdit.Replace(LoomEditor.Core.Text.Range range, string! text) -> LoomEditor.Core.Text.TextEdit
+virtual LoomEditor.Core.Model.Events.ModelRawChange.EqualityContract.get -> System.Type!
+virtual LoomEditor.Core.Model.Events.ModelRawChange.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+virtual LoomEditor.Core.Model.Events.ModelRawChange.PrintMembers(System.Text.StringBuilder! builder) -> bool
