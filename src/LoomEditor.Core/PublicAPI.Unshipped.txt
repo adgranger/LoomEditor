@@ -3,6 +3,16 @@
 ~override LoomEditor.Core.Text.Range.Equals(object obj) -> bool
 ~override LoomEditor.Core.Text.Selection.Equals(object obj) -> bool
 ~override LoomEditor.Core.Text.TextEdit.Equals(object obj) -> bool
+LoomEditor.Core.Model.DefaultEndOfLine
+LoomEditor.Core.Model.DefaultEndOfLine.CRLF = 2 -> LoomEditor.Core.Model.DefaultEndOfLine
+LoomEditor.Core.Model.DefaultEndOfLine.LF = 1 -> LoomEditor.Core.Model.DefaultEndOfLine
+LoomEditor.Core.Model.EndOfLinePreference
+LoomEditor.Core.Model.EndOfLinePreference.CRLF = 2 -> LoomEditor.Core.Model.EndOfLinePreference
+LoomEditor.Core.Model.EndOfLinePreference.LF = 1 -> LoomEditor.Core.Model.EndOfLinePreference
+LoomEditor.Core.Model.EndOfLinePreference.TextDefined = 0 -> LoomEditor.Core.Model.EndOfLinePreference
+LoomEditor.Core.Model.EndOfLineSequence
+LoomEditor.Core.Model.EndOfLineSequence.CRLF = 1 -> LoomEditor.Core.Model.EndOfLineSequence
+LoomEditor.Core.Model.EndOfLineSequence.LF = 0 -> LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Text.Position
 LoomEditor.Core.Text.Position.Column.get -> int
 LoomEditor.Core.Text.Position.CompareTo(LoomEditor.Core.Text.Position other) -> int

@@ -1,6 +1,6 @@
 # P1-09 — Text buffer builder, factory and `PieceTreeTextBuffer` shell
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-08
 - **Size:** M
 
@@ -48,18 +48,18 @@ kinds, choosing the EOL and normalizing it. After this card, tests can create bu
 
 ## Tests
 
-- [ ] Port suite `ModelBuilder` (12 tests: `t1`, `t2`, …) — the Monaco helper `createTextBufferFactory(text)` = builder with one chunk + `Finish()`
-- [ ] New: chunk ending with `\r` followed by a chunk starting with `\n` → one CRLF, line count correct
-- [ ] New: chunk ending with a high surrogate followed by its low surrogate → the pair is never split
-- [ ] New: BOM in the first chunk is removed from the text and reported by `GetBom()`; a BOM in a later chunk is kept as text
-- [ ] New: EOL choice: no line break → default EOL; mostly CRLF → `\r\n`; otherwise `\n`; with `normalizeEol` the text is rewritten
+- [x] Port suite `ModelBuilder` (12 tests: `t1`, `t2`, …) — the Monaco helper `createTextBufferFactory(text)` = builder with one chunk + `Finish()`
+- [x] New: chunk ending with `\r` followed by a chunk starting with `\n` → one CRLF, line count correct
+- [x] New: chunk ending with a high surrogate followed by its low surrogate → the pair is never split
+- [x] New: BOM in the first chunk is removed from the text and reported by `GetBom()`; a BOM in a later chunk is kept as text
+- [x] New: EOL choice: no line break → default EOL; mostly CRLF → `\r\n`; otherwise `\n`; with `normalizeEol` the text is rewritten
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: rows for `pieceTreeTextBufferBuilder.ts` (ported) and `pieceTreeTextBuffer.ts` (in progress)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: rows for `pieceTreeTextBufferBuilder.ts` (ported) and `pieceTreeTextBuffer.ts` (in progress)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
