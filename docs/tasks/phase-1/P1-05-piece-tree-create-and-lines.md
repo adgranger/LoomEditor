@@ -1,6 +1,6 @@
 # P1-05 — `PieceTreeBase`: construction and reading lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-04
 - **Size:** M
 
@@ -55,19 +55,19 @@ No editing yet.
 
 ## Tests
 
-- [ ] Empty tree (`FromChunks("\n", "")`): length 0, 1 line, line 1 is `""`
-- [ ] One chunk `"a\nbc\n\ndef"`: line count 4, each line correct, `GetLinesRawContent` equals the input
-- [ ] Several chunks where a line spans chunks (`"ab", "c\nd", "ef\n", "g"`) → lines `abc`, `def`, `g`
-- [ ] CRLF text with `eol = "\r\n"`: `GetLineContent` strips `\r\n`; `GetLineRawContent` keeps it
-- [ ] `GetLinesContent` equals `text.Split(["\r\n", "\n", "\r"])` for a few inputs (`[Theory]`)
-- [ ] Reading the same line twice returns the same value (exercises `_lastVisitedLine`)
-- [ ] `TreeInvariants.AssertValid(tree.Tree)` after construction
+- [x] Empty tree (`FromChunks("\n", "")`): length 0, 1 line, line 1 is `""`
+- [x] One chunk `"a\nbc\n\ndef"`: line count 4, each line correct, `GetLinesRawContent` equals the input
+- [x] Several chunks where a line spans chunks (`"ab", "c\nd", "ef\n", "g"`) → lines `abc`, `def`, `g`
+- [x] CRLF text with `eol = "\r\n"`: `GetLineContent` strips `\r\n`; `GetLineRawContent` keeps it
+- [x] `GetLinesContent` equals `text.Split(["\r\n", "\n", "\r"])` for a few inputs (`[Theory]`)
+- [x] Reading the same line twice returns the same value (exercises `_lastVisitedLine`)
+- [x] `TreeInvariants.AssertValid(tree.Tree)` after construction
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
