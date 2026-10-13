@@ -12,7 +12,7 @@ namespace LoomEditor.Core.Model;
 public sealed partial class TextModel
 {
     /// <summary>Raised after the text changed, once the model is fully updated (Monaco: <c>onDidChangeContent</c>).</summary>
-    /// <remarks>Raised once per <c>ApplyEdits</c> call that changes something, once per <c>SetValue</c> and once per effective <c>SetEol</c>.</remarks>
+    /// <remarks>Raised once per <c>ApplyEdits</c> call that changes something, once per <c>SetValue</c> and once per effective <c>SetEol</c>. An edit made by a handler is delivered after the current event has reached every handler.</remarks>
     public event EventHandler<ModelContentChangedEventArgs>? ContentChanged;
 
     /// <summary>Raised just before <see cref="ContentChanged"/>, describing the change per line (Monaco: the raw content changed event).</summary>
@@ -80,11 +80,37 @@ public sealed partial class TextModel
     // Monaco: _createContentChanged2 + _emitContentChangedEvent (public part)
     private void RaiseContentChanged(ModelRawChange rawChange, Range oldRange, int oldLength, string newText, bool isFlush, bool isEolChange)
     {
-        RawContentChanged?.Invoke(this, new ModelRawContentChangedEventArgs([rawChange], _versionId, isUndoing: false, isRedoing: false));
-
         var change = new ModelContentChange(oldRange, 0, oldLength, newText);
-        ContentChanged?.Invoke(this, new ModelContentChangedEventArgs(
-            [change], _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush, isEolChange));
+        Deliver(
+            new ModelRawContentChangedEventArgs([rawChange], _versionId, isUndoing: false, isRedoing: false),
+            new ModelContentChangedEventArgs(
+                [change], _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush, isEolChange));
+    }
+
+    // Monaco: Emitter.fire with its delivery queue. An edit made by a handler raises its events only once the event
+    // being delivered has reached every handler, so all handlers see the events in version order.
+    private void Deliver(ModelRawContentChangedEventArgs raw, ModelContentChangedEventArgs content)
+    {
+        _deliveryQueue.Enqueue((raw, content));
+        if (_isDelivering)
+        {
+            return;
+        }
+
+        _isDelivering = true;
+        try
+        {
+            while (_deliveryQueue.TryDequeue(out (ModelRawContentChangedEventArgs Raw, ModelContentChangedEventArgs Content) item))
+            {
+                RawContentChanged?.Invoke(this, item.Raw);
+                ContentChanged?.Invoke(this, item.Content);
+            }
+        }
+        finally
+        {
+            _isDelivering = false;
+            _deliveryQueue.Clear();
+        }
     }
 
     // Monaco: applyEdits + _doApplyEdits (without decorations, raw events and edit sources)
@@ -112,11 +138,11 @@ public sealed partial class TextModel
                 changes[i] = result.Changes[i].Change;
             }
 
-            RawContentChanged?.Invoke(this, new ModelRawContentChangedEventArgs(
-                ComputeRawChanges(changes, oldLineCount, newLineCount), _versionId, isUndoing: false, isRedoing: false));
-
-            ContentChanged?.Invoke(this, new ModelContentChangedEventArgs(
-                changes, _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush: false, isEolChange: false));
+            Deliver(
+                new ModelRawContentChangedEventArgs(
+                    ComputeRawChanges(changes, oldLineCount, newLineCount), _versionId, isUndoing: false, isRedoing: false),
+                new ModelContentChangedEventArgs(
+                    changes, _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush: false, isEolChange: false));
         }
 
         if (result.ReverseEdits is null)
