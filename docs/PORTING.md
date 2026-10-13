@@ -54,6 +54,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `Position`, `Range`, `Selection` constructors | Throw `ArgumentOutOfRangeException` for values < 1 (Monaco accepts anything) | Fail fast; Monaco's own model validates positions anyway |
 | `Selection` | Not a subclass of `Range` (exposes a `Range` property) | C# record structs cannot inherit |
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
+| `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
 
 ## Map: Monaco → LoomEditor
 
