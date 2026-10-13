@@ -59,7 +59,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P1-20](phase-1/P1-20-text-model-read.md) | `TextModel`: creation and read API | P1-18 | todo |
+| [P1-20](phase-1/P1-20-text-model-read.md) | `TextModel`: creation and read API | P1-18 | done |
 | [P1-21](phase-1/P1-21-text-model-validation.md) | `ValidatePosition`, `ValidateRange`, `ModifyPosition` | P1-20 | todo |
 | [P1-22](phase-1/P1-22-text-model-edits-and-events.md) | Edits, `SetValue`, `SetEol`, `ContentChanged` event | P1-21 | todo |
 | [P1-23](phase-1/P1-23-raw-content-events.md) | Line-level ("raw") change events + `model.test.ts` | P1-22 | todo |

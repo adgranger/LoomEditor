@@ -17,6 +17,7 @@ into the nearest valid one. Every public `TextModel` method that receives a posi
 | same | 1162–1167 | `modifyPosition` |
 | same | search `StringOffsetValidationType` | the enum (`Relaxed`, `SurrogatePairs`) |
 | `src/vs/editor/test/common/model/textModel.test.ts` | 779–998 | from suite `Editor Model - TextModel`: `validatePosition`, `validatePosition around high-low surrogate pairs 1` and `2`, `validateRange around high-low surrogate pairs 1` and `2`, `modifyPosition` |
+| same | 189–239, 1053–1122 | `getValueLengthInRange` and `getValueLengthInRange different EOL` out-of-bounds assertions left out by P1-20; `#50471. getValueInRange with invalid range` (adapted) |
 
 ## Files to create or change
 
@@ -32,7 +33,7 @@ into the nearest valid one. Every public `TextModel` method that receives a posi
   - `bool IsValidRange(Range range)`, `Position ModifyPosition(Position position, int offset)`
   Ported tests that use 0 or negative values call the `int` overloads.
 - Monaco tests `validatePosition handle NaN.`, `issue #71480: validatePosition handle floats`,
-  `issue #71480: validateRange handle floats` do **not** apply (C# `int`): do not port them; list them in the class
+  `issue #71480: validateRange handle floats` do **not** apply (C# `int`): do not port them (`#50471` is the exception: port it adapted, see Tests); list them in the class
   XML doc as "not applicable".
 
 ## Tests
@@ -41,6 +42,8 @@ into the nearest valid one. Every public `TextModel` method that receives a posi
 - [ ] `validatePosition around high-low surrogate pairs 1`, `… 2`
 - [ ] `validateRange around high-low surrogate pairs 1`, `… 2`
 - [ ] `modifyPosition`
+- [ ] Out-of-bounds assertions (`1000`) left out of `getValueLengthInRange` and `getValueLengthInRange different EOL` by P1-20
+- [ ] `#50471. getValueInRange with invalid range`, adapted: `NaN` does not exist in C#, use out-of-bounds ranges instead (e.g. `ValidateRange(1, int.MaxValue, 1, 3)` and a range far past the end)
 
 ## Acceptance criteria
 

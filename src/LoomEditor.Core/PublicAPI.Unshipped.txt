@@ -28,6 +28,30 @@ LoomEditor.Core.Model.ModelContentChange.RangeOffset.get -> int
 LoomEditor.Core.Model.ModelContentChange.RangeOffset.init -> void
 LoomEditor.Core.Model.ModelContentChange.Text.get -> string!
 LoomEditor.Core.Model.ModelContentChange.Text.init -> void
+LoomEditor.Core.Model.TextModel
+LoomEditor.Core.Model.TextModel.AlternativeVersionId.get -> int
+LoomEditor.Core.Model.TextModel.EndOfLineSequence.get -> LoomEditor.Core.Model.EndOfLineSequence
+LoomEditor.Core.Model.TextModel.Eol.get -> string!
+LoomEditor.Core.Model.TextModel.FullModelRange.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Model.TextModel.GetCharacterCountInRange(LoomEditor.Core.Text.Range range, LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined) -> int
+LoomEditor.Core.Model.TextModel.GetLineContent(int lineNumber) -> string!
+LoomEditor.Core.Model.TextModel.GetLineFirstNonWhitespaceColumn(int lineNumber) -> int
+LoomEditor.Core.Model.TextModel.GetLineLastNonWhitespaceColumn(int lineNumber) -> int
+LoomEditor.Core.Model.TextModel.GetLineLength(int lineNumber) -> int
+LoomEditor.Core.Model.TextModel.GetLineMaxColumn(int lineNumber) -> int
+LoomEditor.Core.Model.TextModel.GetLineMinColumn(int lineNumber) -> int
+LoomEditor.Core.Model.TextModel.GetLinesContent() -> string![]!
+LoomEditor.Core.Model.TextModel.GetOffsetAt(LoomEditor.Core.Text.Position position) -> int
+LoomEditor.Core.Model.TextModel.GetPositionAt(int offset) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Model.TextModel.GetValue(LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined, bool preserveBom = false) -> string!
+LoomEditor.Core.Model.TextModel.GetValueInRange(LoomEditor.Core.Text.Range range, LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined) -> string!
+LoomEditor.Core.Model.TextModel.GetValueLength(LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined, bool preserveBom = false) -> int
+LoomEditor.Core.Model.TextModel.GetValueLengthInRange(LoomEditor.Core.Text.Range range, LoomEditor.Core.Model.EndOfLinePreference eol = LoomEditor.Core.Model.EndOfLinePreference.TextDefined) -> int
+LoomEditor.Core.Model.TextModel.LineCount.get -> int
+LoomEditor.Core.Model.TextModel.MightContainNonBasicAscii.get -> bool
+LoomEditor.Core.Model.TextModel.MightContainRtl.get -> bool
+LoomEditor.Core.Model.TextModel.TextModel(string! text, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> void
+LoomEditor.Core.Model.TextModel.VersionId.get -> int
 LoomEditor.Core.Text.Position
 LoomEditor.Core.Text.Position.Column.get -> int
 LoomEditor.Core.Text.Position.CompareTo(LoomEditor.Core.Text.Position other) -> int
