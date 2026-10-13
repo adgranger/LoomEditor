@@ -1,6 +1,6 @@
 # P1-01 — Line starts
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** —
 - **Size:** S
 
@@ -40,20 +40,20 @@ Do **not** port `createUintArray` (16–25): it only exists to save memory in Ja
 
 All new (Monaco tests these functions only indirectly):
 
-- [ ] `CreateFast("")` → `[0]`
-- [ ] `CreateFast("a\nb\r\nc\rd")` → `[0, 2, 5, 7]`
-- [ ] `\r\n` counts as ONE line break; `\n\r` counts as TWO
-- [ ] text ending with a line break → last start equals `text.Length`
-- [ ] `Create` counts: `"a\r\nb\nc\rd\r\n"` → `CarriageReturnLineFeedCount = 2`, `LineFeedCount = 1`, `CarriageReturnCount = 1`
-- [ ] `IsBasicAscii`: `"abc\tdef"` → true; `"é"` → false; `"\u0001"` → false; line breaks do not make it false
-- [ ] `Create(text).Starts` equals `CreateFast(text)` for a few inputs (`[Theory]`)
+- [x] `CreateFast("")` → `[0]`
+- [x] `CreateFast("a\nb\r\nc\rd")` → `[0, 2, 5, 7]`
+- [x] `\r\n` counts as ONE line break; `\n\r` counts as TWO
+- [x] text ending with a line break → last start equals `text.Length`
+- [x] `Create` counts: `"a\r\nb\nc\rd\r\n"` → `CarriageReturnLineFeedCount = 2`, `LineFeedCount = 1`, `CarriageReturnCount = 1`
+- [x] `IsBasicAscii`: `"abc\tdef"` → true; `"é"` → false; `"\u0001"` → false; line breaks do not make it false
+- [x] `Create(text).Starts` equals `CreateFast(text)` for a few inputs (`[Theory]`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: add a row for `pieceTreeBase.ts` (status "in progress, P1-01")
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: add a row for `pieceTreeBase.ts` (status "in progress, P1-01")
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
