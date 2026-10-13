@@ -32,4 +32,51 @@ internal sealed partial class PieceTreeBase
 
         _tree.UpdateTreeMetadata(node, sizeDelta, lineFeedDelta);
     }
+
+    private void DeleteNodeHead(TreeNode node, BufferCursor pos)
+    {
+        Piece piece = node.Piece;
+        int originalLineFeedCount = piece.LineFeedCount;
+        int originalStartOffset = OffsetInBuffer(piece.BufferIndex, piece.Start);
+
+        BufferCursor newStart = pos;
+        int newLineFeedCount = GetLineFeedCount(piece.BufferIndex, newStart, piece.End);
+        int newStartOffset = OffsetInBuffer(piece.BufferIndex, newStart);
+        int lineFeedDelta = newLineFeedCount - originalLineFeedCount;
+        int sizeDelta = originalStartOffset - newStartOffset;
+        int newLength = piece.Length + sizeDelta;
+
+        node.Piece = new Piece(piece.BufferIndex, newStart, piece.End, newLineFeedCount, newLength);
+
+        _tree.UpdateTreeMetadata(node, sizeDelta, lineFeedDelta);
+    }
+
+    private void ShrinkNode(TreeNode node, BufferCursor start, BufferCursor end)
+    {
+        Piece piece = node.Piece;
+        BufferCursor originalStartPos = piece.Start;
+        BufferCursor originalEndPos = piece.End;
+
+        // old piece, originalStartPos, start
+        int oldLength = piece.Length;
+        int oldLineFeedCount = piece.LineFeedCount;
+        BufferCursor newEnd = start;
+        int newLineFeedCount = GetLineFeedCount(piece.BufferIndex, piece.Start, newEnd);
+        int newLength = OffsetInBuffer(piece.BufferIndex, start) - OffsetInBuffer(piece.BufferIndex, originalStartPos);
+
+        node.Piece = new Piece(piece.BufferIndex, piece.Start, newEnd, newLineFeedCount, newLength);
+
+        _tree.UpdateTreeMetadata(node, newLength - oldLength, newLineFeedCount - oldLineFeedCount);
+
+        // new right piece, end, originalEndPos
+        var newPiece = new Piece(
+            piece.BufferIndex,
+            end,
+            originalEndPos,
+            GetLineFeedCount(piece.BufferIndex, end, originalEndPos),
+            OffsetInBuffer(piece.BufferIndex, originalEndPos) - OffsetInBuffer(piece.BufferIndex, end));
+
+        TreeNode newNode = _tree.InsertRight(node, newPiece);
+        ValidateCrlfWithPrevNode(newNode);
+    }
 }
