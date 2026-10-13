@@ -1,6 +1,6 @@
 # P1-22 — `TextModel`: edits, `SetValue`, `SetEol` and the content-changed event
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-21
 - **Size:** M
 
@@ -52,18 +52,18 @@ Edit the model and tell the world about it: `ApplyEdits`, `SetValue`, `SetEol`, 
 
 ## Tests
 
-- [ ] `setValue resets 1`, `setValue resets 2`
-- [ ] New: insert/delete/replace → text, `VersionId` +1, `AlternativeVersionId` +1, one event per `ApplyEdits` call
-- [ ] New: after any random batch of edits (seeded, 200 batches), `MirrorText` equals `GetValue()` and its version equals `VersionId`
-- [ ] New: inverse edits returned by `ApplyEdits(edits, true)` restore the original text
-- [ ] New: `SetEol(CRLF)` on LF text → `Eol` is `"\r\n"`, event has `IsEolChange`, line contents unchanged
-- [ ] New: an event handler that reads `GetValue()` sees the new text
+- [x] `setValue resets 1`, `setValue resets 2`
+- [x] New: insert/delete/replace → text, `VersionId` +1, `AlternativeVersionId` +1, one event per `ApplyEdits` call
+- [x] New: after any random batch of edits (seeded, 200 batches), `MirrorText` equals `GetValue()` and its version equals `VersionId`
+- [x] New: inverse edits returned by `ApplyEdits(edits, true)` restore the original text
+- [x] New: `SetEol(CRLF)` on LF text → `Eol` is `"\r\n"`, event has `IsEolChange`, line contents unchanged
+- [x] New: an event handler that reads `GetValue()` sees the new text
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
