@@ -9,4 +9,4 @@ Ported so far:
 
 - `TextChange` and `TextChangeCompressor.CompressConsecutiveTextChanges` (P1-26), without Monaco's binary serialization.
 
-Next: the undo stack itself (P1-27).
+- `SingleModelEditStackData`, `SingleModelEditStackElement`, `EditStack` and `UndoRedoStack` (P1-27), used by `TextModel.PushEditOperations`, `PushEol`, `Undo` and `Redo`.

@@ -31,8 +31,17 @@ public sealed partial class TextModel
     /// <returns>The inverse edits when <paramref name="computeUndoEdits"/> is true; an empty list otherwise.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="edits"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException">Two edits overlap.</exception>
-    public IReadOnlyList<TextEdit> ApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits) =>
-        DoApplyEdits(edits, computeUndoEdits);
+    public IReadOnlyList<TextEdit> ApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits)
+    {
+        IReadOnlyList<ValidEditOperation> reverse = DoApplyEdits(edits, computeUndoEdits);
+        var result = new TextEdit[reverse.Count];
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = new TextEdit(reverse[i].Range, reverse[i].Text);
+        }
+
+        return result;
+    }
 
     /// <summary>Replaces the whole text and resets the model state (Monaco: <c>setValue</c>).</summary>
     /// <remarks>Raises one event with <see cref="ModelContentChangedEventArgs.IsFlush"/> set, even if the text is the same.</remarks>
@@ -46,6 +55,7 @@ public sealed partial class TextModel
         int oldValueLength = GetValueLengthInRange(oldFullModelRange);
 
         _buffer = newBuffer;
+        _editStack.Clear();
         IncreaseVersionId();
 
         RaiseContentChanged(new ModelRawFlush(), oldFullModelRange, oldValueLength, GetValue(), isFlush: true, isEolChange: false);
@@ -82,9 +92,9 @@ public sealed partial class TextModel
     {
         var change = new ModelContentChange(oldRange, 0, oldLength, newText);
         Deliver(
-            new ModelRawContentChangedEventArgs([rawChange], _versionId, isUndoing: false, isRedoing: false),
+            new ModelRawContentChangedEventArgs([rawChange], _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing),
             new ModelContentChangedEventArgs(
-                [change], _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush, isEolChange));
+                [change], _buffer.GetEol(), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing, isFlush, isEolChange));
     }
 
     // Monaco: Emitter.fire with its delivery queue. An edit made by a handler raises its events only once the event
@@ -114,7 +124,7 @@ public sealed partial class TextModel
     }
 
     // Monaco: applyEdits + _doApplyEdits (without decorations, raw events and edit sources)
-    private TextEdit[] DoApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits)
+    private IReadOnlyList<ValidEditOperation> DoApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits)
     {
         ArgumentNullException.ThrowIfNull(edits);
 
@@ -140,24 +150,17 @@ public sealed partial class TextModel
 
             Deliver(
                 new ModelRawContentChangedEventArgs(
-                    ComputeRawChanges(changes, oldLineCount, newLineCount), _versionId, isUndoing: false, isRedoing: false),
+                    ComputeRawChanges(changes, oldLineCount, newLineCount), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing),
                 new ModelContentChangedEventArgs(
-                    changes, _buffer.GetEol(), _versionId, isUndoing: false, isRedoing: false, isFlush: false, isEolChange: false));
+                    changes, _buffer.GetEol(), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing, isFlush: false, isEolChange: false));
         }
 
-        if (result.ReverseEdits is null)
-        {
-            return [];
-        }
-
-        var reverse = new TextEdit[result.ReverseEdits.Count];
-        for (int i = 0; i < reverse.Length; i++)
-        {
-            reverse[i] = new TextEdit(result.ReverseEdits[i].Range, result.ReverseEdits[i].Text);
-        }
-
-        return reverse;
+        return result.ReverseEdits ?? [];
     }
+
+    // Monaco: applyEdits(operations, true), as used by the edit stack
+    internal IReadOnlyList<ValidEditOperation> ApplyEditsForUndo(IReadOnlyList<TextEdit> edits) =>
+        DoApplyEdits(edits, computeUndoEdits: true);
 
     // Monaco: _doApplyEdits (the raw content changes)
     private static List<ModelRawChange> ComputeRawChanges(ModelContentChange[] contentChanges, int oldLineCount, int newLineCount)
