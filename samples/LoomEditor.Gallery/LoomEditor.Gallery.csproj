@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Demo app for LoomEditor. CI publishes it with Native AOT (PublishAot) and fails on any trimming/AOT warning:
+    it is the proof that the whole chain WinUI -> Rendering -> View -> Core is AOT-safe.
+
+    Build:    dotnet build samples/LoomEditor.Gallery -p:Platform=x64
+    Publish:  dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>$(LoomWindowsTargetFramework)</TargetFramework>
+    <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
+    <RootNamespace>LoomEditor.Gallery</RootNamespace>
+    <UseWinUI>true</UseWinUI>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <!-- Unpackaged app (no MSIX) that carries the Windows App SDK runtime with it: just run the .exe. -->
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LoomEditor.WinUI\LoomEditor.WinUI.csproj" />
+  </ItemGroup>
+
+  <!--
+    NuGet imports this file automatically for package consumers; a ProjectReference does not, so import it here.
+    It contains the Native AOT publish workaround described in docs/adr/0001-baseline.md ("Known issues").
+  -->
+  <Import Project="..\..\src\LoomEditor.WinUI\buildTransitive\LoomEditor.WinUI.targets" />
+</Project>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.TextMate: TextMate grammars (the syntax-highlighting format of VS Code) and the Oniguruma regex engine.
+    RULE: references LoomEditor.Core only. Native code is reached through [LibraryImport] in Oniguruma/ only.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.TextMate</RootNamespace>
+    <Description>TextMate grammar tokenizer for LoomEditor (port of vscode-textmate), backed by Oniguruma.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
+  </ItemGroup>
+</Project>

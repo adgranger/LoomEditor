@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.View: everything the editor does that is not pixels — cursors, commands, layout, features.
+    RULE: no UI framework. Testable with plain `dotnet test`.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.View</RootNamespace>
+    <Description>Editor logic of LoomEditor (cursors, commands, layout, features), independent of any UI framework.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
+    <ProjectReference Include="..\LoomEditor.TextMate\LoomEditor.TextMate.csproj" />
+    <ProjectReference Include="..\LoomEditor.Themes\LoomEditor.Themes.csproj" />
+  </ItemGroup>
+</Project>

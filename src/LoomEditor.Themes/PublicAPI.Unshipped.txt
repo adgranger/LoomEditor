@@ -1,0 +1,42 @@
+#nullable enable
+~override LoomEditor.Themes.ThemeColor.Equals(object obj) -> bool
+LoomEditor.Themes.EditorTheme
+LoomEditor.Themes.EditorTheme.<Clone>$() -> LoomEditor.Themes.EditorTheme!
+LoomEditor.Themes.EditorTheme.Background.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.Background.init -> void
+LoomEditor.Themes.EditorTheme.EditorTheme() -> void
+LoomEditor.Themes.EditorTheme.Equals(LoomEditor.Themes.EditorTheme? other) -> bool
+LoomEditor.Themes.EditorTheme.Foreground.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.Foreground.init -> void
+LoomEditor.Themes.EditorTheme.LineNumberForeground.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.LineNumberForeground.init -> void
+LoomEditor.Themes.EditorTheme.Name.get -> string!
+LoomEditor.Themes.EditorTheme.Name.init -> void
+LoomEditor.Themes.EditorTheme.SelectionBackground.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.SelectionBackground.init -> void
+LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.ThemeColor.A.get -> byte
+LoomEditor.Themes.ThemeColor.A.init -> void
+LoomEditor.Themes.ThemeColor.B.get -> byte
+LoomEditor.Themes.ThemeColor.B.init -> void
+LoomEditor.Themes.ThemeColor.Deconstruct(out byte A, out byte R, out byte G, out byte B) -> void
+LoomEditor.Themes.ThemeColor.Equals(LoomEditor.Themes.ThemeColor other) -> bool
+LoomEditor.Themes.ThemeColor.G.get -> byte
+LoomEditor.Themes.ThemeColor.G.init -> void
+LoomEditor.Themes.ThemeColor.R.get -> byte
+LoomEditor.Themes.ThemeColor.R.init -> void
+LoomEditor.Themes.ThemeColor.ThemeColor() -> void
+LoomEditor.Themes.ThemeColor.ThemeColor(byte A, byte R, byte G, byte B) -> void
+override LoomEditor.Themes.EditorTheme.Equals(object? obj) -> bool
+override LoomEditor.Themes.EditorTheme.GetHashCode() -> int
+override LoomEditor.Themes.EditorTheme.ToString() -> string!
+override LoomEditor.Themes.ThemeColor.GetHashCode() -> int
+override LoomEditor.Themes.ThemeColor.ToString() -> string!
+static LoomEditor.Themes.EditorTheme.Dark.get -> LoomEditor.Themes.EditorTheme!
+static LoomEditor.Themes.EditorTheme.Light.get -> LoomEditor.Themes.EditorTheme!
+static LoomEditor.Themes.EditorTheme.operator !=(LoomEditor.Themes.EditorTheme? left, LoomEditor.Themes.EditorTheme? right) -> bool
+static LoomEditor.Themes.EditorTheme.operator ==(LoomEditor.Themes.EditorTheme? left, LoomEditor.Themes.EditorTheme? right) -> bool
+static LoomEditor.Themes.ThemeColor.FromRgb(byte r, byte g, byte b) -> LoomEditor.Themes.ThemeColor
+static LoomEditor.Themes.ThemeColor.operator !=(LoomEditor.Themes.ThemeColor left, LoomEditor.Themes.ThemeColor right) -> bool
+static LoomEditor.Themes.ThemeColor.operator ==(LoomEditor.Themes.ThemeColor left, LoomEditor.Themes.ThemeColor right) -> bool
+static LoomEditor.Themes.ThemeColor.Parse(string! hex) -> LoomEditor.Themes.ThemeColor

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.WinUI: the public LoomEditor control (main NuGet package).
+    This is the ONLY project that knows about XAML, input and accessibility.
+    It references LoomEditor.Rendering only (which brings View, Core, TextMate and Themes).
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomWindowsTargetFramework)</TargetFramework>
+    <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
+    <UseWinUI>true</UseWinUI>
+    <RootNamespace>LoomEditor.WinUI</RootNamespace>
+    <PackageId>LoomEditor.WinUI</PackageId>
+    <Description>LoomEditor: a native, Native AOT-compatible code editor control for WinUI 3, ported from the Monaco editor.</Description>
+    <!-- See the same setting in LoomEditor.Rendering.csproj. -->
+    <Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
+    <!--
+      RS0041: the XAML compiler generates a public XamlMetaDataProvider class without nullable annotations.
+      We cannot change generated code; its members are still tracked in PublicAPI.Unshipped.txt.
+    -->
+    <NoWarn>$(NoWarn);RS0041</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <!-- The control template hosts a Win2D CanvasControl. Drawing itself goes through LoomEditor.Rendering. -->
+    <PackageReference Include="Microsoft.Graphics.Win2D" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoomEditor.Rendering\LoomEditor.Rendering.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- MSBuild targets applied to apps that use the package (see the file for details). -->
+    <None Include="buildTransitive\LoomEditor.WinUI.targets" Pack="true" PackagePath="buildTransitive\" />
+  </ItemGroup>
+</Project>

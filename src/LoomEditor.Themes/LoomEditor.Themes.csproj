@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.Themes: VS Code color themes (.json) turned into a simple color model.
+    RULE: no UI types. Colors are plain ThemeColor values.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.Themes</RootNamespace>
+    <Description>Color themes for LoomEditor, compatible with VS Code themes.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
+  </ItemGroup>
+</Project>

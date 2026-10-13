@@ -1,0 +1,22 @@
+<Project>
+  <!--
+    Imported automatically into every app that references the LoomEditor.WinUI NuGet package.
+    (Inside this repository, samples/LoomEditor.Gallery imports it explicitly.)
+
+    WORKAROUND (Windows App SDK 2.5.1, .NET 11 RC1, PublishAot=true): the app's PRI file (<App>.pri), which holds
+    the compiled XAML (.xbf) of the app and of its libraries, is not copied to the publish folder.
+    The app then crashes at startup with "Cannot locate resource from 'ms-appx:///MainWindow.xaml'".
+    See docs/adr/0001-baseline.md, "Known issues". Delete this file once fixed upstream.
+  -->
+  <Target Name="LoomEditorPublishProjectPri"
+          AfterTargets="ComputeResolvedFilesToPublishList"
+          Condition="'$(PublishAot)' == 'true' and '$(OutputType)' == 'WinExe' and '$(ProjectPriFullPath)' != ''">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="$(ProjectPriFullPath)" />
+      <ResolvedFileToPublish Include="$(ProjectPriFullPath)" Condition="Exists('$(ProjectPriFullPath)')">
+        <RelativePath>$(ProjectPriFileName)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

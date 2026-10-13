@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.Core: text model and value types (Position, Range, Selection, TextEdit).
+    RULE: no UI, no Windows, no project references. Testable with plain `dotnet test`.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.Core</RootNamespace>
+    <Description>Platform-independent text model of LoomEditor (a native port of the Monaco editor).</Description>
+  </PropertyGroup>
+</Project>

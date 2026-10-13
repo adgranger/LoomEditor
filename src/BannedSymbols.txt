@@ -1,0 +1,8 @@
+T:System.Activator;Use explicit construction (new T()) or a factory delegate. See docs/ARCHITECTURE.md, rule 3.
+M:System.Reflection.Assembly.GetTypes;No assembly scanning: register things explicitly. See docs/ARCHITECTURE.md, rule 4.
+M:System.Reflection.Assembly.GetExportedTypes;No assembly scanning: register things explicitly. See docs/ARCHITECTURE.md, rule 4.
+M:System.Type.GetType(System.String);No type lookup by name: reference the type directly.
+M:System.Type.GetType(System.String,System.Boolean);No type lookup by name: reference the type directly.
+M:System.Type.GetType(System.String,System.Boolean,System.Boolean);No type lookup by name: reference the type directly.
+M:System.Text.Json.JsonSerializer.Serialize``1(``0,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.Deserialize``1(System.String,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
