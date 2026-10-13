@@ -1,6 +1,6 @@
 # P1-11 — Port tests: get text in range and line content
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-09 (can be done in parallel with P1-10)
 - **Size:** S (tests only, plus the bug fixes they reveal)
 
@@ -29,13 +29,13 @@ Monaco's `new Range(...)` → `new Range(...)` (our `LoomEditor.Core.Text.Range`
 
 ## Tests
 
-- [ ] `get text in range` — all tests of the suite
+- [x] `get text in range` — all tests of the suite
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
