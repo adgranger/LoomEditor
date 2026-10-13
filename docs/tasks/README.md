@@ -43,7 +43,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 | [P1-11](phase-1/P1-11-tests-text-in-range.md) | Tests: get text in range, line content | P1-09 | done |
 | [P1-12](phase-1/P1-12-tests-crlf.md) | Tests: CRLF and centralized line starts | P1-09 | done |
 | [P1-13](phase-1/P1-13-snapshot-and-equality.md) | Snapshots, equality, buffer API tests | P1-09 | done |
-| [P1-14](phase-1/P1-14-eol-normalization.md) | `NormalizeEol` / `SetEol` | P1-09 | todo |
+| [P1-14](phase-1/P1-14-eol-normalization.md) | `NormalizeEol` / `SetEol` | P1-09 | done |
 | [P1-15](phase-1/P1-15-fuzz-tests.md) | Randomized tests vs. a naive reference buffer | P1-10…P1-14 | todo |
 
 ### Step D — `PieceTreeTextBuffer` (the API used by `TextModel`)

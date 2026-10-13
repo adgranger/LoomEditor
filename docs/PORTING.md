@@ -74,7 +74,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
 | `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ⏳ phase 1 — see docs/tasks |
 | `editor/common/model/pieceTreeTextBuffer/rbTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/RedBlackTree*.cs`, `TreeNode.cs`, `NodeColor.cs` | ✅ ported (P1-03; `rbInsertLeft/Right` and `NodePosition` from `pieceTreeBase.ts`) |
-| `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ⏳ in progress: P1-01 (line starts), P1-05 (construction and reading lines), P1-06 (offsets, positions, ranges, characters), P1-07 (insert, CRLF fixing), P1-08 (delete) |
+| `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ⏳ in progress: P1-01 (line starts), P1-05 (construction and reading lines), P1-06 (offsets, positions, ranges, characters), P1-07 (insert, CRLF fixing), P1-08 (delete), P1-14 (EOL normalization) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBufferBuilder.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBufferBuilder.cs`, `PieceTreeTextBufferFactory.cs` | ✅ ported (P1-09) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer.cs` | ⏳ in progress: P1-09 (shell: fields, constructor, flags, BOM, EOL) |
 | `editor/common/model.ts` (`EndOfLinePreference`, `DefaultEndOfLine`, `EndOfLineSequence`) | `LoomEditor.Core/Model/` | ✅ ported (P1-09) |
