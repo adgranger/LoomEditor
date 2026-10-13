@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Performance benchmarks (BenchmarkDotNet). Not run by `dotnet test`.
+    Run: see docs/performance.md ("How to run the benchmarks").
+    Reference results are kept in docs/performance.md.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LoomEditor.Core\LoomEditor.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+</Project>

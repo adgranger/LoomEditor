@@ -1,0 +1,53 @@
+<Project>
+  <!--
+    Settings shared by EVERY project in the repository.
+    Folder-specific settings live in src/, tests/ and samples/Directory.Build.props,
+    which import this file first.
+  -->
+
+  <PropertyGroup Label="Language">
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Target frameworks">
+    <!-- Change the .NET or Windows SDK version in ONE place only. See docs/adr/0001-baseline.md. -->
+    <LoomNetTargetFramework>net11.0</LoomNetTargetFramework>
+    <LoomWindowsTargetFramework>net11.0-windows10.0.26100.0</LoomWindowsTargetFramework>
+    <LoomWindowsMinVersion>10.0.19041.0</LoomWindowsMinVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Code analysis">
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <!-- Code-style (IDExxxx) rules: only those set to "warning" in .editorconfig are enforced. -->
+    <AnalysisModeStyle>Default</AnalysisModeStyle>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Warnings are errors in Release and on CI. Debug builds stay forgiving while you experiment. -->
+  <PropertyGroup Label="Warnings as errors" Condition="'$(Configuration)' == 'Release' or '$(CI)' == 'true'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Reproducible builds">
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <!-- SourceLink for GitHub ships with the .NET SDK (8+); no package reference needed. -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package metadata">
+    <Authors>LoomEditor contributors</Authors>
+    <Copyright>Copyright (c) LoomEditor contributors</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/adgranger/LoomEditor</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/adgranger/LoomEditor</RepositoryUrl>
+    <!-- Pre-release until phase 1 is done. -->
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
+    <PackageTags>editor;code-editor;monaco;winui;winui3;windows-app-sdk;textmate</PackageTags>
+  </PropertyGroup>
+</Project>

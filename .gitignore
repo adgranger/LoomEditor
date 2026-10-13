@@ -55,3 +55,13 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Visual Studio
+.vs/
+*.user
+
+# BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+# Oniguruma native build output (see src/native/oniguruma/build.ps1)
+src/native/oniguruma/.build/

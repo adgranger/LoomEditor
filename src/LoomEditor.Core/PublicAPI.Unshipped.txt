@@ -1,0 +1,101 @@
+#nullable enable
+~override LoomEditor.Core.Text.Position.Equals(object obj) -> bool
+~override LoomEditor.Core.Text.Range.Equals(object obj) -> bool
+~override LoomEditor.Core.Text.Selection.Equals(object obj) -> bool
+~override LoomEditor.Core.Text.TextEdit.Equals(object obj) -> bool
+LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Position.Column.get -> int
+LoomEditor.Core.Text.Position.CompareTo(LoomEditor.Core.Text.Position other) -> int
+LoomEditor.Core.Text.Position.Delta(int deltaLineNumber = 0, int deltaColumn = 0) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Position.Equals(LoomEditor.Core.Text.Position other) -> bool
+LoomEditor.Core.Text.Position.IsBefore(LoomEditor.Core.Text.Position other) -> bool
+LoomEditor.Core.Text.Position.IsBeforeOrEqual(LoomEditor.Core.Text.Position other) -> bool
+LoomEditor.Core.Text.Position.LineNumber.get -> int
+LoomEditor.Core.Text.Position.Position() -> void
+LoomEditor.Core.Text.Position.Position(int lineNumber, int column) -> void
+LoomEditor.Core.Text.Position.With(int? lineNumber = null, int? column = null) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Range.CollapseToEnd() -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Range.CollapseToStart() -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Range.Contains(LoomEditor.Core.Text.Position position) -> bool
+LoomEditor.Core.Text.Range.Contains(LoomEditor.Core.Text.Range other) -> bool
+LoomEditor.Core.Text.Range.Delta(int lineCount) -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Range.End.get -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Range.EndColumn.get -> int
+LoomEditor.Core.Text.Range.EndLineNumber.get -> int
+LoomEditor.Core.Text.Range.Equals(LoomEditor.Core.Text.Range other) -> bool
+LoomEditor.Core.Text.Range.Intersect(LoomEditor.Core.Text.Range other) -> LoomEditor.Core.Text.Range?
+LoomEditor.Core.Text.Range.Intersects(LoomEditor.Core.Text.Range other) -> bool
+LoomEditor.Core.Text.Range.IntersectsOrTouches(LoomEditor.Core.Text.Range other) -> bool
+LoomEditor.Core.Text.Range.IsEmpty.get -> bool
+LoomEditor.Core.Text.Range.Plus(LoomEditor.Core.Text.Range other) -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Range.Range() -> void
+LoomEditor.Core.Text.Range.Range(int startLineNumber, int startColumn, int endLineNumber, int endColumn) -> void
+LoomEditor.Core.Text.Range.Range(LoomEditor.Core.Text.Position start, LoomEditor.Core.Text.Position end) -> void
+LoomEditor.Core.Text.Range.SpansMultipleLines.get -> bool
+LoomEditor.Core.Text.Range.Start.get -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Range.StartColumn.get -> int
+LoomEditor.Core.Text.Range.StartLineNumber.get -> int
+LoomEditor.Core.Text.Range.StrictContains(LoomEditor.Core.Text.Position position) -> bool
+LoomEditor.Core.Text.Range.StrictContains(LoomEditor.Core.Text.Range other) -> bool
+LoomEditor.Core.Text.Range.WithEnd(LoomEditor.Core.Text.Position end) -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Range.WithStart(LoomEditor.Core.Text.Position start) -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Selection
+LoomEditor.Core.Text.Selection.Direction.get -> LoomEditor.Core.Text.SelectionDirection
+LoomEditor.Core.Text.Selection.Equals(LoomEditor.Core.Text.Selection other) -> bool
+LoomEditor.Core.Text.Selection.IsEmpty.get -> bool
+LoomEditor.Core.Text.Selection.Position.get -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Selection.PositionColumn.get -> int
+LoomEditor.Core.Text.Selection.PositionLineNumber.get -> int
+LoomEditor.Core.Text.Selection.Range.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.Selection.Selection() -> void
+LoomEditor.Core.Text.Selection.Selection(int selectionStartLineNumber, int selectionStartColumn, int positionLineNumber, int positionColumn) -> void
+LoomEditor.Core.Text.Selection.Selection(LoomEditor.Core.Text.Position selectionStart, LoomEditor.Core.Text.Position position) -> void
+LoomEditor.Core.Text.Selection.SelectionStart.get -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Text.Selection.SelectionStartColumn.get -> int
+LoomEditor.Core.Text.Selection.SelectionStartLineNumber.get -> int
+LoomEditor.Core.Text.Selection.WithEnd(LoomEditor.Core.Text.Position end) -> LoomEditor.Core.Text.Selection
+LoomEditor.Core.Text.Selection.WithPosition(LoomEditor.Core.Text.Position position) -> LoomEditor.Core.Text.Selection
+LoomEditor.Core.Text.Selection.WithStart(LoomEditor.Core.Text.Position start) -> LoomEditor.Core.Text.Selection
+LoomEditor.Core.Text.SelectionDirection
+LoomEditor.Core.Text.SelectionDirection.LeftToRight = 0 -> LoomEditor.Core.Text.SelectionDirection
+LoomEditor.Core.Text.SelectionDirection.RightToLeft = 1 -> LoomEditor.Core.Text.SelectionDirection
+LoomEditor.Core.Text.TextEdit
+LoomEditor.Core.Text.TextEdit.Equals(LoomEditor.Core.Text.TextEdit other) -> bool
+LoomEditor.Core.Text.TextEdit.IsDelete.get -> bool
+LoomEditor.Core.Text.TextEdit.IsInsert.get -> bool
+LoomEditor.Core.Text.TextEdit.IsNoOp.get -> bool
+LoomEditor.Core.Text.TextEdit.Range.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Text.TextEdit.Text.get -> string!
+LoomEditor.Core.Text.TextEdit.TextEdit() -> void
+LoomEditor.Core.Text.TextEdit.TextEdit(LoomEditor.Core.Text.Range range, string! text) -> void
+override LoomEditor.Core.Text.Position.GetHashCode() -> int
+override LoomEditor.Core.Text.Position.ToString() -> string!
+override LoomEditor.Core.Text.Range.GetHashCode() -> int
+override LoomEditor.Core.Text.Range.ToString() -> string!
+override LoomEditor.Core.Text.Selection.GetHashCode() -> int
+override LoomEditor.Core.Text.Selection.ToString() -> string!
+override LoomEditor.Core.Text.TextEdit.GetHashCode() -> int
+override LoomEditor.Core.Text.TextEdit.ToString() -> string!
+static LoomEditor.Core.Text.Position.Max(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
+static LoomEditor.Core.Text.Position.Min(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
+static LoomEditor.Core.Text.Position.operator !=(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
+static LoomEditor.Core.Text.Position.operator <(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
+static LoomEditor.Core.Text.Position.operator <=(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
+static LoomEditor.Core.Text.Position.operator ==(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
+static LoomEditor.Core.Text.Position.operator >(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
+static LoomEditor.Core.Text.Position.operator >=(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
+static LoomEditor.Core.Text.Range.Collapsed(LoomEditor.Core.Text.Position position) -> LoomEditor.Core.Text.Range
+static LoomEditor.Core.Text.Range.CompareUsingEnds(LoomEditor.Core.Text.Range a, LoomEditor.Core.Text.Range b) -> int
+static LoomEditor.Core.Text.Range.CompareUsingStarts(LoomEditor.Core.Text.Range a, LoomEditor.Core.Text.Range b) -> int
+static LoomEditor.Core.Text.Range.operator !=(LoomEditor.Core.Text.Range left, LoomEditor.Core.Text.Range right) -> bool
+static LoomEditor.Core.Text.Range.operator ==(LoomEditor.Core.Text.Range left, LoomEditor.Core.Text.Range right) -> bool
+static LoomEditor.Core.Text.Selection.Collapsed(LoomEditor.Core.Text.Position position) -> LoomEditor.Core.Text.Selection
+static LoomEditor.Core.Text.Selection.FromRange(LoomEditor.Core.Text.Range range, LoomEditor.Core.Text.SelectionDirection direction) -> LoomEditor.Core.Text.Selection
+static LoomEditor.Core.Text.Selection.operator !=(LoomEditor.Core.Text.Selection left, LoomEditor.Core.Text.Selection right) -> bool
+static LoomEditor.Core.Text.Selection.operator ==(LoomEditor.Core.Text.Selection left, LoomEditor.Core.Text.Selection right) -> bool
+static LoomEditor.Core.Text.TextEdit.Delete(LoomEditor.Core.Text.Range range) -> LoomEditor.Core.Text.TextEdit
+static LoomEditor.Core.Text.TextEdit.Insert(LoomEditor.Core.Text.Position position, string! text) -> LoomEditor.Core.Text.TextEdit
+static LoomEditor.Core.Text.TextEdit.operator !=(LoomEditor.Core.Text.TextEdit left, LoomEditor.Core.Text.TextEdit right) -> bool
+static LoomEditor.Core.Text.TextEdit.operator ==(LoomEditor.Core.Text.TextEdit left, LoomEditor.Core.Text.TextEdit right) -> bool
+static LoomEditor.Core.Text.TextEdit.Replace(LoomEditor.Core.Text.Range range, string! text) -> LoomEditor.Core.Text.TextEdit
