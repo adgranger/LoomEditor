@@ -11,7 +11,7 @@ namespace LoomEditor.Core.Model;
 
 /// <summary>
 /// The text of an editor: a document of lines that can be read by line, offset, position or range.
-/// It can be edited with <c>ApplyEdits</c>, <c>SetValue</c> and <c>SetEol</c>, and with <c>PushEditOperations</c> which can be undone; snapshots come with a later card.
+/// It can be edited with <c>ApplyEdits</c>, <c>SetValue</c> and <c>SetEol</c>, and with <c>PushEditOperations</c> which can be undone; it can be read chunk by chunk with <c>CreateSnapshot</c>.
 /// </summary>
 /// <remarks>
 /// <para>Monaco: <c>TextModel</c> (read and edit API).</para>
@@ -39,17 +39,22 @@ public sealed partial class TextModel
     /// <param name="defaultEol">The EOL to use when the text has no line break.</param>
     /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/>.</exception>
     public TextModel(string text, DefaultEndOfLine defaultEol = DefaultEndOfLine.LF)
+        : this(CreateBuffer(text, defaultEol), defaultEol)
     {
-        ArgumentNullException.ThrowIfNull(text);
+    }
 
+    private TextModel(PieceTreeTextBuffer buffer, DefaultEndOfLine defaultEol)
+    {
         _defaultEol = defaultEol;
-        _buffer = CreateBuffer(text, defaultEol);
+        _buffer = buffer;
         _editStack = new EditStack(this, _undoRedoStack);
     }
 
     // Monaco: createTextBuffer(value, defaultEOL)
     private static PieceTreeTextBuffer CreateBuffer(string text, DefaultEndOfLine defaultEol)
     {
+        ArgumentNullException.ThrowIfNull(text);
+
         var builder = new PieceTreeTextBufferBuilder();
         builder.AcceptChunk(text);
         return builder.Finish(normalizeEol: true).Create(defaultEol);
