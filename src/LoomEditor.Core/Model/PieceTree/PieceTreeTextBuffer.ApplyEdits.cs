@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Model.Edits;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Undo;
 using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Core.Model.PieceTree;
@@ -138,10 +139,21 @@ internal sealed partial class PieceTreeTextBuffer
         if (computeUndoEdits)
         {
             var reverse = new List<(int SortIndex, ValidEditOperation Edit)>(sorted.Count);
+            int reverseRangeDeltaOffset = 0;
             for (int i = 0; i < sorted.Count; i++)
             {
                 ValidatedEditOperation op = sorted[i];
-                reverse.Add((op.SortIndex, new ValidEditOperation(op.Identifier, reverseRanges[i], GetValueInRange(op.Range))));
+                string bufferText = GetValueInRange(op.Range);
+                int reverseRangeOffset = op.RangeOffset + reverseRangeDeltaOffset;
+                reverseRangeDeltaOffset += op.Text.Length - bufferText.Length;
+
+                reverse.Add((
+                    op.SortIndex,
+                    new ValidEditOperation(
+                        op.Identifier,
+                        reverseRanges[i],
+                        bufferText,
+                        new TextChange(op.RangeOffset, bufferText, reverseRangeOffset, op.Text))));
             }
 
             // Can only sort reverse operations when the order is not significant

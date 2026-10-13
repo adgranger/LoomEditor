@@ -1,6 +1,6 @@
 # P1-27 — Undo / redo
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-26
 - **Size:** M
 
@@ -54,22 +54,22 @@ Run `./eng/Update-PublicApi.ps1 src/LoomEditor.Core`.
 ## Tests
 
 All new:
-- [ ] Two `PushEditOperations` without `PushStackElement` between them → one `Undo()` reverts both
-- [ ] With `PushStackElement()` between them → two undo steps
-- [ ] `Undo` then `Redo` → text and `AlternativeVersionId` identical to before the undo
-- [ ] New edit after an undo clears redo (`CanRedo` false)
-- [ ] `PushEol(CRLF)` is undoable
-- [ ] Cursor state: `Undo()` returns the before-state, `Redo()` the after-state given by `cursorStateComputer`
-- [ ] Surrogate pairs survive undo/redo (`'👁'` case from Monaco issue #47733, done with `PushEditOperations`)
-- [ ] Seeded random: 100 random `PushEditOperations` batches with random `PushStackElement`, then undo everything →
+- [x] Two `PushEditOperations` without `PushStackElement` between them → one `Undo()` reverts both
+- [x] With `PushStackElement()` between them → two undo steps
+- [x] `Undo` then `Redo` → text and `AlternativeVersionId` identical to before the undo
+- [x] New edit after an undo clears redo (`CanRedo` false)
+- [x] `PushEol(CRLF)` is undoable
+- [x] Cursor state: `Undo()` returns the before-state, `Redo()` the after-state given by `cursorStateComputer`
+- [x] Surrogate pairs survive undo/redo (`'👁'` case from Monaco issue #47733, done with `PushEditOperations`)
+- [x] Seeded random: 100 random `PushEditOperations` batches with random `PushStackElement`, then undo everything →
   original text; redo everything → final text
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editStack.ts` ported (data form only) + "Behavior differences": `UndoRedoStack` replaces `IUndoRedoService`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editStack.ts` ported (data form only) + "Behavior differences": `UndoRedoStack` replaces `IUndoRedoService`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

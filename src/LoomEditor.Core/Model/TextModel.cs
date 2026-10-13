@@ -4,13 +4,14 @@
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Undo;
 using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Core.Model;
 
 /// <summary>
 /// The text of an editor: a document of lines that can be read by line, offset, position or range.
-/// It can be edited with <c>ApplyEdits</c>, <c>SetValue</c> and <c>SetEol</c>; undo and snapshots come with later cards.
+/// It can be edited with <c>ApplyEdits</c>, <c>SetValue</c> and <c>SetEol</c>, and with <c>PushEditOperations</c> which can be undone; snapshots come with a later card.
 /// </summary>
 /// <remarks>
 /// <para>Monaco: <c>TextModel</c> (read and edit API).</para>
@@ -28,6 +29,10 @@ public sealed partial class TextModel
     private int _alternativeVersionId = 1;
     private readonly Queue<(ModelRawContentChangedEventArgs Raw, ModelContentChangedEventArgs Content)> _deliveryQueue = new();
     private bool _isDelivering;
+    private bool _isUndoing;
+    private bool _isRedoing;
+    private readonly UndoRedoStack _undoRedoStack = new();
+    private readonly EditStack _editStack;
 
     /// <summary>Creates a model holding <paramref name="text"/>.</summary>
     /// <param name="text">The initial text. A leading BOM is removed and remembered; line breaks are normalized to the EOL.</param>
@@ -39,6 +44,7 @@ public sealed partial class TextModel
 
         _defaultEol = defaultEol;
         _buffer = CreateBuffer(text, defaultEol);
+        _editStack = new EditStack(this, _undoRedoStack);
     }
 
     // Monaco: createTextBuffer(value, defaultEOL)

@@ -92,6 +92,8 @@ LoomEditor.Core.Model.TextModel
 LoomEditor.Core.Model.TextModel.AlternativeVersionId.get -> int
 LoomEditor.Core.Model.TextModel.ApplyEdits(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>! edits, bool computeUndoEdits) -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>!
 LoomEditor.Core.Model.TextModel.ApplyEdits(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>! edits) -> void
+LoomEditor.Core.Model.TextModel.CanRedo.get -> bool
+LoomEditor.Core.Model.TextModel.CanUndo.get -> bool
 LoomEditor.Core.Model.TextModel.ContentChanged -> System.EventHandler<LoomEditor.Core.Model.ModelContentChangedEventArgs!>?
 LoomEditor.Core.Model.TextModel.EndOfLineSequence.get -> LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.TextModel.Eol.get -> string!
@@ -115,10 +117,16 @@ LoomEditor.Core.Model.TextModel.LineCount.get -> int
 LoomEditor.Core.Model.TextModel.MightContainNonBasicAscii.get -> bool
 LoomEditor.Core.Model.TextModel.MightContainRtl.get -> bool
 LoomEditor.Core.Model.TextModel.ModifyPosition(LoomEditor.Core.Text.Position position, int offset) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Model.TextModel.PopStackElement() -> void
+LoomEditor.Core.Model.TextModel.PushEditOperations(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>? beforeCursorState, System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>! edits, System.Func<System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>!, System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?>? cursorStateComputer) -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
+LoomEditor.Core.Model.TextModel.PushEol(LoomEditor.Core.Model.EndOfLineSequence eol) -> void
+LoomEditor.Core.Model.TextModel.PushStackElement() -> void
 LoomEditor.Core.Model.TextModel.RawContentChanged -> System.EventHandler<LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs!>?
+LoomEditor.Core.Model.TextModel.Redo() -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
 LoomEditor.Core.Model.TextModel.SetEol(LoomEditor.Core.Model.EndOfLineSequence eol) -> void
 LoomEditor.Core.Model.TextModel.SetValue(string! text) -> void
 LoomEditor.Core.Model.TextModel.TextModel(string! text, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> void
+LoomEditor.Core.Model.TextModel.Undo() -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
 LoomEditor.Core.Model.TextModel.ValidatePosition(int lineNumber, int column) -> LoomEditor.Core.Text.Position
 LoomEditor.Core.Model.TextModel.ValidatePosition(LoomEditor.Core.Text.Position position) -> LoomEditor.Core.Text.Position
 LoomEditor.Core.Model.TextModel.ValidateRange(int startLineNumber, int startColumn, int endLineNumber, int endColumn) -> LoomEditor.Core.Text.Range
