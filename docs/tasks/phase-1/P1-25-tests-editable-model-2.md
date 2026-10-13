@@ -1,6 +1,6 @@
 # P1-25 — Port tests: `editableTextModel.test.ts`, part 2, and auto tests
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-24
 - **Size:** M (tests only, plus the bug fixes they reveal)
 
@@ -31,19 +31,19 @@ Finish porting Monaco's `applyEdits` tests, including CRLF normalization and the
 
 ## Tests
 
-- [ ] `EditorModel - EditableTextModel.applyEdits` — 23 tests: `two edits on one line`, `many edits`,
+- [x] `EditorModel - EditableTextModel.applyEdits` — 23 tests: `two edits on one line`, `many edits`,
   `many edits reversed`, `replacing newlines 1`, `… 2`, `advanced 1`, `advanced simplified`, `issue #144`,
   `issue #2586 …`, `issue #3980`, the 8 `touching edits` / `overlapping edits` tests, `change while emitting events 1`,
   `… 2`, `issue #1580 …`, `issue #47733: Undo mangles unicode characters`, `issue #48741 …`
   (the two "overlapping edits" tests expect an exception)
-- [ ] `CRLF edit normalization` — 5 tests
-- [ ] `EditorModel Auto Tests` — 4 tests
+- [x] `CRLF edit normalization` — 5 tests
+- [x] `EditorModel Auto Tests` — 4 tests
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

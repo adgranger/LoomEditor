@@ -64,7 +64,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 | [P1-22](phase-1/P1-22-text-model-edits-and-events.md) | Edits, `SetValue`, `SetEol`, `ContentChanged` event | P1-21 | done |
 | [P1-23](phase-1/P1-23-raw-content-events.md) | Line-level ("raw") change events + `model.test.ts` | P1-22 | done |
 | [P1-24](phase-1/P1-24-tests-editable-model-1.md) | Tests: `editableTextModel.test.ts` part 1 | P1-23 | done |
-| [P1-25](phase-1/P1-25-tests-editable-model-2.md) | Tests: `editableTextModel.test.ts` part 2 + auto tests | P1-24 | todo |
+| [P1-25](phase-1/P1-25-tests-editable-model-2.md) | Tests: `editableTextModel.test.ts` part 2 + auto tests | P1-24 | done |
 | [P1-26](phase-1/P1-26-text-change.md) | `TextChange` + compression | P1-22 | todo |
 | [P1-27](phase-1/P1-27-undo-redo.md) | Undo / redo (`EditStack`) | P1-26 | todo |
 | [P1-28](phase-1/P1-28-text-model-snapshot.md) | `TextModel.CreateSnapshot` | P1-22 | todo |

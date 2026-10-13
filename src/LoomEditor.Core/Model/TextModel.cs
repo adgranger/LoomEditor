@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/textModel.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
 using LoomEditor.Core.Text;
 using Range = LoomEditor.Core.Text.Range;
@@ -25,6 +26,8 @@ public sealed partial class TextModel
     private PieceTreeTextBuffer _buffer;
     private int _versionId = 1;
     private int _alternativeVersionId = 1;
+    private readonly Queue<(ModelRawContentChangedEventArgs Raw, ModelContentChangedEventArgs Content)> _deliveryQueue = new();
+    private bool _isDelivering;
 
     /// <summary>Creates a model holding <paramref name="text"/>.</summary>
     /// <param name="text">The initial text. A leading BOM is removed and remembered; line breaks are normalized to the EOL.</param>
