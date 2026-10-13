@@ -1,6 +1,6 @@
 # P1-23 — Line-level ("raw") content-changed events + `model.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-22
 - **Size:** M
 
@@ -26,8 +26,8 @@ flush, EOL changed). The view model (phase 2) is driven by it. Then port `model.
 
 `src/LoomEditor.Core/Model/Events/` (namespace `LoomEditor.Core.Model.Events`), **public**:
 - `ModelRawChange.cs` — `abstract record ModelRawChange` with subclasses `ModelRawFlush`, `ModelRawLineChanged`
-  (`LineNumber`, `Detail`), `ModelRawLinesDeleted` (`FromLineNumber`, `ToLineNumber`), `ModelRawLinesInserted`
-  (`FromLineNumber`, `ToLineNumber`, `Detail` lines), `ModelRawEolChanged`
+  (`LineNumber`, `LineNumberPostEdit`), `ModelRawLinesDeleted` (`FromLineNumber`, `ToLineNumber`, `LastUntouchedLinePostEdit`), `ModelRawLinesInserted`
+  (`FromLineNumber`, `FromLineNumberPostEdit`, `Count`), `ModelRawEolChanged`
 - `ModelRawContentChangedEventArgs.cs` — `Changes`, `VersionId`, `IsUndoing`, `IsRedoing`; helpers `ContainsEvent(type)` as in Monaco
 - `src/LoomEditor.Core/Model/TextModel.Edits.cs` — raise `event EventHandler<ModelRawContentChangedEventArgs>? RawContentChanged`
   **before** `ContentChanged`, as Monaco does
@@ -44,14 +44,14 @@ flush, EOL changed). The view model (phase 2) is driven by it. Then port `model.
 
 ## Tests
 
-- [ ] `Editor Model - Model` — 26 tests (`model getValue`, `model insert empty text`, …, `issue #46342: Maintain edit operation order in applyEdits`)
-- [ ] `Editor Model - Model Line Separators` — 3 tests
+- [x] `Editor Model - Model` — 26 tests (`model getValue`, `model insert empty text`, …, `issue #46342: Maintain edit operation order in applyEdits`)
+- [x] `Editor Model - Model Line Separators` — 3 tests
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
