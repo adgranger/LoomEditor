@@ -1,6 +1,6 @@
 # P1-19 — Piece tree benchmarks and reference numbers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-18
 - **Size:** S
 
@@ -38,13 +38,13 @@ Benchmarks (`[MemoryDiagnoser]`, data generated in `[GlobalSetup]` with a fixed-
 
 ## Tests
 
-- [ ] `dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter "*PieceTree*"` runs to completion
+- [x] `dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter "*PieceTree*"` runs to completion
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] Results table in `docs/performance.md`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] Results table in `docs/performance.md`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
