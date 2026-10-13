@@ -1,6 +1,6 @@
 # P1-26 — `TextChange` and change compression
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-22
 - **Size:** M
 
@@ -33,19 +33,19 @@ batches of changes are *compressed* into one list, so that typing 100 characters
 
 ## Tests
 
-- [ ] `TextChange` lengths/ends computed correctly; `ToString` escapes newlines like Monaco
-- [ ] Compressing an empty previous list returns the current list
-- [ ] Typing simulation: 100 single-character inserts at increasing offsets, compressed batch by batch → one change
-- [ ] **Property test** (seeded, several seeds): start from a random string `s0`; generate batch A then batch B of
+- [x] `TextChange` lengths/ends computed correctly; `ToString` escapes newlines like Monaco
+- [x] Compressing an empty previous list returns the current list
+- [x] Typing simulation: 100 single-character inserts at increasing offsets, compressed batch by batch → one change
+- [x] **Property test** (seeded, several seeds): start from a random string `s0`; generate batch A then batch B of
   random non-overlapping changes (B expressed on the text after A); applying `Compress(A, B)` to `s0` gives the same
   text as applying A then B
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `textChange.ts` ported (except binary serialization — listed under "Behavior differences")
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `textChange.ts` ported (except binary serialization — listed under "Behavior differences")
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

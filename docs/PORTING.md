@@ -63,6 +63,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `ITextBuffer` | `IReadonlyTextBuffer` and `ITextBuffer` are one interface; no `onDidChangeContent`, not `IDisposable`, no `findMatchesLineByLine` yet (phase 5) | Simpler contract; search is deferred |
 | `TextModel.GetLineMinColumn` | Throws `ArgumentOutOfRangeException` for an illegal line number (Monaco ignores it and returns 1) | Consistent with the other line methods; avoids a static-able public instance method |
 | `ModelRawLineChanged` | Has `LineNumber` and `LineNumberPostEdit` only, as at the pinned commit (the card listed a `Detail` field that does not exist upstream) | Faithful to the pinned Monaco source |
+| `TextChange` | Monaco's binary serialization (`write`, `read`, `writeSize`) is not ported | Nothing in LoomEditor persists undo stacks |
 
 ## Map: Monaco → LoomEditor
 
@@ -80,7 +81,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/pieceTreeTextBuffer/rbTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/RedBlackTree*.cs`, `TreeNode.cs`, `NodeColor.cs` | ✅ ported (P1-03; `rbInsertLeft/Right` and `NodePosition` from `pieceTreeBase.ts`) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ✅ ported (P1-01, P1-05 to P1-08, P1-14, tests P1-10 to P1-15) except search (`findMatchesInNode`…), which comes in phase 5 |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBufferBuilder.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBufferBuilder.cs`, `PieceTreeTextBufferFactory.cs` | ✅ ported (P1-09) |
-| `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer*.cs` | ✅ ported (P1-09, P1-16, P1-17, P1-18 `PieceTreeTextBuffer.ApplyEdits.cs`) except `findMatchesLineByLine` (phase 5); reverse edits carry no `textChange` until `TextChange` (P1-26) |
+| `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer*.cs` | ✅ ported (P1-09, P1-16, P1-17, P1-18 `PieceTreeTextBuffer.ApplyEdits.cs`) except `findMatchesLineByLine` (phase 5); reverse edits carry no `textChange` until the undo stack (P1-27) |
 | `editor/common/model.ts` (`EndOfLinePreference`, `DefaultEndOfLine`, `EndOfLineSequence`, `IReadonlyTextBuffer` + `ITextBuffer` merged, without search) | `LoomEditor.Core/Model/` | ✅ ported (P1-09, P1-16); `applyEdits` added in P1-18 |
 | `editor/common/core/misc/eolCounter.ts` (`countEOL`, without the EOL kind) and the edit types of `model.ts` / `mirrorTextModel.ts` | `LoomEditor.Core/Model/Edits/`, `Model/ModelContentChange.cs` | ✅ ported (P1-17) |
 | `editor/test/common/model/linesTextBuffer/linesTextBuffer.test.ts` (`_getInverseEdits`, `_toSingleEditOperation`) | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferInverseEditsTests.cs`, `PieceTreeTextBufferToSingleEditOperationTests.cs` | ✅ all tests ported |
@@ -89,6 +90,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/textModelEvents.ts` (`ModelRaw*`, `RawContentChangedType`, `ModelRawContentChangedEvent`) | `LoomEditor.Core/Model/Events/` | ✅ ported (P1-23; no injected text, `resultingSelection`, `merge`) |
 | `editor/test/common/model/model.test.ts` (suites `Model`, `Model Line Separators`) | `tests/LoomEditor.Core.Tests/Model/ModelTests.cs`, `ModelLineSeparatorsTests.cs` | ✅ ported (suite `Words`: phase 5) |
 | `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | 🚧 in progress: read API (P1-20), position/range validation (P1-21), edits, `SetValue`, `SetEol` and `ContentChanged` (P1-22), raw line-level events `RawContentChanged` (P1-23); no decorations or edit sources; `GetLineMinColumn` validates its line number (Monaco does not); `ValidatePosition`/`ValidateRange` also have `int` overloads (Monaco passes 0 or negative values) |
+| `editor/common/core/textChange.ts` | `LoomEditor.Core/Undo/TextChange.cs`, `TextChangeCompressor.cs` | ✅ ported (P1-26) except binary serialization |
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` | ⏳ phase 1 |
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 1–2 |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
