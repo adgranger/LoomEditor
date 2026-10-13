@@ -1,6 +1,6 @@
 # P1-06 — `PieceTreeBase`: offsets, positions, ranges, characters
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-05
 - **Size:** M
 
@@ -47,19 +47,19 @@ Convert between document offsets and (line, column) positions, read the text of 
 
 Use `TestPieceTrees.FromChunks` (P1-05). Port now the read-only Monaco helpers:
 
-- [ ] Port helper `testLineStarts` (test file lines 100–153) into `TestHelpers/PieceTreeAssert.cs` as `LineStarts(string text, PieceTreeBase tree)`
-- [ ] Port helper `testLinesContent` (lines 78–98) and `trimLineFeed` (47–74) into the same file as `LinesContent(...)`
-- [ ] Both helpers pass on: empty text, LF text, CRLF text (eol `\r\n`), multi-chunk text, text ending with a line break
-- [ ] `GetPositionAt`/`GetOffsetAt` round-trip for every offset of a multi-chunk text
-- [ ] `GetValueInRange` across chunks, and with `eol` replacement (`"\r\n"` text read with `eol: "\n"`)
-- [ ] `GetLineCharCode`, `GetCharCode`, `GetLineLength` on a few lines
-- [ ] `GetNearestChunk` returns the rest of the piece that contains the offset
+- [x] Port helper `testLineStarts` (test file lines 100–153) into `TestHelpers/PieceTreeAssert.cs` as `LineStarts(string text, PieceTreeBase tree)`
+- [x] Port helper `testLinesContent` (lines 78–98) and `trimLineFeed` (47–74) into the same file as `LinesContent(...)`
+- [x] Both helpers pass on: empty text, LF text, CRLF text (eol `\r\n`), multi-chunk text, text ending with a line break
+- [x] `GetPositionAt`/`GetOffsetAt` round-trip for every offset of a multi-chunk text
+- [x] `GetValueInRange` across chunks, and with `eol` replacement (`"\r\n"` text read with `eol: "\n"`)
+- [x] `GetLineCharCode`, `GetCharCode`, `GetLineLength` on a few lines
+- [x] `GetNearestChunk` returns the rest of the piece that contains the offset
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
