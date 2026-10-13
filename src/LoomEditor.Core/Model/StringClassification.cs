@@ -7,7 +7,7 @@ namespace LoomEditor.Core.Model;
 
 /// <summary>Cheap classification of strings: right-to-left text, basic ASCII, unusual line terminators, BOM.</summary>
 /// <remarks>
-/// <para>Monaco: <c>containsRTL</c>, <c>isBasicASCII</c>, <c>containsUnusualLineTerminators</c>, <c>UTF8_BOM_CHARACTER</c>, <c>startsWithUTF8BOM</c>.</para>
+/// <para>Monaco: <c>containsRTL</c>, <c>isBasicASCII</c>, <c>containsUnusualLineTerminators</c>, <c>UTF8_BOM_CHARACTER</c>, <c>startsWithUTF8BOM</c>, <c>firstNonWhitespaceIndex</c>, <c>lastNonWhitespaceIndex</c>.</para>
 /// <para>Threading: pure static methods; thread-safe.</para>
 /// </remarks>
 internal static partial class StringClassification
@@ -56,5 +56,35 @@ internal static partial class StringClassification
     {
         ArgumentNullException.ThrowIfNull(text);
         return text.Length > 0 && text[0] == Utf8Bom;
+    }
+
+    /// <summary>The index of the first character that is not a space or tab, or -1 (Monaco: <c>firstNonWhitespaceIndex</c>).</summary>
+    public static int FirstNonWhitespaceIndex(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] is not (' ' or '\t'))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>The index of the last character that is not a space or tab, or -1 (Monaco: <c>lastNonWhitespaceIndex</c>).</summary>
+    public static int LastNonWhitespaceIndex(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        for (int i = text.Length - 1; i >= 0; i--)
+        {
+            if (text[i] is not (' ' or '\t'))
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

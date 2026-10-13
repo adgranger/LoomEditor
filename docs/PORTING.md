@@ -60,6 +60,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `PieceTreeBase.GetCharCode`, `GetLineCharCode` | Return `char` (`'\0'` at the end of the document) instead of a number (`0` or `NaN`) | Same UTF-16 unit; no `NaN` in C# |
 | `PieceTreeBase.Insert` | Inserting an empty string is a no-op (Monaco splits the piece; inside a CRLF pair this made `GetLineCount` count one line too many) | Found by the P1-15 property test; Monaco callers never insert empty text |
 | `PieceTreeTextBufferFactory.Create` | Returns the `PieceTreeTextBuffer` directly, not a `{ textBuffer, disposable }` pair; `PieceTreeTextBuffer` is not `IDisposable` and has no `onDidChangeContent` | Nothing to dispose in this port |
+| `ITextBuffer` | `IReadonlyTextBuffer` and `ITextBuffer` are one interface; no `onDidChangeContent`, not `IDisposable`, no `findMatchesLineByLine` yet (phase 5) | Simpler contract; search is deferred |
 
 ## Map: Monaco → LoomEditor
 
@@ -77,9 +78,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/pieceTreeTextBuffer/rbTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/RedBlackTree*.cs`, `TreeNode.cs`, `NodeColor.cs` | ✅ ported (P1-03; `rbInsertLeft/Right` and `NodePosition` from `pieceTreeBase.ts`) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ✅ ported (P1-01, P1-05 to P1-08, P1-14, tests P1-10 to P1-15) except search (`findMatchesInNode`…), which comes in phase 5 |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBufferBuilder.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBufferBuilder.cs`, `PieceTreeTextBufferFactory.cs` | ✅ ported (P1-09) |
-| `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer.cs` | ⏳ in progress: P1-09 (shell: fields, constructor, flags, BOM, EOL) |
-| `editor/common/model.ts` (`EndOfLinePreference`, `DefaultEndOfLine`, `EndOfLineSequence`) | `LoomEditor.Core/Model/` | ✅ ported (P1-09) |
-| `base/common/strings.ts` (`containsRTL`, `isBasicASCII`, `containsUnusualLineTerminators`, BOM) | `LoomEditor.Core/Model/StringClassification.cs` | ✅ ported (P1-09) |
+| `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer.cs` | ⏳ in progress: P1-09 (shell), P1-16 (read queries, `ITextBuffer`); `applyEdits` in P1-18 |
+| `editor/common/model.ts` (`EndOfLinePreference`, `DefaultEndOfLine`, `EndOfLineSequence`, `IReadonlyTextBuffer` + `ITextBuffer` merged, without search) | `LoomEditor.Core/Model/` | ✅ ported (P1-09, P1-16); `applyEdits` added in P1-18 |
+| `base/common/strings.ts` (`containsRTL`, `isBasicASCII`, `containsUnusualLineTerminators`, BOM, `firstNonWhitespaceIndex`, `lastNonWhitespaceIndex`) | `LoomEditor.Core/Model/StringClassification.cs` | ✅ ported (P1-09, P1-16) |
 | `editor/test/common/model/linesTextBuffer/linesTextBufferBuilder.test.ts` | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferBuilderTests.cs` | ✅ all tests ported |
 | `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | ⏳ phase 1 |
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` | ⏳ phase 1 |
