@@ -1,6 +1,6 @@
 # P1-02 — Piece tree value types
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-01
 - **Size:** S
 
@@ -48,17 +48,17 @@ All in `src/LoomEditor.Core/Model/PieceTree/` (namespace `LoomEditor.Core.Model.
 
 ## Tests
 
-- [ ] `StringBuffer`: indexer, `Substring`, `ToString`, `Length` on initial text
-- [ ] `Append` many times (e.g. 10,000 × "ab") → content and `Length` correct
-- [ ] `Append("")` changes nothing
-- [ ] `Substring` with out-of-range arguments throws `ArgumentOutOfRangeException`
+- [x] `StringBuffer`: indexer, `Substring`, `ToString`, `Length` on initial text
+- [x] `Append` many times (e.g. 10,000 × "ab") → content and `Length` correct
+- [x] `Append("")` changes nothing
+- [x] `Substring` with out-of-range arguments throws `ArgumentOutOfRangeException`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` "Behavior differences": add the `StringBuffer` row (growable char array instead of `string`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` "Behavior differences": add the `StringBuffer` row (growable char array instead of `string`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
