@@ -9,18 +9,17 @@ namespace LoomEditor.Core.Model;
 
 /// <summary>
 /// The text of an editor: a document of lines that can be read by line, offset, position or range.
-/// This first version is read-only; edits, validation, undo and snapshots come with later cards.
+/// This version is read-only; edits, undo and snapshots come with later cards.
 /// </summary>
 /// <remarks>
 /// <para>Monaco: <c>TextModel</c> (read API only).</para>
 /// <para>
 /// Not ported yet: language, options (tab size...), decorations, tokens, injected text, attached editors,
-/// <c>isTooLargeForSyncing</c> and disposal. Methods that take a position or range use it as given (no
-/// validation yet), so callers must pass values inside the text.
+/// <c>isTooLargeForSyncing</c> and disposal. Methods that take a position or range validate it first, like Monaco.
 /// </para>
 /// <para>Threading: UI thread only. Not thread-safe.</para>
 /// </remarks>
-public sealed class TextModel
+public sealed partial class TextModel
 {
     private readonly PieceTreeTextBuffer _buffer;
     private readonly int _versionId = 1;
@@ -72,7 +71,12 @@ public sealed class TextModel
     }
 
     /// <summary>The offset of a position, counted with the text EOL (Monaco: <c>getOffsetAt</c>).</summary>
-    public int GetOffsetAt(Position position) => _buffer.GetOffsetAt(position.LineNumber, position.Column);
+    public int GetOffsetAt(Position position)
+    {
+        // Monaco: _validatePosition(..., StringOffsetValidationType.Relaxed)
+        Position validated = ValidatePositionCore(position.LineNumber, position.Column, StringOffsetValidationType.Relaxed);
+        return _buffer.GetOffsetAt(validated.LineNumber, validated.Column);
+    }
 
     /// <summary>The position of an offset; an offset outside the text is clamped to it (Monaco: <c>getPositionAt</c>).</summary>
     public Position GetPositionAt(int offset) => _buffer.GetPositionAt(Math.Min(_buffer.GetLength(), Math.Max(0, offset)));
@@ -95,15 +99,15 @@ public sealed class TextModel
 
     /// <summary>The text of a range (Monaco: <c>getValueInRange</c>).</summary>
     public string GetValueInRange(Range range, EndOfLinePreference eol = EndOfLinePreference.TextDefined) =>
-        _buffer.GetValueInRange(range, eol);
+        _buffer.GetValueInRange(ValidateRange(range), eol);
 
     /// <summary>The length of the text of a range, without building the string (Monaco: <c>getValueLengthInRange</c>).</summary>
     public int GetValueLengthInRange(Range range, EndOfLinePreference eol = EndOfLinePreference.TextDefined) =>
-        _buffer.GetValueLengthInRange(range, eol);
+        _buffer.GetValueLengthInRange(ValidateRange(range), eol);
 
     /// <summary>The number of characters of a range, counting a surrogate pair as one (Monaco: <c>getCharacterCountInRange</c>).</summary>
     public int GetCharacterCountInRange(Range range, EndOfLinePreference eol = EndOfLinePreference.TextDefined) =>
-        _buffer.GetCharacterCountInRange(range, eol);
+        _buffer.GetCharacterCountInRange(ValidateRange(range), eol);
 
     /// <summary>The content of a line, without its line break (Monaco: <c>getLineContent</c>).</summary>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="lineNumber"/> is not a line of the model.</exception>

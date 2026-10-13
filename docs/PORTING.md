@@ -85,7 +85,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/test/common/model/linesTextBuffer/linesTextBuffer.test.ts` (`_getInverseEdits`, `_toSingleEditOperation`) | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferInverseEditsTests.cs`, `PieceTreeTextBufferToSingleEditOperationTests.cs` | ✅ all tests ported |
 | `base/common/strings.ts` (`containsRTL`, `isBasicASCII`, `containsUnusualLineTerminators`, BOM, `firstNonWhitespaceIndex`, `lastNonWhitespaceIndex`) | `LoomEditor.Core/Model/StringClassification.cs` | ✅ ported (P1-09, P1-16) |
 | `editor/test/common/model/linesTextBuffer/linesTextBufferBuilder.test.ts` | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferBuilderTests.cs` | ✅ all tests ported |
-| `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | 🚧 in progress: read API (P1-20); `GetLineMinColumn` validates its line number (Monaco does not); out-of-bounds range handling comes with P1-21 |
+| `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | 🚧 in progress: read API (P1-20), position/range validation (P1-21); `GetLineMinColumn` validates its line number (Monaco does not); `ValidatePosition`/`ValidateRange` also have `int` overloads (Monaco passes 0 or negative values) |
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` | ⏳ phase 1 |
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 1–2 |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
