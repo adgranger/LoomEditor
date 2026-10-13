@@ -1,3 +1,4 @@
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 
@@ -19,11 +20,10 @@ public interface IEditorContext
     CommandRegistry Commands { get; }
 
     /// <summary>
-    /// The lines of the document, without their end-of-line characters.
-    /// Always contains at least one (possibly empty) line.
+    /// The text of the document. Always contains at least one (possibly empty) line.
+    /// Subscribe to <see cref="TextModel.ContentChanged"/> to be told about edits.
     /// </summary>
-    /// <remarks>Temporary: will be replaced by a <c>TextModel</c> in phase 1.</remarks>
-    IReadOnlyList<string> Lines { get; }
+    TextModel Model { get; }
 
     /// <summary>The current selection (a single cursor until multi-cursor support in phase 3).</summary>
     Selection Selection { get; set; }

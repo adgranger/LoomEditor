@@ -24,8 +24,8 @@ public const string SelectAll = "editor.action.selectAll";
 ```csharp
 _registration = context.Commands.Register(new EditorCommand(
     SelectAllCommands.SelectAll,
-    execute: () => context.Selection = ComputeSelection(context.Lines),
-    canExecute: () => context.Lines.Count > 0));   // optional
+    execute: () => context.Selection = ComputeSelection(context.Model),
+    canExecute: () => context.Model.LineCount > 0));   // optional
 ```
 
 Dispose `_registration` in the feature's `Dispose`. Registering the same id twice throws: ids are unique.

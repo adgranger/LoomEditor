@@ -38,7 +38,8 @@ public class EditorFeatureHostTests
 
         context.SetText("a\r\nb\nc\rd");
 
-        Assert.Equal(["a", "b", "c", "d"], context.Lines);
+        Assert.Equal(4, context.Model.LineCount);
+        Assert.Equal("c", context.Model.GetLineContent(3));
         Assert.Equal(1, selectionChanges);
     }
 }

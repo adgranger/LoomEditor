@@ -57,7 +57,7 @@ public sealed partial class LoomEditor : Control
         DefaultStyleKey = typeof(LoomEditor);
         _keyboard = new KeyboardInput(_context.Commands);
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
-        _context.TextChanged += (_, _) => _canvas?.Invalidate();
+        _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }

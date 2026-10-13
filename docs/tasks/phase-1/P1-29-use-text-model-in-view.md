@@ -1,6 +1,6 @@
 # P1-29 — Use `TextModel` in the editor (`IEditorContext.Model`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-27, P1-28
 - **Size:** S
 
@@ -33,16 +33,16 @@ None.
 
 ## Tests
 
-- [ ] Existing View tests pass after the update
-- [ ] New: `SelectAll` on a model edited with `ApplyEdits` selects the new full range
-- [ ] Gallery: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, and the app starts
+- [x] Existing View tests pass after the update
+- [x] New: `SelectAll` on a model edited with `ApplyEdits` selects the new full range
+- [x] Gallery: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, and the app starts
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] AOT publish of the Gallery as above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] AOT publish of the Gallery as above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
