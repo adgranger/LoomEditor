@@ -1,6 +1,6 @@
 # P1-03 — Red-black tree
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-02
 - **Size:** M
 
@@ -59,20 +59,20 @@ subtree), usable and tested **on its own**, before `PieceTreeBase` exists.
 
 ## Tests
 
-- [ ] Empty tree: `Root` is the sentinel, invariants hold
-- [ ] Insert 1, 2, 3, 100 pieces with `InsertRight` (append) → in-order traversal returns pieces in order; invariants hold after each insert
-- [ ] Insert with `InsertLeft` before the first node → order correct
-- [ ] Random inserts at random positions (seeded `Random`, 500 operations) → order matches a `List<Piece>` reference; invariants hold
-- [ ] Random deletes (seeded) until empty → order matches the reference; invariants hold after each delete
-- [ ] `UpdateTreeMetadata` after changing a piece's length/line feeds → `SizeLeft`/`LineFeedCountLeft` of ancestors correct
-- [ ] Two trees used from two threads in parallel (`Parallel.For`) → both stay valid (guards the per-tree sentinel)
+- [x] Empty tree: `Root` is the sentinel, invariants hold
+- [x] Insert 1, 2, 3, 100 pieces with `InsertRight` (append) → in-order traversal returns pieces in order; invariants hold after each insert
+- [x] Insert with `InsertLeft` before the first node → order correct
+- [x] Random inserts at random positions (seeded `Random`, 500 operations) → order matches a `List<Piece>` reference; invariants hold
+- [x] Random deletes (seeded) until empty → order matches the reference; invariants hold after each delete
+- [x] `UpdateTreeMetadata` after changing a piece's length/line feeds → `SizeLeft`/`LineFeedCountLeft` of ancestors correct
+- [x] Two trees used from two threads in parallel (`Parallel.For`) → both stay valid (guards the per-tree sentinel)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row for `rbTreeBase.ts` (ported) + "Behavior differences" row for the per-tree sentinel and `IsDetached`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row for `rbTreeBase.ts` (ported) + "Behavior differences" row for the per-tree sentinel and `IsDetached`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

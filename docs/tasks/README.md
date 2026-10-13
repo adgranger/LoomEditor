@@ -22,7 +22,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 |---|---|---|---|
 | [P1-01](phase-1/P1-01-line-starts.md) | Line starts (`createLineStarts*`) | — | done |
 | [P1-02](phase-1/P1-02-piece-tree-value-types.md) | `StringBuffer`, `BufferCursor`, `Piece`, `NodePosition` | P1-01 | done |
-| [P1-03](phase-1/P1-03-red-black-tree.md) | Red-black tree (`rbTreeBase.ts`) + invariant checker | P1-02 | todo |
+| [P1-03](phase-1/P1-03-red-black-tree.md) | Red-black tree (`rbTreeBase.ts`) + invariant checker | P1-02 | done |
 | [P1-04](phase-1/P1-04-search-cache.md) | `PieceTreeSearchCache` | P1-03 | todo |
 
 ### Step B — `PieceTreeBase`
