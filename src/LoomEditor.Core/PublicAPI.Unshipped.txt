@@ -95,6 +95,7 @@ LoomEditor.Core.Model.TextModel.ApplyEdits(System.Collections.Generic.IReadOnlyL
 LoomEditor.Core.Model.TextModel.CanRedo.get -> bool
 LoomEditor.Core.Model.TextModel.CanUndo.get -> bool
 LoomEditor.Core.Model.TextModel.ContentChanged -> System.EventHandler<LoomEditor.Core.Model.ModelContentChangedEventArgs!>?
+LoomEditor.Core.Model.TextModel.CreateSnapshot(bool preserveBom = false) -> LoomEditor.Core.Model.ITextSnapshot!
 LoomEditor.Core.Model.TextModel.EndOfLineSequence.get -> LoomEditor.Core.Model.EndOfLineSequence
 LoomEditor.Core.Model.TextModel.Eol.get -> string!
 LoomEditor.Core.Model.TextModel.FullModelRange.get -> LoomEditor.Core.Text.Range
@@ -256,6 +257,7 @@ static LoomEditor.Core.Model.Events.ModelRawLinesInserted.operator !=(LoomEditor
 static LoomEditor.Core.Model.Events.ModelRawLinesInserted.operator ==(LoomEditor.Core.Model.Events.ModelRawLinesInserted? left, LoomEditor.Core.Model.Events.ModelRawLinesInserted? right) -> bool
 static LoomEditor.Core.Model.ModelContentChange.operator !=(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
 static LoomEditor.Core.Model.ModelContentChange.operator ==(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
+static LoomEditor.Core.Model.TextModel.FromSnapshot(LoomEditor.Core.Model.ITextSnapshot! snapshot, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> LoomEditor.Core.Model.TextModel!
 static LoomEditor.Core.Text.Position.Max(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
 static LoomEditor.Core.Text.Position.Min(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
 static LoomEditor.Core.Text.Position.operator !=(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool

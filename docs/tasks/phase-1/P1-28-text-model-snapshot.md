@@ -1,6 +1,6 @@
 # P1-28 — `TextModel.CreateSnapshot`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-22
 - **Size:** S
 
@@ -30,14 +30,14 @@ to background work.
 
 ## Tests
 
-- [ ] `TextModel.createSnapshot` — 5 tests (`empty file`, `file with BOM`, `regular file`, `large file`, `issue #119632: invalid range`)
-- [ ] New: `FromSnapshot(model.CreateSnapshot())` has the same value as `model`
+- [x] `TextModel.createSnapshot` — 5 tests (`empty file`, `file with BOM`, `regular file`, `large file`, `issue #119632: invalid range`)
+- [x] New: `FromSnapshot(model.CreateSnapshot())` has the same value as `model`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
