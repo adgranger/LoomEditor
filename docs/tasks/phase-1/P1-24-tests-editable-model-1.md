@@ -1,6 +1,6 @@
 # P1-24 — Port tests: `editableTextModel.test.ts`, part 1
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-23
 - **Size:** M (tests only, plus the bug fixes they reveal)
 
@@ -31,9 +31,9 @@ expected values.
   `text: null` → `TextEdit.Delete(...)`.
 ## Tests
 
-- [ ] `…updates mightContainRTL` — 6 tests
-- [ ] `…updates mightContainNonBasicASCII` — 5 tests
-- [ ] `EditorModel - EditableTextModel.applyEdits` — 23 tests: `high-low surrogates 1`…`4`,
+- [x] `…updates mightContainRTL` — 6 tests
+- [x] `…updates mightContainNonBasicASCII` — 5 tests
+- [x] `EditorModel - EditableTextModel.applyEdits` — 23 tests: `high-low surrogates 1`…`4`,
   `Bug 19872: Undo is funky`, `Bug 19872: Undo is funky (2)`, `insert empty text`, `last op is no-op`,
   `insert text without newline 1`, `… 2`, `insert one newline`, `insert text with one newline`,
   `insert text with two newlines`, `insert text with many newlines`, `insert multiple newlines`, `delete empty text`,
@@ -42,9 +42,9 @@ expected values.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
