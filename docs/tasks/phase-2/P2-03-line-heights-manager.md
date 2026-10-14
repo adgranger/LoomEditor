@@ -1,6 +1,6 @@
 # P2-03 — `LineHeightsManager`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-02
 - **Size:** M
 
@@ -43,15 +43,15 @@ the default height. Custom heights are ported anyway, with their tests, so that 
 
 ## Tests
 
-- [ ] Port: all 19 tests of `Editor ViewLayout - LineHeightsManager`
-- [ ] Port: all 19 tests of `Editor ViewLayout - LineHeightsManager (auto-commit on read)`
+- [x] Port: all 19 tests of `Editor ViewLayout - LineHeightsManager`
+- [x] Port: all 19 tests of `Editor ViewLayout - LineHeightsManager (auto-commit on read)`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/viewLayout/lineHeights.ts` ✅ ported (without `fromDecorations`), tests counted
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/viewLayout/lineHeights.ts` ✅ ported (without `fromDecorations`), tests counted
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
