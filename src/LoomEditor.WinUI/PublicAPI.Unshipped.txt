@@ -8,6 +8,10 @@ LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.
 LoomEditor.WinUI.Controls.LoomEditor.Features.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
 LoomEditor.WinUI.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
+LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.get -> double
+LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.get -> double
+LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.Text.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider

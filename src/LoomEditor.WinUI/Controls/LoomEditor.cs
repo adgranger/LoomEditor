@@ -9,6 +9,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 
 namespace LoomEditor.WinUI.Controls;
@@ -32,6 +33,8 @@ namespace LoomEditor.WinUI.Controls;
 /// <para>Threading: like every WinUI control, use it on the UI thread only.</para>
 /// </remarks>
 [TemplatePart(Name = CanvasPartName, Type = typeof(CanvasControl))]
+[TemplatePart(Name = VerticalScrollBarPartName, Type = typeof(ScrollBar))]
+[TemplatePart(Name = HorizontalScrollBarPartName, Type = typeof(ScrollBar))]
 #pragma warning disable CA1724 // Type name matches the root namespace on purpose: see remarks above.
 #pragma warning disable CA1001 // WinUI controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomEditor : Control
@@ -98,6 +101,7 @@ public sealed partial class LoomEditor : Control
         _canvas.CreateResources += OnCanvasCreateResources;
         _canvas.Draw += OnCanvasDraw;
         _canvas.SizeChanged += OnCanvasSizeChanged;
+        AttachScrollBars();
     }
 
     /// <inheritdoc />
@@ -163,6 +167,7 @@ public sealed partial class LoomEditor : Control
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
     {
         _viewModel?.SetViewportSize((int)e.NewSize.Width, (int)e.NewSize.Height);
+        UpdateScrollBars();
     }
 
     private void OnModelRawContentChanged(object? sender, ModelRawContentChangedEventArgs e)
@@ -178,6 +183,7 @@ public sealed partial class LoomEditor : Control
     {
         // Monaco: a new layout info resets the widest line.
         _renderer?.ResetMaxLineWidth();
+        UpdateScrollBars();
         _canvas?.Invalidate();
     }
 
@@ -199,8 +205,11 @@ public sealed partial class LoomEditor : Control
                 ScheduleAtNextAnimationFrame,
                 TimeProvider.System);
             _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
+            _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
             _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
             _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
+            ApplyPendingScrollPosition();
+            UpdateScrollBars();
         }
         else
         {
@@ -218,7 +227,11 @@ public sealed partial class LoomEditor : Control
         _measurer = null;
     }
 
-    private void OnViewLayoutScroll(object? sender, ScrollEvent e) => _canvas?.Invalidate();
+    private void OnViewLayoutScroll(object? sender, ScrollEvent e)
+    {
+        UpdateScrollBars();
+        _canvas?.Invalidate();
+    }
 
     // Smooth scrolling is off until P2-18, which replaces this with a CompositionTarget.Rendering scheduler.
     private CancelableCallback ScheduleAtNextAnimationFrame(Action callback)
@@ -239,6 +252,7 @@ public sealed partial class LoomEditor : Control
         _canvas.Draw -= OnCanvasDraw;
         _canvas.SizeChanged -= OnCanvasSizeChanged;
         _canvas = null;
+        DetachScrollBars();
     }
 
     private sealed class CancelableCallback(Action callback) : IDisposable
