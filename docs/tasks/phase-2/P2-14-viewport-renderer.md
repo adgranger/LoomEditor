@@ -1,6 +1,6 @@
 # P2-14 — Draw the viewport: visible lines, scroll offsets, selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-13
 - **Size:** M
 
@@ -54,21 +54,21 @@ scroll position only changes from tests.
 
 ## Tests
 
-- [ ] New: 1,000 lines, viewport 200 high, line height 20, scrollTop 0 → lines 1–10 drawn at y 0, 20, … 180
-- [ ] New: scrollTop 10 → line 1 drawn at y = -10, line 11 drawn (partially visible)
-- [ ] New: a 2,500,000-line model scrolled near the end → every drawn `y` is between `-LineHeight` and the viewport height (no float error)
-- [ ] New: scrollLeft 30 → text drawn at `ContentLeft - 30`, and a gutter background is drawn after the text
-- [ ] New: a selection across 3 lines draws 3 rectangles with widths from `GetCharacterX`
-- [ ] New: in a 1,000-line document showing lines 1–10, a 300-wide line raises the content width once (`ContentSizeChanged`); drawing again does not raise it again
-- [ ] New: when every line is visible and the widest line gets shorter, the content width shrinks (Monaco's exact reset)
-- [ ] Manual: Gallery starts and shows the text as before (no scrolling yet)
+- [x] New: 1,000 lines, viewport 200 high, line height 20, scrollTop 0 → lines 1–10 drawn at y 0, 20, … 180
+- [x] New: scrollTop 10 → line 1 drawn at y = -10, line 11 drawn (partially visible)
+- [x] New: a 2,500,000-line model scrolled near the end → every drawn `y` is between `-LineHeight` and the viewport height (no float error)
+- [x] New: scrollLeft 30 → text drawn at `ContentLeft - 30`, and a gutter background is drawn after the text
+- [x] New: a selection across 3 lines draws 3 rectangles with widths from `GetCharacterX`
+- [x] New: in a 1,000-line document showing lines 1–10, a 300-wide line raises the content width once (`ContentSizeChanged`); drawing again does not raise it again
+- [x] New: when every line is visible and the widest line gets shorter, the content width shrinks (Monaco's exact reset)
+- [x] Manual: Gallery starts and shows the text as before (no scrolling yet)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
