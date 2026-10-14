@@ -134,6 +134,7 @@ public sealed partial class LoomEditor : Control
     {
         _featureHost?.Dispose();
         _featureHost = null;
+        _renderer.Dispose();
         _measurer?.Dispose();
         _measurer = null;
     }
