@@ -1,6 +1,6 @@
 # P2-05 — `LinesLayout` (2/2): viewport data
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-04
 - **Size:** M
 
@@ -38,18 +38,18 @@ relative to the viewport, the centered line, and the whitespaces in view. The re
 
 ## Tests
 
-- [ ] Port: `LinesLayout getCenteredLineInViewport`, `LinesLayout getLinesViewportData 1`,
+- [x] Port: `LinesLayout getCenteredLineInViewport`, `LinesLayout getLinesViewportData 1`,
       `LinesLayout getLinesViewportData 2 & getWhitespaceViewportData`, `LinesLayout getWhitespaceAtVerticalOffset`
       (`linesLayout.test.ts` is now 12 / 12)
-- [ ] New: on a 2,500,000-line layout, `GetLinesViewportData(47_000_000, 47_000_800)` returns a non-zero
+- [x] New: on a 2,500,000-line layout, `GetLinesViewportData(47_000_000, 47_000_800)` returns a non-zero
       `BigNumbersDelta` and relative offsets below 1,000,000
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `linesLayout.ts` ✅ ported; `linesLayout.test.ts` 12 / 12
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `linesLayout.ts` ✅ ported; `linesLayout.test.ts` 12 / 12
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
