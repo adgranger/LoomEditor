@@ -1,6 +1,6 @@
 # P2-08 — `ViewLayout`: scroll dimensions of the editor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-07
 - **Size:** M
 
@@ -54,20 +54,20 @@ smooth), and the visible lines for the current scroll position.
 
 Monaco has no `viewLayout.test.ts`. New tests:
 
-- [ ] New: 100 lines × 20 DIPs, viewport 500 high, `ScrollBeyondLastLine = true` → `GetContentHeight() == 2000 + 500 - 20`; with `false` → 2000
-- [ ] New: `SetScrollPosition(new(ScrollTop: 1e9), ScrollType.Immediate)` clamps to `ScrollHeight - Height`
-- [ ] New: `SetMaxLineWidth(800)` with a 600-wide content area → content width `800 + 4 × typicalHalfwidth + verticalScrollbarWidth`,
+- [x] New: 100 lines × 20 DIPs, viewport 500 high, `ScrollBeyondLastLine = true` → `GetContentHeight() == 2000 + 500 - 20`; with `false` → 2000
+- [x] New: `SetScrollPosition(new(ScrollTop: 1e9), ScrollType.Immediate)` clamps to `ScrollHeight - Height`
+- [x] New: `SetMaxLineWidth(800)` with a 600-wide content area → content width `800 + 4 × typicalHalfwidth + verticalScrollbarWidth`,
       and `ContentSizeChanged` is raised once
-- [ ] New: `OnLinesInserted` / `OnLinesDeleted` update the content height
-- [ ] New: `GetLinesViewportData()` after scrolling to line 1,000 starts at line 1,000
-- [ ] New: with `SmoothScrolling = true`, `SetScrollPosition(..., ScrollType.Smooth)` animates with a fake scheduler and clock (P2-02 helpers)
+- [x] New: `OnLinesInserted` / `OnLinesDeleted` update the content height
+- [x] New: `GetLinesViewportData()` after scrolling to line 1,000 starts at line 1,000
+- [x] New: with `SmoothScrolling = true`, `SetScrollPosition(..., ScrollType.Smooth)` animates with a fake scheduler and clock (P2-02 helpers)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/viewLayout/viewLayout.ts` ✅ ported (no word-wrap branch, explicit options instead of `IEditorConfiguration`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/viewLayout/viewLayout.ts` ✅ ported (no word-wrap branch, explicit options instead of `IEditorConfiguration`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
