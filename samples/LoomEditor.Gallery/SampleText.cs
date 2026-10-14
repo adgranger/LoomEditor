@@ -4,7 +4,7 @@ namespace LoomEditor.Gallery;
 internal static class SampleText
 {
     /// <summary>A small C# file.</summary>
-    public const string HelloWorld = """
+    private const string Header = """
         // Welcome to LoomEditor!
         // This text is drawn by LoomEditor.Rendering (Win2D / DirectWrite),
         // inside the LoomEditor WinUI control, in an app compiled with Native AOT.
@@ -23,4 +23,10 @@ internal static class SampleText
             }
         }
         """;
+
+    /// <summary>The small C# file, followed by 200 numbered lines and one 300-character line, so that it scrolls.</summary>
+    public static string HelloWorld { get; } = Header + Environment.NewLine + string.Join(
+        Environment.NewLine,
+        Enumerable.Range(1, 200).Select(i => $"// Numbered line {i}"))
+        + Environment.NewLine + "// " + new string('x', 297);
 }
