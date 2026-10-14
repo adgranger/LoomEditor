@@ -16,7 +16,7 @@ namespace LoomEditor.Rendering;
 /// </para>
 /// <para>Threading: UI thread only (it reads the editor context).</para>
 /// </remarks>
-public sealed class TextViewRenderer
+internal sealed class TextViewRenderer
 {
     /// <summary>Gutter padding, in characters: 1 before the line numbers, 2 after them.</summary>
     private const int GutterPaddingInCharacters = 3;

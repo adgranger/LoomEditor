@@ -119,7 +119,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P2-11](phase-2/P2-11-rendering-tests-and-visibility.md) | Rendering test project and internal visibility | P2-10 | todo |
+| [P2-11](phase-2/P2-11-rendering-tests-and-visibility.md) | Rendering test project and internal visibility | P2-10 | done |
 | [P2-12](phase-2/P2-12-text-measurement.md) | Real text layout: `ITextMeasurer`, `ILineLayout`, DirectWrite | P2-11 | todo |
 | [P2-13](phase-2/P2-13-line-layout-cache.md) | Line layout cache and very long lines | P2-12 | todo |
 | [P2-14](phase-2/P2-14-viewport-renderer.md) | Draw the viewport: visible lines, scroll offsets, selection | P2-13 | todo |

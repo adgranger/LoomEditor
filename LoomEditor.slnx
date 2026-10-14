@@ -22,6 +22,7 @@
     <Project Path="tests/LoomEditor.Core.Tests/LoomEditor.Core.Tests.csproj" />
     <Project Path="tests/LoomEditor.TextMate.Tests/LoomEditor.TextMate.Tests.csproj" />
     <Project Path="tests/LoomEditor.View.Tests/LoomEditor.View.Tests.csproj" />
+    <Project Path="tests/LoomEditor.Rendering.Tests/LoomEditor.Rendering.Tests.csproj" />
     <Project Path="tests/LoomEditor.Architecture.Tests/LoomEditor.Architecture.Tests.csproj" />
     <Project Path="tests/LoomEditor.Benchmarks/LoomEditor.Benchmarks.csproj" />
   </Folder>

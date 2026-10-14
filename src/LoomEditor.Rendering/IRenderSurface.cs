@@ -14,7 +14,7 @@ namespace LoomEditor.Rendering;
 /// <para>Coordinates are in device-independent pixels (DIPs), origin at the top-left corner.</para>
 /// <para>Threading: a surface is only valid during one draw call, on the thread that called it.</para>
 /// </remarks>
-public interface IRenderSurface
+internal interface IRenderSurface
 {
     /// <summary>Size of one character cell and of one line of text, for the editor font.</summary>
     FontMetrics FontMetrics { get; }
@@ -38,4 +38,4 @@ public interface IRenderSurface
 /// </remarks>
 /// <param name="CharacterWidth">Width of one character.</param>
 /// <param name="LineHeight">Height of one line.</param>
-public readonly record struct FontMetrics(float CharacterWidth, float LineHeight);
+internal readonly record struct FontMetrics(float CharacterWidth, float LineHeight);

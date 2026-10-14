@@ -1,6 +1,6 @@
 # P2-11 — Rendering test project and internal visibility
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-10
 - **Size:** S
 
@@ -43,18 +43,18 @@ None.
 
 Characterization tests of the phase 0 renderer, so that P2-12…P2-16 change behavior on purpose only:
 
-- [ ] New: `Render` clears with `Theme.Background` first
-- [ ] New: 3 lines → 3 line numbers right-aligned and 3 text draws at `y = 0, LineHeight, 2 × LineHeight`
-- [ ] New: an empty selection draws no selection rectangle; a two-line selection draws two rectangles
-- [ ] New: `GetGutterWidth(1000 lines, CharacterWidth 10)` is `(4 + 3) × 10`
+- [x] New: `Render` clears with `Theme.Background` first
+- [x] New: 3 lines → 3 line numbers right-aligned and 3 text draws at `y = 0, LineHeight, 2 × LineHeight`
+- [x] New: an empty selection draws no selection rectangle; a two-line selection draws two rectangles
+- [x] New: `GetGutterWidth(1000 lines, CharacterWidth 10)` is `(4 + 3) × 10`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, and the new project runs in it
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts and looks the same
-- [ ] Architecture tests still green (they check project references, not visibility)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, and the new project runs in it
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts and looks the same
+- [x] Architecture tests still green (they check project references, not visibility)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
