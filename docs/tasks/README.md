@@ -103,7 +103,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 | [P2-02](phase-2/P2-02-scrollable.md) | `Scrollable` and smooth scrolling | P2-01 | done |
 | [P2-03](phase-2/P2-03-line-heights-manager.md) | `LineHeightsManager` | P2-02 | done |
 | [P2-04](phase-2/P2-04-lines-layout-1.md) | `LinesLayout` (1/2): vertical offsets and whitespaces | P2-03 | done |
-| [P2-05](phase-2/P2-05-lines-layout-2.md) | `LinesLayout` (2/2): viewport data | P2-04 | todo |
+| [P2-05](phase-2/P2-05-lines-layout-2.md) | `LinesLayout` (2/2): viewport data | P2-04 | done |
 
 ### Step B — Font, editor layout, view model (`LoomEditor.View/Layout/`)
 

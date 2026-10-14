@@ -98,7 +98,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
 | `base/common/scrollable.ts` | `LoomEditor.View/Layout/` (`ScrollState`, `ScrollEvent`, `Scrollable`, `SmoothScrollingOperation`, scroll value types) | ✅ ported (P2-01, P2-02); `TimeProvider` replaces `Date.now()`; `ISmoothScrollPosition` extends `IScrollPosition` and `ScrollState` implements it (TypeScript structural typing) |
 | `editor/common/viewLayout/lineHeights.ts` | `LoomEditor.View/Layout/` (`LineHeightsManager` (+ `.Changes.cs`), `CustomLine`, `CustomLineHeightData`) | ✅ ported (P2-03) without `CustomLineHeightData.fromDecorations` (no decorations yet); heights are `int`; `PendingChange` is an abstract record; `ArrayMap` is a private nested class |
-| `editor/common/viewLayout/linesLayout.ts` | `LoomEditor.View/Layout/` (`LinesLayout` (+ `.Whitespaces.cs`, `.Changes.cs`), `EditorWhitespace`, `IEditorWhitespace`, `IWhitespaceChangeAccessor`, `ILineHeightChangeAccessor`) | 🔄 in progress (P2-04): offsets and whitespaces; `getLinesViewportData`, `getWhitespaceAtVerticalOffset`, `getWhitespaceViewportData` come in P2-05; heights are `int`; `PendingChanges` is a private nested class |
+| `editor/common/viewLayout/linesLayout.ts` | `LoomEditor.View/Layout/` (`LinesLayout` (+ `.Whitespaces.cs`, `.Changes.cs`, `.Viewport.cs`), `EditorWhitespace`, `IEditorWhitespace`, `IWhitespaceChangeAccessor`, `ILineHeightChangeAccessor`) | ✅ ported (P2-04, P2-05); heights are `int`; `PendingChanges` is a private nested class; `PartialViewLinesViewportData`, `ViewWhitespaceViewportData` and `Viewport` (from `viewModel.ts`) live next to it |
 | `editor/common/viewModel/*` | `LoomEditor.View/Layout/` | ⏳ phase 2 / 6 |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
@@ -130,7 +130,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 |---|---|---|
 | `base/test/common/scrollable.test.ts` (`SmoothScrollingOperation`) | 5 / 5 | |
 | `editor/test/common/viewLayout/lineHeights.test.ts` (`LineHeightsManager`, `LineHeightsManager (auto-commit on read)`) | 38 / 38 | |
-| `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 8 / 12 | 4 tests that use viewport data: P2-05 |
+| `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 12 / 12 | |
 
 ## Done in phase 1 (piece tree and text model)
 
