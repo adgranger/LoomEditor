@@ -1,6 +1,6 @@
 # P2-13 — Line layout cache and very long lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-12
 - **Size:** S
 
@@ -45,18 +45,18 @@ in an LRU cache keyed by the line's text. Very long lines (minified files, 1 MB 
 
 ## Tests
 
-- [ ] New: `Get` twice with the same text creates one layout; a capacity of 2 and 3 texts disposes the least recently used one
-- [ ] New: `Clear` disposes every layout
-- [ ] New: `OverflowLabel.Format(500) == "Show more (500 chars)"`, `Format(2048) == "Show more (2.0 KB)"`, `Format(3 * 1024 * 1024) == "Show more (3.0 MB)"`
-- [ ] New: rendering a 25,000-character line with `RecordingRenderSurface` + `FakeTextMeasurer` draws a 10,000-character layout and the label for 15,000 chars (`"Show more (14.6 KB)"`)
-- [ ] New: drawing the same 40 lines twice creates 40 layouts, not 80
+- [x] New: `Get` twice with the same text creates one layout; a capacity of 2 and 3 texts disposes the least recently used one
+- [x] New: `Clear` disposes every layout
+- [x] New: `OverflowLabel.Format(500) == "Show more (500 chars)"`, `Format(2048) == "Show more (2.0 KB)"`, `Format(3 * 1024 * 1024) == "Show more (3.0 MB)"`
+- [x] New: rendering a 25,000-character line with `RecordingRenderSurface` + `FakeTextMeasurer` draws a 10,000-character layout and the label for 15,000 chars (`"Show more (14.6 KB)"`)
+- [x] New: drawing the same 40 lines twice creates 40 layouts, not 80
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `viewLineRenderer.ts` → only `stopRenderingLineAfter` and the overflow label (the HTML renderer is not ported, ADR 0005)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `viewLineRenderer.ts` → only `stopRenderingLineAfter` and the overflow label (the HTML renderer is not ported, ADR 0005)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

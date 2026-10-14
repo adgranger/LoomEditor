@@ -50,13 +50,73 @@ public class TextViewRendererTests
     }
 
     [Fact]
-    public void Render_Always_DisposesEveryLayout()
+    public void Render_SameFortyLinesTwice_CreatesFortyLayoutsPlusTheirNumbers()
     {
         var measurer = new FakeTextMeasurer();
-        Draw(new TextViewRenderer(), "a\nb", selection: null, measurer);
+        using var renderer = new TextViewRenderer();
+        string text = string.Join('\n', Enumerable.Range(0, 40).Select(i => "line text " + (char)('A' + (i % 26)) + i));
+
+        Draw(renderer, text, selection: null, measurer);
+        int afterFirstFrame = measurer.Layouts.Count;
+        Draw(renderer, text, selection: null, measurer);
+
+        // 40 texts + 40 line numbers ("1".."40"), created once: the second frame creates nothing.
+        Assert.Equal(80, afterFirstFrame);
+        Assert.Equal(afterFirstFrame, measurer.Layouts.Count);
+    }
+
+    [Fact]
+    public void Dispose_AfterRendering_DisposesTheCachedLayouts()
+    {
+        var measurer = new FakeTextMeasurer();
+        var renderer = new TextViewRenderer();
+        Draw(renderer, "a\nb", selection: null, measurer);
+
+        renderer.Dispose();
 
         Assert.NotEmpty(measurer.Layouts);
         Assert.All(measurer.Layouts, layout => Assert.True(layout.IsDisposed));
+    }
+
+    [Fact]
+    public void Render_LongLine_DrawsTheFirst10000CharactersAndAShowMoreLabel()
+    {
+        var measurer = new FakeTextMeasurer();
+        var renderer = new TextViewRenderer();
+        RecordingRenderSurface surface = Draw(renderer, new string('x', 25_000), selection: null, measurer);
+
+        float textLeft = 4 * CharacterWidth;
+        List<DrawLineLayoutCall> texts = [.. surface.Calls.OfType<DrawLineLayoutCall>()];
+        DrawLineLayoutCall line = Assert.Single(texts, call => call.X == textLeft && call.Text.StartsWith('x'));
+        Assert.Equal(10_000, line.Text.Length);
+        // The label is drawn right after the cut text.
+        Assert.Contains(
+            new DrawLineLayoutCall("Show more (14.6 KB)", textLeft + (10_000 * CharacterWidth), 0, renderer.Theme.LineNumberForeground),
+            texts);
+    }
+
+    [Fact]
+    public void Render_LongLineCutInsideASurrogatePair_DoesNotThrow()
+    {
+        // The cut at 10,000 falls between the two UTF-16 units of the emoji.
+        string line = new string('x', 9_999) + "\U0001F600" + new string('y', 100);
+
+        RecordingRenderSurface surface = Draw(new TextViewRenderer(), line, selection: null);
+
+        Assert.Contains(surface.Calls.OfType<DrawLineLayoutCall>(), call => call.Text.StartsWith("Show more", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Render_SelectionBeyondTheCutOfALongLine_IsClampedToTheDrawnText()
+    {
+        var renderer = new TextViewRenderer();
+        RecordingRenderSurface surface = Draw(
+            renderer, new string('x', 25_000), new Selection(new Position(1, 5), new Position(1, 20_000)));
+
+        float textLeft = 4 * CharacterWidth;
+        FillRectangleCall rectangle = Assert.Single(surface.Calls.OfType<FillRectangleCall>());
+        Assert.Equal(textLeft + (4 * CharacterWidth), rectangle.X);
+        Assert.Equal((10_000 - 4) * CharacterWidth, rectangle.Width);
     }
 
     [Fact]
