@@ -8,7 +8,7 @@ namespace LoomEditor.Rendering.Win2D;
 /// Create it once per control (measuring is not free) and reuse it for every frame.
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
-public sealed class Win2DFont : IDisposable
+internal sealed class Win2DFont : IDisposable
 {
     /// <summary>Creates the font and measures it.</summary>
     /// <param name="resourceCreator">The Win2D device or control used to measure text.</param>

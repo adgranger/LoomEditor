@@ -10,7 +10,7 @@ namespace LoomEditor.Rendering.Win2D;
 /// Create one per frame, inside the <c>CanvasControl.Draw</c> handler; it does not own the session.
 /// Threading: only valid during the draw call, on the thread that received it.
 /// </remarks>
-public sealed class Win2DRenderSurface : IRenderSurface
+internal sealed class Win2DRenderSurface : IRenderSurface
 {
     private readonly CanvasDrawingSession _session;
     private readonly Win2DFont _font;

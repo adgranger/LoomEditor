@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(LoomWindowsTargetFramework)</TargetFramework>
+    <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
+    <!--
+      Same as LoomEditor.Rendering: built AnyCPU by the solution build. The tests never create a Win2D object
+      (they use a recording surface), so the native Microsoft.Graphics.Canvas.dll is not needed.
+    -->
+    <Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LoomEditor.Rendering\LoomEditor.Rendering.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+</Project>

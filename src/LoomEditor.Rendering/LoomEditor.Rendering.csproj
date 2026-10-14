@@ -23,6 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The control shares the internals of Rendering (ADR 0005). -->
+    <InternalsVisibleTo Include="LoomEditor.WinUI" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LoomEditor.View\LoomEditor.View.csproj" />
   </ItemGroup>
 

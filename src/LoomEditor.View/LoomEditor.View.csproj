@@ -14,6 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The layers above View share its internals (ADR 0005). -->
+    <InternalsVisibleTo Include="LoomEditor.Rendering" />
+    <InternalsVisibleTo Include="LoomEditor.WinUI" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
     <ProjectReference Include="..\LoomEditor.TextMate\LoomEditor.TextMate.csproj" />
     <ProjectReference Include="..\LoomEditor.Themes\LoomEditor.Themes.csproj" />

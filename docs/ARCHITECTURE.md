@@ -44,7 +44,7 @@ Monaco equivalents: Core ≈ `editor/common/core` + `editor/common/model`; View 
 | 4 | **Explicit composition.** No DI container, no assembly scanning. Enabled features are listed in `EditorFeatures.cs`. | code review, `ConventionTests` |
 | 5 | **One feature = one folder** under `LoomEditor.View/Features/`, with `XxxFeature.cs`, `XxxCommands.cs`, `README.md`. | `ConventionTests.cs` |
 | 6 | **Ported files say where they come from** (header with Monaco path and upstream commit). | `ConventionTests.cs` |
-| 7 | **Minimal, tracked public API.** Everything is `internal` unless needed; public members are listed in `PublicAPI.*.txt`. | PublicApiAnalyzers (RS0016/RS0017) |
+| 7 | **Minimal, tracked public API.** Everything is `internal` unless needed; public members are listed in `PublicAPI.*.txt`. `LoomEditor.View` and `LoomEditor.Rendering` share internals with the assemblies above them (ADR 0005). | PublicApiAnalyzers (RS0016/RS0017) |
 | 8 | **Values are immutable**: `Position`, `Range`, `Selection`, `TextEdit` are `readonly record struct`. | code review |
 | 9 | **Threading is documented.** The model is changed on the UI thread only. Tokenization runs in the background, incrementally, cancellably, and publishes results on the UI thread. Each class states its thread contract in its XML doc. | code review |
 
