@@ -75,6 +75,10 @@ public sealed partial class LoomEditor : Control
     /// </summary>
     public IReadOnlyList<Func<IEditorFeature>> Features { get; set; } = EditorFeatures.Default;
 
+    /// <summary>The text model of this editor: edit it with <c>PushEditOperations</c>, undo and redo through it.</summary>
+    /// <remarks>Threading: use it on the UI thread only, like the control.</remarks>
+    public Core.Model.TextModel Model => _context.Model;
+
     /// <summary>The commands of this editor, e.g. to run <c>editor.action.selectAll</c> from a menu.</summary>
     public View.Commands.CommandRegistry Commands => _context.Commands;
 

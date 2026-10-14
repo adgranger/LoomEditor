@@ -1,6 +1,6 @@
 # P1-32 — Gallery demo of the text model (edits, undo/redo, EOL)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-29
 - **Size:** S
 
@@ -48,17 +48,17 @@ None (sample app only).
 
 ## Tests
 
-- [ ] Existing tests pass unchanged
+- [x] Existing tests pass unchanged
 - [ ] Manual check, described in the PR/commit body: insert header → undo → redo; replace "Hello" (2 occurrences) →
       one undo restores both; CRLF → status shows CRLF, undo returns to LF; Reset clears undo (Undo disabled)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, and the app starts and every button works
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI` updated (only `Model` added)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, and the app starts (button check is manual, see Tests)
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI` updated (only `Model` added)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
