@@ -1,6 +1,6 @@
 # P2-01 — `ScrollState` and `ScrollEvent`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-30
 - **Size:** S
 
@@ -46,20 +46,20 @@ The immutable scroll state of Monaco (`ScrollState`): viewport size, scrollable 
 
 Monaco has no test for `ScrollState`. Write new tests:
 
-- [ ] New: the constructor clamps `scrollTop` to `scrollHeight - height` and to 0; same for left/width; negative sizes become 0
-- [ ] New: `forceIntegerValues` truncates `10.7` → `10` and `-10.7` → `-10` (then clamped)
-- [ ] New: `WithScrollDimensions(…, useRawScrollPositions: true)` restores a raw position that was clamped before
+- [x] New: the constructor clamps `scrollTop` to `scrollHeight - height` and to 0; same for left/width; negative sizes become 0
+- [x] New: `forceIntegerValues` truncates `10.7` → `10` and `-10.7` → `-10` (then clamped)
+- [x] New: `WithScrollDimensions(…, useRawScrollPositions: true)` restores a raw position that was clamped before
       (e.g. scrollTop 500 requested while scrollHeight was 100, then scrollHeight grows to 1000 → scrollTop 500)
-- [ ] New: `WithScrollPosition` keeps the raw value of the axis that is not given
-- [ ] New: `CreateScrollEvent` sets each `*Changed` flag only for the values that changed
-- [ ] New: `Equals` is false when only a raw position differs
+- [x] New: `WithScrollPosition` keeps the raw value of the axis that is not given
+- [x] New: `CreateScrollEvent` sets each `*Changed` flag only for the values that changed
+- [x] New: `Equals` is false when only a raw position differs
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: add `base/common/scrollable.ts` → `LoomEditor.View/Layout/` (in progress)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: add `base/common/scrollable.ts` → `LoomEditor.View/Layout/` (in progress)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
