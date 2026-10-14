@@ -2,6 +2,9 @@
 
 Words you will meet in the code, explained simply. Monaco uses the same words, so you can search its source too.
 
+**Alternative version id** — A number on a `TextModel` that goes back to an earlier value when undo returns the text
+to an earlier state, unlike the *version id*, which only grows. Used to know whether a document is "dirty".
+
 **Anchor** — In a selection, the place where the user *started* selecting. Called `SelectionStart` in `Selection`.
 The other end is the *caret* (`Position`).
 
@@ -53,16 +56,25 @@ binary tree (a red-black tree) so that finding a line or inserting text is fast 
 
 **Range** — A start position and an end position, start ≤ end. *Empty* if both are equal.
 
+**Raw change event** — The line-level description of a change (`ModelRawContentChangedEvent`): lines changed, inserted
+or deleted, or "everything flushed". The view uses it to update only the lines that changed. The *content change
+event* describes the same edit as text ranges.
+
 **Scope** (TextMate) — A dotted name describing what a token is, e.g. `string.quoted.double.cs`. Themes pick
 colors by scope.
 
 **Selection** — A range plus a direction (where the anchor and the caret are).
+
+**Snapshot** — A frozen view of the text of a model, read in chunks (`TextModel.CreateSnapshot`), safe to read while
+the model keeps changing. Used for saving files.
 
 **Source generator** — Code that runs at compile time and writes more C# code. Replaces reflection.
 
 **Token** — A piece of a line with one meaning and one color (a keyword, a string, a comment…).
 
 **Tokenization** — Cutting lines into tokens using a TextMate grammar. Runs in the background.
+
+**Undo stack element** — One undo step: all the edits (and EOL change) that one undo reverts together.
 
 **View line** — A line *as displayed*. With word wrap, one model line may become several view lines; with folding,
 several model lines may be hidden. Model line numbers ≠ view line numbers.
