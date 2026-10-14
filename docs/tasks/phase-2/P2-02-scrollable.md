@@ -1,6 +1,6 @@
 # P2-02 — `Scrollable` and smooth scrolling
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-01
 - **Size:** M
 
@@ -44,22 +44,22 @@ callback at the next animation frame. The WinUI control (P2-18) will use `Compos
 
 ## Tests
 
-- [ ] Port: `SmoothScrollingOperation` › `scroll 25 lines (40 fit)`, `scroll 75 lines (40 fit)`, `scroll 100 lines (40 fit)`,
+- [x] Port: `SmoothScrollingOperation` › `scroll 25 lines (40 fit)`, `scroll 75 lines (40 fit)`, `scroll 100 lines (40 fit)`,
       `scroll 125 lines (40 fit)`, `scroll 500 lines (40 fit)` (keep Monaco's `TestSmoothScrollingOperation` helper as a
       private method that builds the operation with the same `+10`/`-10` adjustments)
-- [ ] New: `SetScrollPositionNow` raises one `Scroll` event with `InSmoothScrolling == false`; setting the same position again raises none
-- [ ] New: with `SmoothScrollDuration = 0`, `SetScrollPositionSmooth` behaves like `SetScrollPositionNow`
-- [ ] New: smooth scrolling with a fake scheduler and a fake clock reaches the target in the last frame, raises
+- [x] New: `SetScrollPositionNow` raises one `Scroll` event with `InSmoothScrolling == false`; setting the same position again raises none
+- [x] New: with `SmoothScrollDuration = 0`, `SetScrollPositionSmooth` behaves like `SetScrollPositionNow`
+- [x] New: smooth scrolling with a fake scheduler and a fake clock reaches the target in the last frame, raises
       events with `InSmoothScrolling == true`, and `HasPendingScrollAnimation` becomes false at the end
-- [ ] New: `SetScrollDimensions` during an animation clamps the animation target (`AcceptScrollDimensions`)
-- [ ] New: `Dispose` during an animation disposes the scheduled frame
+- [x] New: `SetScrollDimensions` during an animation clamps the animation target (`AcceptScrollDimensions`)
+- [x] New: `Dispose` during an animation disposes the scheduled frame
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `base/common/scrollable.ts` ✅ ported, and `scrollable.test.ts` 5 / 5
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `base/common/scrollable.ts` ✅ ported, and `scrollable.test.ts` 5 / 5
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
