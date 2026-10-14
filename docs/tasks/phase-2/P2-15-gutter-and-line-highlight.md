@@ -1,6 +1,6 @@
 # P2-15 — Gutter: line numbers, active line number, current line highlight
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-14
 - **Size:** S
 
@@ -49,18 +49,18 @@ The theme gets the colors these need.
 
 ## Tests
 
-- [ ] New: line 7 active → its number uses `LineNumberActiveForeground`, others `LineNumberForeground`
-- [ ] New: numbers are right-aligned (`x + width == LineNumbersLeft + LineNumbersWidth`)
-- [ ] New: the last empty line of `"a\n"` still gets its number (`renderFinalNewline = on`)
-- [ ] New: empty selection → one `DrawRectangle` with `LineHighlightBorder`, stroke 2; non-empty selection → none
-- [ ] New: with `RenderLineHighlight.All`, a margin highlight is drawn too
+- [x] New: line 7 active → its number uses `LineNumberActiveForeground`, others `LineNumberForeground`
+- [x] New: numbers are right-aligned (`x + width == LineNumbersLeft + LineNumbersWidth`)
+- [x] New: the last empty line of `"a\n"` still gets its number (`renderFinalNewline = on`)
+- [x] New: empty selection → one `DrawRectangle` with `LineHighlightBorder`, stroke 2; non-empty selection → none
+- [x] New: with `RenderLineHighlight.All`, a margin highlight is drawn too
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `lineNumbers.ts` and `currentLineHighlight.ts` → `TextViewRenderer` (adapted: drawn on the canvas)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `lineNumbers.ts` and `currentLineHighlight.ts` → `TextViewRenderer` (adapted: drawn on the canvas)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

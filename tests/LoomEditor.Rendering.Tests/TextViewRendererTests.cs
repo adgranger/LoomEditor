@@ -93,7 +93,7 @@ public class TextViewRendererTests
 
         float right = harness.LayoutInfo.LineNumbersLeft + harness.LayoutInfo.LineNumbersWidth;
         var theme = harness.Renderer.Theme;
-        Assert.Contains(new DrawLineLayoutCall("1", right - CharacterWidth, 0, theme.LineNumberForeground), surface.Calls);
+        Assert.Contains(new DrawLineLayoutCall("1", right - CharacterWidth, 0, theme.LineNumberActiveForeground), surface.Calls);
         Assert.Contains(new DrawLineLayoutCall("10", right - (2 * CharacterWidth), 9 * LineHeight, theme.LineNumberForeground), surface.Calls);
     }
 

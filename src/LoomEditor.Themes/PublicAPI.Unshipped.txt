@@ -4,10 +4,18 @@ LoomEditor.Themes.EditorTheme
 LoomEditor.Themes.EditorTheme.<Clone>$() -> LoomEditor.Themes.EditorTheme!
 LoomEditor.Themes.EditorTheme.Background.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.Background.init -> void
+LoomEditor.Themes.EditorTheme.CursorForeground.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.CursorForeground.init -> void
 LoomEditor.Themes.EditorTheme.EditorTheme() -> void
 LoomEditor.Themes.EditorTheme.Equals(LoomEditor.Themes.EditorTheme? other) -> bool
 LoomEditor.Themes.EditorTheme.Foreground.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.Foreground.init -> void
+LoomEditor.Themes.EditorTheme.LineHighlightBackground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.EditorTheme.LineHighlightBackground.init -> void
+LoomEditor.Themes.EditorTheme.LineHighlightBorder.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.EditorTheme.LineHighlightBorder.init -> void
+LoomEditor.Themes.EditorTheme.LineNumberActiveForeground.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.LineNumberActiveForeground.init -> void
 LoomEditor.Themes.EditorTheme.LineNumberForeground.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.LineNumberForeground.init -> void
 LoomEditor.Themes.EditorTheme.Name.get -> string!

@@ -1,4 +1,3 @@
-using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Themes;
@@ -26,7 +25,7 @@ namespace LoomEditor.Rendering;
 /// Threading: UI thread only (it reads the view model).
 /// </para>
 /// </remarks>
-internal sealed class TextViewRenderer : IDisposable
+internal sealed partial class TextViewRenderer : IDisposable
 {
     /// <summary>
     /// Lines longer than this are cut, and a "Show more" label is drawn after them.
@@ -60,7 +59,8 @@ internal sealed class TextViewRenderer : IDisposable
     /// <param name="surface">Where to draw.</param>
     /// <param name="viewModel">The view to draw.</param>
     /// <param name="selection">The selection to show.</param>
-    public void Render(IRenderSurface surface, ViewModel viewModel, Selection selection)
+    /// <param name="hasFocus">Whether the editor has the keyboard focus.</param>
+    public void Render(IRenderSurface surface, ViewModel viewModel, Selection selection, bool hasFocus)
     {
         ArgumentNullException.ThrowIfNull(surface);
         ArgumentNullException.ThrowIfNull(viewModel);
@@ -110,6 +110,18 @@ internal sealed class TextViewRenderer : IDisposable
             DrawSelection(surface, selection, data.StartLineNumber + i, layouts[i], layoutInfo, scrollLeft, top, font);
         }
 
+        // Monaco: the current line highlight overlay is under the text.
+        if (ShouldRenderHighlightInContent(selection, hasFocus))
+        {
+            int activeIndex = selection.PositionLineNumber - data.StartLineNumber;
+            if (activeIndex >= 0 && activeIndex < lineCount)
+            {
+                DrawLineHighlight(
+                    surface, layoutInfo.ContentLeft, layoutInfo.Width - layoutInfo.ContentLeft,
+                    data.RelativeVerticalOffset[activeIndex] - topShift, font.LineHeight);
+            }
+        }
+
         for (int i = 0; i < lineCount; i++)
         {
             float top = data.RelativeVerticalOffset[i] - topShift;
@@ -121,15 +133,9 @@ internal sealed class TextViewRenderer : IDisposable
             }
         }
 
-        // The gutter hides the text that is scrolled under it. Line numbers and the highlight are refined in P2-15.
+        // The gutter hides the text that is scrolled under it.
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
-        for (int i = 0; i < lineCount; i++)
-        {
-            float top = data.RelativeVerticalOffset[i] - topShift;
-            ILineLayout number = _cache.Get((data.StartLineNumber + i).ToString(CultureInfo.InvariantCulture));
-            float x = layoutInfo.LineNumbersLeft + layoutInfo.LineNumbersWidth - (float)number.Width;
-            surface.DrawLineLayout(number, x, top, Theme.LineNumberForeground);
-        }
+        DrawGutter(surface, data, layoutInfo, selection, hasFocus, topShift, font);
 
         UpdateMaxLineWidth(viewModel, data, widestLine);
     }

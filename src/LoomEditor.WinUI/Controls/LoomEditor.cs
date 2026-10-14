@@ -157,7 +157,7 @@ public sealed partial class LoomEditor : Control
         }
 
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!);
-        _renderer!.Render(surface, _viewModel!, _context.Selection);
+        _renderer!.Render(surface, _viewModel!, _context.Selection, FocusState != FocusState.Unfocused);
     }
 
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
