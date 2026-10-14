@@ -5,11 +5,23 @@
     xmlns:loom="using:LoomEditor.WinUI.Controls"
     Title="LoomEditor Gallery">
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
         <TextBlock
             Margin="12,8"
             Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="LoomEditor — phase 0: static text, line numbers, Ctrl+A selects all" />
-        <loom:LoomEditor x:Name="Editor" Grid.Row="1" />
+            Text="LoomEditor — phase 1: text model with edits, undo/redo and EOL (typing comes in phase 3)" />
+        <StackPanel Grid.Row="1" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
+            <Button Click="OnInsertHeader" Content="Insert header" />
+            <Button Click="OnAppendLine" Content="Append line" />
+            <Button Click="OnDeleteFirstLine" Content="Delete first line" />
+            <Button Click="OnReplaceHello" Content="Replace &quot;Hello&quot;" />
+            <Button x:Name="UndoButton" Click="OnUndo" Content="Undo" />
+            <Button x:Name="RedoButton" Click="OnRedo" Content="Redo" />
+            <Button Click="OnLf" Content="LF" />
+            <Button Click="OnCrlf" Content="CRLF" />
+            <Button Click="OnReset" Content="Reset" />
+        </StackPanel>
+        <loom:LoomEditor x:Name="Editor" Grid.Row="2" />
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
     </Grid>
 </Window>
