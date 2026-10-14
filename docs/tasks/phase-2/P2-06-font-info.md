@@ -1,6 +1,6 @@
 # P2-06 — `FontInfo` and font measurements
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-05
 - **Size:** M
 
@@ -52,19 +52,19 @@ use a fake.
 
 Monaco has no common test for these files (`fontMeasurements.test.ts` needs a browser). New tests:
 
-- [ ] New: line height rule: `(14, 0) → 19`, `(14, 1.5) → 21`, `(14, 22) → 22`, `(4, 0) → 8` (minimum)
-- [ ] New: a fake monospace reader (every character 8.4 wide, full-width 16.8) gives `IsMonospace == true`,
+- [x] New: line height rule: `(14, 0) → 19`, `(14, 1.5) → 21`, `(14, 22) → 22`, `(4, 0) → 8` (minimum)
+- [x] New: a fake monospace reader (every character 8.4 wide, full-width 16.8) gives `IsMonospace == true`,
       `TypicalHalfwidthCharacterWidth == 8.4`, `MaxDigitWidth == 8.4`
-- [ ] New: a fake proportional reader (`i` narrower than `m`) gives `IsMonospace == false`; `MaxDigitWidth` is the widest digit
-- [ ] New: a reader returning 1 for `n` gives `TypicalHalfwidthCharacterWidth == 5` (fallback)
-- [ ] New: `canUseHalfwidthRightwardsArrow` is false when the half-width arrow is wider than the regular arrow
+- [x] New: a fake proportional reader (`i` narrower than `m`) gives `IsMonospace == false`; `MaxDigitWidth` is the widest digit
+- [x] New: a reader returning 1 for `n` gives `TypicalHalfwidthCharacterWidth == 5` (fallback)
+- [x] New: `canUseHalfwidthRightwardsArrow` is false when the half-width arrow is wider than the regular arrow
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/config/fontInfo.ts` ✅ (subset), `editor/browser/config/fontMeasurements.ts` ✅ adapted (measurement logic only)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/config/fontInfo.ts` ✅ (subset), `editor/browser/config/fontMeasurements.ts` ✅ adapted (measurement logic only)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
