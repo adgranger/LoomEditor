@@ -9,10 +9,15 @@ internal sealed class FakeTextMeasurer : ITextMeasurer
     public const double CharacterWidth = 10;
     public const int LineHeight = 20;
 
-    public FontInfo FontInfo { get; } = FontMeasurements.Read(
-        BareFontInfo.Create("Fake", "normal", fontSize: 14, lineHeight: LineHeight, letterSpacing: 0, pixelRatio: 1),
-        new FixedWidthReader(),
-        pixelRatio: 1);
+    public FakeTextMeasurer(double pixelRatio = 1)
+    {
+        FontInfo = FontMeasurements.Read(
+            BareFontInfo.Create("Fake", "normal", fontSize: 14, lineHeight: LineHeight, letterSpacing: 0, pixelRatio: pixelRatio),
+            new FixedWidthReader(),
+            pixelRatio: pixelRatio);
+    }
+
+    public FontInfo FontInfo { get; }
 
     public int TabSize => 4;
 
