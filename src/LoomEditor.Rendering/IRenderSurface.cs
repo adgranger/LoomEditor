@@ -16,26 +16,18 @@ namespace LoomEditor.Rendering;
 /// </remarks>
 internal interface IRenderSurface
 {
-    /// <summary>Size of one character cell and of one line of text, for the editor font.</summary>
-    FontMetrics FontMetrics { get; }
-
     /// <summary>Fills the whole surface with <paramref name="color"/>.</summary>
     void Clear(ThemeColor color);
 
     /// <summary>Fills a rectangle.</summary>
     void FillRectangle(float x, float y, float width, float height, ThemeColor color);
 
-    /// <summary>Draws one line of text with its top-left corner at (<paramref name="x"/>, <paramref name="y"/>).</summary>
-    void DrawText(string text, float x, float y, ThemeColor color);
-}
+    /// <summary>Draws the outline of a rectangle.</summary>
+    void DrawRectangle(float x, float y, float width, float height, ThemeColor color, float strokeWidth);
 
-/// <summary>
-/// Measurements of the editor font, in DIPs.
-/// </summary>
-/// <remarks>
-/// Phase 0 assumes a monospaced font: every character is <see cref="CharacterWidth"/> wide.
-/// Phase 2 replaces this with real text layout (proportional fonts, tabs, wide characters).
-/// </remarks>
-/// <param name="CharacterWidth">Width of one character.</param>
-/// <param name="LineHeight">Height of one line.</param>
-internal readonly record struct FontMetrics(float CharacterWidth, float LineHeight);
+    /// <summary>
+    /// Draws a laid-out line. <paramref name="lineTop"/> is the top of the line box (<c>FontInfo.LineHeight</c> high):
+    /// the glyphs are centered in it, half of the extra space above and half below.
+    /// </summary>
+    void DrawLineLayout(ILineLayout layout, float x, float lineTop, ThemeColor color);
+}

@@ -17,6 +17,7 @@
     <!-- The layers above View share its internals (ADR 0005). -->
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
     <InternalsVisibleTo Include="LoomEditor.WinUI" />
+    <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
   </ItemGroup>
 
   <ItemGroup>
