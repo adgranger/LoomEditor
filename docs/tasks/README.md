@@ -131,7 +131,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P2-17](phase-2/P2-17-control-scrollbars.md) | Scrollbars and `ScrollTop` / `ScrollLeft` | P2-16 | done |
-| [P2-18](phase-2/P2-18-control-mouse-wheel.md) | Mouse wheel and smooth scrolling | P2-17 | todo |
+| [P2-18](phase-2/P2-18-control-mouse-wheel.md) | Mouse wheel and smooth scrolling | P2-17 | done |
 | [P2-19](phase-2/P2-19-control-caret-and-focus.md) | Caret blinking and focus | P2-18 | todo |
 | [P2-20](phase-2/P2-20-control-font-tabs-dpi.md) | Font, tab size and DPI changes | P2-19 | todo |
 

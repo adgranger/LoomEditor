@@ -39,6 +39,8 @@ public sealed partial class MainWindow : Window
         Editor.Text = SampleText.HelloWorld;
     }
 
+    private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
+
     private void RefreshStatus()
     {
         StatusText.Text = ModelDemoActions.FormatStatus(Editor.Model);
