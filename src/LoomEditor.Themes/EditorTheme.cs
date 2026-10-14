@@ -17,6 +17,10 @@ public sealed record EditorTheme
         Background = ThemeColor.Parse("#1F1F1F"),
         Foreground = ThemeColor.Parse("#CCCCCC"),
         LineNumberForeground = ThemeColor.Parse("#6E7681"),
+        LineNumberActiveForeground = ThemeColor.Parse("#CCCCCC"),
+        LineHighlightBackground = null,
+        LineHighlightBorder = ThemeColor.Parse("#282828"),
+        CursorForeground = ThemeColor.Parse("#AEAFAD"),
         SelectionBackground = ThemeColor.Parse("#264F78"),
     };
 
@@ -27,6 +31,10 @@ public sealed record EditorTheme
         Background = ThemeColor.Parse("#FFFFFF"),
         Foreground = ThemeColor.Parse("#3B3B3B"),
         LineNumberForeground = ThemeColor.Parse("#6E7681"),
+        LineNumberActiveForeground = ThemeColor.Parse("#171184"),
+        LineHighlightBackground = null,
+        LineHighlightBorder = ThemeColor.Parse("#EEEEEE"),
+        CursorForeground = ThemeColor.Parse("#000000"),
         SelectionBackground = ThemeColor.Parse("#ADD6FF"),
     };
 
@@ -41,6 +49,21 @@ public sealed record EditorTheme
 
     /// <summary>Line numbers in the gutter (<c>editorLineNumber.foreground</c>).</summary>
     public required ThemeColor LineNumberForeground { get; init; }
+
+    /// <summary>Line number of the cursor line (<c>editorLineNumber.activeForeground</c>).</summary>
+    public required ThemeColor LineNumberActiveForeground { get; init; }
+
+    /// <summary>
+    /// Background of the cursor line (<c>editor.lineHighlightBackground</c>); when <see langword="null"/>, the
+    /// <see cref="LineHighlightBorder"/> is drawn instead.
+    /// </summary>
+    public ThemeColor? LineHighlightBackground { get; init; }
+
+    /// <summary>Border of the cursor line (<c>editor.lineHighlightBorder</c>), used when there is no background.</summary>
+    public ThemeColor? LineHighlightBorder { get; init; }
+
+    /// <summary>Color of the text cursor (<c>editorCursor.foreground</c>).</summary>
+    public required ThemeColor CursorForeground { get; init; }
 
     /// <summary>Background of selected text (<c>editor.selectionBackground</c>).</summary>
     public required ThemeColor SelectionBackground { get; init; }

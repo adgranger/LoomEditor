@@ -33,10 +33,10 @@ internal sealed class ViewHarness : IDisposable
 
     public EditorLayoutInfo LayoutInfo => ViewModel.LayoutInfo;
 
-    public RecordingRenderSurface Render(Selection? selection = null)
+    public RecordingRenderSurface Render(Selection? selection = null, bool hasFocus = true)
     {
         var surface = new RecordingRenderSurface();
-        Renderer.Render(surface, ViewModel, selection ?? Selection.Collapsed(new Position(1, 1)));
+        Renderer.Render(surface, ViewModel, selection ?? Selection.Collapsed(new Position(1, 1)), hasFocus);
         return surface;
     }
 
