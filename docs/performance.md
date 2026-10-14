@@ -41,9 +41,36 @@ Reading of the numbers:
 - Reads and edits are sub-linear: they stay in the microsecond range on a 100 MB / 1 MB buffer.
 - **The "no allocation per edit beyond the inserted text" target is not met**: every edit allocates 650–940 bytes
   (typing one character allocates ~650 B). The edits go through `PieceTreeTextBuffer.ApplyEdits`, which builds
-  operation lists, content-change records and line-start arrays. This is tracked by follow-up card
-  [P1-31](tasks/phase-1/P1-31-edit-allocations.md); nothing was optimized in P1-19.
+  operation lists, content-change records and line-start arrays. This was measured and partly reduced by follow-up card
+  [P1-31](tasks/phase-1/P1-31-edit-allocations.md), see below.
 - The mutating benchmarks rebuild the buffer in `[IterationSetup]`, so each iteration is a single invocation
   (`InvocationCount=1`); their numbers include only the edits.
 - The benchmark project uses BenchmarkDotNet 0.16.0-preview.2: 0.15.8 cannot run benchmarks on .NET 11
   (`GetRuntimeVersion not implemented for NotRecognized`).
+
+### Allocations per edit (card P1-31)
+
+Before/after on the same machine and runtime as above (`dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter "*EditBenchmarks*"`).
+`PieceTreeDirectEditBenchmarks` calls `PieceTreeBase.Insert`/`Delete` directly, to separate the tree from `ApplyEdits`.
+
+| Benchmark | Before | After |
+|---|---:|---:|
+| `RandomEdits10K` (through `ApplyEdits`) | 9.22 MB (~940 B/edit) | 8.07 MB (~846 B/edit) |
+| `TypeAtEnd10K` (through `ApplyEdits`) | 6.47 MB (~650 B/char) | 5.33 MB (~533 B/char) |
+| `DirectRandomEdits10K` (tree only) | 3.93 MB (~393 B/edit) | unchanged |
+| `DirectTypeAtEnd10K` (tree only) | 1.44 MB (~144 B/char) | unchanged |
+
+What was removed (no behavior change): the candidate list for auto-whitespace trimming is only allocated when
+`recordTrimAutoWhitespace` is set; `DoApplyEdits` sorts the operation list in place instead of copying it; the list of
+content changes is pre-sized.
+
+Why the target "no allocation per edit beyond the inserted text" is still **not fully met**:
+
+- The tree itself allocates ~144 B per typed character (a new piece and a red-black tree node) and ~393 B per random
+  edit (a split creates several pieces and nodes). This is the piece tree algorithm and must not change.
+- The rest of the `ApplyEdits` cost (~290 B for one edit, of which ~96 B come from the benchmark building its
+  `ValidAnnotatedEditOperation` and a one-element array) is the objects that make up the result: the validated
+  operation, the lists, `ModelContentChange`, `InternalModelContentChange` and `ApplyEditsResult`. They are part of the
+  `ITextBuffer.ApplyEdits` contract that `TextModel` consumes, and the card forbids changing that surface.
+- Removing them would need a struct-based result or a single-edit fast path; that is a larger change, to be decided
+  when phase 3 (typing) shows it matters. Time is far below target anyway (~1.2 µs per random edit).

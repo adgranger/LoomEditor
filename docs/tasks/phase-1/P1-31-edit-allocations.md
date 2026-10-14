@@ -1,6 +1,6 @@
 # P1-31 — Reduce per-edit allocations in `ApplyEdits`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P1-19
 - **Size:** S
 
@@ -31,15 +31,15 @@ None: this is about the C# implementation only. Monaco's algorithm must not chan
 
 ## Tests
 
-- [ ] All existing tests pass unchanged
-- [ ] `TypeAtEnd10K` allocation per character is reduced, or the remaining allocations are explained in `docs/performance.md`
+- [x] All existing tests pass unchanged
+- [x] `TypeAtEnd10K` allocation per character is reduced, or the remaining allocations are explained in `docs/performance.md`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Before/after numbers in `docs/performance.md`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Before/after numbers in `docs/performance.md`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
