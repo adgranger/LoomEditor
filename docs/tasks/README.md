@@ -80,7 +80,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P1-31](phase-1/P1-31-edit-allocations.md) | Reduce per-edit allocations in `ApplyEdits` | P1-19 | todo |
+| [P1-31](phase-1/P1-31-edit-allocations.md) | Reduce per-edit allocations in `ApplyEdits` | P1-19 | done |
 | [P1-32](phase-1/P1-32-gallery-text-model-demo.md) | Gallery demo: edits, undo/redo, EOL | P1-29 | todo |
 
 Cards in the same step that depend only on an earlier step (e.g. P1-10 … P1-14) can be done in any order.

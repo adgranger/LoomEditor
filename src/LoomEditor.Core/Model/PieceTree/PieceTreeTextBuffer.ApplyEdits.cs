@@ -106,7 +106,7 @@ internal sealed partial class PieceTreeTextBuffer
 
         // Delta encode operations
         Range[] reverseRanges = computeUndoEdits || recordTrimAutoWhitespace ? GetInverseEditRanges(sorted) : [];
-        var trimCandidates = new List<(int LineNumber, string OldContent)>();
+        List<(int LineNumber, string OldContent)>? trimCandidates = recordTrimAutoWhitespace ? [] : null;
         if (recordTrimAutoWhitespace)
         {
             for (int i = 0; i < sorted.Count; i++)
@@ -129,7 +129,7 @@ internal sealed partial class PieceTreeTextBuffer
                             }
                         }
 
-                        trimCandidates.Add((lineNumber, currentLineContent));
+                        trimCandidates!.Add((lineNumber, currentLineContent));
                     }
                 }
             }
@@ -176,7 +176,7 @@ internal sealed partial class PieceTreeTextBuffer
         List<InternalModelContentChange> contentChanges = DoApplyEdits(sorted);
 
         List<int>? trimAutoWhitespaceLineNumbers = null;
-        if (recordTrimAutoWhitespace && trimCandidates.Count > 0)
+        if (trimCandidates is { Count: > 0 })
         {
             // sort line numbers auto whitespace removal candidates for next edit descending
             trimCandidates.Sort(static (a, b) => b.LineNumber - a.LineNumber);
@@ -251,12 +251,12 @@ internal sealed partial class PieceTreeTextBuffer
         return [ToSingleEditOperation(operations)];
     }
 
-    private List<InternalModelContentChange> DoApplyEdits(IReadOnlyList<ValidatedEditOperation> sortedAscending)
+    private List<InternalModelContentChange> DoApplyEdits(List<ValidatedEditOperation> operations)
     {
-        var operations = new List<ValidatedEditOperation>(sortedAscending);
+        // Sorted in place: the caller does not use the list afterwards (Monaco sorts its own array too).
         operations.Sort(SortOpsDescending);
 
-        var contentChanges = new List<InternalModelContentChange>();
+        var contentChanges = new List<InternalModelContentChange>(operations.Count);
 
         // operations are from bottom to top
         foreach (ValidatedEditOperation op in operations)

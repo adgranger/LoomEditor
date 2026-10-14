@@ -135,6 +135,74 @@ public class PieceTreeEditBenchmarks
         _buffer.ApplyEdits([new ValidAnnotatedEditOperation(null, range, text, false, false, false)], false, false);
 }
 
+/// <summary>
+/// The same edits as <see cref="PieceTreeEditBenchmarks"/> but calling <see cref="PieceTreeBase.Insert"/> and
+/// <see cref="PieceTreeBase.Delete"/> directly, to separate the cost of the tree from the cost of <c>ApplyEdits</c>.
+/// </summary>
+[MemoryDiagnoser]
+public class PieceTreeDirectEditBenchmarks
+{
+    private const int EditCount = 10_000;
+    private const string InsertAlphabet = "abcdefghij\n";
+
+    private List<string> _chunks = null!;
+    private PieceTreeBase _tree = null!;
+
+    [GlobalSetup]
+    public void Setup() => _chunks = PieceTreeBenchmarkData.GenerateChunks(1024 * 1024);
+
+    [IterationSetup]
+    public void IterationSetup()
+    {
+        var buffers = new List<StringBuffer>(_chunks.Count);
+        foreach (string chunk in _chunks)
+        {
+            buffers.Add(new StringBuffer(chunk, LineStarts.CreateFast(chunk)));
+        }
+
+        _tree = new PieceTreeBase(buffers, "\n", true);
+    }
+
+    [Benchmark]
+    public int DirectRandomEdits10K()
+    {
+        var random = new Random(PieceTreeBenchmarkData.Seed);
+        for (int i = 0; i < EditCount; i++)
+        {
+            int length = _tree.GetLength();
+            int count = random.Next(1, 11);
+            int offset = random.Next(0, length);
+            if (random.Next(2) == 0)
+            {
+                var chars = new char[count];
+                for (int c = 0; c < count; c++)
+                {
+                    chars[c] = InsertAlphabet[random.Next(InsertAlphabet.Length)];
+                }
+
+                _tree.Insert(offset, new string(chars), true);
+            }
+            else
+            {
+                _tree.Delete(offset, Math.Min(length - offset, count));
+            }
+        }
+
+        return _tree.GetLength();
+    }
+
+    [Benchmark]
+    public int DirectTypeAtEnd10K()
+    {
+        for (int i = 0; i < EditCount; i++)
+        {
+            _tree.Insert(_tree.GetLength(), "x", true);
+        }
+
+        return _tree.GetLength();
+    }
+}
+
 /// <summary>Reading from a 100 MB buffer.</summary>
 [MemoryDiagnoser]
 public class PieceTreeReadBenchmarks
