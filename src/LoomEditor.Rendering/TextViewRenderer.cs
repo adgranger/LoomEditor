@@ -52,6 +52,11 @@ internal sealed partial class TextViewRenderer : IDisposable
     /// <summary>The colors to use.</summary>
     public EditorTheme Theme { get; set; } = EditorTheme.Dark;
 
+    /// <summary>
+    /// Width of the caret in DIPs; 0 means the default of 2. Monaco: the <c>cursorWidth</c> editor option (default 0).
+    /// </summary>
+    public int CursorWidth { get; set; }
+
     /// <summary>Forgets the widest line seen so far. Monaco: <c>this._maxLineWidth = 0</c>.</summary>
     public void ResetMaxLineWidth() => _maxLineWidth = 0;
 
@@ -60,7 +65,8 @@ internal sealed partial class TextViewRenderer : IDisposable
     /// <param name="viewModel">The view to draw.</param>
     /// <param name="selection">The selection to show.</param>
     /// <param name="hasFocus">Whether the editor has the keyboard focus.</param>
-    public void Render(IRenderSurface surface, ViewModel viewModel, Selection selection, bool hasFocus)
+    /// <param name="cursorVisible">Whether the blinking caret is in its visible phase (see <see cref="CursorBlinking"/>).</param>
+    public void Render(IRenderSurface surface, ViewModel viewModel, Selection selection, bool hasFocus, bool cursorVisible)
     {
         ArgumentNullException.ThrowIfNull(surface);
         ArgumentNullException.ThrowIfNull(viewModel);
@@ -133,6 +139,17 @@ internal sealed partial class TextViewRenderer : IDisposable
             }
         }
 
+        if (hasFocus && cursorVisible)
+        {
+            int caretIndex = selection.PositionLineNumber - data.StartLineNumber;
+            if (caretIndex >= 0 && caretIndex < lineCount)
+            {
+                DrawCaret(
+                    surface, selection, layouts[caretIndex], layoutInfo, scrollLeft,
+                    data.RelativeVerticalOffset[caretIndex] - topShift, font);
+            }
+        }
+
         // The gutter hides the text that is scrolled under it.
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
         DrawGutter(surface, data, layoutInfo, selection, hasFocus, topShift, font);
@@ -158,6 +175,34 @@ internal sealed partial class TextViewRenderer : IDisposable
             _maxLineWidth = lineWidth;
             viewModel.ViewLayout.SetMaxLineWidth(_maxLineWidth);
         }
+    }
+
+    // Monaco: `ViewCursor._prepareRender` for `TextEditorCursorStyle.Line`.
+    private void DrawCaret(
+        IRenderSurface surface, Selection selection, ILineLayout layout, EditorLayoutInfo layoutInfo,
+        double scrollLeft, float top, FontInfo font)
+    {
+        int offset = selection.PositionColumn - 1;
+        if (offset > layout.Text.Length)
+        {
+            // The layout of a very long line is cut: the caret is outside of the rendered line.
+            return;
+        }
+
+        double lineCursorWidth = Math.Min(CursorWidth, font.TypicalHalfwidthCharacterWidth);
+        // Monaco: `dom.computeScreenAwareSize`.
+        double requested = lineCursorWidth > 0 ? lineCursorWidth : 2;
+        double width = Math.Max(1, Math.Floor(requested * font.PixelRatio)) / font.PixelRatio;
+
+        double left = layout.GetCharacterX(offset) - scrollLeft;
+        if (width >= 2 && left >= 1)
+        {
+            // Shift the caret a bit between the characters.
+            left -= 1;
+        }
+
+        surface.FillRectangle(
+            (float)(layoutInfo.ContentLeft + left), top, (float)width, font.LineHeight, Theme.CursorForeground);
     }
 
     private void DrawSelection(

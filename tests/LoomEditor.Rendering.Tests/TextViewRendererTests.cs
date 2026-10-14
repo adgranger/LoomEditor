@@ -104,8 +104,8 @@ public class TextViewRendererTests
 
         RecordingRenderSurface surface = harness.Render(Selection.Collapsed(new Position(1, 2)));
 
-        // The only rectangle is the gutter background.
-        Assert.Single(surface.Calls.OfType<FillRectangleCall>());
+        // The other rectangles are the gutter background and the caret: none has the selection color.
+        Assert.DoesNotContain(surface.Calls.OfType<FillRectangleCall>(), call => call.Color == harness.Renderer.Theme.SelectionBackground);
     }
 
     [Fact]

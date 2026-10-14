@@ -1,6 +1,6 @@
 # P2-16 — Caret: drawing and blinking logic
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-15
 - **Size:** S
 
@@ -50,19 +50,19 @@ restarting visible after each change. The WinUI timer that drives it comes in P2
 
 ## Tests
 
-- [ ] New: unfocused → `IsVisible == false`, `NeedsTimer == false`; focused → visible and `NeedsTimer == true`
-- [ ] New: `Tick` toggles; `Reset` after a tick makes it visible again
-- [ ] New: `Update(hasFocus: true, readOnly: true)` → visible, `NeedsTimer == false` (solid)
-- [ ] New: renderer draws a 2-wide caret rectangle at `GetCharacterX(column - 1) - 1` (column > 1) with `CursorForeground`;
+- [x] New: unfocused → `IsVisible == false`, `NeedsTimer == false`; focused → visible and `NeedsTimer == true`
+- [x] New: `Tick` toggles; `Reset` after a tick makes it visible again
+- [x] New: `Update(hasFocus: true, readOnly: true)` → visible, `NeedsTimer == false` (solid)
+- [x] New: renderer draws a 2-wide caret rectangle at `GetCharacterX(column - 1) - 1` (column > 1) with `CursorForeground`;
       at column 1 there is no shift; at pixel ratio 1.25 the width is `Math.Floor(2.5) / 1.25 = 1.6`
-- [ ] New: no caret when `cursorVisible == false` or when the caret line is scrolled out
+- [x] New: no caret when `cursorVisible == false` or when the caret line is scrolled out
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `viewCursors.ts` (blinking logic) and `viewCursor.ts` (line style) → adapted; behavior difference for CSS-animated styles
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `viewCursors.ts` (blinking logic) and `viewCursor.ts` (line style) → adapted; behavior difference for CSS-animated styles
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

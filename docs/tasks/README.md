@@ -124,7 +124,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 | [P2-13](phase-2/P2-13-line-layout-cache.md) | Line layout cache and very long lines | P2-12 | done |
 | [P2-14](phase-2/P2-14-viewport-renderer.md) | Draw the viewport: visible lines, scroll offsets, selection | P2-13 | done |
 | [P2-15](phase-2/P2-15-gutter-and-line-highlight.md) | Gutter: line numbers, active line number, current line highlight | P2-14 | done |
-| [P2-16](phase-2/P2-16-caret.md) | Caret: drawing and blinking logic | P2-15 | todo |
+| [P2-16](phase-2/P2-16-caret.md) | Caret: drawing and blinking logic | P2-15 | done |
 
 ### Step D — The control (`LoomEditor.WinUI`)
 

@@ -8,10 +8,10 @@ namespace LoomEditor.Rendering.Tests.TestHelpers;
 /// <remarks>Threading: not thread-safe; one test, one thread.</remarks>
 internal sealed class ViewHarness : IDisposable
 {
-    public ViewHarness(string text, int width = 500, int height = 200)
+    public ViewHarness(string text, int width = 500, int height = 200, double pixelRatio = 1)
     {
         Model = new TextModel(text);
-        Measurer = new FakeTextMeasurer();
+        Measurer = new FakeTextMeasurer(pixelRatio);
         ViewModel = new ViewModel(
             Model,
             Measurer.FontInfo,
@@ -33,10 +33,10 @@ internal sealed class ViewHarness : IDisposable
 
     public EditorLayoutInfo LayoutInfo => ViewModel.LayoutInfo;
 
-    public RecordingRenderSurface Render(Selection? selection = null, bool hasFocus = true)
+    public RecordingRenderSurface Render(Selection? selection = null, bool hasFocus = true, bool cursorVisible = true)
     {
         var surface = new RecordingRenderSurface();
-        Renderer.Render(surface, ViewModel, selection ?? Selection.Collapsed(new Position(1, 1)), hasFocus);
+        Renderer.Render(surface, ViewModel, selection ?? Selection.Collapsed(new Position(1, 1)), hasFocus, cursorVisible);
         return surface;
     }
 
