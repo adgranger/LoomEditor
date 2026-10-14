@@ -79,7 +79,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
-| `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ⏳ phase 1 — see docs/tasks |
+| `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ✅ ported (phase 1), except search (phase 5) |
 | `editor/common/model/pieceTreeTextBuffer/rbTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/RedBlackTree*.cs`, `TreeNode.cs`, `NodeColor.cs` | ✅ ported (P1-03; `rbInsertLeft/Right` and `NodePosition` from `pieceTreeBase.ts`) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ✅ ported (P1-01, P1-05 to P1-08, P1-14, tests P1-10 to P1-15) except search (`findMatchesInNode`…), which comes in phase 5 |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBufferBuilder.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBufferBuilder.cs`, `PieceTreeTextBufferFactory.cs` | ✅ ported (P1-09) |
@@ -91,21 +91,39 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/test/common/model/linesTextBuffer/linesTextBufferBuilder.test.ts` | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferBuilderTests.cs` | ✅ all tests ported |
 | `editor/common/textModelEvents.ts` (`ModelRaw*`, `RawContentChangedType`, `ModelRawContentChangedEvent`) | `LoomEditor.Core/Model/Events/` | ✅ ported (P1-23; no injected text, `resultingSelection`, `merge`); undo, redo, `PushEditOperations`, `PushEol` (P1-27) |
 | `editor/test/common/model/model.test.ts` (suites `Model`, `Model Line Separators`) | `tests/LoomEditor.Core.Tests/Model/ModelTests.cs`, `ModelLineSeparatorsTests.cs` | ✅ ported (suite `Words`: phase 5) |
-| `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | 🚧 in progress: read API (P1-20), position/range validation (P1-21), edits, `SetValue`, `SetEol` and `ContentChanged` (P1-22), raw line-level events `RawContentChanged` (P1-23), snapshots `CreateSnapshot` and `FromSnapshot` (P1-28); no decorations or edit sources; `GetLineMinColumn` validates its line number (Monaco does not); `ValidatePosition`/`ValidateRange` also have `int` overloads (Monaco passes 0 or negative values) |
+| `editor/common/model/textModel.ts` | `LoomEditor.Core/Model/TextModel.cs` | ✅ ported (phase 1): read API (P1-20), position/range validation (P1-21), edits, `SetValue`, `SetEol` and `ContentChanged` (P1-22), raw line-level events `RawContentChanged` (P1-23), snapshots `CreateSnapshot` and `FromSnapshot` (P1-28); no decorations or edit sources; `GetLineMinColumn` validates its line number (Monaco does not); `ValidatePosition`/`ValidateRange` also have `int` overloads (Monaco passes 0 or negative values) |
 | `editor/common/core/textChange.ts` | `LoomEditor.Core/Undo/TextChange.cs`, `TextChangeCompressor.cs` | ✅ ported (P1-26) except binary serialization |
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` (`SingleModelEditStackData`, `SingleModelEditStackElement`, `EditStack`, `UndoRedoStack`) | ✅ ported (P1-27), data form only: no `serialize`/`deserialize`, no `MultiModelEditStackElement`; `editStack.test.ts` (binary serialization) not applicable |
-| `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 1–2 |
+| `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 2+ |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
 | `editor/common/viewModel/*` | `LoomEditor.View/Layout/` | ⏳ phase 2 / 6 |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
 
-## Plan: phase 1 (piece tree and text model)
+## Monaco tests ported in phase 1
 
-The step-by-step plan is in **[docs/tasks/](tasks/README.md)**: 30 small task cards (P1-01 … P1-30), each with the
-exact Monaco lines to port, the files to create, the design decisions and the tests.
+Counted at the pinned commit by test name (`test(...)` / `it(...)` in the Monaco file; a `// Monaco: '<name>'` comment
+marks each ported test). "Ported" includes tests adapted to C# types.
 
-Summary of the main design decisions taken there:
+| Monaco test file (suite) | Ported / total | Not ported, and why |
+|---|---|---|
+| `core/range.test.ts` | 9 / 9 | |
+| `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
+| `linesTextBuffer.test.ts` | 29 / 29 | |
+| `linesTextBufferBuilder.test.ts` | 12 / 12 | |
+| `model.test.ts` (`Model`, `Model Line Separators`) | 29 / 29 | |
+| `model.test.ts` (`Words`) | 0 / 3 | word helpers: phases 4–5 |
+| `editableTextModel.test.ts` | 62 / 62 | |
+| `editableTextModelAuto.test.ts` | 4 / 4 | the disabled `GENERATE_TESTS` loop is ported as a helper |
+| `textModel.test.ts` (`TextModel.mightContainRTL`, `createSnapshot`, `TextModelData.fromString`) | 14 / 14 | |
+| `textModel.test.ts` (`Editor Model - TextModel`) | 14 / 26 | indentation guessing and `normalizeIndentation` (10), `issue #168836` indent size option (1), `does not use events internally` (1): phases 4–5. The 3 NaN / float `validatePosition` / `validateRange` tests are adapted to `int` inside the validation tests |
+| `model.line.test.ts` | 0 / 53 | `ModelLine` tokens and `getIndentLevel`: phase 4 (tokenization) |
+| `textChange.test.ts` | 0 / 10 | **gap**: card P1-26 wrongly said Monaco has no test file for `textChange.ts`. LoomEditor has its own `TextChange*Tests` instead; porting these 10 tests (9 `TextChangeCompressor`, 1 `issue #118041`) is a follow-up |
+| `editStack.test.ts` | 0 / 1 | tests binary serialization, which is not ported |
+
+## Done in phase 1 (piece tree and text model)
+
+The step-by-step cards are in **[docs/tasks/](tasks/README.md)** (P1-01 … P1-32). Main design decisions:
 
 - `PieceTreeBase` is split into `partial` files by concern (`.Lines`, `.Positions`, `.Insert`, `.Delete`, `.Crlf`,
   `.Snapshot`, `.Eol`) and **owns** a `RedBlackTree` (composition) instead of mixing tree and text code.

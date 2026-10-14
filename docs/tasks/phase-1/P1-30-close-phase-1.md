@@ -1,6 +1,6 @@
 # P1-30 — Close phase 1
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all other phase 1 cards
 - **Size:** S (docs only)
 
@@ -22,10 +22,10 @@ Make sure the documentation tells the truth about phase 1, and that phase 1's "d
 
 ## Checks
 
-- [ ] Count the ported Monaco tests per file and write the table in `docs/PORTING.md` (file, ported / total, reason for the ones not ported)
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] Count the ported Monaco tests per file and write the table in `docs/PORTING.md` (file, ported / total, reason for the ones not ported)
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
 
 ## Out of scope
 

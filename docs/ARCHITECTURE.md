@@ -81,6 +81,9 @@ Step-by-step guide: [how-to/add-a-feature.md](how-to/add-a-feature.md).
 | I want to… | Go to |
 |---|---|
 | change how text is stored or edited | `src/LoomEditor.Core/Model/` |
+| change the text model (lines, EOL, edits, events) | `src/LoomEditor.Core/Model/` (`TextModel*.cs`) |
+| change undo / redo | `src/LoomEditor.Core/Undo/` |
+| change the piece tree (text storage) | `src/LoomEditor.Core/Model/PieceTree/` |
 | change a value type (`Range`…) | `src/LoomEditor.Core/Text/` |
 | add or fix an editor feature | `src/LoomEditor.View/Features/<Name>/` |
 | add a command or shortcut | the feature's `<Name>Commands.cs`; shortcuts in `src/LoomEditor.WinUI/Input/` (phase 3: `View/Commands/DefaultKeybindings.cs`) |

@@ -9,7 +9,8 @@
 - **Easy to maintain**: one feature = one folder, explicit registration, architecture rules checked by tests.
 - **MIT licensed.**
 
-> **Status: phase 0 (pre-alpha).** The control displays read-only text with line numbers, and Ctrl+A selects all.
+> **Status: phase 1 done, phase 2 next (pre-alpha).** The text model (piece tree, edits, undo/redo, events) is ported and
+> tested, but the control still displays read-only text with line numbers, and Ctrl+A selects all.
 > Not usable for real editing yet. See the roadmap below.
 
 ## Usage (target API)
@@ -56,9 +57,9 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64  # Native AOT bu
 
 | Phase | Content | Done when |
 |---|---|---|
-| **0** | Skeleton, docs, CI, AOT smoke test | CI green, AOT Gallery starts ← **we are here** |
-| 1 | Text model: piece tree, positions, EOL, undo/redo | Monaco model tests ported and green |
-| 2 | Rendering: plain text, virtualized viewport, gutter, caret, scrolling | A 100 MB file is fluid |
+| 0 | Skeleton, docs, CI, AOT smoke test | CI green, AOT Gallery starts ✅ |
+| 1 | Text model: piece tree, positions, EOL, undo/redo | Monaco model tests ported and green ✅ |
+| **2** | Rendering: plain text, virtualized viewport, gutter, caret, scrolling | A 100 MB file is fluid ← **we are here** |
 | 3 | Editing: selection, multi-cursor, keyboard, mouse, clipboard, IME | Japanese/Chinese IME input works |
 | 4 | TextMate grammars + VS Code themes | Golden tests green for 10 languages |
 | 5 | Features: find/replace, folding, brackets, auto-indent, comment | One feature = one documented folder |

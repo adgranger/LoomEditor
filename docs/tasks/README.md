@@ -74,7 +74,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`.
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P1-29](phase-1/P1-29-use-text-model-in-view.md) | `IEditorContext.Model` replaces `Lines` | P1-27, P1-28 | done |
-| [P1-30](phase-1/P1-30-close-phase-1.md) | Close phase 1 (docs, porting map, roadmap) | all | todo |
+| [P1-30](phase-1/P1-30-close-phase-1.md) | Close phase 1 (docs, porting map, roadmap) | all | done |
 
 ### Follow-ups found while working on the cards
 
