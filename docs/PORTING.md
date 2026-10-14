@@ -107,7 +107,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/config/fontInfo.ts` | `LoomEditor.View/Layout/` (`BareFontInfo`, `FontInfo`) | ✅ ported (P2-06), subset: no font feature/variation settings, no editor zoom, no serialization; Windows constants; records |
 | `editor/browser/config/fontMeasurements.ts` | `LoomEditor.View/Layout/` (`FontMeasurements`, `ICharacterWidthReader`) | ✅ adapted (P2-06), measurement logic only; no cache, so the "re-measure when width <= 2" retry is not ported (clamp to 5 only); DirectWrite reader in P2-12 |
 | `editor/common/config/editorOptions.ts` | `LoomEditor.View/Layout/` (`EditorLayoutInfo`, `OverviewRulerPosition`, `EditorLayoutInfoComputer`, `EditorLayoutInfoComputerEnv`, `EditorLayoutOptions`) | ✅ ported (P2-07), `computeLayout` subset: no minimap, word wrap or accessibility parts; rest of the file (options system) not ported |
-| `editor/common/viewModel/*` | `LoomEditor.View/Layout/` | ⏳ phase 2 / 6 |
+| `editor/common/viewModel/viewModelImpl.ts` | `LoomEditor.View/Layout/` (`ViewModel`) | 🔶 in progress (P2-10): layout part only, identity line mapping (view lines = model lines); projections, view events, cursors in phase 3 / 6 |
+| `editor/common/viewLayout/viewLinesViewportData.ts` | `LoomEditor.View/Layout/` (`ViewportData`) | 🔶 in progress (P2-10): fields and constructor only; no rendering data, wrapped-line or decoration queries |
+| `editor/common/viewModel/*` (the rest) | `LoomEditor.View/Layout/` | ⏳ phase 6 |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
 

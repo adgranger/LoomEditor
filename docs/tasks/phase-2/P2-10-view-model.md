@@ -1,6 +1,6 @@
 # P2-10 — `ViewModel` (phase 2 subset) and `ViewportData`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-09
 - **Size:** M
 
@@ -56,18 +56,18 @@ selection and the visible range. In phase 2, view lines are model lines (ADR 000
 
 ## Tests
 
-- [ ] New: inserting 10 lines through `Model.PushEditOperations` grows `ViewLayout.GetLinesTotalHeight()` by `10 × lineHeight`
-- [ ] New: deleting lines shrinks it; `SetValue` (flush) resets it to the new line count
-- [ ] New: going from 99,999 to 100,000 lines raises `LayoutInfoChanged` and widens `LineNumbersWidth` by one `MaxDigitWidth` (rounded)
-- [ ] New: `SetViewportSize(800, 600)` then scrolling to line 500 → `GetViewportData(...)` starts at line 500, `VisibleRange.StartLineNumber == 500`
-- [ ] New: after `Dispose`, edits to the model no longer reach the layout
+- [x] New: inserting 10 lines through `Model.PushEditOperations` grows `ViewLayout.GetLinesTotalHeight()` by `10 × lineHeight`
+- [x] New: deleting lines shrinks it; `SetValue` (flush) resets it to the new line count
+- [x] New: going from 99,999 to 100,000 lines raises `LayoutInfoChanged` and widens `LineNumbersWidth` by one `MaxDigitWidth` (rounded)
+- [x] New: `SetViewportSize(800, 600)` then scrolling to line 500 → `GetViewportData(...)` starts at line 500, `VisibleRange.StartLineNumber == 500`
+- [x] New: after `Dispose`, edits to the model no longer reach the layout
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `viewModel/viewModelImpl.ts` (layout part only, identity mapping) and `viewLinesViewportData.ts` (in progress, P2-10)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `viewModel/viewModelImpl.ts` (layout part only, identity mapping) and `viewLinesViewportData.ts` (in progress, P2-10)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

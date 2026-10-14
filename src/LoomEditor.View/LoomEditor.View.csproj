@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
     <ProjectReference Include="..\LoomEditor.TextMate\LoomEditor.TextMate.csproj" />
     <ProjectReference Include="..\LoomEditor.Themes\LoomEditor.Themes.csproj" />
