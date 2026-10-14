@@ -1,6 +1,6 @@
 # P2-18 — Control: mouse wheel and smooth scrolling
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-17
 - **Size:** S
 
@@ -47,18 +47,18 @@ scrolls immediately. Animation frames come from `CompositionTarget.Rendering`.
 
 ## Tests
 
-- [ ] Existing tests pass (the wheel arithmetic is tested in P2-09, smooth scrolling in P2-02/P2-08)
+- [x] Existing tests pass (the wheel arithmetic is tested in P2-09, smooth scrolling in P2-02/P2-08)
 - [ ] Manual: one wheel notch scrolls 50 DIPs (~2.6 lines at 19 DIPs); Shift+wheel scrolls horizontally; Alt+wheel scrolls 5× more
 - [ ] Manual: with "Smooth scrolling" on, a physical wheel animates and a touchpad does not
 - [ ] Manual: wheel over the Gallery's buttons does not scroll the editor; wheel at the end of the document is still consumed
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, manual checks done
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `SmoothScrolling` / `SmoothScrollingProperty` added
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings (manual checks: see Tests, to be done by a human)
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `SmoothScrolling` / `SmoothScrollingProperty` added
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

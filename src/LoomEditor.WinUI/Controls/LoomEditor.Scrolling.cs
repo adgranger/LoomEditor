@@ -1,6 +1,8 @@
 using LoomEditor.View.Layout;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -37,6 +39,53 @@ public sealed partial class LoomEditor
             _pendingScrollLeft = value;
             _viewModel?.ViewLayout.SetScrollPosition(new NewScrollPosition(value, null), ScrollType.Immediate);
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnPointerWheelChanged(PointerRoutedEventArgs e)
+    {
+        ArgumentNullException.ThrowIfNull(e);
+        base.OnPointerWheelChanged(e);
+
+        if (_viewModel is null)
+        {
+            return;
+        }
+
+        // Monaco: `StandardWheelEvent` on Windows: one notch (WHEEL_DELTA = 120) is 1, positive = up / left.
+        PointerPoint point = e.GetCurrentPoint(this);
+        double delta = point.Properties.MouseWheelDelta / 120.0;
+        bool isHorizontal = point.Properties.IsHorizontalMouseWheel;
+        var input = new MouseWheelInput(
+            isHorizontal ? -delta : 0,
+            isHorizontal ? 0 : delta,
+            e.KeyModifiers.HasFlag(global::Windows.System.VirtualKeyModifiers.Shift),
+            e.KeyModifiers.HasFlag(global::Windows.System.VirtualKeyModifiers.Menu));
+
+        // Timestamp is in microseconds, Monaco's classifier takes milliseconds.
+        _wheelClassifier.Accept(point.Timestamp / 1000.0, input.DeltaX, input.DeltaY);
+
+        Scrollable scrollable = _viewModel.ViewLayout.GetScrollable();
+        IScrollPosition future = scrollable.GetFutureScrollPosition();
+        bool didScroll = false;
+        NewScrollPosition? desired = MouseWheelScrolling.ComputeScrollPosition(
+            input, new ScrollPosition(future.ScrollLeft, future.ScrollTop), _wheelOptions);
+        if (desired is not null)
+        {
+            IScrollPosition valid = _viewModel.ViewLayout.ValidateScrollPosition(desired.Value);
+            if (valid.ScrollLeft != future.ScrollLeft || valid.ScrollTop != future.ScrollTop)
+            {
+                _viewModel.ViewLayout.SetScrollPosition(
+                    new NewScrollPosition(valid.ScrollLeft, valid.ScrollTop),
+                    MouseWheelScrolling.ShouldScrollSmoothly(_wheelClassifier) ? ScrollType.Smooth : ScrollType.Immediate);
+                didScroll = true;
+            }
+        }
+
+        // Monaco: `alwaysConsumeMouseWheel` is true in the editor, as long as there is a scrollbar to scroll with.
+        e.Handled = didScroll
+            || _verticalScrollBar?.Visibility == Visibility.Visible
+            || _horizontalScrollBar?.Visibility == Visibility.Visible;
     }
 
     private void AttachScrollBars()

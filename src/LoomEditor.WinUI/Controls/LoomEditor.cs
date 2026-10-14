@@ -50,7 +50,14 @@ public sealed partial class LoomEditor : Control
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
         nameof(Text), typeof(string), typeof(LoomEditor), new PropertyMetadata(string.Empty, OnTextChanged));
 
+    /// <summary>Identifies the <see cref="SmoothScrolling"/> dependency property.</summary>
+    public static readonly DependencyProperty SmoothScrollingProperty = DependencyProperty.Register(
+        nameof(SmoothScrolling), typeof(bool), typeof(LoomEditor), new PropertyMetadata(false, OnSmoothScrollingChanged));
+
     private readonly EditorContext _context = new();
+    private readonly AnimationFrameScheduler _frameScheduler = new();
+    private readonly MouseWheelClassifier _wheelClassifier = new();
+    private readonly MouseWheelOptions _wheelOptions = new();
     private TextViewRenderer? _renderer;
     private ViewModel? _viewModel;
     private readonly KeyboardInput _keyboard;
@@ -75,6 +82,13 @@ public sealed partial class LoomEditor : Control
     {
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
+    }
+
+    /// <summary>Whether a physical mouse wheel scrolls with an animation (Monaco: <c>smoothScrolling</c>). Defaults to <c>false</c>.</summary>
+    public bool SmoothScrolling
+    {
+        get => (bool)GetValue(SmoothScrollingProperty);
+        set => SetValue(SmoothScrollingProperty, value);
     }
 
     /// <summary>
@@ -133,6 +147,14 @@ public sealed partial class LoomEditor : Control
         var editor = (LoomEditor)sender;
         editor._context.SetText((string?)e.NewValue ?? string.Empty);
     }
+
+    private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+        var editor = (LoomEditor)sender;
+        editor._viewModel?.SetOptions(new EditorLayoutOptions(), editor.CreateViewLayoutOptions(editor._viewModel.FontInfo.LineHeight));
+    }
+
+    private ViewLayoutOptions CreateViewLayoutOptions(int lineHeight) => new(lineHeight, SmoothScrolling: SmoothScrolling);
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
@@ -201,7 +223,7 @@ public sealed partial class LoomEditor : Control
                 _context.Model,
                 _measurer.FontInfo,
                 new EditorLayoutOptions(),
-                new ViewLayoutOptions(_measurer.FontInfo.LineHeight),
+                CreateViewLayoutOptions(_measurer.FontInfo.LineHeight),
                 ScheduleAtNextAnimationFrame,
                 TimeProvider.System);
             _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
@@ -233,13 +255,7 @@ public sealed partial class LoomEditor : Control
         _canvas?.Invalidate();
     }
 
-    // Smooth scrolling is off until P2-18, which replaces this with a CompositionTarget.Rendering scheduler.
-    private CancelableCallback ScheduleAtNextAnimationFrame(Action callback)
-    {
-        var scheduled = new CancelableCallback(callback);
-        DispatcherQueue.TryEnqueue(scheduled.Run);
-        return scheduled;
-    }
+    private IDisposable ScheduleAtNextAnimationFrame(Action callback) => _frameScheduler.Schedule(callback);
 
     private void DetachCanvas()
     {
@@ -253,14 +269,5 @@ public sealed partial class LoomEditor : Control
         _canvas.SizeChanged -= OnCanvasSizeChanged;
         _canvas = null;
         DetachScrollBars();
-    }
-
-    private sealed class CancelableCallback(Action callback) : IDisposable
-    {
-        private Action? _callback = callback;
-
-        public void Run() => _callback?.Invoke();
-
-        public void Dispose() => _callback = null;
     }
 }
