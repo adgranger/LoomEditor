@@ -66,6 +66,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `TextChange` | Monaco's binary serialization (`write`, `read`, `writeSize`) is not ported | Nothing in LoomEditor persists undo stacks |
 | `UndoRedoStack` | Replaces Monaco's `IUndoRedoService` (workspace-wide undo, groups, snapshots, prompts) with a small per-model stack; `SingleModelEditStackElement` keeps its data as is when closed instead of serializing it | Multi-model undo is out of scope; nothing persists undo stacks |
 | `TextModel.Undo` / `Redo` | Return the cursor state to restore (Monaco returns nothing; the editor reads it from the event); undoing a step that changed text and EOL raises two events, not one merged event; an exception thrown by a `cursorStateComputer` is not caught | Simpler API; no deferred event emitter yet |
+| `EditorLayoutOptions` | `GlyphMargin` and `Folding` default to `false` (Monaco: `true`) | No feature draws a glyph or a folding arrow yet; an empty 16-19 DIP strip would look like a bug. Phases adding breakpoints or folding turn them on |
 
 ## Map: Monaco → LoomEditor
 
@@ -101,6 +102,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/viewLayout/linesLayout.ts` | `LoomEditor.View/Layout/` (`LinesLayout` (+ `.Whitespaces.cs`, `.Changes.cs`, `.Viewport.cs`), `EditorWhitespace`, `IEditorWhitespace`, `IWhitespaceChangeAccessor`, `ILineHeightChangeAccessor`) | ✅ ported (P2-04, P2-05); heights are `int`; `PendingChanges` is a private nested class; `PartialViewLinesViewportData`, `ViewWhitespaceViewportData` and `Viewport` (from `viewModel.ts`) live next to it |
 | `editor/common/config/fontInfo.ts` | `LoomEditor.View/Layout/` (`BareFontInfo`, `FontInfo`) | ✅ ported (P2-06), subset: no font feature/variation settings, no editor zoom, no serialization; Windows constants; records |
 | `editor/browser/config/fontMeasurements.ts` | `LoomEditor.View/Layout/` (`FontMeasurements`, `ICharacterWidthReader`) | ✅ adapted (P2-06), measurement logic only; no cache, so the "re-measure when width <= 2" retry is not ported (clamp to 5 only); DirectWrite reader in P2-12 |
+| `editor/common/config/editorOptions.ts` | `LoomEditor.View/Layout/` (`EditorLayoutInfo`, `OverviewRulerPosition`, `EditorLayoutInfoComputer`, `EditorLayoutInfoComputerEnv`, `EditorLayoutOptions`) | ✅ ported (P2-07), `computeLayout` subset: no minimap, word wrap or accessibility parts; rest of the file (options system) not ported |
 | `editor/common/viewModel/*` | `LoomEditor.View/Layout/` | ⏳ phase 2 / 6 |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
