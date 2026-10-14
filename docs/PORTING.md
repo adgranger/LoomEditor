@@ -96,7 +96,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/editStack.ts` | `LoomEditor.Core/Undo/` (`SingleModelEditStackData`, `SingleModelEditStackElement`, `EditStack`, `UndoRedoStack`) | ✅ ported (P1-27), data form only: no `serialize`/`deserialize`, no `MultiModelEditStackElement`; `editStack.test.ts` (binary serialization) not applicable |
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 2+ |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
-| `base/common/scrollable.ts` | `LoomEditor.View/Layout/` | ⏳ in progress (P2-01: `ScrollState`, `ScrollEvent`, `ScrollbarVisibility`, scroll value types) |
+| `base/common/scrollable.ts` | `LoomEditor.View/Layout/` (`ScrollState`, `ScrollEvent`, `Scrollable`, `SmoothScrollingOperation`, scroll value types) | ✅ ported (P2-01, P2-02); `TimeProvider` replaces `Date.now()`; `ISmoothScrollPosition` extends `IScrollPosition` and `ScrollState` implements it (TypeScript structural typing) |
 | `editor/common/viewModel/*` | `LoomEditor.View/Layout/` | ⏳ phase 2 / 6 |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
@@ -121,6 +121,12 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `model.line.test.ts` | 0 / 53 | `ModelLine` tokens and `getIndentLevel`: phase 4 (tokenization) |
 | `textChange.test.ts` | 0 / 10 | **gap**: card P1-26 wrongly said Monaco has no test file for `textChange.ts`. LoomEditor has its own `TextChange*Tests` instead; porting these 10 tests (9 `TextChangeCompressor`, 1 `issue #118041`) is a follow-up |
 | `editStack.test.ts` | 0 / 1 | tests binary serialization, which is not ported |
+
+## Monaco tests ported in phase 2
+
+| Monaco test file (suite) | Ported / total | Not ported, and why |
+|---|---|---|
+| `base/test/common/scrollable.test.ts` (`SmoothScrollingOperation`) | 5 / 5 | |
 
 ## Done in phase 1 (piece tree and text model)
 

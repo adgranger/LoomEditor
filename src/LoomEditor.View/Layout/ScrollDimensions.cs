@@ -27,12 +27,8 @@ internal interface IScrollPosition
 
 /// <summary>A scroll position plus the viewport size. Monaco: <c>ISmoothScrollPosition</c>.</summary>
 /// <remarks>Threading: read-only view, thread-safety is that of the implementation.</remarks>
-internal interface ISmoothScrollPosition
+internal interface ISmoothScrollPosition : IScrollPosition
 {
-    double ScrollLeft { get; }
-
-    double ScrollTop { get; }
-
     double Width { get; }
 
     double Height { get; }

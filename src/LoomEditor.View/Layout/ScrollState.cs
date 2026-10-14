@@ -11,7 +11,7 @@ namespace LoomEditor.View.Layout;
 /// Threading: immutable, safe from any thread. Not a record on purpose: <see cref="Equals(ScrollState)"/> compares the
 /// raw positions but not the integer-forcing flag.
 /// </remarks>
-internal sealed class ScrollState : IScrollDimensions, IScrollPosition
+internal sealed class ScrollState : IScrollDimensions, IScrollPosition, ISmoothScrollPosition
 {
     private readonly bool _forceIntegerValues;
 
