@@ -112,7 +112,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 | [P2-06](phase-2/P2-06-font-info.md) | `FontInfo` and font measurements | P2-05 | done |
 | [P2-07](phase-2/P2-07-editor-layout-info.md) | `EditorLayoutInfo` (gutter and content area) | P2-06 | done |
 | [P2-08](phase-2/P2-08-view-layout.md) | `ViewLayout`: scroll dimensions of the editor | P2-07 | done |
-| [P2-09](phase-2/P2-09-mouse-wheel.md) | Mouse wheel: `MouseWheelClassifier` and wheel → scroll position | P2-08 | todo |
+| [P2-09](phase-2/P2-09-mouse-wheel.md) | Mouse wheel: `MouseWheelClassifier` and wheel → scroll position | P2-08 | done |
 | [P2-10](phase-2/P2-10-view-model.md) | `ViewModel` (phase 2 subset) and `ViewportData` | P2-09 | todo |
 
 ### Step C — Rendering (`LoomEditor.Rendering`)

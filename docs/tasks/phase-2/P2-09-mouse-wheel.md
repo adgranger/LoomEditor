@@ -1,6 +1,6 @@
 # P2-09 — Mouse wheel: `MouseWheelClassifier` and wheel → scroll position
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-08
 - **Size:** M
 
@@ -47,20 +47,20 @@ into WinUI's `PointerWheelChanged`.
 
 ## Tests
 
-- [ ] Port: `MouseWheelClassifier` › `OSX - Apple Magic Mouse`, `OSX - Apple Touch Pad`, `OSX - Razer Physical Mouse Wheel`,
+- [x] Port: `MouseWheelClassifier` › `OSX - Apple Magic Mouse`, `OSX - Apple Touch Pad`, `OSX - Razer Physical Mouse Wheel`,
       `Windows - Microsoft Arc Touch`, `Windows - SurfaceBook TouchPad`, `Windows - Razer physical wheel`,
       `Windows - Logitech physical wheel`, `Windows - Microsoft basic v2 physical wheel`, `Linux Wayland - Logitech G Pro Wireless`
       (the data arrays are long: keep them as `static readonly double[][]` fields, one per test)
-- [ ] New: one notch down (`DeltaY = -1`) from scrollTop 0 → scrollTop 50; Alt → 250; Shift → scrollLeft 50, scrollTop unchanged
-- [ ] New: `DeltaY = 0.003` from scrollTop 100 → 99 (`50 × 0.003 = 0.15` is rounded up to 1: a tiny delta still moves)
-- [ ] New: predominant axis: `(DeltaX 0.2, DeltaY -1)` scrolls vertically only
+- [x] New: one notch down (`DeltaY = -1`) from scrollTop 0 → scrollTop 50; Alt → 250; Shift → scrollLeft 50, scrollTop unchanged
+- [x] New: `DeltaY = 0.003` from scrollTop 100 → 99 (`50 × 0.003 = 0.15` is rounded up to 1: a tiny delta still moves)
+- [x] New: predominant axis: `(DeltaX 0.2, DeltaY -1)` scrolls vertically only
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map entry `base/browser/ui/scrollbar/scrollableElement.ts` (classifier + wheel arithmetic only), `scrollableElement.test.ts` 9 / 9, behavior difference (one classifier per editor)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map entry `base/browser/ui/scrollbar/scrollableElement.ts` (classifier + wheel arithmetic only), `scrollableElement.test.ts` 9 / 9, behavior difference (one classifier per editor)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

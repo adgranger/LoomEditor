@@ -66,6 +66,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `TextChange` | Monaco's binary serialization (`write`, `read`, `writeSize`) is not ported | Nothing in LoomEditor persists undo stacks |
 | `UndoRedoStack` | Replaces Monaco's `IUndoRedoService` (workspace-wide undo, groups, snapshots, prompts) with a small per-model stack; `SingleModelEditStackElement` keeps its data as is when closed instead of serializing it | Multi-model undo is out of scope; nothing persists undo stacks |
 | `TextModel.Undo` / `Redo` | Return the cursor state to restore (Monaco returns nothing; the editor reads it from the event); undoing a step that changed text and EOL raises two events, not one merged event; an exception thrown by a `cursorStateComputer` is not caught | Simpler API; no deferred event emitter yet |
+| `MouseWheelClassifier` | One instance per editor instead of Monaco's global `INSTANCE`; no `acceptStandardWheelEvent` (DOM event) | Two editors must not share their wheel history |
+| `MouseWheelScrolling` | The wheel arithmetic of `_onMouseWheel` is a pure function that does not validate the position; no inertial scrolling, `scrollYToX` or `flipAxes` | Testable without a `ViewLayout`; the caller validates and compares with the future position |
 | `EditorLayoutOptions` | `GlyphMargin` and `Folding` default to `false` (Monaco: `true`) | No feature draws a glyph or a folding arrow yet; an empty 16-19 DIP strip would look like a bug. Phases adding breakpoints or folding turn them on |
 
 ## Map: Monaco → LoomEditor
@@ -100,6 +102,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `base/common/scrollable.ts` | `LoomEditor.View/Layout/` (`ScrollState`, `ScrollEvent`, `Scrollable`, `SmoothScrollingOperation`, scroll value types) | ✅ ported (P2-01, P2-02); `TimeProvider` replaces `Date.now()`; `ISmoothScrollPosition` extends `IScrollPosition` and `ScrollState` implements it (TypeScript structural typing) |
 | `editor/common/viewLayout/lineHeights.ts` | `LoomEditor.View/Layout/` (`LineHeightsManager` (+ `.Changes.cs`), `CustomLine`, `CustomLineHeightData`) | ✅ ported (P2-03) without `CustomLineHeightData.fromDecorations` (no decorations yet); heights are `int`; `PendingChange` is an abstract record; `ArrayMap` is a private nested class |
 | `editor/common/viewLayout/linesLayout.ts` | `LoomEditor.View/Layout/` (`LinesLayout` (+ `.Whitespaces.cs`, `.Changes.cs`, `.Viewport.cs`), `EditorWhitespace`, `IEditorWhitespace`, `IWhitespaceChangeAccessor`, `ILineHeightChangeAccessor`) | ✅ ported (P2-04, P2-05); heights are `int`; `PendingChanges` is a private nested class; `PartialViewLinesViewportData`, `ViewWhitespaceViewportData` and `Viewport` (from `viewModel.ts`) live next to it |
+| `base/browser/ui/scrollbar/scrollableElement.ts` | `LoomEditor.View/Layout/` (`MouseWheelClassifier`, `MouseWheelScrolling`, `MouseWheelInput`, `MouseWheelOptions`) | ✅ adapted (P2-09), classifier and wheel arithmetic only; scrollbar drawing is XAML (ADR 0005) |
 | `editor/common/viewLayout/viewLayout.ts` | `LoomEditor.View/Layout/` (`ViewLayout` (+ `.Scrollable.cs`: `EditorScrollDimensions`, `EditorScrollable`), `ViewLayoutOptions`, `ViewLayoutState`, `ScrollType`, `ContentSizeChangedEventArgs`) | ✅ ported (P2-08); no word-wrap branch in the content width, explicit options instead of `IEditorConfiguration` (`onConfigurationChanged` → `OnOptionsChanged`, `OnLayoutInfoChanged`, `OnFontInfoChanged`); `ContentSizeChangedEvent.attemptToMerge` not ported |
 | `editor/common/config/fontInfo.ts` | `LoomEditor.View/Layout/` (`BareFontInfo`, `FontInfo`) | ✅ ported (P2-06), subset: no font feature/variation settings, no editor zoom, no serialization; Windows constants; records |
 | `editor/browser/config/fontMeasurements.ts` | `LoomEditor.View/Layout/` (`FontMeasurements`, `ICharacterWidthReader`) | ✅ adapted (P2-06), measurement logic only; no cache, so the "re-measure when width <= 2" retry is not ported (clamp to 5 only); DirectWrite reader in P2-12 |
@@ -136,6 +139,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `base/test/common/scrollable.test.ts` (`SmoothScrollingOperation`) | 5 / 5 | |
 | `editor/test/common/viewLayout/lineHeights.test.ts` (`LineHeightsManager`, `LineHeightsManager (auto-commit on read)`) | 38 / 38 | |
 | `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 12 / 12 | |
+| `base/test/browser/ui/scrollbar/scrollableElement.test.ts` (`MouseWheelClassifier`) | 9 / 9 | |
 
 ## Done in phase 1 (piece tree and text model)
 
