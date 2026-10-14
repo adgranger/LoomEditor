@@ -90,6 +90,65 @@ phase 5 with the Find feature; indentation guessing and options, word helpers an
 "guess indentation" / "normalizeIndentation", `model.test.ts` "Words", `model.line.test.ts`) go to phases 4–5;
 decorations and injected text go to phase 2+.
 
+## Phase 2 — Rendering
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [ADR 0005](../adr/0005-viewport-rendering.md)
+(viewport-sized canvas, Monaco's scrolling classes, XAML scrollbars, one DirectWrite layout per line).
+
+### Step A — Scrolling and vertical layout (`LoomEditor.View/Layout/`, ported with their tests)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P2-01](phase-2/P2-01-scroll-state.md) | `ScrollState` and `ScrollEvent` | P1-30 | todo |
+| [P2-02](phase-2/P2-02-scrollable.md) | `Scrollable` and smooth scrolling | P2-01 | todo |
+| [P2-03](phase-2/P2-03-line-heights-manager.md) | `LineHeightsManager` | P2-02 | todo |
+| [P2-04](phase-2/P2-04-lines-layout-1.md) | `LinesLayout` (1/2): vertical offsets and whitespaces | P2-03 | todo |
+| [P2-05](phase-2/P2-05-lines-layout-2.md) | `LinesLayout` (2/2): viewport data | P2-04 | todo |
+
+### Step B — Font, editor layout, view model (`LoomEditor.View/Layout/`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P2-06](phase-2/P2-06-font-info.md) | `FontInfo` and font measurements | P2-05 | todo |
+| [P2-07](phase-2/P2-07-editor-layout-info.md) | `EditorLayoutInfo` (gutter and content area) | P2-06 | todo |
+| [P2-08](phase-2/P2-08-view-layout.md) | `ViewLayout`: scroll dimensions of the editor | P2-07 | todo |
+| [P2-09](phase-2/P2-09-mouse-wheel.md) | Mouse wheel: `MouseWheelClassifier` and wheel → scroll position | P2-08 | todo |
+| [P2-10](phase-2/P2-10-view-model.md) | `ViewModel` (phase 2 subset) and `ViewportData` | P2-09 | todo |
+
+### Step C — Rendering (`LoomEditor.Rendering`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P2-11](phase-2/P2-11-rendering-tests-and-visibility.md) | Rendering test project and internal visibility | P2-10 | todo |
+| [P2-12](phase-2/P2-12-text-measurement.md) | Real text layout: `ITextMeasurer`, `ILineLayout`, DirectWrite | P2-11 | todo |
+| [P2-13](phase-2/P2-13-line-layout-cache.md) | Line layout cache and very long lines | P2-12 | todo |
+| [P2-14](phase-2/P2-14-viewport-renderer.md) | Draw the viewport: visible lines, scroll offsets, selection | P2-13 | todo |
+| [P2-15](phase-2/P2-15-gutter-and-line-highlight.md) | Gutter: line numbers, active line number, current line highlight | P2-14 | todo |
+| [P2-16](phase-2/P2-16-caret.md) | Caret: drawing and blinking logic | P2-15 | todo |
+
+### Step D — The control (`LoomEditor.WinUI`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P2-17](phase-2/P2-17-control-scrollbars.md) | Scrollbars and `ScrollTop` / `ScrollLeft` | P2-16 | todo |
+| [P2-18](phase-2/P2-18-control-mouse-wheel.md) | Mouse wheel and smooth scrolling | P2-17 | todo |
+| [P2-19](phase-2/P2-19-control-caret-and-focus.md) | Caret blinking and focus | P2-18 | todo |
+| [P2-20](phase-2/P2-20-control-font-tabs-dpi.md) | Font, tab size and DPI changes | P2-19 | todo |
+
+### Step E — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P2-21](phase-2/P2-21-gallery-large-file-demo.md) | Gallery: large file, long line, Unicode, scroll test | P2-20 | todo |
+| [P2-22](phase-2/P2-22-scrolling-performance.md) | Scrolling performance: benchmarks and reference numbers | P2-21 | todo |
+| [P2-23](phase-2/P2-23-close-phase-2.md) | Close phase 2 (docs, porting map, roadmap) | all | todo |
+
+Phase 2 cards form a single chain, in table order: each card builds on the one before it.
+
+**Deferred on purpose:** word wrap and view-line projections (`viewModelLines.ts`), whitespace rendering, minimap
+(phase 6); cursor movement, keyboard scrolling, mouse selection, IME (phase 3); decorations and custom line heights
+from decorations; Monaco's custom scrollbars (replaced by XAML `ScrollBar`, ADR 0005).
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
