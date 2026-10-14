@@ -1,5 +1,7 @@
 using LoomEditor.Rendering;
 using LoomEditor.Rendering.Win2D;
+using LoomEditor.Core.Model.Events;
+using LoomEditor.View.Layout;
 using LoomEditor.View.Features;
 using LoomEditor.WinUI.Accessibility;
 using LoomEditor.WinUI.Input;
@@ -46,7 +48,8 @@ public sealed partial class LoomEditor : Control
         nameof(Text), typeof(string), typeof(LoomEditor), new PropertyMetadata(string.Empty, OnTextChanged));
 
     private readonly EditorContext _context = new();
-    private readonly TextViewRenderer _renderer = new();
+    private TextViewRenderer? _renderer;
+    private ViewModel? _viewModel;
     private readonly KeyboardInput _keyboard;
     private EditorFeatureHost? _featureHost;
     private CanvasControl? _canvas;
@@ -59,6 +62,7 @@ public sealed partial class LoomEditor : Control
         _keyboard = new KeyboardInput(_context.Commands);
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
+        _context.Model.RawContentChanged += OnModelRawContentChanged;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
@@ -93,6 +97,7 @@ public sealed partial class LoomEditor : Control
             ?? throw new InvalidOperationException($"The LoomEditor template must contain a CanvasControl named '{CanvasPartName}'.");
         _canvas.CreateResources += OnCanvasCreateResources;
         _canvas.Draw += OnCanvasDraw;
+        _canvas.SizeChanged += OnCanvasSizeChanged;
     }
 
     /// <inheritdoc />
@@ -134,30 +139,94 @@ public sealed partial class LoomEditor : Control
     {
         _featureHost?.Dispose();
         _featureHost = null;
-        _renderer.Dispose();
-        _measurer?.Dispose();
-        _measurer = null;
+        ReleaseResources();
     }
 
     private void OnCanvasCreateResources(CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
     {
         // Called again if the graphics device is lost (e.g. driver update): recreate device-dependent resources.
-        _measurer?.Dispose();
-        _measurer = CreateMeasurer(sender);
+        CreateResources(sender);
     }
 
     private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
     {
-        // The measurer is released when the control is unloaded; recreate it if the control comes back.
-        _measurer ??= CreateMeasurer(sender);
+        // The resources are released when the control is unloaded; recreate them if the control comes back.
+        if (_measurer is null || _renderer is null || _viewModel is null)
+        {
+            CreateResources(sender);
+        }
 
-        var surface = new Win2DRenderSurface(args.DrawingSession, _measurer);
-        _renderer.Render(surface, _measurer, _context, (float)sender.ActualHeight);
+        var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!);
+        _renderer!.Render(surface, _viewModel!, _context.Selection);
     }
 
-    // Pixel ratio 1: layout is in DIPs; DPI changes are handled in a later card (P2-20).
-    private static Win2DTextMeasurer CreateMeasurer(CanvasControl canvas) =>
-        new(canvas, FontFamilyName, FontSizeInDips, TabSize, pixelRatio: 1);
+    private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        _viewModel?.SetViewportSize((int)e.NewSize.Width, (int)e.NewSize.Height);
+    }
+
+    private void OnModelRawContentChanged(object? sender, ModelRawContentChangedEventArgs e)
+    {
+        // Monaco: `onFlushed` resets the widest line.
+        if (e.Changes.Any(change => change is ModelRawFlush))
+        {
+            _renderer?.ResetMaxLineWidth();
+        }
+    }
+
+    private void OnViewLayoutInfoChanged(object? sender, EventArgs e)
+    {
+        // Monaco: a new layout info resets the widest line.
+        _renderer?.ResetMaxLineWidth();
+        _canvas?.Invalidate();
+    }
+
+    private void CreateResources(CanvasControl canvas)
+    {
+        _renderer?.Dispose();
+        _measurer?.Dispose();
+        // Pixel ratio 1: layout is in DIPs; DPI changes are handled in a later card (P2-20).
+        _measurer = new Win2DTextMeasurer(canvas, FontFamilyName, FontSizeInDips, TabSize, pixelRatio: 1);
+        _renderer = new TextViewRenderer(_measurer);
+
+        if (_viewModel is null)
+        {
+            _viewModel = new ViewModel(
+                _context.Model,
+                _measurer.FontInfo,
+                new EditorLayoutOptions(),
+                new ViewLayoutOptions(_measurer.FontInfo.LineHeight),
+                ScheduleAtNextAnimationFrame,
+                TimeProvider.System);
+            _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
+            _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
+            _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
+        }
+        else
+        {
+            _viewModel.SetFontInfo(_measurer.FontInfo);
+        }
+    }
+
+    private void ReleaseResources()
+    {
+        _viewModel?.Dispose();
+        _viewModel = null;
+        _renderer?.Dispose();
+        _renderer = null;
+        _measurer?.Dispose();
+        _measurer = null;
+    }
+
+    private void OnViewLayoutScroll(object? sender, ScrollEvent e) => _canvas?.Invalidate();
+
+    // Smooth scrolling is off until P2-18, which replaces this with a CompositionTarget.Rendering scheduler.
+    private CancelableCallback ScheduleAtNextAnimationFrame(Action callback)
+    {
+        var scheduled = new CancelableCallback(callback);
+        DispatcherQueue.TryEnqueue(scheduled.Run);
+        return scheduled;
+    }
 
     private void DetachCanvas()
     {
@@ -168,6 +237,16 @@ public sealed partial class LoomEditor : Control
 
         _canvas.CreateResources -= OnCanvasCreateResources;
         _canvas.Draw -= OnCanvasDraw;
+        _canvas.SizeChanged -= OnCanvasSizeChanged;
         _canvas = null;
+    }
+
+    private sealed class CancelableCallback(Action callback) : IDisposable
+    {
+        private Action? _callback = callback;
+
+        public void Run() => _callback?.Invoke();
+
+        public void Dispose() => _callback = null;
     }
 }

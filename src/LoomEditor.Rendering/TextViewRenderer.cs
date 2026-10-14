@@ -2,30 +2,32 @@ using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Themes;
-using LoomEditor.View.Features;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.Rendering;
 
 /// <summary>
-/// Decides what to draw for the text area and the gutter (line numbers), and draws it on an <see cref="IRenderSurface"/>.
+/// Draws the viewport of a <see cref="ViewModel"/> on an <see cref="IRenderSurface"/>: the visible lines at their
+/// offsets relative to the scroll position, the selection, and the gutter.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Plain text, line numbers and the selection; every line is laid out by an <see cref="ITextMeasurer"/> and only the
-/// visible lines are drawn. Scrolling and layout caching come in the next cards.
+/// Coordinates follow ADR 0005, decision 2: vertical offsets are computed in <c>int</c> relative to the viewport
+/// (<c>scrollTop - BigNumbersDelta</c>) before they become <c>float</c>, so a 100 MB document does not lose precision.
+/// Monaco: the lines container offset of <c>viewLines.ts</c>.
 /// </para>
 /// <para>
-/// Line layouts are kept in a <see cref="LineLayoutCache"/>. <see cref="Dispose"/> releases it; the renderer can still
-/// be used afterwards (the cache is created again), e.g. when the control is unloaded and loaded again.
+/// The renderer also reports the widest line it drew to <see cref="ViewLayout.SetMaxLineWidth"/>
+/// (Monaco: <c>_updateLineWidths</c> / <c>_ensureMaxLineWidth</c>). Call <see cref="ResetMaxLineWidth"/> when the
+/// document is flushed, or the font or the layout changes (Monaco resets <c>_maxLineWidth</c> there).
 /// </para>
-/// <para>Threading: UI thread only (it reads the editor context).</para>
+/// <para>
+/// Line layouts are kept in a <see cref="LineLayoutCache"/> owned by the renderer. <see cref="Dispose"/> releases it.
+/// Threading: UI thread only (it reads the view model).
+/// </para>
 /// </remarks>
 internal sealed class TextViewRenderer : IDisposable
 {
-    /// <summary>Gutter padding, in digit widths: 1 before the line numbers, 2 after them.</summary>
-    private const int GutterPaddingInDigits = 3;
-
     /// <summary>
     /// Lines longer than this are cut, and a "Show more" label is drawn after them.
     /// Monaco: the <c>stopRenderingLineAfter</c> editor option (default 10000).
@@ -34,37 +36,55 @@ internal sealed class TextViewRenderer : IDisposable
 
     private const int MinimumCacheCapacity = 256;
 
-    private LineLayoutCache? _cache;
-    private ITextMeasurer? _cacheMeasurer;
+    private readonly ITextMeasurer _measurer;
+    private readonly LineLayoutCache _cache;
+    private int _maxLineWidth;
+
+    /// <summary>Creates a renderer that lays out lines with <paramref name="measurer"/>.</summary>
+    /// <remarks>Create a new renderer when the measurer changes (new font or new graphics device).</remarks>
+    public TextViewRenderer(ITextMeasurer measurer)
+    {
+        ArgumentNullException.ThrowIfNull(measurer);
+
+        _measurer = measurer;
+        _cache = new LineLayoutCache(measurer, MinimumCacheCapacity);
+    }
 
     /// <summary>The colors to use.</summary>
     public EditorTheme Theme { get; set; } = EditorTheme.Dark;
 
-    /// <summary>Draws the visible part of the document.</summary>
+    /// <summary>Forgets the widest line seen so far. Monaco: <c>this._maxLineWidth = 0</c>.</summary>
+    public void ResetMaxLineWidth() => _maxLineWidth = 0;
+
+    /// <summary>Draws the visible part of the document at the current scroll position.</summary>
     /// <param name="surface">Where to draw.</param>
-    /// <param name="measurer">Lays out the lines.</param>
-    /// <param name="context">The editor to draw.</param>
-    /// <param name="viewportHeight">Height of the visible area, in DIPs. Lines below it are skipped.</param>
-    public void Render(IRenderSurface surface, ITextMeasurer measurer, IEditorContext context, float viewportHeight)
+    /// <param name="viewModel">The view to draw.</param>
+    /// <param name="selection">The selection to show.</param>
+    public void Render(IRenderSurface surface, ViewModel viewModel, Selection selection)
     {
         ArgumentNullException.ThrowIfNull(surface);
-        ArgumentNullException.ThrowIfNull(measurer);
-        ArgumentNullException.ThrowIfNull(context);
+        ArgumentNullException.ThrowIfNull(viewModel);
 
-        FontInfo font = measurer.FontInfo;
-        TextModel model = context.Model;
-        int lineCount = model.LineCount;
-        int visibleLineCount = Math.Min(lineCount, (int)Math.Ceiling(viewportHeight / font.LineHeight));
-        float textLeft = GetGutterWidth(lineCount, font);
-        float numbersRight = textLeft - (2 * (float)font.MaxDigitWidth);
+        ViewportData data = viewModel.GetViewportData(selection);
+        EditorLayoutInfo layoutInfo = viewModel.LayoutInfo;
+        FontInfo font = _measurer.FontInfo;
+        TextModel model = viewModel.Model;
 
-        LineLayoutCache cache = GetCache(measurer, visibleLineCount);
+        int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
+        // Two layouts per visible line (number and text), plus the labels of very long lines.
+        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, 4 * lineCount));
 
-        surface.Clear(Theme.Background);
+        // Integer arithmetic first: scrollTop is of the order of the document height, the offsets are small.
+        int scrollTop = (int)viewModel.ViewLayout.GetCurrentScrollTop();
+        double scrollLeft = viewModel.ViewLayout.GetCurrentScrollLeft();
+        int topShift = scrollTop - data.BigNumbersDelta;
 
-        for (int lineNumber = 1; lineNumber <= visibleLineCount; lineNumber++)
+        var layouts = new ILineLayout[lineCount];
+        var labels = new ILineLayout?[lineCount];
+        double widestLine = 1;
+        for (int i = 0; i < lineCount; i++)
         {
-            float lineTop = (lineNumber - 1) * font.LineHeight;
+            int lineNumber = data.StartLineNumber + i;
             int lineLength = model.GetLineLength(lineNumber);
             bool isOverflowing = lineLength > StopRenderingLineAfter;
             // Never read a whole very long line during a frame: only the part that is drawn.
@@ -72,56 +92,71 @@ internal sealed class TextViewRenderer : IDisposable
                 ? model.GetValueInRange(new Range(lineNumber, 1, lineNumber, StopRenderingLineAfter + 1))
                 : model.GetLineContent(lineNumber);
 
-            ILineLayout layout = cache.Get(text);
-            DrawSelection(surface, context.Selection, lineNumber, layout, textLeft, lineTop, font);
-
-            ILineLayout number = cache.Get(lineNumber.ToString(CultureInfo.InvariantCulture));
-            surface.DrawLineLayout(number, numbersRight - (float)number.Width, lineTop, Theme.LineNumberForeground);
-            surface.DrawLineLayout(layout, textLeft, lineTop, Theme.Foreground);
-
+            layouts[i] = _cache.Get(text);
+            double width = layouts[i].Width;
             if (isOverflowing)
             {
-                ILineLayout label = cache.Get(OverflowLabel.Format(lineLength - StopRenderingLineAfter));
-                surface.DrawLineLayout(label, textLeft + (float)layout.Width, lineTop, Theme.LineNumberForeground);
+                labels[i] = _cache.Get(OverflowLabel.Format(lineLength - StopRenderingLineAfter));
+                width += labels[i]!.Width;
+            }
+
+            widestLine = Math.Max(widestLine, width);
+        }
+
+        surface.Clear(Theme.Background);
+        for (int i = 0; i < lineCount; i++)
+        {
+            float top = data.RelativeVerticalOffset[i] - topShift;
+            DrawSelection(surface, selection, data.StartLineNumber + i, layouts[i], layoutInfo, scrollLeft, top, font);
+        }
+
+        for (int i = 0; i < lineCount; i++)
+        {
+            float top = data.RelativeVerticalOffset[i] - topShift;
+            float left = (float)(layoutInfo.ContentLeft - scrollLeft);
+            surface.DrawLineLayout(layouts[i], left, top, Theme.Foreground);
+            if (labels[i] is { } label)
+            {
+                surface.DrawLineLayout(label, (float)(layoutInfo.ContentLeft + layouts[i].Width - scrollLeft), top, Theme.LineNumberForeground);
             }
         }
+
+        // The gutter hides the text that is scrolled under it. Line numbers and the highlight are refined in P2-15.
+        surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
+        for (int i = 0; i < lineCount; i++)
+        {
+            float top = data.RelativeVerticalOffset[i] - topShift;
+            ILineLayout number = _cache.Get((data.StartLineNumber + i).ToString(CultureInfo.InvariantCulture));
+            float x = layoutInfo.LineNumbersLeft + layoutInfo.LineNumbersWidth - (float)number.Width;
+            surface.DrawLineLayout(number, x, top, Theme.LineNumberForeground);
+        }
+
+        UpdateMaxLineWidth(viewModel, data, widestLine);
     }
 
     /// <summary>Releases the layout cache.</summary>
-    public void Dispose()
-    {
-        _cache?.Dispose();
-        _cache = null;
-        _cacheMeasurer = null;
-    }
+    public void Dispose() => _cache.Dispose();
 
-    /// <summary>Width of the gutter: enough for the largest line number, plus padding.</summary>
-    public static float GetGutterWidth(int lineCount, FontInfo font)
+    // Monaco: `_updateLineWidths` (the rendered lines are always measured) and `_ensureMaxLineWidth`.
+    private void UpdateMaxLineWidth(ViewModel viewModel, ViewportData data, double localMaxLineWidth)
     {
-        ArgumentNullException.ThrowIfNull(font);
-
-        return (CountDigits(lineCount) + GutterPaddingInDigits) * (float)font.MaxDigitWidth;
-    }
-
-    // Two layouts per visible line (number and text), plus the labels of very long lines.
-    private LineLayoutCache GetCache(ITextMeasurer measurer, int visibleLineCount)
-    {
-        int capacity = Math.Max(MinimumCacheCapacity, 4 * visibleLineCount);
-        if (_cache is null || !ReferenceEquals(_cacheMeasurer, measurer))
+        if (data.StartLineNumber == 1 && data.EndLineNumber == viewModel.Model.LineCount)
         {
-            // A new measurer means a new font (or graphics device): the old layouts are useless.
-            _cache?.Dispose();
-            _cache = new LineLayoutCache(measurer, capacity);
-            _cacheMeasurer = measurer;
+            // We know the max line width for all the lines.
+            _maxLineWidth = 0;
         }
 
-        _cache.EnsureCapacity(capacity);
-        return _cache;
+        int lineWidth = (int)Math.Ceiling(localMaxLineWidth);
+        if (_maxLineWidth < lineWidth)
+        {
+            _maxLineWidth = lineWidth;
+            viewModel.ViewLayout.SetMaxLineWidth(_maxLineWidth);
+        }
     }
 
     private void DrawSelection(
         IRenderSurface surface, Selection selection, int lineNumber, ILineLayout layout,
-        float textLeft, float lineTop, FontInfo font)
+        EditorLayoutInfo layoutInfo, double scrollLeft, float top, FontInfo font)
     {
         Range range = selection.Range;
         if (selection.IsEmpty || lineNumber < range.StartLineNumber || lineNumber > range.EndLineNumber)
@@ -132,14 +167,12 @@ internal sealed class TextViewRenderer : IDisposable
         int startColumn = lineNumber == range.StartLineNumber ? range.StartColumn : 1;
         // The layout of a very long line is cut: clamp to its end.
         double startX = layout.GetCharacterX(Math.Min(startColumn - 1, layout.Text.Length));
-        // Selected line breaks are shown as one extra character, like in VS Code.
+        // Selected line breaks are shown as one extra space, like in VS Code.
         double endX = lineNumber == range.EndLineNumber
             ? layout.GetCharacterX(Math.Min(range.EndColumn - 1, layout.Text.Length))
-            : layout.Width + font.TypicalHalfwidthCharacterWidth;
+            : layout.Width + font.SpaceWidth;
 
         surface.FillRectangle(
-            textLeft + (float)startX, lineTop, (float)(endX - startX), font.LineHeight, Theme.SelectionBackground);
+            (float)(layoutInfo.ContentLeft + startX - scrollLeft), top, (float)(endX - startX), font.LineHeight, Theme.SelectionBackground);
     }
-
-    private static int CountDigits(int value) => value.ToString(CultureInfo.InvariantCulture).Length;
 }
