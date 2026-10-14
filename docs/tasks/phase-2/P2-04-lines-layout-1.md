@@ -1,6 +1,6 @@
 # P2-04 — `LinesLayout` (1/2): vertical offsets and whitespaces
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-03
 - **Size:** M
 
@@ -44,19 +44,19 @@ The first half of Monaco's `LinesLayout`: the vertical offset of every line, the
 
 ## Tests
 
-- [ ] Port: `LinesLayout 1`, `LinesLayout 2`, `LinesLayout Padding`, `LinesLayout getLineNumberAtOrAfterVerticalOffset`,
+- [x] Port: `LinesLayout 1`, `LinesLayout 2`, `LinesLayout Padding`, `LinesLayout getLineNumberAtOrAfterVerticalOffset`,
       `LinesLayout` (the one named only `LinesLayout`), `LinesLayout findInsertionIndex`,
       `LinesLayout changeWhitespaceAfterLineNumber & getFirstWhitespaceIndexAfterLineNumber`, `LinesLayout Bug`
-- [ ] Port the helpers `insertWhitespace`, `changeOneWhitespace`, `removeWhitespace` of the suite (lines 13–31) as private methods
-- [ ] New: a 2,500,000-line layout with line height 19 gives `GetLinesTotalHeight() == 47_500_000` and
+- [x] Port the helpers `insertWhitespace`, `changeOneWhitespace`, `removeWhitespace` of the suite (lines 13–31) as private methods
+- [x] New: a 2,500,000-line layout with line height 19 gives `GetLinesTotalHeight() == 47_500_000` and
       `GetLineNumberAtOrAfterVerticalOffset(47_499_999) == 2_500_000` (no overflow, no float)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/viewLayout/linesLayout.ts` in progress (P2-04)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/viewLayout/linesLayout.ts` in progress (P2-04)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
