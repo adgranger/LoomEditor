@@ -1,6 +1,6 @@
 # P2-07 — `EditorLayoutInfo` (where the gutter ends and the text starts)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-06
 - **Size:** S
 
@@ -46,17 +46,17 @@ overview ruler. This replaces the phase 0 rule "gutter = digits + 3 characters".
 
 ## Tests
 
-- [ ] Port: `EditorLayoutProvider 1`, `1.1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `8 - rounds floats`. Compare every
+- [x] Port: `EditorLayoutProvider 1`, `1.1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `8 - rounds floats`. Compare every
       field that exists in the C# record; skip the `minimap` and word-wrap fields of the expected objects.
-- [ ] New: with LoomEditor defaults (line numbers on, min 5 chars, decorations 10, no glyph margin, no folding),
+- [x] New: with LoomEditor defaults (line numbers on, min 5 chars, decorations 10, no glyph margin, no folding),
       `maxDigitWidth = 8.4` and 1,000 lines → `LineNumbersWidth == 42`, `ContentLeft == 52`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map entry for `editorOptions.ts` (`EditorLayoutInfoComputer`, subset) and behavior differences (glyph margin, folding defaults)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map entry for `editorOptions.ts` (`EditorLayoutInfoComputer`, subset) and behavior differences (glyph margin, folding defaults)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
