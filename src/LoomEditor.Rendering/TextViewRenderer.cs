@@ -3,6 +3,7 @@ using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Themes;
 using LoomEditor.View.Features;
+using LoomEditor.View.Layout;
 
 namespace LoomEditor.Rendering;
 
@@ -11,77 +12,78 @@ namespace LoomEditor.Rendering;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Phase 0: plain text, line numbers and the selection, monospaced font, only the visible lines are drawn.
-/// Phase 2 brings scrolling, real text layout and caching.
+/// Plain text, line numbers and the selection; every line is laid out by an <see cref="ITextMeasurer"/> and only the
+/// visible lines are drawn. Scrolling and layout caching come in the next cards.
 /// </para>
 /// <para>Threading: UI thread only (it reads the editor context).</para>
 /// </remarks>
 internal sealed class TextViewRenderer
 {
-    /// <summary>Gutter padding, in characters: 1 before the line numbers, 2 after them.</summary>
-    private const int GutterPaddingInCharacters = 3;
+    /// <summary>Gutter padding, in digit widths: 1 before the line numbers, 2 after them.</summary>
+    private const int GutterPaddingInDigits = 3;
 
     /// <summary>The colors to use.</summary>
     public EditorTheme Theme { get; set; } = EditorTheme.Dark;
 
     /// <summary>Draws the visible part of the document.</summary>
     /// <param name="surface">Where to draw.</param>
+    /// <param name="measurer">Lays out the lines.</param>
     /// <param name="context">The editor to draw.</param>
     /// <param name="viewportHeight">Height of the visible area, in DIPs. Lines below it are skipped.</param>
-    public void Render(IRenderSurface surface, IEditorContext context, float viewportHeight)
+    public void Render(IRenderSurface surface, ITextMeasurer measurer, IEditorContext context, float viewportHeight)
     {
         ArgumentNullException.ThrowIfNull(surface);
+        ArgumentNullException.ThrowIfNull(measurer);
         ArgumentNullException.ThrowIfNull(context);
 
-        FontMetrics metrics = surface.FontMetrics;
+        FontInfo font = measurer.FontInfo;
         TextModel model = context.Model;
         int lineCount = model.LineCount;
-        int visibleLineCount = Math.Min(lineCount, (int)Math.Ceiling(viewportHeight / metrics.LineHeight));
-        float textLeft = GetGutterWidth(lineCount, metrics);
+        int visibleLineCount = Math.Min(lineCount, (int)Math.Ceiling(viewportHeight / font.LineHeight));
+        float textLeft = GetGutterWidth(lineCount, font);
+        float numbersRight = textLeft - (2 * (float)font.MaxDigitWidth);
 
         surface.Clear(Theme.Background);
-        DrawSelection(surface, context.Selection, model, visibleLineCount, textLeft, metrics);
 
-        for (int index = 0; index < visibleLineCount; index++)
+        for (int lineNumber = 1; lineNumber <= visibleLineCount; lineNumber++)
         {
-            float y = index * metrics.LineHeight;
-            DrawLineNumber(surface, index + 1, lineCount, y, metrics);
-            surface.DrawText(model.GetLineContent(index + 1), textLeft, y, Theme.Foreground);
+            float lineTop = (lineNumber - 1) * font.LineHeight;
+            using ILineLayout layout = measurer.CreateLineLayout(model.GetLineContent(lineNumber));
+            DrawSelection(surface, context.Selection, lineNumber, layout, textLeft, lineTop, font);
+
+            using ILineLayout number = measurer.CreateLineLayout(lineNumber.ToString(CultureInfo.InvariantCulture));
+            surface.DrawLineLayout(number, numbersRight - (float)number.Width, lineTop, Theme.LineNumberForeground);
+            surface.DrawLineLayout(layout, textLeft, lineTop, Theme.Foreground);
         }
     }
 
     /// <summary>Width of the gutter: enough for the largest line number, plus padding.</summary>
-    public static float GetGutterWidth(int lineCount, FontMetrics metrics) =>
-        (CountDigits(lineCount) + GutterPaddingInCharacters) * metrics.CharacterWidth;
-
-    private void DrawLineNumber(IRenderSurface surface, int lineNumber, int lineCount, float y, FontMetrics metrics)
+    public static float GetGutterWidth(int lineCount, FontInfo font)
     {
-        // Right-align line numbers: monospaced digits, so pad on the left.
-        int padding = CountDigits(lineCount) - CountDigits(lineNumber);
-        float x = (padding + 1) * metrics.CharacterWidth;
-        surface.DrawText(lineNumber.ToString(CultureInfo.InvariantCulture), x, y, Theme.LineNumberForeground);
+        ArgumentNullException.ThrowIfNull(font);
+
+        return (CountDigits(lineCount) + GutterPaddingInDigits) * (float)font.MaxDigitWidth;
     }
 
     private void DrawSelection(
-        IRenderSurface surface, Selection selection, TextModel model, int visibleLineCount, float textLeft, FontMetrics metrics)
+        IRenderSurface surface, Selection selection, int lineNumber, ILineLayout layout,
+        float textLeft, float lineTop, FontInfo font)
     {
-        if (selection.IsEmpty)
+        Range range = selection.Range;
+        if (selection.IsEmpty || lineNumber < range.StartLineNumber || lineNumber > range.EndLineNumber)
         {
             return;
         }
 
-        Range range = selection.Range;
-        int lastVisibleLine = Math.Min(range.EndLineNumber, visibleLineCount);
-        for (int lineNumber = range.StartLineNumber; lineNumber <= lastVisibleLine; lineNumber++)
-        {
-            int startColumn = lineNumber == range.StartLineNumber ? range.StartColumn : 1;
-            // Selected line breaks are shown as one extra character, like in VS Code.
-            int endColumn = lineNumber == range.EndLineNumber ? range.EndColumn : model.GetLineLength(lineNumber) + 2;
+        int startColumn = lineNumber == range.StartLineNumber ? range.StartColumn : 1;
+        double startX = layout.GetCharacterX(startColumn - 1);
+        // Selected line breaks are shown as one extra character, like in VS Code.
+        double endX = lineNumber == range.EndLineNumber
+            ? layout.GetCharacterX(range.EndColumn - 1)
+            : layout.Width + font.TypicalHalfwidthCharacterWidth;
 
-            float x = textLeft + ((startColumn - 1) * metrics.CharacterWidth);
-            float width = (endColumn - startColumn) * metrics.CharacterWidth;
-            surface.FillRectangle(x, (lineNumber - 1) * metrics.LineHeight, width, metrics.LineHeight, Theme.SelectionBackground);
-        }
+        surface.FillRectangle(
+            textLeft + (float)startX, lineTop, (float)(endX - startX), font.LineHeight, Theme.SelectionBackground);
     }
 
     private static int CountDigits(int value) => value.ToString(CultureInfo.InvariantCulture).Length;

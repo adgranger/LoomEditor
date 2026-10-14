@@ -38,7 +38,8 @@ public sealed partial class LoomEditor : Control
 {
     private const string CanvasPartName = "PART_Canvas";
     private const string FontFamilyName = "Cascadia Mono, Consolas, Courier New";
-    private const float FontSizeInDips = 14;
+    private const double FontSizeInDips = 14;
+    private const int TabSize = 4;
 
     /// <summary>Identifies the <see cref="Text"/> dependency property.</summary>
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -49,7 +50,7 @@ public sealed partial class LoomEditor : Control
     private readonly KeyboardInput _keyboard;
     private EditorFeatureHost? _featureHost;
     private CanvasControl? _canvas;
-    private Win2DFont? _font;
+    private Win2DTextMeasurer? _measurer;
 
     /// <summary>Creates the control.</summary>
     public LoomEditor()
@@ -133,25 +134,29 @@ public sealed partial class LoomEditor : Control
     {
         _featureHost?.Dispose();
         _featureHost = null;
-        _font?.Dispose();
-        _font = null;
+        _measurer?.Dispose();
+        _measurer = null;
     }
 
     private void OnCanvasCreateResources(CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
     {
         // Called again if the graphics device is lost (e.g. driver update): recreate device-dependent resources.
-        _font?.Dispose();
-        _font = new Win2DFont(sender, FontFamilyName, FontSizeInDips);
+        _measurer?.Dispose();
+        _measurer = CreateMeasurer(sender);
     }
 
     private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
     {
-        // The font is released when the control is unloaded; recreate it if the control comes back.
-        _font ??= new Win2DFont(sender, FontFamilyName, FontSizeInDips);
+        // The measurer is released when the control is unloaded; recreate it if the control comes back.
+        _measurer ??= CreateMeasurer(sender);
 
-        var surface = new Win2DRenderSurface(args.DrawingSession, _font);
-        _renderer.Render(surface, _context, (float)sender.ActualHeight);
+        var surface = new Win2DRenderSurface(args.DrawingSession, _measurer);
+        _renderer.Render(surface, _measurer, _context, (float)sender.ActualHeight);
     }
+
+    // Pixel ratio 1: layout is in DIPs; DPI changes are handled in a later card (P2-20).
+    private static Win2DTextMeasurer CreateMeasurer(CanvasControl canvas) =>
+        new(canvas, FontFamilyName, FontSizeInDips, TabSize, pixelRatio: 1);
 
     private void DetachCanvas()
     {

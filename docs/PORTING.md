@@ -53,6 +53,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 |---|---|---|
 | `Position`, `Range`, `Selection` constructors | Throw `ArgumentOutOfRangeException` for values < 1 (Monaco accepts anything) | Fail fast; Monaco's own model validates positions anyway |
 | `Selection` | Not a subclass of `Range` (exposes a `Range` property) | C# record structs cannot inherit |
+| Tabs in rendered lines | Drawn with DirectWrite tab stops (`IncrementalTabStop = tabSize × space width`) instead of being expanded to spaces by `viewLineRenderer.ts`; a tab after a full-width character ends on a pixel tab stop, not a visible-column one | One UTF-16 index is one layout index, so no `CharacterMapping` is needed (ADR 0005, decision 5) |
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
 | `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
 | `RedBlackTree` | One sentinel per tree instead of a global mutable `SENTINEL`; `TreeNode.IsDetached` replaces `parent === null`; `next`/`prev` are tree methods | Monaco's `resetSentinel` writes to the global sentinel: two trees on two threads would corrupt each other |

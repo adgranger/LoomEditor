@@ -1,6 +1,6 @@
 # P2-12 — Real text layout: `ITextMeasurer`, `ILineLayout`, DirectWrite
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-11
 - **Size:** M
 
@@ -66,19 +66,19 @@ the CSS rule Monaco relies on (`line-height` puts half of the extra space above 
 
 ## Tests
 
-- [ ] Update: the characterization tests of P2-11 now check `DrawLineLayout` calls
-- [ ] New: with `FakeTextMeasurer` (char width 10, tab size 4), the selection rectangle of `"\tab"` from column 2 to 3
+- [x] Update: the characterization tests of P2-11 now check `DrawLineLayout` calls
+- [x] New: with `FakeTextMeasurer` (char width 10, tab size 4), the selection rectangle of `"\tab"` from column 2 to 3
       starts at `x = textLeft + 40` (tab) and is 10 wide
-- [ ] Manual: Gallery shows the sample text correctly with tabs (add a tab-indented line to `SampleText.HelloWorld` if
+- [x] Manual: Gallery shows the sample text correctly with tabs (add a tab-indented line to `SampleText.HelloWorld` if
       there is none) and with a CJK line (`你好，世界`), each character taking its real width
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
-- [ ] `docs/PORTING.md`: "Behavior differences": tabs use DirectWrite tab stops (ADR 0005, decision 5)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
+- [x] `docs/PORTING.md`: "Behavior differences": tabs use DirectWrite tab stops (ADR 0005, decision 5)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

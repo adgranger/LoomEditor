@@ -1,0 +1,41 @@
+using Microsoft.Graphics.Canvas.Text;
+
+namespace LoomEditor.Rendering.Win2D;
+
+/// <summary>An <see cref="ILineLayout"/> backed by one DirectWrite text layout.</summary>
+/// <remarks>Threading: UI thread only. Disposing it disposes the underlying <see cref="CanvasTextLayout"/>.</remarks>
+internal sealed class Win2DLineLayout : ILineLayout
+{
+    /// <summary>Wraps <paramref name="layout"/> and takes ownership of it.</summary>
+    public Win2DLineLayout(string text, CanvasTextLayout layout)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(layout);
+
+        Text = text;
+        TextLayout = layout;
+        // LayoutBounds.Width ignores trailing whitespace; the caret at the end of the text does not.
+        Width = text.Length == 0 ? 0 : layout.GetCaretPosition(text.Length, false).X;
+    }
+
+    /// <inheritdoc />
+    public string Text { get; }
+
+    /// <inheritdoc />
+    public double Width { get; }
+
+    /// <summary>The DirectWrite layout, for drawing.</summary>
+    public CanvasTextLayout TextLayout { get; }
+
+    /// <inheritdoc />
+    public double GetCharacterX(int index)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(index);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(index, Text.Length);
+
+        return index == Text.Length ? Width : TextLayout.GetCaretPosition(index, false).X;
+    }
+
+    /// <inheritdoc />
+    public void Dispose() => TextLayout.Dispose();
+}
