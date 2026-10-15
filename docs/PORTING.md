@@ -98,7 +98,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/core/characterClassifier.ts` | `LoomEditor.Core/Text/CharacterClassifier.cs`, `CharacterSet.cs` | ✅ ported (P3-04) |
 | `editor/common/core/wordCharacterClassifier.ts` | `LoomEditor.Core/Text/WordCharacterClassifier.cs` | ✅ ported (P3-04); Intl segmentation is a stub |
 | `editor/common/core/wordHelper.ts` | `LoomEditor.Core/Text/WordHelper.cs` | ✅ constants only (`USUAL_WORD_SEPARATORS`, `IWordAtPosition`) (P3-04) |
-| `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | 🔶 in progress (P3-05: nodes, insert, delete; search P3-06, edits P3-07) |
+| `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | 🔶 in progress (P3-05 nodes, insert, delete; P3-06 search; edits P3-07) |
 | `editor/test/common/core/range.test.ts` | `tests/LoomEditor.Core.Tests/Text/RangeTests.cs` | ✅ all tests ported |
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
@@ -149,6 +149,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `core/range.test.ts` | 9 / 9 | |
 | `core/cursorColumns.test.ts` | 6 / 6 | P3-03 |
 | `core/characterClassifier.test.ts` | 1 / 1 | P3-04 |
+| `model/intervalTree.test.ts` (`IntervalTree 1`) | 24 / 24 | P3-06; `IntervalTree 2` and `3` come with P3-07 |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
