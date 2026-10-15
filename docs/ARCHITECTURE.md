@@ -60,6 +60,22 @@ KeyDown (WinUI)            LoomEditor.OnKeyDown
   → Win2DRenderSurface     Direct2D / DirectWrite
 ```
 
+## How a frame is drawn (phase 2)
+
+```
+Wheel / scrollbar / ScrollTop   LoomEditor (WinUI)      OnPointerWheelChanged, ScrollBar.ValueChanged, ScrollTop setter
+  → MouseWheelScrolling         wheel delta → new scroll position (pure arithmetic, MouseWheelClassifier for smooth)
+  → ViewLayout                  validates and stores the position in its Scrollable (smooth scrolling animates it)
+  → Scroll event                the control updates the scrollbars and calls CanvasControl.Invalidate()
+  → TextViewRenderer.Render     ViewModel.GetViewportData: visible lines, offsets relative to the scroll position
+                                line layouts from the LineLayoutCache (keyed by line text), widest line → ViewLayout
+  → Win2DRenderSurface          Direct2D / DirectWrite draw: selection, line highlight, text, caret, gutter
+```
+
+The caret blinks on its own: a `DispatcherQueueTimer` ticks `CursorBlinking` only while the editor has the focus, and
+every tick invalidates the canvas. A font, tab size or DPI change goes through `RecreateTextMeasurer`: new measurer,
+`ViewModel.SetFontInfo`, `TextViewRenderer.OnFontChanged` (cache cleared), first visible line kept.
+
 ## Extension model: features
 
 A feature (Find, Folding, BracketMatching…) implements `IEditorFeature`:
@@ -89,6 +105,10 @@ Step-by-step guide: [how-to/add-a-feature.md](how-to/add-a-feature.md).
 | add a command or shortcut | the feature's `<Name>Commands.cs`; shortcuts in `src/LoomEditor.WinUI/Input/` (phase 3: `View/Commands/DefaultKeybindings.cs`) |
 | change how things are drawn | `src/LoomEditor.Rendering/TextViewRenderer.cs` |
 | change the Win2D backend | `src/LoomEditor.Rendering/Win2D/` |
+| change scrolling, wheel or the scroll position | `src/LoomEditor.View/Layout/` (`Scrollable`, `ViewLayout`, `MouseWheelScrolling`); the control side is `src/LoomEditor.WinUI/Controls/LoomEditor.Scrolling.cs` |
+| change the layout (line heights, content size, visible lines) | `src/LoomEditor.View/Layout/` (`LinesLayout`, `LineHeightsManager`, `ViewLayout`, `ViewModel`) |
+| change the caret or its blinking | `src/LoomEditor.Rendering/CursorBlinking.cs` (state machine), `TextViewRenderer.cs` (drawing), `src/LoomEditor.WinUI/Controls/LoomEditor.Caret.cs` (timer and focus) |
+| change font measurement, tab size or DPI handling | `src/LoomEditor.View/Layout/FontMeasurements.cs`, `src/LoomEditor.Rendering/Win2D/Win2DTextMeasurer.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Font.cs` |
 | change the control's XAML template | `src/LoomEditor.WinUI/Themes/Generic.xaml` |
 | add syntax highlighting for a language | `src/LoomEditor.TextMate/` (phase 4), see [how-to/add-a-language.md](how-to/add-a-language.md) |
 | understand a word | [GLOSSARY.md](GLOSSARY.md) |

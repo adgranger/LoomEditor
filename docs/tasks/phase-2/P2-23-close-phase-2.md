@@ -1,6 +1,6 @@
 # P2-23 — Close phase 2
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all other phase 2 cards
 - **Size:** S (docs only)
 
@@ -30,11 +30,11 @@ recorded: *a 100 MB file scrolls fluidly* (P2-22 numbers).
 
 ## Checks
 
-- [ ] Count the ported Monaco tests per file (by `test(` name, as in phase 1) and fill the table in `docs/PORTING.md`
-- [ ] Every `internal` class added in phase 2 has a threading note (`<remarks>Threading: ...</remarks>`)
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
+- [x] Count the ported Monaco tests per file (by `test(` name, as in phase 1) and fill the table in `docs/PORTING.md`
+- [x] Every `internal` class added in phase 2 has a threading note (`<remarks>Threading: ...</remarks>`)
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
 
 ## Out of scope
 

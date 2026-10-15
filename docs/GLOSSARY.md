@@ -8,6 +8,10 @@ to an earlier state, unlike the *version id*, which only grows. Used to know whe
 **Anchor** — In a selection, the place where the user *started* selecting. Called `SelectionStart` in `Selection`.
 The other end is the *caret* (`Position`).
 
+**bigNumbersDelta** — A number the viewport data subtracts from the scroll position, so that the vertical offsets of the
+visible lines stay small. In a 100 MB document `scrollTop` is in the millions of DIPs, and large numbers lose
+precision when they become `float`; the renderer works with `scrollTop - bigNumbersDelta` instead.
+
 **Caret** — The blinking text cursor. In code, `Selection.Position`.
 
 **Column** — Position inside a line, **starting at 1**. Column 1 is *before* the first character; a line of
@@ -15,6 +19,10 @@ length *n* has columns 1 to *n + 1*. Columns count UTF-16 code units (like `stri
 
 **Command** — An action identified by a string id, e.g. `editor.action.selectAll`. Commands are what keyboard
 shortcuts, menus and code run. See `CommandRegistry`.
+
+**Content width / scroll width** — The width of the scrollable content: the widest line seen so far plus some extra
+room, and the width of the scrollbar. The *scroll width* is the larger of it and the viewport width. They set the
+range of the horizontal scrollbar (`ViewLayout.GetContentWidth`, `GetScrollWidth`).
 
 **Contribution / Feature** — An optional piece of editor behavior (Find, Folding…). Monaco calls them
 *editor contributions*; we call them *features* (`IEditorFeature`), one folder each.
@@ -37,6 +45,13 @@ into characters). Needs special support from the editor (phase 3).
 
 **Interval tree** — A tree that quickly finds all ranges overlapping a given range. Used to store decorations.
 
+**Layout info** — The sizes of the parts of the editor, in DIPs: line numbers, glyph margin, folding strip, text area,
+scrollbars (`EditorLayoutInfo`, computed from the editor size and the font). `ContentLeft` is where the text starts.
+
+**Line layout cache** — A least-recently-used cache of laid-out lines (`LineLayoutCache`), keyed by the text of the
+line. A line that did not change keeps its layout while the user scrolls or edits other lines. It is cleared when the
+font or the DPI changes.
+
 **Line number** — Starts at **1**, like in every editor UI.
 
 **Model / TextModel** — The document: its text, end-of-line style, options, undo history. No pixels, no UI.
@@ -52,6 +67,9 @@ binary tree (a red-black tree) so that finding a line or inserting text is fast 
 
 **Position** — A (line number, column) pair, both starting at 1.
 
+**Pixel ratio** — The number of physical pixels in one DIP (1 at 100 % scale, 1.5 at 150 %). Fonts are measured with it,
+and the caret width is rounded to whole physical pixels.
+
 **PRI** — Package Resource Index: the file where Windows App SDK stores an app's resources, including compiled XAML.
 
 **Range** — A start position and an end position, start ≤ end. *Empty* if both are equal.
@@ -59,6 +77,9 @@ binary tree (a red-black tree) so that finding a line or inserting text is fast 
 **Raw change event** — The line-level description of a change (`ModelRawContentChangedEvent`): lines changed, inserted
 or deleted, or "everything flushed". The view uses it to update only the lines that changed. The *content change
 event* describes the same edit as text ranges.
+
+**Scroll beyond last line** — The option that lets the user scroll until the last line is at the top of the viewport,
+leaving empty space below it (`ViewLayoutOptions.ScrollBeyondLastLine`).
 
 **Scope** (TextMate) — A dotted name describing what a token is, e.g. `string.quoted.double.cs`. Themes pick
 colors by scope.
@@ -82,6 +103,9 @@ several model lines may be hidden. Model line numbers ≠ view line numbers.
 **Viewport** — The part of the document currently visible on screen.
 
 **Virtualization** — Only creating/drawing what is visible in the viewport, so huge files stay fast.
+
+**Whitespace (view zone gap)** — Vertical space inserted between two lines, used by widgets such as inline diffs or
+peek views (`EditorWhitespace` in `LinesLayout`). It adds to the height of the document but is not a line.
 
 **Win2D** — Microsoft's C#-friendly wrapper over Direct2D and DirectWrite. See ADR 0002.
 
