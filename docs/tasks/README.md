@@ -149,6 +149,123 @@ Phase 2 cards form a single chain, in table order: each card builds on the one b
 (phase 6); cursor movement, keyboard scrolling, mouse selection, IME (phase 3); decorations and custom line heights
 from decorations; Monaco's custom scrollbars (replaced by XAML `ScrollBar`, ADR 0005).
 
+## Phase 3 — Editing
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [ADR 0006](../adr/0006-editing-and-text-input.md)
+(Monaco's cursor in `LoomEditor.View`, tracked ranges on a ported interval tree, no language configuration until
+phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEditContext` on Windows 11).
+**Read [phase-3/README.md](phase-3/README.md) before any phase 3 card**: it holds the conventions every card relies on
+(where files go, Monaco → C# API map, JavaScript traps, shared test helpers).
+
+### Step A — Core prerequisites: strings, columns, words, interval tree, model edits
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-01](phase-3/P3-01-strings-code-points.md) | Strings: code points, surrogates, full-width and emoji helpers | P2-23 | todo |
+| [P3-02](phase-3/P3-02-strings-graphemes.md) | Strings: grapheme clusters (`GraphemeIterator`, `nextCharLength`, `prevCharLength`) | P3-01 | todo |
+| [P3-03](phase-3/P3-03-cursor-columns.md) | `CursorColumns` and indentation helpers | P3-02 | todo |
+| [P3-04](phase-3/P3-04-word-character-classifier.md) | `CharacterClassifier` and `WordCharacterClassifier` | P3-03 | todo |
+| [P3-05](phase-3/P3-05-interval-tree-1.md) | Interval tree (1/3): nodes, red-black insert and delete | P3-04 | todo |
+| [P3-06](phase-3/P3-06-interval-tree-2.md) | Interval tree (2/3): searching, and the `IntervalTree 1` test suite | P3-05 | todo |
+| [P3-07](phase-3/P3-07-interval-tree-3.md) | Interval tree (3/3): edits (`acceptReplace`, `nodeAcceptEdit`) | P3-06 | todo |
+| [P3-08](phase-3/P3-08-tracked-ranges.md) | Tracked ranges in `TextModel` | P3-07 | todo |
+| [P3-09](phase-3/P3-09-model-options.md) | Model options (`tabSize`, `indentSize`, `insertSpaces`, `trimAutoWhitespace`) and indent helpers | P3-08 | todo |
+| [P3-10](phase-3/P3-10-identified-edit-operations.md) | Identified edit operations and `ResultingSelection` | P3-09 | todo |
+| [P3-11](phase-3/P3-11-trim-auto-whitespace.md) | Trim auto-inserted whitespace (`trimAutoWhitespace`) | P3-10 | todo |
+
+### Step B — The cursor core (`LoomEditor.View/Cursors/`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-12](phase-3/P3-12-cursor-state-types.md) | Cursor state types and the identity coordinates converter | P3-11 | todo |
+| [P3-13](phase-3/P3-13-cursor-configuration.md) | `CursorConfiguration` and the editor's cursor options | P3-12 | todo |
+| [P3-14](phase-3/P3-14-edit-commands-and-executor.md) | `IEditCommand` and `CommandExecutor` | P3-13 | todo |
+| [P3-15](phase-3/P3-15-replace-commands.md) | Replace commands | P3-14 | todo |
+| [P3-16](phase-3/P3-16-cursor-and-collection.md) | `Cursor`, `CursorContext` and `CursorCollection` | P3-15 | todo |
+| [P3-17](phase-3/P3-17-view-model-events.md) | View model events (dispatcher subset) | P3-16 | todo |
+| [P3-18](phase-3/P3-18-cursors-controller-state.md) | `CursorsController` (1/2): state, model changes, reveal, events | P3-17 | todo |
+| [P3-19](phase-3/P3-19-cursors-controller-edits.md) | `CursorsController` (2/2): executing edits and commands | P3-18 | todo |
+| [P3-20](phase-3/P3-20-view-model-cursors.md) | The view model owns the cursors (and the test editor) | P3-19 | todo |
+| [P3-21](phase-3/P3-21-editor-context-cursors.md) | `EditorContext` and the control use the cursors | P3-20 | todo |
+
+### Step C — Cursor moves, column selection, words
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-22](phase-3/P3-22-atomic-tab-moves.md) | Atomic soft tabs (`AtomicTabMoveOperations`) | P3-21 | todo |
+| [P3-23](phase-3/P3-23-move-operations.md) | `MoveOperations`: left, right, up, down, line and buffer edges | P3-22 | todo |
+| [P3-24](phase-3/P3-24-cursor-move-commands-1.md) | `CursorMoveCommands` (1/2): line, buffer, select all, add cursor, move to | P3-23 | todo |
+| [P3-25](phase-3/P3-25-cursor-move-commands-2.md) | `CursorMoveCommands` (2/2): `simpleMove`, `viewportMove` and the `cursorMove` arguments | P3-24 | todo |
+| [P3-26](phase-3/P3-26-core-navigation-commands.md) | Core navigation commands (`cursorLeft`, `cursorHome`, `cursorMove`…) | P3-25 | todo |
+| [P3-27](phase-3/P3-27-cursor-tests-movement.md) | Port the cursor movement tests of `cursor.test.ts` | P3-26 | todo |
+| [P3-28](phase-3/P3-28-column-selection.md) | Column (box) selection | P3-27 | todo |
+| [P3-29](phase-3/P3-29-word-operations-move.md) | Word moves (`WordOperations` 1/2) and the `WordOperations` feature | P3-28 | todo |
+| [P3-30](phase-3/P3-30-word-operations-delete.md) | Word deletes, word selection and word parts (`WordOperations` 2/2) | P3-29 | todo |
+
+### Step D — Typing, deleting, indentation, paste, copy, undo
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-31](phase-3/P3-31-shift-command.md) | `ShiftCommand` (indent and outdent lines) | P3-30 | todo |
+| [P3-32](phase-3/P3-32-delete-operations.md) | Backspace and Delete (`DeleteOperations`, `deleteLeft`, `deleteRight`) | P3-31 | todo |
+| [P3-33](phase-3/P3-33-typing-and-enter.md) | Typing and Enter (`TypeOperations`, `type`, `lineBreakInsert`) | P3-32 | todo |
+| [P3-34](phase-3/P3-34-tab-and-outdent.md) | Tab and Shift+Tab (`tab`, `outdent`) | P3-33 | todo |
+| [P3-35](phase-3/P3-35-paste.md) | Paste (single, distributed over cursors, block paste) | P3-34 | todo |
+| [P3-36](phase-3/P3-36-copy-and-cut.md) | Copy and cut (text to copy, clipboard metadata, `cut`) | P3-35 | todo |
+| [P3-37](phase-3/P3-37-undo-redo-commands.md) | Undo and redo commands, read-only editor | P3-36 | todo |
+
+### Step E — Commands, keybindings, reveal, keyboard in the control
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-38](phase-3/P3-38-multicursor-and-scroll-commands.md) | Multi-cursor commands (without Find) and scroll commands | P3-37 | todo |
+| [P3-39](phase-3/P3-39-default-keybindings.md) | Default keybindings and the keybinding resolver | P3-38 | todo |
+| [P3-40](phase-3/P3-40-reveal.md) | Reveal: scroll so that the cursor stays visible | P3-39 | todo |
+| [P3-41](phase-3/P3-41-control-keyboard-and-typing.md) | The control: keyboard commands, typing and `IsReadOnly` | P3-40 | todo |
+
+### Step F — Several cursors on screen, and the mouse
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-42](phase-3/P3-42-draw-several-cursors.md) | Draw several cursors and selections | P3-41 | todo |
+| [P3-43](phase-3/P3-43-mouse-hit-testing.md) | Mouse hit testing on the canvas | P3-42 | todo |
+| [P3-44](phase-3/P3-44-mouse-dispatch.md) | Mouse clicks to cursor commands (`ViewController.dispatchMouse`) | P3-43 | todo |
+| [P3-45](phase-3/P3-45-mouse-down-and-drag-scrolling.md) | Mouse down, drag selection and drag scrolling (pure logic) | P3-44 | todo |
+| [P3-46](phase-3/P3-46-control-pointer-input.md) | The control: mouse selection | P3-45 | todo |
+
+### Step G — Clipboard
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-47](phase-3/P3-47-control-clipboard.md) | Clipboard: copy, cut and paste with the Windows clipboard | P3-46 | todo |
+
+### Step H — IME
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-48](phase-3/P3-48-ime-spike.md) | IME spike: check `CoreTextEditContext` in the WinUI 3 desktop control | P3-47 | todo |
+| [P3-49](phase-3/P3-49-composition-in-the-cursor.md) | Composition in the cursor (`compositionType`, start and end of a composition) | P3-48 | todo |
+| [P3-50](phase-3/P3-50-edit-context-state.md) | Edit context state (the text the IME sees, and its updates) | P3-49 | todo |
+| [P3-51](phase-3/P3-51-control-core-text-edit-context.md) | The control: IME through `CoreTextEditContext` | P3-50 | todo |
+| [P3-52](phase-3/P3-52-ime-candidate-window.md) | IME: place the candidate window at the caret | P3-51 | todo |
+| [P3-53](phase-3/P3-53-composition-underline.md) | IME: underline the text being composed | P3-52 | todo |
+
+### Step I — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P3-54](phase-3/P3-54-gallery-editing-demo.md) | Gallery: editing demo and the phase 3 manual test list | P3-53 | todo |
+| [P3-55](phase-3/P3-55-close-phase-3.md) | Close phase 3 | all | todo |
+
+Phase 3 cards form a single chain, in table order: each card builds on the one before it. P3-48 (IME spike) and the
+manual checks of P3-41, P3-46, P3-47, P3-51 … P3-54 need the maintainer at the keyboard (keyboard layouts, IMEs, mouse).
+
+**Deferred on purpose:** everything that needs a language configuration or tokens — auto-closing pairs, auto-indent
+rules, electric characters, surround with brackets/quotes, double-click on brackets or strings (phases 4–5; each cut
+point is named in the cards and listed in `docs/PORTING.md` by P3-55); Find-based multi-cursor (`Ctrl+D`, phase 5);
+word wrap and folding moves (phases 5–6); overtype mode, selection drag-and-drop, rich (HTML) copy, touch gestures,
+Intl word segmentation; IME on Windows 10 (would need a TSF `ITextStoreACP2` implementation).
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
