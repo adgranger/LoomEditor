@@ -1,3 +1,4 @@
+using LoomEditor.Core.Model;
 using LoomEditor.Rendering.Win2D;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
@@ -29,6 +30,7 @@ public sealed partial class LoomEditor
     {
         RegisterPropertyChangedCallback(FontFamilyProperty, (_, _) => RecreateTextMeasurer());
         RegisterPropertyChangedCallback(FontSizeProperty, (_, _) => RecreateTextMeasurer());
+        _context.Model.OptionsChanged += OnModelOptionsChanged;
     }
 
     private static void OnTabSizeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -41,7 +43,16 @@ public sealed partial class LoomEditor
             throw new ArgumentOutOfRangeException(nameof(e), value, "The tab size must be at least 1.");
         }
 
-        editor.RecreateTextMeasurer();
+        // The model owns the tab size: OnModelOptionsChanged recreates the text measurer.
+        editor._context.Model.UpdateOptions(new TextModelUpdateOptions(TabSize: value));
+    }
+
+    private void OnModelOptionsChanged(object? sender, ModelOptionsChangedEventArgs e)
+    {
+        if (e.TabSize)
+        {
+            RecreateTextMeasurer();
+        }
     }
 
     private void ObserveXamlRoot()
@@ -76,7 +87,7 @@ public sealed partial class LoomEditor
     }
 
     private Win2DTextMeasurer CreateTextMeasurer(CanvasControl canvas) =>
-        new(canvas, FontFamily.Source, FontSize, TabSize, _rasterizationScale);
+        new(canvas, FontFamily.Source, FontSize, _context.Model.Options.TabSize, _rasterizationScale);
 
     // Replaces the measurer with one that matches the current font, tab size and DPI. Also used after a device loss.
     private void RecreateTextMeasurer()

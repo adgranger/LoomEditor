@@ -1,6 +1,6 @@
 # P3-09 — Model options (`tabSize`, `indentSize`, `insertSpaces`, `trimAutoWhitespace`) and indent helpers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-08
 - **Size:** S
 
@@ -68,21 +68,21 @@ If a function is not exactly at the given line, search for its name.
 
 ## Tests
 
-- [ ] New: `new TextModel("x").Options` is 4 / 4 / true / true; `IndentSizeIsTabSize` is false
-- [ ] New: `UpdateOptions(TabSize: 8)` raises `OptionsChanged` once with only `TabSize == true`; the same call again raises nothing
-- [ ] New: `UpdateOptions(IndentSizeIsTabSize: true)` then `UpdateOptions(TabSize: 2)` → `IndentSize == 2`
-- [ ] New: `TabSize: 0` is clamped to 1 (Monaco clamps; no exception in the model)
-- [ ] New: `GetLineIndentColumn` of `"\t  x"` is 4; of `""` is 1; of `"   "` is 4
-- [ ] Existing tests pass (the control's `TabSize` behavior is checked by hand: tab size 4 → 8 in the Gallery still moves tab-indented text)
+- [x] New: `new TextModel("x").Options` is 4 / 4 / true / true; `IndentSizeIsTabSize` is false
+- [x] New: `UpdateOptions(TabSize: 8)` raises `OptionsChanged` once with only `TabSize == true`; the same call again raises nothing
+- [x] New: `UpdateOptions(IndentSizeIsTabSize: true)` then `UpdateOptions(TabSize: 2)` → `IndentSize == 2`
+- [x] New: `TabSize: 0` is clamped to 1 (Monaco clamps; no exception in the model)
+- [x] New: `GetLineIndentColumn` of `"\t  x"` is 4; of `""` is 1; of `"   "` is 4
+- [x] Existing tests pass (the control's `TabSize` behavior is checked by hand: tab size 4 → 8 in the Gallery still moves tab-indented text)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.Core`: only `TextModelOptions`, `TextModelUpdateOptions`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.Core`: only `TextModelOptions`, `TextModelUpdateOptions`,
       `ModelOptionsChangedEventArgs`, `TextModel.Options`, `TextModel.UpdateOptions`, `TextModel.OptionsChanged` and the new constructor parameter
-- [ ] `docs/PORTING.md`: map row `textModel.ts` mentions options (P3-09); behavior difference "no indentation guessing yet"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `docs/PORTING.md`: map row `textModel.ts` mentions options (P3-09); behavior difference "no indentation guessing yet"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

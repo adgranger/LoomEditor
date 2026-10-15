@@ -50,7 +50,7 @@ public sealed partial class TextModel
     {
         ArgumentNullException.ThrowIfNull(text);
 
-        PieceTreeTextBuffer newBuffer = CreateBuffer(text, _defaultEol);
+        PieceTreeTextBuffer newBuffer = CreateBuffer(text, _options.DefaultEol);
         Range oldFullModelRange = FullModelRange;
         int oldValueLength = GetValueLengthInRange(oldFullModelRange);
 

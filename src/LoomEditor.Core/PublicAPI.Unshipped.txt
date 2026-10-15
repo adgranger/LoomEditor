@@ -1,4 +1,6 @@
 #nullable enable
+~override LoomEditor.Core.Model.TextModelUpdateOptions.Equals(object obj) -> bool
+~override LoomEditor.Core.Model.TextModelUpdateOptions.ToString() -> string
 ~override LoomEditor.Core.Text.Position.Equals(object obj) -> bool
 ~override LoomEditor.Core.Text.Range.Equals(object obj) -> bool
 ~override LoomEditor.Core.Text.Selection.Equals(object obj) -> bool
@@ -88,6 +90,11 @@ LoomEditor.Core.Model.ModelContentChangedEventArgs.IsFlush.get -> bool
 LoomEditor.Core.Model.ModelContentChangedEventArgs.IsRedoing.get -> bool
 LoomEditor.Core.Model.ModelContentChangedEventArgs.IsUndoing.get -> bool
 LoomEditor.Core.Model.ModelContentChangedEventArgs.VersionId.get -> int
+LoomEditor.Core.Model.ModelOptionsChangedEventArgs
+LoomEditor.Core.Model.ModelOptionsChangedEventArgs.IndentSize.get -> bool
+LoomEditor.Core.Model.ModelOptionsChangedEventArgs.InsertSpaces.get -> bool
+LoomEditor.Core.Model.ModelOptionsChangedEventArgs.TabSize.get -> bool
+LoomEditor.Core.Model.ModelOptionsChangedEventArgs.TrimAutoWhitespace.get -> bool
 LoomEditor.Core.Model.TextModel
 LoomEditor.Core.Model.TextModel.AlternativeVersionId.get -> int
 LoomEditor.Core.Model.TextModel.ApplyEdits(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>! edits, bool computeUndoEdits) -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>!
@@ -118,6 +125,8 @@ LoomEditor.Core.Model.TextModel.LineCount.get -> int
 LoomEditor.Core.Model.TextModel.MightContainNonBasicAscii.get -> bool
 LoomEditor.Core.Model.TextModel.MightContainRtl.get -> bool
 LoomEditor.Core.Model.TextModel.ModifyPosition(LoomEditor.Core.Text.Position position, int offset) -> LoomEditor.Core.Text.Position
+LoomEditor.Core.Model.TextModel.Options.get -> LoomEditor.Core.Model.TextModelOptions!
+LoomEditor.Core.Model.TextModel.OptionsChanged -> System.EventHandler<LoomEditor.Core.Model.ModelOptionsChangedEventArgs!>?
 LoomEditor.Core.Model.TextModel.PopStackElement() -> void
 LoomEditor.Core.Model.TextModel.PushEditOperations(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>? beforeCursorState, System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>! edits, System.Func<System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>!, System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?>? cursorStateComputer) -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
 LoomEditor.Core.Model.TextModel.PushEol(LoomEditor.Core.Model.EndOfLineSequence eol) -> void
@@ -126,13 +135,38 @@ LoomEditor.Core.Model.TextModel.RawContentChanged -> System.EventHandler<LoomEdi
 LoomEditor.Core.Model.TextModel.Redo() -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
 LoomEditor.Core.Model.TextModel.SetEol(LoomEditor.Core.Model.EndOfLineSequence eol) -> void
 LoomEditor.Core.Model.TextModel.SetValue(string! text) -> void
-LoomEditor.Core.Model.TextModel.TextModel(string! text, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> void
+LoomEditor.Core.Model.TextModel.TextModel(string! text, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF, LoomEditor.Core.Model.TextModelOptions? options = null) -> void
 LoomEditor.Core.Model.TextModel.Undo() -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
+LoomEditor.Core.Model.TextModel.UpdateOptions(LoomEditor.Core.Model.TextModelUpdateOptions newOptions) -> void
 LoomEditor.Core.Model.TextModel.ValidatePosition(int lineNumber, int column) -> LoomEditor.Core.Text.Position
 LoomEditor.Core.Model.TextModel.ValidatePosition(LoomEditor.Core.Text.Position position) -> LoomEditor.Core.Text.Position
 LoomEditor.Core.Model.TextModel.ValidateRange(int startLineNumber, int startColumn, int endLineNumber, int endColumn) -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Model.TextModel.ValidateRange(LoomEditor.Core.Text.Range range) -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Model.TextModel.VersionId.get -> int
+LoomEditor.Core.Model.TextModelOptions
+LoomEditor.Core.Model.TextModelOptions.DefaultEol.get -> LoomEditor.Core.Model.DefaultEndOfLine
+LoomEditor.Core.Model.TextModelOptions.Equals(LoomEditor.Core.Model.TextModelOptions? other) -> bool
+LoomEditor.Core.Model.TextModelOptions.IndentSize.get -> int
+LoomEditor.Core.Model.TextModelOptions.IndentSizeIsTabSize.get -> bool
+LoomEditor.Core.Model.TextModelOptions.InsertSpaces.get -> bool
+LoomEditor.Core.Model.TextModelOptions.TabSize.get -> int
+LoomEditor.Core.Model.TextModelOptions.TextModelOptions(int tabSize = 4, int? indentSize = null, bool insertSpaces = true, bool trimAutoWhitespace = true, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> void
+LoomEditor.Core.Model.TextModelOptions.TrimAutoWhitespace.get -> bool
+LoomEditor.Core.Model.TextModelUpdateOptions
+LoomEditor.Core.Model.TextModelUpdateOptions.Deconstruct(out int? TabSize, out int? IndentSize, out bool IndentSizeIsTabSize, out bool? InsertSpaces, out bool? TrimAutoWhitespace) -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.Equals(LoomEditor.Core.Model.TextModelUpdateOptions other) -> bool
+LoomEditor.Core.Model.TextModelUpdateOptions.IndentSize.get -> int?
+LoomEditor.Core.Model.TextModelUpdateOptions.IndentSize.init -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.IndentSizeIsTabSize.get -> bool
+LoomEditor.Core.Model.TextModelUpdateOptions.IndentSizeIsTabSize.init -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.InsertSpaces.get -> bool?
+LoomEditor.Core.Model.TextModelUpdateOptions.InsertSpaces.init -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.TabSize.get -> int?
+LoomEditor.Core.Model.TextModelUpdateOptions.TabSize.init -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.TextModelUpdateOptions() -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.TextModelUpdateOptions(int? TabSize = null, int? IndentSize = null, bool IndentSizeIsTabSize = false, bool? InsertSpaces = null, bool? TrimAutoWhitespace = null) -> void
+LoomEditor.Core.Model.TextModelUpdateOptions.TrimAutoWhitespace.get -> bool?
+LoomEditor.Core.Model.TextModelUpdateOptions.TrimAutoWhitespace.init -> void
 LoomEditor.Core.Text.Position
 LoomEditor.Core.Text.Position.Column.get -> int
 LoomEditor.Core.Text.Position.CompareTo(LoomEditor.Core.Text.Position other) -> int
@@ -230,6 +264,9 @@ override LoomEditor.Core.Model.Events.ModelRawLinesInserted.ToString() -> string
 override LoomEditor.Core.Model.ModelContentChange.Equals(object? obj) -> bool
 override LoomEditor.Core.Model.ModelContentChange.GetHashCode() -> int
 override LoomEditor.Core.Model.ModelContentChange.ToString() -> string!
+override LoomEditor.Core.Model.TextModelOptions.Equals(object? obj) -> bool
+override LoomEditor.Core.Model.TextModelOptions.GetHashCode() -> int
+override LoomEditor.Core.Model.TextModelUpdateOptions.GetHashCode() -> int
 override LoomEditor.Core.Text.Position.GetHashCode() -> int
 override LoomEditor.Core.Text.Position.ToString() -> string!
 override LoomEditor.Core.Text.Range.GetHashCode() -> int
@@ -258,6 +295,9 @@ static LoomEditor.Core.Model.Events.ModelRawLinesInserted.operator ==(LoomEditor
 static LoomEditor.Core.Model.ModelContentChange.operator !=(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
 static LoomEditor.Core.Model.ModelContentChange.operator ==(LoomEditor.Core.Model.ModelContentChange? left, LoomEditor.Core.Model.ModelContentChange? right) -> bool
 static LoomEditor.Core.Model.TextModel.FromSnapshot(LoomEditor.Core.Model.ITextSnapshot! snapshot, LoomEditor.Core.Model.DefaultEndOfLine defaultEol = LoomEditor.Core.Model.DefaultEndOfLine.LF) -> LoomEditor.Core.Model.TextModel!
+static LoomEditor.Core.Model.TextModelOptions.Default.get -> LoomEditor.Core.Model.TextModelOptions!
+static LoomEditor.Core.Model.TextModelUpdateOptions.operator !=(LoomEditor.Core.Model.TextModelUpdateOptions left, LoomEditor.Core.Model.TextModelUpdateOptions right) -> bool
+static LoomEditor.Core.Model.TextModelUpdateOptions.operator ==(LoomEditor.Core.Model.TextModelUpdateOptions left, LoomEditor.Core.Model.TextModelUpdateOptions right) -> bool
 static LoomEditor.Core.Text.Position.Max(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
 static LoomEditor.Core.Text.Position.Min(LoomEditor.Core.Text.Position a, LoomEditor.Core.Text.Position b) -> LoomEditor.Core.Text.Position
 static LoomEditor.Core.Text.Position.operator !=(LoomEditor.Core.Text.Position left, LoomEditor.Core.Text.Position right) -> bool
