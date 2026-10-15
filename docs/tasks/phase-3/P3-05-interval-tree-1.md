@@ -1,6 +1,6 @@
 # P3-05 — Interval tree (1/3): nodes, red-black insert and delete
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-04
 - **Size:** M
 
@@ -73,23 +73,23 @@ The test helpers are in `src/vs/editor/test/common/model/intervalTree.test.ts`: 
 
 ## Tests
 
-- [ ] Port the invariant helpers `assertTreeInvariants`, `depth`, `assertValidNode`, `assertValidTree` to
+- [x] Port the invariant helpers `assertTreeInvariants`, `depth`, `assertValidNode`, `assertValidTree` to
       `IntervalTreeInvariants` (xUnit `Assert`). They check: sentinel unchanged, root black, equal black depth,
       red nodes have black children, ordering by `intervalCompare` with deltas, and `MaxEnd`.
-- [ ] New: insert the 10 intervals of the Cormen tree (`[16,21] [8,9] [25,30] [5,8] [15,23] [17,19] [26,26] [0,3]
+- [x] New: insert the 10 intervals of the Cormen tree (`[16,21] [8,9] [25,30] [5,8] [15,23] [17,19] [26,26] [0,3]
       [6,10] [19,20]`); invariants hold after each insert; in-order list is sorted by `(start, end)`
-- [ ] New: randomized test with `new Random(seed)` (seeds 1…20 in a `[Theory]`, seed in the failure message): 200
+- [x] New: randomized test with `new Random(seed)` (seeds 1…20 in a `[Theory]`, seed in the failure message): 200
       random inserts and deletes of intervals in `[0, 1000)`, invariants checked after each operation, in-order list
       compared with a sorted `List<(long, long)>` oracle (port of the `Oracle` class at the top of the test file)
-- [ ] New: deleting the root, a leaf and a node with two children keeps the invariants
+- [x] New: deleting the root, a leaf and a node with two children keeps the invariants
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/model/intervalTree.ts` → `LoomEditor.Core/Decorations/` (🔶 in progress, P3-05);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/model/intervalTree.ts` → `LoomEditor.Core/Decorations/` (🔶 in progress, P3-05);
       behavior differences: "one sentinel per interval tree" and "interval offsets are `long`"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

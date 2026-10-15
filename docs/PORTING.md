@@ -58,6 +58,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
 | `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
 | `RedBlackTree` | One sentinel per tree instead of a global mutable `SENTINEL`; `TreeNode.IsDetached` replaces `parent === null`; `next`/`prev` are tree methods | Monaco's `resetSentinel` writes to the global sentinel: two trees on two threads would corrupt each other |
+| `IntervalTree` | One sentinel per tree instead of a global `SENTINEL` (`IntervalTree.Sentinel`); `resetSentinel` resets the tree's own | Same reason as `RedBlackTree` |
+| `IntervalNode`, `IntervalTree` | Offsets (`Start`, `End`, `Delta`, `MaxEnd`, cached offsets) are `long` | Monaco uses 53-bit JavaScript numbers; the ported `force delta overflow` test goes above 2^31 |
 | `PieceTreeBase.NodeAt`, `NodeAt2` | Throw `ArgumentOutOfRangeException` for an offset or position outside the document (Monaco returns `null` and fails later) | Fail fast with a clear message |
 | `PieceTreeBase.GetCharCode`, `GetLineCharCode` | Return `char` (`'\0'` at the end of the document) instead of a number (`0` or `NaN`) | Same UTF-16 unit; no `NaN` in C# |
 | `PieceTreeBase.Insert` | Inserting an empty string is a no-op (Monaco splits the piece; inside a CRLF pair this made `GetLineCount` count one line too many) | Found by the P1-15 property test; Monaco callers never insert empty text |
@@ -96,6 +98,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/core/characterClassifier.ts` | `LoomEditor.Core/Text/CharacterClassifier.cs`, `CharacterSet.cs` | ✅ ported (P3-04) |
 | `editor/common/core/wordCharacterClassifier.ts` | `LoomEditor.Core/Text/WordCharacterClassifier.cs` | ✅ ported (P3-04); Intl segmentation is a stub |
 | `editor/common/core/wordHelper.ts` | `LoomEditor.Core/Text/WordHelper.cs` | ✅ constants only (`USUAL_WORD_SEPARATORS`, `IWordAtPosition`) (P3-04) |
+| `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | 🔶 in progress (P3-05: nodes, insert, delete; search P3-06, edits P3-07) |
 | `editor/test/common/core/range.test.ts` | `tests/LoomEditor.Core.Tests/Text/RangeTests.cs` | ✅ all tests ported |
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
