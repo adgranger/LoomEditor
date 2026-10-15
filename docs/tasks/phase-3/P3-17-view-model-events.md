@@ -1,6 +1,6 @@
 # P3-17 — View model events (dispatcher subset)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-16
 - **Size:** S
 
@@ -56,20 +56,20 @@ the four events phase 3 needs.
 
 No Monaco test file. New tests:
 
-- [ ] New: inside `BeginEmitViewEvents`/`EndEmitViewEvents`, two `CursorStateChangedEvent`s are merged into one
+- [x] New: inside `BeginEmitViewEvents`/`EndEmitViewEvents`, two `CursorStateChangedEvent`s are merged into one
       (old selections of the first, new selections of the second) and delivered once, at the end
-- [ ] New: a `CursorStateChangedEvent` whose old and new selections and versions are equal is not delivered
-- [ ] New: nested begin/end deliver only when the outermost `End` is called
-- [ ] New: a view event handler that emits a new view event while handling: the new event is delivered after the
+- [x] New: a `CursorStateChangedEvent` whose old and new selections and versions are equal is not delivered
+- [x] New: nested begin/end deliver only when the outermost `End` is called
+- [x] New: a view event handler that emits a new view event while handling: the new event is delivered after the
       current batch, to every handler (queue), and outgoing events wait until the queue is empty
-- [ ] New: two `ReadOnlyEditAttemptEvent`s in one collector are delivered once
+- [x] New: two `ReadOnlyEditAttemptEvent`s in one collector are delivered once
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `viewModelEventDispatcher.ts` and `viewEvents.ts` (🔶 subset, P3-17)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `viewModelEventDispatcher.ts` and `viewEvents.ts` (🔶 subset, P3-17)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

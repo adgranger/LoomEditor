@@ -182,7 +182,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-14](phase-3/P3-14-edit-commands-and-executor.md) | `IEditCommand` and `CommandExecutor` | P3-13 | done |
 | [P3-15](phase-3/P3-15-replace-commands.md) | Replace commands | P3-14 | done |
 | [P3-16](phase-3/P3-16-cursor-and-collection.md) | `Cursor`, `CursorContext` and `CursorCollection` | P3-15 | done |
-| [P3-17](phase-3/P3-17-view-model-events.md) | View model events (dispatcher subset) | P3-16 | todo |
+| [P3-17](phase-3/P3-17-view-model-events.md) | View model events (dispatcher subset) | P3-16 | done |
 | [P3-18](phase-3/P3-18-cursors-controller-state.md) | `CursorsController` (1/2): state, model changes, reveal, events | P3-17 | todo |
 | [P3-19](phase-3/P3-19-cursors-controller-edits.md) | `CursorsController` (2/2): executing edits and commands | P3-18 | todo |
 | [P3-20](phase-3/P3-20-view-model-cursors.md) | The view model owns the cursors (and the test editor) | P3-19 | todo |
