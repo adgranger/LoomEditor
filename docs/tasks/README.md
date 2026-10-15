@@ -140,7 +140,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P2-21](phase-2/P2-21-gallery-large-file-demo.md) | Gallery: large file, long line, Unicode, scroll test | P2-20 | done |
-| [P2-22](phase-2/P2-22-scrolling-performance.md) | Scrolling performance: benchmarks and reference numbers | P2-21 | todo |
+| [P2-22](phase-2/P2-22-scrolling-performance.md) | Scrolling performance: benchmarks and reference numbers | P2-21 | done |
 | [P2-23](phase-2/P2-23-close-phase-2.md) | Close phase 2 (docs, porting map, roadmap) | all | todo |
 
 Phase 2 cards form a single chain, in table order: each card builds on the one before it.

@@ -1,6 +1,6 @@
 # P2-22 — Scrolling performance: benchmarks and reference numbers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-21
 - **Size:** S
 
@@ -44,15 +44,15 @@ None.
 
 ## Tests
 
-- [ ] Benchmarks run: `dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter "*Viewport*"`
-- [ ] Gallery scroll test run 3 times on the 100 MB file; the median run is recorded
+- [x] Benchmarks run: `dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter "*Viewport*"`
+- [x] Gallery scroll test run 3 times on the 100 MB file; the median run is recorded
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/performance.md` has the benchmark table, the Gallery scroll test numbers, the machine and the commit
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/performance.md` has the benchmark table, the Gallery scroll test numbers, the machine and the commit
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

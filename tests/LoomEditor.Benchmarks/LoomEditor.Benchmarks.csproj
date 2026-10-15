@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\LoomEditor.Core\LoomEditor.Core.csproj" />
+    <ProjectReference Include="..\..\src\LoomEditor.View\LoomEditor.View.csproj" />
   </ItemGroup>
 
   <ItemGroup>
