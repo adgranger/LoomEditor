@@ -139,7 +139,7 @@ internal sealed class IntervalNode
         set => Metadata = (Metadata & CollapseOnReplaceEditMaskInverse) | ((value ? 1 : 0) << CollapseOnReplaceEditOffset);
     }
 
-    public void Reset(int versionId, long start, long end, Range range)
+    public void Reset(int versionId, long start, long end, Range? range)
     {
         Start = start;
         End = end;

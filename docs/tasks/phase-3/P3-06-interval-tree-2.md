@@ -1,6 +1,6 @@
 # P3-06 — Interval tree (2/3): searching, and the `IntervalTree 1` test suite
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-05
 - **Size:** S
 
@@ -51,18 +51,18 @@ Tests: `src/vs/editor/test/common/model/intervalTree.test.ts`, suite `IntervalTr
 
 ## Tests
 
-- [ ] Port suite `IntervalTree 1` › `generated` (19 tests) and › `searching` (5 tests), with `// Monaco:` comments.
+- [x] Port suite `IntervalTree 1` › `generated` (19 tests) and › `searching` (5 tests), with `// Monaco:` comments.
       `TestState.AcceptOp` checks the invariants (P3-05 helper) and compares `GetAllInOrder()` with the oracle after
       every insert, delete and change, and `IntervalSearch` with the oracle for every search.
-- [ ] New: after `Search` and `IntervalSearch`, no node has `IsVisited == true`
-- [ ] New: `ResolveNode` gives the same absolute offsets as `GetAllInOrder` for every node of the Cormen tree
+- [x] New: after `Search` and `IntervalSearch`, no node has `IsVisited == true`
+- [x] New: `ResolveNode` gives the same absolute offsets as `GetAllInOrder` for every node of the Cormen tree
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row updated (P3-06); phase 3 tests table row `intervalTree.test.ts` (`IntervalTree 1`: 24 / 24)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row updated (P3-06); phase 3 tests table row `intervalTree.test.ts` (`IntervalTree 1`: 24 / 24)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
