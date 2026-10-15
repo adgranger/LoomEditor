@@ -132,7 +132,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [AD
 |---|---|---|---|
 | [P2-17](phase-2/P2-17-control-scrollbars.md) | Scrollbars and `ScrollTop` / `ScrollLeft` | P2-16 | done |
 | [P2-18](phase-2/P2-18-control-mouse-wheel.md) | Mouse wheel and smooth scrolling | P2-17 | done |
-| [P2-19](phase-2/P2-19-control-caret-and-focus.md) | Caret blinking and focus | P2-18 | todo |
+| [P2-19](phase-2/P2-19-control-caret-and-focus.md) | Caret blinking and focus | P2-18 | done |
 | [P2-20](phase-2/P2-20-control-font-tabs-dpi.md) | Font, tab size and DPI changes | P2-19 | todo |
 
 ### Step E — Prove it and close the phase
