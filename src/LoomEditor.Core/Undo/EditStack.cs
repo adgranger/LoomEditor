@@ -42,8 +42,8 @@ internal sealed class EditStack
 
     public IReadOnlyList<Selection>? PushEditOperation(
         IReadOnlyList<Selection>? beforeCursorState,
-        IReadOnlyList<TextEdit> edits,
-        Func<IReadOnlyList<TextEdit>, IReadOnlyList<Selection>?>? cursorStateComputer)
+        IReadOnlyList<IdentifiedEditOperation> edits,
+        Func<IReadOnlyList<ValidEditOperation>, IReadOnlyList<Selection>?>? cursorStateComputer)
     {
         SingleModelEditStackElement element = GetOrCreateEditStackElement(beforeCursorState);
         IReadOnlyList<ValidEditOperation> inverse = _model.ApplyEditsForUndo(edits);
@@ -83,20 +83,7 @@ internal sealed class EditStack
 
     // Monaco: _computeCursorState
     private static IReadOnlyList<Selection>? ComputeCursorState(
-        Func<IReadOnlyList<TextEdit>, IReadOnlyList<Selection>?>? cursorStateComputer,
-        IReadOnlyList<ValidEditOperation> inverse)
-    {
-        if (cursorStateComputer is null)
-        {
-            return null;
-        }
-
-        var inverseEdits = new TextEdit[inverse.Count];
-        for (int i = 0; i < inverseEdits.Length; i++)
-        {
-            inverseEdits[i] = new TextEdit(inverse[i].Range, inverse[i].Text);
-        }
-
-        return cursorStateComputer(inverseEdits);
-    }
+        Func<IReadOnlyList<ValidEditOperation>, IReadOnlyList<Selection>?>? cursorStateComputer,
+        IReadOnlyList<ValidEditOperation> inverse) =>
+        cursorStateComputer?.Invoke(inverse);
 }

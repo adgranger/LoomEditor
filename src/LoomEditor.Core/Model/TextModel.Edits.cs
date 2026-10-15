@@ -23,7 +23,7 @@ public sealed partial class TextModel
     /// <param name="edits">The edits; their ranges are validated first and they must not overlap.</param>
     /// <exception cref="ArgumentNullException"><paramref name="edits"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException">Two edits overlap.</exception>
-    public void ApplyEdits(IReadOnlyList<TextEdit> edits) => DoApplyEdits(edits, computeUndoEdits: false);
+    public void ApplyEdits(IReadOnlyList<TextEdit> edits) => DoApplyEdits(ToIdentified(edits), computeUndoEdits: false);
 
     /// <summary>Applies a batch of edits and optionally returns the edits that undo them (Monaco: <c>applyEdits</c>).</summary>
     /// <param name="edits">The edits; their ranges are validated first and they must not overlap.</param>
@@ -33,7 +33,7 @@ public sealed partial class TextModel
     /// <exception cref="ArgumentException">Two edits overlap.</exception>
     public IReadOnlyList<TextEdit> ApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits)
     {
-        IReadOnlyList<ValidEditOperation> reverse = DoApplyEdits(edits, computeUndoEdits);
+        IReadOnlyList<ValidEditOperation> reverse = DoApplyEdits(ToIdentified(edits), computeUndoEdits);
         var result = new TextEdit[reverse.Count];
         for (int i = 0; i < result.Length; i++)
         {
@@ -125,7 +125,10 @@ public sealed partial class TextModel
     }
 
     // Monaco: applyEdits + _doApplyEdits (with tracked ranges only: no other decorations, no edit sources)
-    private IReadOnlyList<ValidEditOperation> DoApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits)
+    private IReadOnlyList<ValidEditOperation> DoApplyEdits(
+        IReadOnlyList<IdentifiedEditOperation> edits,
+        bool computeUndoEdits,
+        IReadOnlyList<Selection>? resultingSelection = null)
     {
         ArgumentNullException.ThrowIfNull(edits);
 
@@ -158,7 +161,11 @@ public sealed partial class TextModel
 
             Deliver(
                 new ModelRawContentChangedEventArgs(
-                    ComputeRawChanges(changes, oldLineCount, newLineCount), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing),
+                    ComputeRawChanges(changes, oldLineCount, newLineCount),
+                    _versionId,
+                    isUndoing: _isUndoing,
+                    isRedoing: _isRedoing,
+                    resultingSelection),
                 new ModelContentChangedEventArgs(
                     changes, _buffer.GetEol(), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing, isFlush: false, isEolChange: false));
         }
@@ -167,8 +174,21 @@ public sealed partial class TextModel
     }
 
     // Monaco: applyEdits(operations, true), as used by the edit stack
-    internal IReadOnlyList<ValidEditOperation> ApplyEditsForUndo(IReadOnlyList<TextEdit> edits) =>
+    internal IReadOnlyList<ValidEditOperation> ApplyEditsForUndo(IReadOnlyList<IdentifiedEditOperation> edits) =>
         DoApplyEdits(edits, computeUndoEdits: true);
+
+    private static IdentifiedEditOperation[] ToIdentified(IReadOnlyList<TextEdit> edits)
+    {
+        ArgumentNullException.ThrowIfNull(edits);
+
+        var operations = new IdentifiedEditOperation[edits.Count];
+        for (int i = 0; i < operations.Length; i++)
+        {
+            operations[i] = new IdentifiedEditOperation(edits[i].Range, edits[i].Text);
+        }
+
+        return operations;
+    }
 
     // Monaco: _doApplyEdits (the raw content changes)
     private static List<ModelRawChange> ComputeRawChanges(ModelContentChange[] contentChanges, int oldLineCount, int newLineCount)
@@ -220,14 +240,14 @@ public sealed partial class TextModel
     }
 
     // Monaco: _validateEditOperation
-    private ValidAnnotatedEditOperation ValidateEditOperation(TextEdit edit)
+    private ValidAnnotatedEditOperation ValidateEditOperation(IdentifiedEditOperation edit)
     {
         Range validatedRange = ValidateRange(edit.Range);
 
         // Normalize edit when replacement text ends with lone CR and the range ends right before a CRLF in the buffer:
         // strip the trailing CR from the replacement text.
-        string text = edit.Text;
-        if (text.Length > 0
+        string? text = edit.Text;
+        if (text is { Length: > 0 }
             && text[^1] == '\r'
             && _buffer.GetEol() == "\r\n"
             && validatedRange.EndColumn == GetLineMaxColumn(validatedRange.EndLineNumber))
@@ -236,11 +256,11 @@ public sealed partial class TextModel
         }
 
         return new ValidAnnotatedEditOperation(
-            Identifier: null,
+            edit.Identifier,
             validatedRange,
             text,
-            ForceMoveMarkers: false,
-            IsAutoWhitespaceEdit: false,
-            IsTracked: false);
+            edit.ForceMoveMarkers,
+            edit.IsAutoWhitespaceEdit,
+            edit.IsTracked);
     }
 }

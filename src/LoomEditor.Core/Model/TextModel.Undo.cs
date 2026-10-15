@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/textModel.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model.Edits;
 using LoomEditor.Core.Text;
 using LoomEditor.Core.Undo;
 using Range = LoomEditor.Core.Text.Range;
@@ -48,7 +49,38 @@ public sealed partial class TextModel
         Func<IReadOnlyList<TextEdit>, IReadOnlyList<Selection>?>? cursorStateComputer)
     {
         ArgumentNullException.ThrowIfNull(edits);
+        return PushEditOperations(
+            beforeCursorState,
+            ToIdentified(edits),
+            cursorStateComputer is null ? null : inverse => cursorStateComputer(ToTextEdits(inverse)));
+    }
+
+    /// <summary>
+    /// Like the public overload, with edits that carry an identifier and flags; the cursor state computer receives the
+    /// inverse operations with the identifiers of the forward operations (Monaco: <c>pushEditOperations</c>).
+    /// </summary>
+    /// <remarks>
+    /// The content change events are raised immediately, not deferred: Monaco only defers the public
+    /// <c>onDidChangeContent</c>, and the view models are notified at once.
+    /// </remarks>
+    internal IReadOnlyList<Selection>? PushEditOperations(
+        IReadOnlyList<Selection>? beforeCursorState,
+        IReadOnlyList<IdentifiedEditOperation> edits,
+        Func<IReadOnlyList<ValidEditOperation>, IReadOnlyList<Selection>?>? cursorStateComputer)
+    {
+        ArgumentNullException.ThrowIfNull(edits);
         return _editStack.PushEditOperation(beforeCursorState, edits, cursorStateComputer);
+    }
+
+    private static TextEdit[] ToTextEdits(IReadOnlyList<ValidEditOperation> operations)
+    {
+        var edits = new TextEdit[operations.Count];
+        for (int i = 0; i < edits.Length; i++)
+        {
+            edits[i] = new TextEdit(operations[i].Range, operations[i].Text);
+        }
+
+        return edits;
     }
 
     /// <summary>Undoes the last undo step (Monaco: <c>undo</c>).</summary>
@@ -63,7 +95,7 @@ public sealed partial class TextModel
         }
 
         SingleModelEditStackData data = element.Data;
-        ApplyUndo(data.Changes, data.BeforeEol, data.BeforeVersionId);
+        ApplyUndo(data.Changes, data.BeforeEol, data.BeforeVersionId, data.BeforeCursorState);
         return data.BeforeCursorState;
     }
 
@@ -79,48 +111,62 @@ public sealed partial class TextModel
         }
 
         SingleModelEditStackData data = element.Data;
-        ApplyRedo(data.Changes, data.AfterEol, data.AfterVersionId);
+        ApplyRedo(data.Changes, data.AfterEol, data.AfterVersionId, data.AfterCursorState);
         return data.AfterCursorState;
     }
 
     // Monaco: _applyUndo (the changes are expressed on the text after the step: put the old text back)
-    private void ApplyUndo(IReadOnlyList<TextChange> changes, EndOfLineSequence eol, int resultingAlternativeVersionId)
+    private void ApplyUndo(
+        IReadOnlyList<TextChange> changes,
+        EndOfLineSequence eol,
+        int resultingAlternativeVersionId,
+        IReadOnlyList<Selection>? resultingSelection)
     {
-        var edits = new TextEdit[changes.Count];
+        var edits = new IdentifiedEditOperation[changes.Count];
         for (int i = 0; i < edits.Length; i++)
         {
             TextChange change = changes[i];
             Position start = GetPositionAt(change.NewPosition);
             Position end = GetPositionAt(change.NewEnd);
-            edits[i] = new TextEdit(new Range(start.LineNumber, start.Column, end.LineNumber, end.Column), change.OldText);
+            edits[i] = new IdentifiedEditOperation(new Range(start.LineNumber, start.Column, end.LineNumber, end.Column), change.OldText);
         }
 
-        ApplyUndoRedoEdits(edits, eol, isUndoing: true, isRedoing: false, resultingAlternativeVersionId);
+        ApplyUndoRedoEdits(edits, eol, isUndoing: true, isRedoing: false, resultingAlternativeVersionId, resultingSelection);
     }
 
     // Monaco: _applyRedo
-    private void ApplyRedo(IReadOnlyList<TextChange> changes, EndOfLineSequence eol, int resultingAlternativeVersionId)
+    private void ApplyRedo(
+        IReadOnlyList<TextChange> changes,
+        EndOfLineSequence eol,
+        int resultingAlternativeVersionId,
+        IReadOnlyList<Selection>? resultingSelection)
     {
-        var edits = new TextEdit[changes.Count];
+        var edits = new IdentifiedEditOperation[changes.Count];
         for (int i = 0; i < edits.Length; i++)
         {
             TextChange change = changes[i];
             Position start = GetPositionAt(change.OldPosition);
             Position end = GetPositionAt(change.OldEnd);
-            edits[i] = new TextEdit(new Range(start.LineNumber, start.Column, end.LineNumber, end.Column), change.NewText);
+            edits[i] = new IdentifiedEditOperation(new Range(start.LineNumber, start.Column, end.LineNumber, end.Column), change.NewText);
         }
 
-        ApplyUndoRedoEdits(edits, eol, isUndoing: false, isRedoing: true, resultingAlternativeVersionId);
+        ApplyUndoRedoEdits(edits, eol, isUndoing: false, isRedoing: true, resultingAlternativeVersionId, resultingSelection);
     }
 
     // Monaco: _applyUndoRedoEdits
-    private void ApplyUndoRedoEdits(IReadOnlyList<TextEdit> edits, EndOfLineSequence eol, bool isUndoing, bool isRedoing, int resultingAlternativeVersionId)
+    private void ApplyUndoRedoEdits(
+        IReadOnlyList<IdentifiedEditOperation> edits,
+        EndOfLineSequence eol,
+        bool isUndoing,
+        bool isRedoing,
+        int resultingAlternativeVersionId,
+        IReadOnlyList<Selection>? resultingSelection)
     {
         try
         {
             _isUndoing = isUndoing;
             _isRedoing = isRedoing;
-            DoApplyEdits(edits, computeUndoEdits: false);
+            DoApplyEdits(edits, computeUndoEdits: false, resultingSelection);
             SetEol(eol);
             _alternativeVersionId = resultingAlternativeVersionId;
         }
