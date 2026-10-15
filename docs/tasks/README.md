@@ -171,7 +171,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-08](phase-3/P3-08-tracked-ranges.md) | Tracked ranges in `TextModel` | P3-07 | done |
 | [P3-09](phase-3/P3-09-model-options.md) | Model options (`tabSize`, `indentSize`, `insertSpaces`, `trimAutoWhitespace`) and indent helpers | P3-08 | done |
 | [P3-10](phase-3/P3-10-identified-edit-operations.md) | Identified edit operations and `ResultingSelection` | P3-09 | done |
-| [P3-11](phase-3/P3-11-trim-auto-whitespace.md) | Trim auto-inserted whitespace (`trimAutoWhitespace`) | P3-10 | todo |
+| [P3-11](phase-3/P3-11-trim-auto-whitespace.md) | Trim auto-inserted whitespace (`trimAutoWhitespace`) | P3-10 | done |
 
 ### Step B — The cursor core (`LoomEditor.View/Cursors/`)
 

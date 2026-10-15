@@ -1,6 +1,6 @@
 # P3-11 — Trim auto-inserted whitespace (`trimAutoWhitespace`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-10
 - **Size:** S
 
@@ -50,22 +50,22 @@ Setup for the first three tests: model `"  x"`; push an edit that inserts `"\n  
 `IsAutoWhitespaceEdit = true` (this is what Enter does), then call `PushStackElement()`. Line 2 is now `"  "` and is
 recorded as a trim candidate.
 
-- [ ] New: push an edit that inserts `"\n"` at `(2,3)` (Enter again at the end of line 2) with
+- [x] New: push an edit that inserts `"\n"` at `(2,3)` (Enter again at the end of line 2) with
       `beforeCursorState = [(2,3)]` → line 2 becomes `""` and line 3 is `""`; one `Undo` restores `"  x\n  "`
       (exception "inserts a new line after `trimLine`")
-- [ ] New: push an edit that inserts `"z"` at `(2,3)` with `beforeCursorState = [(2,3)]` → line 2 is `"  z"`, not
+- [x] New: push an edit that inserts `"z"` at `(2,3)` with `beforeCursorState = [(2,3)]` → line 2 is `"  z"`, not
       trimmed (the edit touches the line)
-- [ ] New: in a 20-line document, push an edit on line 15 with `beforeCursorState = [(2,3)]` → line 2 is **not**
+- [x] New: in a 20-line document, push an edit on line 15 with `beforeCursorState = [(2,3)]` → line 2 is **not**
       trimmed (heuristic "edits are near cursors": the edit is not near the cursor)
-- [ ] New: with `UpdateOptions(TrimAutoWhitespace: false)`, nothing is ever trimmed
-- [ ] New: `Undo` after a trimming edit restores both the edit and the trimmed whitespace
+- [x] New: with `UpdateOptions(TrimAutoWhitespace: false)`, nothing is ever trimmed
+- [x] New: `Undo` after a trimming edit restores both the edit and the trimmed whitespace
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `textModel.ts` mentions `trimAutoWhitespace` (P3-11)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `textModel.ts` mentions `trimAutoWhitespace` (P3-11)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

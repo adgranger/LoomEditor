@@ -69,6 +69,15 @@ public sealed partial class TextModel
         Func<IReadOnlyList<ValidEditOperation>, IReadOnlyList<Selection>?>? cursorStateComputer)
     {
         ArgumentNullException.ThrowIfNull(edits);
+
+        // Monaco: _pushEditOperations
+        if (_options.TrimAutoWhitespace && _trimAutoWhitespaceLines is not null)
+        {
+            var withTrimEdits = new List<IdentifiedEditOperation>(edits);
+            AddTrimAutoWhitespaceEdits(beforeCursorState, withTrimEdits);
+            edits = withTrimEdits;
+        }
+
         return _editStack.PushEditOperation(beforeCursorState, edits, cursorStateComputer);
     }
 
