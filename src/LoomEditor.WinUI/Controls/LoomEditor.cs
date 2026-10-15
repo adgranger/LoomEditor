@@ -71,6 +71,7 @@ public sealed partial class LoomEditor : Control
         DefaultStyleKey = typeof(LoomEditor);
         _keyboard = new KeyboardInput(_context.Commands);
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
+        InitializeCaret();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;
         Loaded += OnLoaded;
@@ -137,6 +138,7 @@ public sealed partial class LoomEditor : Control
     {
         base.OnPointerPressed(e);
         Focus(FocusState.Pointer);
+        e.Handled = true;
     }
 
     /// <inheritdoc />
@@ -165,6 +167,7 @@ public sealed partial class LoomEditor : Control
     {
         _featureHost?.Dispose();
         _featureHost = null;
+        StopBlinkTimer();
         ReleaseResources();
     }
 
@@ -183,7 +186,7 @@ public sealed partial class LoomEditor : Control
         }
 
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!);
-        _renderer!.Render(surface, _viewModel!, _context.Selection, FocusState != FocusState.Unfocused, cursorVisible: true);
+        _renderer!.Render(surface, _viewModel!, _context.Selection, HasFocus, _cursorBlinking.IsVisible);
     }
 
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
