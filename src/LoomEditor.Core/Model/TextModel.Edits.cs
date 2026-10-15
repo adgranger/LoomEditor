@@ -55,6 +55,7 @@ public sealed partial class TextModel
         int oldValueLength = GetValueLengthInRange(oldFullModelRange);
 
         _buffer = newBuffer;
+        DestroyDecorations();
         _editStack.Clear();
         IncreaseVersionId();
 
@@ -123,7 +124,7 @@ public sealed partial class TextModel
         }
     }
 
-    // Monaco: applyEdits + _doApplyEdits (without decorations, raw events and edit sources)
+    // Monaco: applyEdits + _doApplyEdits (with tracked ranges only: no other decorations, no edit sources)
     private IReadOnlyList<ValidEditOperation> DoApplyEdits(IReadOnlyList<TextEdit> edits, bool computeUndoEdits)
     {
         ArgumentNullException.ThrowIfNull(edits);
@@ -140,6 +141,13 @@ public sealed partial class TextModel
 
         if (result.Changes.Count != 0)
         {
+            // We do a first pass to update the tracked ranges, before the content change events are delivered
+            foreach (InternalModelContentChange change in result.Changes)
+            {
+                _decorationsTree.AcceptReplace(
+                    change.Change.RangeOffset, change.Change.RangeLength, change.Change.Text.Length, change.ForceMoveMarkers);
+            }
+
             IncreaseVersionId();
 
             var changes = new ModelContentChange[result.Changes.Count];

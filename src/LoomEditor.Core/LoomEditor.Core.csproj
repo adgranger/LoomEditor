@@ -8,4 +8,9 @@
     <RootNamespace>LoomEditor.Core</RootNamespace>
     <Description>Platform-independent text model of LoomEditor (a native port of the Monaco editor).</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- The cursor (LoomEditor.View) uses the internal members of the model: tracked ranges, strings, columns, words. -->
+    <InternalsVisibleTo Include="LoomEditor.View" />
+    <InternalsVisibleTo Include="LoomEditor.View.Tests" />
+  </ItemGroup>
 </Project>
