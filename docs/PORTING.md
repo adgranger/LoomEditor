@@ -126,6 +126,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ⏳ phase 2+ |
 | `editor/common/editorCommon.ts` (`ICommand`, `IEditOperationBuilder`, `ICursorStateComputerData`) | `LoomEditor.View/Cursors/Commands/` | ✅ ported (P3-14): `ICommand` is `IEditCommand` |
 | `editor/common/cursor/cursor.ts` (`CommandExecutor`) | `LoomEditor.View/Cursors/CommandExecutor*.cs` | ✅ ported (P3-14); `Cursor`, `CursorCollection`, `CursorsController` come later |
+| `editor/common/commands/replaceCommand.ts` | `LoomEditor.View/Cursors/Commands/ReplaceCommand.cs` | ✅ ported (P3-15); the overtype commands are not reachable in phase 3 |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
 | `editor/common/cursorCommon.ts` | `LoomEditor.View/Cursors/` | 🔶 types (P3-12) and `CursorConfiguration` (P3-13): `SingleCursorState`, `CursorState` and partial forms, `EditOperationType`, `SelectionStartKind`, `ColumnSelectData`, `EditOperationResult`, `ICursorSimpleModel` (+ `TextModelCursorSimpleModel`), `IsQuote`; the rest comes later; `CursorConfiguration` (P3-13) without the language parts and with the editor options it reads (`EditorCursorOptions`) |
 | `editor/common/cursorEvents.ts` | `LoomEditor.View/Cursors/CursorChangeReason.cs` | 🔶 `CursorChangeReason` only (P3-12) |

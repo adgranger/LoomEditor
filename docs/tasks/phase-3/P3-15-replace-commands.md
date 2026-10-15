@@ -1,6 +1,6 @@
 # P3-15 — Replace commands
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-14
 - **Size:** S
 
@@ -46,21 +46,21 @@ File: `src/vs/editor/common/commands/replaceCommand.ts` (215 lines). Port the wh
 
 No Monaco test file targets these classes. New tests with `CommandTester.TestCommand` (P3-14), one per class:
 
-- [ ] `ReplaceCommand`: replace `(1,2)-(1,4)` of `"abcde"` with `"XY"` → `"aXYde"`, cursor `(1,4)`
-- [ ] `ReplaceCommandThatSelectsText`: same → selection `(1,2) → (1,4)`
-- [ ] `ReplaceCommandWithoutChangingPosition`: insert `"XY"` at `(1,2)` → cursor stays `(1,2)`
-- [ ] `ReplaceCommandWithOffsetCursorState`: insert `"()"` at `(1,2)` with offsets `(0, -1)` → cursor `(1,3)`
-- [ ] `ReplaceCommandThatPreservesSelection`: insert `"\n"` at `(1,1)` with a selection `(1,2) → (1,4)` → selection `(2,2) → (2,4)`
-- [ ] `ReplaceOvertypeCommand`: range `(1,2)-(1,2)` (empty), text `"XY"`, model `"abcde"` → `"aXYde"`, cursor `(1,4)`;
+- [x] `ReplaceCommand`: replace `(1,2)-(1,4)` of `"abcde"` with `"XY"` → `"aXYde"`, cursor `(1,4)`
+- [x] `ReplaceCommandThatSelectsText`: same → selection `(1,2) → (1,4)`
+- [x] `ReplaceCommandWithoutChangingPosition`: insert `"XY"` at `(1,2)` → cursor stays `(1,2)`
+- [x] `ReplaceCommandWithOffsetCursorState`: insert `"()"` at `(1,2)` with offsets `(0, -1)` → cursor `(1,3)`
+- [x] `ReplaceCommandThatPreservesSelection`: insert `"\n"` at `(1,1)` with a selection `(1,2) → (1,4)` → selection `(2,2) → (2,4)`
+- [x] `ReplaceOvertypeCommand`: range `(1,2)-(1,2)` (empty), text `"XY"`, model `"abcde"` → `"aXYde"`, cursor `(1,4)`;
       the same at `(1,6)` (end of the line) appends: `"abcdeXY"`, cursor `(1,8)`
-- [ ] `ReplaceCommand` with a multi-line text puts the cursor at the end of the last inserted line
+- [x] `ReplaceCommand` with a multi-line text puts the cursor at the end of the last inserted line
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/commands/replaceCommand.ts` → `LoomEditor.View/Cursors/Commands/ReplaceCommand.cs` (✅, P3-15)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/commands/replaceCommand.ts` → `LoomEditor.View/Cursors/Commands/ReplaceCommand.cs` (✅, P3-15)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
