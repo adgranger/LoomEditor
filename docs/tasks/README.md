@@ -161,7 +161,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P3-01](phase-3/P3-01-strings-code-points.md) | Strings: code points, surrogates, full-width and emoji helpers | P2-23 | todo |
+| [P3-01](phase-3/P3-01-strings-code-points.md) | Strings: code points, surrogates, full-width and emoji helpers | P2-23 | done |
 | [P3-02](phase-3/P3-02-strings-graphemes.md) | Strings: grapheme clusters (`GraphemeIterator`, `nextCharLength`, `prevCharLength`) | P3-01 | todo |
 | [P3-03](phase-3/P3-03-cursor-columns.md) | `CursorColumns` and indentation helpers | P3-02 | todo |
 | [P3-04](phase-3/P3-04-word-character-classifier.md) | `CharacterClassifier` and `WordCharacterClassifier` | P3-03 | todo |
