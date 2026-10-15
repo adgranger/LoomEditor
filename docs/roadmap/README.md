@@ -14,3 +14,4 @@ One file per phase. Each file is written so it can be pasted as a GitHub issue (
 | 7 | [phase-7-accessibility.md](phase-7-accessibility.md) |
 | 8 | [phase-8-lsp.md](phase-8-lsp.md) |
 | 9 | [phase-9-diff-editor.md](phase-9-diff-editor.md) |
+| 10 | [phase-10-avalonia.md](phase-10-avalonia.md) |
