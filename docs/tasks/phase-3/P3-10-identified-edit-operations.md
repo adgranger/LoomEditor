@@ -1,6 +1,6 @@
 # P3-10 — Identified edit operations and `ResultingSelection`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-09
 - **Size:** S
 
@@ -62,21 +62,21 @@ If a function is not exactly at the given line, search for its name.
 
 ## Tests
 
-- [ ] New: `PushEditOperations` with two operations whose identifiers are `(0,0)` and `(1,0)` → the computer receives
+- [x] New: `PushEditOperations` with two operations whose identifiers are `(0,0)` and `(1,0)` → the computer receives
       two inverse operations with the same identifiers, in the order of the edits
-- [ ] New: `IsAutoWhitespaceEdit` and `ForceMoveMarkers` survive validation (check through a tracked range: an insert
+- [x] New: `IsAutoWhitespaceEdit` and `ForceMoveMarkers` survive validation (check through a tracked range: an insert
       at the end of a `NeverGrowsWhenTypingAtEdges` range with `ForceMoveMarkers = true` moves the end)
-- [ ] New: `Undo()` raises `RawContentChanged` with `ResultingSelection` equal to the `beforeCursorState` given to
+- [x] New: `Undo()` raises `RawContentChanged` with `ResultingSelection` equal to the `beforeCursorState` given to
       `PushEditOperations`; `Redo()` with the selections returned by the computer; a plain `ApplyEdits` has `null`
-- [ ] Existing phase 1 tests of `PushEditOperations`, `Undo`, `Redo` pass unchanged
+- [x] Existing phase 1 tests of `PushEditOperations`, `Undo`, `Redo` pass unchanged
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.Core`: only `ModelRawContentChangedEventArgs.ResultingSelection` added
-- [ ] `docs/PORTING.md`: update the `TextModel.Undo` behavior-difference row (undo/redo now also set `ResultingSelection`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.Core`: only `ModelRawContentChangedEventArgs.ResultingSelection` added
+- [x] `docs/PORTING.md`: update the `TextModel.Undo` behavior-difference row (undo/redo now also set `ResultingSelection`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

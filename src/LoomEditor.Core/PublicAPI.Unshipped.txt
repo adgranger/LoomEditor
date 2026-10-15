@@ -24,6 +24,7 @@ LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.Changes.get -> Syst
 LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.ContainsEvent(LoomEditor.Core.Model.Events.RawContentChangedType type) -> bool
 LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.IsRedoing.get -> bool
 LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.IsUndoing.get -> bool
+LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.ResultingSelection.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>?
 LoomEditor.Core.Model.Events.ModelRawContentChangedEventArgs.VersionId.get -> int
 LoomEditor.Core.Model.Events.ModelRawEolChanged
 LoomEditor.Core.Model.Events.ModelRawEolChanged.Equals(LoomEditor.Core.Model.Events.ModelRawEolChanged? other) -> bool

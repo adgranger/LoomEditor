@@ -5,7 +5,7 @@ using LoomEditor.Core.Text;
 namespace LoomEditor.Core.Tests.Model;
 
 /// <summary>
-/// Tests of <see cref="TextModel.PushEditOperations"/>, <see cref="TextModel.Undo"/> and <see cref="TextModel.Redo"/>.
+/// Tests of <c>TextModel.PushEditOperations</c>, <see cref="TextModel.Undo"/> and <see cref="TextModel.Redo"/>.
 /// New tests, except the one marked with a <c>// Monaco:</c> comment.
 /// </summary>
 public class TextModelUndoTests
