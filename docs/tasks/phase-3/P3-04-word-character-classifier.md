@@ -1,6 +1,6 @@
 # P3-04 — `CharacterClassifier` and `WordCharacterClassifier`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-03
 - **Size:** S
 
@@ -57,21 +57,21 @@ If a function is not exactly at the given line, search for its name.
 
 ## Tests
 
-- [ ] Port `characterClassifier.test.ts` › `works` (`// Monaco: 'works'`)
-- [ ] New: `new WordCharacterClassifier(WordHelper.UsualWordSeparators, [])` classifies `'a'` and `'é'` and `'中'` as
+- [x] Port `characterClassifier.test.ts` › `works` (`// Monaco: 'works'`)
+- [x] New: `new WordCharacterClassifier(WordHelper.UsualWordSeparators, [])` classifies `'a'` and `'é'` and `'中'` as
       `Regular`, `'.'` and `'('` as `WordSeparator`, `' '` and `'\t'` as `Whitespace`
-- [ ] New: a separator string that contains a space still classifies `' '` as `Whitespace`
-- [ ] New: `WordCharacterClassifierCache.Get` returns the same instance for the same key and a new one after 10 other keys
-- [ ] New: `WordHelper.UsualWordSeparators` equals ``"`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?"`` (C# literal), its length
+- [x] New: a separator string that contains a space still classifies `' '` as `Whitespace`
+- [x] New: `WordCharacterClassifierCache.Get` returns the same instance for the same key and a new one after 10 other keys
+- [x] New: `WordHelper.UsualWordSeparators` equals ``"`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?"`` (C# literal), its length
       is 31, and it contains exactly one backslash
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows for `characterClassifier.ts`, `wordCharacterClassifier.ts`, `wordHelper.ts` (constants
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows for `characterClassifier.ts`, `wordCharacterClassifier.ts`, `wordHelper.ts` (constants
       only); behavior difference "`wordSegmenterLocales` is ignored (no `Intl.Segmenter`)"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

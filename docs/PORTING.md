@@ -53,6 +53,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 |---|---|---|
 | `Position`, `Range`, `Selection` constructors | Throw `ArgumentOutOfRangeException` for values < 1 (Monaco accepts anything) | Fail fast; Monaco's own model validates positions anyway |
 | `Selection` | Not a subclass of `Range` (exposes a `Range` property) | C# record structs cannot inherit |
+| `WordCharacterClassifier` | `wordSegmenterLocales` is ignored: `FindPrevIntlWordBeforeOrAtOffset` / `FindNextIntlWordAtOrAfterOffset` always return `null` | No Native AOT-friendly equivalent of `Intl.Segmenter` |
 | Tabs in rendered lines | Drawn with DirectWrite tab stops (`IncrementalTabStop = tabSize × space width`) instead of being expanded to spaces by `viewLineRenderer.ts`; a tab after a full-width character ends on a pixel tab stop, not a visible-column one | One UTF-16 index is one layout index, so no `CharacterMapping` is needed (ADR 0005, decision 5) |
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
 | `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
@@ -92,6 +93,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/core/editOperation.ts` | `LoomEditor.Core/Text/TextEdit.cs` | ✅ ported (`ISingleEditOperation` + `EditOperation`) |
 | `editor/common/core/cursorColumns.ts` | `LoomEditor.Core/Text/CursorColumns.cs` | ✅ ported (P3-03) |
 | `editor/common/core/misc/indentation.ts` | `LoomEditor.Core/Text/Indentation.cs` | ✅ `normalizeIndentation` only (P3-03) |
+| `editor/common/core/characterClassifier.ts` | `LoomEditor.Core/Text/CharacterClassifier.cs`, `CharacterSet.cs` | ✅ ported (P3-04) |
+| `editor/common/core/wordCharacterClassifier.ts` | `LoomEditor.Core/Text/WordCharacterClassifier.cs` | ✅ ported (P3-04); Intl segmentation is a stub |
+| `editor/common/core/wordHelper.ts` | `LoomEditor.Core/Text/WordHelper.cs` | ✅ constants only (`USUAL_WORD_SEPARATORS`, `IWordAtPosition`) (P3-04) |
 | `editor/test/common/core/range.test.ts` | `tests/LoomEditor.Core.Tests/Text/RangeTests.cs` | ✅ all tests ported |
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
@@ -141,6 +145,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 |---|---|---|
 | `core/range.test.ts` | 9 / 9 | |
 | `core/cursorColumns.test.ts` | 6 / 6 | P3-03 |
+| `core/characterClassifier.test.ts` | 1 / 1 | P3-04 |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
