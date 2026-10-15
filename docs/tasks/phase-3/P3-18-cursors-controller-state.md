@@ -1,6 +1,6 @@
 # P3-18 — `CursorsController` (1/2): state, model changes, reveal, events
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-17
 - **Size:** M
 
@@ -65,23 +65,23 @@ File: `src/vs/editor/common/cursor/cursor.ts`. If a function is not exactly at t
 The Monaco tests that cover this file (`cursor.test.ts`: `cursor initialized`, `saveState & restoreState`,
 `issue #4905…`) are ported later through the view model (P3-27). New tests here, with the `CursorTestContext` of P3-16:
 
-- [ ] New: `SetStates` with 2 states → `GetSelections()` returns them; one `CursorStateChangedEvent` and one
+- [x] New: `SetStates` with 2 states → `GetSelections()` returns them; one `CursorStateChangedEvent` and one
       `ViewCursorStateChangedEvent` are collected; setting the same states again emits nothing
-- [ ] New: `SetStates` with `MultiCursorLimit + 1` states keeps `MultiCursorLimit` cursors and the event has `ReachedMaxCursorCount == true`
+- [x] New: `SetStates` with `MultiCursorLimit + 1` states keeps `MultiCursorLimit` cursors and the event has `ReachedMaxCursorCount == true`
       (use a configuration with `MultiCursorLimit = 3`)
-- [ ] New: model `SetValue` → one cursor at `(1,1)`, reason `ContentFlush`, `OldSelections == null`
-- [ ] New: an edit made by someone else (`TextModel.PushEditOperations`) before the cursor moves it (reason `RecoverFromMarkers`)
-- [ ] New: with focus, `Model.Undo()` sets the selections from `ResultingSelection` (reason `Undo`) and emits a reveal request;
+- [x] New: model `SetValue` → one cursor at `(1,1)`, reason `ContentFlush`, `OldSelections == null`
+- [x] New: an edit made by someone else (`TextModel.PushEditOperations`) before the cursor moves it (reason `RecoverFromMarkers`)
+- [x] New: with focus, `Model.Undo()` sets the selections from `ResultingSelection` (reason `Undo`) and emits a reveal request;
       without focus, it recovers from markers
-- [ ] New: `SaveState` then `RestoreState` gives back the same selections
+- [x] New: `SaveState` then `RestoreState` gives back the same selections
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `cursor.ts` (🔶 `CursorsController` state part, P3-18); behavior difference "auto-closed
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `cursor.ts` (🔶 `CursorsController` state part, P3-18); behavior difference "auto-closed
       actions are not tracked in phase 3"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
