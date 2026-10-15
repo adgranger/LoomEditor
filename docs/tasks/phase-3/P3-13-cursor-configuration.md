@@ -1,6 +1,6 @@
 # P3-13 — `CursorConfiguration` and the editor's cursor options
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-12
 - **Size:** S
 
@@ -81,19 +81,19 @@ Editor options read by `CursorConfiguration` and their **defaults** (from `edito
 
 ## Tests
 
-- [ ] New: defaults — `PageSize` is `max(1, floor(height / lineHeight) - 2)` (height 600, line height 19 → 29;
+- [x] New: defaults — `PageSize` is `max(1, floor(height / lineHeight) - 2)` (height 600, line height 19 → 29;
       height 10 → 1), `WordSeparators == WordHelper.UsualWordSeparators`, `MultiCursorLimit == 10000`, `InputMode == Insert`
-- [ ] New: `ColumnFromVisibleColumn` on `"\tab"` with tab size 4: visible column 4 → column 2; 100 → max column 4
-- [ ] New: `VisibleColumnFromColumn` on `"\tab"` at column 3 → 5
-- [ ] New: `NormalizeIndentation("\t x")` with `InsertSpaces = true`, tab size 4 → `"     x"`
+- [x] New: `ColumnFromVisibleColumn` on `"\tab"` with tab size 4: visible column 4 → column 2; 100 → max column 4
+- [x] New: `VisibleColumnFromColumn` on `"\tab"` at column 3 → 5
+- [x] New: `NormalizeIndentation("\t x")` with `InsertSpaces = true`, tab size 4 → `"     x"`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorCommon.ts` (`CursorConfiguration` without language parts, P3-13); behavior difference
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorCommon.ts` (`CursorConfiguration` without language parts, P3-13); behavior difference
       "`CursorConfiguration` has no language configuration in phase 3; `inputMode` is always insert"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
