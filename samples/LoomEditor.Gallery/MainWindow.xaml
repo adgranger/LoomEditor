@@ -5,11 +5,11 @@
     xmlns:loom="using:LoomEditor.WinUI.Controls"
     Title="LoomEditor Gallery">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
         <TextBlock
             Margin="12,8"
             Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="LoomEditor — phase 1: text model with edits, undo/redo and EOL (typing comes in phase 3)" />
+            Text="LoomEditor — phase 2: rendering, scrolling and large documents (typing comes in phase 3)" />
         <StackPanel Grid.Row="1" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
             <Button Click="OnInsertHeader" Content="Insert header" />
             <Button Click="OnAppendLine" Content="Append line" />
@@ -31,7 +31,13 @@
             </ComboBox>
             <NumberBox x:Name="TabSizeBox" Header="Tab size" Minimum="1" Maximum="16" SpinButtonPlacementMode="Inline" Value="4" ValueChanged="OnTabSizeChanged" />
         </StackPanel>
-        <loom:LoomEditor x:Name="Editor" Grid.Row="3" />
-        <TextBlock x:Name="StatusText" Grid.Row="4" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
+        <StackPanel Grid.Row="3" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
+            <Button x:Name="LargeFileButton" Click="OnLargeFile" Content="Large file (100 MB)" />
+            <Button x:Name="LongLineButton" Click="OnLongLine" Content="Long line (1 MB)" />
+            <Button x:Name="UnicodeButton" Click="OnUnicode" Content="Unicode sample" />
+            <Button x:Name="ScrollTestButton" Click="OnScrollTest" Content="Scroll test" />
+        </StackPanel>
+        <loom:LoomEditor x:Name="Editor" Grid.Row="4" />
+        <TextBlock x:Name="StatusText" Grid.Row="5" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
     </Grid>
 </Window>

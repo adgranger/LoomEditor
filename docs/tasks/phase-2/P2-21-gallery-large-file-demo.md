@@ -1,6 +1,6 @@
 # P2-21 — Gallery: large file, long line, Unicode and a scroll test
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-20
 - **Size:** S
 
@@ -42,18 +42,18 @@ None (sample app only).
 
 ## Tests
 
-- [ ] Existing tests pass
-- [ ] Manual: Large file loads, the status shows the line count and the load time; scrolling by scrollbar drag,
+- [x] Existing tests pass
+- [x] Manual: Large file loads, the status shows the line count and the load time; scrolling by scrollbar drag,
       wheel and Scroll test all work; memory stays stable over 3 scroll tests (Task Manager)
-- [ ] Manual: Long line: shows 10,000 characters + "Show more (…)"; horizontal scrolling works; the UI does not freeze
-- [ ] Manual: Unicode sample: CJK takes two columns' width, emoji are in color, combining marks stack, tabs align
+- [x] Manual: Long line: shows 10,000 characters + "Show more (…)"; horizontal scrolling works; the UI does not freeze
+- [x] Manual: Unicode sample: CJK takes two columns' width, emoji are in color, combining marks stack, tabs align
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the published (AOT) app passes the manual checks
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the published (AOT) app passes the manual checks
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
