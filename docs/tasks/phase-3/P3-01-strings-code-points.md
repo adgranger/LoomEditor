@@ -1,6 +1,6 @@
 # P3-01 — Strings: code points, surrogates, full-width and emoji helpers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P2-23
 - **Size:** M
 
@@ -59,23 +59,23 @@ given line, search for its name: the **name** is authoritative.
 
 ## Tests
 
-- [ ] Port `strings.test.ts` › `lastNonWhitespaceIndex` (line 296), › `issue #115221: isEmojiImprecise misses ⭐` (317),
+- [x] Port `strings.test.ts` › `lastNonWhitespaceIndex` (line 296), › `issue #115221: isEmojiImprecise misses ⭐` (317),
       › `isFullWidthCharacter` (322), › `getLeadingWhitespace` (392). Keep the `// Monaco: '<name>'` comment.
-- [ ] New: `CodePointIterator` over `"a😀b"` returns `0x61, 0x1F600, 0x62` forwards and the reverse backwards, with
+- [x] New: `CodePointIterator` over `"a😀b"` returns `0x61, 0x1F600, 0x62` forwards and the reverse backwards, with
       offsets `1, 3, 4` / `3, 1, 0`
-- [ ] New: `GetNextCodePoint` on a lone high surrogate at the end returns the surrogate itself
-- [ ] New: `CommonPrefixLength("abcd", "abxy") == 2`, `CommonSuffixLength("xbcd", "abcd") == 3`
-- [ ] New: `GetLeftDeleteOffset` — `"a👍🏽"` from the end deletes the whole emoji with its skin tone (offset 1);
+- [x] New: `GetNextCodePoint` on a lone high surrogate at the end returns the surrogate itself
+- [x] New: `CommonPrefixLength("abcd", "abxy") == 2`, `CommonSuffixLength("xbcd", "abcd") == 3`
+- [x] New: `GetLeftDeleteOffset` — `"a👍🏽"` from the end deletes the whole emoji with its skin tone (offset 1);
       `"👨‍👩‍👧"` from the end returns the offset before the last component (`"👨‍👩‍"`, i.e. offset 5);
       `"ab"` from 2 returns 1; offset 0 returns 0
-- [ ] New: `SplitLines("a\r\nb\rc\nd")` returns `["a", "b", "c", "d"]`
+- [x] New: `SplitLines("a\r\nb\rc\nd")` returns `["a", "b", "c", "d"]`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: new row `base/common/strings.ts` (partly: code points, emoji, leading whitespace — P3-01)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: new row `base/common/strings.ts` (partly: code points, emoji, leading whitespace — P3-01)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
