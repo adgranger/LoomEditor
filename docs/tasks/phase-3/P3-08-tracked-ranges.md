@@ -1,6 +1,6 @@
 # P3-08 — Tracked ranges in `TextModel`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-07
 - **Size:** S
 
@@ -61,23 +61,23 @@ File: `src/vs/editor/common/model/textModel.ts`. If a function is not exactly at
 
 ## Tests
 
-- [ ] New: a range `(1,3)-(1,5)` with `AlwaysGrowsWhenTypingAtEdges`; insert `"xx"` at `(1,1)` → `(1,5)-(1,7)`;
+- [x] New: a range `(1,3)-(1,5)` with `AlwaysGrowsWhenTypingAtEdges`; insert `"xx"` at `(1,1)` → `(1,5)-(1,7)`;
       insert `"y"` at `(1,7)` (its end) → `(1,5)-(1,8)` (it grows)
-- [ ] New: same with `NeverGrowsWhenTypingAtEdges` → inserting at its end leaves `(1,5)-(1,7)`
-- [ ] New: deleting lines 2–3 moves a range on line 5 to line 3; deleting the text that contains a range collapses it
-- [ ] New: `SetTrackedRange(id, null, …)` deletes it; `GetTrackedRange(id)` is then `null`; `SetTrackedRange(null, null, …)` returns `null`
-- [ ] New: `SetTrackedRange(existingId, otherRange, …)` moves it and keeps the same id
-- [ ] New: `SetValue` forgets every tracked range
-- [ ] New: `PushEditOperations` then `Undo` puts a range back where it was
-- [ ] New: a range given with a column inside a surrogate pair is accepted by `ValidateRangeRelaxed` and kept as is
+- [x] New: same with `NeverGrowsWhenTypingAtEdges` → inserting at its end leaves `(1,5)-(1,7)`
+- [x] New: deleting lines 2–3 moves a range on line 5 to line 3; deleting the text that contains a range collapses it
+- [x] New: `SetTrackedRange(id, null, …)` deletes it; `GetTrackedRange(id)` is then `null`; `SetTrackedRange(null, null, …)` returns `null`
+- [x] New: `SetTrackedRange(existingId, otherRange, …)` moves it and keeps the same id
+- [x] New: `SetValue` forgets every tracked range
+- [x] New: `PushEditOperations` then `Undo` puts a range back where it was
+- [x] New: a range given with a column inside a surrogate pair is accepted by `ValidateRangeRelaxed` and kept as is
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `textModel.ts` mentions tracked ranges (P3-08); behavior difference "one decorations
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `textModel.ts` mentions tracked ranges (P3-08); behavior difference "one decorations
       tree in phase 3 (no overview-ruler or injected-text tree, no public decorations API)"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

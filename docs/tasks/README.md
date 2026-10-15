@@ -168,7 +168,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-05](phase-3/P3-05-interval-tree-1.md) | Interval tree (1/3): nodes, red-black insert and delete | P3-04 | done |
 | [P3-06](phase-3/P3-06-interval-tree-2.md) | Interval tree (2/3): searching, and the `IntervalTree 1` test suite | P3-05 | done |
 | [P3-07](phase-3/P3-07-interval-tree-3.md) | Interval tree (3/3): edits (`acceptReplace`, `nodeAcceptEdit`) | P3-06 | done |
-| [P3-08](phase-3/P3-08-tracked-ranges.md) | Tracked ranges in `TextModel` | P3-07 | todo |
+| [P3-08](phase-3/P3-08-tracked-ranges.md) | Tracked ranges in `TextModel` | P3-07 | done |
 | [P3-09](phase-3/P3-09-model-options.md) | Model options (`tabSize`, `indentSize`, `insertSpaces`, `trimAutoWhitespace`) and indent helpers | P3-08 | todo |
 | [P3-10](phase-3/P3-10-identified-edit-operations.md) | Identified edit operations and `ResultingSelection` | P3-09 | todo |
 | [P3-11](phase-3/P3-11-trim-auto-whitespace.md) | Trim auto-inserted whitespace (`trimAutoWhitespace`) | P3-10 | todo |
