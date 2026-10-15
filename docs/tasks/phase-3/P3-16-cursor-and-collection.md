@@ -1,6 +1,6 @@
 # P3-16 — `Cursor`, `CursorContext` and `CursorCollection`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-15
 - **Size:** M
 
@@ -61,23 +61,23 @@ model, the "simple model" of the view, the coordinates converter and the configu
 
 No Monaco test targets these classes directly (they are covered by `cursor.test.ts` from P3-27 on). New tests:
 
-- [ ] New: a new `Cursor` is at `(1,1)` in both states
-- [ ] New: set a selection `(1,2) → (1,4)` on `"abcdef"`, insert `"xx"` at `(1,1)` through `TextModel.PushEditOperations`,
+- [x] New: a new `Cursor` is at `(1,1)` in both states
+- [x] New: set a selection `(1,2) → (1,4)` on `"abcdef"`, insert `"xx"` at `(1,1)` through `TextModel.PushEditOperations`,
       `ReadSelectionFromMarkers` gives `(1,4) → (1,6)` with the same direction
-- [ ] New: an empty cursor at `(1,3)`, someone inserts `"zz"` at `(1,2)-(1,4)` replacing `"bc"`: `ReadSelectionFromMarkers`
+- [x] New: an empty cursor at `(1,3)`, someone inserts `"zz"` at `(1,2)-(1,4)` replacing `"bc"`: `ReadSelectionFromMarkers`
       returns an **empty** selection (collapsed to the end, lines 68–71)
-- [ ] New: `SetState` with a model state outside the model clamps it to a valid position
-- [ ] New: `CursorCollection.SetSelections` with 3 selections → 3 cursors, primary first; `KillSecondaryCursors` leaves 1
-- [ ] New: `Normalize` merges `(1,1)→(1,5)` and `(1,3)→(1,8)` into one cursor `(1,1)→(1,8)`; it does not merge them when
+- [x] New: `SetState` with a model state outside the model clamps it to a valid position
+- [x] New: `CursorCollection.SetSelections` with 3 selections → 3 cursors, primary first; `KillSecondaryCursors` leaves 1
+- [x] New: `Normalize` merges `(1,1)→(1,5)` and `(1,3)→(1,8)` into one cursor `(1,1)→(1,8)`; it does not merge them when
       `MultiCursorMergeOverlapping` is false; two empty cursors at the same position become one
-- [ ] New: `GetLastAddedCursorIndex` after adding two secondary cursors is 2
+- [x] New: `GetLastAddedCursorIndex` after adding two secondary cursors is 2
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `oneCursor.ts`, `cursorCollection.ts`, `cursorContext.ts` (✅, P3-16)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `oneCursor.ts`, `cursorCollection.ts`, `cursorContext.ts` (✅, P3-16)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
