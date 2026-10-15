@@ -20,3 +20,6 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.U
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.set -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.LoomEditor.TabSize.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.TabSize.set -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!

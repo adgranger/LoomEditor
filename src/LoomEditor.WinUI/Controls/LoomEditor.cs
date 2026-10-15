@@ -42,9 +42,6 @@ public sealed partial class LoomEditor : Control
 #pragma warning restore CA1724
 {
     private const string CanvasPartName = "PART_Canvas";
-    private const string FontFamilyName = "Cascadia Mono, Consolas, Courier New";
-    private const double FontSizeInDips = 14;
-    private const int TabSize = 4;
 
     /// <summary>Identifies the <see cref="Text"/> dependency property.</summary>
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -72,6 +69,7 @@ public sealed partial class LoomEditor : Control
         _keyboard = new KeyboardInput(_context.Commands);
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
+        InitializeFont();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;
         Loaded += OnLoaded;
@@ -161,6 +159,7 @@ public sealed partial class LoomEditor : Control
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        ObserveXamlRoot();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -168,6 +167,7 @@ public sealed partial class LoomEditor : Control
         _featureHost?.Dispose();
         _featureHost = null;
         StopBlinkTimer();
+        StopObservingXamlRoot();
         ReleaseResources();
     }
 
@@ -214,32 +214,40 @@ public sealed partial class LoomEditor : Control
 
     private void CreateResources(CanvasControl canvas)
     {
+        ObserveXamlRoot();
+
+        if (_viewModel is not null && _renderer is not null && _measurer is not null)
+        {
+            // Device loss: the same path as a font change.
+            RecreateTextMeasurer();
+            return;
+        }
+
         _renderer?.Dispose();
         _measurer?.Dispose();
-        // Pixel ratio 1: layout is in DIPs; DPI changes are handled in a later card (P2-20).
-        _measurer = new Win2DTextMeasurer(canvas, FontFamilyName, FontSizeInDips, TabSize, pixelRatio: 1);
+        _measurer = CreateTextMeasurer(canvas);
         _renderer = new TextViewRenderer(_measurer);
 
-        if (_viewModel is null)
-        {
-            _viewModel = new ViewModel(
-                _context.Model,
-                _measurer.FontInfo,
-                new EditorLayoutOptions(),
-                CreateViewLayoutOptions(_measurer.FontInfo.LineHeight),
-                ScheduleAtNextAnimationFrame,
-                TimeProvider.System);
-            _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
-            _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
-            _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
-            _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
-            ApplyPendingScrollPosition();
-            UpdateScrollBars();
-        }
-        else
-        {
-            _viewModel.SetFontInfo(_measurer.FontInfo);
-        }
+        _viewModel ??= CreateViewModel(canvas);
+    }
+
+    private ViewModel CreateViewModel(CanvasControl canvas)
+    {
+        var viewModel = new ViewModel(
+            _context.Model,
+            _measurer!.FontInfo,
+            new EditorLayoutOptions(),
+            CreateViewLayoutOptions(_measurer.FontInfo.LineHeight),
+            ScheduleAtNextAnimationFrame,
+            TimeProvider.System);
+        _viewModel = viewModel;
+        viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
+        viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
+        viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
+        viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
+        ApplyPendingScrollPosition();
+        UpdateScrollBars();
+        return viewModel;
     }
 
     private void ReleaseResources()
