@@ -35,8 +35,8 @@ internal sealed partial class TextViewRenderer : IDisposable
 
     private const int MinimumCacheCapacity = 256;
 
-    private readonly ITextMeasurer _measurer;
-    private readonly LineLayoutCache _cache;
+    private ITextMeasurer _measurer;
+    private LineLayoutCache _cache;
     private int _maxLineWidth;
 
     /// <summary>Creates a renderer that lays out lines with <paramref name="measurer"/>.</summary>
@@ -56,6 +56,21 @@ internal sealed partial class TextViewRenderer : IDisposable
     /// Width of the caret in DIPs; 0 means the default of 2. Monaco: the <c>cursorWidth</c> editor option (default 0).
     /// </summary>
     public int CursorWidth { get; set; }
+
+    /// <summary>
+    /// Switches to a new measurer (font, tab size or DPI change): disposes every cached layout and forgets the widest
+    /// line. Monaco: <c>ViewLines.onConfigurationChanged</c> invalidates every line and sets <c>_maxLineWidth = 0</c>.
+    /// </summary>
+    /// <remarks>The caller owns the measurers: the renderer does not dispose the old one.</remarks>
+    public void OnFontChanged(ITextMeasurer measurer)
+    {
+        ArgumentNullException.ThrowIfNull(measurer);
+
+        _cache.Dispose();
+        _measurer = measurer;
+        _cache = new LineLayoutCache(measurer, MinimumCacheCapacity);
+        ResetMaxLineWidth();
+    }
 
     /// <summary>Forgets the widest line seen so far. Monaco: <c>this._maxLineWidth = 0</c>.</summary>
     public void ResetMaxLineWidth() => _maxLineWidth = 0;

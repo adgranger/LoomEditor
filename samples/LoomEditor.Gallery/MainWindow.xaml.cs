@@ -1,5 +1,7 @@
 using LoomEditor.Core.Model;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace LoomEditor.Gallery;
 
@@ -40,6 +42,30 @@ public sealed partial class MainWindow : Window
     }
 
     private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
+
+    private void OnFontSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+    {
+        if (Editor is not null && !double.IsNaN(args.NewValue))
+        {
+            Editor.FontSize = args.NewValue;
+        }
+    }
+
+    private void OnFontFamilyChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is not null && FontFamilyBox.SelectedItem is ComboBoxItem { Content: string family })
+        {
+            Editor.FontFamily = new FontFamily(family);
+        }
+    }
+
+    private void OnTabSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
+    {
+        if (Editor is not null && !double.IsNaN(args.NewValue))
+        {
+            Editor.TabSize = (int)args.NewValue;
+        }
+    }
 
     private void RefreshStatus()
     {

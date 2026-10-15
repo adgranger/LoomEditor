@@ -1,6 +1,6 @@
 # P2-20 — Control: font, tab size and DPI changes
 
-- **Status:** todo
+- **Status:** in progress
 - **Depends on:** P2-19
 - **Size:** S
 
@@ -47,7 +47,7 @@ is cleared, the layout is recomputed, and the scroll position is kept on the sam
 
 ## Tests
 
-- [ ] New (Rendering.Tests): `OnFontChanged` clears the cache (a layout created before is disposed) and the next
+- [x] New (Rendering.Tests): `OnFontChanged` clears the cache (a layout created before is disposed) and the next
       frame calls `SetMaxLineWidth` again
 - [ ] Manual: font size 14 → 28: the text and line height double, the first visible line stays the same
 - [ ] Manual: `Segoe UI`: text is proportional, selection and caret land between the right characters
@@ -57,10 +57,10 @@ is cleared, the layout is recomputed, and the scroll position is kept on the sam
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, manual checks done
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `TabSize` / `TabSizeProperty` added
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `TabSize` / `TabSizeProperty` added
 - [ ] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
