@@ -1,6 +1,6 @@
 # P3-07 — Interval tree (3/3): edits (`acceptReplace`, `nodeAcceptEdit`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-06
 - **Size:** S
 
@@ -46,20 +46,20 @@ Tests: `src/vs/editor/test/common/model/intervalTree.test.ts`, suite `IntervalTr
 
 ## Tests
 
-- [ ] Port suite `IntervalTree 2` › `nodeAcceptEdit` (all groups, every call)
-- [ ] New: a tree with `[0,5]` (AlwaysGrows), `[10,15]` (NeverGrows), `[20,20]` (GrowsOnlyWhenTypingAfter):
+- [x] Port suite `IntervalTree 2` › `nodeAcceptEdit` (all groups, every call)
+- [x] New: a tree with `[0,5]` (AlwaysGrows), `[10,15]` (NeverGrows), `[20,20]` (GrowsOnlyWhenTypingAfter):
       `AcceptReplace(3, 0, 2, false)` (insert 2 characters inside the first interval) gives `[0,7] [12,17] [22,22]`
       in `GetAllInOrder()` and the P3-05 invariants hold
-- [ ] New: `AcceptReplace(10, 5, 0, false)` (delete the whole second interval) collapses it to `[10,10]`
-- [ ] New: 1,000 random `AcceptReplace` calls (seeded `[Theory]`, seed in the message) on a tree of 50 random intervals:
+- [x] New: `AcceptReplace(10, 5, 0, false)` (delete the whole second interval) collapses it to `[10,10]`
+- [x] New: 1,000 random `AcceptReplace` calls (seeded `[Theory]`, seed in the message) on a tree of 50 random intervals:
       invariants hold after each call and every node satisfies `0 <= Start <= End`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `intervalTree.ts` ✅ ported (P3-05 … P3-07); tests table `intervalTree.test.ts` 25 / 25
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `intervalTree.ts` ✅ ported (P3-05 … P3-07); tests table `intervalTree.test.ts` 25 / 25
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
