@@ -1,6 +1,6 @@
 # P3-12 — Cursor state types and the identity coordinates converter
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-11
 - **Size:** S
 
@@ -22,7 +22,7 @@ coordinates converter (view = model until word wrap, ADR 0005 decision 6).
 | same | 333–400 | `const enum SelectionStartKind`, `class SingleCursorState` |
 | same | 402–435 | `class EditOperationResult` (with `followUp`), `isQuote` |
 | `src/vs/editor/common/cursorEvents.ts` | 12–41 | `const enum CursorChangeReason` |
-| `src/vs/editor/common/viewModel/coordinatesConverter.ts` | 10–105 | `interface ICoordinatesConverter`, `class IdentityCoordinatesConverter` |
+| `src/vs/editor/common/coordinatesConverter.ts` (the card said `viewModel/coordinatesConverter.ts`, which does not exist) | 10–105 | `interface ICoordinatesConverter`, `class IdentityCoordinatesConverter` |
 
 ## Files to create or change
 
@@ -68,22 +68,22 @@ coordinates converter (view = model until word wrap, ADR 0005 decision 6).
 
 ## Tests
 
-- [ ] New: `SingleCursorState.Selection` for start `(1,5)-(1,5)` and position `(1,2)` is `(1,5) → (1,2)`; for a word
+- [x] New: `SingleCursorState.Selection` for start `(1,5)-(1,5)` and position `(1,2)` is `(1,5) → (1,2)`; for a word
       start `(1,3)-(1,7)` and position `(1,1)` it is `(1,7) → (1,1)` (the start range's end is kept when moving before it)
-- [ ] New: `Move(inSelectionMode: true, …)` keeps `SelectionStart` and kind; `Move(false, …)` collapses with kind `Simple`
-- [ ] New: two states that differ only in `LeftoverVisibleColumns` are not equal; `HasSelection()` is true when only
+- [x] New: `Move(inSelectionMode: true, …)` keeps `SelectionStart` and kind; `Move(false, …)` collapses with kind `Simple`
+- [x] New: two states that differ only in `LeftoverVisibleColumns` are not equal; `HasSelection()` is true when only
       the selection start range is non-empty
-- [ ] New: `CursorState.FromModelSelections` keeps the order and the direction of each selection
-- [ ] New: `IdentityCoordinatesConverter` clamps `(10, 50)` to the last valid position of a 3-line model, and
+- [x] New: `CursorState.FromModelSelections` keeps the order and the direction of each selection
+- [x] New: `IdentityCoordinatesConverter` clamps `(10, 50)` to the last valid position of a 3-line model, and
       `ModelPositionIsVisible((4,1))` is false
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/cursorCommon.ts` (🔶 types, P3-12), `cursorEvents.ts` (`CursorChangeReason`),
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/cursorCommon.ts` (🔶 types, P3-12), `cursorEvents.ts` (`CursorChangeReason`),
       `viewModel/coordinatesConverter.ts` (identity converter only)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
