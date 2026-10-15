@@ -56,6 +56,7 @@ public sealed partial class TextModel
 
         _buffer = newBuffer;
         DestroyDecorations();
+        _trimAutoWhitespaceLines = null;
         _editStack.Clear();
         IncreaseVersionId();
 
@@ -139,8 +140,9 @@ public sealed partial class TextModel
         }
 
         int oldLineCount = _buffer.GetLineCount();
-        ApplyEditsResult result = _buffer.ApplyEdits(operations, recordTrimAutoWhitespace: false, computeUndoEdits);
+        ApplyEditsResult result = _buffer.ApplyEdits(operations, recordTrimAutoWhitespace: _options.TrimAutoWhitespace, computeUndoEdits);
         int newLineCount = _buffer.GetLineCount();
+        _trimAutoWhitespaceLines = result.TrimAutoWhitespaceLineNumbers;
 
         if (result.Changes.Count != 0)
         {
