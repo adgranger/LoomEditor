@@ -1,6 +1,6 @@
 # P2-19 — Control: caret blinking and focus
 
-- **Status:** todo
+- **Status:** in progress
 - **Depends on:** P2-18
 - **Size:** S
 
@@ -36,15 +36,15 @@ redrawn on selection changes. The control drives `CursorBlinking` (P2-16) with a
 
 ## Tests
 
-- [ ] Existing tests pass (the state machine is tested in P2-16)
+- [x] Existing tests pass (the state machine is tested in P2-16)
 - [ ] Manual: click in the editor → caret at 1,1 blinks; click a Gallery button → caret disappears, line highlight stays
 - [ ] Manual: Ctrl+A → caret moves to the end of the document, stays visible for 500 ms, then blinks; the line highlight disappears (non-empty selection)
 - [ ] Manual: Task Manager shows no CPU use from the Gallery when the editor is not focused
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, manual checks done
 - [ ] Card status and `docs/tasks/README.md` updated
 
