@@ -1,6 +1,6 @@
 # P3-02 — Strings: grapheme clusters (`GraphemeIterator`, `nextCharLength`, `prevCharLength`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-01
 - **Size:** M (plus one generated data file)
 
@@ -70,22 +70,22 @@ File: `src/vs/base/common/strings.ts`. If a function is not exactly at the given
 
 ## Tests
 
-- [ ] Port `strings.test.ts` › `getGraphemeBreakType` (line 495)
-- [ ] New: `NextCharLength` at offset 0 of `"éx"` is 2; of `"🇫🇷x"` is 4; of `"👨‍👩‍👧x"` is 8;
+- [x] Port `strings.test.ts` › `getGraphemeBreakType` (line 495)
+- [x] New: `NextCharLength` at offset 0 of `"éx"` is 2; of `"🇫🇷x"` is 4; of `"👨‍👩‍👧x"` is 8;
       of `"辻󠄀x"` (辻 + variation selector U+E0100) is 3; of `"\r\nx"` is 2; of `"ab"` is 1
-- [ ] New: `PrevCharLength` gives the same lengths from the end of each of these strings (without the trailing `x`)
-- [ ] New: `CharCount("a👍🏽é")` is 3
-- [ ] New: `GetCharContainingOffset("a😀b", 2)` is `(1, 3)` (offset 2 is inside the surrogate pair)
-- [ ] New: the generated table has `Raw.Length % 3 == 0` and `Raw[0..3]` is `0, 0, 0`
+- [x] New: `PrevCharLength` gives the same lengths from the end of each of these strings (without the trailing `x`)
+- [x] New: `CharCount("a👍🏽é")` is 3
+- [x] New: `GetCharContainingOffset("a😀b", 2)` is `(1, 3)` (offset 2 is inside the surrogate pair)
+- [x] New: the generated table has `Raw.Length % 3 == 0` and `Raw[0..3]` is `0, 0, 0`
 
 ## Acceptance criteria
 
-- [ ] `./eng/Generate-GraphemeBreakData.ps1` regenerates `GraphemeBreakData.cs` with no diff
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `base/common/strings.ts` updated (graphemes, P3-02); behavior difference row
+- [x] `./eng/Generate-GraphemeBreakData.ps1` regenerates `GraphemeBreakData.cs` with no diff
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `base/common/strings.ts` updated (graphemes, P3-02); behavior difference row
       "Grapheme data is a generated C# table" is **not** needed (same data, same rules)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
