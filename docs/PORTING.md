@@ -90,6 +90,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/core/range.ts` | `LoomEditor.Core/Text/Range.cs` | ✅ ported |
 | `editor/common/core/selection.ts` | `LoomEditor.Core/Text/Selection.cs` | ✅ ported |
 | `editor/common/core/editOperation.ts` | `LoomEditor.Core/Text/TextEdit.cs` | ✅ ported (`ISingleEditOperation` + `EditOperation`) |
+| `editor/common/core/cursorColumns.ts` | `LoomEditor.Core/Text/CursorColumns.cs` | ✅ ported (P3-03) |
+| `editor/common/core/misc/indentation.ts` | `LoomEditor.Core/Text/Indentation.cs` | ✅ `normalizeIndentation` only (P3-03) |
 | `editor/test/common/core/range.test.ts` | `tests/LoomEditor.Core.Tests/Text/RangeTests.cs` | ✅ all tests ported |
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
@@ -138,6 +140,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | Monaco test file (suite) | Ported / total | Not ported, and why |
 |---|---|---|
 | `core/range.test.ts` | 9 / 9 | |
+| `core/cursorColumns.test.ts` | 6 / 6 | P3-03 |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |

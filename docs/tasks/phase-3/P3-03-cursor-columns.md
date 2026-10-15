@@ -1,6 +1,6 @@
 # P3-03 — `CursorColumns` and indentation helpers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-02
 - **Size:** S
 
@@ -49,21 +49,21 @@ If a function is not exactly at the given line, search for its name.
 
 ## Tests
 
-- [ ] Port `cursorColumns.test.ts` › `visibleColumnFromColumn` (line 13), › `toStatusbarColumn` (72),
+- [x] Port `cursorColumns.test.ts` › `visibleColumnFromColumn` (line 13), › `toStatusbarColumn` (72),
       › `columnFromVisibleColumn` (128), and the two generated loops (lines 204–281): one `[Theory]` per loop with the
       function name as data (`nextRenderTabStop`, `nextIndentTabStop`; `prevRenderTabStop`, `prevIndentTabStop`).
       Keep the `// Monaco: '<name>'` comments.
-- [ ] New: `NormalizeIndentation("\t  x", indentSize: 4, insertSpaces: true)` is `"      x"`;
+- [x] New: `NormalizeIndentation("\t  x", indentSize: 4, insertSpaces: true)` is `"      x"`;
       `NormalizeIndentation("        x", 4, insertSpaces: false)` is `"\t\tx"`; `NormalizeIndentation("x", 4, true)` is `"x"`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `editor/common/core/cursorColumns.ts` → `LoomEditor.Core/Text/CursorColumns.cs` (✅ ported, P3-03);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `editor/common/core/cursorColumns.ts` → `LoomEditor.Core/Text/CursorColumns.cs` (✅ ported, P3-03);
       `editor/common/core/misc/indentation.ts` → `Indentation.cs` (`normalizeIndentation` only); tests table row
       `editor/test/common/core/cursorColumns.test.ts`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
