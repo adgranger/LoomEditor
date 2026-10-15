@@ -179,7 +179,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 |---|---|---|---|
 | [P3-12](phase-3/P3-12-cursor-state-types.md) | Cursor state types and the identity coordinates converter | P3-11 | done |
 | [P3-13](phase-3/P3-13-cursor-configuration.md) | `CursorConfiguration` and the editor's cursor options | P3-12 | done |
-| [P3-14](phase-3/P3-14-edit-commands-and-executor.md) | `IEditCommand` and `CommandExecutor` | P3-13 | todo |
+| [P3-14](phase-3/P3-14-edit-commands-and-executor.md) | `IEditCommand` and `CommandExecutor` | P3-13 | done |
 | [P3-15](phase-3/P3-15-replace-commands.md) | Replace commands | P3-14 | todo |
 | [P3-16](phase-3/P3-16-cursor-and-collection.md) | `Cursor`, `CursorContext` and `CursorCollection` | P3-15 | todo |
 | [P3-17](phase-3/P3-17-view-model-events.md) | View model events (dispatcher subset) | P3-16 | todo |

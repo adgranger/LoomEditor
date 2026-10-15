@@ -1,6 +1,6 @@
 # P3-14 — `IEditCommand` and `CommandExecutor`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-13
 - **Size:** M
 
@@ -87,23 +87,23 @@ selections. Port both. Monaco's `ICommand` is named `IEditCommand` in C# (ADR 00
 No Monaco test targets `CommandExecutor` directly (it is tested through every command). New tests, with a tiny
 test-only command `InsertTextCommand(Range range, string text)` in `TestHelpers/`:
 
-- [ ] New: two cursors, two commands inserting `"x"` at `(1,1)` and `(1,3)` of `"abcd"` → `"xabxcd"`, one undo step,
+- [x] New: two cursors, two commands inserting `"x"` at `(1,1)` and `(1,3)` of `"abcd"` → `"xabxcd"`, one undo step,
       selections from `ComputeCursorState`
-- [ ] New: two commands whose ranges overlap → the second cursor is a loser: its edit is dropped and its selection is
+- [x] New: two commands whose ranges overlap → the second cursor is a loser: its edit is dropped and its selection is
       removed from the result (port the reasoning of lines 994–1041 into the test comment)
-- [ ] New: a command that calls `TrackSelection` gets back the selection moved by the edits of the other cursor
-- [ ] New: tracked ranges are released after `ExecuteCommands` (no tracked range left in the model: expose an
+- [x] New: a command that calls `TrackSelection` gets back the selection moved by the edits of the other cursor
+- [x] New: tracked ranges are released after `ExecuteCommands` (no tracked range left in the model: expose an
       `internal int TrackedRangeCount` on `TextModel` for the test, or check with `GetTrackedRange(id) == null`)
-- [ ] New: a `null` command keeps its selection; all `null` → returns `null` and the model is unchanged
-- [ ] New: `GetEditOperation` returns the operations in the order they were added
+- [x] New: a `null` command keeps its selection; all `null` → returns `null` and the model is unchanged
+- [x] New: `GetEditOperation` returns the operations in the order they were added
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `editorCommon.ts` (`ICommand` → `IEditCommand`, builder, computer data) and
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `editorCommon.ts` (`ICommand` → `IEditCommand`, builder, computer data) and
       `cursor.ts` (`CommandExecutor`, P3-14); behavior difference "`ICommand` is named `IEditCommand`"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

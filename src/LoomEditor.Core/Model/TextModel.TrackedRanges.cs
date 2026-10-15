@@ -28,6 +28,9 @@ public sealed partial class TextModel
     private DecorationsTrees _decorationsTree = new();
     private int _lastDecorationId;
 
+    // For tests: the number of tracked ranges (and decorations) that are alive.
+    internal int TrackedRangeCount => _decorations.Count;
+
     /// <summary>The current range of a tracked range, or <see langword="null"/> when the id is unknown (Monaco: <c>_getTrackedRange</c>).</summary>
     internal Range? GetTrackedRange(string id)
     {
