@@ -29,7 +29,7 @@ public sealed partial class TextModel
             builder.AcceptChunk(chunk);
         }
 
-        return new TextModel(builder.Finish(normalizeEol: true).Create(defaultEol), defaultEol);
+        return new TextModel(builder.Finish(normalizeEol: true).Create(defaultEol), ResolveOptions(defaultEol, null));
     }
 
     // Monaco: TextModelSnapshot. Merges the small chunks of the source into chunks of at least 64K characters.

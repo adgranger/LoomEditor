@@ -23,7 +23,6 @@ namespace LoomEditor.Core.Model;
 /// </remarks>
 public sealed partial class TextModel
 {
-    private readonly DefaultEndOfLine _defaultEol;
     private PieceTreeTextBuffer _buffer;
     private int _versionId = 1;
     private int _alternativeVersionId = 1;
@@ -36,19 +35,24 @@ public sealed partial class TextModel
 
     /// <summary>Creates a model holding <paramref name="text"/>.</summary>
     /// <param name="text">The initial text. A leading BOM is removed and remembered; line breaks are normalized to the EOL.</param>
-    /// <param name="defaultEol">The EOL to use when the text has no line break.</param>
+    /// <param name="defaultEol">The EOL to use when the text has no line break. Ignored when <paramref name="options"/> is given: its <see cref="TextModelOptions.DefaultEol"/> is used.</param>
+    /// <param name="options">The indentation options; <see langword="null"/> for Monaco's defaults (<see cref="TextModelOptions.Default"/>).</param>
     /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/>.</exception>
-    public TextModel(string text, DefaultEndOfLine defaultEol = DefaultEndOfLine.LF)
-        : this(CreateBuffer(text, defaultEol), defaultEol)
+    public TextModel(string text, DefaultEndOfLine defaultEol = DefaultEndOfLine.LF, TextModelOptions? options = null)
+        : this(CreateBuffer(text, options?.DefaultEol ?? defaultEol), ResolveOptions(defaultEol, options))
     {
     }
 
-    private TextModel(PieceTreeTextBuffer buffer, DefaultEndOfLine defaultEol)
+    private TextModel(PieceTreeTextBuffer buffer, TextModelOptions options)
     {
-        _defaultEol = defaultEol;
+        _options = options;
         _buffer = buffer;
         _editStack = new EditStack(this, _undoRedoStack);
     }
+
+    // Monaco: DEFAULT_CREATION_OPTIONS with the given default EOL, unless options are given
+    internal static TextModelOptions ResolveOptions(DefaultEndOfLine defaultEol, TextModelOptions? options) =>
+        options ?? new TextModelOptions(tabSize: 4, indentSize: 4, defaultEol: defaultEol);
 
     // Monaco: createTextBuffer(value, defaultEOL)
     private static PieceTreeTextBuffer CreateBuffer(string text, DefaultEndOfLine defaultEol)
