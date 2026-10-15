@@ -39,3 +39,5 @@ the 2D engine is Direct2D. Three ways to reach them from C#:
   documents) — an internal change of the WinUI project.
 - Phase 0 measures a single character to lay out text (monospaced fonts only). Phase 2 replaces it with per-line
   `CanvasTextLayout` / glyph runs (tabs, wide characters, ligatures, proportional fonts).
+- Superseded in part by [ADR 0005](0005-viewport-rendering.md): there is no `CanvasVirtualControl`; the control draws
+  only the visible lines on a viewport-sized `CanvasControl`.

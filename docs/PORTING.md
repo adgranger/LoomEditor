@@ -70,6 +70,17 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `MouseWheelClassifier` | One instance per editor instead of Monaco's global `INSTANCE`; no `acceptStandardWheelEvent` (DOM event) | Two editors must not share their wheel history |
 | `MouseWheelScrolling` | The wheel arithmetic of `_onMouseWheel` is a pure function that does not validate the position; no inertial scrolling, `scrollYToX` or `flipAxes` | Testable without a `ViewLayout`; the caller validates and compares with the future position |
 | `EditorLayoutOptions` | `GlyphMargin` and `Folding` default to `false` (Monaco: `true`) | No feature draws a glyph or a folding arrow yet; an empty 16-19 DIP strip would look like a bug. Phases adding breakpoints or folding turn them on |
+| `Scrollable`, `SmoothScrollingOperation` | A `TimeProvider` replaces `Date.now()`; `ISmoothScrollPosition` extends `IScrollPosition` | Testable time; TypeScript structural typing has no C# equivalent |
+| `LineHeightsManager`, `LinesLayout` | Heights are `int`; no `CustomLineHeightData.fromDecorations`; `PendingChanges` are private nested types | No decorations yet; line heights are whole DIPs |
+| `ViewLayout` | No word-wrap branch in the content width; explicit options (`ViewLayoutOptions`, `OnOptionsChanged`, `OnLayoutInfoChanged`, `OnFontInfoChanged`) instead of `IEditorConfiguration`; `ContentSizeChangedEvent.attemptToMerge` not ported | Word wrap is phase 6; no options system yet |
+| `ViewModel`, `ViewportData` | Phase 2 subset: view lines are model lines (identity mapping), no view events, no rendering data, no decoration or wrapped-line queries | Projections (word wrap, folding, injected text) come in phase 6 |
+| `FontInfo`, `FontMeasurements` | No font feature or variation settings, no editor zoom, no serialization, no measurement cache (so the "re-measure when width ≤ 2" retry is not ported); widths are read through `ICharacterWidthReader` (DirectWrite in `Win2DTextMeasurer`) | Windows only; nothing to cache or zoom yet |
+| `EditorLayoutInfoComputer` | Subset of `computeLayout`: no minimap, word wrap or accessibility parts | Phases 6–7 |
+| Scrollbars | XAML `ScrollBar` primitives driven by the `Scrollable`; Monaco's `scrollbarState.ts` and `abstractScrollbar.ts` are not ported | Windows look and accessibility (ADR 0005, decision 3) |
+| Line rendering | `TextViewRenderer` draws on a canvas the size of the viewport; there is no `viewLineRenderer.ts` HTML output, no `CharacterMapping`; a cache of line layouts keyed by the text of the line replaces `ViewLine` invalidation; only `stopRenderingLineAfter` (10,000) and its "Show more" label are ported | ADR 0005 (decisions 1, 4 and 5) |
+| `CursorBlinking` | The CSS-animated styles `Smooth`, `Phase` and `Expand` behave like `Blink`; only the `Line` cursor style is drawn; no timer inside (the control ticks it with a `DispatcherQueueTimer`); no secondary cursors | No CSS animations on a canvas; multi-cursor is phase 3 |
+| Line numbers and line highlight | Drawn on the canvas; only `RenderLineNumbersType.On`, `renderFinalNewline = on`, and `renderLineHighlight` `none` / `gutter` / `line` / `all` with `renderLineHighlightOnlyWhenFocus = false` | No relative or interval numbers or decorations yet |
+| `tabSize` | `LoomEditor.TabSize` is a dependency property (default 4, Monaco's `EDITOR_MODEL_DEFAULTS.tabSize`); a value < 1 throws `ArgumentOutOfRangeException` and the old value is kept | WinUI property system; fail fast |
 
 ## Map: Monaco → LoomEditor
 
@@ -105,14 +116,15 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/viewLayout/linesLayout.ts` | `LoomEditor.View/Layout/` (`LinesLayout` (+ `.Whitespaces.cs`, `.Changes.cs`, `.Viewport.cs`), `EditorWhitespace`, `IEditorWhitespace`, `IWhitespaceChangeAccessor`, `ILineHeightChangeAccessor`) | ✅ ported (P2-04, P2-05); heights are `int`; `PendingChanges` is a private nested class; `PartialViewLinesViewportData`, `ViewWhitespaceViewportData` and `Viewport` (from `viewModel.ts`) live next to it |
 | `base/browser/ui/scrollbar/scrollableElement.ts` | `LoomEditor.View/Layout/` (`MouseWheelClassifier`, `MouseWheelScrolling`, `MouseWheelInput`, `MouseWheelOptions`) | ✅ adapted (P2-09), classifier and wheel arithmetic only; scrollbar drawing is XAML (ADR 0005) |
 | `editor/common/viewLayout/viewLineRenderer.ts` | `LoomEditor.Rendering/` (`OverflowLabel`; the `stopRenderingLineAfter` constant in `TextViewRenderer`) | 🔶 partly ported (P2-13): only `stopRenderingLineAfter` and the "Show more" overflow label; the HTML renderer is not ported (ADR 0005) |
+| `editor/browser/viewParts/viewLines/viewLines.ts` | `LoomEditor.Rendering/` (`TextViewRenderer`, `LineLayoutCache`, `ITextMeasurer`, `ILineLayout`, `Win2D/`), `LoomEditor.WinUI/Controls/` (`LoomEditor.Font.cs`) | 🔶 adapted (P2-11 to P2-14, P2-20): draws only the visible lines at the scroll position; line layouts cached by text; `_maxLineWidth` and its reset on flush, layout and font changes (`OnFontChanged`); no `ViewLine` DOM, no `CharacterMapping` (ADR 0005) |
 | `editor/browser/viewParts/lineNumbers/lineNumbers.ts`, `editor/browser/viewParts/currentLineHighlight/currentLineHighlight.ts` | `LoomEditor.Rendering/` (`TextViewRenderer.Gutter.cs`, `RenderLineHighlight`) | 🔶 adapted (P2-15): drawn on the canvas; only `RenderLineNumbersType.On`, `renderFinalNewline = on`, `renderLineHighlight` (`none`, `gutter`, `line`, `all`), `renderLineHighlightOnlyWhenFocus = false`; no relative/interval line numbers or line-number decorations |
-| `editor/browser/viewParts/viewCursors/viewCursors.ts`, `editor/browser/viewParts/viewCursors/viewCursor.ts` | `LoomEditor.Rendering/` (`CursorBlinking`, `TextEditorCursorBlinkingStyle`, caret drawing in `TextViewRenderer`) | 🔶 adapted (P2-16): blinking state machine without a timer (the host ticks it, P2-19) and `Line` cursor style only. Behavior difference: the CSS-animated styles `Smooth`, `Phase` and `Expand` behave like `Blink`; no secondary cursors, block/underline styles or IME |
+| `editor/browser/viewParts/viewCursors/viewCursors.ts`, `editor/browser/viewParts/viewCursors/viewCursor.ts` | `LoomEditor.Rendering/` (`CursorBlinking`, `TextEditorCursorBlinkingStyle`, caret drawing in `TextViewRenderer`) | 🔶 adapted (P2-16): blinking state machine without a timer (the control ticks it with a `DispatcherQueueTimer`, P2-19) and `Line` cursor style only. Behavior difference: the CSS-animated styles `Smooth`, `Phase` and `Expand` behave like `Blink`; no secondary cursors, block/underline styles or IME |
 | `editor/common/viewLayout/viewLayout.ts` | `LoomEditor.View/Layout/` (`ViewLayout` (+ `.Scrollable.cs`: `EditorScrollDimensions`, `EditorScrollable`), `ViewLayoutOptions`, `ViewLayoutState`, `ScrollType`, `ContentSizeChangedEventArgs`) | ✅ ported (P2-08); no word-wrap branch in the content width, explicit options instead of `IEditorConfiguration` (`onConfigurationChanged` → `OnOptionsChanged`, `OnLayoutInfoChanged`, `OnFontInfoChanged`); `ContentSizeChangedEvent.attemptToMerge` not ported |
 | `editor/common/config/fontInfo.ts` | `LoomEditor.View/Layout/` (`BareFontInfo`, `FontInfo`) | ✅ ported (P2-06), subset: no font feature/variation settings, no editor zoom, no serialization; Windows constants; records |
 | `editor/browser/config/fontMeasurements.ts` | `LoomEditor.View/Layout/` (`FontMeasurements`, `ICharacterWidthReader`) | ✅ adapted (P2-06), measurement logic only; no cache, so the "re-measure when width <= 2" retry is not ported (clamp to 5 only); DirectWrite reader in P2-12 |
 | `editor/common/config/editorOptions.ts` | `LoomEditor.View/Layout/` (`EditorLayoutInfo`, `OverviewRulerPosition`, `EditorLayoutInfoComputer`, `EditorLayoutInfoComputerEnv`, `EditorLayoutOptions`) | ✅ ported (P2-07), `computeLayout` subset: no minimap, word wrap or accessibility parts; rest of the file (options system) not ported |
-| `editor/common/viewModel/viewModelImpl.ts` | `LoomEditor.View/Layout/` (`ViewModel`) | 🔶 in progress (P2-10): layout part only, identity line mapping (view lines = model lines); projections, view events, cursors in phase 3 / 6 |
-| `editor/common/viewLayout/viewLinesViewportData.ts` | `LoomEditor.View/Layout/` (`ViewportData`) | 🔶 in progress (P2-10): fields and constructor only; no rendering data, wrapped-line or decoration queries |
+| `editor/common/viewModel/viewModelImpl.ts` | `LoomEditor.View/Layout/` (`ViewModel`) | 🔶 phase 2 subset (P2-10): layout part only, identity line mapping (view lines = model lines); projections, view events, cursors in phase 3 / 6 |
+| `editor/common/viewLayout/viewLinesViewportData.ts` | `LoomEditor.View/Layout/` (`ViewportData`) | 🔶 phase 2 subset (P2-10): fields and constructor only; no rendering data, wrapped-line or decoration queries |
 | `editor/common/viewModel/*` (the rest) | `LoomEditor.View/Layout/` | ⏳ phase 6 |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
@@ -146,6 +158,23 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `editor/test/common/viewLayout/lineHeights.test.ts` (`LineHeightsManager`, `LineHeightsManager (auto-commit on read)`) | 38 / 38 | |
 | `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 12 / 12 | |
 | `base/test/browser/ui/scrollbar/scrollableElement.test.ts` (`MouseWheelClassifier`) | 9 / 9 | |
+| `editor/test/browser/config/editorLayoutProvider.test.ts` (`Editor ViewLayout - EditorLayoutProvider`) | 10 / 20 | the 8 minimap tests (`EditorLayoutProvider 9` … `14`) and the 2 word-wrap tests (`issue #31312`, `leaves the rightmost column…`): minimap and word wrap are phase 6. The 10 ported ones are `EditorLayoutProvider 1` … `8 - rounds floats` |
+
+## Done in phase 2 (rendering)
+
+The step-by-step cards are in **[docs/tasks/phase-2/](tasks/phase-2/)** (P2-01 … P2-23); the design is
+[ADR 0005](adr/0005-viewport-rendering.md). Main design decisions:
+
+- Scrolling and layout are Monaco's, ported to `LoomEditor.View/Layout/` with integer arithmetic (`Scrollable`,
+  `LinesLayout`, `ViewLayout`, `ViewModel` subset), so a 100 MB document keeps exact offsets (`bigNumbersDelta`).
+- The control draws only the visible lines on a viewport-sized `CanvasControl`: no `CanvasVirtualControl`, no
+  `ScrollViewer`. Scrollbars are XAML `ScrollBar` primitives mirroring the `Scrollable`.
+- Text is measured and laid out by DirectWrite through `Win2DTextMeasurer`; tabs are DirectWrite tab stops, so
+  proportional fonts, wide characters and emoji need no special case. Line layouts are cached by text.
+- The caret blinking state machine (`CursorBlinking`) has no timer; the control drives it with a `DispatcherQueueTimer`.
+- Font, tab size and DPI changes go through one method, `RecreateTextMeasurer`.
+- The "done when" criterion is met: the Gallery scroll test on a 100 MB document, in a Native AOT build, runs at
+  60 fps with p95 17 ms (`docs/performance.md`, "Scrolling (card P2-22)").
 
 ## Done in phase 1 (piece tree and text model)
 
