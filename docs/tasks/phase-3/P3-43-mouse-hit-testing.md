@@ -1,6 +1,6 @@
 # P3-43 — Mouse hit testing on the canvas
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-42
 - **Size:** M
 
@@ -57,22 +57,22 @@ layout of the line, as in Monaco's GPU path (`viewLinesGpu`).
 
 No Monaco test file covers `mouseTarget.ts`. New tests with a fake `ILineHitTester` (fixed 10-DIP characters) and `TestCodeEditor`:
 
-- [ ] New: `x` in the line numbers → `GutterLineNumbers`, position at column 1 of the line under `y`
-- [ ] New: `y` above the first line (top padding) → `ContentEmpty` at `(1,1)`; below the last line → `ContentEmpty` at the
+- [x] New: `x` in the line numbers → `GutterLineNumbers`, position at column 1 of the line under `y`
+- [x] New: `y` above the first line (top padding) → `ContentEmpty` at `(1,1)`; below the last line → `ContentEmpty` at the
       last line's max column with `IsAfterLines`
-- [ ] New: on an empty line → `ContentEmpty` at column 1; beyond the end of a line → `ContentEmpty` at the max column
-- [ ] New: on text, `x` at 12 DIPs into `"abc"` → `ContentText` at column 2 (nearest boundary 10); at 16 → column 3
-- [ ] New: with `scrollTop`/`scrollLeft` set, the same screen point maps to the scrolled position
-- [ ] New: `_getMouseColumn(25, 10)` → 4 (`Math.round(2.5) = 3`, JavaScript rounding)
-- [ ] New (Rendering): `FakeLineLayout.HitTest` and `TextViewRenderer.GetPositionAtCoordinate` agree with `GetCharacterX`
+- [x] New: on an empty line → `ContentEmpty` at column 1; beyond the end of a line → `ContentEmpty` at the max column
+- [x] New: on text, `x` at 12 DIPs into `"abc"` → `ContentText` at column 2 (nearest boundary 10); at 16 → column 3
+- [x] New: with `scrollTop`/`scrollLeft` set, the same screen point maps to the scrolled position
+- [x] New: `_getMouseColumn(25, 10)` → 4 (`Math.round(2.5) = 3`, JavaScript rounding)
+- [x] New (Rendering): `FakeLineLayout.HitTest` and `TextViewRenderer.GetPositionAtCoordinate` agree with `GetCharacterX`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `editor/browser/controller/mouseTarget.ts` (🔶 canvas subset, P3-43); behavior difference
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `editor/browser/controller/mouseTarget.ts` (🔶 canvas subset, P3-43); behavior difference
       "hit testing is geometric on the canvas (no DOM)"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

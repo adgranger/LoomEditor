@@ -17,4 +17,10 @@ internal interface ILineLayout : IDisposable
     /// <c>index == Text.Length</c> gives <see cref="Width"/>.
     /// </summary>
     double GetCharacterX(int index);
+
+    /// <summary>
+    /// The offset of the caret position nearest to <paramref name="x"/> (DIPs from the start of the line): <c>0 … Text.Length</c>.
+    /// A hit on the trailing half of a character gives the offset after it; it is never inside a surrogate pair.
+    /// </summary>
+    int HitTest(double x);
 }
