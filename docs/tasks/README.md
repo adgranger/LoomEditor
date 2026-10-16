@@ -237,7 +237,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P3-47](phase-3/P3-47-control-clipboard.md) | Clipboard: copy, cut and paste with the Windows clipboard | P3-46 | todo |
+| [P3-47](phase-3/P3-47-control-clipboard.md) | Clipboard: copy, cut and paste with the Windows clipboard | P3-46 | done |
 
 ### Step H — IME
 

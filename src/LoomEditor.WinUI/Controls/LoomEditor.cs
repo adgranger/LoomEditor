@@ -1,6 +1,7 @@
 using LoomEditor.Rendering;
 using LoomEditor.Rendering.Win2D;
 using LoomEditor.Core.Model.Events;
+using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 using LoomEditor.View.Features;
 using LoomEditor.WinUI.Accessibility;
@@ -59,6 +60,7 @@ public sealed partial class LoomEditor : Control
     private readonly ViewModel _viewModel;
     private readonly KeyboardInput _keyboard;
     private EditorFeatureHost? _featureHost;
+    private readonly IDisposable _clipboardCommands;
     private CanvasControl? _canvas;
     private Win2DTextMeasurer? _measurer;
 
@@ -68,6 +70,7 @@ public sealed partial class LoomEditor : Control
         DefaultStyleKey = typeof(LoomEditor);
         _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System);
         _viewModel = _context.ViewModel;
+        _clipboardCommands = ClipboardCommands.Register(_context.Commands, _viewModel, new WindowsClipboardService());
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
         _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
         _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
