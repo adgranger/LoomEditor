@@ -1,5 +1,21 @@
 #nullable enable
 const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityLeft = "cursorWordAccessibilityLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityLeftSelect = "cursorWordAccessibilityLeftSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityRight = "cursorWordAccessibilityRight" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityRightSelect = "cursorWordAccessibilityRightSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordEndLeft = "cursorWordEndLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordEndLeftSelect = "cursorWordEndLeftSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordEndRight = "cursorWordEndRight" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordEndRightSelect = "cursorWordEndRightSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordLeft = "cursorWordLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordLeftSelect = "cursorWordLeftSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordRight = "cursorWordRight" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordRightSelect = "cursorWordRightSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartLeft = "cursorWordStartLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartLeftSelect = "cursorWordStartLeftSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartRight = "cursorWordStartRight" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartRightSelect = "cursorWordStartRightSelect" -> string!
 LoomEditor.View.Commands.CommandRegistry
 LoomEditor.View.Commands.CommandRegistry.CommandRegistry() -> void
 LoomEditor.View.Commands.CommandRegistry.Contains(string! id) -> bool
@@ -43,5 +59,11 @@ LoomEditor.View.Features.SelectAll.SelectAllFeature.Attach(LoomEditor.View.Featu
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Dispose() -> void
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Id.get -> string!
 LoomEditor.View.Features.SelectAll.SelectAllFeature.SelectAllFeature() -> void
+LoomEditor.View.Features.WordOperations.WordOperationsCommands
+LoomEditor.View.Features.WordOperations.WordOperationsFeature
+LoomEditor.View.Features.WordOperations.WordOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.WordOperations.WordOperationsFeature.Dispose() -> void
+LoomEditor.View.Features.WordOperations.WordOperationsFeature.Id.get -> string!
+LoomEditor.View.Features.WordOperations.WordOperationsFeature.WordOperationsFeature() -> void
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection
