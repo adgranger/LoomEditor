@@ -66,6 +66,37 @@ internal sealed partial class ViewModel
 
     public int GetLineIndentColumn(int lineNumber) => _model.GetLineIndentColumn(lineNumber);
 
+    public int GetLineLength(int lineNumber) => _model.GetLineLength(lineNumber);
+
+    // ----- cursor move support (Monaco: viewModelImpl.ts)
+
+    /// <summary>Test hook: when not null, replaces <see cref="GetCompletelyVisibleViewRange"/> (the Monaco tests assign that method).</summary>
+    internal Func<Range>? CompletelyVisibleViewRangeOverride { get; set; }
+
+    public Range GetCompletelyVisibleViewRange()
+    {
+        if (CompletelyVisibleViewRangeOverride is { } rangeOverride)
+        {
+            return rangeOverride();
+        }
+
+        PartialViewLinesViewportData partialData = ViewLayout.GetLinesViewportData();
+        int startViewLineNumber = partialData.CompletelyVisibleStartLineNumber;
+        int endViewLineNumber = partialData.CompletelyVisibleEndLineNumber;
+
+        return new Range(
+            startViewLineNumber,
+            GetLineMinColumn(startViewLineNumber),
+            endViewLineNumber,
+            GetLineMaxColumn(endViewLineNumber));
+    }
+
+    /// <summary>The hidden (folded) model ranges. Always empty before folding (phase 5).</summary>
+    public static IReadOnlyList<Range> GetHiddenAreas() => [];
+
+    /// <summary>The text direction of a line. Always <see cref="TextDirection.LTR"/> in phase 3.</summary>
+    public static TextDirection GetTextDirection(int lineNumber) => TextDirection.LTR;
+
     // ----- cursor operations (Monaco: viewModelImpl.ts 1154–1262)
 
     public CursorState GetPrimaryCursorState() => _cursor.GetPrimaryCursorState();

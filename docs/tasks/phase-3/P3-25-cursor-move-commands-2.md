@@ -1,6 +1,6 @@
 # P3-25 — `CursorMoveCommands` (2/2): `simpleMove`, `viewportMove` and the `cursorMove` arguments
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-24
 - **Size:** M
 
@@ -58,20 +58,20 @@ File: `src/vs/editor/common/cursor/cursorMoveCommands.ts`. If a function is not 
 
 The Monaco test file `cursorMoveCommand.test.ts` runs through the `cursorMove` core command (P3-26). Direct tests here:
 
-- [ ] New: `CursorMove.Parse` — `{ to: "left" }` → Left / Character / 1; `{ to: "down", by: "wrappedLine", value: 3, select: true }`;
+- [x] New: `CursorMove.Parse` — `{ to: "left" }` → Left / Character / 1; `{ to: "down", by: "wrappedLine", value: 3, select: true }`;
       `{ to: "nope" }` → null; `{ to: "left", value: 0 }` keeps Monaco's behavior (read `parse` and assert what it does)
-- [ ] New: `SimpleMove` Left by `HalfLine` on `"abcdefghi"` (9 characters) from `(1,10)` → `(1,5)`: it moves
+- [x] New: `SimpleMove` Left by `HalfLine` on `"abcdefghi"` (9 characters) from `(1,10)` → `(1,5)`: it moves
       `Math.round(4.5) = 5` columns with JavaScript rounding (C# `Math.Round(4.5)` would give 4: this test catches it)
-- [ ] New: `ViewportMove` `ViewPortTop` with `CompletelyVisibleViewRangeOverride = () => new Range(10, 1, 20, 1)` → line 10
-- [ ] New: `FindPositionInViewportIfOutside` keeps a cursor that is inside the visible range and moves one that is above it
+- [x] New: `ViewportMove` `ViewPortTop` with `CompletelyVisibleViewRangeOverride = () => new Range(10, 1, 20, 1)` → line 10
+- [x] New: `FindPositionInViewportIfOutside` keeps a cursor that is inside the visible range and moves one that is above it
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorMoveCommands.ts` (✅ except `word`, P3-25); behavior differences "no hidden areas
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorMoveCommands.ts` (✅ except `word`, P3-25); behavior differences "no hidden areas
       before folding (phase 5)" and "text direction is always LTR in phase 3"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

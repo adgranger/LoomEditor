@@ -53,6 +53,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 |---|---|---|
 | `Position`, `Range`, `Selection` constructors | Throw `ArgumentOutOfRangeException` for values < 1 (Monaco accepts anything) | Fail fast; Monaco's own model validates positions anyway |
 | `Selection` | Not a subclass of `Range` (exposes a `Range` property) | C# record structs cannot inherit |
+| `ViewModel.GetHiddenAreas` (folded-line moves) | Always empty: the folded-line moves behave like line moves | No folding before phase 5 |
+| `ViewModel.GetTextDirection` (`_moveLeft`, `_moveRight`) | Always `TextDirection.LTR`: the RTL swap is kept but never taken | Text direction is always LTR in phase 3 |
 | `WordCharacterClassifier` | `wordSegmenterLocales` is ignored: `FindPrevIntlWordBeforeOrAtOffset` / `FindNextIntlWordAtOrAfterOffset` always return `null` | No Native AOT-friendly equivalent of `Intl.Segmenter` |
 | Tabs in rendered lines | Drawn with DirectWrite tab stops (`IncrementalTabStop = tabSize × space width`) instead of being expanded to spaces by `viewLineRenderer.ts`; a tab after a full-width character ends on a pixel tab stop, not a visible-column one | One UTF-16 index is one layout index, so no `CharacterMapping` is needed (ADR 0005, decision 5) |
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
@@ -109,7 +111,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
-| `editor/common/cursor/cursorMoveCommands.ts` | `LoomEditor.View/Cursors/CursorMoveCommands.cs` | 🔶 part 1 (P3-24): add cursor, line and buffer moves, expand line, select all, line, cancel selection, moveTo; `word` (P3-30) and `simpleMove`/`viewportMove` (P3-25) are not ported yet |
+| `editor/common/cursor/cursorMoveCommands.ts` | `LoomEditor.View/Cursors/CursorMoveCommands*.cs`, `CursorMove.cs` | ✅ ported (P3-24, P3-25) except `word` (P3-30); `CursorMove.metadata` is not ported |
 | `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ✅ ported (phase 1), except search (phase 5) |
 | `editor/common/model/pieceTreeTextBuffer/rbTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/RedBlackTree*.cs`, `TreeNode.cs`, `NodeColor.cs` | ✅ ported (P1-03; `rbInsertLeft/Right` and `NodePosition` from `pieceTreeBase.ts`) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ✅ ported (P1-01, P1-05 to P1-08, P1-14, tests P1-10 to P1-15) except search (`findMatchesInNode`…), which comes in phase 5 |
