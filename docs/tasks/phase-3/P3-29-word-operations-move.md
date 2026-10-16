@@ -1,6 +1,6 @@
 # P3-29 — Word moves (`WordOperations` 1/2) and the `WordOperations` feature
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-28
 - **Size:** M
 
@@ -64,22 +64,22 @@ Port the move tests of `wordOperations.test.ts`.
 
 ## Tests
 
-- [ ] Port the move tests of `wordOperations.test.ts`, lines 119–539: `cursorWordLeft - simple` … `cursorWordAccessibilityRight`
+- [x] Port the move tests of `wordOperations.test.ts`, lines 119–539: `cursorWordLeft - simple` … `cursorWordAccessibilityRight`
       (24 tests) **except**:
   - `cursorWordLeft - Recognize words` (183) and `cursorWordRight - Recognize words` (407): they need `Intl.Segmenter`
     with `wordSegmenterLocales: 'ja'` (not ported, P3-04) — not ported, reason in the PORTING tests table;
   - `issue #51275 - cursorWordStartLeft does not push undo/redo stack element` (305): it types text, so it is ported
     with typing in P3-33.
-- [ ] New: the feature registers all 16 move ids; `Commands.Execute("cursorWordLeft")` moves the cursor
+- [x] New: the feature registers all 16 move ids; `Commands.Execute("cursorWordLeft")` moves the cursor
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (including the architecture tests for the new feature folder)
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `WordOperationsFeature` (constructor, `Id`, `Attach`, `Dispose`) and the `WordOperationsCommands` constants
-- [ ] `docs/PORTING.md`: map rows `cursorWordOperations.ts` (🔶 moves, P3-29) and `contrib/wordOperations/browser/wordOperations.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (including the architecture tests for the new feature folder)
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `WordOperationsFeature` (constructor, `Id`, `Attach`, `Dispose`) and the `WordOperationsCommands` constants
+- [x] `docs/PORTING.md`: map rows `cursorWordOperations.ts` (🔶 moves, P3-29) and `contrib/wordOperations/browser/wordOperations.ts`
       → `Features/WordOperations/` (🔶 moves); tests table `wordOperations.test.ts` (21 / 56 so far)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

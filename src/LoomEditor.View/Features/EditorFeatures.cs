@@ -1,4 +1,5 @@
 using LoomEditor.View.Features.SelectAll;
+using LoomEditor.View.Features.WordOperations;
 
 namespace LoomEditor.View.Features;
 
@@ -16,5 +17,6 @@ public static class EditorFeatures
     public static IReadOnlyList<Func<IEditorFeature>> Default { get; } =
     [
         () => new SelectAllFeature(),
+        () => new WordOperationsFeature(),
     ];
 }
