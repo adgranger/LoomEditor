@@ -1,6 +1,6 @@
 # P3-30 — Word deletes, word selection and word parts (`WordOperations` 2/2)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-29
 - **Size:** M
 
@@ -62,21 +62,21 @@ contribution, and their tests.
 
 ## Tests
 
-- [ ] Port `wordOperations.test.ts` lines 540–1028 (32 tests) **except** `deleteWordLeft - issue #91855` (874): it
+- [x] Port `wordOperations.test.ts` lines 540–1028 (32 tests) **except** `deleteWordLeft - issue #91855` (874): it
       registers a language with auto-closing pairs (phase 4–5) — not ported, reason in the PORTING tests table
-- [ ] Port `wordPartOperations.test.ts` (15 tests)
-- [ ] Port `cursor.test.ts` › `issue #832: word right` (2383)
-- [ ] New: `CursorMoveCommands.Word` on `"hello world"` at `(1,8)` selects `(1,7) → (1,12)`
+- [x] Port `wordPartOperations.test.ts` (15 tests)
+- [x] Port `cursor.test.ts` › `issue #832: word right` (2383)
+- [x] New: `CursorMoveCommands.Word` on `"hello world"` at `(1,8)` selects `(1,7) → (1,12)`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `WordPartOperationsFeature`, `WordPartOperationsCommands` and
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `WordPartOperationsFeature`, `WordPartOperationsCommands` and
       the new delete ids of `WordOperationsCommands`
-- [ ] `docs/PORTING.md`: map rows `cursorWordOperations.ts` (✅ except Intl segmentation, P3-30), `wordOperations.ts`,
+- [x] `docs/PORTING.md`: map rows `cursorWordOperations.ts` (✅ except Intl segmentation, P3-30), `wordOperations.ts`,
       `wordPartOperations.ts`; tests table `wordOperations.test.ts` 52 / 56, `wordPartOperations.test.ts` 15 / 15
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

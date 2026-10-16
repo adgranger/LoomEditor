@@ -177,7 +177,9 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursorAtomicMoveOperations.test.ts` | 2 / 2 | P3-22 |
 | `cursorMoveCommand.test.ts` | 47 / 55 | suite `Cursor move command - foldedLine unit` (8): needs `setHiddenAreas` (folding, phase 5) |
 | `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 73 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6). The 6 column selection tests are ported in P3-28 (`ColumnSelectionTests`). `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
-| `wordOperations.test.ts` (move tests) | 21 / 56 | `cursorWordLeft - Recognize words` and `cursorWordRight - Recognize words` (2): need `Intl.Segmenter` (not available); `issue #51275` (1): types text, ported with typing in P3-33; the delete tests: P3-30 |
+| `wordOperations.test.ts` | 52 / 56 | `cursorWordLeft - Recognize words` and `cursorWordRight - Recognize words` (2): need `Intl.Segmenter` (not available); `issue #51275` (1): types text, ported with typing in P3-33; `deleteWordLeft - issue #91855` (1): needs auto-closing pairs (phase 4–5) |
+| `wordPartOperations.test.ts` | 15 / 15 | |
+| `cursor.test.ts` (`issue #832: word right`) | 1 / 1 | runs `CursorMoveCommands.Word` directly (the `WordSelect` mouse commands are P3-44) |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |

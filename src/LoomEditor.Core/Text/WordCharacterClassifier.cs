@@ -88,15 +88,24 @@ internal sealed class WordCharacterClassifier : CharacterClassifier<WordCharacte
 }
 
 /// <summary>An LRU cache of 10 word classifiers (Monaco: <c>getMapForWordSeparators</c>).</summary>
-/// <remarks>Threading: not thread-safe; UI thread only, like Monaco.</remarks>
+/// <remarks>Threading: thread-safe (a lock): the cache is static, so several editors, or several tests, share it. Monaco has no lock (single thread).</remarks>
 internal static class WordCharacterClassifierCache
 {
     private const int Limit = 10;
 
     private static readonly Dictionary<string, LinkedListNode<(string Key, WordCharacterClassifier Value)>> Nodes = [];
     private static readonly LinkedList<(string Key, WordCharacterClassifier Value)> Order = new();
+    private static readonly Lock Gate = new();
 
     public static WordCharacterClassifier Get(string wordSeparators, IReadOnlyList<string> intlSegmenterLocales)
+    {
+        lock (Gate)
+        {
+            return GetCore(wordSeparators, intlSegmenterLocales);
+        }
+    }
+
+    private static WordCharacterClassifier GetCore(string wordSeparators, IReadOnlyList<string> intlSegmenterLocales)
     {
         var key = $"{wordSeparators}/{string.Join(',', intlSegmenterLocales)}";
         if (Nodes.TryGetValue(key, out var node))

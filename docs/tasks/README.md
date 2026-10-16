@@ -200,7 +200,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-27](phase-3/P3-27-cursor-tests-movement.md) | Port the cursor movement tests of `cursor.test.ts` | P3-26 | done |
 | [P3-28](phase-3/P3-28-column-selection.md) | Column (box) selection | P3-27 | done |
 | [P3-29](phase-3/P3-29-word-operations-move.md) | Word moves (`WordOperations` 1/2) and the `WordOperations` feature | P3-28 | done |
-| [P3-30](phase-3/P3-30-word-operations-delete.md) | Word deletes, word selection and word parts (`WordOperations` 2/2) | P3-29 | todo |
+| [P3-30](phase-3/P3-30-word-operations-delete.md) | Word deletes, word selection and word parts (`WordOperations` 2/2) | P3-29 | done |
 
 ### Step D — Typing, deleting, indentation, paste, copy, undo
 

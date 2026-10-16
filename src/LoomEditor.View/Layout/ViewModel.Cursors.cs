@@ -94,6 +94,9 @@ internal sealed partial class ViewModel
     /// <summary>The hidden (folded) model ranges. Always empty before folding (phase 5).</summary>
     public static IReadOnlyList<Range> GetHiddenAreas() => [];
 
+    /// <summary>The ranges of the characters the cursor auto-closed. Always empty before auto-closing (phase 4–5 cut point).</summary>
+    public static IReadOnlyList<Range> GetCursorAutoClosedCharacters() => [];
+
     /// <summary>The text direction of a line. Always <see cref="TextDirection.LTR"/> in phase 3.</summary>
     public static TextDirection GetTextDirection(int lineNumber) => TextDirection.LTR;
 

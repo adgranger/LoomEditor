@@ -16,6 +16,19 @@ const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordS
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartLeftSelect = "cursorWordStartLeftSelect" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartRight = "cursorWordStartRight" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordStartRightSelect = "cursorWordStartRightSelect" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteInsideWord = "deleteInsideWord" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteWordEndLeft = "deleteWordEndLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteWordEndRight = "deleteWordEndRight" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteWordLeft = "deleteWordLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteWordRight = "deleteWordRight" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteWordStartLeft = "deleteWordStartLeft" -> string!
+const LoomEditor.View.Features.WordOperations.WordOperationsCommands.DeleteWordStartRight = "deleteWordStartRight" -> string!
+const LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands.CursorWordPartLeft = "cursorWordPartLeft" -> string!
+const LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands.CursorWordPartLeftSelect = "cursorWordPartLeftSelect" -> string!
+const LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands.CursorWordPartRight = "cursorWordPartRight" -> string!
+const LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands.CursorWordPartRightSelect = "cursorWordPartRightSelect" -> string!
+const LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands.DeleteWordPartLeft = "deleteWordPartLeft" -> string!
+const LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands.DeleteWordPartRight = "deleteWordPartRight" -> string!
 LoomEditor.View.Commands.CommandRegistry
 LoomEditor.View.Commands.CommandRegistry.CommandRegistry() -> void
 LoomEditor.View.Commands.CommandRegistry.Contains(string! id) -> bool
@@ -65,5 +78,11 @@ LoomEditor.View.Features.WordOperations.WordOperationsFeature.Attach(LoomEditor.
 LoomEditor.View.Features.WordOperations.WordOperationsFeature.Dispose() -> void
 LoomEditor.View.Features.WordOperations.WordOperationsFeature.Id.get -> string!
 LoomEditor.View.Features.WordOperations.WordOperationsFeature.WordOperationsFeature() -> void
+LoomEditor.View.Features.WordPartOperations.WordPartOperationsCommands
+LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature
+LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Dispose() -> void
+LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Id.get -> string!
+LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.WordPartOperationsFeature() -> void
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection

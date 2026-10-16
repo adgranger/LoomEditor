@@ -6,7 +6,7 @@ using LoomEditor.View.Cursors;
 
 namespace LoomEditor.View.Features.WordOperations;
 
-/// <summary>Adds the word move commands (<c>cursorWordLeft</c>, <c>cursorWordEndRight</c>...).</summary>
+/// <summary>Adds the word move and delete commands (<c>cursorWordLeft</c>, <c>deleteWordLeft</c>...).</summary>
 /// <remarks>
 /// Phase 3 cut points: <c>precondition</c> and the keybindings of Monaco's registrations are not ported (P3-39).
 /// Threading: UI thread only.
@@ -48,6 +48,25 @@ public sealed class WordOperationsFeature : IEditorFeature
             new WordAccessibilityRightCommand(WordOperationsCommands.CursorWordAccessibilityRight, false),
             new WordAccessibilityRightCommand(WordOperationsCommands.CursorWordAccessibilityRightSelect, true),
         ];
+
+        DeleteWordCommand[] deleteCommands =
+        [
+            new DeleteWordLeftCommand(WordOperationsCommands.DeleteWordStartLeft, false, WordNavigationType.WordStart),
+            new DeleteWordLeftCommand(WordOperationsCommands.DeleteWordEndLeft, false, WordNavigationType.WordEnd),
+            new DeleteWordLeftCommand(WordOperationsCommands.DeleteWordLeft, true, WordNavigationType.WordStart),
+            new DeleteWordRightCommand(WordOperationsCommands.DeleteWordStartRight, false, WordNavigationType.WordStart),
+            new DeleteWordRightCommand(WordOperationsCommands.DeleteWordEndRight, false, WordNavigationType.WordEnd),
+            new DeleteWordRightCommand(WordOperationsCommands.DeleteWordRight, true, WordNavigationType.WordEnd),
+        ];
+
+        foreach (DeleteWordCommand command in deleteCommands)
+        {
+            DeleteWordCommand captured = command;
+            _registrations.Add(context.Commands.Register(new EditorCommand(captured.Id, () => captured.RunEditorCommand(viewModel))));
+        }
+
+        // Monaco: DeleteInsideWord is an EditorAction taking { onlyWord }; the command runs it with onlyWord = false.
+        _registrations.Add(context.Commands.Register(new EditorCommand(WordOperationsCommands.DeleteInsideWord, () => DeleteInsideWord.Run(viewModel, onlyWord: false))));
 
         foreach (MoveWordCommand command in commands)
         {
