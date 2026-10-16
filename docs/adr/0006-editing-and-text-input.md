@@ -91,3 +91,35 @@ Three problems need a decision:
   command id constants), like `SelectAllFeature` today. Everything else stays `internal`.
 - The IME works on Windows 11 only until a TSF (`ITextStoreACP2`) implementation is written, if ever needed.
 - Phases 4–5 plug the language configuration into the cut points listed in the phase 3 cards.
+
+## Findings of the IME spike (P3-48)
+
+Measured on Windows 11 build 10.0.26200, Microsoft Japanese IME, one display at 100 % scale, with a throw-away probe that
+logged every `CoreTextEditContext` event (the probe is not kept). Decision 11 holds; one detail is added.
+
+- **`GetForCurrentView()`** works in the WinUI 3 desktop app (JIT and Native AOT). Windows 10 was not tested; the
+  fallback of decision 11 stays as written.
+- **Japanese IME** (`sennsei`, Space, Enter): `CompositionStarted`, then many `TextUpdating` / `TextRequested` /
+  `LayoutRequested` / `FormatUpdating`, then `CompositionCompleted`. `CharacterReceived` never fires for composed text,
+  so there is no double delivery. The control must also answer `TextRequested` and `SelectionRequested` (the IME asks
+  for the whole text, `[0,6000]`, at focus).
+- **Ranges** in `TextUpdating` and `FormatUpdating` are offsets in the text the control exposed through `TextRequested`
+  (the IME's own copy), not offsets in the document. A candidate change replaces the whole composed range
+  (`[14,18]` → `先生`). `NewSelection` is the caret inside the composition.
+- **Underline** reported by `FormatUpdating`: `Wave` for text being typed, `Thick` for the segment being converted,
+  `None` when the composition ends.
+- **Focus lost during a composition**: one last `TextUpdating`, then `CompositionCompleted`, then
+  `NotifyFocusLeaveCompleted`. The composition must be committed, not dropped.
+- **English keyboard**: only `KeyDown` and `CharacterReceived`; `TextUpdating` does not fire.
+- **Emoji panel (Win + .)**: only `TextUpdating`, with an empty range (`[n,n]`) and the emoji (two UTF-16 units) as
+  text. There is **no** `CompositionStarted` or `CompositionCompleted`. P3-50 must treat a `TextUpdating` outside a
+  composition as a plain `Type`.
+- **`KeyDown` / `ProcessKey` (229)** was not seen during a composition (no `KeyDown` at all for the keys the IME
+  consumed). Nothing relies on it: the control ignores key bindings while a composition is active.
+- **Candidate window**: placed just under the `LayoutBounds` rectangle given in `LayoutRequested`, in **screen pixels**
+  (viewport origin × `RasterizationScale` + the client origin from `ClientToScreen`). Setting
+  `LayoutBoundsVisualPixels` made the app crash right after the first `LayoutRequested` (fail-fast `0xC0000409`), so
+  P3-52 must use `LayoutBounds` only. 150 % scale was not tested; the formula multiplies by `RasterizationScale`.
+- **Native AOT**: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` gives no warning and the published
+  app behaves like the JIT one (composition, candidate window).
+- **Not tested**: Microsoft Pinyin (not installed), Windows 10, 150 % scale. They are checked again by P3-51 and P3-52.
