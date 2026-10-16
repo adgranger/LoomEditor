@@ -1,6 +1,6 @@
 # P3-22 — Atomic soft tabs (`AtomicTabMoveOperations`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-21
 - **Size:** S
 
@@ -39,16 +39,16 @@ step. Port the two pure functions that compute this. They are used by `MoveOpera
 
 ## Tests
 
-- [ ] Port `cursorAtomicMoveOperations.test.ts` › `Test whitespaceVisibleColumn`
-- [ ] Port `cursorAtomicMoveOperations.test.ts` › `Test atomicPosition`
+- [x] Port `cursorAtomicMoveOperations.test.ts` › `Test whitespaceVisibleColumn`
+- [x] Port `cursorAtomicMoveOperations.test.ts` › `Test atomicPosition`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorAtomicMoveOperations.ts` (✅, P3-22); phase 3 tests table row
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorAtomicMoveOperations.ts` (✅, P3-22); phase 3 tests table row
       `cursorAtomicMoveOperations.test.ts` 2 / 2
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
