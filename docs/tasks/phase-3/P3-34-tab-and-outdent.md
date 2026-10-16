@@ -1,6 +1,6 @@
 # P3-34 — Tab and Shift+Tab (`tab`, `outdent`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-33
 - **Size:** S
 
@@ -46,24 +46,24 @@ and the core commands `tab` and `outdent`.
 
 Port from `cursor.test.ts`, suite `Editor Controller`:
 
-- [ ] `issue microsoft/monaco-editor#443: Indentation of a single row deletes selected text in some cases` (1674)
-- [ ] `Bug 9121: Auto indent + undo + redo is funky` (1694)
-- [ ] `Bug #18293:[regression][editor] Can't outdent whitespace line` (1869)
-- [ ] `issue #95591: Unindenting moves cursor to beginning of line` (1886)
-- [ ] `Bug #16657: [editor] Tab on empty line of zero indentation moves cursor to position (1,1)` (1903)
-- [ ] `issue #3071: Investigate why undo stack gets corrupted` (2273)
-- [ ] `issue #3463: pressing tab adds spaces, but not as many as for a tab` (2345)
-- [ ] `issue #4312: trying to type a tab character over a sequence of spaces results in unexpected behaviour` (2363)
-- [ ] `Cursor honors insertSpaces configuration on tab` (3212)
-- [ ] `PR #5423: Auto indent + undo + redo is funky` (3712)
-- [ ] `removeAutoWhitespace on: removes only whitespace the cursor added 2` (3467; plain model, no language) and `removeAutoWhitespace on: test 1` (3511), moved from P3-33 because they use the Tab command
+- [x] `issue microsoft/monaco-editor#443: Indentation of a single row deletes selected text in some cases` (1674)
+- [x] `Bug 9121: Auto indent + undo + redo is funky` (1694)
+- [x] `Bug #18293:[regression][editor] Can't outdent whitespace line` (1869)
+- [x] `issue #95591: Unindenting moves cursor to beginning of line` (1886)
+- [x] `Bug #16657: [editor] Tab on empty line of zero indentation moves cursor to position (1,1)` (1903)
+- [x] `issue #3071: Investigate why undo stack gets corrupted` (2273)
+- [x] `issue #3463: pressing tab adds spaces, but not as many as for a tab` (2345)
+- [x] `issue #4312: trying to type a tab character over a sequence of spaces results in unexpected behaviour` (2363)
+- [x] `Cursor honors insertSpaces configuration on tab` (3212)
+- [x] `PR #5423: Auto indent + undo + redo is funky` (3712)
+- [x] `removeAutoWhitespace on: removes only whitespace the cursor added 2` (3467; plain model, no language) and `removeAutoWhitespace on: test 1` (3511), moved from P3-33 because they use the Tab command
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ `TabOperation`, P3-34); tests table `cursor.test.ts` (+10)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ `TabOperation`, P3-34); tests table `cursor.test.ts` (+10)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
