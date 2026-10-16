@@ -164,6 +164,9 @@ internal sealed partial class ViewModel
         Func<IReadOnlyList<ValidEditOperation>, IReadOnlyList<Selection>?> cursorStateComputer) =>
         ExecuteCursorEdit(eventsCollector => _cursor.ExecuteEdits(eventsCollector, source, edits, cursorStateComputer));
 
+    public void Type(string text, string? source = null) =>
+        ExecuteCursorEdit(eventsCollector => _cursor.Type(eventsCollector, text, source));
+
     public void ExecuteCommand(IEditCommand command, string? source = null) =>
         ExecuteCursorEdit(eventsCollector => _cursor.ExecuteCommand(eventsCollector, command, source));
 
