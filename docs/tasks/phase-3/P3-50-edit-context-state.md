@@ -1,6 +1,6 @@
 # P3-50 — Edit context state (the text the IME sees, and its updates)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-49
 - **Size:** S
 
@@ -59,20 +59,20 @@ where given, search for the name.
 
 No Monaco test covers this logic (`nativeEditContextUtils.test.ts` tests a DOM focus tracker). New tests:
 
-- [ ] New: `GetNewEditContextState` on `["abc", "def"]` with a selection `(1,2) → (2,3)` → text `"abc\ndef"`, offsets 1 and 6
-- [ ] New: insert at a collapsed selection: previous `(3,3)`, update `(3,3,"x", 4,4)` → `TypeData("x", 0, 0, 0)` → `Type`
-- [ ] New: IME replaces the two previous characters: previous `(5,5)`, update `(3,5,"せん", 5,5)` → `("せん", 2, 0, 0)` → `CompositionType`
-- [ ] New: the IME moves its caret inside the composition: previous `(5,5)`, update `(3,5,"せん", 4,4)` → `PositionDelta == -1`
-- [ ] New: a high surrogate alone returns `null`; the next low surrogate returns the pair with the update range shifted by −1
-- [ ] New: `Update` reports `TextChanged` only when the lines of the primary selection changed
+- [x] New: `GetNewEditContextState` on `["abc", "def"]` with a selection `(1,2) → (2,3)` → text `"abc\ndef"`, offsets 1 and 6
+- [x] New: insert at a collapsed selection: previous `(3,3)`, update `(3,3,"x", 4,4)` → `TypeData("x", 0, 0, 0)` → `Type`
+- [x] New: IME replaces the two previous characters: previous `(5,5)`, update `(3,5,"せん", 5,5)` → `("せん", 2, 0, 0)` → `CompositionType`
+- [x] New: the IME moves its caret inside the composition: previous `(5,5)`, update `(3,5,"せん", 4,4)` → `PositionDelta == -1`
+- [x] New: a high surrogate alone returns `null`; the next low surrogate returns the pair with the update range shifted by −1
+- [x] New: `Update` reports `TextChanged` only when the lines of the primary selection changed
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `editor/browser/controller/editContext/native/nativeEditContext.ts` (🔶 text, selection
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `editor/browser/controller/editContext/native/nativeEditContext.ts` (🔶 text, selection
       and type data, P3-50); behavior difference "only the primary selection is exposed to the IME" (same as Monaco: write it as a note)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
