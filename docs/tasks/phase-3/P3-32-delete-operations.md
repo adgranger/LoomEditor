@@ -1,6 +1,6 @@
 # P3-32 — Backspace and Delete (`DeleteOperations`, `deleteLeft`, `deleteRight`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-31
 - **Size:** S
 
@@ -52,23 +52,23 @@ without cut) and the core commands `deleteLeft` / `deleteRight`.
 Port from `cursor.test.ts`, suite `Editor Controller` (with `TestCodeEditor`; options such as `useTabStops` go through
 `TestCodeEditorOptions.CursorOptions`, model options such as `tabSize` through `ModelOptions`):
 
-- [ ] `issue #1140: Backspace stops prematurely` (2033)
-- [ ] `issue #84897: Left delete behavior in some languages is changed` (2975)
-- [ ] `issue #122914: Left delete behavior in some languages is changed (useTabStops: false)` (3007)
-- [ ] `issue #99629: Emoji modifiers in text treated separately when using backspace` (3039)
-- [ ] `issue #99629: Emoji modifiers in text treated separately when using backspace (ZWJ sequence)` (3057)
-- [ ] `UseTabStops is off` (3631)
-- [ ] `Backspace removes whitespaces with tab size` (3648)
+- [x] `issue #1140: Backspace stops prematurely` (2033)
+- [x] `issue #84897: Left delete behavior in some languages is changed` (2975)
+- [x] `issue #122914: Left delete behavior in some languages is changed (useTabStops: false)` (3007)
+- [x] `issue #99629: Emoji modifiers in text treated separately when using backspace` (3039)
+- [x] `issue #99629: Emoji modifiers in text treated separately when using backspace (ZWJ sequence)` (3057)
+- [x] `UseTabStops is off` (3631)
+- [x] `Backspace removes whitespaces with tab size` (3648)
 
 If a test uses `viewModel.type(...)` to prepare the text, prepare it with `Model.SetValue` / `ExecuteEdits` instead
 **only if** the typed text does not matter to the test; otherwise move that test to P3-33 and say so in the commit body.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorDeleteOperations.ts` (🔶 without auto-closing and cut, P3-32); tests table `cursor.test.ts` (+7)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorDeleteOperations.ts` (🔶 without auto-closing and cut, P3-32); tests table `cursor.test.ts` (+7)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

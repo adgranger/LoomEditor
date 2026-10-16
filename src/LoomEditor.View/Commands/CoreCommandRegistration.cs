@@ -61,6 +61,12 @@ internal static class CoreCommandRegistration
         Add(CoreNavigationCommands.CancelSelection, baseArgs);
         Add(CoreNavigationCommands.RemoveSecondaryCursors, baseArgs);
 
+        void AddEditing(CoreEditingCommand command) =>
+            registrations.Add(registry.Register(new EditorCommand(command.Id, () => command.RunCoreEditingCommand(viewModel))));
+
+        AddEditing(CoreEditingCommands.DeleteLeft);
+        AddEditing(CoreEditingCommands.DeleteRight);
+
         return new CompositeDisposable(registrations);
     }
 
