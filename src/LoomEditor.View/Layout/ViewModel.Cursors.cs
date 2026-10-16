@@ -91,6 +91,26 @@ internal sealed partial class ViewModel
             GetLineMaxColumn(endViewLineNumber));
     }
 
+    /// <summary>The completely visible view range if the view were scrolled to <paramref name="scrollTop"/> (Monaco: <c>getCompletelyVisibleViewRangeAtScrollTop</c>).</summary>
+    public Range GetCompletelyVisibleViewRangeAtScrollTop(int scrollTop)
+    {
+        PartialViewLinesViewportData partialData = ViewLayout.GetLinesViewportDataAtScrollTop(scrollTop);
+        int startViewLineNumber = partialData.CompletelyVisibleStartLineNumber;
+        int endViewLineNumber = partialData.CompletelyVisibleEndLineNumber;
+
+        return new Range(
+            startViewLineNumber,
+            GetLineMinColumn(startViewLineNumber),
+            endViewLineNumber,
+            GetLineMaxColumn(endViewLineNumber));
+    }
+
+    /// <summary>
+    /// Applies <c>cursorSurroundingLines</c> and the sticky scroll padding to a view range (Monaco: <c>getViewRangeWithCursorPadding</c>).
+    /// Phase 3 cut point: <c>cursorSurroundingLines</c> is 0 (Monaco's default) and there is no sticky scroll, so the padding is 0 and the range is returned as it is.
+    /// </summary>
+    public static Range GetViewRangeWithCursorPadding(Range viewRange) => viewRange;
+
     /// <summary>The hidden (folded) model ranges. Always empty before folding (phase 5).</summary>
     public static IReadOnlyList<Range> GetHiddenAreas() => [];
 

@@ -1,4 +1,11 @@
 #nullable enable
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToBottom = "editor.action.addCursorsToBottom" -> string!
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToTop = "editor.action.addCursorsToTop" -> string!
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.FocusNextCursor = "editor.action.focusNextCursor" -> string!
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.FocusPreviousCursor = "editor.action.focusPreviousCursor" -> string!
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.InsertCursorAbove = "editor.action.insertCursorAbove" -> string!
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.InsertCursorAtEndOfEachLineSelected = "editor.action.insertCursorAtEndOfEachLineSelected" -> string!
+const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.InsertCursorBelow = "editor.action.insertCursorBelow" -> string!
 const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityLeft = "cursorWordAccessibilityLeft" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityLeftSelect = "cursorWordAccessibilityLeftSelect" -> string!
@@ -66,6 +73,12 @@ LoomEditor.View.Features.IEditorContext.SetSelections(System.Collections.Generic
 LoomEditor.View.Features.IEditorFeature
 LoomEditor.View.Features.IEditorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
 LoomEditor.View.Features.IEditorFeature.Id.get -> string!
+LoomEditor.View.Features.MultiCursor.MultiCursorCommands
+LoomEditor.View.Features.MultiCursor.MultiCursorFeature
+LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Dispose() -> void
+LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Id.get -> string!
+LoomEditor.View.Features.MultiCursor.MultiCursorFeature.MultiCursorFeature() -> void
 LoomEditor.View.Features.SelectAll.SelectAllCommands
 LoomEditor.View.Features.SelectAll.SelectAllFeature
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
