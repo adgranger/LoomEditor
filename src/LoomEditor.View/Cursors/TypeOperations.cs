@@ -45,6 +45,16 @@ internal static class TypeOperations
         return commands;
     }
 
+    /// <summary>The edits of a paste (Monaco: <c>paste</c>).</summary>
+    public static EditOperationResult Paste(
+        CursorConfiguration config,
+        IReadOnlyList<Selection> selections,
+        string text,
+        bool pasteOnNewLine,
+        IReadOnlyList<string> multicursorText,
+        bool isBlock = false) =>
+        PasteOperation.GetEdits(config, selections, text, pasteOnNewLine, multicursorText, isBlock);
+
     /// <summary>The commands of the Tab key (Monaco: <c>tab</c>).</summary>
     public static List<IEditCommand?> Tab(CursorConfiguration config, TextModel model, IReadOnlyList<Selection> selections) =>
         TabOperation.GetCommands(config, model, selections);

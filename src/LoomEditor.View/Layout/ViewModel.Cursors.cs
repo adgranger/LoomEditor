@@ -167,6 +167,9 @@ internal sealed partial class ViewModel
     public void Type(string text, string? source = null) =>
         ExecuteCursorEdit(eventsCollector => _cursor.Type(eventsCollector, text, source));
 
+    public void Paste(string text, bool pasteOnNewLine, IReadOnlyList<string>? multicursorText = null, string? source = null, bool isBlock = false) =>
+        ExecuteCursorEdit(eventsCollector => _cursor.Paste(eventsCollector, text, pasteOnNewLine, multicursorText, source, isBlock));
+
     public void ExecuteCommand(IEditCommand command, string? source = null) =>
         ExecuteCursorEdit(eventsCollector => _cursor.ExecuteCommand(eventsCollector, command, source));
 

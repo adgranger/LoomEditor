@@ -1,6 +1,6 @@
 # P3-35 — Paste (single, distributed over cursors, block paste)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-34
 - **Size:** M
 
@@ -53,24 +53,24 @@ and the paste path of the cursor and the view model, with their tests.
 
 ## Tests
 
-- [ ] Port from `cursor.test.ts`, suite `Editor Controller`: `issue #10212` (2054), `issue #74722` (2072),
+- [x] Port from `cursor.test.ts`, suite `Editor Controller`: `issue #10212` (2054), `issue #74722` (2072),
       `issue #4996` (2091), `issue #16155` (2120), `issue #43722` (2163), `issue #46440 (1)` (2194), `issue #46440 (2)` (2218),
       `issue #256039` (2242), `issue #85712` (2953), `issue #15118` (3566), `issue #40695` (3603) — read each test name
       in the file and keep it in the `// Monaco:` comment
-- [ ] Port `columnSelectionPaste.test.ts` › suite `Column selection paste` (47 tests) **except**:
+- [x] Port `columnSelectionPaste.test.ts` › suite `Column selection paste` (47 tests) **except**:
   `uses successive model lines when word wrap is enabled` (236, word wrap: phase 6),
   `reports pasted ranges for cursors and multiline destination selections` (491, needs the `onDidPaste` editor event),
   `respects overtype and pads short rows` (530, overtype mode) — 44 tests ported
-- [ ] **Not ported:** the nested suite `clipboard metadata` (10 tests, line 544): it tests browser clipboard events
+- [x] **Not ported:** the nested suite `clipboard metadata` (10 tests, line 544): it tests browser clipboard events
       (`DataTransfer`); the clipboard card P3-47 has its own tests
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `cursorTypeEditOperations.ts` (+ paste), `columnSelectionPasteCommand.ts` (✅, P3-35);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `cursorTypeEditOperations.ts` (+ paste), `columnSelectionPasteCommand.ts` (✅, P3-35);
       tests table `cursor.test.ts` (+11) and `columnSelectionPaste.test.ts` 44 / 57 with the reasons
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
