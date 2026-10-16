@@ -26,6 +26,12 @@ internal abstract class CoreEditingCommand(string id)
 /// <remarks>Threading: UI thread only.</remarks>
 internal static class CoreEditingCommands
 {
+    /// <summary>Shift+Tab (Monaco: <c>outdent</c>).</summary>
+    public static CoreEditingCommand Outdent { get; } = new OutdentCommand();
+
+    /// <summary>Tab (Monaco: <c>tab</c>).</summary>
+    public static CoreEditingCommand Tab { get; } = new TabCommand();
+
     /// <summary>Breaks the line at every cursor and leaves the cursors in place (Monaco: <c>lineBreakInsert</c>).</summary>
     public static CoreEditingCommand LineBreakInsert { get; } = new LineBreakInsertCommand();
 
@@ -34,6 +40,26 @@ internal static class CoreEditingCommands
 
     /// <summary>Delete (Monaco: <c>deleteRight</c>).</summary>
     public static CoreEditingCommand DeleteRight { get; } = new DeleteRightCommand();
+
+    private sealed class OutdentCommand() : CoreEditingCommand("outdent")
+    {
+        public override void RunCoreEditingCommand(ViewModel viewModel)
+        {
+            viewModel.Model.PushStackElement();
+            viewModel.ExecuteCommands(TypeOperations.Outdent(viewModel.CursorConfig, viewModel, viewModel.GetSelections()), Id);
+            viewModel.Model.PushStackElement();
+        }
+    }
+
+    private sealed class TabCommand() : CoreEditingCommand("tab")
+    {
+        public override void RunCoreEditingCommand(ViewModel viewModel)
+        {
+            viewModel.Model.PushStackElement();
+            viewModel.ExecuteCommands(TypeOperations.Tab(viewModel.CursorConfig, viewModel.Model, viewModel.GetSelections()), Id);
+            viewModel.Model.PushStackElement();
+        }
+    }
 
     private sealed class LineBreakInsertCommand() : CoreEditingCommand("lineBreakInsert")
     {

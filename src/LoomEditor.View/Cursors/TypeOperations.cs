@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.View.Cursors.Commands;
 
 namespace LoomEditor.View.Cursors;
 
@@ -14,6 +15,43 @@ namespace LoomEditor.View.Cursors;
 /// </remarks>
 internal static class TypeOperations
 {
+    /// <summary>The commands that indent the lines of each selection (Monaco: <c>indent</c>); none without a model or selections.</summary>
+    public static List<IEditCommand?> Indent(CursorConfiguration config, ICursorSimpleModel? model, IReadOnlyList<Selection>? selections)
+    {
+        if (model is null || selections is null)
+        {
+            return [];
+        }
+
+        var commands = new List<IEditCommand?>(selections.Count);
+        foreach (Selection selection in selections)
+        {
+            commands.Add(new ShiftCommand(selection, ShiftOptions(config, false)));
+        }
+
+        return commands;
+    }
+
+    /// <summary>The commands that outdent the lines of each selection (Monaco: <c>outdent</c>).</summary>
+    public static List<IEditCommand?> Outdent(CursorConfiguration config, ICursorSimpleModel model, IReadOnlyList<Selection> selections)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+        var commands = new List<IEditCommand?>(selections.Count);
+        foreach (Selection selection in selections)
+        {
+            commands.Add(new ShiftCommand(selection, ShiftOptions(config, true)));
+        }
+
+        return commands;
+    }
+
+    /// <summary>The commands of the Tab key (Monaco: <c>tab</c>).</summary>
+    public static List<IEditCommand?> Tab(CursorConfiguration config, TextModel model, IReadOnlyList<Selection> selections) =>
+        TabOperation.GetCommands(config, model, selections);
+
+    private static ShiftCommandOptions ShiftOptions(CursorConfiguration config, bool isUnshift) =>
+        new(isUnshift, config.TabSize, config.IndentSize, config.InsertSpaces, config.UseTabStops, config.AutoIndent);
+
     /// <summary>Indents <paramref name="indentation"/> by <paramref name="count"/> steps (Monaco: <c>shiftIndent</c>).</summary>
     public static string ShiftIndent(CursorConfiguration config, string indentation, int count = 1) =>
         TypeEditHelpers.ShiftIndent(config, indentation, count);
