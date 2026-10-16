@@ -19,10 +19,22 @@ internal sealed partial class TextViewRenderer
     public RenderLineHighlight RenderLineHighlight { get; set; } = RenderLineHighlight.Line;
 
     // Monaco: `_shouldRenderInContent`.
-    private bool ShouldRenderHighlightInContent(Selection selection, bool hasFocus) =>
+    private bool ShouldRenderHighlightInContent(bool allSelectionsEmpty, bool hasFocus) =>
         RenderLineHighlight is RenderLineHighlight.Line or RenderLineHighlight.All
-        && selection.IsEmpty
+        && allSelectionsEmpty
         && (!RenderLineHighlightOnlyWhenFocus || hasFocus);
+
+    // Monaco: `_readFromSelections`: the highlighted lines are the distinct position lines of all selections.
+    private static HashSet<int> GetCursorLineNumbers(IReadOnlyList<Selection> selections)
+    {
+        var lines = new HashSet<int>();
+        foreach (Selection selection in selections)
+        {
+            lines.Add(selection.PositionLineNumber);
+        }
+
+        return lines;
+    }
 
     // Monaco: `_shouldRenderInMargin`.
     private bool ShouldRenderHighlightInMargin(bool hasFocus) =>
@@ -49,17 +61,16 @@ internal sealed partial class TextViewRenderer
     // Monaco: `LineNumbersOverlay.prepareRender` with `RenderLineNumbersType.On` and `renderFinalNewline = on`
     // (every line has its number, including the last empty one).
     private void DrawGutter(
-        IRenderSurface surface, ViewportData data, EditorLayoutInfo layoutInfo, Selection selection, bool hasFocus,
+        IRenderSurface surface, ViewportData data, EditorLayoutInfo layoutInfo, HashSet<int> cursorLines, int activeLineNumber, bool hasFocus,
         int topShift, FontInfo font)
     {
-        int activeLineNumber = selection.PositionLineNumber;
         bool highlightMargin = ShouldRenderHighlightInMargin(hasFocus);
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
         for (int i = 0; i < lineCount; i++)
         {
             int lineNumber = data.StartLineNumber + i;
             float top = data.RelativeVerticalOffset[i] - topShift;
-            if (highlightMargin && lineNumber == activeLineNumber)
+            if (highlightMargin && cursorLines.Contains(lineNumber))
             {
                 DrawLineHighlight(surface, 0, layoutInfo.ContentLeft, top, font.LineHeight);
             }

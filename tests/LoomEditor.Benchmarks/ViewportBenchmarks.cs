@@ -59,7 +59,7 @@ public class ViewportBenchmarks
     {
         var model = new TextModel(_text);
         using ViewModel viewModel = CreateViewModel(model);
-        return viewModel.GetViewportData(Selection.Collapsed(new Position(1, 1))).EndLineNumber;
+        return viewModel.GetViewportData([Selection.Collapsed(new Position(1, 1))]).EndLineNumber;
     }
 
     /// <summary>One frame: set the scroll position, build the viewport data and read the visible lines.</summary>
@@ -71,7 +71,7 @@ public class ViewportBenchmarks
         foreach (double scrollTop in _positions)
         {
             _viewModel.ViewLayout.SetScrollPosition(new NewScrollPosition(null, scrollTop), ScrollType.Immediate);
-            ViewportData data = _viewModel.GetViewportData(selection);
+            ViewportData data = _viewModel.GetViewportData([selection]);
             for (int line = data.StartLineNumber; line <= data.EndLineNumber; line++)
             {
                 // The renderer reads the line, or its 10,000-character prefix.
@@ -87,7 +87,7 @@ public class ViewportBenchmarks
     public int EditWhileScrolled()
     {
         _model.ApplyEdits([new TextEdit(new Range(_middleLine, 1, _middleLine, 1), "x\n")]);
-        return _viewModel.GetViewportData(Selection.Collapsed(new Position(1, 1))).EndLineNumber;
+        return _viewModel.GetViewportData([Selection.Collapsed(new Position(1, 1))]).EndLineNumber;
     }
 
     private static ViewModel CreateViewModel(TextModel model)

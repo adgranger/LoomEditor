@@ -1,6 +1,6 @@
 # P3-42 — Draw several cursors and selections
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-41
 - **Size:** S
 
@@ -36,18 +36,18 @@ follows Monaco's multi-cursor rules. Typing with several cursors becomes visible
 
 ## Tests
 
-- [ ] New: two empty selections on lines 2 and 5 → two caret rectangles, two content line highlights, only line 2's number is "active"
-- [ ] New: one empty and one non-empty selection → no content line highlight, two carets, one selection rectangle
-- [ ] New: two cursors on the same line → one line highlight, two carets
-- [ ] Existing renderer tests pass with a one-item list
-- [ ] Manual (Gallery): Ctrl+Alt+↓ twice, type → three carets blink together and the text appears on three lines
+- [x] New: two empty selections on lines 2 and 5 → two caret rectangles, two content line highlights, only line 2's number is "active"
+- [x] New: one empty and one non-empty selection → no content line highlight, two carets, one selection rectangle
+- [x] New: two cursors on the same line → one line highlight, two carets
+- [x] Existing renderer tests pass with a one-item list
+- [ ] Manual (Gallery): Ctrl+Alt+↓ twice, type → three carets blink together and the text appears on three lines _(left to the maintainer)_
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `viewCursors.ts`, `currentLineHighlight.ts`, `lineNumbers.ts` mention multi-cursor (P3-42)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `viewCursors.ts`, `currentLineHighlight.ts`, `lineNumbers.ts` mention multi-cursor (P3-42)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
