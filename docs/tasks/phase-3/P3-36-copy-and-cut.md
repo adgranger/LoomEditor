@@ -1,6 +1,6 @@
 # P3-36 — Copy and cut (text to copy, clipboard metadata, `cut`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-35
 - **Size:** M
 
@@ -58,23 +58,23 @@ operation. The Windows clipboard itself comes in P3-47: this card is pure logic.
 
 ## Tests
 
-- [ ] Port `cursor.test.ts` › `bug #16740: [editor] Cut line doesn't quite cut the last line` (1930) and
+- [x] Port `cursor.test.ts` › `bug #16740: [editor] Cut line doesn't quite cut the last line` (1930) and
       › `issue #128602: When cutting multiple lines (ctrl x), the last line will not be erased` (1968)
-- [ ] New: two cursors on `"ab\ncd"` selecting `a` and `c` → `SourceTexts == ["a", "c"]`, text `"a\r\nc"` (forced CRLF),
+- [x] New: two cursors on `"ab\ncd"` selecting `a` and `c` → `SourceTexts == ["a", "c"]`, text `"a\r\nc"` (Monaco joins the texts with the **model** EOL, `viewModel.model.getEOL()`: the test uses a CRLF model; with an LF model the text is `"a\nc"`),
       metadata `MulticursorText == ["a", "c"]`
-- [ ] New: an empty selection on line 2 of `"a\nbb\nc"` → text `"bb\r\n"`, `IsFromEmptySelection == true`
-- [ ] New: with `EmptySelectionClipboard = false`, an empty selection copies nothing
-- [ ] New: after a column selection (`ColumnSelect`, P3-28), `IsBlock == true`
-- [ ] New: `InMemoryClipboardMetadataManager.Get` returns the metadata for the same text and `null` (and forgets) for another text
-- [ ] New: copy an empty selection, then `Paste(text, pasteOnNewLine: true)` (P3-35) inserts the line above the cursor
+- [x] New: an empty selection on line 2 of `"a\nbb\nc"` → text `"bb\r\n"`, `IsFromEmptySelection == true`
+- [x] New: with `EmptySelectionClipboard = false`, an empty selection copies nothing
+- [x] New: after a column selection (`ColumnSelect`, P3-28), `IsBlock == true`
+- [x] New: `InMemoryClipboardMetadataManager.Get` returns the metadata for the same text and `null` (and forgets) for another text
+- [x] New: copy an empty selection, then `Paste(text, pasteOnNewLine: true)` (P3-35) inserts the line above the cursor
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `clipboardUtils.ts` (🔶 metadata and text, P3-36), `cursorDeleteOperations.ts` (+ cut);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `clipboardUtils.ts` (🔶 metadata and text, P3-36), `cursorDeleteOperations.ts` (+ cut);
       behavior difference "no rich (HTML) copy"; tests table `cursor.test.ts` (+2)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

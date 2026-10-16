@@ -80,6 +80,85 @@ internal static class DeleteOperations
         return (shouldPushStackElementBefore, commands);
     }
 
+    /// <summary>The commands that cut every selection; an empty selection cuts its whole line when <c>EmptySelectionClipboard</c> is on (Monaco: <c>cut</c>).</summary>
+    public static EditOperationResult Cut(CursorConfiguration config, ICursorSimpleModel model, IReadOnlyList<Selection> selections)
+    {
+        var commands = new List<IEditCommand?>(selections.Count);
+        Range? lastCutRange = null;
+
+        // Monaco sorts the array in place with a comparison that is not consistent (the start of one selection against the
+        // end of the other). List.Sort may throw with such a comparer, so this sorts a copy with a stable insertion sort.
+        var sorted = new List<Selection>(selections.Count);
+        foreach (Selection item in selections)
+        {
+            int index = sorted.Count;
+            while (index > 0 && sorted[index - 1].Range.Start.CompareTo(item.Range.End) > 0)
+            {
+                index--;
+            }
+
+            sorted.Insert(index, item);
+        }
+
+        foreach (Selection selection in sorted)
+        {
+            if (selection.IsEmpty)
+            {
+                if (config.EmptySelectionClipboard)
+                {
+                    // This is a full line cut
+                    Position position = selection.Position;
+
+                    int startLineNumber;
+                    int startColumn;
+                    int endLineNumber;
+                    int endColumn;
+
+                    if (position.LineNumber < model.GetLineCount())
+                    {
+                        // Cutting a line in the middle of the model
+                        startLineNumber = position.LineNumber;
+                        startColumn = 1;
+                        endLineNumber = position.LineNumber + 1;
+                        endColumn = 1;
+                    }
+                    else if (position.LineNumber > 1 && lastCutRange?.EndLineNumber != position.LineNumber)
+                    {
+                        // Cutting the last line & there are more than 1 lines in the model & a previous cut operation does not touch the current cut operation
+                        startLineNumber = position.LineNumber - 1;
+                        startColumn = model.GetLineMaxColumn(position.LineNumber - 1);
+                        endLineNumber = position.LineNumber;
+                        endColumn = model.GetLineMaxColumn(position.LineNumber);
+                    }
+                    else
+                    {
+                        // Cutting the single line that the model contains
+                        startLineNumber = position.LineNumber;
+                        startColumn = 1;
+                        endLineNumber = position.LineNumber;
+                        endColumn = model.GetLineMaxColumn(position.LineNumber);
+                    }
+
+                    var deleteSelection = new Range(startLineNumber, startColumn, endLineNumber, endColumn);
+                    lastCutRange = deleteSelection;
+
+                    commands.Add(deleteSelection.IsEmpty ? null : new ReplaceCommand(deleteSelection, string.Empty));
+                }
+                else
+                {
+                    // Cannot cut empty selection
+                    commands.Add(null);
+                }
+            }
+            else
+            {
+                commands.Add(new ReplaceCommand(selection.Range, string.Empty));
+            }
+        }
+
+        return new EditOperationResult(EditOperationType.Other, commands, true, true);
+    }
+
     private static Range GetDeleteRightRange(Selection selection, ICursorSimpleModel model, CursorConfiguration config)
     {
         if (!selection.IsEmpty)

@@ -170,6 +170,89 @@ internal sealed partial class ViewModel
     public void Paste(string text, bool pasteOnNewLine, IReadOnlyList<string>? multicursorText = null, string? source = null, bool isBlock = false) =>
         ExecuteCursorEdit(eventsCollector => _cursor.Paste(eventsCollector, text, pasteOnNewLine, multicursorText, source, isBlock));
 
+    public void Cut(string? source = null) =>
+        ExecuteCursorEdit(eventsCollector => _cursor.Cut(eventsCollector, source));
+
+    /// <summary>
+    /// The text a copy of <paramref name="modelRanges"/> puts on the clipboard (Monaco: <c>getPlainTextToCopy</c>). Monaco returns a
+    /// string or an array of strings: exactly one of <c>SourceText</c> and <c>SourceTexts</c> is not <see langword="null"/>.
+    /// </summary>
+    public (IReadOnlyList<Range> SourceRanges, string? SourceText, IReadOnlyList<string>? SourceTexts) GetPlainTextToCopy(
+        IReadOnlyList<Range> modelRanges,
+        bool emptySelectionClipboard,
+        bool forceCrlf)
+    {
+        string newLineCharacter = forceCrlf ? "\r\n" : _model.Eol;
+
+        // Monaco copies the array and sorts it (JavaScript sorts are stable).
+        List<Range> sortedRanges = modelRanges.OrderBy(r => r, Comparer<Range>.Create(Range.CompareUsingStarts)).ToList();
+
+        bool hasEmptyRange = false;
+        bool hasNonEmptyRange = false;
+        foreach (Range range in sortedRanges)
+        {
+            if (range.IsEmpty)
+            {
+                hasEmptyRange = true;
+            }
+            else
+            {
+                hasNonEmptyRange = true;
+            }
+        }
+
+        if (!hasNonEmptyRange && !emptySelectionClipboard)
+        {
+            // all ranges are empty
+            return ([], string.Empty, null);
+        }
+
+        var ranges = new List<Range>();
+        var result = new List<string>();
+        EndOfLinePreference preference = forceCrlf ? EndOfLinePreference.CRLF : EndOfLinePreference.TextDefined;
+
+        void PushRange(Range modelRange, string append = "")
+        {
+            ranges.Add(modelRange);
+            result.Add(_model.GetValueInRange(modelRange, preference) + append);
+        }
+
+        if (hasEmptyRange && emptySelectionClipboard)
+        {
+            // some (maybe all) empty selections
+            int prevModelLineNumber = 0;
+            foreach (Range modelRange in sortedRanges)
+            {
+                int modelLineNumber = modelRange.StartLineNumber;
+                if (modelRange.IsEmpty)
+                {
+                    if (modelLineNumber != prevModelLineNumber)
+                    {
+                        PushRange(new Range(modelLineNumber, _model.GetLineMinColumn(modelLineNumber), modelLineNumber, _model.GetLineMaxColumn(modelLineNumber)), newLineCharacter);
+                    }
+                }
+                else
+                {
+                    PushRange(modelRange);
+                }
+
+                prevModelLineNumber = modelLineNumber;
+            }
+        }
+        else
+        {
+            foreach (Range modelRange in sortedRanges)
+            {
+                if (!modelRange.IsEmpty)
+                {
+                    PushRange(modelRange);
+                }
+            }
+        }
+
+        return result.Count == 1 ? (ranges, result[0], null) : (ranges, null, result);
+    }
+
     public void ExecuteCommand(IEditCommand command, string? source = null) =>
         ExecuteCursorEdit(eventsCollector => _cursor.ExecuteCommand(eventsCollector, command, source));
 

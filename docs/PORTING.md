@@ -58,6 +58,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `WordCharacterClassifier` | `wordSegmenterLocales` is ignored: `FindPrevIntlWordBeforeOrAtOffset` / `FindNextIntlWordAtOrAfterOffset` always return `null` | No Native AOT-friendly equivalent of `Intl.Segmenter` |
 | Tabs in rendered lines | Drawn with DirectWrite tab stops (`IncrementalTabStop = tabSize × space width`) instead of being expanded to spaces by `viewLineRenderer.ts`; a tab after a full-width character ends on a pixel tab stop, not a visible-column one | One UTF-16 index is one layout index, so no `CharacterMapping` is needed (ADR 0005, decision 5) |
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
+| `ClipboardUtils` | No rich (HTML) copy: `copyWithSyntaxHighlighting` and `getRichTextToCopy` are not ported, the stored `mode` is always `null` | ADR 0006, decision 12 |
 | `ShiftCommand` | No `cachedStringRepeat` cache: the indent is built each time | Monaco's global mutable cache is a performance trick only; same result |
 | `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
 | `CursorsController` | Exceptions thrown inside a cursor edit are not swallowed (Monaco: `onUnexpectedError`); the cursors still resume tracking their selections | A bug in a port must fail the tests |
@@ -135,7 +136,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/commands/replaceCommand.ts` | `LoomEditor.View/Cursors/Commands/ReplaceCommand.cs` | ✅ ported (P3-15); the overtype commands are not reachable in phase 3 |
 | `editor/common/commands/shiftCommand.ts` | `LoomEditor.View/Cursors/Commands/ShiftCommand.cs` | ✅ ported (P3-31) except the enter-action re-alignment (cut point, lines 144–176: phases 4–5) |
 | `editor/common/commands/columnSelectionPasteCommand.ts` | `LoomEditor.View/Cursors/Commands/ColumnSelectionPasteCommand.cs` | ✅ ported (P3-35) |
-| `editor/common/cursor/cursorDeleteOperations.ts` | `LoomEditor.View/Cursors/DeleteOperations.cs` | 🔶 `deleteLeft`, `deleteRight` (P3-32) without auto-closing pair delete (phases 4–5); `cut` is P3-36 |
+| `editor/browser/controller/editContext/clipboardUtils.ts` | `LoomEditor.View/Controller/ClipboardData.cs` | 🔶 copy data, clipboard metadata and `InMemoryClipboardMetadataManager` (P3-36); the HTML (rich) part and the DataTransfer functions are not ported |
+| `editor/common/cursor/cursorDeleteOperations.ts` | `LoomEditor.View/Cursors/DeleteOperations.cs` | 🔶 `deleteLeft`, `deleteRight` (P3-32), `cut` (P3-36) without auto-closing pair delete (phases 4–5) |
 | `editor/common/cursor/cursorTypeOperations.ts` | `LoomEditor.View/Cursors/TypeOperations.cs` | 🔶 `typeWithInterceptors` (Enter and plain character), `typeWithoutInterceptors`, `shiftIndent`, `unshiftIndent` (P3-33), `indent`, `outdent`, `tab` (P3-34), `paste` (P3-35); the other interceptors are phase 4–5 cut points |
 | `editor/common/cursor/cursorTypeEditOperations.ts` | `LoomEditor.View/Cursors/TypeEditOperations*.cs` | 🔶 plain typing and Enter (P3-33): `SimpleCharacterTypeOperation`, `EnterOperation` (without `getEnterAction` / `getIndentForEnter`), `TypeWithoutInterceptorsOperation`; Tab (P3-34): `TabOperation` (`_goodIndentForLine` is a cut point: no good indent without a language); paste (P3-35): `PasteOperation`; auto-indent, auto-closing, surround and electric characters are phase 4–5 |
 | `editor/common/cursor/oneCursor.ts`, `cursorCollection.ts`, `cursorContext.ts` | `LoomEditor.View/Cursors/` (`Cursor`, `CursorCollection`, `CursorContext`) | ✅ ported (P3-16); `CursorCollection.lastAddedCursorIndex` follows the code (a full-array index), not Monaco comment |
@@ -194,6 +196,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursor.test.ts` (Tab and Shift+Tab: `monaco-editor#443`, `Bug 9121`, `Bug #18293`, `issue #95591`, `Bug #16657`, `issue #3071`, `issue #3463`, `issue #4312`, `Cursor honors insertSpaces configuration on tab`, `PR #5423`) | 10 / 10 | Undo goes through `TextModel.Undo` (core command: P3-37) |
 | `cursor.test.ts` (paste: `issue #10212`, `#74722`, `#4996`, `#16155`, `#43722`, two `#46440`, `#256039`, `#85712`, `#15118`, `#40695`) | 11 / 11 | |
 | `columnSelectionPaste.test.ts` (`Column selection paste`) | 44 / 57 | `uses successive model lines when word wrap is enabled` (phase 6); `reports pasted ranges for cursors and multiline destination selections` (needs the `onDidPaste` editor event); `respects overtype and pads short rows` (overtype mode); the 10 tests of the nested suite `clipboard metadata` (browser clipboard events: P3-47 has its own). `responds to spread, full, and spread configuration transitions` does not check `EditorOptions.multiCursorPaste.validate` |
+| `cursor.test.ts` (cut: `bug #16740`, `issue #128602`) | 2 / 2 | |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
