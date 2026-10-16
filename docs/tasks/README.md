@@ -219,7 +219,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P3-38](phase-3/P3-38-multicursor-and-scroll-commands.md) | Multi-cursor commands (without Find) and scroll commands | P3-37 | done |
-| [P3-39](phase-3/P3-39-default-keybindings.md) | Default keybindings and the keybinding resolver | P3-38 | todo |
+| [P3-39](phase-3/P3-39-default-keybindings.md) | Default keybindings and the keybinding resolver | P3-38 | done |
 | [P3-40](phase-3/P3-40-reveal.md) | Reveal: scroll so that the cursor stays visible | P3-39 | todo |
 | [P3-41](phase-3/P3-41-control-keyboard-and-typing.md) | The control: keyboard commands, typing and `IsReadOnly` | P3-40 | todo |
 
