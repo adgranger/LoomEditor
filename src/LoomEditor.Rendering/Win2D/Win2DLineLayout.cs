@@ -37,5 +37,21 @@ internal sealed class Win2DLineLayout : ILineLayout
     }
 
     /// <inheritdoc />
+    public int HitTest(double x)
+    {
+        if (Text.Length == 0)
+        {
+            return 0;
+        }
+
+        // DirectWrite: the cluster under the point, and whether the point is on its trailing half (or beyond the end).
+        TextLayout.HitTest((float)x, 0, out CanvasTextLayoutRegion region, out bool isTrailingHit);
+        int index = isTrailingHit ? region.CharacterIndex + region.CharacterCount : region.CharacterIndex;
+        index = Math.Clamp(index, 0, Text.Length);
+        System.Diagnostics.Debug.Assert(index == 0 || index == Text.Length || !char.IsLowSurrogate(Text[index]), "HitTest split a surrogate pair");
+        return index;
+    }
+
+    /// <inheritdoc />
     public void Dispose() => TextLayout.Dispose();
 }

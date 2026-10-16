@@ -24,5 +24,28 @@ internal sealed class FakeLineLayout(string text, double characterWidth, int tab
         return x;
     }
 
+    public int HitTest(double x)
+    {
+        // The boundary nearest to x; a point in the middle of a character goes to the right boundary.
+        int best = 0;
+        double bestDistance = Math.Abs(x - GetCharacterX(0));
+        for (int index = 1; index <= Text.Length; index++)
+        {
+            if (char.IsHighSurrogate(Text[index - 1]))
+            {
+                continue;
+            }
+
+            double distance = Math.Abs(x - GetCharacterX(index));
+            if (distance <= bestDistance)
+            {
+                best = index;
+                bestDistance = distance;
+            }
+        }
+
+        return best;
+    }
+
     public void Dispose() => IsDisposed = true;
 }
