@@ -207,7 +207,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P3-31](phase-3/P3-31-shift-command.md) | `ShiftCommand` (indent and outdent lines) | P3-30 | done |
-| [P3-32](phase-3/P3-32-delete-operations.md) | Backspace and Delete (`DeleteOperations`, `deleteLeft`, `deleteRight`) | P3-31 | todo |
+| [P3-32](phase-3/P3-32-delete-operations.md) | Backspace and Delete (`DeleteOperations`, `deleteLeft`, `deleteRight`) | P3-31 | done |
 | [P3-33](phase-3/P3-33-typing-and-enter.md) | Typing and Enter (`TypeOperations`, `type`, `lineBreakInsert`) | P3-32 | todo |
 | [P3-34](phase-3/P3-34-tab-and-outdent.md) | Tab and Shift+Tab (`tab`, `outdent`) | P3-33 | todo |
 | [P3-35](phase-3/P3-35-paste.md) | Paste (single, distributed over cursors, block paste) | P3-34 | todo |

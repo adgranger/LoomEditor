@@ -4,6 +4,7 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Layout;
+using LoomEditor.View.Tests.TestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors.TestHelpers;
 
@@ -58,6 +59,12 @@ internal static class CursorTestHelpers
         CoreEditorCommand<BaseCommandArgs> command = inSelectionMode ? CoreNavigationCommands.CursorBottomSelect : CoreNavigationCommands.CursorBottom;
         command.RunCoreEditorCommand(viewModel, new BaseCommandArgs());
     }
+
+    // Monaco: editor.runCommand(CoreEditingCommands.DeleteLeft, null)
+    public static void DeleteLeft(TestCodeEditor editor) => CoreEditingCommands.DeleteLeft.RunCoreEditingCommand(editor.ViewModel);
+
+    // Monaco: editor.runCommand(CoreEditingCommands.DeleteRight, null)
+    public static void DeleteRight(TestCodeEditor editor) => CoreEditingCommands.DeleteRight.RunCoreEditingCommand(editor.ViewModel);
 
     public static void AssertCursor(ViewModel viewModel, Position position) =>
         AssertCursor(viewModel, [new Selection(position, position)]);
