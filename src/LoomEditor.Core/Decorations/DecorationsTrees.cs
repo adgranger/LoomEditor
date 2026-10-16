@@ -40,4 +40,41 @@ internal sealed class DecorationsTrees
 
     public void AcceptReplace(long offset, long length, long textLength, bool forceMoveMarkers) =>
         _tree.AcceptReplace(offset, length, textLength, forceMoveMarkers);
+
+    /// <summary>Gives every node its <c>Range</c> at the current version (Monaco: <c>ensureAllNodesHaveRanges</c>).</summary>
+    public void EnsureAllNodesHaveRanges(TextModel host)
+    {
+        foreach (IntervalNode node in _tree.Search(0, false, false, host.VersionId, false))
+        {
+            node.Range ??= host.GetRangeAt((int)node.CachedAbsoluteStart, (int)node.CachedAbsoluteEnd);
+        }
+    }
+
+    /// <summary>
+    /// Transforms back the ranges of the nodes to offsets, after an EOL change (Monaco: the body of
+    /// <c>_onAfterEOLChange</c>, which reaches into the tree).
+    /// </summary>
+    /// <param name="versionId">The version id of the model after the change.</param>
+    /// <param name="getOffsetAt">The offset of a line and column, with the new EOL.</param>
+    public void RecomputeOffsetsFromRanges(int versionId, Func<int, int, int> getOffsetAt)
+    {
+        foreach (IntervalNode node in _tree.CollectNodesPostOrder())
+        {
+            Range range = node.Range!.Value; // the range is defined due to EnsureAllNodesHaveRanges
+
+            long delta = node.CachedAbsoluteStart - node.Start;
+
+            int startOffset = getOffsetAt(range.StartLineNumber, range.StartColumn);
+            int endOffset = getOffsetAt(range.EndLineNumber, range.EndColumn);
+
+            node.CachedAbsoluteStart = startOffset;
+            node.CachedAbsoluteEnd = endOffset;
+            node.CachedVersionId = versionId;
+
+            node.Start = startOffset - delta;
+            node.End = endOffset - delta;
+
+            _tree.RecomputeMaxEnd(node);
+        }
+    }
 }

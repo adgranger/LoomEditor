@@ -1,6 +1,6 @@
 # P3-27 — Port the cursor movement tests of `cursor.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-26
 - **Size:** S (tests only, plus fixes)
 
@@ -49,21 +49,21 @@ File: `src/vs/editor/test/browser/controller/cursor.test.ts` (6,996 lines).
 
 ## Tests
 
-- [ ] Port lines 149–448 (27 tests)
-- [ ] Port lines 567–907 (35 tests), including `select all` (through `CursorMoveCommands.SelectAll` +
+- [x] Port lines 149–448 (27 tests)
+- [x] Port lines 567–907 (35 tests), including `select all` (through `CursorMoveCommands.SelectAll` +
       `SetCursorStates`, or `Commands.Execute("editor.action.selectAll")` if the test uses the command — follow the Monaco code)
-- [ ] Port `grapheme breaking` (939) and `setSelection / setPosition with source` (1332)
-- [ ] Port suite `Editor Controller` › `issue #23983` (2 tests) and › `issue #22717`
-- [ ] **Not ported now** (write each in the PORTING tests table with its reason):
+- [x] Port `grapheme breaking` (939) and `setSelection / setPosition with source` (1332)
+- [x] Port suite `Editor Controller` › `issue #23983` (2 tests) and › `issue #22717`
+- [x] **Not ported now** (write each in the PORTING tests table with its reason):
       `issue #144041` (449) and `issue #140195` (500): word wrap / injected text (phase 6);
       the 6 column selection tests (908, 978, 1007, 1065, 1110, 1125): ported in P3-28
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: phase 3 tests table row `cursor.test.ts` (suite `Editor Controller - Cursor`: ported / total, and the reasons)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: phase 3 tests table row `cursor.test.ts` (suite `Editor Controller - Cursor`: ported / total, and the reasons)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

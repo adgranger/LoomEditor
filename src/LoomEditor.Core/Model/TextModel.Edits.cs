@@ -76,8 +76,13 @@ public sealed partial class TextModel
         Range oldFullModelRange = FullModelRange;
         int oldValueLength = GetValueLengthInRange(oldFullModelRange);
 
+        // Monaco: _onBeforeEOLChange (ensure all decorations get their range set)
+        _decorationsTree.EnsureAllNodesHaveRanges(this);
         _buffer.SetEol(newEol);
         IncreaseVersionId();
+
+        // Monaco: _onAfterEOLChange (transform back the ranges to offsets)
+        _decorationsTree.RecomputeOffsetsFromRanges(_versionId, _buffer.GetOffsetAt);
 
         RaiseContentChanged(new ModelRawEolChanged(), oldFullModelRange, oldValueLength, GetValue(), isFlush: false, isEolChange: true);
     }

@@ -154,4 +154,17 @@ public class TextModelTrackedRangeTests
 
         Assert.Equal(new Range(1, 3, 2, 3), model.ValidateRangeRelaxed(new Range(1, 9, 7, 9)));
     }
+
+    [Fact]
+    public void SetEol_TrackedRange_KeepsItsLinesAndColumns()
+    {
+        var model = TestTextModels.Create("first line\nsecond line");
+        string id = Track(model, new Range(2, 2, 2, 5), TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges);
+
+        model.SetEol(EndOfLineSequence.CRLF);
+        Assert.Equal(new Range(2, 2, 2, 5), model.GetTrackedRange(id));
+
+        model.SetEol(EndOfLineSequence.LF);
+        Assert.Equal(new Range(2, 2, 2, 5), model.GetTrackedRange(id));
+    }
 }
