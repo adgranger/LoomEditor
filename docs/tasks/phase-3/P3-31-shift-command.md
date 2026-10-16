@@ -1,6 +1,6 @@
 # P3-31 — `ShiftCommand` (indent and outdent lines)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-30
 - **Size:** S
 
@@ -49,19 +49,19 @@ The only language-dependent part (re-aligning lines after an "enter action") is 
 
 ## Tests
 
-- [ ] Port the 25 tests of `shiftCommand.test.ts` **except** `issue #348: indenting around doc block comments` (567)
+- [x] Port the 25 tests of `shiftCommand.test.ts` **except** `issue #348: indenting around doc block comments` (567)
       and `issue #1609: Wrong indentation of block comments` (635): they register a language with doc-block on-enter
       rules (phase 4–5) — not ported, reason in the PORTING tests table. 23 tests.
-- [ ] New: `Strings.IsJavaScriptWhitespaceOnly` — `""`, `" \t"`, `" 　"`, `"﻿"` → true; `"​"` (zero
+- [x] New: `Strings.IsJavaScriptWhitespaceOnly` — `""`, `" \t"`, `" 　"`, `"﻿"` → true; `"​"` (zero
       width space, not `\s` in JavaScript) → false; `" a"` → false
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `editor/common/commands/shiftCommand.ts` (✅ except the enter-action re-alignment,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `editor/common/commands/shiftCommand.ts` (✅ except the enter-action re-alignment,
       P3-31); behavior difference "no `cachedStringRepeat` cache"; tests table `shiftCommand.test.ts` 23 / 25
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

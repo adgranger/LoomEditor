@@ -118,4 +118,16 @@ public class StringsTests
     {
         Assert.Equal(["a", "b", "c", "d"], Strings.SplitLines("a\r\nb\rc\nd"));
     }
+
+    [Theory]
+    [InlineData("", true)]
+    [InlineData(" \t", true)]
+    [InlineData(" 　", true)]
+    [InlineData("﻿", true)]
+    [InlineData("​", false)] // zero width space: not \s in JavaScript
+    [InlineData(" a", false)]
+    public void IsJavaScriptWhitespaceOnly_Text_MatchesJavaScriptRegex(string text, bool expected)
+    {
+        Assert.Equal(expected, Strings.IsJavaScriptWhitespaceOnly(text));
+    }
 }

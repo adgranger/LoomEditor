@@ -58,6 +58,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `WordCharacterClassifier` | `wordSegmenterLocales` is ignored: `FindPrevIntlWordBeforeOrAtOffset` / `FindNextIntlWordAtOrAfterOffset` always return `null` | No Native AOT-friendly equivalent of `Intl.Segmenter` |
 | Tabs in rendered lines | Drawn with DirectWrite tab stops (`IncrementalTabStop = tabSize × space width`) instead of being expanded to spaces by `viewLineRenderer.ts`; a tab after a full-width character ends on a pixel tab stop, not a visible-column one | One UTF-16 index is one layout index, so no `CharacterMapping` is needed (ADR 0005, decision 5) |
 | `CommandRegistry` | One per editor instead of a global registry | Two editors on a page never share state |
+| `ShiftCommand` | No `cachedStringRepeat` cache: the indent is built each time | Monaco's global mutable cache is a performance trick only; same result |
 | `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
 | `CursorsController` | Exceptions thrown inside a cursor edit are not swallowed (Monaco: `onUnexpectedError`); the cursors still resume tracking their selections | A bug in a port must fail the tests |
 | `CursorsController` | Auto-closed actions are not tracked in phase 3: `AutoClosedAction.IsValid` is always false and nothing adds actions | They need model decorations (phases 4–5) |
@@ -132,6 +133,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/editorCommon.ts` (`ICommand`, `IEditOperationBuilder`, `ICursorStateComputerData`) | `LoomEditor.View/Cursors/Commands/` | ✅ ported (P3-14): `ICommand` is `IEditCommand` |
 | `editor/common/cursor/cursor.ts` (`CommandExecutor`) | `LoomEditor.View/Cursors/CommandExecutor*.cs` | ✅ ported (P3-14); `Cursor` and `CursorCollection` are ported (P3-16), `CursorsController` is in `CursorsController*.cs` |
 | `editor/common/commands/replaceCommand.ts` | `LoomEditor.View/Cursors/Commands/ReplaceCommand.cs` | ✅ ported (P3-15); the overtype commands are not reachable in phase 3 |
+| `editor/common/commands/shiftCommand.ts` | `LoomEditor.View/Cursors/Commands/ShiftCommand.cs` | ✅ ported (P3-31) except the enter-action re-alignment (cut point, lines 144–176: phases 4–5) |
 | `editor/common/cursor/oneCursor.ts`, `cursorCollection.ts`, `cursorContext.ts` | `LoomEditor.View/Cursors/` (`Cursor`, `CursorCollection`, `CursorContext`) | ✅ ported (P3-16); `CursorCollection.lastAddedCursorIndex` follows the code (a full-array index), not Monaco comment |
 | `editor/common/cursor/cursor.ts` (`CursorsController`, `CursorModelState`, `AutoClosedAction`) | `LoomEditor.View/Cursors/CursorsController*.cs` | ✅ ported (P3-18, P3-19) except typing, paste, cut and composition (later cards) and the auto-closing and snippet cut points. `ModelInjectedTextChangedEvent` is not ported (no injected text) |
 | `editor/common/viewModelEventDispatcher.ts`, `editor/common/viewEvents.ts` | `LoomEditor.View/Events/` | 🔶 subset (P3-17): the dispatcher, the collector, `ViewCursorStateChangedEvent`, `ViewRevealRangeRequestEvent`, `CursorStateChangedEvent`, `ReadOnlyEditAttemptEvent`; no `Disposable` base, no duplicate-handler warning |
@@ -179,6 +181,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursorMoveCommand.test.ts` | 47 / 55 | suite `Cursor move command - foldedLine unit` (8): needs `setHiddenAreas` (folding, phase 5) |
 | `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 73 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6). The 6 column selection tests are ported in P3-28 (`ColumnSelectionTests`). `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
 | `wordOperations.test.ts` | 52 / 56 | `cursorWordLeft - Recognize words` and `cursorWordRight - Recognize words` (2): need `Intl.Segmenter` (not available); `issue #51275` (1): types text, ported with typing in P3-33; `deleteWordLeft - issue #91855` (1): needs auto-closing pairs (phase 4–5) |
+| `shiftCommand.test.ts` | 23 / 25 | `issue #348`, `issue #1609`: need a language with doc-block on-enter rules (phases 4–5) |
 | `wordPartOperations.test.ts` | 15 / 15 | |
 | `cursor.test.ts` (`issue #832: word right`) | 1 / 1 | runs `CursorMoveCommands.Word` directly (the `WordSelect` mouse commands are P3-44) |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
