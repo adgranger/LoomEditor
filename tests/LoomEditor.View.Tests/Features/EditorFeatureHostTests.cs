@@ -13,7 +13,8 @@ public class EditorFeatureHostTests
         Assert.Throws<InvalidOperationException>(() =>
             new EditorFeatureHost(context, [() => new SelectAllFeature(), () => new SelectAllFeature()]));
 
-        Assert.Empty(context.Commands.Ids);
+        // The core navigation commands stay registered (the context owns them); the feature commands are gone.
+        Assert.DoesNotContain(SelectAllCommands.SelectAll, context.Commands.Ids);
     }
 
     [Fact]
@@ -25,7 +26,8 @@ public class EditorFeatureHostTests
         host.Dispose();
 
         Assert.Empty(host.Features);
-        Assert.Empty(context.Commands.Ids);
+        // The core navigation commands stay registered (the context owns them); the feature commands are gone.
+        Assert.DoesNotContain(SelectAllCommands.SelectAll, context.Commands.Ids);
     }
 
     [Fact]

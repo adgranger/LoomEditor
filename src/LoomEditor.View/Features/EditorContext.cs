@@ -15,6 +15,9 @@ namespace LoomEditor.View.Features;
 /// </remarks>
 public sealed class EditorContext : IEditorContext
 {
+    // Keeps the registration of the core commands (cursorLeft, cursorHome...) alive for the life of the editor.
+    private readonly IDisposable _coreCommands;
+
     private sealed class NoopDisposable : IDisposable
     {
         public void Dispose()
@@ -39,6 +42,7 @@ public sealed class EditorContext : IEditorContext
             scheduleAtNextAnimationFrame,
             timeProvider);
         ViewModel.EventDispatcher.OnEvent += OnViewModelEvent;
+        _coreCommands = CoreCommandRegistration.Register(Commands, ViewModel);
     }
 
     /// <inheritdoc />

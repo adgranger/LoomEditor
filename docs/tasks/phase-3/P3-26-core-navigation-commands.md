@@ -1,6 +1,6 @@
 # P3-26 — Core navigation commands (`cursorLeft`, `cursorHome`, `cursorMove`…)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-25
 - **Size:** M
 
@@ -62,20 +62,20 @@ File: `src/vs/editor/browser/coreCommands.ts`. If a line is not exactly where gi
 
 ## Tests
 
-- [ ] Port suite `Cursor move command test` (39 tests, lines 16–420)
-- [ ] Port suite `Cursor move by blankline test` (8 tests, lines 422–510)
-- [ ] **Not ported** (write the reason in the PORTING tests table): suite `Cursor move command - foldedLine unit`
+- [x] Port suite `Cursor move command test` (39 tests, lines 16–420)
+- [x] Port suite `Cursor move by blankline test` (8 tests, lines 422–510)
+- [x] **Not ported** (write the reason in the PORTING tests table): suite `Cursor move command - foldedLine unit`
       (8 tests): they need `setHiddenAreas` (folding, phase 5)
-- [ ] New: `Commands.Execute("cursorDown")` on an `EditorContext` with 3 lines moves the primary cursor to line 2
-- [ ] New: `Commands.Execute("removeSecondaryCursors")` with 3 cursors leaves the primary one
+- [x] New: `Commands.Execute("cursorDown")` on an `EditorContext` with 3 lines moves the primary cursor to line 2
+- [x] New: `Commands.Execute("removeSecondaryCursors")` with 3 cursors leaves the primary one
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `editor/browser/coreCommands.ts` (🔶 navigation commands, P3-26); phase 3 tests table
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `editor/browser/coreCommands.ts` (🔶 navigation commands, P3-26); phase 3 tests table
       row `cursorMoveCommand.test.ts` 47 / 55 (foldedLine suite: phase 5)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
