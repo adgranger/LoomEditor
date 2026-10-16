@@ -1,6 +1,6 @@
 # P3-20 — The view model owns the cursors (and the test editor)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-19
 - **Size:** M
 
@@ -81,21 +81,21 @@ Test editor: `src/vs/editor/test/browser/testCodeEditor.ts` (`withTestCodeEditor
 
 ## Tests
 
-- [ ] New: `WithTestCodeEditor("abc", e => …)`: the primary selection is `(1,1)`; `CursorConfig.PageSize` is 3
+- [x] New: `WithTestCodeEditor("abc", e => …)`: the primary selection is `(1,1)`; `CursorConfig.PageSize` is 3
       (`max(1, floor(100 / 19) - 2)`)
-- [ ] New: `SetSelections` with two selections → `GetSelections()` returns both; an outgoing `CursorStateChangedEvent`
+- [x] New: `SetSelections` with two selections → `GetSelections()` returns both; an outgoing `CursorStateChangedEvent`
       is raised once through `EventDispatcher.OnEvent`
-- [ ] New: an edit through `Model.PushEditOperations` moves the cursor (markers) and the layout line count is updated first
-- [ ] New: `Model.UpdateOptions(TabSize: 8)` → `CursorConfig.TabSize == 8`; `SetViewportSize(100, 400)` → page size 19
-- [ ] New: with `ReadOnly = true` in the cursor options, `ExecuteCommands` raises `ReadOnlyEditAttemptEvent` and does nothing
-- [ ] Existing `ViewModelTests` pass unchanged
+- [x] New: an edit through `Model.PushEditOperations` moves the cursor (markers) and the layout line count is updated first
+- [x] New: `Model.UpdateOptions(TabSize: 8)` → `CursorConfig.TabSize == 8`; `SetViewportSize(100, 400)` → page size 19
+- [x] New: with `ReadOnly = true` in the cursor options, `ExecuteCommands` raises `ReadOnlyEditAttemptEvent` and does nothing
+- [x] Existing `ViewModelTests` pass unchanged
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `viewModelImpl.ts` (cursor facade, P3-20)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `viewModelImpl.ts` (cursor facade, P3-20)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
