@@ -51,12 +51,12 @@ public sealed partial class LoomEditor : Control
     public static readonly DependencyProperty SmoothScrollingProperty = DependencyProperty.Register(
         nameof(SmoothScrolling), typeof(bool), typeof(LoomEditor), new PropertyMetadata(false, OnSmoothScrollingChanged));
 
-    private readonly EditorContext _context = new();
+    private readonly EditorContext _context;
     private readonly AnimationFrameScheduler _frameScheduler = new();
     private readonly MouseWheelClassifier _wheelClassifier = new();
     private readonly MouseWheelOptions _wheelOptions = new();
     private TextViewRenderer? _renderer;
-    private ViewModel? _viewModel;
+    private readonly ViewModel _viewModel;
     private readonly KeyboardInput _keyboard;
     private EditorFeatureHost? _featureHost;
     private CanvasControl? _canvas;
@@ -66,6 +66,11 @@ public sealed partial class LoomEditor : Control
     public LoomEditor()
     {
         DefaultStyleKey = typeof(LoomEditor);
+        _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System);
+        _viewModel = _context.ViewModel;
+        _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
+        _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
+        _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
         _keyboard = new KeyboardInput(_context.Commands);
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
@@ -151,7 +156,7 @@ public sealed partial class LoomEditor : Control
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         var editor = (LoomEditor)sender;
-        editor._viewModel?.SetOptions(new EditorLayoutOptions(), editor.CreateViewLayoutOptions(editor._viewModel.FontInfo.LineHeight));
+        editor._viewModel.SetOptions(new EditorLayoutOptions(), editor.CreateViewLayoutOptions(editor._viewModel.FontInfo.LineHeight));
     }
 
     private ViewLayoutOptions CreateViewLayoutOptions(int lineHeight) => new(lineHeight, SmoothScrolling: SmoothScrolling);
@@ -180,18 +185,18 @@ public sealed partial class LoomEditor : Control
     private void OnCanvasDraw(CanvasControl sender, CanvasDrawEventArgs args)
     {
         // The resources are released when the control is unloaded; recreate them if the control comes back.
-        if (_measurer is null || _renderer is null || _viewModel is null)
+        if (_measurer is null || _renderer is null)
         {
             CreateResources(sender);
         }
 
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!);
-        _renderer!.Render(surface, _viewModel!, _context.Selection, HasFocus, _cursorBlinking.IsVisible);
+        _renderer!.Render(surface, _viewModel, _context.Selection, HasFocus, _cursorBlinking.IsVisible);
     }
 
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        _viewModel?.SetViewportSize((int)e.NewSize.Width, (int)e.NewSize.Height);
+        _viewModel.SetViewportSize((int)e.NewSize.Width, (int)e.NewSize.Height);
         UpdateScrollBars();
     }
 
@@ -216,7 +221,7 @@ public sealed partial class LoomEditor : Control
     {
         ObserveXamlRoot();
 
-        if (_viewModel is not null && _renderer is not null && _measurer is not null)
+        if (_renderer is not null && _measurer is not null)
         {
             // Device loss: the same path as a font change.
             RecreateTextMeasurer();
@@ -228,32 +233,15 @@ public sealed partial class LoomEditor : Control
         _measurer = CreateTextMeasurer(canvas);
         _renderer = new TextViewRenderer(_measurer);
 
-        _viewModel ??= CreateViewModel(canvas);
-    }
-
-    private ViewModel CreateViewModel(CanvasControl canvas)
-    {
-        var viewModel = new ViewModel(
-            _context.Model,
-            _measurer!.FontInfo,
-            new EditorLayoutOptions(),
-            CreateViewLayoutOptions(_measurer.FontInfo.LineHeight),
-            ScheduleAtNextAnimationFrame,
-            TimeProvider.System);
-        _viewModel = viewModel;
-        viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
-        viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
-        viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
-        viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
+        _viewModel.SetFontInfo(_measurer.FontInfo);
+        _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
         ApplyPendingScrollPosition();
         UpdateScrollBars();
-        return viewModel;
     }
 
     private void ReleaseResources()
     {
-        _viewModel?.Dispose();
-        _viewModel = null;
+        // The view model belongs to the context and outlives the resources: only the device-dependent ones go.
         _renderer?.Dispose();
         _renderer = null;
         _measurer?.Dispose();

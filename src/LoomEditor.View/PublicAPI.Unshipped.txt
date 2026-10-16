@@ -1,4 +1,5 @@
 #nullable enable
+const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
 LoomEditor.View.Commands.CommandRegistry
 LoomEditor.View.Commands.CommandRegistry.CommandRegistry() -> void
 LoomEditor.View.Commands.CommandRegistry.Contains(string! id) -> bool
@@ -17,6 +18,8 @@ LoomEditor.View.Features.EditorContext.Model.get -> LoomEditor.Core.Model.TextMo
 LoomEditor.View.Features.EditorContext.Selection.get -> LoomEditor.Core.Text.Selection
 LoomEditor.View.Features.EditorContext.Selection.set -> void
 LoomEditor.View.Features.EditorContext.SelectionChanged -> System.EventHandler?
+LoomEditor.View.Features.EditorContext.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
+LoomEditor.View.Features.EditorContext.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.View.Features.EditorContext.SetText(string! text) -> void
 LoomEditor.View.Features.EditorFeatureHost
 LoomEditor.View.Features.EditorFeatureHost.Dispose() -> void
@@ -29,6 +32,8 @@ LoomEditor.View.Features.IEditorContext.Model.get -> LoomEditor.Core.Model.TextM
 LoomEditor.View.Features.IEditorContext.Selection.get -> LoomEditor.Core.Text.Selection
 LoomEditor.View.Features.IEditorContext.Selection.set -> void
 LoomEditor.View.Features.IEditorContext.SelectionChanged -> System.EventHandler?
+LoomEditor.View.Features.IEditorContext.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
+LoomEditor.View.Features.IEditorContext.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.View.Features.IEditorFeature
 LoomEditor.View.Features.IEditorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
 LoomEditor.View.Features.IEditorFeature.Id.get -> string!
@@ -38,6 +43,5 @@ LoomEditor.View.Features.SelectAll.SelectAllFeature.Attach(LoomEditor.View.Featu
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Dispose() -> void
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Id.get -> string!
 LoomEditor.View.Features.SelectAll.SelectAllFeature.SelectAllFeature() -> void
-const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection

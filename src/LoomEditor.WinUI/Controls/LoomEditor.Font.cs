@@ -92,7 +92,7 @@ public sealed partial class LoomEditor
     // Replaces the measurer with one that matches the current font, tab size and DPI. Also used after a device loss.
     private void RecreateTextMeasurer()
     {
-        if (_canvas is null || _measurer is null || _renderer is null || _viewModel is null)
+        if (_canvas is null || _measurer is null || _renderer is null)
         {
             // Nothing is created yet: CreateResources reads the current values.
             return;
@@ -115,11 +115,6 @@ public sealed partial class LoomEditor
 
     private void ScrollToLine(int lineNumber)
     {
-        if (_viewModel is null)
-        {
-            return;
-        }
-
         _viewModel.ViewLayout.SetScrollPosition(
             new View.Layout.NewScrollPosition(null, _viewModel.ViewLayout.GetVerticalOffsetForLineNumber(lineNumber)),
             View.Layout.ScrollType.Immediate);

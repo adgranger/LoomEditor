@@ -1,6 +1,6 @@
 # P3-21 — `EditorContext` and the control use the cursors
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-20
 - **Size:** M
 
@@ -59,21 +59,21 @@ None (integration card). Monaco equivalents for reference: `ICodeEditor.getSelec
 
 ## Tests
 
-- [ ] New: `new EditorContext().Selection` is `(1,1)`; `SetSelections([a, b])` → `Selections` is `[a, b]`, `Selection == a`,
+- [x] New: `new EditorContext().Selection` is `(1,1)`; `SetSelections([a, b])` → `Selections` is `[a, b]`, `Selection == a`,
       `SelectionChanged` raised once
-- [ ] New: `SetText("x\ny")` after a selection on line 2 resets to `(1,1)` and raises `SelectionChanged`
-- [ ] New: `SetSelections([])` throws `ArgumentException`
-- [ ] New: the existing `SelectAllFeature` tests still pass (Ctrl+A goes through `Selection =`)
-- [ ] Manual (Gallery, Debug): the editor starts, Ctrl+A selects all, scrolling and font changes still work
+- [x] New: `SetText("x\ny")` after a selection on line 2 resets to `(1,1)` and raises `SelectionChanged`
+- [x] New: `SetSelections([])` throws `ArgumentException`
+- [x] New: the existing `SelectAllFeature` tests still pass (Ctrl+A goes through `Selection =`)
+- [ ] Manual (Gallery, Debug): the editor starts, Ctrl+A selects all, scrolling and font changes still work (to check by the maintainer: the published Gallery starts and stays alive, but Ctrl+A, scrolling and font changes were not driven by hand)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `IEditorContext.Selections`, `IEditorContext.SetSelections`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `IEditorContext.Selections`, `IEditorContext.SetSelections`,
       `EditorContext.Selections`, `EditorContext.SetSelections` added
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

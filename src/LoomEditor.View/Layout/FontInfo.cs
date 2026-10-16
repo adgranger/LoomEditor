@@ -20,4 +20,8 @@ internal sealed record FontInfo(
     double MiddotWidth,
     double WsmiddotWidth,
     double MaxDigitWidth)
-    : BareFontInfo(PixelRatio, FontFamily, FontWeight, FontSize, LineHeight, LetterSpacing);
+    : BareFontInfo(PixelRatio, FontFamily, FontWeight, FontSize, LineHeight, LetterSpacing)
+{
+    /// <summary>Placeholder used until the control measures the real font (Monaco's test font, in Consolas).</summary>
+    public static FontInfo Default { get; } = new(1, "Consolas", "normal", 14, 19, 1.5, true, 10, 20, true, 10, 10, 10, 10);
+}
