@@ -1,6 +1,6 @@
 # P3-23 — `MoveOperations`: left, right, up, down, line and buffer edges
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-22
 - **Size:** M
 
@@ -53,24 +53,24 @@ File: `src/vs/editor/common/cursor/cursorMoveOperations.ts` (356 lines). Port th
 The Monaco tests of these functions go through the core commands (`cursor.test.ts`, P3-27). Here, write direct tests
 with `CursorTestContext` (P3-16):
 
-- [ ] New: `MoveLeft` from `(1,3)` of `"a😀b"` goes to `(1,2)`; `MoveRight` from `(1,2)` goes to `(1,4)` (the emoji is
+- [x] New: `MoveLeft` from `(1,3)` of `"a😀b"` goes to `(1,2)`; `MoveRight` from `(1,2)` goes to `(1,4)` (the emoji is
       one grapheme of 2 UTF-16 units)
-- [ ] New: `MoveLeft` at `(2,1)` goes to the end of line 1; `MoveRight` at the end of a line goes to `(next,1)`
-- [ ] New: `MoveDown` from `(1,10)` of `["aaaaaaaaaaaa", "bb", "cccccccccccc"]` → `(2,3)` with leftover 7; again →
+- [x] New: `MoveLeft` at `(2,1)` goes to the end of line 1; `MoveRight` at the end of a line goes to `(next,1)`
+- [x] New: `MoveDown` from `(1,10)` of `["aaaaaaaaaaaa", "bb", "cccccccccccc"]` → `(2,3)` with leftover 7; again →
       `(3,10)` (the leftover visible columns are used)
-- [ ] New: with tab size 4, `MoveDown` from `(1,5)` of `["    x", "\tx"]` lands at `(2,2)` (visible column 4)
-- [ ] New: `MoveUp` from line 1 goes to `(1,1)`; `MoveDown` from the last line goes to its max column
-- [ ] New: `MoveToEndOfLine(sticky: true)` sets `LeftoverVisibleColumns == (1 << 30) - maxColumn`, and a following
+- [x] New: with tab size 4, `MoveDown` from `(1,5)` of `["    x", "\tx"]` lands at `(2,2)` (visible column 4)
+- [x] New: `MoveUp` from line 1 goes to `(1,1)`; `MoveDown` from the last line goes to its max column
+- [x] New: `MoveToEndOfLine(sticky: true)` sets `LeftoverVisibleColumns == (1 << 30) - maxColumn`, and a following
       `MoveDown` lands at the end of the next line
-- [ ] New: `MoveToNextBlankLine` / `MoveToPrevBlankLine` on `["a", "", "b", "", "c"]` from `(1,1)`, three times → `(2,1)`, `(4,1)`, `(5,1)` (the last line, column 1); `MoveToPrevBlankLine` from `(5,1)` → `(4,1)`
-- [ ] New: with `StickyTabStops = true` and 4 spaces of indentation, `MoveRight` from `(1,1)` goes to `(1,5)`
+- [x] New: `MoveToNextBlankLine` / `MoveToPrevBlankLine` on `["a", "", "b", "", "c"]` from `(1,1)`, three times → `(2,1)`, `(4,1)`, `(5,1)` (the last line, column 1); `MoveToPrevBlankLine` from `(5,1)` → `(4,1)`
+- [x] New: with `StickyTabStops = true` and 4 spaces of indentation, `MoveRight` from `(1,1)` goes to `(1,5)`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `cursorMoveOperations.ts` (✅, P3-23)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `cursorMoveOperations.ts` (✅, P3-23)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
