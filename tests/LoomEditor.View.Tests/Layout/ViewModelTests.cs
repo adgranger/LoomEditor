@@ -110,7 +110,7 @@ public class ViewModelTests
         viewModel.ViewLayout.SetScrollPosition(
             new NewScrollPosition(ScrollTop: viewModel.ViewLayout.GetVerticalOffsetForLineNumber(500)), ScrollType.Immediate);
 
-        ViewportData data = viewModel.GetViewportData(Selection.Collapsed(new Position(500, 1)));
+        ViewportData data = viewModel.GetViewportData([Selection.Collapsed(new Position(500, 1))]);
 
         Assert.Equal(500, data.StartLineNumber);
         Assert.Equal(500, data.VisibleRange.StartLineNumber);

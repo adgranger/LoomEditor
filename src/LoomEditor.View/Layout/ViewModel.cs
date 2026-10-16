@@ -121,10 +121,10 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     }
 
     /// <summary>Builds the data to render the current viewport.</summary>
-    public ViewportData GetViewportData(Selection selection)
+    public ViewportData GetViewportData(IReadOnlyList<Selection> selections)
     {
         return new ViewportData(
-            [selection],
+            selections,
             ViewLayout.GetLinesViewportData(),
             ViewLayout.GetWhitespaceViewportData(),
             _model);

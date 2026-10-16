@@ -84,15 +84,17 @@ internal sealed partial class TextViewRenderer : IDisposable
     /// <summary>Draws the visible part of the document at the current scroll position.</summary>
     /// <param name="surface">Where to draw.</param>
     /// <param name="viewModel">The view to draw.</param>
-    /// <param name="selection">The selection to show.</param>
+    /// <param name="selections">The selections to show, the primary one first (Monaco: <c>getSelections</c>).</param>
     /// <param name="hasFocus">Whether the editor has the keyboard focus.</param>
     /// <param name="cursorVisible">Whether the blinking caret is in its visible phase (see <see cref="CursorBlinking"/>).</param>
-    public void Render(IRenderSurface surface, ViewModel viewModel, Selection selection, bool hasFocus, bool cursorVisible)
+    public void Render(IRenderSurface surface, ViewModel viewModel, IReadOnlyList<Selection> selections, bool hasFocus, bool cursorVisible)
     {
         ArgumentNullException.ThrowIfNull(surface);
         ArgumentNullException.ThrowIfNull(viewModel);
+        ArgumentNullException.ThrowIfNull(selections);
+        ArgumentOutOfRangeException.ThrowIfZero(selections.Count);
 
-        ViewportData data = viewModel.GetViewportData(selection);
+        ViewportData data = viewModel.GetViewportData(selections);
         RenderedStartLineNumber = data.StartLineNumber;
         RenderedEndLineNumber = data.EndLineNumber;
         EditorLayoutInfo layoutInfo = viewModel.LayoutInfo;
@@ -136,18 +138,26 @@ internal sealed partial class TextViewRenderer : IDisposable
         for (int i = 0; i < lineCount; i++)
         {
             float top = data.RelativeVerticalOffset[i] - topShift;
-            DrawSelection(surface, selection, data.StartLineNumber + i, layouts[i], layoutInfo, scrollLeft, top, font);
+            foreach (Selection selection in selections)
+            {
+                DrawSelection(surface, selection, data.StartLineNumber + i, layouts[i], layoutInfo, scrollLeft, top, font);
+            }
         }
 
         // Monaco: the current line highlight overlay is under the text.
-        if (ShouldRenderHighlightInContent(selection, hasFocus))
+        // Monaco: `_selectionIsEmpty` is true only when every selection is empty; one highlight per distinct line.
+        HashSet<int> cursorLines = GetCursorLineNumbers(selections);
+        if (ShouldRenderHighlightInContent(selections.All(selection => selection.IsEmpty), hasFocus))
         {
-            int activeIndex = selection.PositionLineNumber - data.StartLineNumber;
-            if (activeIndex >= 0 && activeIndex < lineCount)
+            foreach (int lineNumber in cursorLines)
             {
-                DrawLineHighlight(
-                    surface, layoutInfo.ContentLeft, layoutInfo.Width - layoutInfo.ContentLeft,
-                    data.RelativeVerticalOffset[activeIndex] - topShift, font.LineHeight);
+                int index = lineNumber - data.StartLineNumber;
+                if (index >= 0 && index < lineCount)
+                {
+                    DrawLineHighlight(
+                        surface, layoutInfo.ContentLeft, layoutInfo.Width - layoutInfo.ContentLeft,
+                        data.RelativeVerticalOffset[index] - topShift, font.LineHeight);
+                }
             }
         }
 
@@ -164,18 +174,22 @@ internal sealed partial class TextViewRenderer : IDisposable
 
         if (hasFocus && cursorVisible)
         {
-            int caretIndex = selection.PositionLineNumber - data.StartLineNumber;
-            if (caretIndex >= 0 && caretIndex < lineCount)
+            // Monaco: `ViewCursors` has one caret per selection, all with the same style.
+            foreach (Selection selection in selections)
             {
-                DrawCaret(
-                    surface, selection, layouts[caretIndex], layoutInfo, scrollLeft,
-                    data.RelativeVerticalOffset[caretIndex] - topShift, font);
+                int caretIndex = selection.PositionLineNumber - data.StartLineNumber;
+                if (caretIndex >= 0 && caretIndex < lineCount)
+                {
+                    DrawCaret(
+                        surface, selection, layouts[caretIndex], layoutInfo, scrollLeft,
+                        data.RelativeVerticalOffset[caretIndex] - topShift, font);
+                }
             }
         }
 
         // The gutter hides the text that is scrolled under it.
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
-        DrawGutter(surface, data, layoutInfo, selection, hasFocus, topShift, font);
+        DrawGutter(surface, data, layoutInfo, cursorLines, selections[0].PositionLineNumber, hasFocus, topShift, font);
 
         UpdateMaxLineWidth(viewModel, data, widestLine);
     }
