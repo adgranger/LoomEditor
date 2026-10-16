@@ -195,7 +195,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-22](phase-3/P3-22-atomic-tab-moves.md) | Atomic soft tabs (`AtomicTabMoveOperations`) | P3-21 | done |
 | [P3-23](phase-3/P3-23-move-operations.md) | `MoveOperations`: left, right, up, down, line and buffer edges | P3-22 | done |
 | [P3-24](phase-3/P3-24-cursor-move-commands-1.md) | `CursorMoveCommands` (1/2): line, buffer, select all, add cursor, move to | P3-23 | done |
-| [P3-25](phase-3/P3-25-cursor-move-commands-2.md) | `CursorMoveCommands` (2/2): `simpleMove`, `viewportMove` and the `cursorMove` arguments | P3-24 | todo |
+| [P3-25](phase-3/P3-25-cursor-move-commands-2.md) | `CursorMoveCommands` (2/2): `simpleMove`, `viewportMove` and the `cursorMove` arguments | P3-24 | done |
 | [P3-26](phase-3/P3-26-core-navigation-commands.md) | Core navigation commands (`cursorLeft`, `cursorHome`, `cursorMove`…) | P3-25 | todo |
 | [P3-27](phase-3/P3-27-cursor-tests-movement.md) | Port the cursor movement tests of `cursor.test.ts` | P3-26 | todo |
 | [P3-28](phase-3/P3-28-column-selection.md) | Column (box) selection | P3-27 | todo |

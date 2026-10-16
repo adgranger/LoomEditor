@@ -9,8 +9,8 @@ namespace LoomEditor.View.Cursors;
 /// <summary>Turns a user intention (go to the line start, add a cursor below, select a line...) into new cursor states.</summary>
 /// <remarks>
 /// <para>
-/// Part 1 of <c>CursorMoveCommands</c>: line, buffer, select all, add cursor and move to. <c>simpleMove</c> and
-/// <c>viewportMove</c> come with P3-25 and <c>word</c> with P3-30.
+/// Line, buffer, select all, add cursor and move to (this file); <c>simpleMove</c> and
+/// <c>viewportMove</c> are in the other partial files; <c>word</c> comes with P3-30.
 /// </para>
 /// <para>
 /// Monaco passes an <c>IViewModel</c> that is also its own <c>ICursorSimpleModel</c> and exposes <c>model</c>. Here the
@@ -19,7 +19,7 @@ namespace LoomEditor.View.Cursors;
 /// </para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
-internal static class CursorMoveCommands
+internal static partial class CursorMoveCommands
 {
     private static TextModelCursorSimpleModel ModelOf(ViewModel viewModel) => new(viewModel.Model);
 
@@ -283,9 +283,9 @@ internal static class CursorMoveCommands
             ? viewModel.CoordinatesConverter.ValidateViewPosition(view, position)
             : viewModel.CoordinatesConverter.ConvertModelPositionToViewPosition(position);
 
-    internal static PartialViewCursorState MoveToViewPosition(ViewModel viewModel, CursorState cursor, bool inSelectionMode, int toViewLineNumber, int toViewColumn) =>
+    private static PartialViewCursorState MoveToViewPosition(CursorState cursor, bool inSelectionMode, int toViewLineNumber, int toViewColumn) =>
         CursorState.FromViewState(cursor.ViewState.Move(inSelectionMode, toViewLineNumber, toViewColumn, 0));
 
-    internal static PartialModelCursorState MoveToModelPosition(ViewModel viewModel, CursorState cursor, bool inSelectionMode, int toModelLineNumber, int toModelColumn) =>
+    private static PartialModelCursorState MoveToModelPosition(CursorState cursor, bool inSelectionMode, int toModelLineNumber, int toModelColumn) =>
         CursorState.FromModelState(cursor.ModelState.Move(inSelectionMode, toModelLineNumber, toModelColumn, 0));
 }
