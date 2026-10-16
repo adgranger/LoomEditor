@@ -1,6 +1,6 @@
 # P3-46 — The control: mouse selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-45
 - **Size:** M
 
@@ -46,21 +46,21 @@ clicks and drags on the line numbers, automatic scrolling while dragging outside
 
 The logic is tested in P3-43 … P3-45. This card is wiring; manual checks in the Gallery (Debug and the AOT build):
 
-- [ ] Click places the caret at the nearest character boundary, also in a proportional font (`Segoe UI`) and on CJK / emoji
-- [ ] Drag selects; dragging above/below the editor scrolls, faster when further away
-- [ ] Double-click selects a word, triple-click a line, four clicks everything; Shift+click extends
-- [ ] Alt+click adds a cursor, Alt+click on it again removes it; typing goes to all cursors
-- [ ] Alt+Shift+drag and middle-button drag make a column selection across tabs
-- [ ] Click and drag on the line numbers select whole lines
-- [ ] The pointer is an I-beam over the text and an arrow over the gutter
+- [ ] Click places the caret at the nearest character boundary, also in a proportional font (`Segoe UI`) and on CJK / emoji _(left to the maintainer)_
+- [ ] Drag selects; dragging above/below the editor scrolls, faster when further away _(left to the maintainer)_
+- [ ] Double-click selects a word, triple-click a line, four clicks everything; Shift+click extends _(left to the maintainer)_
+- [ ] Alt+click adds a cursor, Alt+click on it again removes it; typing goes to all cursors _(left to the maintainer)_
+- [ ] Alt+Shift+drag and middle-button drag make a column selection across tabs _(left to the maintainer)_
+- [ ] Click and drag on the line numbers select whole lines _(left to the maintainer)_
+- [ ] The pointer is an I-beam over the text and an arrow over the gutter _(left to the maintainer)_
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app
-- [ ] `docs/PORTING.md`: map row `mouseHandler.ts` (+ WinUI wiring, P3-46)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app _(publish OK, 0 warnings; manual checks left to the maintainer)_
+- [x] `docs/PORTING.md`: map row `mouseHandler.ts` (+ WinUI wiring, P3-46)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

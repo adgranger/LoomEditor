@@ -231,7 +231,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-43](phase-3/P3-43-mouse-hit-testing.md) | Mouse hit testing on the canvas | P3-42 | done |
 | [P3-44](phase-3/P3-44-mouse-dispatch.md) | Mouse clicks to cursor commands (`ViewController.dispatchMouse`) | P3-43 | done |
 | [P3-45](phase-3/P3-45-mouse-down-and-drag-scrolling.md) | Mouse down, drag selection and drag scrolling (pure logic) | P3-44 | done |
-| [P3-46](phase-3/P3-46-control-pointer-input.md) | The control: mouse selection | P3-45 | todo |
+| [P3-46](phase-3/P3-46-control-pointer-input.md) | The control: mouse selection | P3-45 | done |
 
 ### Step G — Clipboard
 

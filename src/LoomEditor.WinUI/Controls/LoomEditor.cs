@@ -75,6 +75,7 @@ public sealed partial class LoomEditor : Control
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
         InitializeReveal();
+        InitializePointer();
         CharacterReceived += OnCharacterReceived;
         InitializeFont();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
@@ -139,14 +140,6 @@ public sealed partial class LoomEditor : Control
     }
 
     /// <inheritdoc />
-    protected override void OnPointerPressed(PointerRoutedEventArgs e)
-    {
-        base.OnPointerPressed(e);
-        Focus(FocusState.Pointer);
-        e.Handled = true;
-    }
-
-    /// <inheritdoc />
     protected override AutomationPeer OnCreateAutomationPeer() => new LoomEditorAutomationPeer(this);
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -199,6 +192,7 @@ public sealed partial class LoomEditor : Control
 
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
     {
+        _mouseDown?.OnHeightChanged();
         _viewModel.SetViewportSize((int)e.NewSize.Width, (int)e.NewSize.Height);
         UpdateScrollBars();
     }
