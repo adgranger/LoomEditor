@@ -1,3 +1,4 @@
+using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.WordOperations;
 using LoomEditor.View.Features.WordPartOperations;
@@ -19,6 +20,7 @@ public static class EditorFeatures
     [
         () => new SelectAllFeature(),
         () => new WordOperationsFeature(),
+        () => new MultiCursorFeature(),
         () => new WordPartOperationsFeature(),
     ];
 }

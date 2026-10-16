@@ -60,6 +60,14 @@ internal static class CoreCommandRegistration
         Add(CoreNavigationCommands.CursorColumnSelectPageDown, baseArgs);
         Add(CoreNavigationCommands.CancelSelection, baseArgs);
         Add(CoreNavigationCommands.RemoveSecondaryCursors, baseArgs);
+        Add(CoreNavigationCommands.ScrollLineUp, baseArgs);
+        Add(CoreNavigationCommands.ScrollPageUp, baseArgs);
+        Add(CoreNavigationCommands.ScrollEditorTop, baseArgs);
+        Add(CoreNavigationCommands.ScrollLineDown, baseArgs);
+        Add(CoreNavigationCommands.ScrollPageDown, baseArgs);
+        Add(CoreNavigationCommands.ScrollEditorBottom, baseArgs);
+        Add(CoreNavigationCommands.ScrollLeft, baseArgs);
+        Add(CoreNavigationCommands.ScrollRight, baseArgs);
 
         void AddEditing(CoreEditingCommand command) =>
             registrations.Add(registry.Register(new EditorCommand(command.Id, () => command.RunCoreEditingCommand(viewModel))));

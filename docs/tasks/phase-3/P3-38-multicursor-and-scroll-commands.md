@@ -1,6 +1,6 @@
 # P3-38 — Multi-cursor commands (without Find) and scroll commands
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-37
 - **Size:** M
 
@@ -49,22 +49,22 @@ and scroll the view without moving the cursor (Ctrl+↑/↓, Alt+PgUp/PgDn). The
 
 ## Tests
 
-- [ ] Port `multicursor.test.ts` › `issue #2205: Multi-cursor pastes in reverse order` and › `issue #1336: Insert cursor below on last line adds a cursor to the end of the current line`
-- [ ] **Not ported:** `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); suites `Multicursor selection`
+- [x] Port `multicursor.test.ts` › `issue #2205: Multi-cursor pastes in reverse order` and › `issue #1336: Insert cursor below on last line adds a cursor to the end of the current line`
+- [x] **Not ported:** `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); suites `Multicursor selection`
       and below (73 tests: Find, phase 5) — reasons in the PORTING tests table
-- [ ] New: `editor.action.insertCursorAbove` on line 1 adds nothing; on line 3 adds a cursor on line 2 at the same visible column
-- [ ] New: `editor.action.insertCursorAtEndOfEachLineSelected` with a selection over lines 1–3 → 3 cursors at the line ends
-- [ ] New: `scrollLineDown` scrolls by one line height and does not move the cursor; `scrollPageDown` by a page;
+- [x] New: `editor.action.insertCursorAbove` on line 1 adds nothing; on line 3 adds a cursor on line 2 at the same visible column
+- [x] New: `editor.action.insertCursorAtEndOfEachLineSelected` with a selection over lines 1–3 → 3 cursors at the line ends
+- [x] New: `scrollLineDown` scrolls by one line height and does not move the cursor; `scrollPageDown` by a page;
       `EditorScroll.Parse` rejects an unknown `to`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `MultiCursorFeature` and `MultiCursorCommands`
-- [ ] `docs/PORTING.md`: map rows `contrib/multicursor/browser/multicursor.ts` (🔶 without Find, P3-38) and `coreCommands.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `MultiCursorFeature` and `MultiCursorCommands`
+- [x] `docs/PORTING.md`: map rows `contrib/multicursor/browser/multicursor.ts` (🔶 without Find, P3-38) and `coreCommands.ts`
       (+ scroll); tests table `multicursor.test.ts` 2 / 76
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
