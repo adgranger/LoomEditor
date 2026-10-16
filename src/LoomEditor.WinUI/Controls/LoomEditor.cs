@@ -75,6 +75,7 @@ public sealed partial class LoomEditor : Control
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
         InitializeReveal();
+        CharacterReceived += OnCharacterReceived;
         InitializeFont();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;
@@ -128,7 +129,7 @@ public sealed partial class LoomEditor : Control
     {
         ArgumentNullException.ThrowIfNull(e);
 
-        if (_keyboard.TryHandle(e.Key))
+        if (_keyboard.TryHandle(e.Key, CreateKeybindingContext()))
         {
             e.Handled = true;
             return;
