@@ -59,6 +59,64 @@ internal static class TypeOperations
     public static List<IEditCommand?> Tab(CursorConfiguration config, TextModel model, IReadOnlyList<Selection> selections) =>
         TabOperation.GetCommands(config, model, selections);
 
+    /// <summary>The edits of one step of an IME composition (Monaco: <c>compositionType</c>).</summary>
+    public static EditOperationResult CompositionType(
+        EditOperationType prevEditOperationType,
+        TextModel model,
+        IReadOnlyList<Selection> selections,
+        string text,
+        int replacePrevCharCnt,
+        int replaceNextCharCnt,
+        int positionDelta) =>
+        CompositionOperation.GetEdits(prevEditOperationType, model, selections, text, replacePrevCharCnt, replaceNextCharCnt, positionDelta);
+
+    /// <summary>
+    /// The edits to make when a composition ends: typing, but the character is already in the text buffer (Monaco:
+    /// <c>compositionEndWithInterceptors</c>). <see langword="null"/> when there is nothing to do.
+    /// </summary>
+    public static EditOperationResult? CompositionEndWithInterceptors(CursorConfiguration config, IReadOnlyList<CompositionOutcome>? compositions)
+    {
+        if (compositions is null)
+        {
+            // could not deduce what the composition did
+            return null;
+        }
+
+        string? insertedText = null;
+        foreach (CompositionOutcome composition in compositions)
+        {
+            if (insertedText is null)
+            {
+                insertedText = composition.InsertedText;
+            }
+            else if (insertedText != composition.InsertedText)
+            {
+                // not all selections agree on what was typed
+                return null;
+            }
+        }
+
+        if (string.IsNullOrEmpty(insertedText) || insertedText.Length != 1)
+        {
+            // we're only interested in the case where a single character was inserted
+            return CompositionEndOvertypeOperation.GetEdits(config, compositions);
+        }
+
+        foreach (CompositionOutcome composition in compositions)
+        {
+            if (composition.DeletedText.Length != 0)
+            {
+                // Phase 4–5 cut point: Monaco checks here whether the composition was a surround selection
+                // (shouldSurroundChar, config.surroundingPairs). Without a language configuration it returns null.
+                return null;
+            }
+        }
+
+        // Phase 4–5 cut point: AutoClosingOvertypeWithInterceptorsOperation and AutoClosingOpenCharTypeOperation
+        // (they return undefined without a language configuration).
+        return CompositionEndOvertypeOperation.GetEdits(config, compositions);
+    }
+
     private static ShiftCommandOptions ShiftOptions(CursorConfiguration config, bool isUnshift) =>
         new(isUnshift, config.TabSize, config.IndentSize, config.InsertSpaces, config.UseTabStops, config.AutoIndent);
 

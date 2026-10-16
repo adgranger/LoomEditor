@@ -30,8 +30,7 @@ internal sealed partial class CursorsController
                         string chr = text.Substring(offset, charLength);
 
                         // Here we must interpret each typed character individually
-                        // Phase 3 cut point: isDoingComposition is false until the composition state exists (P3-49).
-                        ExecuteEditOperation(TypeOperations.TypeWithInterceptors(false, _prevEditOperationType, Context.CursorConfig, _model, GetSelections(), chr));
+                        ExecuteEditOperation(TypeOperations.TypeWithInterceptors(_compositionState is not null,_prevEditOperationType, Context.CursorConfig, _model, GetSelections(), chr));
 
                         offset += charLength;
                     }

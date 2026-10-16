@@ -184,6 +184,18 @@ internal sealed partial class ViewModel
         Func<IReadOnlyList<ValidEditOperation>, IReadOnlyList<Selection>?> cursorStateComputer) =>
         ExecuteCursorEdit(eventsCollector => _cursor.ExecuteEdits(eventsCollector, source, edits, cursorStateComputer));
 
+    /// <summary>Starts an IME composition (Monaco: <c>startComposition</c>).</summary>
+    public void StartComposition() =>
+        ExecuteCursorEdit(eventsCollector => _cursor.StartComposition(eventsCollector));
+
+    /// <summary>Ends an IME composition (Monaco: <c>endComposition</c>).</summary>
+    public void EndComposition(string? source = null) =>
+        ExecuteCursorEdit(eventsCollector => _cursor.EndComposition(eventsCollector, source));
+
+    /// <summary>One step of an IME composition (Monaco: <c>compositionType</c>).</summary>
+    public void CompositionType(string text, int replacePrevCharCnt, int replaceNextCharCnt, int positionDelta, string? source = null) =>
+        ExecuteCursorEdit(eventsCollector => _cursor.CompositionType(eventsCollector, text, replacePrevCharCnt, replaceNextCharCnt, positionDelta, source));
+
     public void Type(string text, string? source = null) =>
         ExecuteCursorEdit(eventsCollector => _cursor.Type(eventsCollector, text, source));
 

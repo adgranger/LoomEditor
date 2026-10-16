@@ -1,6 +1,6 @@
 # P3-49 — Composition in the cursor (`compositionType`, start and end of a composition)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-48
 - **Size:** M
 
@@ -55,22 +55,22 @@ view model API. The WinUI side comes in P3-51.
 
 ## Tests
 
-- [ ] Port `cursor.test.ts` › `issue #9675: Undo/Redo adds a stop in between CHN Characters` (2525)
-- [ ] New: `StartComposition`, `CompositionType("に", 0, 0, 0)`, `CompositionType("にほ", 1, 0, 0)`, `EndComposition("keyboard")`
+- [x] Port `cursor.test.ts` › `issue #9675: Undo/Redo adds a stop in between CHN Characters` (2525)
+- [x] New: `StartComposition`, `CompositionType("に", 0, 0, 0)`, `CompositionType("にほ", 1, 0, 0)`, `EndComposition("keyboard")`
       → the line is `"にほ"`, the cursor after it, one undo step removes it
-- [ ] New: `CompositionType("", 0, 0, -1)` moves the cursor one column left without editing
-- [ ] New: two cursors on two lines: `CompositionType` replaces at both
-- [ ] New: `CompositionState.DeduceOutcome` for `"ab|"` → `"abc|"` gives inserted `"c"`, deleted `""`
-- [ ] New: while a composition is active, `Type("x", "keyboard")` passes `isDoingComposition = true` (Enter is then
+- [x] New: `CompositionType("", 0, 0, -1)` moves the cursor one column left without editing
+- [x] New: two cursors on two lines: `CompositionType` replaces at both
+- [x] New: `CompositionState.DeduceOutcome` for `"ab|"` → `"abc|"` gives inserted `"c"`, deleted `""`
+- [x] New: while a composition is active, `Type("x", "keyboard")` passes `isDoingComposition = true` (Enter is then
       typed as a plain character: `EnterOperation` only applies when not composing)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `cursor.ts` (✅ except auto-closed actions, P3-49), `cursorTypeOperations.ts` (+ composition);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `cursor.ts` (✅ except auto-closed actions, P3-49), `cursorTypeOperations.ts` (+ composition);
       tests table `cursor.test.ts` (+1)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
