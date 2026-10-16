@@ -27,6 +27,7 @@ clicks and drags on the line numbers, automatic scrolling while dragging outside
 ## Design decisions (already made — do not change)
 
 - Read [the phase 3 conventions](README.md) first.
+- `EditorMouseEvent.Detail`: pass **4** on every press (found in P3-45: `MouseDownState.TrySetCount` takes the minimum of the reported count and the number of clicks at the same position, so a constant 1 would never give a double-click; 4 is Monaco's highest count and the state clamps it to one more than the previous click).
 - Pressed: focus the control (as today), `CapturePointer`, build the `EditorMouseEvent` (position relative to the
   control in DIPs, `PointerPointProperties.IsLeftButtonPressed` / `IsMiddleButtonPressed`, modifiers from
   `e.KeyModifiers`: `Menu` → Alt, `Control` → Ctrl, `Shift` → Shift, `Windows` → Meta; `TimestampMs = point.Timestamp / 1000`),

@@ -41,6 +41,8 @@ internal enum MouseTargetType
 /// <param name="Range">The range of the target, if any: the whole line for the gutter, the position for text.</param>
 /// <param name="IsAfterLines">For the gutter and empty content: the mouse is below the last line.</param>
 /// <param name="HorizontalDistanceToText">For empty content inside a line: the distance from the end of the text.</param>
+/// <param name="OutsidePosition">For <see cref="MouseTargetType.OutsideEditor"/>: on which side of the editor the mouse is.</param>
+/// <param name="OutsideDistance">For <see cref="MouseTargetType.OutsideEditor"/>: the distance to the editor, in DIPs.</param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record MouseTarget(
     MouseTargetType Type,
@@ -48,4 +50,28 @@ internal sealed record MouseTarget(
     int MouseColumn,
     Range? Range,
     bool IsAfterLines,
-    double? HorizontalDistanceToText);
+    double? HorizontalDistanceToText,
+    OutsidePosition? OutsidePosition = null,
+    double OutsideDistance = 0)
+{
+    /// <summary>Monaco: <c>MouseTarget.createOutsideEditor</c>.</summary>
+    public static MouseTarget CreateOutsideEditor(int mouseColumn, Position position, OutsidePosition outsidePosition, double outsideDistance) =>
+        new(MouseTargetType.OutsideEditor, position, mouseColumn, null, false, null, outsidePosition, outsideDistance);
+}
+
+/// <summary>Where the mouse is relative to the editor (Monaco: <c>IMouseTargetOutsideEditor.outsidePosition</c>).</summary>
+/// <remarks>Threading: an enum; thread-safe.</remarks>
+internal enum OutsidePosition
+{
+    /// <summary>Above the editor.</summary>
+    Above,
+
+    /// <summary>Below the editor.</summary>
+    Below,
+
+    /// <summary>Left of the content.</summary>
+    Left,
+
+    /// <summary>Right of the content.</summary>
+    Right,
+}

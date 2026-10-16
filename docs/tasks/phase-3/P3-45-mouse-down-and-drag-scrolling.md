@@ -1,6 +1,6 @@
 # P3-45 — Mouse down, drag selection and drag scrolling (pure logic)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-44
 - **Size:** M
 
@@ -32,7 +32,7 @@ selection), finding the position when the mouse leaves the editor, and scrolling
 - Read [the phase 3 conventions](README.md) first.
 - `EditorMouseEvent` = `internal sealed record EditorMouseEvent(double X, double Y, bool LeftButton, bool MiddleButton, bool AltKey, bool CtrlKey, bool ShiftKey, bool MetaKey, int Detail, long TimestampMs)`
   (`X`, `Y` in DIPs relative to the control; `Detail` is the click count the platform reports — WinUI does not report
-  one, so the control passes 1 and `MouseDownState.TrySetCount` does the counting, as Monaco does for IE).
+  one, so the control passes 4 (not 1: see P3-46) and `MouseDownState.TrySetCount` does the counting, as Monaco does for IE).
 - Time: `MouseDownState` takes a `TimeProvider` (Monaco calls `new Date().getTime()`). Frames: `DragScrollingOperation`
   takes `Func<Action, IDisposable> scheduleAtNextAnimationFrame` (the same delegate as the view model, ADR 0005
   decision 7) and the `TimeProvider`.
@@ -49,25 +49,25 @@ selection), finding the position when the mouse leaves the editor, and scrolling
 
 No Monaco test file covers these classes. New tests:
 
-- [ ] New: `TrySetCount` — two clicks 300 ms apart at the same position → count 2; 500 ms apart → 1; second click at
+- [x] New: `TrySetCount` — two clicks 300 ms apart at the same position → count 2; 500 ms apart → 1; second click at
       another position → 1; a reported count of 3 after a count of 1 → 2 (no jump)
-- [ ] New: `MouseDownOperation` — down at `(1,3)`, move to `(1,6)` with the button held → selection `(1,3) → (1,6)`
+- [x] New: `MouseDownOperation` — down at `(1,3)`, move to `(1,6)` with the button held → selection `(1,3) → (1,6)`
       (dispatched with `InSelectionMode = true`); up → inactive
-- [ ] New: double-click then drag → the selection grows by words (`_wordSelectDrag`)
-- [ ] New: moving above the editor while dragging starts top drag scrolling. Speed in lines per second, with
+- [x] New: double-click then drag → the selection grows by words (`_wordSelectDrag`)
+- [x] New: moving above the editor while dragging starts top drag scrolling. Speed in lines per second, with
       `v = viewport height / lineHeight` and `d = outside distance / lineHeight` (lines 112–124):
       `d ≤ 1.5` → `max(30, v × (1 + d))`; `d ≤ 3` → `max(60, v × (2 + d))`; else `max(200, v × (7 + d))`.
       With line height 19, viewport 380 (v = 20), d = 1 and a fake clock advancing 100 ms between frames, one frame
       scrolls `max(30, 40) × 0.1 × 19 = 76` DIPs up
-- [ ] New: moving back inside the editor stops drag scrolling
+- [x] New: moving back inside the editor stops drag scrolling
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `mouseHandler.ts` (🔶 `MouseDownState`, `MouseDownOperation` without drag-and-drop, P3-45),
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `mouseHandler.ts` (🔶 `MouseDownState`, `MouseDownOperation` without drag-and-drop, P3-45),
       `dragScrolling.ts` (✅, P3-45); behavior difference "no drag-and-drop of the selection"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

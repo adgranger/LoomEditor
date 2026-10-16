@@ -29,6 +29,9 @@ internal sealed record EditorCursorOptions
     /// <summary>The <c>columnSelection</c> option: Shift+arrows select a column (default <c>false</c>). Read by the keybindings.</summary>
     public bool ColumnSelection { get; init; }
 
+    /// <summary>The <c>selectOnLineNumbers</c> option: clicking the line numbers selects the line (default <c>true</c>).</summary>
+    public bool SelectOnLineNumbers { get; init; } = true;
+
     /// <summary>The <c>multiCursorModifier</c> option: the key that adds a cursor when held during a click (default Alt).</summary>
     public MultiCursorModifier MultiCursorModifier { get; init; } = MultiCursorModifier.Alt;
 
