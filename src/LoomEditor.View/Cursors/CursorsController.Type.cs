@@ -44,4 +44,20 @@ internal sealed partial class CursorsController
             eventsCollector,
             source);
     }
+
+    /// <summary>Pastes <paramref name="text"/> at every cursor (Monaco: <c>paste</c>).</summary>
+    public void Paste(
+        ViewModelEventsCollector eventsCollector,
+        string text,
+        bool pasteOnNewLine,
+        IReadOnlyList<string>? multicursorText,
+        string? source = null,
+        bool isBlock = false)
+    {
+        ExecuteEdit(
+            () => ExecuteEditOperation(TypeOperations.Paste(Context.CursorConfig, GetSelections(), text, pasteOnNewLine, multicursorText ?? [], isBlock)),
+            eventsCollector,
+            source,
+            CursorChangeReason.Paste);
+    }
 }
