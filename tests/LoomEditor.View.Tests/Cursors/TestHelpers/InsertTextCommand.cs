@@ -66,3 +66,15 @@ internal sealed class ThrowingCommand : IEditCommand
     public Selection ComputeCursorState(TextModel model, ICursorStateComputerData helper) =>
         throw new InvalidOperationException("Must not be called.");
 }
+
+/// <summary>A test-only command that inserts a text, then throws when asked for the cursor state (not caught by the executor).</summary>
+internal sealed class ThrowingCursorStateCommand : IEditCommand
+{
+    public bool InsertsAutoWhitespace => false;
+
+    public void GetEditOperations(TextModel model, IEditOperationBuilder builder) =>
+        builder.AddEditOperation(new Range(1, 1, 1, 1), "X");
+
+    public Selection ComputeCursorState(TextModel model, ICursorStateComputerData helper) =>
+        throw new InvalidOperationException("The command fails on purpose.");
+}

@@ -1,4 +1,3 @@
-using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Events;
@@ -15,33 +14,11 @@ public class CursorsControllerStateTests
 
     private static Selection Caret(int line, int column) => Selection.Collapsed(new Position(line, column));
 
-    private sealed class Fixture
-    {
-        public Fixture(string text, EditorCursorOptions? options = null)
-        {
-            Model = new TextModel(text);
-            CursorContext context = CursorTestContext.Create(Model, options);
-            Controller = new CursorsController(Model, context.ViewModel, context.CoordinatesConverter, context.CursorConfig);
-            Model.RawContentChanged += (_, e) => Controller.OnModelContentChanged(Collector, e);
-        }
-
-        public TextModel Model { get; }
-
-        public CursorsController Controller { get; }
-
-        public ViewModelEventsCollector Collector { get; private set; } = new();
-
-        public void ResetEvents() => Collector = new ViewModelEventsCollector();
-
-        public IEnumerable<CursorStateChangedEvent> Outgoing => Collector.OutgoingEvents.OfType<CursorStateChangedEvent>();
-
-        public IEnumerable<ViewCursorStateChangedEvent> ViewState => Collector.ViewEvents.OfType<ViewCursorStateChangedEvent>();
-    }
 
     [Fact]
     public void SetStates_TwoStates_SetsSelectionsAndEmitsOneEventOfEachKind()
     {
-        var f = new Fixture("abcdefgh");
+        var f = new CursorsControllerFixture("abcdefgh");
 
         f.Controller.SetSelections(f.Collector, "test", [Sel(1, 1, 3), Caret(1, 6)], CursorChangeReason.Explicit);
 
@@ -56,7 +33,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void SetStates_SameStatesAgain_EmitsNothing()
     {
-        var f = new Fixture("abcdefgh");
+        var f = new CursorsControllerFixture("abcdefgh");
         f.Controller.SetSelections(f.Collector, "test", [Sel(1, 1, 3), Caret(1, 6)], CursorChangeReason.Explicit);
         f.ResetEvents();
 
@@ -71,7 +48,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void SetStates_EmptySource_ReportsKeyboard()
     {
-        var f = new Fixture("abcdefgh");
+        var f = new CursorsControllerFixture("abcdefgh");
 
         f.Controller.SetSelections(f.Collector, "", [Caret(1, 4)], CursorChangeReason.Explicit);
 
@@ -82,7 +59,7 @@ public class CursorsControllerStateTests
     public void SetStates_MoreStatesThanTheLimit_KeepsTheLimitAndReportsIt()
     {
         var options = EditorCursorOptions.Default with { MultiCursorLimit = 3 };
-        var f = new Fixture("abcdefgh", options);
+        var f = new CursorsControllerFixture("abcdefgh", options);
 
         f.Controller.SetSelections(f.Collector, "test", [Caret(1, 1), Caret(1, 3), Caret(1, 5), Caret(1, 7)], CursorChangeReason.Explicit);
 
@@ -93,7 +70,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void OnModelContentChanged_SetValue_ResetsToOneCursorAtTheStart()
     {
-        var f = new Fixture("abcdefgh");
+        var f = new CursorsControllerFixture("abcdefgh");
         f.Controller.SetSelections(f.Collector, "test", [Sel(1, 2, 5), Caret(1, 7)], CursorChangeReason.Explicit);
         f.ResetEvents();
 
@@ -108,7 +85,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void OnModelContentChanged_EditByAnotherParty_MovesTheCursorWithTheText()
     {
-        var f = new Fixture("abcdef");
+        var f = new CursorsControllerFixture("abcdef");
         f.Controller.SetSelections(f.Collector, "test", [Caret(1, 3)], CursorChangeReason.Explicit);
         f.ResetEvents();
 
@@ -121,7 +98,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void OnModelContentChanged_UndoWithFocus_RestoresTheSelectionsAndRequestsAReveal()
     {
-        var f = new Fixture("abcdef");
+        var f = new CursorsControllerFixture("abcdef");
         f.Controller.SetHasFocus(true);
         f.Controller.SetSelections(f.Collector, "test", [Caret(1, 2)], CursorChangeReason.Explicit);
         f.Model.PushEditOperations([Caret(1, 2)], [new TextEdit(new Range(1, 1, 1, 1), "XX")], _ => [Caret(1, 4)]);
@@ -138,7 +115,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void OnModelContentChanged_UndoWithoutFocus_RecoversFromMarkers()
     {
-        var f = new Fixture("abcdef");
+        var f = new CursorsControllerFixture("abcdef");
         f.Controller.SetSelections(f.Collector, "test", [Caret(1, 2)], CursorChangeReason.Explicit);
         f.Model.PushEditOperations([Caret(1, 2)], [new TextEdit(new Range(1, 1, 1, 1), "XX")], _ => [Caret(1, 4)]);
         f.ResetEvents();
@@ -152,7 +129,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void RestoreState_AfterSaveState_GivesBackTheSameSelections()
     {
-        var f = new Fixture("abcdefgh\nijklmnop");
+        var f = new CursorsControllerFixture("abcdefgh\nijklmnop");
         f.Controller.SetSelections(f.Collector, "test", [Sel(1, 2, 5), new Selection(new Position(2, 6), new Position(2, 3))], CursorChangeReason.Explicit);
         List<SavedCursorState> saved = f.Controller.SaveState();
         f.Controller.SetSelections(f.Collector, "test", [Caret(1, 1)], CursorChangeReason.Explicit);
@@ -165,7 +142,7 @@ public class CursorsControllerStateTests
     [Fact]
     public void RestoreState_MissingOrZeroValues_UseTheDefaults()
     {
-        var f = new Fixture("abcdefgh");
+        var f = new CursorsControllerFixture("abcdefgh");
 
         f.Controller.RestoreState(f.Collector, [new SavedCursorState(false, null, new SavedCursorPosition(1, 0))]);
 

@@ -99,9 +99,9 @@ public sealed partial class TextModel
                 [change], _buffer.GetEol(), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing, isFlush, isEolChange));
     }
 
-    // Monaco: Emitter.fire with its delivery queue. An edit made by a handler raises its events only once the event
+    // Monaco: Emitter.fire with its delivery queue (the deferral of DidChangeContentEmitter is in TextModel.DeferredEmit.cs). An edit made by a handler raises its events only once the event
     // being delivered has reached every handler, so all handlers see the events in version order.
-    private void Deliver(ModelRawContentChangedEventArgs raw, ModelContentChangedEventArgs content)
+    private void Dispatch(ModelRawContentChangedEventArgs raw, ModelContentChangedEventArgs content)
     {
         _deliveryQueue.Enqueue((raw, content));
         if (_isDelivering)
@@ -128,8 +128,7 @@ public sealed partial class TextModel
     // Monaco: applyEdits + _doApplyEdits (with tracked ranges only: no other decorations, no edit sources)
     private IReadOnlyList<ValidEditOperation> DoApplyEdits(
         IReadOnlyList<IdentifiedEditOperation> edits,
-        bool computeUndoEdits,
-        IReadOnlyList<Selection>? resultingSelection = null)
+        bool computeUndoEdits)
     {
         ArgumentNullException.ThrowIfNull(edits);
 
@@ -166,8 +165,7 @@ public sealed partial class TextModel
                     ComputeRawChanges(changes, oldLineCount, newLineCount),
                     _versionId,
                     isUndoing: _isUndoing,
-                    isRedoing: _isRedoing,
-                    resultingSelection),
+                    isRedoing: _isRedoing),
                 new ModelContentChangedEventArgs(
                     changes, _buffer.GetEol(), _versionId, isUndoing: _isUndoing, isRedoing: _isRedoing, isFlush: false, isEolChange: false));
         }

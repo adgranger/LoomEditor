@@ -24,7 +24,7 @@ internal sealed partial class CursorsController : IDisposable
     private CursorCollection _cursors;
 
     private bool _hasFocus;
-    private readonly bool _isHandling; // set by the editing part (P3-19)
+    private bool _isHandling;
     private ColumnSelectData? _columnSelectData;
     private List<AutoClosedAction> _autoClosedActions;
     private EditOperationType _prevEditOperationType;
