@@ -1,6 +1,6 @@
 # P3-44 — Mouse clicks to cursor commands (`ViewController.dispatchMouse`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-43
 - **Size:** M
 
@@ -53,21 +53,21 @@ commands it uses (`_moveTo`, `_createCursor`, `_wordSelect`, `_lineSelect`…).
 
 ## Tests
 
-- [ ] Port the 6 `cursor.test.ts` tests listed above (they call `CoreNavigationCommands.WordSelect.RunCoreEditorCommand(viewModel, …)`,
+- [x] Port the 6 `cursor.test.ts` tests listed above (they call `CoreNavigationCommands.WordSelect.RunCoreEditorCommand(viewModel, …)`,
       `MoveToSelect`, `LineSelectDrag`… directly)
-- [ ] New (`ViewControllerTests`): `DispatchMouse` with `MouseDownCount = 2` → word selected; `3` → line selected; `4` → all;
+- [x] New (`ViewControllerTests`): `DispatchMouse` with `MouseDownCount = 2` → word selected; `3` → line selected; `4` → all;
       `AltKey` → a second cursor; `AltKey` on an existing secondary cursor → removed; `ShiftKey` (`InSelectionMode`) → extended;
       `AltKey + ShiftKey` + `InSelectionMode` → column selection; `MiddleButton` → column selection;
       `StartedOnLineNumbers` → line selection
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `editor/browser/view/viewController.ts` (🔶 `dispatchMouse`, P3-44), `coreCommands.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `editor/browser/view/viewController.ts` (🔶 `dispatchMouse`, P3-44), `coreCommands.ts`
       (+ mouse commands); behavior difference "double-click never selects bracket or string content in phase 3";
       tests table `cursor.test.ts` (+6)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
