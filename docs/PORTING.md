@@ -136,6 +136,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/cursor/cursor.ts` (`CursorsController`, `CursorModelState`, `AutoClosedAction`) | `LoomEditor.View/Cursors/CursorsController*.cs` | ✅ ported (P3-18, P3-19) except typing, paste, cut and composition (later cards) and the auto-closing and snippet cut points. `ModelInjectedTextChangedEvent` is not ported (no injected text) |
 | `editor/common/viewModelEventDispatcher.ts`, `editor/common/viewEvents.ts` | `LoomEditor.View/Events/` | 🔶 subset (P3-17): the dispatcher, the collector, `ViewCursorStateChangedEvent`, `ViewRevealRangeRequestEvent`, `CursorStateChangedEvent`, `ReadOnlyEditAttemptEvent`; no `Disposable` base, no duplicate-handler warning |
 | `editor/common/cursor/cursorAtomicMoveOperations.ts` | `LoomEditor.View/Cursors/AtomicTabMoveOperations.cs` | ✅ ported (P3-22) |
+| `editor/common/cursor/cursorColumnSelection.ts` | `LoomEditor.View/Cursors/ColumnSelection.cs` | ✅ ported (P3-28); the `columnSelect` and `cursorColumnSelect…` commands are in `CoreNavigationCommands.ColumnSelect.cs` |
 | `editor/browser/coreCommands.ts` | `LoomEditor.View/Commands/CoreEditorCommand.cs`, `CoreNavigationCommands*.cs`, `CoreCommandRegistration.cs` | 🔶 navigation commands (P3-26): move, page, home, end, top, bottom, cancel selection, remove secondary cursors, set selection; `precondition`, `kbOpts` and `metadata` are not ported (keybindings: P3-39) |
 | `editor/common/cursor/cursorMoveOperations.ts` | `LoomEditor.View/Cursors/MoveOperations*.cs`, `CursorPosition.cs` | ✅ ported (P3-23) |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
@@ -173,7 +174,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `model/intervalTree.test.ts` (`IntervalTree 1`, `IntervalTree 2`) | 25 / 25 | P3-06, P3-07 |
 | `cursorAtomicMoveOperations.test.ts` | 2 / 2 | P3-22 |
 | `cursorMoveCommand.test.ts` | 47 / 55 | suite `Cursor move command - foldedLine unit` (8): needs `setHiddenAreas` (folding, phase 5) |
-| `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 67 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6); 6 column selection tests: ported in P3-28. `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
+| `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 73 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6). The 6 column selection tests are ported in P3-28 (`ColumnSelectionTests`). `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
