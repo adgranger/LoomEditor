@@ -60,8 +60,8 @@ public sealed partial class TextModel
     /// inverse operations with the identifiers of the forward operations (Monaco: <c>pushEditOperations</c>).
     /// </summary>
     /// <remarks>
-    /// The content change events are raised immediately, not deferred: Monaco only defers the public
-    /// <c>onDidChangeContent</c>, and the view models are notified at once.
+    /// The content change events of the push are merged into one and delivered once the cursor state computer has run, like
+    /// Monaco (<c>beginDeferredEmit</c> / <c>endDeferredEmit</c>).
     /// </remarks>
     internal IReadOnlyList<Selection>? PushEditOperations(
         IReadOnlyList<Selection>? beforeCursorState,
@@ -70,15 +70,26 @@ public sealed partial class TextModel
     {
         ArgumentNullException.ThrowIfNull(edits);
 
-        // Monaco: _pushEditOperations
-        if (_options.TrimAutoWhitespace && _trimAutoWhitespaceLines is not null)
+        // Monaco: the content change events of the whole push are merged into one and delivered once the cursor
+        // state computer has run (the cursor relies on that, see CursorsController.ExecuteEdits).
+        try
         {
-            var withTrimEdits = new List<IdentifiedEditOperation>(edits);
-            AddTrimAutoWhitespaceEdits(beforeCursorState, withTrimEdits);
-            edits = withTrimEdits;
-        }
+            BeginDeferredEmit();
 
-        return _editStack.PushEditOperation(beforeCursorState, edits, cursorStateComputer);
+            // Monaco: _pushEditOperations
+            if (_options.TrimAutoWhitespace && _trimAutoWhitespaceLines is not null)
+            {
+                var withTrimEdits = new List<IdentifiedEditOperation>(edits);
+                AddTrimAutoWhitespaceEdits(beforeCursorState, withTrimEdits);
+                edits = withTrimEdits;
+            }
+
+            return _editStack.PushEditOperation(beforeCursorState, edits, cursorStateComputer);
+        }
+        finally
+        {
+            EndDeferredEmit();
+        }
     }
 
     private static TextEdit[] ToTextEdits(IReadOnlyList<ValidEditOperation> operations)
@@ -173,9 +184,10 @@ public sealed partial class TextModel
     {
         try
         {
+            BeginDeferredEmit();
             _isUndoing = isUndoing;
             _isRedoing = isRedoing;
-            DoApplyEdits(edits, computeUndoEdits: false, resultingSelection);
+            DoApplyEdits(edits, computeUndoEdits: false);
             SetEol(eol);
             _alternativeVersionId = resultingAlternativeVersionId;
         }
@@ -183,6 +195,7 @@ public sealed partial class TextModel
         {
             _isUndoing = false;
             _isRedoing = false;
+            EndDeferredEmit(resultingSelection);
         }
     }
 }

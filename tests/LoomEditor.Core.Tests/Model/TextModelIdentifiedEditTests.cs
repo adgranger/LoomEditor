@@ -106,4 +106,40 @@ public class TextModelIdentifiedEditTests
         Assert.Equal(new Range(1, 1, 1, 2), edit.Range);
         Assert.Equal(string.Empty, edit.Text);
     }
+
+    [Fact]
+    public void PushEditOperations_ContentEvents_AreDeliveredAfterTheCursorStateComputer()
+    {
+        var model = TestTextModels.Create("abc");
+        var steps = new List<string>();
+        model.RawContentChanged += (_, e) => steps.Add(e.ResultingSelection is null ? "event" : "event with selection");
+
+        model.PushEditOperations(
+            null,
+            [new IdentifiedEditOperation(new Range(1, 1, 1, 1), "x")],
+            _ =>
+            {
+                steps.Add("computer");
+                return null;
+            });
+
+        Assert.Equal(["computer", "event"], steps);
+    }
+
+    [Fact]
+    public void Undo_TextAndEolChange_RaisesOneMergedEventWithTheResultingSelection()
+    {
+        var model = TestTextModels.Create("abc");
+        model.PushEditOperations([Selection.Collapsed(new Position(1, 2))], [new TextEdit(new Range(1, 1, 1, 1), "x")], null);
+        model.SetEol(EndOfLineSequence.CRLF);
+        model.PushEol(EndOfLineSequence.CRLF);
+        var events = new List<ModelRawContentChangedEventArgs>();
+        model.RawContentChanged += (_, e) => events.Add(e);
+
+        model.Undo();
+
+        ModelRawContentChangedEventArgs raised = Assert.Single(events);
+        Assert.True(raised.IsUndoing);
+        Assert.Equal([Selection.Collapsed(new Position(1, 2))], raised.ResultingSelection);
+    }
 }

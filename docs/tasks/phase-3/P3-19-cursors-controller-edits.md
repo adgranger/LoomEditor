@@ -1,6 +1,6 @@
 # P3-19 — `CursorsController` (2/2): executing edits and commands
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-18
 - **Size:** S
 
@@ -53,22 +53,22 @@ File: `src/vs/editor/common/cursor/cursor.ts`. If a function is not exactly at t
 The Monaco tests come with the operations (P3-25 and later). New tests with the `CursorTestContext` of P3-16 and the
 `InsertTextCommand` test helper of P3-14:
 
-- [ ] New: `ExecuteCommands` with one command per cursor (3 cursors) inserts at each cursor in **one** undo step and
+- [x] New: `ExecuteCommands` with one command per cursor (3 cursors) inserts at each cursor in **one** undo step and
       moves the cursors; one `CursorStateChangedEvent` (reason `NotSet`) and one reveal request are collected
-- [ ] New: `ExecuteCommand` kills the secondary cursors first
-- [ ] New: `ExecuteEditOperation` with `ShouldPushStackElementBefore = true` creates a separate undo step;
+- [x] New: `ExecuteCommand` kills the secondary cursors first
+- [x] New: `ExecuteEditOperation` with `ShouldPushStackElementBefore = true` creates a separate undo step;
       with a `FollowUp`, the follow-up runs with the new selections
-- [ ] New: `ExecuteEdits` with a computer that returns `[(1,5)]` → the cursor is at `(1,5)` and was **not** recovered
+- [x] New: `ExecuteEdits` with a computer that returns `[(1,5)]` → the cursor is at `(1,5)` and was **not** recovered
       from markers
-- [ ] New: with `ReadOnly = true` in the configuration, `ExecuteCommands` changes nothing and emits nothing
-- [ ] New: an exception thrown by a command propagates, and the cursors still track their selections afterwards
+- [x] New: with `ReadOnly = true` in the configuration, `ExecuteCommands` changes nothing and emits nothing
+- [x] New: an exception thrown by a command propagates, and the cursors still track their selections afterwards
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursor.ts` (P3-19); behavior difference "exceptions in cursor edits are not swallowed"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursor.ts` (P3-19); behavior difference "exceptions in cursor edits are not swallowed"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -77,3 +77,12 @@ The Monaco tests come with the operations (P3-25 and later). New tests with the 
 ## Suggested commit message
 
 `feat(view): execute edits and commands in CursorsController`
+
+## Deviations decided while working on the card
+
+- The model delivered `RawContentChanged` immediately, unlike Monaco (`DidChangeContentEmitter`), so `executeEdits`
+  could not keep the cursor from recovering from markers. With the maintainer's agreement the model now defers and
+  merges the content events of `PushEditOperations` and of undo/redo, and delivers them with the resulting selections
+  (`TextModel.DeferredEmit.cs`, two new Core tests).
+- The "exception thrown by a command" test uses a command whose `ComputeCursorState` throws: `CommandExecutor` swallows
+  exceptions of `GetEditOperations`, like Monaco (P3-14).
