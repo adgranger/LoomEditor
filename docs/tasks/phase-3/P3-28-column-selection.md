@@ -1,6 +1,6 @@
 # P3-28 — Column (box) selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-27
 - **Size:** S
 
@@ -38,16 +38,16 @@ and `cursorColumnSelectLeft/Right/Up/Down/PageUp/PageDown` (keyboard: Ctrl+Shift
 
 ## Tests
 
-- [ ] Port the 6 tests listed above (with the `CursorTestHelpers` of P3-27 and `TestCodeEditor`)
-- [ ] New: `ColumnSelect` over `["\tab", "    cd"]` (tab size 4) from visible column 4 to 6 selects `"ab"` on line 1
+- [x] Port the 6 tests listed above (with the `CursorTestHelpers` of P3-27 and `TestCodeEditor`)
+- [x] New: `ColumnSelect` over `["\tab", "    cd"]` (tab size 4) from visible column 4 to 6 selects `"ab"` on line 1
       and `"cd"` on line 2
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorColumnSelection.ts` (✅, P3-28); tests table `cursor.test.ts` updated (+6)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorColumnSelection.ts` (✅, P3-28); tests table `cursor.test.ts` updated (+6)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

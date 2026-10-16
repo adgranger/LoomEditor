@@ -5,7 +5,7 @@ namespace LoomEditor.View.Commands;
 /// <summary>Registers the core editor commands of one editor in its <see cref="CommandRegistry"/>.</summary>
 /// <remarks>
 /// <para>
-/// Only the commands that a key can trigger without arguments are registered. <c>_moveTo</c>, <c>_moveToSelect</c>,
+/// Only the commands that a key can trigger without arguments are registered. <c>_moveTo</c>, <c>_moveToSelect</c>, <c>columnSelect</c>,
 /// <c>setSelection</c> and <c>cursorMove</c> need arguments: call them through <see cref="CoreNavigationCommands"/>.
 /// </para>
 /// <para>
@@ -52,6 +52,12 @@ internal static class CoreCommandRegistration
         Add(CoreNavigationCommands.CursorTopSelect, baseArgs);
         Add(CoreNavigationCommands.CursorBottom, baseArgs);
         Add(CoreNavigationCommands.CursorBottomSelect, baseArgs);
+        Add(CoreNavigationCommands.CursorColumnSelectLeft, baseArgs);
+        Add(CoreNavigationCommands.CursorColumnSelectRight, baseArgs);
+        Add(CoreNavigationCommands.CursorColumnSelectUp, baseArgs);
+        Add(CoreNavigationCommands.CursorColumnSelectPageUp, baseArgs);
+        Add(CoreNavigationCommands.CursorColumnSelectDown, baseArgs);
+        Add(CoreNavigationCommands.CursorColumnSelectPageDown, baseArgs);
         Add(CoreNavigationCommands.CancelSelection, baseArgs);
         Add(CoreNavigationCommands.RemoveSecondaryCursors, baseArgs);
 
