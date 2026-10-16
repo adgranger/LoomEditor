@@ -136,6 +136,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/cursor/cursor.ts` (`CursorsController`, `CursorModelState`, `AutoClosedAction`) | `LoomEditor.View/Cursors/CursorsController*.cs` | ✅ ported (P3-18, P3-19) except typing, paste, cut and composition (later cards) and the auto-closing and snippet cut points. `ModelInjectedTextChangedEvent` is not ported (no injected text) |
 | `editor/common/viewModelEventDispatcher.ts`, `editor/common/viewEvents.ts` | `LoomEditor.View/Events/` | 🔶 subset (P3-17): the dispatcher, the collector, `ViewCursorStateChangedEvent`, `ViewRevealRangeRequestEvent`, `CursorStateChangedEvent`, `ReadOnlyEditAttemptEvent`; no `Disposable` base, no duplicate-handler warning |
 | `editor/common/cursor/cursorAtomicMoveOperations.ts` | `LoomEditor.View/Cursors/AtomicTabMoveOperations.cs` | ✅ ported (P3-22) |
+| `editor/browser/coreCommands.ts` | `LoomEditor.View/Commands/CoreEditorCommand.cs`, `CoreNavigationCommands*.cs`, `CoreCommandRegistration.cs` | 🔶 navigation commands (P3-26): move, page, home, end, top, bottom, cancel selection, remove secondary cursors, set selection; `precondition`, `kbOpts` and `metadata` are not ported (keybindings: P3-39) |
 | `editor/common/cursor/cursorMoveOperations.ts` | `LoomEditor.View/Cursors/MoveOperations*.cs`, `CursorPosition.cs` | ✅ ported (P3-23) |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
 | `editor/common/cursorCommon.ts` | `LoomEditor.View/Cursors/` | 🔶 types (P3-12) and `CursorConfiguration` (P3-13): `SingleCursorState`, `CursorState` and partial forms, `EditOperationType`, `SelectionStartKind`, `ColumnSelectData`, `EditOperationResult`, `ICursorSimpleModel` (+ `TextModelCursorSimpleModel`), `IsQuote`; the rest comes later; `CursorConfiguration` (P3-13) without the language parts and with the editor options it reads (`EditorCursorOptions`) |
@@ -171,6 +172,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `core/characterClassifier.test.ts` | 1 / 1 | P3-04 |
 | `model/intervalTree.test.ts` (`IntervalTree 1`, `IntervalTree 2`) | 25 / 25 | P3-06, P3-07 |
 | `cursorAtomicMoveOperations.test.ts` | 2 / 2 | P3-22 |
+| `cursorMoveCommand.test.ts` | 47 / 55 | suite `Cursor move command - foldedLine unit` (8): needs `setHiddenAreas` (folding, phase 5) |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
