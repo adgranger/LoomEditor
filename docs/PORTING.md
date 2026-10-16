@@ -173,6 +173,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `model/intervalTree.test.ts` (`IntervalTree 1`, `IntervalTree 2`) | 25 / 25 | P3-06, P3-07 |
 | `cursorAtomicMoveOperations.test.ts` | 2 / 2 | P3-22 |
 | `cursorMoveCommand.test.ts` | 47 / 55 | suite `Cursor move command - foldedLine unit` (8): needs `setHiddenAreas` (folding, phase 5) |
+| `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 67 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6); 6 column selection tests: ported in P3-28. `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
