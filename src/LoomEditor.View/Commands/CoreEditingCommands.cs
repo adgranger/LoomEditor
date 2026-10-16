@@ -26,6 +26,12 @@ internal abstract class CoreEditingCommand(string id)
 /// <remarks>Threading: UI thread only.</remarks>
 internal static class CoreEditingCommands
 {
+    /// <summary>Undoes the last edit of the model; does nothing in a read-only editor (Monaco: <c>undo</c>).</summary>
+    public static CoreEditingCommand Undo { get; } = new UndoCommand();
+
+    /// <summary>Redoes the last undone edit; does nothing in a read-only editor (Monaco: <c>redo</c>).</summary>
+    public static CoreEditingCommand Redo { get; } = new RedoCommand();
+
     /// <summary>Shift+Tab (Monaco: <c>outdent</c>).</summary>
     public static CoreEditingCommand Outdent { get; } = new OutdentCommand();
 
@@ -40,6 +46,33 @@ internal static class CoreEditingCommands
 
     /// <summary>Delete (Monaco: <c>deleteRight</c>).</summary>
     public static CoreEditingCommand DeleteRight { get; } = new DeleteRightCommand();
+
+    private sealed class UndoCommand() : CoreEditingCommand("undo")
+    {
+        // Monaco: UndoCommand.runEditorCommand. The cursor restores its selections from the raw event (it does not use the result).
+        public override void RunCoreEditingCommand(ViewModel viewModel)
+        {
+            if (viewModel.CursorConfig.ReadOnly)
+            {
+                return;
+            }
+
+            viewModel.Model.Undo();
+        }
+    }
+
+    private sealed class RedoCommand() : CoreEditingCommand("redo")
+    {
+        public override void RunCoreEditingCommand(ViewModel viewModel)
+        {
+            if (viewModel.CursorConfig.ReadOnly)
+            {
+                return;
+            }
+
+            viewModel.Model.Redo();
+        }
+    }
 
     private sealed class OutdentCommand() : CoreEditingCommand("outdent")
     {

@@ -212,7 +212,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-34](phase-3/P3-34-tab-and-outdent.md) | Tab and Shift+Tab (`tab`, `outdent`) | P3-33 | done |
 | [P3-35](phase-3/P3-35-paste.md) | Paste (single, distributed over cursors, block paste) | P3-34 | done |
 | [P3-36](phase-3/P3-36-copy-and-cut.md) | Copy and cut (text to copy, clipboard metadata, `cut`) | P3-35 | done |
-| [P3-37](phase-3/P3-37-undo-redo-commands.md) | Undo and redo commands, read-only editor | P3-36 | todo |
+| [P3-37](phase-3/P3-37-undo-redo-commands.md) | Undo and redo commands, read-only editor | P3-36 | done |
 
 ### Step E — Commands, keybindings, reveal, keyboard in the control
 
