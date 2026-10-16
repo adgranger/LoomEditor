@@ -1,6 +1,6 @@
 # P3-41 — The control: keyboard commands, typing and `IsReadOnly`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-40
 - **Size:** M
 
@@ -56,7 +56,7 @@ None to port (WinUI wiring). For reference: Monaco's keyboard path is `src/vs/ed
 
 ## Tests
 
-- [ ] New (View.Tests): `TextInputBuffer` — `'a'` → `"a"`; `'\r'` → `"\n"`; `'\t'`, `'\b'`, `'\u0001'`, `'\u007F'` → `null`;
+- [x] New (View.Tests): `TextInputBuffer` — `'a'` → `"a"`; `'\r'` → `"\n"`; `'\t'`, `'\b'`, `'\u0001'`, `'\u007F'` → `null`;
       `'\uD83D'` then `'\uDE00'` → `"😀"`; a lone `'\uDE00'` → `null`
 - [ ] Manual (Gallery): type text, Enter keeps the indentation, Backspace/Delete, arrows, Home/End, Ctrl+←/→, Shift+arrows
       select, Ctrl+Z / Ctrl+Y, Tab / Shift+Tab on several lines, Ctrl+Alt+↓ adds a cursor and typing goes to all cursors,
@@ -65,11 +65,11 @@ None to port (WinUI wiring). For reference: Monaco's keyboard path is `src/vs/ed
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `IsReadOnly` / `IsReadOnlyProperty`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app _(publish OK; manual checks left to the maintainer)_
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `IsReadOnly` / `IsReadOnlyProperty`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

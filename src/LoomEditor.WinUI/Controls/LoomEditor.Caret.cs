@@ -26,7 +26,7 @@ public sealed partial class LoomEditor
     private void OnCaretFocusChanged(object sender, RoutedEventArgs e)
     {
         _viewModel.SetHasFocus(HasFocus);
-        _cursorBlinking.Update(HasFocus, readOnly: false);
+        _cursorBlinking.Update(HasFocus, IsReadOnly);
         SyncBlinkTimer(restart: true);
         _canvas?.Invalidate();
     }
