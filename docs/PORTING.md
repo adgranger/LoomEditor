@@ -132,6 +132,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/cursor/oneCursor.ts`, `cursorCollection.ts`, `cursorContext.ts` | `LoomEditor.View/Cursors/` (`Cursor`, `CursorCollection`, `CursorContext`) | ✅ ported (P3-16); `CursorCollection.lastAddedCursorIndex` follows the code (a full-array index), not Monaco comment |
 | `editor/common/cursor/cursor.ts` (`CursorsController`, `CursorModelState`, `AutoClosedAction`) | `LoomEditor.View/Cursors/CursorsController*.cs` | ✅ ported (P3-18, P3-19) except typing, paste, cut and composition (later cards) and the auto-closing and snippet cut points. `ModelInjectedTextChangedEvent` is not ported (no injected text) |
 | `editor/common/viewModelEventDispatcher.ts`, `editor/common/viewEvents.ts` | `LoomEditor.View/Events/` | 🔶 subset (P3-17): the dispatcher, the collector, `ViewCursorStateChangedEvent`, `ViewRevealRangeRequestEvent`, `CursorStateChangedEvent`, `ReadOnlyEditAttemptEvent`; no `Disposable` base, no duplicate-handler warning |
+| `editor/common/cursor/cursorAtomicMoveOperations.ts` | `LoomEditor.View/Cursors/AtomicTabMoveOperations.cs` | ✅ ported (P3-22) |
 | `editor/common/cursor/*` | `LoomEditor.View/Cursors/` | ⏳ phase 3 |
 | `editor/common/cursorCommon.ts` | `LoomEditor.View/Cursors/` | 🔶 types (P3-12) and `CursorConfiguration` (P3-13): `SingleCursorState`, `CursorState` and partial forms, `EditOperationType`, `SelectionStartKind`, `ColumnSelectData`, `EditOperationResult`, `ICursorSimpleModel` (+ `TextModelCursorSimpleModel`), `IsQuote`; the rest comes later; `CursorConfiguration` (P3-13) without the language parts and with the editor options it reads (`EditorCursorOptions`) |
 | `editor/common/cursorEvents.ts` | `LoomEditor.View/Cursors/CursorChangeReason.cs` | 🔶 `CursorChangeReason` only (P3-12) |
@@ -165,6 +166,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `core/cursorColumns.test.ts` | 6 / 6 | P3-03 |
 | `core/characterClassifier.test.ts` | 1 / 1 | P3-04 |
 | `model/intervalTree.test.ts` (`IntervalTree 1`, `IntervalTree 2`) | 25 / 25 | P3-06, P3-07 |
+| `cursorAtomicMoveOperations.test.ts` | 2 / 2 | P3-22 |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
