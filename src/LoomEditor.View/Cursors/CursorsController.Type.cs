@@ -60,4 +60,13 @@ internal sealed partial class CursorsController
             source,
             CursorChangeReason.Paste);
     }
+
+    /// <summary>Cuts the selections, or the whole lines of empty selections (Monaco: <c>cut</c>).</summary>
+    public void Cut(ViewModelEventsCollector eventsCollector, string? source = null)
+    {
+        ExecuteEdit(
+            () => ExecuteEditOperation(DeleteOperations.Cut(Context.CursorConfig, _viewModel, GetSelections())),
+            eventsCollector,
+            source);
+    }
 }
