@@ -168,4 +168,24 @@ internal static partial class Strings
 
     /// <summary>Number of UTF-16 units of a code point (2 for supplementary planes).</summary>
     internal static int CodePointLength(int codePoint) => codePoint >= SupplementaryPlaneBegin ? 2 : 1;
+
+    /// <summary>
+    /// True when every character matches JavaScript's regex <c>\s</c>, so for an empty string too (Monaco:
+    /// <c>/^\s*$/.test(text)</c>). Not <see cref="char.IsWhiteSpace(char)"/>: the sets differ (for instance U+200B and U+0085).
+    /// </summary>
+    internal static bool IsJavaScriptWhitespaceOnly(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        foreach (char ch in text)
+        {
+            bool isWhitespace = ch is '\t' or '\n' or '\v' or '\f' or '\r' or ' ' or '\u00A0' or '\u1680'
+                or (>= '\u2000' and <= '\u200A') or '\u2028' or '\u2029' or '\u202F' or '\u205F' or '\u3000' or '\uFEFF';
+            if (!isWhitespace)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

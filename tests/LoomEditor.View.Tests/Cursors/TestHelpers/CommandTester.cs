@@ -30,8 +30,9 @@ internal static class CommandTester
         IReadOnlyList<Selection>? result = CommandExecutor.ExecuteCommands(model, [selection], [command]);
 
         Assert.Equal(expectedLines, model.GetLinesContent());
-        Assert.NotNull(result);
-        Assert.Equal(expectedSelection, Assert.Single(result));
+
+        // No edit operations: the cursor keeps its selection (Monaco reads it back with viewModel.getSelection()).
+        Assert.Equal(expectedSelection, result is null ? selection : Assert.Single(result));
     }
 
     /// <summary>The edit operations that <paramref name="command"/> would add if it were executed on <paramref name="model"/>.</summary>
