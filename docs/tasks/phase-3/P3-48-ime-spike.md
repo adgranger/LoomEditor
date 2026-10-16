@@ -1,6 +1,6 @@
 # P3-48 — IME spike: check `CoreTextEditContext` in the WinUI 3 desktop control
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-47
 - **Size:** S (throw-away probe + a findings section in ADR 0006)
 
@@ -45,25 +45,25 @@ A static class called once from `MainWindow` after the editor is loaded (tempora
 
 ## Questions to answer (write each answer in the ADR)
 
-- [ ] Windows 11: does `GetForCurrentView()` work? Windows 10 (if a machine or VM is available): does it throw, and what?
-- [ ] Japanese IME (type `sennsei`, convert, commit with Enter): sequence of events; does `CharacterReceived` also fire
+- [x] Windows 11: does `GetForCurrentView()` work? Windows 10 (if a machine or VM is available): does it throw, and what?
+- [x] Japanese IME (type `sennsei`, convert, commit with Enter): sequence of events; does `CharacterReceived` also fire
       for the composed text? Is `KeyDown` reported with `ProcessKey` during the composition?
-- [ ] Chinese Pinyin (type `nihao`, choose a candidate with Space): same questions
-- [ ] English keyboard without IME: confirm that `TextUpdating` does **not** fire (only `CharacterReceived`)
-- [ ] Emoji panel (Win + .): which events arrive (with or without `CompositionStarted`)?
-- [ ] Candidate window: is it placed at the bounds given in `LayoutRequested` with **screen pixels**? Try
+- [x] Chinese Pinyin (type `nihao`, choose a candidate with Space): same questions
+- [x] English keyboard without IME: confirm that `TextUpdating` does **not** fire (only `CharacterReceived`)
+- [x] Emoji panel (Win + .): which events arrive (with or without `CompositionStarted`)?
+- [x] Candidate window: is it placed at the bounds given in `LayoutRequested` with **screen pixels**? Try
       `LayoutBoundsVisualPixels` too (DIPs relative to the viewport) and write which one works at 100 % and 150 % scale
-- [ ] Native AOT: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` with the probe — 0 warnings, and the
+- [x] Native AOT: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` with the probe — 0 warnings, and the
       probe behaves the same in the AOT app
 
 ## Acceptance criteria
 
-- [ ] The ADR section lists every answer, the Windows build numbers tested, and any correction to decision 11
-- [ ] If an answer contradicts ADR 0006 (for example `CharacterReceived` also delivers composed text), **stop** and
+- [x] The ADR section lists every answer, the Windows build numbers tested, and any correction to decision 11
+- [x] If an answer contradicts ADR 0006 (for example `CharacterReceived` also delivers composed text), **stop** and
       propose the change of P3-49 … P3-53 to the maintainer before going on
-- [ ] The probe file and the temporary call are deleted; `git status` shows only the ADR change
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings; `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] The probe file and the temporary call are deleted; `git status` shows only the ADR change
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings; `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
