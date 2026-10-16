@@ -5,6 +5,8 @@ using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
+using LoomEditor.View.Cursors;
+using LoomEditor.View.Events;
 
 namespace LoomEditor.View.Layout;
 
@@ -19,7 +21,7 @@ namespace LoomEditor.View.Layout;
 /// decorations or view events), so only the <c>viewLayout.onFlushed</c> / <c>onLinesDeleted</c> / <c>onLinesInserted</c>
 /// calls of <c>onDidChangeContentOrInjectedText</c> are ported. Projections come in phase 6.
 /// </remarks>
-internal sealed class ViewModel : IDisposable
+internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 {
     private readonly TextModel _model;
     private EditorLayoutOptions _layoutOptions;
@@ -29,6 +31,8 @@ internal sealed class ViewModel : IDisposable
     private int _outerHeight;
     private int _lineNumbersDigitCount;
     private bool _disposed;
+    private readonly CursorsController _cursor;
+    private EditorCursorOptions _cursorOptions = EditorCursorOptions.Default;
 
     public ViewModel(
         TextModel model,
@@ -48,7 +52,13 @@ internal sealed class ViewModel : IDisposable
         ViewLayout = new ViewLayout(
             viewLayoutOptions, LayoutInfo, fontInfo, model.LineCount, [], scheduleAtNextAnimationFrame, timeProvider);
 
+        EventDispatcher = new ViewModelEventDispatcher();
+        CoordinatesConverter = new IdentityCoordinatesConverter(model);
+        CursorConfig = CreateCursorConfiguration();
+        _cursor = new CursorsController(model, this, CoordinatesConverter, CursorConfig);
+
         _model.RawContentChanged += OnModelRawContentChanged;
+        _model.OptionsChanged += OnModelOptionsChanged;
     }
 
     /// <summary>Raised after <see cref="LayoutInfo"/> changed.</summary>
@@ -71,6 +81,8 @@ internal sealed class ViewModel : IDisposable
 
         _disposed = true;
         _model.RawContentChanged -= OnModelRawContentChanged;
+        _model.OptionsChanged -= OnModelOptionsChanged;
+        _cursor.Dispose();
         ViewLayout.Dispose();
     }
 
@@ -80,6 +92,7 @@ internal sealed class ViewModel : IDisposable
         _outerWidth = outerWidth;
         _outerHeight = outerHeight;
         RecomputeLayoutInfo();
+        UpdateCursorConfiguration();
     }
 
     /// <summary>Sets the measured font. The line height follows the font, like Monaco's <c>lineHeight</c> option.</summary>
@@ -95,6 +108,7 @@ internal sealed class ViewModel : IDisposable
         }
 
         RecomputeLayoutInfo();
+        UpdateCursorConfiguration();
     }
 
     /// <summary>Sets the layout and scrolling options.</summary>
@@ -145,6 +159,9 @@ internal sealed class ViewModel : IDisposable
             _lineNumbersDigitCount = digitCount;
             RecomputeLayoutInfo();
         }
+
+        // Monaco: emitContentChangeEvent runs after the layout has been updated (onDidChangeContentOrInjectedText).
+        EmitViewEvent(eventsCollector => _cursor.OnModelContentChanged(eventsCollector, e));
     }
 
     private EditorLayoutInfo ComputeLayoutInfo()
