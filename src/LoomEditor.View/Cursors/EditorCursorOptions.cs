@@ -26,6 +26,9 @@ internal sealed record EditorCursorOptions
 
     public bool TrimWhitespaceOnDelete { get; init; }
 
+    /// <summary>The <c>columnSelection</c> option: Shift+arrows select a column (default <c>false</c>). Read by the keybindings.</summary>
+    public bool ColumnSelection { get; init; }
+
     public string WordSeparators { get; init; } = WordHelper.UsualWordSeparators;
 
     public bool EmptySelectionClipboard { get; init; } = true;

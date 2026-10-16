@@ -1,6 +1,6 @@
 # P3-39 — Default keybindings and the keybinding resolver
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-38
 - **Size:** M
 
@@ -102,24 +102,24 @@ If a row of this table disagrees with the source, **the source wins**: fix the r
 
 ## Tests
 
-- [ ] New: Esc with two cursors → `removeSecondaryCursors`; Esc with one cursor and a selection → `cancelSelection`;
+- [x] New: Esc with two cursors → `removeSecondaryCursors`; Esc with one cursor and a selection → `cancelSelection`;
       Esc with one empty cursor → `null`
-- [ ] New: Shift+← → `cursorLeftSelect`; with `ColumnSelection = true` → `cursorColumnSelectLeft`
-- [ ] New: Tab when not writable → `null`; Ctrl+Backspace when not writable → `null`
-- [ ] New: Ctrl+← → `cursorWordLeft`; Ctrl+→ → `cursorWordEndRight` (not `cursorWordRight`)
-- [ ] New: every command id of `DefaultKeybindings.Windows` except the three clipboard ids is registered in a new
+- [x] New: Shift+← → `cursorLeftSelect`; with `ColumnSelection = true` → `cursorColumnSelectLeft`
+- [x] New: Tab when not writable → `null`; Ctrl+Backspace when not writable → `null`
+- [x] New: Ctrl+← → `cursorWordLeft`; Ctrl+→ → `cursorWordEndRight` (not `cursorWordRight`)
+- [x] New: every command id of `DefaultKeybindings.Windows` except the three clipboard ids is registered in a new
       `EditorContext` (`Commands.Contains(id)`)
-- [ ] New: no two rules have the same key, the same weight and conditions that can both be true (check the pairs Esc,
+- [x] New: no two rules have the same key, the same weight and conditions that can both be true (check the pairs Esc,
       Shift+arrows by hand in the test: list the expected conflicts and assert there are no others)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row "keybindings" (`coreCommands.ts`/`editorExtensions.ts` `kbOpts`, `keybindingResolver.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row "keybindings" (`coreCommands.ts`/`editorExtensions.ts` `kbOpts`, `keybindingResolver.ts`
       subset → `Commands/DefaultKeybindings.cs`, `KeybindingResolver.cs`); behavior difference "`when` clauses are C#
       predicates; no chords; Windows table only"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
