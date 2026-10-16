@@ -244,7 +244,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P3-48](phase-3/P3-48-ime-spike.md) | IME spike: check `CoreTextEditContext` in the WinUI 3 desktop control | P3-47 | done |
-| [P3-49](phase-3/P3-49-composition-in-the-cursor.md) | Composition in the cursor (`compositionType`, start and end of a composition) | P3-48 | todo |
+| [P3-49](phase-3/P3-49-composition-in-the-cursor.md) | Composition in the cursor (`compositionType`, start and end of a composition) | P3-48 | done |
 | [P3-50](phase-3/P3-50-edit-context-state.md) | Edit context state (the text the IME sees, and its updates) | P3-49 | todo |
 | [P3-51](phase-3/P3-51-control-core-text-edit-context.md) | The control: IME through `CoreTextEditContext` | P3-50 | todo |
 | [P3-52](phase-3/P3-52-ime-candidate-window.md) | IME: place the candidate window at the caret | P3-51 | todo |
