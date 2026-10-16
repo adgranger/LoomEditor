@@ -145,11 +145,16 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    // Same order as the items of FontFamilyBox. SelectedItem is not read: under Native AOT it comes back as a plain
+    // ContentControl, not a ComboBoxItem, so a type test on it (or on its Content) never matches.
+    private static readonly string[] FontFamilies = ["Cascadia Mono", "Consolas", "Segoe UI"];
+
     private void OnFontFamilyChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (Editor is not null && FontFamilyBox.SelectedItem is ComboBoxItem { Content: string family })
+        int index = FontFamilyBox.SelectedIndex;
+        if (Editor is not null && index >= 0 && index < FontFamilies.Length)
         {
-            Editor.FontFamily = new FontFamily(family);
+            Editor.FontFamily = new FontFamily(FontFamilies[index]);
         }
     }
 
