@@ -57,6 +57,12 @@ internal sealed partial class TextViewRenderer : IDisposable
     /// </summary>
     public int CursorWidth { get; set; }
 
+    /// <summary>First line drawn by the last <see cref="Render"/> (0 before the first draw).</summary>
+    public int RenderedStartLineNumber { get; private set; }
+
+    /// <summary>Last line drawn by the last <see cref="Render"/> (0 before the first draw).</summary>
+    public int RenderedEndLineNumber { get; private set; }
+
     /// <summary>
     /// Switches to a new measurer (font, tab size or DPI change): disposes every cached layout and forgets the widest
     /// line. Monaco: <c>ViewLines.onConfigurationChanged</c> invalidates every line and sets <c>_maxLineWidth = 0</c>.
@@ -87,6 +93,8 @@ internal sealed partial class TextViewRenderer : IDisposable
         ArgumentNullException.ThrowIfNull(viewModel);
 
         ViewportData data = viewModel.GetViewportData(selection);
+        RenderedStartLineNumber = data.StartLineNumber;
+        RenderedEndLineNumber = data.EndLineNumber;
         EditorLayoutInfo layoutInfo = viewModel.LayoutInfo;
         FontInfo font = _measurer.FontInfo;
         TextModel model = viewModel.Model;

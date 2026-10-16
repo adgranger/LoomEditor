@@ -1,6 +1,6 @@
 # P3-40 — Reveal: scroll so that the cursor stays visible
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-39
 - **Size:** M
 
@@ -61,22 +61,22 @@ File: `src/vs/editor/browser/viewParts/viewLines/viewLines.ts`. If a line is not
 
 No Monaco test file covers `viewLines.ts`. New tests for `RevealCalculator`:
 
-- [ ] New: `ComputeMinimumScrolling` — box above the viewport → box start; below → `boxEnd - viewportLength`; inside →
+- [x] New: `ComputeMinimumScrolling` — box above the viewport → box start; below → `boxEnd - viewportLength`; inside →
       unchanged; larger than the viewport → box start; `revealAtStart` / `revealAtEnd`
-- [ ] New: cursor on line 50 of 100, viewport lines 1–20 (line height 19, height 380), `Simple` → scroll top so that line
+- [x] New: cursor on line 50 of 100, viewport lines 1–20 (line height 19, height 380), `Simple` → scroll top so that line
       50 is the second-to-last visible line (one line of bottom padding)
-- [ ] New: `CenterIfOutsideViewport` centers a range outside the viewport and does nothing for a range inside it
-- [ ] New: several selections taller than the viewport → `-1` (do not reveal)
-- [ ] New: horizontal — a caret at x = 900 with viewport width 500 and `minimalReveal = false` → scroll left so that
+- [x] New: `CenterIfOutsideViewport` centers a range outside the viewport and does nothing for a range inside it
+- [x] New: several selections taller than the viewport → `-1` (do not reveal)
+- [x] New: horizontal — a caret at x = 900 with viewport width 500 and `minimalReveal = false` → scroll left so that
       `x + 15` (padding) is visible; `x - 30` (extra px) for a caret left of the viewport
-- [ ] Manual (Gallery): Ctrl+End jumps to the end of a long file and shows the last line; holding → on a long line scrolls horizontally
+- [ ] Manual (Gallery): Ctrl+End jumps to the end of a long file and shows the last line; holding → on a long line scrolls horizontally _(not done: needs the keyboard of P3-41; to check there)_
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `viewLines.ts` (+ reveal, P3-40); behavior difference "no sticky scroll, no RTL in reveal"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `viewLines.ts` (+ reveal, P3-40); behavior difference "no sticky scroll, no RTL in reveal"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

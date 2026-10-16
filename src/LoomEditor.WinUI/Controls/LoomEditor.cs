@@ -74,6 +74,7 @@ public sealed partial class LoomEditor : Control
         _keyboard = new KeyboardInput(_context.Commands);
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
+        InitializeReveal();
         InitializeFont();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;
@@ -192,6 +193,7 @@ public sealed partial class LoomEditor : Control
 
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!);
         _renderer!.Render(surface, _viewModel, _context.Selection, HasFocus, _cursorBlinking.IsVisible);
+        ApplyPendingHorizontalReveal();
     }
 
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
@@ -250,6 +252,7 @@ public sealed partial class LoomEditor : Control
 
     private void OnViewLayoutScroll(object? sender, ScrollEvent e)
     {
+        _reveal?.OnScrollChanged(e);
         UpdateScrollBars();
         _canvas?.Invalidate();
     }

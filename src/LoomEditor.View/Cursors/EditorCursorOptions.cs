@@ -29,6 +29,15 @@ internal sealed record EditorCursorOptions
     /// <summary>The <c>columnSelection</c> option: Shift+arrows select a column (default <c>false</c>). Read by the keybindings.</summary>
     public bool ColumnSelection { get; init; }
 
+    /// <summary>The <c>cursorSurroundingLines</c> option: lines kept visible around the cursor when it is revealed (default 0).</summary>
+    public int CursorSurroundingLines { get; init; }
+
+    /// <summary>The <c>cursorSurroundingLinesStyle</c> option: when <see cref="CursorSurroundingLines"/> is enforced.</summary>
+    public CursorSurroundingLinesStyle CursorSurroundingLinesStyle { get; init; } = CursorSurroundingLinesStyle.Default;
+
+    /// <summary>The <c>revealHorizontalRightPadding</c> option: pixels kept free right of a revealed range (default 15).</summary>
+    public int RevealHorizontalRightPadding { get; init; } = 15;
+
     public string WordSeparators { get; init; } = WordHelper.UsualWordSeparators;
 
     public bool EmptySelectionClipboard { get; init; } = true;
