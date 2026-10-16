@@ -22,22 +22,28 @@ public sealed partial class LoomEditor
     /// <summary>The vertical scroll position, in DIPs (Monaco: getScrollTop / setScrollTop).</summary>
     public double ScrollTop
     {
-        get => _viewModel?.ViewLayout.GetCurrentScrollTop() ?? _pendingScrollTop;
+        get => _measurer is null ? _pendingScrollTop : _viewModel.ViewLayout.GetCurrentScrollTop();
         set
         {
             _pendingScrollTop = value;
-            _viewModel?.ViewLayout.SetScrollPosition(new NewScrollPosition(null, value), ScrollType.Immediate);
+            if (_measurer is not null)
+            {
+                _viewModel.ViewLayout.SetScrollPosition(new NewScrollPosition(null, value), ScrollType.Immediate);
+            }
         }
     }
 
     /// <summary>The horizontal scroll position, in DIPs (Monaco: getScrollLeft / setScrollLeft).</summary>
     public double ScrollLeft
     {
-        get => _viewModel?.ViewLayout.GetCurrentScrollLeft() ?? _pendingScrollLeft;
+        get => _measurer is null ? _pendingScrollLeft : _viewModel.ViewLayout.GetCurrentScrollLeft();
         set
         {
             _pendingScrollLeft = value;
-            _viewModel?.ViewLayout.SetScrollPosition(new NewScrollPosition(value, null), ScrollType.Immediate);
+            if (_measurer is not null)
+            {
+                _viewModel.ViewLayout.SetScrollPosition(new NewScrollPosition(value, null), ScrollType.Immediate);
+            }
         }
     }
 
@@ -46,11 +52,6 @@ public sealed partial class LoomEditor
     {
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerWheelChanged(e);
-
-        if (_viewModel is null)
-        {
-            return;
-        }
 
         // Monaco: `StandardWheelEvent` on Windows: one notch (WHEEL_DELTA = 120) is 1, positive = up / left.
         PointerPoint point = e.GetCurrentPoint(this);
@@ -124,7 +125,7 @@ public sealed partial class LoomEditor
     // Applies the values set before the view model existed.
     private void ApplyPendingScrollPosition()
     {
-        if (_viewModel is not null && (_pendingScrollTop != 0 || _pendingScrollLeft != 0))
+        if (_pendingScrollTop != 0 || _pendingScrollLeft != 0)
         {
             _viewModel.ViewLayout.SetScrollPosition(new NewScrollPosition(_pendingScrollLeft, _pendingScrollTop), ScrollType.Immediate);
         }
@@ -132,7 +133,7 @@ public sealed partial class LoomEditor
 
     private void OnScrollBarValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
-        if (_isUpdatingScrollBars || _viewModel is null)
+        if (_isUpdatingScrollBars)
         {
             return;
         }
@@ -153,11 +154,6 @@ public sealed partial class LoomEditor
     // Monaco: `ScrollbarVisibility.Auto`: a scrollbar is shown only when the content is larger than the viewport.
     private void UpdateScrollBars()
     {
-        if (_viewModel is null)
-        {
-            return;
-        }
-
         IScrollDimensions dimensions = _viewModel.ViewLayout.GetScrollable().GetScrollDimensions();
         FontInfo font = _viewModel.FontInfo;
         _isUpdatingScrollBars = true;

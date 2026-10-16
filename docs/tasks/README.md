@@ -186,7 +186,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-18](phase-3/P3-18-cursors-controller-state.md) | `CursorsController` (1/2): state, model changes, reveal, events | P3-17 | done |
 | [P3-19](phase-3/P3-19-cursors-controller-edits.md) | `CursorsController` (2/2): executing edits and commands | P3-18 | done |
 | [P3-20](phase-3/P3-20-view-model-cursors.md) | The view model owns the cursors (and the test editor) | P3-19 | done |
-| [P3-21](phase-3/P3-21-editor-context-cursors.md) | `EditorContext` and the control use the cursors | P3-20 | todo |
+| [P3-21](phase-3/P3-21-editor-context-cursors.md) | `EditorContext` and the control use the cursors | P3-20 | done |
 
 ### Step C — Cursor moves, column selection, words
 

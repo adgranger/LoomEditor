@@ -25,8 +25,15 @@ public interface IEditorContext
     /// </summary>
     TextModel Model { get; }
 
-    /// <summary>The current selection (a single cursor until multi-cursor support in phase 3).</summary>
+    /// <summary>The primary selection (the first of <see cref="Selections"/>).</summary>
     Selection Selection { get; set; }
+
+    /// <summary>All the selections, one per cursor; the primary one is first.</summary>
+    IReadOnlyList<Selection> Selections { get; }
+
+    /// <summary>Replaces the selections; the first one becomes the primary selection.</summary>
+    /// <exception cref="ArgumentException"><paramref name="selections"/> is empty.</exception>
+    void SetSelections(IReadOnlyList<Selection> selections);
 
     /// <summary>Raised after <see cref="Selection"/> changes.</summary>
     event EventHandler? SelectionChanged;
