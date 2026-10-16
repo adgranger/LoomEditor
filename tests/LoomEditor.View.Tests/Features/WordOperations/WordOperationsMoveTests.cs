@@ -11,7 +11,7 @@ using static LoomEditor.View.Tests.Cursors.TestHelpers.WordTestUtils;
 namespace LoomEditor.View.Tests.Features.WordOperations;
 
 // Not ported: 'cursorWordLeft - Recognize words' and 'cursorWordRight - Recognize words' (they need Intl.Segmenter, not available),
-// and 'issue #51275 - cursorWordStartLeft does not push undo/redo stack element' (it types text: ported with typing in P3-33).
+// ('issue #51275 - cursorWordStartLeft does not push undo/redo stack element' is ported with typing in P3-33; it undoes with TextModel.Undo, the core command is P3-37).
 // The delete tests are ported in P3-30.
 public class WordOperationsMoveTests
 {
@@ -165,6 +165,33 @@ public class WordOperationsMoveTests
         new Position(1, 15),
         ed => CursorWordLeftAction(ed, true),
         new Position(1, 1));
+
+    // Monaco: 'issue #51275 - cursorWordStartLeft does not push undo/redo stack element'
+    [Fact]
+    public void CursorWordStartLeft_Issue51275_DoesNotPushUndoRedoStackElement()
+    {
+        TestCodeEditor.WithTestCodeEditor(
+            string.Empty,
+            editor =>
+            {
+                // Monaco: type(viewModel, text) types one character at a time
+                foreach (char ch in "foo bar baz")
+                {
+                    editor.ViewModel.Type(ch.ToString(), "keyboard");
+                }
+
+                Assert.Equal("foo bar baz", editor.Model.GetValue());
+
+                CursorWordStartLeftAction(editor);
+                CursorWordStartLeftAction(editor);
+                editor.ViewModel.Type("q", "keyboard");
+
+                Assert.Equal("foo qbar baz", editor.Model.GetValue());
+
+                editor.Model.Undo();
+                Assert.Equal("foo bar baz", editor.Model.GetValue());
+            });
+    }
 
     // Monaco: 'cursorWordStartLeft'
     [Fact]

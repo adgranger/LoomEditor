@@ -64,6 +64,7 @@ internal static class CoreCommandRegistration
         void AddEditing(CoreEditingCommand command) =>
             registrations.Add(registry.Register(new EditorCommand(command.Id, () => command.RunCoreEditingCommand(viewModel))));
 
+        AddEditing(CoreEditingCommands.LineBreakInsert);
         AddEditing(CoreEditingCommands.DeleteLeft);
         AddEditing(CoreEditingCommands.DeleteRight);
 

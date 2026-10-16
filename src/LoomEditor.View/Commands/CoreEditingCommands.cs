@@ -26,11 +26,23 @@ internal abstract class CoreEditingCommand(string id)
 /// <remarks>Threading: UI thread only.</remarks>
 internal static class CoreEditingCommands
 {
+    /// <summary>Breaks the line at every cursor and leaves the cursors in place (Monaco: <c>lineBreakInsert</c>).</summary>
+    public static CoreEditingCommand LineBreakInsert { get; } = new LineBreakInsertCommand();
+
     /// <summary>Backspace (Monaco: <c>deleteLeft</c>).</summary>
     public static CoreEditingCommand DeleteLeft { get; } = new DeleteLeftCommand();
 
     /// <summary>Delete (Monaco: <c>deleteRight</c>).</summary>
     public static CoreEditingCommand DeleteRight { get; } = new DeleteRightCommand();
+
+    private sealed class LineBreakInsertCommand() : CoreEditingCommand("lineBreakInsert")
+    {
+        public override void RunCoreEditingCommand(ViewModel viewModel)
+        {
+            viewModel.Model.PushStackElement();
+            viewModel.ExecuteCommands(EnterOperation.LineBreakInsert(viewModel.CursorConfig, viewModel.Model, viewModel.GetSelections()), Id);
+        }
+    }
 
     private sealed class DeleteLeftCommand() : CoreEditingCommand("deleteLeft")
     {

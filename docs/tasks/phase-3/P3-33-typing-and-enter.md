@@ -1,6 +1,6 @@
 # P3-33 — Typing and Enter (`TypeOperations`, `type`, `lineBreakInsert`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-32
 - **Size:** M
 
@@ -75,7 +75,7 @@ are active in phase 3 (no language configuration).
 Port from `src/vs/editor/test/browser/controller/cursor.test.ts` (with `TestCodeEditor`; typing is
 `viewModel.Type(text, "keyboard")`):
 
-- [ ] Suite `Editor Controller`: `issue #23539: Setting model EOL isn't undoable` (1754), `issue #46208: Allow empty
+- [x] (15 of these 17: `removeAutoWhitespace on: removes only whitespace the cursor added 2` and `removeAutoWhitespace on: test 1` use the Tab command and moved to P3-34) Suite `Editor Controller`: `issue #23539: Setting model EOL isn't undoable` (1754), `issue #46208: Allow empty
       selections in the undo/redo stack` (1794), `issue #12950: Cannot Double Click To Insert Emoji Using OSX Emoji Panel`
       (2324), `issue #37967: problem replacing consecutive characters` (2853), `issue #15761: Cursor doesn't move in a
       redo operation` (2885), `issue #42783: API Calls with Undo Leave Cursor in Wrong Position` (2918), `Cursor honors
@@ -85,17 +85,17 @@ Port from `src/vs/editor/test/browser/controller/cursor.test.ts` (with `TestCode
       Undo brings back model alternative version` (3777), `onEnter works if there are no indentation rules` (4311) and
       `… 2` (4333), `issue #111513: Text gets automatically selected when typing at the same location in another editor` (6436:
       two `TestCodeEditor`s on one `TextModel`)
-- [ ] Suite `Undo stops` (lines 6461–6816, all 11 tests)
-- [ ] `wordOperations.test.ts` › `issue #51275 - cursorWordStartLeft does not push undo/redo stack element` (305)
-- [ ] New: typing `"a👍🏽b"` with source `"keyboard"` makes 3 typing operations (one per grapheme) in one undo step
+- [x] Suite `Undo stops` (lines 6461–6816, all 11 tests)
+- [x] `wordOperations.test.ts` › `issue #51275 - cursorWordStartLeft does not push undo/redo stack element` (305)
+- [x] New: typing `"a👍🏽b"` with source `"keyboard"` makes 3 typing operations (one per grapheme) in one undo step
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `cursorTypeOperations.ts`, `cursorTypeEditOperations.ts` (🔶 plain typing and Enter, P3-33);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `cursorTypeOperations.ts`, `cursorTypeEditOperations.ts` (🔶 plain typing and Enter, P3-33);
       tests table `cursor.test.ts` (+17 in `Editor Controller`, `Undo stops` 11 / 11), `wordOperations.test.ts` (53 / 56)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -19,7 +19,7 @@ and the core commands `tab` and `outdent`.
 | same | 918–932 | `_replaceJumpToNextIndent` |
 | `src/vs/editor/common/cursor/cursorTypeOperations.ts` | 18–50, 64–66 | `indent`, `outdent`, `tab` |
 | `src/vs/editor/browser/coreCommands.ts` | 2001–2045 | `Outdent` (`outdent`), `Tab` (`tab`) |
-| `src/vs/editor/test/browser/controller/cursor.test.ts` | see Tests | 10 tests of the suite `Editor Controller` |
+| `src/vs/editor/test/browser/controller/cursor.test.ts` | see Tests | 12 tests of the suite `Editor Controller` (10 + 2 moved from P3-33) |
 
 ## Files to create or change
 
@@ -56,6 +56,7 @@ Port from `cursor.test.ts`, suite `Editor Controller`:
 - [ ] `issue #4312: trying to type a tab character over a sequence of spaces results in unexpected behaviour` (2363)
 - [ ] `Cursor honors insertSpaces configuration on tab` (3212)
 - [ ] `PR #5423: Auto indent + undo + redo is funky` (3712)
+- [ ] `removeAutoWhitespace on: removes only whitespace the cursor added 2` (3467; plain model, no language) and `removeAutoWhitespace on: test 1` (3511), moved from P3-33 because they use the Tab command
 
 ## Acceptance criteria
 
