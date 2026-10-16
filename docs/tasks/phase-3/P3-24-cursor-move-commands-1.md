@@ -1,6 +1,6 @@
 # P3-24 — `CursorMoveCommands` (1/2): line, buffer, select all, add cursor, move to
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-23
 - **Size:** M
 
@@ -50,20 +50,20 @@ line, search for its name.
 Most Monaco tests for these functions run through the core commands (P3-26, P3-27). Direct tests here, with
 `TestCodeEditor` (P3-20):
 
-- [ ] New: `MoveToBeginningOfLine` on `"   abc"` from `(1,6)` → `(1,4)` (first non-whitespace); again from `(1,4)` → `(1,1)`
-- [ ] New: `MoveToEndOfLine` from `(1,1)` → max column; `sticky: true` sets the sticky leftover columns
-- [ ] New: `AddCursorDown` with one cursor on `(1,3)` of 3 lines → 2 cursors `(1,3)` and `(2,3)`
-- [ ] New: `Line` (line select) on line 2 of 3 → selection `(2,1) → (3,1)`, kind `Line`
-- [ ] New: `ExpandLineSelection` twice from `(1,2)` → `(1,1) → (2,1)` then `(1,1) → (3,1)`
-- [ ] New: `SelectAll` → `(1,1) → (last, max)`; `CancelSelection` collapses to the position
-- [ ] New: `MoveTo(inSelectionMode: true)` keeps the selection start
+- [x] New: `MoveToBeginningOfLine` on `"   abc"` from `(1,6)` → `(1,4)` (first non-whitespace); again from `(1,4)` → `(1,1)`
+- [x] New: `MoveToEndOfLine` from `(1,1)` → max column; `sticky: true` sets the sticky leftover columns
+- [x] New: `AddCursorDown` with one cursor on `(1,3)` of 3 lines → 2 cursors `(1,3)` and `(2,3)`
+- [x] New: `Line` (line select) on line 2 of 3 → selection `(2,1) → (3,1)`, kind `Line`
+- [x] New: `ExpandLineSelection` twice from `(1,2)` → `(1,1) → (2,1)` then `(1,1) → (3,1)`
+- [x] New: `SelectAll` → `(1,1) → (last, max)`; `CancelSelection` collapses to the position
+- [x] New: `MoveTo(inSelectionMode: true)` keeps the selection start
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `cursorMoveCommands.ts` (🔶 part 1, P3-24)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `cursorMoveCommands.ts` (🔶 part 1, P3-24)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
