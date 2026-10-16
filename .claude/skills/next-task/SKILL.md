@@ -2,7 +2,6 @@
 name: next-task
 description: Implement the next LoomEditor task card (or the one given), verify it, update the task index, and commit it without any co-author trailer.
 argument-hint: "[card id, e.g. P1-03 — optional]"
-disable-model-invocation: true
 allowed-tools: Bash(dotnet *) Bash(git status*) Bash(git diff*) Bash(git log*) Bash(git add*) Bash(git commit*) Bash(git branch*) Bash(git rev-parse*) Bash(pwsh *)
 ---
 
