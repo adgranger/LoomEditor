@@ -1,6 +1,6 @@
 # P3-37 — Undo and redo commands, read-only editor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-36
 - **Size:** S
 
@@ -33,17 +33,17 @@ attempt raises `ReadOnlyEditAttemptEvent`.
 
 ## Tests
 
-- [ ] Port `cursor.test.ts` › `issue #44805: Should not be able to undo in readonly editor` (2803)
-- [ ] New: type `"abc"` (source `"keyboard"`), move the cursor to `(1,1)`, `Commands.Execute("undo")` → the text is empty
+- [x] Port `cursor.test.ts` › `issue #44805: Should not be able to undo in readonly editor` (2803)
+- [x] New: type `"abc"` (source `"keyboard"`), move the cursor to `(1,1)`, `Commands.Execute("undo")` → the text is empty
       and the cursor is at `(1,1)`; `Commands.Execute("redo")` → `"abc"` and the cursor at `(1,4)`
-- [ ] New: with `ReadOnly = true`, `Type` and `deleteLeft` change nothing and raise `ReadOnlyEditAttemptEvent` once each
+- [x] New: with `ReadOnly = true`, `Type` and `deleteLeft` change nothing and raise `ReadOnlyEditAttemptEvent` once each
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `coreCommands.ts` (+ undo/redo, P3-37); tests table `cursor.test.ts` (+1)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `coreCommands.ts` (+ undo/redo, P3-37); tests table `cursor.test.ts` (+1)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

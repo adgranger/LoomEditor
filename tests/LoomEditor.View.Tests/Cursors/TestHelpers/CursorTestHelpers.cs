@@ -66,11 +66,11 @@ internal static class CursorTestHelpers
     // Monaco: editor.runCommand(CoreEditingCommands.DeleteRight, null)
     public static void DeleteRight(TestCodeEditor editor) => CoreEditingCommands.DeleteRight.RunCoreEditingCommand(editor.ViewModel);
 
-    // Monaco: editor.runCommand(CoreEditingCommands.Undo, null); the core command is P3-37, until then the model undoes.
-    public static void Undo(TestCodeEditor editor) => editor.Model.Undo();
+    // Monaco: editor.runCommand(CoreEditingCommands.Undo, null)
+    public static void Undo(TestCodeEditor editor) => CoreEditingCommands.Undo.RunCoreEditingCommand(editor.ViewModel);
 
-    // Monaco: editor.runCommand(CoreEditingCommands.Redo, null); see Undo.
-    public static void Redo(TestCodeEditor editor) => editor.Model.Redo();
+    // Monaco: editor.runCommand(CoreEditingCommands.Redo, null)
+    public static void Redo(TestCodeEditor editor) => CoreEditingCommands.Redo.RunCoreEditingCommand(editor.ViewModel);
 
     public static void AssertCursor(ViewModel viewModel, Position position) =>
         AssertCursor(viewModel, [new Selection(position, position)]);
