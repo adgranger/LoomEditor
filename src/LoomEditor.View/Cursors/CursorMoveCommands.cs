@@ -10,7 +10,7 @@ namespace LoomEditor.View.Cursors;
 /// <remarks>
 /// <para>
 /// Line, buffer, select all, add cursor and move to (this file); <c>simpleMove</c> and
-/// <c>viewportMove</c> are in the other partial files; <c>word</c> comes with P3-30.
+/// <c>viewportMove</c> are in the other partial files; <c>word</c> is here too.
 /// </para>
 /// <para>
 /// Monaco passes an <c>IViewModel</c> that is also its own <c>ICursorSimpleModel</c> and exposes <c>model</c>. Here the
@@ -242,7 +242,12 @@ internal static partial class CursorMoveCommands
         return CursorState.FromModelState(cursor.ModelState.Move(true, endPositionOfSelectionStart.LineNumber, endPositionOfSelectionStart.Column, 0));
     }
 
-    // Monaco: 'word' (selection by double click) is ported in P3-30; moveTo does not call it until then.
+    public static PartialCursorState Word(ViewModel viewModel, CursorState cursor, bool inSelectionMode, Position inputPosition)
+    {
+        Position position = viewModel.Model.ValidatePosition(inputPosition);
+        return CursorState.FromModelState(WordOperations.Word(viewModel.CursorConfig, ModelOf(viewModel), cursor.ModelState, inSelectionMode, position));
+    }
+
     public static PartialCursorState CancelSelection(ViewModel viewModel, CursorState cursor)
     {
         if (!cursor.ModelState.HasSelection())
@@ -265,8 +270,11 @@ internal static partial class CursorMoveCommands
     {
         if (inSelectionMode)
         {
-            // P3-30 cut point: Monaco calls CursorMoveCommands.word when the selection start kind is Word.
-            // Nothing produces that kind before P3-30.
+            if (cursor.ModelState.SelectionStartKind == SelectionStartKind.Word)
+            {
+                return Word(viewModel, cursor, inSelectionMode, inputPosition);
+            }
+
             if (cursor.ModelState.SelectionStartKind == SelectionStartKind.Line)
             {
                 return Line(viewModel, cursor, inSelectionMode, inputPosition, viewPosition);

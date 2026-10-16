@@ -1,5 +1,6 @@
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.WordOperations;
+using LoomEditor.View.Features.WordPartOperations;
 
 namespace LoomEditor.View.Features;
 
@@ -18,5 +19,6 @@ public static class EditorFeatures
     [
         () => new SelectAllFeature(),
         () => new WordOperationsFeature(),
+        () => new WordPartOperationsFeature(),
     ];
 }
