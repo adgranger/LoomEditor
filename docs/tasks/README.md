@@ -331,7 +331,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P4-33](phase-4/P4-33-textmate-tokenization-support.md) | `TextMateTokenizationSupport` and `TokenizationSupportWithLineLimit` | P4-32 | todo |
+| [P4-33](phase-4/P4-33-textmate-tokenization-support.md) | `TextMateTokenizationSupport` and `TokenizationSupportWithLineLimit` | P4-32 | done |
 | [P4-34](phase-4/P4-34-grammar-factory-and-languages.md) | Languages, grammar definitions, `TMScopeRegistry`, `TMGrammarFactory` | P4-33 | todo |
 | [P4-35](phase-4/P4-35-bundle-grammars.md) | Bundle the ten built-in grammars | P4-34 | todo |
 | [P4-36](phase-4/P4-36-mirror-model-and-length-edits.md) | Background (1/3): `MirrorTextModel`, `PrefixSumComputer`, `LengthEdit`, index transformer | P4-35 | todo |

@@ -246,6 +246,14 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `test-cases/first-mate/`, `test-cases/suite1/` | `LoomEditor.TextMate.Tests/TestCases/` | copied byte for byte (P4-06) |
 | `src/tests/matcher.test.ts` | `LoomEditor.TextMate.Tests/Grammar/MatcherTests.cs` | ✅ 27 / 27 |
 
+
+### VS Code workbench (`0c9c0a4295a9222e12a605537738719455ae3056`, `src/vs/workbench/services/textMate/browser`)
+
+| Upstream | LoomEditor | Status |
+|---|---|---|
+| `tokenizationSupport/textMateTokenizationSupport.ts` | `LoomEditor.TextMate/Tokenization/TextMateTokenizationSupport.cs` | 🔶 P4-33; no tokenization time telemetry (`_reportTokenizationTime`, `_reportSlowTokenization`), no string `tokenize`; `onDidEncounterLanguage` is the `EncounteredLanguage` event; the 500 ms limit is a constant; `StateStack` implements Core's `IState`; a stopped-early line is traced with `Debug.WriteLine` |
+| `tokenizationSupport/tokenizationSupportWithLineLimit.ts` | `LoomEditor.TextMate/Tokenization/TokenizationSupportWithLineLimit.cs` | 🔶 P4-33; the limit (`editor.maxTokenizationLineLength`, default 20 000) is a constructor argument, not an observable; no disposable parameter; 5 new tests (`TextMateTokenizationSupportTests`) |
+
 ## Monaco tests ported in phases 1 and 3
 
 The rows for phase 3 (`cursor*`, `wordOperations`, `shiftCommand`, `columnSelectionPaste`, `multicursor`, `intervalTree`, `cursorColumns`, `characterClassifier` …) are in this table, with the card that ported them. Phase 3 total: see the "Ported / total" column; every gap says why.

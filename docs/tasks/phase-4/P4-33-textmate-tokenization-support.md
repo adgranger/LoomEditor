@@ -1,6 +1,6 @@
 # P4-33 — `TextMateTokenizationSupport` and `TokenizationSupportWithLineLimit`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-32
 - **Size:** S
 
@@ -37,18 +37,18 @@ limit, keeps the start state when it stops early, reports embedded languages, an
 
 New (with `TestGrammars` and a theme):
 
-- [ ] `TokenizeEncoded_ReturnsMetadataWithThemeColors`
-- [ ] `TokenizeEncoded_EndStateEqualToStart_ReturnsSameObject`
-- [ ] `TokenizeEncoded_EmbeddedLanguage_RaisesEncounteredLanguageOnce`
-- [ ] `TokenizeEncoded_StoppedEarly_KeepsStartState`
-- [ ] `LineLimit_LongLine_ReturnsNullTokens`
+- [x] `TokenizeEncoded_ReturnsMetadataWithThemeColors`
+- [x] `TokenizeEncoded_EndStateEqualToStart_ReturnsSameObject`
+- [x] `TokenizeEncoded_EmbeddedLanguage_RaisesEncounteredLanguageOnce`
+- [x] `TokenizeEncoded_StoppedEarly_KeepsStartState`
+- [x] `LineLimit_LongLine_ReturnsNullTokens`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (workbench section created)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (workbench section created)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -57,3 +57,10 @@ Creating grammars from languages (P4-34), the background tokenizer (P4-37, P4-38
 ## Suggested commit message
 
 `feat(textmate): adapt TextMate grammars to Monaco's tokenization support`
+
+## Notes (done)
+
+- `LoomEditor.Core` now exposes its internals to `LoomEditor.TextMate` and `LoomEditor.TextMate.Tests` (the support
+  implements Core's internal `ITokenizationSupport` / `IState`).
+- `StateStack` extends `IState` through default interface members; `Clone` is now `new StateStack Clone()`.
+- The constructor of `TextMateTokenizationSupport` has no telemetry parameters (not ported).
