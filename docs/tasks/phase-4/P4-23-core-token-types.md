@@ -16,7 +16,7 @@ language id codec, and a tokenization registry **instance**.
 |---|---|---|
 | vscode: `src/vs/editor/common/encodedTokenAttributes.ts` | 9–124, 171–193 | `LanguageId`, `FontStyle`, `ColorId`, `StandardTokenType`, the bit-layout comment, `MetadataConsts`, `TokenMetadata` getters and `getPresentationFromMetadata`, `ITokenPresentation` |
 | vscode: same file | 125–170 | **not ported**: `getClassNameFromMetadata`, `getInlineStyleFromMetadata` (CSS) |
-| vscode: `src/vs/editor/common/languages.ts` | 35–38, 82–97, 116–175 | `ILanguageIdCodec`, `EncodedTokenizationResult` (without `fontInfo`), `ITokenizationSupport` (without the string `tokenize`), `IBackgroundTokenizer`, `IBackgroundTokenizationStore` (without `setFontInfo`), `IState` |
+| vscode: `src/vs/editor/common/languages.ts` | 35–38, 82–97, 116–175 | `ILanguageIdCodec`, `EncodedTokenizationResult` (without `fontInfo`), `ITokenizationSupport` (without the string `tokenize`, **and without `createBackgroundTokenizer`**: it needs `ITextModel` and `ContiguousMultilineTokens`, which come later; added in P4-29 with `IBackgroundTokenizer` and `IBackgroundTokenizationStore`), `IState` |
 | vscode: same file | 2504–2507, 2546–2596 | `ITokenizationSupportChangedEvent`, `ITokenizationRegistry` (without the lazy-factory members) |
 | vscode: `src/vs/editor/common/tokenizationRegistry.ts` | 12–113 | `TokenizationRegistry` (`handleChange`, `register`, `get`, `setColorMap`, `getColorMap`, `getDefaultBackground`) — **not** `registerFactory`, `getOrCreate`, `isResolved`, `TokenizationSupportFactoryData` |
 | vscode: `src/vs/editor/common/languages/nullTokenize.ts` | 9–34 | `NullState`, `nullTokenize` (not ported: string tokens), `nullTokenizeEncoded` |
@@ -25,7 +25,7 @@ language id codec, and a tokenization registry **instance**.
 ## Files to create or change
 
 - `src/LoomEditor.Core/Tokens/TokenMetadata.cs`, `MetadataConsts.cs`, `LanguageId.cs`, `FontStyle.cs`, `ColorId.cs`, `StandardTokenType.cs`, `TokenPresentation.cs` — create
-- `src/LoomEditor.Core/Tokens/IState.cs`, `ITokenizationSupport.cs`, `EncodedTokenizationResult.cs`, `IBackgroundTokenizer.cs`, `IBackgroundTokenizationStore.cs` — create
+- `src/LoomEditor.Core/Tokens/IState.cs`, `ITokenizationSupport.cs`, `EncodedTokenizationResult.cs` — create (`IBackgroundTokenizer.cs` and `IBackgroundTokenizationStore.cs` move to P4-29)
 - `src/LoomEditor.Core/Tokens/NullTokenize.cs`, `LanguageIdCodec.cs`, `TokenizationRegistry.cs`, `TokenizationSupportChangedEventArgs.cs` — create
 - `tests/LoomEditor.Core.Tests/Tokens/TokenMetadataTests.cs`, `LanguageIdCodecTests.cs`, `TokenizationRegistryTests.cs` — create
 
