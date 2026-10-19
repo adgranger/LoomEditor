@@ -321,4 +321,166 @@ public class ModelLinesTokensTests
     [Fact]
     public void UpdatesTokensOnInsertion_10() =>
         Insertion(string.Empty, [], 1, "a", "a", [new(0, 1)]);
+
+    private static readonly TestToken[] Abcd123 = [new(0, 1), new(4, 2), new(5, 3)];
+
+    private static void Edit(string text, TestToken[] tokens, int startColumn, int endColumn, string newText, string expectedText, TestToken[] expectedTokens) =>
+        TestLineEditTokens(text, tokens, [(startColumn, endColumn, newText)], expectedText, expectedTokens);
+
+    // Monaco: 'ModelLinesTokens' > 'delete second token 2'
+    [Fact]
+    public void DeleteSecondToken_2() =>
+        Edit("abcdefghij", [new(0, 1), new(3, 2), new(6, 3)], 4, 7, string.Empty, "abcghij", [new(0, 1), new(3, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'insert right before second token'
+    [Fact]
+    public void InsertRightBeforeSecondToken() =>
+        Edit("abcdefghij", [new(0, 1), new(3, 2), new(6, 3)], 4, 4, "hello", "abchellodefghij", [new(0, 1), new(8, 2), new(11, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete first char'
+    [Fact]
+    public void DeleteFirstChar() =>
+        Edit("abcd efgh", Abcd123, 1, 2, string.Empty, "bcd efgh", [new(0, 1), new(3, 2), new(4, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete 2nd and 3rd chars'
+    [Fact]
+    public void Delete2ndAnd3rdChars() =>
+        Edit("abcd efgh", Abcd123, 2, 4, string.Empty, "ad efgh", [new(0, 1), new(2, 2), new(3, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete first token'
+    [Fact]
+    public void DeleteFirstToken() =>
+        Edit("abcd efgh", Abcd123, 1, 5, string.Empty, " efgh", [new(0, 2), new(1, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete second token'
+    [Fact]
+    public void DeleteSecondToken() =>
+        Edit("abcd efgh", Abcd123, 5, 6, string.Empty, "abcdefgh", [new(0, 1), new(4, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete second token + a bit of the third one'
+    [Fact]
+    public void DeleteSecondTokenAndABitOfTheThirdOne() =>
+        Edit("abcd efgh", Abcd123, 5, 7, string.Empty, "abcdfgh", [new(0, 1), new(4, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete second and third token'
+    [Fact]
+    public void DeleteSecondAndThirdToken() =>
+        Edit("abcd efgh", Abcd123, 5, 10, string.Empty, "abcd", [new(0, 1)]);
+
+    // Monaco: 'ModelLinesTokens' > 'delete everything'
+    [Fact]
+    public void DeleteEverything() =>
+        Edit("abcd efgh", Abcd123, 1, 10, string.Empty, string.Empty, [new(0, 1)]);
+
+    // Monaco: 'ModelLinesTokens' > 'noop'
+    [Fact]
+    public void Noop() =>
+        Edit("abcd efgh", Abcd123, 1, 1, string.Empty, "abcd efgh", Abcd123);
+
+    // Monaco: 'ModelLinesTokens' > 'equivalent to deleting first two chars'
+    [Fact]
+    public void EquivalentToDeletingFirstTwoChars() =>
+        Edit("abcd efgh", Abcd123, 1, 3, string.Empty, "cd efgh", [new(0, 1), new(2, 2), new(3, 3)]);
+
+    // Monaco: 'ModelLinesTokens' > 'equivalent to deleting from 5 to the end'
+    [Fact]
+    public void EquivalentToDeletingFrom5ToTheEnd() =>
+        Edit("abcd efgh", Abcd123, 5, 10, string.Empty, "abcd", [new(0, 1)]);
+
+    // Monaco: 'ModelLinesTokens' > 'updates tokens on replace 1'
+    [Fact]
+    public void UpdatesTokensOnReplace_1() =>
+        Edit(
+            "Hello world, ciao",
+            [new(0, 1), new(5, 0), new(6, 2), new(11, 0), new(13, 0)],
+            1,
+            6,
+            "Hi",
+            "Hi world, ciao",
+            [new(0, 0), new(3, 2), new(8, 0), new(10, 0)]);
+
+    // Monaco: 'ModelLinesTokens' > 'updates tokens on replace 2'
+    [Fact]
+    public void UpdatesTokensOnReplace_2() =>
+        TestLineEditTokens(
+            "Hello world, ciao",
+            [new(0, 1), new(5, 0), new(6, 2), new(11, 0), new(13, 0)],
+            [(1, 6, "Hi"), (8, 12, "my friends")],
+            "Hi wmy friends, ciao",
+            [new(0, 0), new(3, 2), new(14, 0), new(16, 0)]);
+
+    private static void TestLineSplitTokens(
+        string initialText,
+        TestToken[] initialTokens,
+        int splitColumn,
+        string expectedText1,
+        string expectedText2,
+        TestToken[] expectedTokens) =>
+        TestApplyEdits(
+            [new BufferLineState(initialText, initialTokens)],
+            [(new Range(1, splitColumn, 1, splitColumn), "\n")],
+            [new BufferLineState(expectedText1, expectedTokens), new BufferLineState(expectedText2, [new(0, 1)])]);
+
+    // Monaco: 'ModelLinesTokens' > 'split at the beginning'
+    [Fact]
+    public void SplitAtTheBeginning() =>
+        TestLineSplitTokens("abcd efgh", Abcd123, 1, string.Empty, "abcd efgh", [new(0, 1)]);
+
+    // Monaco: 'ModelLinesTokens' > 'split at the end'
+    [Fact]
+    public void SplitAtTheEnd() =>
+        TestLineSplitTokens("abcd efgh", Abcd123, 10, "abcd efgh", string.Empty, Abcd123);
+
+    // Monaco: 'ModelLinesTokens' > 'split inthe middle 1'
+    [Fact]
+    public void SplitInTheMiddle_1() =>
+        TestLineSplitTokens("abcd efgh", Abcd123, 5, "abcd", " efgh", [new(0, 1)]);
+
+    // Monaco: 'ModelLinesTokens' > 'split inthe middle 2'
+    [Fact]
+    public void SplitInTheMiddle_2() =>
+        TestLineSplitTokens("abcd efgh", Abcd123, 6, "abcd ", "efgh", [new(0, 1), new(4, 2)]);
+
+    private static void TestLineAppendTokens(
+        string aText,
+        TestToken[] aTokens,
+        string bText,
+        TestToken[] bTokens,
+        string expectedText,
+        TestToken[] expectedTokens) =>
+        TestApplyEdits(
+            [new BufferLineState(aText, aTokens), new BufferLineState(bText, bTokens)],
+            [(new Range(1, aText.Length + 1, 2, 1), string.Empty)],
+            [new BufferLineState(expectedText, expectedTokens)]);
+
+    // Monaco: 'ModelLinesTokens' > 'append empty 1'
+    [Fact]
+    public void AppendEmpty_1() =>
+        TestLineAppendTokens("abcd efgh", Abcd123, string.Empty, [], "abcd efgh", Abcd123);
+
+    // Monaco: 'ModelLinesTokens' > 'append empty 2'
+    [Fact]
+    public void AppendEmpty_2() =>
+        TestLineAppendTokens(string.Empty, [], "abcd efgh", Abcd123, "abcd efgh", Abcd123);
+
+    // Monaco: 'ModelLinesTokens' > 'append 1'
+    [Fact]
+    public void Append_1() =>
+        TestLineAppendTokens(
+            "abcd efgh",
+            Abcd123,
+            "abcd efgh",
+            [new(0, 4), new(4, 5), new(5, 6)],
+            "abcd efghabcd efgh",
+            [new(0, 1), new(4, 2), new(5, 3), new(9, 4), new(13, 5), new(14, 6)]);
+
+    // Monaco: 'ModelLinesTokens' > 'append 2'
+    [Fact]
+    public void Append_2() =>
+        TestLineAppendTokens("abcd ", [new(0, 1), new(4, 2)], "efgh", [new(0, 3)], "abcd efgh", Abcd123);
+
+    // Monaco: 'ModelLinesTokens' > 'append 3'
+    [Fact]
+    public void Append_3() =>
+        TestLineAppendTokens("abcd", [new(0, 1)], " efgh", [new(0, 2), new(1, 3)], "abcd efgh", Abcd123);
 }
