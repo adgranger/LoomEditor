@@ -210,7 +210,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `src/tests/onigLibs.ts` | `LoomEditor.TextMate.Tests/TestHelpers/OnigTestLib.cs` | ✅ P4-04 (synchronous) |
 | `src/utils.ts` | `LoomEditor.TextMate/Grammar/` (`RegexSource`, `Strings`, `CachedFn`) | 🔶 P4-05: `clone`/`mergeObjects` (methods of the raw types, P4-06), `containsRTL` and `performanceNow` not ported; `OrMask` is a `[Flags]` enum |
 | `src/matcher.ts` | `LoomEditor.TextMate/Grammar/Matcher.cs` | ✅ P4-05 |
-| `src/rule.ts` (rule ids, `RegExpSource`, `RegExpSourceList`, `CompiledRule`, `IFindNextMatchResult`) | `LoomEditor.TextMate/Grammar/` (`RuleId`, `RegExpSource`, `RegExpSourceList`, `CompiledRule`) | 🔶 P4-11; the rule classes and `RuleFactory` come with P4-12 |
+| `src/rule.ts` | `LoomEditor.TextMate/Grammar/` (`RuleId`, `RegExpSource`, `RegExpSourceList`, `CompiledRule`; `IRuleRegistry.cs` with `IGrammarRegistry`, `IRuleFactoryHelper` and `IRuleRegistryAndOnigLib` for `IRuleRegistry & IOnigLib`; `Rule`, `CaptureRule`, `MatchRule`, `IncludeOnlyRule`, `BeginEndRule`, `BeginWhileRule`, `RuleFactory`) | ✅ P4-11, P4-12, without `$location` (no location metadata) |
+| `src/grammar/grammarDependencies.ts` (`IncludeReference`, `parseInclude`) | `LoomEditor.TextMate/Grammar/IncludeReference.cs` | 🔶 P4-12; `ScopeDependencyProcessor` and the rest come with P4-13 |
 | `src/debug.ts` | `LoomEditor.TextMate/Grammar/DebugFlags.cs` | ✅ P4-11, debug mode always off |
 | `src/encodedTokenAttributes.ts` | `LoomEditor.TextMate/Grammar/` (`EncodedTokenAttributes`, `StandardTokenType.cs` with `OptionalStandardTokenType`) | ✅ P4-10, metadata as `uint`; `FontAttribute` not ported (ADR 0008) |
 | `src/tests/grammar.test.ts` (metadata tests, 34–107) | `LoomEditor.TextMate.Tests/Grammar/EncodedTokenAttributesTests.cs` | ✅ 9 / 9 (the rest of the file comes with the grammar cards) |
