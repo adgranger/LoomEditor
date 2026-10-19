@@ -50,6 +50,11 @@ public sealed partial class LoomEditor
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)
     {
+        if (IsComposing)
+        {
+            return;
+        }
+
         string? text = _textInput.Accept(e.Character);
         if (text is null)
         {

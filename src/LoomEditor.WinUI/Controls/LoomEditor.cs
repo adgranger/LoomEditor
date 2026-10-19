@@ -79,6 +79,7 @@ public sealed partial class LoomEditor : Control
         InitializeCaret();
         InitializeReveal();
         InitializePointer();
+        InitializeIme();
         CharacterReceived += OnCharacterReceived;
         InitializeFont();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
@@ -133,6 +134,12 @@ public sealed partial class LoomEditor : Control
     {
         ArgumentNullException.ThrowIfNull(e);
 
+        // Monaco: `KEY_IN_COMPOSITION` stops the keybindings. No ProcessKey (229) test: the P3-48 spike never saw that key.
+        if (IsComposing)
+        {
+            return;
+        }
+
         if (_keyboard.TryHandle(e.Key, CreateKeybindingContext()))
         {
             e.Handled = true;
@@ -163,10 +170,12 @@ public sealed partial class LoomEditor : Control
     {
         _featureHost ??= new EditorFeatureHost(_context, Features);
         ObserveXamlRoot();
+        StartIme();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+        StopIme();
         _featureHost?.Dispose();
         _featureHost = null;
         StopBlinkTimer();
