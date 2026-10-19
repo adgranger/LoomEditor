@@ -1,6 +1,6 @@
 # P4-01 — Spike: embedded resources and a native DLL in the Native AOT Gallery
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-55
 - **Size:** S (throw-away probe + a findings section in ADR 0008)
 
@@ -40,20 +40,20 @@ Run: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64`, then sta
 
 ## Questions to answer (write each answer in the ADR)
 
-- [ ] Under Native AOT, does `GetManifestResourceStream` return the resource? If not: is the resource in the binary
+- [x] Under Native AOT, does `GetManifestResourceStream` return the resource? If not: is the resource in the binary
       (`GetManifestResourceNames`)? Does the ILC need `<IlcKeepManifestResources>` or similar? (Check the ILC docs/props
       in the `Microsoft.DotNet.ILCompiler` package before guessing.)
-- [ ] Is `onig.dll` in the publish folder? Does `NativeLibrary.TryLoad` find it, and does `onig_version()` return `6.9.10`?
-- [ ] Publish warnings: 0?
+- [x] Is `onig.dll` in the publish folder? Does `NativeLibrary.TryLoad` find it, and does `onig_version()` return `6.9.10`?
+- [x] Publish warnings: 0?
 
 ## Acceptance criteria
 
-- [ ] The ADR section lists the answers, with the exact MSBuild items/properties that made it work
-- [ ] If embedded resources cannot work under AOT, **stop** and propose the fallback of ADR 0008 decision 7 to the
+- [x] The ADR section lists the answers, with the exact MSBuild items/properties that made it work
+- [x] If embedded resources cannot work under AOT, **stop** and propose the fallback of ADR 0008 decision 7 to the
       maintainer (changes to P4-34, P4-35, P4-41) before going on
-- [ ] The probe files, the temporary items and the temporary call are deleted; `git status` shows only the ADR change
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings; `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] The probe files, the temporary items and the temporary call are deleted; `git status` shows only the ADR change
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings; `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -96,6 +96,29 @@ C#, TypeScript, JavaScript, JSON, HTML, CSS, XML, Markdown, Python, YAML.
    `Assembly.GetManifestResourceStream`. ADR 0001 saw embedded resources fail in the AOT Gallery once, without
    investigation: card P4-01 checks it first and writes the result here. If they cannot work under Native AOT, P4-01
    stops and proposes the fallback (the build generates `ReadOnlySpan<byte>` UTF-8 literals).
+
+   **Findings of the AOT spike (P4-01, 2026-10-19).** A throw-away probe in `LoomEditor.TextMate`, called by the
+   Gallery when `LOOM_PROBE` is set, was published with `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64`
+   and run; it was also run with `dotnet run` (JIT). Same results in both:
+   - **Embedded resources work under Native AOT.** `GetManifestResourceStream("LoomEditor.TextMate.Probe.probe.json")`
+     returned the stream (22 bytes) and `GetManifestResourceNames()` listed it. The only MSBuild item needed is
+     `<EmbeddedResource Include="…" LogicalName="…" />` in the library; the ILC keeps manifest resources by default
+     (no `IlcKeepManifestResources`-like property exists in `Microsoft.DotNet.ILCompiler` 11.0 rc, and none is
+     needed). The fallback (UTF-8 literals) is **not** needed. The cause of ADR 0001's known issue 2 was not
+     reproduced (most likely a resource name that did not match: without `LogicalName` the name depends on the
+     folder and root namespace), so every resource gets an explicit `LogicalName`.
+   - **`onig.dll` ships and loads.** With `<None Include="…/artifacts/native/win-x64/onig.dll" Pack="true"
+     PackagePath="runtimes/win-x64/native" CopyToOutputDirectory="PreserveNewest" />` in `LoomEditor.TextMate`, the
+     DLL is copied to the Gallery's publish folder; `NativeLibrary.TryLoad("onig.dll", assembly, null, out _)`
+     returns `true` and `onig_version()` (through `[LibraryImport("onig")]`) returns `6.9.10`. `[LibraryImport]`
+     needs `<AllowUnsafeBlocks>true</AllowUnsafeBlocks>` in the project (SYSLIB1062 otherwise).
+   - **Publish warnings: 0.**
+   - **SDK 11.0.100 rc.2 breaks the AOT publish of the Gallery** (seen during the spike; `global.json` pins rc.1, which
+     was not installed, so the SDK rolled forward). rc.2 adds an "optimized" Native AOT publish
+     (`_PublishOptimizedBuildAlternative`) that runs `PrepareResources` before `ResolveReferences`: the WinUI XAML
+     compiler gets no references and fails with `WMC1007: Cannot resolve metadata for WinUI types`. Workaround:
+     `-p:UseOptimizedPublish=false` (or install SDK rc.1). The spike used the workaround; the Gallery project was not
+     changed.
 8. **Themes.** `LoomEditor.Themes` loads VS Code color themes (`.json`, with comments): `include` (parent first),
    `colors` (with `"default"` removing an inherited color), `tokenColors` as an inline array, and the old JSON form
    with a `settings` array (`themeCompatibility.ts`). `tokenColors` given as a path, and `.tmTheme` files, are **not**
