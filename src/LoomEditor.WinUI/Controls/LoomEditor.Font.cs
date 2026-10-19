@@ -79,6 +79,7 @@ public sealed partial class LoomEditor
 
     private void OnXamlRootChanged(XamlRoot sender, XamlRootChangedEventArgs args)
     {
+        _ime?.RequestLayoutChanged();
         if (sender.RasterizationScale != _rasterizationScale)
         {
             _rasterizationScale = sender.RasterizationScale;
