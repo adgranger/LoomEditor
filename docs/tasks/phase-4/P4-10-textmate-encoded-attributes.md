@@ -1,6 +1,6 @@
 # P4-10 — vscode-textmate token metadata (`encodedTokenAttributes.ts`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-09
 - **Size:** S
 
@@ -30,16 +30,16 @@ background) can be encoded and read on the vscode-textmate side, with its tests.
 
 ## Tests
 
-- [ ] Port: `'StackElementMetadata works'`, `'StackElementMetadata can overwrite languageId'`, `'… can overwrite tokenType'`,
+- [x] Port: `'StackElementMetadata works'`, `'StackElementMetadata can overwrite languageId'`, `'… can overwrite tokenType'`,
       `'… can overwrite font style'`, `'… can overwrite font style with strikethrough'`, `'… can overwrite foreground'`,
       `'… can overwrite background'`, `'… can overwrite balanced backet bit'`, `'… can work at max values'` (exact names from the file)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

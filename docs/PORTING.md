@@ -210,6 +210,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `src/tests/onigLibs.ts` | `LoomEditor.TextMate.Tests/TestHelpers/OnigTestLib.cs` | ✅ P4-04 (synchronous) |
 | `src/utils.ts` | `LoomEditor.TextMate/Grammar/` (`RegexSource`, `Strings`, `CachedFn`) | 🔶 P4-05: `clone`/`mergeObjects` (methods of the raw types, P4-06), `containsRTL` and `performanceNow` not ported; `OrMask` is a `[Flags]` enum |
 | `src/matcher.ts` | `LoomEditor.TextMate/Grammar/Matcher.cs` | ✅ P4-05 |
+| `src/encodedTokenAttributes.ts` | `LoomEditor.TextMate/Grammar/` (`EncodedTokenAttributes`, `StandardTokenType.cs` with `OptionalStandardTokenType`) | ✅ P4-10, metadata as `uint`; `FontAttribute` not ported (ADR 0008) |
+| `src/tests/grammar.test.ts` (metadata tests, 34–107) | `LoomEditor.TextMate.Tests/Grammar/EncodedTokenAttributesTests.cs` | ✅ 9 / 9 (the rest of the file comes with the grammar cards) |
 | `src/rawGrammar.ts` | `LoomEditor.TextMate/Parsing/` (`RawGrammar`, `RawRule`, `RawRepository`, `RawCaptures`) | ✅ P4-06, without `ILocation`/`ILocatable`; `clone` is `DeepClone()` |
 | `src/parseRawGrammar.ts` | `LoomEditor.TextMate/Parsing/RawGrammarReader.cs` | ✅ P4-06 (JSON with `System.Text.Json`), P4-07 (plist) |
 | `src/plist.ts` | `LoomEditor.TextMate/Parsing/` (`PlistParser`, `PlistParser.Values`, `JsNumbers` for `parseInt`/`parseFloat`) | ✅ P4-07: builds a `JsonNode` tree; `parseWithLocation` not ported; `<date>` kept as text |
