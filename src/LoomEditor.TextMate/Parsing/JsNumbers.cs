@@ -97,7 +97,7 @@ internal static class JsNumbers
     // JavaScript's whitespace (StrWhiteSpaceChar): white space and line terminators.
     private static int SkipWhitespace(string s, int i)
     {
-        while (i < s.Length && (char.IsWhiteSpace(s[i]) || s[i] == '﻿'))
+        while (i < s.Length && (char.IsWhiteSpace(s[i]) || s[i] == (char)0xFEFF))
         {
             i++;
         }

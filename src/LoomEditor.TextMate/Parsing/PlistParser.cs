@@ -24,7 +24,7 @@ namespace LoomEditor.TextMate.Parsing;
 internal sealed partial class PlistParser
 {
     // ChCode
-    private const char Bom = '﻿';
+    private const char Bom = (char)0xFEFF;
     private const char Slash = '/';
     private const char LessThan = '<';
     private const char QuestionMark = '?';

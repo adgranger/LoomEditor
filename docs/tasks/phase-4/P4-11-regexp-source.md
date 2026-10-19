@@ -1,6 +1,6 @@
 # P4-11 — Rules (1/2): `RegExpSource`, `RegExpSourceList`, `CompiledRule`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-10
 - **Size:** M
 
@@ -37,18 +37,18 @@ references, a list of sources compiled into one scanner, and the compiled rule t
 
 No upstream unit tests for these classes. New:
 
-- [ ] `RegExpSource_BackslashZ_IsRewritten` (`\z` → `$(?!\n)(?<!\n)`)
-- [ ] `RegExpSource_ResolveBackReferences_EscapesCapturedText`
-- [ ] `RegExpSource_ResolveAnchors_DisallowedAnchorsBecomeFFFF` (the four variants)
-- [ ] `RegExpSourceList_CompileAG_CachesOneScannerPerVariant`
-- [ ] `CompiledRule_FindNextMatch_ReturnsRuleIdOfMatchedPattern`
+- [x] `RegExpSource_BackslashZ_IsRewritten` (`\z` → `$(?!\n)(?<!\n)`)
+- [x] `RegExpSource_ResolveBackReferences_EscapesCapturedText`
+- [x] `RegExpSource_ResolveAnchors_DisallowedAnchorsBecomeFFFF` (the four variants)
+- [x] `RegExpSourceList_CompileAG_CachesOneScannerPerVariant`
+- [x] `CompiledRule_FindNextMatch_ReturnsRuleIdOfMatchedPattern`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
