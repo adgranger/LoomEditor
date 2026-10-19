@@ -1,6 +1,6 @@
 # P4-12 — Rules (2/2): the rule classes, `RuleFactory` and `parseInclude`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-11
 - **Size:** L — keep it under 400 lines with partial files (`RuleFactory.Patterns.cs`)
 
@@ -39,19 +39,19 @@ capture rules, with the factory that resolves `include`s (`$self`, `$base`, `#na
 
 No upstream unit tests (vscode-textmate tests these through tokenization). New:
 
-- [ ] `ParseInclude_AllForms` (`$self`, `$base`, `#name`, `source.js`, `source.js#name`)
-- [ ] `GetCompiledRuleId_SameRawRule_ReturnsSameId`
-- [ ] `CompilePatterns_IncludeOfRepositoryRule_IsResolved`, `…_UnknownInclude_IsSkipped`
-- [ ] `BeginEndRule_NoEnd_UsesFFFF`
-- [ ] `BeginEndRule_ApplyEndPatternLast_PutsEndLast`
-- [ ] `CompileCaptures_HolesAreNull`
+- [x] `ParseInclude_AllForms` (`$self`, `$base`, `#name`, `source.js`, `source.js#name`)
+- [x] `GetCompiledRuleId_SameRawRule_ReturnsSameId`
+- [x] `CompilePatterns_IncludeOfRepositoryRule_IsResolved`, `…_UnknownInclude_IsSkipped`
+- [x] `BeginEndRule_NoEnd_UsesFFFF`
+- [x] `BeginEndRule_ApplyEndPatternLast_PutsEndLast`
+- [x] `CompileCaptures_HolesAreNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

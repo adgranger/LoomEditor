@@ -300,7 +300,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P4-11](phase-4/P4-11-regexp-source.md) | Rules (1/2): `RegExpSource`, `RegExpSourceList`, `CompiledRule` | P4-10 | done |
-| [P4-12](phase-4/P4-12-rules-and-rule-factory.md) | Rules (2/2): rule classes, `RuleFactory`, `parseInclude` | P4-11 | todo |
+| [P4-12](phase-4/P4-12-rules-and-rule-factory.md) | Rules (2/2): rule classes, `RuleFactory`, `parseInclude` | P4-11 | done |
 | [P4-13](phase-4/P4-13-grammar-dependencies-and-basic-scopes.md) | Grammar dependencies and basic scope attributes | P4-12 | todo |
 | [P4-14](phase-4/P4-14-attributed-scope-stack.md) | Grammar (1/6): `AttributedScopeStack`, `BalancedBracketSelectors` | P4-13 | todo |
 | [P4-15](phase-4/P4-15-state-stack.md) | Grammar (2/6): `StateStackImpl` | P4-14 | todo |
