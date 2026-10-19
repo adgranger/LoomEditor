@@ -7,12 +7,12 @@ namespace LoomEditor.TextMate.Grammar;
 
 /// <summary>
 /// String helpers of <c>utils.ts</c>: <c>basename</c>, <c>strcmp</c>, <c>strArrCmp</c>, <c>isValidHexColor</c>,
-/// <c>escapeRegExpCharacters</c>.
+/// <c>escapeRegExpCharacters</c>, <c>containsRTL</c>.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Not ported: <c>clone</c> / <c>mergeObjects</c> (raw-grammar cloning is a method of the raw types) and
-/// <c>containsRTL</c> (unused by the tokenizer). <c>OrMask&lt;T&gt;</c> is a <c>[Flags]</c> enum in C#.
+/// Not ported: <c>clone</c> / <c>mergeObjects</c> (raw-grammar cloning is a method of the raw types).
+/// <c>OrMask&lt;T&gt;</c> is a <c>[Flags]</c> enum in C#.
 /// </para>
 /// <para>Threading: stateless; safe on any thread.</para>
 /// </remarks>
@@ -118,4 +118,17 @@ internal static partial class Strings
 
     [GeneratedRegex(@"[\-\\\{\}\*\+\?\|\^\$\.\,\[\]\(\)\#\s]", RegexOptions.CultureInvariant)]
     private static partial Regex RegExpCharacters();
+
+    /// <summary>
+    /// <c>containsRTL</c>: true if <paramref name="value"/> contains any Unicode character classified as "R" or "AL"
+    /// (generated upstream using https://github.com/alexdima/unicode-utils/blob/main/rtl-test.js, copied verbatim).
+    /// </summary>
+    public static bool ContainsRtl(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+        return RtlRegex().IsMatch(value);
+    }
+
+    [GeneratedRegex(@"(?:[\u05BE\u05C0\u05C3\u05C6\u05D0-\u05F4\u0608\u060B\u060D\u061B-\u064A\u066D-\u066F\u0671-\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u0710\u0712-\u072F\u074D-\u07A5\u07B1-\u07EA\u07F4\u07F5\u07FA\u07FE-\u0815\u081A\u0824\u0828\u0830-\u0858\u085E-\u088E\u08A0-\u08C9\u200F\uFB1D\uFB1F-\uFB28\uFB2A-\uFD3D\uFD50-\uFDC7\uFDF0-\uFDFC\uFE70-\uFEFC]|\uD802[\uDC00-\uDD1B\uDD20-\uDE00\uDE10-\uDE35\uDE40-\uDEE4\uDEEB-\uDF35\uDF40-\uDFFF]|\uD803[\uDC00-\uDD23\uDE80-\uDEA9\uDEAD-\uDF45\uDF51-\uDF81\uDF86-\uDFF6]|\uD83A[\uDC00-\uDCCF\uDD00-\uDD43\uDD4B-\uDFFF]|\uD83B[\uDC00-\uDEBB])")]
+    private static partial Regex RtlRegex();
 }
