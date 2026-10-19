@@ -1,6 +1,6 @@
 # P4-29 — `TextModel` tokenization (1/2): language id, token backend, `TokensChanged`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-28
 - **Size:** L — split: `TextModel.Tokenization.cs`, `Model/Tokens/TokenizationTextModelPart.cs`, `Model/Tokens/TokenizerSyntaxTokenBackend.cs`
 
@@ -45,18 +45,18 @@ when background tokenization is finished.
 
 New (upstream tests come in P4-30 … P4-32):
 
-- [ ] `SetLanguageId_UnknownLanguage_GivesNullTokens`
-- [ ] `GetLineTokens_AfterForceTokenization_UsesTheSupport`
-- [ ] `Edit_InvalidatesFollowingStates_AndRaisesTokensChanged`
-- [ ] `RegistryChanged_ForTheModelLanguage_ResetsTokenization`
-- [ ] `BackgroundTokenizationFinished_SetsCompleted`
+- [x] `SetLanguageId_UnknownLanguage_GivesNullTokens`
+- [x] `GetLineTokens_AfterForceTokenization_UsesTheSupport`
+- [x] `Edit_InvalidatesFollowingStates_AndRaisesTokensChanged`
+- [x] `RegistryChanged_ForTheModelLanguage_ResetsTokenization`
+- [x] `BackgroundTokenizationFinished_SetsCompleted`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (phase 1–3 model tests untouched)
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": no semantic tokens, tree-sitter, font tokens
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (phase 1–3 model tests untouched)
+- [x] `docs/PORTING.md` map updated; "Behavior differences": no semantic tokens, tree-sitter, font tokens
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -65,3 +65,14 @@ Attached views and the viewport (P4-30), bracket pairs (phase 5).
 ## Suggested commit message
 
 `feat(core): tokenize the text model`
+
+## Notes (done)
+
+- The registry `Changed` event resets tokenization only when the model's language is in `ChangedLanguages`, as the
+  pinned source does (the card also said "or the color map changed": Monaco does not).
+- `AbstractSyntaxTokenBackend` is merged into `TokenizerSyntaxTokenBackend` (the only backend).
+- The internal `TextModel` constructor also takes the `ILanguageIdCodec` and an optional `ITokenizationScheduler`;
+  without a scheduler the default background tokenizer is not created. `Tokenization.IsAttachedToEditor` is a plain flag
+  until P4-30 (attached views); `isTooLargeForTokenization` and the viewport refresh also come with P4-30.
+- `SetLanguageId` resets the tokenization itself (Monaco relies on the registry event / observable).
+- `ContiguousTokensStore.SetMultilineTokens` (left out in P4-25) is ported here.

@@ -4,8 +4,7 @@
 namespace LoomEditor.Core.Tokens;
 
 /// <summary>
-/// A tokenizer for a language (Monaco: <c>ITokenizationSupport</c>). Not ported: the string <c>tokenize</c>;
-/// <c>createBackgroundTokenizer</c> comes with the text model tokenization (P4-29).
+/// A tokenizer for a language (Monaco: <c>ITokenizationSupport</c>). Not ported: the string <c>tokenize</c>.
 /// </summary>
 /// <remarks>Threading: an implementation is used by one thread at a time.</remarks>
 internal interface ITokenizationSupport
@@ -21,4 +20,7 @@ internal interface ITokenizationSupport
 
     /// <summary><c>tokenizeEncoded</c>.</summary>
     EncodedTokenizationResult TokenizeEncoded(string line, bool hasEol, IState state);
+
+    /// <summary><c>createBackgroundTokenizer</c>: <see langword="null"/> when the default background tokenization should be used.</summary>
+    IBackgroundTokenizer? CreateBackgroundTokenizer(Model.TextModel textModel, IBackgroundTokenizationStore store) => null;
 }

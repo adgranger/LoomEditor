@@ -3,7 +3,9 @@
 
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
+using LoomEditor.Core.Model.Tokens;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 using LoomEditor.Core.Undo;
 using Range = LoomEditor.Core.Text.Range;
 
@@ -43,11 +45,23 @@ public sealed partial class TextModel
     {
     }
 
+    // The public constructors and FromSnapshot: an empty registry, so the language is plain text without tokens.
     private TextModel(PieceTreeTextBuffer buffer, TextModelOptions options)
+        : this(buffer, options, new TokenizationRegistry(), new LanguageIdCodec(), null)
+    {
+    }
+
+    private TextModel(
+        PieceTreeTextBuffer buffer,
+        TextModelOptions options,
+        TokenizationRegistry registry,
+        ILanguageIdCodec languageIdCodec,
+        ITokenizationScheduler? scheduler)
     {
         _options = options;
         _buffer = buffer;
         _editStack = new EditStack(this, _undoRedoStack);
+        CreateTokenization(registry, languageIdCodec, scheduler);
     }
 
     // Monaco: DEFAULT_CREATION_OPTIONS with the given default EOL, unless options are given
