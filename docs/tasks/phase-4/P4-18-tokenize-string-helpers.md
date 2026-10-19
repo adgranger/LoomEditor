@@ -1,6 +1,6 @@
 # P4-18 — Grammar (5/6): `tokenizeString.ts` rule and injection matching
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-17
 - **Size:** S
 
@@ -34,17 +34,17 @@ injections, choose between them, and prepare the compiled rule for a search (wit
 
 No upstream unit tests (vscode-textmate tests them through tokenization). New, with `TestGrammars`:
 
-- [ ] `MatchRule_ReturnsCaptureIndicesAndRuleId`
-- [ ] `MatchRule_NoMatch_ReturnsNull`
-- [ ] `MatchRuleOrInjections_LeftPriorityInjection_WinsAtSamePosition`
-- [ ] `MatchRuleOrInjections_RightPriorityInjection_LosesAtSamePosition`
+- [x] `MatchRule_ReturnsCaptureIndicesAndRuleId`
+- [x] `MatchRule_NoMatch_ReturnsNull`
+- [x] `MatchRuleOrInjections_LeftPriorityInjection_WinsAtSamePosition`
+- [x] `MatchRuleOrInjections_RightPriorityInjection_LosesAtSamePosition`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
