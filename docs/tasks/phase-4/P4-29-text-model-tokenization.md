@@ -25,7 +25,7 @@ when background tokenization is finished.
 
 - `src/LoomEditor.Core/Model/TextModel.Tokenization.cs` — create (internal `Tokenization` property, internal constructor overload taking a `TokenizationRegistry`, `TokensChanged` and `LanguageChanged` events)
 - `src/LoomEditor.Core/Model/Tokens/TokenizationTextModelPart.cs`, `TokenizerSyntaxTokenBackend.cs`, `BackgroundTokenizationState.cs` — create
-- `src/LoomEditor.Core/Tokens/IBackgroundTokenizer.cs`, `IBackgroundTokenizationStore.cs` (without `setFontInfo`; `languages.ts` 124–159) — create, and add `CreateBackgroundTokenizer(TextModel, IBackgroundTokenizationStore)` (may return null) to `ITokenizationSupport` (moved from P4-23, which could not reference `TextModel` and `ContiguousMultilineTokens`)
+- `src/LoomEditor.Core/Tokens/IBackgroundTokenizer.cs`, `IBackgroundTokenizationStore.cs` — already created in P4-28 (moved there: `DefaultBackgroundTokenizer` implements them). Here: add `CreateBackgroundTokenizer(TextModel, IBackgroundTokenizationStore)` (may return null) to `ITokenizationSupport` (moved from P4-23, which could not reference `TextModel` and `ContiguousMultilineTokens`)
 - `src/LoomEditor.Core/Model/Events/ModelTokensChangedEventArgs.cs`, `ModelLanguageChangedEventArgs.cs` — create
 - `tests/LoomEditor.Core.Tests/Model/Tokens/TextModelTokenizationTests.cs` — create
 
