@@ -289,7 +289,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P4-05](phase-4/P4-05-textmate-utils-and-matcher.md) | Helpers (`utils.ts`) and scope selectors (`matcher.ts`) | P4-04 | done |
-| [P4-06](phase-4/P4-06-raw-grammar-json.md) | Raw grammar types and the JSON grammar reader | P4-05 | todo |
+| [P4-06](phase-4/P4-06-raw-grammar-json.md) | Raw grammar types and the JSON grammar reader | P4-05 | done |
 | [P4-07](phase-4/P4-07-plist-grammars.md) | plist grammars (`plist.ts`) | P4-06 | todo |
 | [P4-08](phase-4/P4-08-textmate-theme-parsing.md) | Theme (1/2): scope stacks, theme parsing, color map | P4-07 | todo |
 | [P4-09](phase-4/P4-09-textmate-theme-matching.md) | Theme (2/2): resolving rules and matching scopes | P4-08 | todo |
