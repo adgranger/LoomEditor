@@ -1,6 +1,6 @@
 # P4-25 — Core tokens: `ContiguousTokensEditing` and `ContiguousTokensStore`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-24
 - **Size:** M
 
@@ -27,7 +27,7 @@ lines and text inside a line), and returns `LineTokens` with default tokens for 
   views). `toUint32Array` becomes the identity and is not ported — say so in a comment.
 - `_lineTokens` is a `List<uint[]?>` with Monaco's `_len` (the array may be longer than the number of lines with
   tokens).
-- `acceptEdit` takes `(Range range, int eolCount, int firstLineLength, int lastLineLength, int firstCharCode)` as
+- `acceptEdit` takes `(Range range, int eolCount, int firstLineLength)` as (corrected in P4-25: the pinned commit has only these three)
   Monaco does; the caller (P4-29) computes them with the existing `EolCounter`.
 
 ## Tests
@@ -35,17 +35,17 @@ lines and text inside a line), and returns `LineTokens` with default tokens for 
 No dedicated upstream test file (Monaco covers the store through `model.line.test.ts`, ported in P4-31 and P4-32).
 New:
 
-- [ ] `GetTokens_LineWithoutTokens_ReturnsOneDefaultToken`
-- [ ] `SetTokens_SameTokens_ReportsNoChange`
-- [ ] `AcceptEdit_DeleteAcrossLines_JoinsTokensOfFirstAndLastLine`
-- [ ] `AcceptEdit_InsertLines_ShiftsTokensDown`
+- [x] `GetTokens_LineWithoutTokens_ReturnsOneDefaultToken`
+- [x] `SetTokens_SameTokens_ReportsNoChange`
+- [x] `AcceptEdit_DeleteAcrossLines_JoinsTokensOfFirstAndLastLine`
+- [x] `AcceptEdit_InsertLines_ShiftsTokensDown`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
