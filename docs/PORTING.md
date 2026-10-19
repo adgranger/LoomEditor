@@ -105,6 +105,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | Oniguruma encoding (vscode-oniguruma) | Patterns and subjects are UTF-16 LE, not UTF-8: no UTF-8 copy and no offset maps; offsets are UTF-16 code units directly. An unmatched group is `(-1, -1)` (vscode-oniguruma gives the string length or `4294967295`; the length is 0 in all cases). A start position outside the string is clamped (vscode-oniguruma clamps only non-ASCII strings) | ADR 0007, decision 2 |
 | `OnigScanner` (vscode-oniguruma) | Always the per-regex search with its cache; the `onig_regset_search` branch (strings under 1000 UTF-8 bytes) is not used. It returns the same match | ADR 0007, decision 3 |
 | Raw grammars (vscode-textmate) | JSON grammars are read with `System.Text.Json` (comments and trailing commas allowed), not with `json.ts`; no location metadata (`$vscodeTextmateLocation`), so debug messages cannot point to a grammar line. Properties of the wrong JSON type are ignored; `applyEndPatternLast` is `true` for `true` or a non-zero number | ADR 0008, decision 3 |
+| TextMate themes (vscode-textmate) | No font attributes: `fontFamily`, `fontSize` and `lineHeight` of theme settings are ignored; `StyleAttributes` and `ParsedThemeRule` have no font fields; `FontAttribute`, `FontInfo`, `LineFonts` are not ported, nor the tests `'Fonts are correctly set'` and `'… 2'` | ADR 0008, decision 3 |
 | `tabSize` | `LoomEditor.TabSize` is a dependency property (default 4, Monaco's `EDITOR_MODEL_DEFAULTS.tabSize`); a value < 1 throws `ArgumentOutOfRangeException` and the old value is kept | WinUI property system; fail fast |
 
 ## Map: Monaco → LoomEditor
@@ -213,6 +214,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `src/parseRawGrammar.ts` | `LoomEditor.TextMate/Parsing/RawGrammarReader.cs` | ✅ P4-06 (JSON with `System.Text.Json`), P4-07 (plist) |
 | `src/plist.ts` | `LoomEditor.TextMate/Parsing/` (`PlistParser`, `PlistParser.Values`, `JsNumbers` for `parseInt`/`parseFloat`) | ✅ P4-07: builds a `JsonNode` tree; `parseWithLocation` not ported; `<date>` kept as text |
 | `src/json.ts`, `src/tests/json.test.ts` | — | ❌ not ported (ADR 0008, decision 3) |
+| `src/theme.ts` (`ScopeStack`, `_scopePathMatchesParentScopes`, `_matchesScope`, `StyleAttributes`, `IRawTheme`, `parseTheme`, `ParsedThemeRule`, `FontStyle`, `fontStyleToString`, `ColorMap`) | `LoomEditor.TextMate/Theme/` (`ScopeStack.cs` with `ThemeScopes`, `StyleAttributes`, `RawTheme`, `ThemeParser`, `ParsedThemeRule`, `FontStyle`, `ColorMap`) | 🔶 P4-08, without font attributes; `Theme`, `resolveParsedThemeRules` and the trie come with P4-09 |
+| `src/tests/themes.test.ts` (parsing, `strcmp`, `strArrCmp`) | `LoomEditor.TextMate.Tests/Theme/ThemeParsingTests.cs` | 🔶 P4-08: 3 tests; matching and resolving in P4-09 |
 | `test-cases/first-mate/`, `test-cases/suite1/` | `LoomEditor.TextMate.Tests/TestCases/` | copied byte for byte (P4-06) |
 | `src/tests/matcher.test.ts` | `LoomEditor.TextMate.Tests/Grammar/MatcherTests.cs` | ✅ 27 / 27 |
 
