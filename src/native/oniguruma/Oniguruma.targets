@@ -1,0 +1,47 @@
+<Project>
+  <!--
+    Ships onig.dll (the Oniguruma regex engine) with LoomEditor.TextMate. Imported by LoomEditor.TextMate.csproj.
+
+    - The DLL is artifacts/native/win-<arch>/onig.dll, the output of build.ps1 (git-ignored).
+    - <arch> comes from $(RuntimeIdentifier), then $(Platform), then the architecture of the build machine.
+    - If the DLL is missing, the target LoomBuildOniguruma runs build.ps1 (CMake + MSVC) before the build.
+    - The DLL is copied next to the assemblies of every project that references TextMate (tests, apps, Native AOT
+      publish) and packed as runtimes/win-<arch>/native/onig.dll. The pack includes every architecture already built
+      in artifacts/native (CI downloads x64 and ARM64 before packing).
+    See docs/adr/0008-syntax-highlighting.md (decision 7, findings of P4-01) and src/native/oniguruma/README.md.
+  -->
+  <PropertyGroup>
+    <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and $(RuntimeIdentifier.EndsWith('-arm64'))">arm64</LoomOnigArch>
+    <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and $(RuntimeIdentifier.EndsWith('-x64'))">x64</LoomOnigArch>
+    <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and '$(Platform)' == 'ARM64'">arm64</LoomOnigArch>
+    <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and '$(Platform)' == 'x64'">x64</LoomOnigArch>
+    <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">arm64</LoomOnigArch>
+    <LoomOnigArch Condition="'$(LoomOnigArch)' == ''">x64</LoomOnigArch>
+    <LoomOnigBuildArch Condition="'$(LoomOnigArch)' == 'arm64'">ARM64</LoomOnigBuildArch>
+    <LoomOnigBuildArch Condition="'$(LoomOnigArch)' == 'x64'">x64</LoomOnigBuildArch>
+    <LoomOnigNativeRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..', '..', 'artifacts', 'native'))</LoomOnigNativeRoot>
+    <LoomOnigDll>$(LoomOnigNativeRoot)win-$(LoomOnigArch)\onig.dll</LoomOnigDll>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(LoomOnigDll)" Link="onig.dll" Pack="true" PackagePath="runtimes/win-$(LoomOnigArch)/native" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+    <!-- The other architecture, when it is already built: packed only, never copied. -->
+    <None Include="$(LoomOnigNativeRoot)win-arm64\onig.dll" Pack="true" PackagePath="runtimes/win-arm64/native" Visible="false"
+          Condition="'$(LoomOnigArch)' != 'arm64' and Exists('$(LoomOnigNativeRoot)win-arm64\onig.dll')" />
+    <None Include="$(LoomOnigNativeRoot)win-x64\onig.dll" Pack="true" PackagePath="runtimes/win-x64/native" Visible="false"
+          Condition="'$(LoomOnigArch)' != 'x64' and Exists('$(LoomOnigNativeRoot)win-x64\onig.dll')" />
+  </ItemGroup>
+
+  <!-- BeforeBuild, not Build: Build runs CoreBuild (which copies the DLL) before its BeforeTargets. -->
+  <Target Name="LoomBuildOniguruma" BeforeTargets="BeforeBuild" Condition="!Exists('$(LoomOnigDll)')">
+    <Exec Command="where pwsh" IgnoreExitCode="true" EchoOff="true" StandardOutputImportance="low">
+      <Output TaskParameter="ExitCode" PropertyName="_LoomWherePwshExitCode" />
+    </Exec>
+    <PropertyGroup>
+      <_LoomPowerShell Condition="'$(_LoomWherePwshExitCode)' == '0'">pwsh</_LoomPowerShell>
+      <_LoomPowerShell Condition="'$(_LoomWherePwshExitCode)' != '0'">powershell.exe</_LoomPowerShell>
+    </PropertyGroup>
+    <Message Importance="high" Text="onig.dll ($(LoomOnigArch)) is missing: building it with build.ps1 (CMake + MSVC)." />
+    <Exec Command="$(_LoomPowerShell) -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)build.ps1&quot; -Architecture $(LoomOnigBuildArch)" />
+  </Target>
+</Project>

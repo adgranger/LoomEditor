@@ -12,4 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
   </ItemGroup>
+
+  <!-- Builds (when missing), copies and packs onig.dll. -->
+  <Import Project="..\native\oniguruma\Oniguruma.targets" />
 </Project>

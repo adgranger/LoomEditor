@@ -1,6 +1,6 @@
 # P4-02 — Build and ship `onig.dll` with `LoomEditor.TextMate`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-01
 - **Size:** S (MSBuild + CI, no C# beyond one smoke test)
 
@@ -38,16 +38,16 @@ None to port. `src/native/oniguruma/build.ps1` and `README.md`; `.github/workflo
 
 ## Tests
 
-- [ ] New: `OnigLibrary_IsNextToTheTestAssembly` (`File.Exists(Path.Combine(AppContext.BaseDirectory, "onig.dll"))`)
-- [ ] New: `OnigLibrary_LoadsAndExportsVersion` (`NativeLibrary.TryLoad` + `NativeLibrary.TryGetExport(…, "onig_version")`)
+- [x] New: `OnigLibrary_IsNextToTheTestAssembly` (`File.Exists(Path.Combine(AppContext.BaseDirectory, "onig.dll"))`)
+- [x] New: `OnigLibrary_LoadsAndExportsVersion` (`NativeLibrary.TryLoad` + `NativeLibrary.TryGetExport(…, "onig_version")`)
 
 ## Acceptance criteria
 
-- [ ] After deleting `artifacts/native`, `dotnet build LoomEditor.slnx -c Release` rebuilds the DLL — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — `onig.dll` is in the publish folder, 0 warnings
-- [ ] `dotnet pack src/LoomEditor.TextMate -c Release` — the package contains `runtimes/win-x64/native/onig.dll`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] After deleting `artifacts/native`, `dotnet build LoomEditor.slnx -c Release` rebuilds the DLL — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — `onig.dll` is in the publish folder, 0 warnings
+- [x] `dotnet pack src/LoomEditor.TextMate -c Release` — the package contains `runtimes/win-x64/native/onig.dll`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

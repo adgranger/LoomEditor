@@ -20,12 +20,21 @@ jobs:
   build-and-test:
     name: Build and test
     runs-on: windows-latest
+    needs: [native]
     steps:
       - uses: actions/checkout@v7
 
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+
+      # onig.dll comes from the native job (cached there); without it the build compiles it (CMake + MSVC).
+      - name: Download onig.dll
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
 
       - name: Restore
         run: dotnet restore LoomEditor.slnx
@@ -75,6 +84,7 @@ jobs:
   aot-smoke-test:
     name: Native AOT publish (${{ matrix.rid }})
     runs-on: windows-latest
+    needs: [native]
     strategy:
       matrix:
         rid: [win-x64, win-arm64]
@@ -84,6 +94,13 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+
+      - name: Download onig.dll
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
 
       # Any trimming/AOT warning (IL2xxx, IL3xxx) fails the build: CI=true enables TreatWarningsAsErrors,
       # and the log is also scanned in case a tool reports warnings without honoring that setting.
@@ -121,13 +138,21 @@ jobs:
   pack:
     name: Pack NuGet packages
     runs-on: windows-latest
-    needs: [build-and-test]
+    needs: [build-and-test, native]
     steps:
       - uses: actions/checkout@v7
 
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+
+      # Both architectures, so that the TextMate package carries runtimes/win-x64 and runtimes/win-arm64.
+      - name: Download onig.dll
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
 
       # Packages are built but NOT published: publishing is a manual, reviewed step.
       - name: Pack
