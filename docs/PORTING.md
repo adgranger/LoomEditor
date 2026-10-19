@@ -210,7 +210,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `src/utils.ts` | `LoomEditor.TextMate/Grammar/` (`RegexSource`, `Strings`, `CachedFn`) | 🔶 P4-05: `clone`/`mergeObjects` (methods of the raw types, P4-06), `containsRTL` and `performanceNow` not ported; `OrMask` is a `[Flags]` enum |
 | `src/matcher.ts` | `LoomEditor.TextMate/Grammar/Matcher.cs` | ✅ P4-05 |
 | `src/rawGrammar.ts` | `LoomEditor.TextMate/Parsing/` (`RawGrammar`, `RawRule`, `RawRepository`, `RawCaptures`) | ✅ P4-06, without `ILocation`/`ILocatable`; `clone` is `DeepClone()` |
-| `src/parseRawGrammar.ts` | `LoomEditor.TextMate/Parsing/RawGrammarReader.cs` | 🔶 P4-06: JSON with `System.Text.Json`; plist in P4-07 |
+| `src/parseRawGrammar.ts` | `LoomEditor.TextMate/Parsing/RawGrammarReader.cs` | ✅ P4-06 (JSON with `System.Text.Json`), P4-07 (plist) |
+| `src/plist.ts` | `LoomEditor.TextMate/Parsing/` (`PlistParser`, `PlistParser.Values`, `JsNumbers` for `parseInt`/`parseFloat`) | ✅ P4-07: builds a `JsonNode` tree; `parseWithLocation` not ported; `<date>` kept as text |
 | `src/json.ts`, `src/tests/json.test.ts` | — | ❌ not ported (ADR 0008, decision 3) |
 | `test-cases/first-mate/`, `test-cases/suite1/` | `LoomEditor.TextMate.Tests/TestCases/` | copied byte for byte (P4-06) |
 | `src/tests/matcher.test.ts` | `LoomEditor.TextMate.Tests/Grammar/MatcherTests.cs` | ✅ 27 / 27 |

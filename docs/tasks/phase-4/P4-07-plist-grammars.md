@@ -1,6 +1,6 @@
 # P4-07 — plist grammars (`plist.ts`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-06
 - **Size:** M
 
@@ -34,16 +34,16 @@ VS Code ships one (the JavaScript regex grammar) and several vscode-textmate tes
 
 ## Tests
 
-- [ ] New: `ParsePlistGrammar_EverySuite1PlistFixture_Parses` (theory over the `.plist` and `.tmLanguage` files of `TestCases/suite1/fixtures`)
-- [ ] New: `ParsePlist_EntitiesAndCData_AreDecoded`
-- [ ] New: `ParsePlist_SameGrammarAsJson_GivesEqualRawGrammar` (a small grammar written both ways in the test)
+- [x] New: `ParsePlistGrammar_EverySuite1PlistFixture_Parses` (theory over the `.plist` and `.tmLanguage` files of `TestCases/suite1/fixtures`)
+- [x] New: `ParsePlist_EntitiesAndCData_AreDecoded`
+- [x] New: `ParsePlist_SameGrammarAsJson_GivesEqualRawGrammar` (a small grammar written both ways in the test)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

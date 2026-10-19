@@ -119,9 +119,12 @@ public class RawGrammarReaderTests
     }
 
     [Fact]
-    public void ParseRawGrammar_NotJson_IsNotSupportedYet()
+    public void ParseRawGrammar_NotJson_IsReadAsPlist()
     {
-        Assert.Throws<NotSupportedException>(() => RawGrammarReader.ParseRawGrammar("<plist/>", "a.plist"));
+        const string Plist = "<plist><dict><key>scopeName</key><string>source.p</string></dict></plist>";
+
+        Assert.Equal("source.p", RawGrammarReader.ParseRawGrammar(Plist, "a.tmLanguage").ScopeName);
+        Assert.Equal("source.p", RawGrammarReader.ParseRawGrammar(Plist).ScopeName);
     }
 
     [Fact]
