@@ -1,6 +1,6 @@
 # P4-22 — Port the vscode-textmate tests: `suite1`, `whileTests`, the rest of `grammar.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-21
 - **Size:** M (test code; fix the port until green)
 
@@ -31,15 +31,15 @@ The remaining vscode-textmate tokenization tests pass: the 20 cases of `suite1/t
 
 ## Tests
 
-- [ ] Port: the 20 `suite1` cases and the 9 `whileTests` cases
-- [ ] Port (skipped as upstream): `'Shadowed rules are resolved correctly'`
+- [x] Port: the 20 `suite1` cases and the 9 `whileTests` cases
+- [x] Port (skipped as upstream): `'Shadowed rules are resolved correctly'`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: tests ported and not ported, bugs found and fixed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: tests ported and not ported, bugs found and fixed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
