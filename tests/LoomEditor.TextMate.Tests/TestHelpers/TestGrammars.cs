@@ -39,7 +39,16 @@ internal sealed class FakeGrammarRepository : IGrammarRepositoryAndThemeProvider
 {
     private readonly Dictionary<string, RawGrammar> _grammars = [];
     private readonly Dictionary<string, List<string>> _injections = [];
-    private readonly TextMateTheme _theme = TextMateTheme.CreateFromRawTheme(new RawTheme([]));
+    private readonly TextMateTheme _theme;
+
+    /// <summary>Creates a repository with the given theme (an empty one by default).</summary>
+    public FakeGrammarRepository(RawTheme? theme = null)
+    {
+        _theme = TextMateTheme.CreateFromRawTheme(theme ?? new RawTheme([]));
+    }
+
+    /// <summary>The theme.</summary>
+    public TextMateTheme Theme => _theme;
 
     /// <summary>How many times <see cref="Lookup"/> was called, by scope name.</summary>
     public Dictionary<string, int> LookupCounts { get; } = [];

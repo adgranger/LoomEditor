@@ -1,6 +1,6 @@
 # P4-19 — Grammar (6/6): the tokenization loop, captures, while conditions, `tokenizeLine(2)`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-18
 - **Size:** L — split by concern: `TokenizeString.cs` (loop), `TokenizeString.Captures.cs`, `TokenizeString.While.cs`, `Grammar.Tokenize.cs`
 
@@ -37,21 +37,21 @@ state, `TokenizeLine2` returns binary tokens (metadata) and the end state, with 
 
 New, with `TestGrammars` (the vscode-textmate suites come in P4-21 and P4-22):
 
-- [ ] `TokenizeLine_SimpleMatchRule_ProducesScopes`
-- [ ] `TokenizeLine_BeginEndAcrossLines_KeepsStateAndContentName`
-- [ ] `TokenizeLine_BeginWhile_EndsWhenWhileFails`
-- [ ] `TokenizeLine_NestedCaptures_ProduceNestedScopes`
-- [ ] `TokenizeLine_CaptureWithPatterns_IsRetokenized`
-- [ ] `TokenizeLine_EmptyMatchAtSamePosition_DoesNotLoopForever`
-- [ ] `TokenizeLine2_BinaryTokens_UseThemeColors` (a theme from P4-09)
-- [ ] `TokenizeLine_TimeLimitReached_StopsEarly` (a pathological grammar, time limit 1 ms; check `StoppedEarly`)
+- [x] `TokenizeLine_SimpleMatchRule_ProducesScopes`
+- [x] `TokenizeLine_BeginEndAcrossLines_KeepsStateAndContentName`
+- [x] `TokenizeLine_BeginWhile_EndsWhenWhileFails`
+- [x] `TokenizeLine_NestedCaptures_ProduceNestedScopes`
+- [x] `TokenizeLine_CaptureWithPatterns_IsRetokenized`
+- [x] `TokenizeLine_EmptyMatchAtSamePosition_DoesNotLoopForever`
+- [x] `TokenizeLine2_BinaryTokens_UseThemeColors` (a theme from P4-09)
+- [x] `TokenizeLine_TimeLimitReached_StopsEarly` (a pathological grammar, time limit 1 ms; check `StoppedEarly`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
