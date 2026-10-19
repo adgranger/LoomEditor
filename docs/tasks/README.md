@@ -293,7 +293,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-07](phase-4/P4-07-plist-grammars.md) | plist grammars (`plist.ts`) | P4-06 | done |
 | [P4-08](phase-4/P4-08-textmate-theme-parsing.md) | Theme (1/2): scope stacks, theme parsing, color map | P4-07 | done |
 | [P4-09](phase-4/P4-09-textmate-theme-matching.md) | Theme (2/2): resolving rules and matching scopes | P4-08 | done |
-| [P4-10](phase-4/P4-10-textmate-encoded-attributes.md) | Token metadata (`encodedTokenAttributes.ts`) | P4-09 | todo |
+| [P4-10](phase-4/P4-10-textmate-encoded-attributes.md) | Token metadata (`encodedTokenAttributes.ts`) | P4-09 | done |
 
 ### Step C — vscode-textmate rules, grammar and tokenizer
 
