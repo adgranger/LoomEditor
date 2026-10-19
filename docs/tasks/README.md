@@ -319,7 +319,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-23](phase-4/P4-23-core-token-types.md) | Token metadata, tokenization interfaces, null tokenizer, language ids, registry | P4-22 | done |
 | [P4-24](phase-4/P4-24-line-tokens.md) | `LineTokens` and `IViewLineTokens` | P4-23 | done |
 | [P4-25](phase-4/P4-25-contiguous-tokens-store.md) | `ContiguousTokensEditing` and `ContiguousTokensStore` | P4-24 | done |
-| [P4-26](phase-4/P4-26-contiguous-multiline-tokens.md) | `ContiguousMultilineTokens` and its builder | P4-25 | todo |
+| [P4-26](phase-4/P4-26-contiguous-multiline-tokens.md) | `ContiguousMultilineTokens` and its builder | P4-25 | done |
 | [P4-27](phase-4/P4-27-state-stores-and-priority-queue.md) | `FixedArray`, state stores, `RangePriorityQueueImpl` | P4-26 | todo |
 | [P4-28](phase-4/P4-28-tokenizer-with-state-store.md) | `TokenizerWithStateStore(AndTextModel)`, `DefaultBackgroundTokenizer` | P4-27 | todo |
 | [P4-29](phase-4/P4-29-text-model-tokenization.md) | `TextModel` tokenization (1/2): language id, backend, `TokensChanged` | P4-28 | todo |

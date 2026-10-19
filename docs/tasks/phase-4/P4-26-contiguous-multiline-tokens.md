@@ -1,6 +1,6 @@
 # P4-26 — Core tokens: `ContiguousMultilineTokens` and its builder
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-25
 - **Size:** M
 
@@ -26,7 +26,7 @@ P4-38).
 ## Design decisions (already made — do not change)
 
 - `getLineRange` (which returns Monaco's `LineRange`) is not ported; callers use `StartLineNumber` / `EndLineNumber`.
-- `applyEdit(IModelContentChange change, string text)` takes a `ModelContentChange` (the existing Core record) and
+- `ApplyEdit(Range range, string text)` as upstream (corrected in P4-26: the pinned commit takes a range and a text) and
   uses `EolCounter`, as upstream uses `countEOL`.
 - A block is mutated only by its owner thread; once posted to the UI thread (P4-37), the worker never touches it again
   (remarks).
@@ -35,17 +35,17 @@ P4-38).
 
 No upstream unit tests. New:
 
-- [ ] `Builder_ConsecutiveLines_GoInOneBlock`, `…_Gap_StartsANewBlock`
-- [ ] `ApplyEdit_InsertLineBeforeBlock_ShiftsBlock`
-- [ ] `ApplyEdit_DeleteInsideBlock_RemovesLines`
-- [ ] `ApplyEdit_EditInsideALine_EditsItsTokens`
+- [x] `Builder_ConsecutiveLines_GoInOneBlock`, `…_Gap_StartsANewBlock`
+- [x] `ApplyEdit_InsertLineBeforeBlock_ShiftsBlock`
+- [x] `ApplyEdit_DeleteInsideBlock_RemovesLines`
+- [x] `ApplyEdit_EditInsideALine_EditsItsTokens`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": no serialization
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated; "Behavior differences": no serialization
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
