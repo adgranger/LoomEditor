@@ -1,6 +1,6 @@
 # P4-23 — Core tokens: metadata, tokenization interfaces, null tokenizer, language ids, registry
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-22
 - **Size:** M
 
@@ -43,18 +43,18 @@ language id codec, and a tokenization registry **instance**.
 
 No upstream unit tests for these files. New:
 
-- [ ] `TokenMetadata_Getters_ReadEachField` (build metadata with the `MetadataConsts` offsets)
-- [ ] `TokenMetadata_GetPresentation_FontStyles`
-- [ ] `NullTokenizeEncoded_OneTokenWithDefaultMetadata`
-- [ ] `LanguageIdCodec_UnknownLanguage_EncodesToNull_AndDecodesToNullLanguage`
-- [ ] `TokenizationRegistry_RegisterAndSetColorMap_RaiseChanged`
+- [x] `TokenMetadata_Getters_ReadEachField` (build metadata with the `MetadataConsts` offsets)
+- [x] `TokenMetadata_GetPresentation_FontStyles`
+- [x] `NullTokenizeEncoded_OneTokenWithDefaultMetadata`
+- [x] `LanguageIdCodec_UnknownLanguage_EncodesToNull_AndDecodesToNullLanguage`
+- [x] `TokenizationRegistry_RegisterAndSetColorMap_RaiseChanged`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": registry instance, no lazy factories, no CSS class names
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated; "Behavior differences": registry instance, no lazy factories, no CSS class names
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
