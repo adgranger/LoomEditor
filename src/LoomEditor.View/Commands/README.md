@@ -6,6 +6,12 @@
 Command ids are declared as constants in the `<Name>Commands.cs` file of the feature that owns them.
 See docs/how-to/add-a-command.md.
 
+## Core commands
+
+`CoreNavigationCommands` (moves, selections, scrolling, mouse, column selection) and `CoreEditingCommands` (type, delete,
+Tab, Enter, undo, redo, cut, paste) are Monaco's `coreCommands.ts`. `CoreCommandRegistration` registers them on a
+`CommandRegistry`; each is an `EditorCommand` that runs on the `ViewModel` of the editor.
+
 ## Keybindings
 
 `DefaultKeybindings.Windows` lists VS Code's default Windows shortcuts for the commands ported so far, and
