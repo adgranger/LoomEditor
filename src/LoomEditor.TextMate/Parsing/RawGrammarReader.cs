@@ -28,7 +28,7 @@ internal static class RawGrammarReader
         AllowTrailingCommas = true,
     };
 
-    /// <summary><c>parseRawGrammar</c>: a <c>.json</c> path is read as JSON, anything else as a plist.</summary>
+    /// <summary><c>parseRawGrammar</c>: a <c>.json</c> path is read as JSON, anything else (or no path) as a plist.</summary>
     /// <exception cref="JsonException">The JSON is malformed.</exception>
     /// <exception cref="FormatException">The root is not an object.</exception>
     public static RawGrammar ParseRawGrammar(string content, string? filePath = null)
@@ -38,8 +38,14 @@ internal static class RawGrammarReader
             return ParseJsonGrammar(content, filePath);
         }
 
-        // parsePLISTGrammar: P4-07.
-        throw new NotSupportedException($"plist grammars are not supported yet: {filePath}");
+        return ParsePlistGrammar(content, filePath);
+    }
+
+    /// <summary><c>parsePLISTGrammar</c>.</summary>
+    /// <exception cref="FormatException">The plist is malformed, or its root is not a dictionary.</exception>
+    public static RawGrammar ParsePlistGrammar(string contents, string? filename)
+    {
+        return FromNode(PlistParser.Parse(contents), filename);
     }
 
     /// <summary><c>parseJSONGrammar</c>.</summary>
