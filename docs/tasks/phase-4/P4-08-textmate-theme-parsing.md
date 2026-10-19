@@ -1,6 +1,6 @@
 # P4-08 — vscode-textmate theme (1/2): scope stacks, theme parsing, color map
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-07
 - **Size:** M
 
@@ -38,16 +38,16 @@ the color map gives each color an id.
 
 ## Tests
 
-- [ ] Port: `'Theme parsing can parse'`, `'Theme resolving strcmp works'`, `'Theme resolving strArrCmp works'` (check the exact names in the file)
-- [ ] New: `ScopeStack_Extends_And_GetSegments`
-- [ ] New: `ColorMap_Frozen_ThrowsOnUnknownColor` (upstream throws `Missing color in color map`)
+- [x] Port: `'Theme parsing can parse'`, `'Theme resolving strcmp works'`, `'Theme resolving strArrCmp works'` (check the exact names in the file)
+- [x] New: `ScopeStack_Extends_And_GetSegments`
+- [x] New: `ColorMap_Frozen_ThrowsOnUnknownColor` (upstream throws `Missing color in color map`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": no font attributes
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated; "Behavior differences": no font attributes
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
