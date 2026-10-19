@@ -19,5 +19,6 @@ require writing C#.
 
 ## Rules
 
-- Grammars are loaded with a source-generated `JsonSerializerContext` (no reflection; Native AOT).
-- Regexes in grammars use the Oniguruma syntax and run through `IRegexEngine` (see ADR 0001 about Oniguruma's status).
+- Grammars are read with `System.Text.Json.Nodes.JsonNode` (no serializer, no reflection; Native AOT) — ADR 0008, decision 3.
+- Regexes in grammars use the Oniguruma syntax and run through `IRegexEngine` (native Oniguruma 6.9.10, ADR 0007).
+- The plan for phase 4 is in `docs/tasks/README.md` (cards P4-34, P4-35, P4-47, P4-48 make this workflow real).
