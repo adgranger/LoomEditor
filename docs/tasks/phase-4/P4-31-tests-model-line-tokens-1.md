@@ -1,6 +1,6 @@
 # P4-31 — Port `model.line.test.ts` › `ModelLinesTokens` (1/2): deletes, inserts, updates on insertion
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-30
 - **Size:** M (test code; fix the port until green)
 
@@ -30,16 +30,16 @@ The first half of Monaco's token-editing tests passes: tokens follow single and 
 
 ## Tests
 
-- [ ] Port: `'single delete 1'` … `'single delete 5'`, `'multi delete 6'` … `'multi delete 9'`,
+- [x] Port: `'single delete 1'` … `'single delete 5'`, `'multi delete 6'` … `'multi delete 9'`,
       `'single insert 1'` … `'single insert 5'`, `'multi insert 6'` … `'multi insert 9'`,
       `'insertion on empty line'`, `'updates tokens on insertion 1'` … `'updates tokens on insertion 10'`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: ported tests and bugs found listed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: ported tests and bugs found listed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -48,3 +48,9 @@ The second half (P4-32).
 ## Suggested commit message
 
 `test(core): port the model line token tests (1/2)`
+
+## Notes (done)
+
+- 29 tests ported, all green on the first run: no bug found in the port.
+- `assertLineTokens` compares the foreground of each token instead of Monaco's `getClassName` (CSS class, not ported;
+  it only encodes the foreground here).
