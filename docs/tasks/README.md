@@ -254,7 +254,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P3-54](phase-3/P3-54-gallery-editing-demo.md) | Gallery: editing demo and the phase 3 manual test list | P3-53 | todo |
+| [P3-54](phase-3/P3-54-gallery-editing-demo.md) | Gallery: editing demo and the phase 3 manual test list | P3-53 | done |
 | [P3-55](phase-3/P3-55-close-phase-3.md) | Close phase 3 | all | todo |
 
 Phase 3 cards form a single chain, in table order: each card builds on the one before it. P3-48 (IME spike) and the

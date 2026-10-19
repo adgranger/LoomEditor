@@ -6,23 +6,26 @@ LoomEditor.WinUI.Controls.LoomEditor
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.WinUI.Controls.LoomEditor.Features.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
 LoomEditor.WinUI.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.SelectionChanged -> System.EventHandler?
+LoomEditor.WinUI.Controls.LoomEditor.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
+LoomEditor.WinUI.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
+LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.TabSize.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.TabSize.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.Text.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
-static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
-LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.get -> bool
-LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.set -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
-LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.get -> bool
-LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.set -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
-LoomEditor.WinUI.Controls.LoomEditor.TabSize.get -> int
-LoomEditor.WinUI.Controls.LoomEditor.TabSize.set -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!

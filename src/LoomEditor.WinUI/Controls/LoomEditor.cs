@@ -112,6 +112,20 @@ public sealed partial class LoomEditor : Control
     /// <remarks>Threading: use it on the UI thread only, like the control.</remarks>
     public Core.Model.TextModel Model => _context.Model;
 
+    /// <summary>The selections of the cursors; the first one is the primary selection.</summary>
+    public IReadOnlyList<Core.Text.Selection> Selections => _context.Selections;
+
+    /// <summary>Replaces the selections, i.e. the cursors. There must be at least one.</summary>
+    /// <param name="selections">The new selections.</param>
+    public void SetSelections(IReadOnlyList<Core.Text.Selection> selections) => _context.SetSelections(selections);
+
+    /// <summary>Raised after the selections changed.</summary>
+    public event EventHandler? SelectionChanged
+    {
+        add => _context.SelectionChanged += value;
+        remove => _context.SelectionChanged -= value;
+    }
+
     /// <summary>The commands of this editor, e.g. to run <c>editor.action.selectAll</c> from a menu.</summary>
     public View.Commands.CommandRegistry Commands => _context.Commands;
 
