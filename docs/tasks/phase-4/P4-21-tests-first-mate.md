@@ -1,6 +1,6 @@
 # P4-21 — Port the vscode-textmate tokenization tests: `first-mate` suite
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-20
 - **Size:** M (test code; fix the port until green)
 
@@ -34,14 +34,14 @@ The 64 cases of `test-cases/first-mate/tests.json` run against our tokenizer, ex
 
 ## Tests
 
-- [ ] Port: the 64 `first-mate` cases (`tokenization.test.ts` › `test(tst.desc)`)
+- [x] Port: the 64 `first-mate` cases (`tokenization.test.ts` › `test(tst.desc)`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: tests ported, bugs found and fixed (one line each)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: tests ported, bugs found and fixed (one line each)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
