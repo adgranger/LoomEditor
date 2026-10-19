@@ -1,6 +1,6 @@
 # P4-24 — Core tokens: `LineTokens` and `IViewLineTokens`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-23
 - **Size:** M
 
@@ -34,15 +34,15 @@ The tokens of one model line exist as Monaco's `LineTokens` (end offset + metada
 
 ## Tests
 
-- [ ] Port: `'withInserted 1'`, `'withInserted (tokens at the same position)'`, `'withInserted (tokens at the end)'`,
+- [x] Port: `'withInserted 1'`, `'withInserted (tokens at the same position)'`, `'withInserted (tokens at the end)'`,
       `'basics'`, `'findToken'`, `'inflate'`, `'sliceAndInflate'` (exact names from the file)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map and ported-tests list updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map and ported-tests list updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
