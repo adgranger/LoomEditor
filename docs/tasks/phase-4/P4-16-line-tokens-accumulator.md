@@ -1,6 +1,6 @@
 # P4-16 — Grammar (3/6): the token accumulator (`LineTokens` of vscode-textmate)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-15
 - **Size:** M
 
@@ -35,17 +35,17 @@ metadata pairs (`uint[]`, for `tokenizeLine2`), with vscode-textmate's merging a
 
 No upstream unit tests. New:
 
-- [ ] `GetResult_LastTokenIsExtendedToLineLength`
-- [ ] `GetBinaryResult_ConsecutiveTokensWithSameMetadata_AreMerged`
-- [ ] `Produce_TokenTypeOverride_SetsStandardTokenType`
-- [ ] `Produce_BalancedBracketSelector_SetsBracketBit`
+- [x] `GetResult_LastTokenIsExtendedToLineLength`
+- [x] `GetBinaryResult_ConsecutiveTokensWithSameMetadata_AreMerged`
+- [x] `Produce_TokenTypeOverride_SetsStandardTokenType`
+- [x] `Produce_BalancedBracketSelector_SetsBracketBit`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -1,35 +1,13 @@
 using LoomEditor.TextMate.Grammar;
-using LoomEditor.TextMate.Theme;
+using LoomEditor.TextMate.Tests.TestHelpers;
 
 namespace LoomEditor.TextMate.Tests.Grammar;
 
 public class StateStackTests
 {
-    private sealed class NoThemeContext : IScopeAttributesContext, IThemeProvider
-    {
-        private readonly BasicScopeAttributesProvider _provider = new(1, null);
+    private static readonly NoThemeScopeContext Grammar = new();
 
-        public IThemeProvider ThemeProvider => this;
-
-        public BasicScopeAttributes GetMetadataForScope(string scopeName) => _provider.GetBasicScopeAttributes(scopeName);
-
-        public StyleAttributes? ThemeMatch(ScopeStack scopePath) => null;
-
-        public StyleAttributes GetDefaults() => new(FontStyle.None, 0, 0);
-    }
-
-    private static readonly NoThemeContext Grammar = new();
-
-    private static AttributedScopeStack Scopes(params string[] names)
-    {
-        AttributedScopeStack stack = AttributedScopeStack.CreateRootAndLookUpScopeName("source.x", 0, Grammar);
-        foreach (string name in names)
-        {
-            stack = stack.PushAttributed(name, Grammar);
-        }
-
-        return stack;
-    }
+    private static AttributedScopeStack Scopes(params string[] names) => Grammar.Scopes(names);
 
     private static StateStackImpl PushRule(StateStackImpl stack, int ruleId, string? endRule = null, params string[] scopes)
     {
