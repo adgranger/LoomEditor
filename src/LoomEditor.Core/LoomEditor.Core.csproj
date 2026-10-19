@@ -11,6 +11,9 @@
   <ItemGroup>
     <!-- The cursor (LoomEditor.View) uses the internal members of the model: tracked ranges, strings, columns, words. -->
     <InternalsVisibleTo Include="LoomEditor.View" />
+    <!-- The TextMate tokenization support implements Core's ITokenizationSupport / IState. -->
+    <InternalsVisibleTo Include="LoomEditor.TextMate" />
+    <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <InternalsVisibleTo Include="LoomEditor.View.Tests" />
   </ItemGroup>
 </Project>
