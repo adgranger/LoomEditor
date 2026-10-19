@@ -1,6 +1,6 @@
 # P4-32 — Port `model.line.test.ts` (2/2) and the token regressions of `textModelWithTokens.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-31
 - **Size:** M (test code; fix the port until green)
 
@@ -30,22 +30,22 @@ regression tests of `textModelWithTokens.test.ts`.
 
 ## Tests
 
-- [ ] Port: `'delete second token 2'`, `'insert right before second token'`, `'delete first char'`,
+- [x] Port: `'delete second token 2'`, `'insert right before second token'`, `'delete first char'`,
       `'delete 2nd and 3rd chars'`, `'delete first token'`, `'delete second token'`,
       `'delete second token + a bit of the third one'`, `'delete second and third token'`, `'delete everything'`,
       `'noop'`, `'equivalent to deleting first two chars'`, `'equivalent to deleting from 5 to the end'`,
       `'updates tokens on replace 1'`, `'… 2'`, `'split at the beginning'`, `'split at the end'`,
       `'split inthe middle 1'`, `'split inthe middle 2'`, `'append empty 1'`, `'append empty 2'`, `'append 1'` … `'append 3'`
-- [ ] Port (exact names from the file; they start like this): `'microsoft/monaco-editor#122…'` (line 548),
+- [x] Port (exact names from the file; they start like this): `'microsoft/monaco-editor#122…'` (line 548),
       `'microsoft/monaco-editor#133…'` (623), `'issue #11856…'` (651) **only if** it needs no bracket matching
       (otherwise list it as phase 5), `'issue #63822: Wrong embedded language detected for empty lines'` (674)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: ported tests, tests left for phase 5, bugs found
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: ported tests, tests left for phase 5, bugs found
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -54,3 +54,8 @@ Bracket and indent-guide suites (phase 5).
 ## Suggested commit message
 
 `test(core): port the model line token tests (2/2) and token regressions`
+
+## Notes (done)
+
+- 25 `model.line` tests and 2 regression tests ported, all green on the first run: no bug found in the port.
+- `'microsoft/monaco-editor#133'` and `'issue #11856'` both call `bracketPairs.matchBracket`: left for phase 5.

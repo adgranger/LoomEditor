@@ -325,7 +325,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-29](phase-4/P4-29-text-model-tokenization.md) | `TextModel` tokenization (1/2): language id, backend, `TokensChanged` | P4-28 | done |
 | [P4-30](phase-4/P4-30-attached-views-and-model-modes.md) | `TextModel` tokenization (2/2): attached views, size limits, `model.modes.test.ts` | P4-29 | done |
 | [P4-31](phase-4/P4-31-tests-model-line-tokens-1.md) | Tests: `model.line.test.ts` (1/2) | P4-30 | done |
-| [P4-32](phase-4/P4-32-tests-model-line-tokens-2.md) | Tests: `model.line.test.ts` (2/2), token regressions | P4-31 | todo |
+| [P4-32](phase-4/P4-32-tests-model-line-tokens-2.md) | Tests: `model.line.test.ts` (2/2), token regressions | P4-31 | done |
 
 ### Step E — TextMate meets the model: languages, grammars, background thread
 
