@@ -77,8 +77,8 @@ public class OnigScannerTests
         AssertMatch(scanner.FindNextMatchSync("X\uDFFFX", 1), 0, (2, 3));
         AssertMatch(scanner.FindNextMatchSync("X\uDFFFX", 2), 0, (2, 3));
         // These are actually valid, just testing the min & max
-        AssertMatch(scanner.FindNextMatchSync("X𐀀X", 2), 0, (3, 4));
-        AssertMatch(scanner.FindNextMatchSync("X􏿿X", 2), 0, (3, 4));
+        AssertMatch(scanner.FindNextMatchSync("X" + (char)0xD800 + (char)0xDC00 + "X", 2), 0, (3, 4));
+        AssertMatch(scanner.FindNextMatchSync("X" + (char)0xDBFF + (char)0xDFFF + "X", 2), 0, (3, 4));
     }
 
     // vscode-oniguruma: 'out of bounds'

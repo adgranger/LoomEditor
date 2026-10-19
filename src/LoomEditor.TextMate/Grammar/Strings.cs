@@ -88,6 +88,22 @@ internal static partial class Strings
         return HexColor().IsMatch(hex);
     }
 
+    /// <summary>
+    /// JavaScript's <c>String.prototype.substring</c>: both ends clamped to [0, length], swapped when start &gt; end
+    /// (an unmatched group (-1, -1) gives "").
+    /// </summary>
+    public static string JsSubstring(string value, int start, int end)
+    {
+        start = Math.Clamp(start, 0, value.Length);
+        end = Math.Clamp(end, 0, value.Length);
+        if (start > end)
+        {
+            (start, end) = (end, start);
+        }
+
+        return value[start..end];
+    }
+
     /// <summary><c>escapeRegExpCharacters</c>: escapes regular expression characters in a given string.</summary>
     public static string EscapeRegExpCharacters(string value)
     {

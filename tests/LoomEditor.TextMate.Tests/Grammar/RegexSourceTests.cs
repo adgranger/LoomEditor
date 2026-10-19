@@ -31,11 +31,18 @@ public class RegexSourceTests
     [InlineData("${12:/upcase}", true)]
     [InlineData("${1:/capitalize}", false)]
     [InlineData("$x", false)]
-    [InlineData("$٣", false)]
     [InlineData(null, false)]
     public void RegexSource_HasCaptures_IsAsciiDigitsOnly(string? source, bool expected)
     {
         Assert.Equal(expected, RegexSource.HasCaptures(source));
+    }
+
+    [Fact]
+    public void RegexSource_HasCaptures_IgnoresNonAsciiDigits()
+    {
+        const char ArabicIndicDigitThree = (char)0x0663;
+
+        Assert.False(RegexSource.HasCaptures("$" + ArabicIndicDigitThree));
     }
 
     [Theory]
