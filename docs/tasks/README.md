@@ -282,7 +282,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-01](phase-4/P4-01-aot-resources-spike.md) | Spike: embedded resources and a native DLL in the Native AOT Gallery | P3-55 | done |
 | [P4-02](phase-4/P4-02-ship-onig-dll.md) | Build and ship `onig.dll` with `LoomEditor.TextMate` | P4-01 | done |
 | [P4-03](phase-4/P4-03-oniguruma-interop.md) | Oniguruma interop: `[LibraryImport]`, safe handles, one compiled regex | P4-02 | done |
-| [P4-04](phase-4/P4-04-onig-scanner.md) | `OnigScanner`, `OnigString` and `IOnigLib` (vscode-oniguruma tests) | P4-03 | todo |
+| [P4-04](phase-4/P4-04-onig-scanner.md) | `OnigScanner`, `OnigString` and `IOnigLib` (vscode-oniguruma tests) | P4-03 | done |
 
 ### Step B — vscode-textmate building blocks
 

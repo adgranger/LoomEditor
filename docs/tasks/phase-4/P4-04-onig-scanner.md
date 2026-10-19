@@ -1,6 +1,6 @@
 # P4-04 — `OnigScanner`, `OnigString` and vscode-textmate's `IOnigLib`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-03
 - **Size:** M
 
@@ -45,18 +45,18 @@ vscode-oniguruma test suite passes against it.
 
 ## Tests
 
-- [ ] Port: vscode-oniguruma `'simple1'`, `'simple2'`, `'unicode1'`, `'unicode2'`, `'unicode3'`, `'unicode4'`,
+- [x] Port: vscode-oniguruma `'simple1'`, `'simple2'`, `'unicode1'`, `'unicode2'`, `'unicode3'`, `'unicode4'`,
       `'out of bounds'`, `'regex with \G'`, `'kkos/oniguruma#192'`, `'FindOption.FIND_NOT_BEGIN_POSITION'`,
       `'FindOption.FIND_NOT_BEGIN_STRING'`, `'FindOption.FIND_NOT_END_STRING'` (use the exact names from the file)
-- [ ] New: `FindNextMatch_TwoPatternsSameStart_LowestIndexWins`
-- [ ] New: `FindNextMatch_CachedResult_IsReusedForALaterPosition` (same string, two calls; check the result, not the cache internals)
+- [x] New: `FindNextMatch_TwoPatternsSameStart_LowestIndexWins`
+- [x] New: `FindNextMatch_CachedResult_IsReusedForALaterPosition` (same string, two calls; check the result, not the cache internals)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map updated; "Behavior differences": UTF-16 encoding (no UTF-8 mapping), no regset branch
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map updated; "Behavior differences": UTF-16 encoding (no UTF-8 mapping), no regset branch
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

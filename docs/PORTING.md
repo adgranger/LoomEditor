@@ -102,6 +102,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | Line rendering | `TextViewRenderer` draws on a canvas the size of the viewport; there is no `viewLineRenderer.ts` HTML output, no `CharacterMapping`; a cache of line layouts keyed by the text of the line replaces `ViewLine` invalidation; only `stopRenderingLineAfter` (10,000) and its "Show more" label are ported | ADR 0005 (decisions 1, 4 and 5) |
 | `CursorBlinking` | The CSS-animated styles `Smooth`, `Phase` and `Expand` behave like `Blink`; only the `Line` cursor style is drawn; no timer inside (the control ticks it with a `DispatcherQueueTimer`); no secondary cursors | No CSS animations on a canvas; multi-cursor is phase 3 |
 | Line numbers and line highlight | Drawn on the canvas; only `RenderLineNumbersType.On`, `renderFinalNewline = on`, and `renderLineHighlight` `none` / `gutter` / `line` / `all` with `renderLineHighlightOnlyWhenFocus = false` | No relative or interval numbers or decorations yet |
+| Oniguruma encoding (vscode-oniguruma) | Patterns and subjects are UTF-16 LE, not UTF-8: no UTF-8 copy and no offset maps; offsets are UTF-16 code units directly. An unmatched group is `(-1, -1)` (vscode-oniguruma gives the string length or `4294967295`; the length is 0 in all cases). A start position outside the string is clamped (vscode-oniguruma clamps only non-ASCII strings) | ADR 0007, decision 2 |
+| `OnigScanner` (vscode-oniguruma) | Always the per-regex search with its cache; the `onig_regset_search` branch (strings under 1000 UTF-8 bytes) is not used. It returns the same match | ADR 0007, decision 3 |
 | `tabSize` | `LoomEditor.TabSize` is a dependency property (default 4, Monaco's `EDITOR_MODEL_DEFAULTS.tabSize`); a value < 1 throws `ArgumentOutOfRangeException` and the old value is kept | WinUI property system; fail fast |
 
 ## Map: Monaco → LoomEditor
@@ -193,7 +195,17 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 
 | vscode-oniguruma file | LoomEditor file | Status |
 |---|---|---|
-| `src/onig.cc` (`OnigRegExp`: `createOnigRegExp`, `hasGAnchor`, `_searchOnigRegExp`, `encodeOnigRegion`, `getLastOnigError`) | `LoomEditor.TextMate/Oniguruma/` (`OnigRegex`, `OnigMatch`, `OnigSearchOptions`, `OnigException`; native side: `OnigNative`, `OnigLibrary`, `OnigRegexHandle`, `OnigRegionHandle`) | 🔶 P4-03: one regex, UTF-16 LE instead of UTF-8 (ADR 0007, decision 2); the search cache and the scanner come with P4-04 |
+| `src/onig.cc` (`OnigRegExp`: `createOnigRegExp`, `hasGAnchor`, `_searchOnigRegExp`, `encodeOnigRegion`, `getLastOnigError`) | `LoomEditor.TextMate/Oniguruma/` (`OnigRegex`, `OnigSearchOptions`, `OnigException`; native side: `OnigNative`, `OnigLibrary`, `OnigRegexHandle`, `OnigRegionHandle`) | ✅ P4-03, UTF-16 LE instead of UTF-8 (ADR 0007, decision 2) |
+| `src/onig.cc` (`searchOnigRegExp`, `createOnigScanner`, `freeOnigScanner`, `toOnigOption`, `findNextOnigScannerMatch`) | `LoomEditor.TextMate/Oniguruma/OnigScanner.cs` | ✅ P4-04, per-regex branch only (no `onig_regset_*`) |
+| `src/index.ts` (`FindOption`, `OnigString`, `OnigScanner`) | `LoomEditor.TextMate/Oniguruma/` (`OnigString`, `OnigScanner`) | ✅ P4-04, no UTF-8 buffers or offset maps; `loadWASM` not ported |
+| `src/test/index.test.ts` | `LoomEditor.TextMate.Tests/Oniguruma/OnigScannerTests.cs` | ✅ 12 / 12 |
+
+### vscode-textmate (`25b68dad91920b1ed79d357534b8c4582f62d80d`, v9.3.2)
+
+| vscode-textmate file | LoomEditor file | Status |
+|---|---|---|
+| `src/onigLib.ts` | `LoomEditor.TextMate/Oniguruma/` (`IOnigLib`, `IOnigScanner`, `IOnigString`, `OnigMatch.cs`, `FindOption`) | ✅ P4-04; `disposeOnigString` is `IDisposable.Dispose` |
+| `src/tests/onigLibs.ts` | `LoomEditor.TextMate.Tests/TestHelpers/OnigTestLib.cs` | ✅ P4-04 (synchronous) |
 
 ## Monaco tests ported in phases 1 and 3
 
