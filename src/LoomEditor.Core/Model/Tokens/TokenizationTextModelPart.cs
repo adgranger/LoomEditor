@@ -12,14 +12,11 @@ namespace LoomEditor.Core.Model.Tokens;
 /// <c>TokenizationTextModelPart</c> / <c>ITokenizationTextModelPart</c>). Not ported: semantic tokens, tree-sitter,
 /// font tokens, word helpers (<c>getWordAtPosition</c>...), language configuration events, bracket pairs (phase 5).
 /// </summary>
-/// <remarks>
-/// Threading: UI thread only. <see cref="IsAttachedToEditor"/> is a plain flag until P4-30 replaces it by attached views.
-/// </remarks>
+/// <remarks>Threading: UI thread only.</remarks>
 internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
 {
     private readonly TextModel _model;
     private readonly TokenizerSyntaxTokenBackend _tokens;
-    private bool _isAttachedToEditor;
 
     /// <summary>Creates the part of <paramref name="model"/>, whose buffer must already exist.</summary>
     public TokenizationTextModelPart(
@@ -27,29 +24,19 @@ internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
         string languageId,
         TokenizationRegistry registry,
         ILanguageIdCodec languageIdCodec,
-        ITokenizationScheduler? scheduler)
+        ITokenizationScheduler? scheduler,
+        AttachedViews attachedViews)
     {
         _model = model;
         LanguageId = languageId;
-        _tokens = new TokenizerSyntaxTokenBackend(languageIdCodec, model, registry, this, scheduler, model.RaiseTokensChanged);
+        _tokens = new TokenizerSyntaxTokenBackend(languageIdCodec, model, registry, this, scheduler, attachedViews, model.RaiseTokensChanged);
     }
 
     /// <summary><c>getLanguageId</c>.</summary>
     public string LanguageId { get; private set; }
 
     /// <summary>Whether the model is attached to an editor (background tokenization only runs then).</summary>
-    public bool IsAttachedToEditor
-    {
-        get => _isAttachedToEditor;
-        set
-        {
-            if (_isAttachedToEditor != value)
-            {
-                _isAttachedToEditor = value;
-                HandleDidChangeAttached();
-            }
-        }
-    }
+    public bool IsAttachedToEditor => _model.IsAttachedToEditor;
 
     /// <summary><c>backgroundTokenizationState</c>.</summary>
     public BackgroundTokenizationState BackgroundTokenizationState => _tokens.BackgroundTokenizationState;

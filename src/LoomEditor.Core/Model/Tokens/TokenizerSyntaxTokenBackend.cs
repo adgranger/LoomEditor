@@ -12,8 +12,8 @@ namespace LoomEditor.Core.Model.Tokens;
 /// <summary>
 /// The syntax tokens of a model, computed by the <see cref="ITokenizationSupport"/> of its language (Monaco:
 /// <c>TokenizerSyntaxTokenBackend</c> merged with <c>AbstractSyntaxTokenBackend</c>: there is no other backend). Not
-/// ported: attached views and the viewport refresh (P4-30), the size limit (P4-30), the verify-only debug path,
-/// <c>onDidChangeBackgroundTokenizationState</c> (bracket pairs, phase 5), font tokens.
+/// ported: the verify-only debug path, <c>onDidChangeBackgroundTokenizationState</c> (bracket pairs, phase 5), font
+/// tokens.
 /// </summary>
 /// <remarks>
 /// Threading: not thread-safe. Differences from Monaco: without a scheduler, the default background tokenizer is not
@@ -34,6 +34,7 @@ internal sealed class TokenizerSyntaxTokenBackend
     // Zero or one tokenizer (Monaco: a MutableDisposable). A list, because the analyzer rejects a disposable field in a
     // type that is not disposable, and disposal of the model is not ported yet.
     private readonly List<IBackgroundTokenizer> _backgroundTokenizers = [];
+    private readonly Dictionary<IAttachedView, AttachedViewHandler> _attachedViewStates = [];
 
     /// <summary>Creates the backend and starts tokenizing with the support registered for the language.</summary>
     public TokenizerSyntaxTokenBackend(
@@ -42,6 +43,7 @@ internal sealed class TokenizerSyntaxTokenBackend
         TokenizationRegistry registry,
         ITokenizationModelInfo modelInfo,
         ITokenizationScheduler? scheduler,
+        AttachedViews attachedViews,
         Action<ModelTokensChangedEventArgs> raiseTokensChanged)
     {
         _languageIdCodec = languageIdCodec;
@@ -59,6 +61,8 @@ internal sealed class TokenizerSyntaxTokenBackend
                 ResetTokenization();
             }
         };
+
+        attachedViews.VisibleRangesChanged += HandleVisibleRangesChanged;
 
         ResetTokenization();
     }
@@ -89,33 +93,105 @@ internal sealed class TokenizerSyntaxTokenBackend
         }
 
         _backgroundTokenizers.Clear();
+        if (_tokenizer is not null)
+        {
+            var store = new BackgroundStore(this);
+            IBackgroundTokenizer? created = tokenizationSupport!.BackgroundTokenizerShouldOnlyVerifyTokens != true
+                ? tokenizationSupport.CreateBackgroundTokenizer(_model, store)
+                : null;
+            if (created is null && _scheduler is not null)
+            {
+                var fallback = new DefaultBackgroundTokenizer(_tokenizer, store, _scheduler);
+                created = fallback;
+                fallback.HandleChanges();
+            }
+
+            if (created is not null)
+            {
+                _backgroundTokenizers.Add(created);
+            }
+        }
+
+        RefreshAllVisibleLineTokens();
+    }
+
+    private void RefreshAllVisibleLineTokens()
+    {
+        var ranges = new List<OffsetRange>();
+        foreach (AttachedViewHandler handler in _attachedViewStates.Values)
+        {
+            foreach (OffsetRange range in handler.LineRanges)
+            {
+                OffsetRange.AddRange(range, ranges);
+            }
+        }
+
+        RefreshRanges(ranges);
+    }
+
+    private void RefreshRanges(IReadOnlyList<OffsetRange> ranges)
+    {
+        foreach (OffsetRange range in ranges)
+        {
+            RefreshRange(range.Start, range.EndExclusive - 1);
+        }
+    }
+
+    private void RefreshRange(int startLineNumber, int endLineNumber)
+    {
         if (_tokenizer is null)
         {
             return;
         }
 
-        var store = new BackgroundStore(this);
-        IBackgroundTokenizer? created = tokenizationSupport!.BackgroundTokenizerShouldOnlyVerifyTokens != true
-            ? tokenizationSupport.CreateBackgroundTokenizer(_model, store)
-            : null;
-        if (created is null && _scheduler is not null)
+        startLineNumber = Math.Max(1, Math.Min(_model.LineCount, startLineNumber));
+        endLineNumber = Math.Min(_model.LineCount, endLineNumber);
+
+        var builder = new ContiguousMultilineTokensBuilder();
+        bool heuristicTokens = _tokenizer.TokenizeHeuristically(builder, startLineNumber, endLineNumber);
+        List<ChangedLineRange> changedTokens = SetTokens(builder.Finalize());
+
+        if (heuristicTokens)
         {
-            var fallback = new DefaultBackgroundTokenizer(_tokenizer, store, _scheduler);
-            created = fallback;
-            fallback.HandleChanges();
+            // We overrode tokens with heuristically computed ones.
+            // Because old states might get reused (thus stopping invalidation),
+            // we have to explicitly request the tokens for the changed ranges again.
+            foreach (ChangedLineRange c in changedTokens)
+            {
+                _backgroundTokenizers.FirstOrDefault()?.RequestTokens(c.FromLineNumber, c.ToLineNumber + 1);
+            }
         }
 
-        if (created is not null)
+        DefaultBackgroundTokenizer?.CheckFinished();
+    }
+
+    private void HandleVisibleRangesChanged(IAttachedView view, AttachedViewState? state)
+    {
+        if (state is null)
         {
-            _backgroundTokenizers.Add(created);
+            if (_attachedViewStates.Remove(view, out AttachedViewHandler? removed))
+            {
+                removed.Cancel();
+            }
+
+            return;
         }
+
+        if (!_attachedViewStates.TryGetValue(view, out AttachedViewHandler? existing))
+        {
+            AttachedViewHandler? created = null;
+            created = new AttachedViewHandler(() => RefreshRanges(created!.LineRanges), _scheduler);
+            _attachedViewStates[view] = existing = created;
+        }
+
+        existing.HandleStateChange(state);
     }
 
     private DefaultBackgroundTokenizer? DefaultBackgroundTokenizer => _backgroundTokenizers.OfType<DefaultBackgroundTokenizer>().FirstOrDefault();
 
     private ITokenizationSupport? InitializeTokenization()
     {
-        ITokenizationSupport? tokenizationSupport = _registry.Get(_modelInfo.LanguageId);
+        ITokenizationSupport? tokenizationSupport = _model.IsTooLargeForTokenization ? null : _registry.Get(_modelInfo.LanguageId);
         if (tokenizationSupport is null)
         {
             return null;
