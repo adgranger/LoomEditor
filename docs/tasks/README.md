@@ -306,7 +306,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-15](phase-4/P4-15-state-stack.md) | Grammar (2/6): `StateStackImpl` | P4-14 | done |
 | [P4-16](phase-4/P4-16-line-tokens-accumulator.md) | Grammar (3/6): the token accumulator | P4-15 | done |
 | [P4-17](phase-4/P4-17-grammar-class.md) | Grammar (4/6): the `Grammar` class, injections, rule registry | P4-16 | done |
-| [P4-18](phase-4/P4-18-tokenize-string-helpers.md) | Grammar (5/6): rule and injection matching | P4-17 | todo |
+| [P4-18](phase-4/P4-18-tokenize-string-helpers.md) | Grammar (5/6): rule and injection matching | P4-17 | done |
 | [P4-19](phase-4/P4-19-tokenize-line.md) | Grammar (6/6): the tokenization loop, captures, while, `tokenizeLine(2)` | P4-18 | todo |
 | [P4-20](phase-4/P4-20-registry.md) | `SyncRegistry`, `Registry` (synchronous), `diffStateStacks` | P4-19 | todo |
 | [P4-21](phase-4/P4-21-tests-first-mate.md) | Tests: the `first-mate` tokenization suite | P4-20 | todo |
