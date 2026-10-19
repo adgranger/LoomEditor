@@ -1,15 +1,14 @@
 // Ported from microsoft/vscode: src/vs/editor/common/tokens/contiguousTokensStore.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model;
+using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
 using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Core.Tokens;
 
-/// <summary>
-/// The tokens of every line of a text model (Monaco: <c>ContiguousTokensStore</c>). Not ported:
-/// <c>setMultilineTokens</c> (needs <c>ContiguousMultilineTokens</c> and the model, P4-26 / P4-29).
-/// </summary>
+/// <summary>The tokens of every line of a text model (Monaco: <c>ContiguousTokensStore</c>).</summary>
 /// <remarks>Threading: not thread-safe.</remarks>
 internal sealed class ContiguousTokensStore
 {
@@ -202,6 +201,43 @@ internal sealed class ContiguousTokensStore
         _lineTokens[lineIndex] = ContiguousTokensEditing.Insert(_lineTokens[lineIndex], position.Column - 1, firstLineLength);
 
         InsertLines(position.LineNumber, eolCount);
+    }
+
+    /// <summary>
+    /// <c>setMultilineTokens</c>: stores the blocks and returns the line ranges whose tokens changed.
+    /// <paramref name="languageId"/> is the model language (Monaco: <c>textModel.getLanguageId()</c>).
+    /// </summary>
+    public List<ChangedLineRange> SetMultilineTokens(IReadOnlyList<ContiguousMultilineTokens> tokens, TextModel model, string languageId)
+    {
+        var ranges = new List<ChangedLineRange>();
+
+        foreach (ContiguousMultilineTokens element in tokens)
+        {
+            int minChangedLineNumber = 0;
+            int maxChangedLineNumber = 0;
+            bool hasChange = false;
+            for (int lineNumber = element.StartLineNumber; lineNumber <= element.EndLineNumber; lineNumber++)
+            {
+                if (hasChange)
+                {
+                    SetTokens(languageId, lineNumber - 1, model.GetLineLength(lineNumber), element.GetLineTokens(lineNumber), false);
+                    maxChangedLineNumber = lineNumber;
+                }
+                else if (SetTokens(languageId, lineNumber - 1, model.GetLineLength(lineNumber), element.GetLineTokens(lineNumber), true))
+                {
+                    hasChange = true;
+                    minChangedLineNumber = lineNumber;
+                    maxChangedLineNumber = lineNumber;
+                }
+            }
+
+            if (hasChange)
+            {
+                ranges.Add(new ChangedLineRange(minChangedLineNumber, maxChangedLineNumber));
+            }
+        }
+
+        return ranges;
     }
 
     private static uint GetDefaultMetadata(int topLevelLanguageId) =>
