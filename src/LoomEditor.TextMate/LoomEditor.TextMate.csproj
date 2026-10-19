@@ -7,7 +7,14 @@
     <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
     <RootNamespace>LoomEditor.TextMate</RootNamespace>
     <Description>TextMate grammar tokenizer for LoomEditor (port of vscode-textmate), backed by Oniguruma.</Description>
+    <!-- [LibraryImport] in Oniguruma/ passes pinned strings as pointers. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- LoomEditor.TextMate.Tests is added by src/Directory.Build.props. -->
+    <InternalsVisibleTo Include="LoomEditor.View" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />

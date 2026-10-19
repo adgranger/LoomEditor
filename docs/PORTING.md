@@ -189,6 +189,12 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
 
+### vscode-oniguruma (`716aeaa229e4ae2e3b0057377b55743e9a3e995b`, v1.7.0)
+
+| vscode-oniguruma file | LoomEditor file | Status |
+|---|---|---|
+| `src/onig.cc` (`OnigRegExp`: `createOnigRegExp`, `hasGAnchor`, `_searchOnigRegExp`, `encodeOnigRegion`, `getLastOnigError`) | `LoomEditor.TextMate/Oniguruma/` (`OnigRegex`, `OnigMatch`, `OnigSearchOptions`, `OnigException`; native side: `OnigNative`, `OnigLibrary`, `OnigRegexHandle`, `OnigRegionHandle`) | 🔶 P4-03: one regex, UTF-16 LE instead of UTF-8 (ADR 0007, decision 2); the search cache and the scanner come with P4-04 |
+
 ## Monaco tests ported in phases 1 and 3
 
 The rows for phase 3 (`cursor*`, `wordOperations`, `shiftCommand`, `columnSelectionPaste`, `multicursor`, `intervalTree`, `cursorColumns`, `characterClassifier` …) are in this table, with the card that ported them. Phase 3 total: see the "Ported / total" column; every gap says why.
