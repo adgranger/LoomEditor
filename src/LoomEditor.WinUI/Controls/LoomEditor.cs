@@ -205,6 +205,7 @@ public sealed partial class LoomEditor : Control
     private void OnCanvasSizeChanged(object sender, SizeChangedEventArgs e)
     {
         _mouseDown?.OnHeightChanged();
+        _ime?.RequestLayoutChanged();
         _viewModel.SetViewportSize((int)e.NewSize.Width, (int)e.NewSize.Height);
         UpdateScrollBars();
     }
@@ -260,6 +261,7 @@ public sealed partial class LoomEditor : Control
     private void OnViewLayoutScroll(object? sender, ScrollEvent e)
     {
         _reveal?.OnScrollChanged(e);
+        _ime?.RequestLayoutChanged();
         UpdateScrollBars();
         _canvas?.Invalidate();
     }

@@ -3,6 +3,7 @@ using LoomEditor.Core.Model;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 using Microsoft.UI.Dispatching;
+using Windows.Foundation;
 using Windows.UI.Text.Core;
 
 namespace LoomEditor.WinUI.Input;
@@ -26,16 +27,18 @@ internal sealed class ImeInput : IDisposable
     private readonly TextModel _model;
     private readonly DispatcherQueue _dispatcherQueue;
     private readonly Func<bool> _isReadOnly;
+    private readonly Func<(Rect Text, Rect Control)?> _getLayoutBounds;
     private bool _applying;
     private bool _disposed;
 
-    private ImeInput(CoreTextEditContext editContext, ViewModel viewModel, TextModel model, DispatcherQueue dispatcherQueue, Func<bool> isReadOnly)
+    private ImeInput(CoreTextEditContext editContext, ViewModel viewModel, TextModel model, DispatcherQueue dispatcherQueue, Func<bool> isReadOnly, Func<(Rect Text, Rect Control)?> getLayoutBounds)
     {
         _editContext = editContext;
         _viewModel = viewModel;
         _model = model;
         _dispatcherQueue = dispatcherQueue;
         _isReadOnly = isReadOnly;
+        _getLayoutBounds = getLayoutBounds;
 
         _editContextModel.Update(_model, _viewModel.GetSelections()[0]);
         _editContext.InputScope = CoreTextInputScope.Text;
@@ -55,12 +58,12 @@ internal sealed class ImeInput : IDisposable
 
     /// <summary>Creates the IME input, or returns <see langword="null"/> when the text services are not available (Windows 10).</summary>
 #pragma warning disable CA1031 // Whatever the failure is, the editor must keep working without IME.
-    public static ImeInput? TryCreate(ViewModel viewModel, TextModel model, DispatcherQueue dispatcherQueue, Func<bool> isReadOnly)
+    public static ImeInput? TryCreate(ViewModel viewModel, TextModel model, DispatcherQueue dispatcherQueue, Func<bool> isReadOnly, Func<(Rect Text, Rect Control)?> getLayoutBounds)
     {
         try
         {
             CoreTextServicesManager manager = CoreTextServicesManager.GetForCurrentView();
-            return new ImeInput(manager.CreateEditContext(), viewModel, model, dispatcherQueue, isReadOnly);
+            return new ImeInput(manager.CreateEditContext(), viewModel, model, dispatcherQueue, isReadOnly, getLayoutBounds);
         }
         catch (Exception exception)
         {
@@ -209,9 +212,30 @@ internal sealed class ImeInput : IDisposable
     private static void OnFormatUpdating(CoreTextEditContext sender, CoreTextFormatUpdatingEventArgs args) =>
         args.Result = CoreTextFormatUpdatingResult.Succeeded;
 
-    // The candidate window position comes with P3-52.
-    private static void OnLayoutRequested(CoreTextEditContext sender, CoreTextLayoutRequestedEventArgs args)
+    // The candidate window opens under TextBounds. Screen pixels, `LayoutBounds` only (ADR 0006, P3-48: the visual-pixels
+    // properties crash the app).
+    private void OnLayoutRequested(CoreTextEditContext sender, CoreTextLayoutRequestedEventArgs args)
     {
+        if (_getLayoutBounds() is { } bounds)
+        {
+            args.Request.LayoutBounds.TextBounds = bounds.Text;
+            args.Request.LayoutBounds.ControlBounds = bounds.Control;
+        }
+    }
+
+    /// <summary>Tells the text services that the position of the text changed (scroll, size, DPI, window move). Queued.</summary>
+    public void RequestLayoutChanged()
+    {
+        if (!_disposed && IsComposing)
+        {
+            _dispatcherQueue.TryEnqueue(() =>
+            {
+                if (!_disposed)
+                {
+                    _editContext.NotifyLayoutChanged();
+                }
+            });
+        }
     }
 
     private void OnCompositionStarted(CoreTextEditContext sender, CoreTextCompositionStartedEventArgs args)

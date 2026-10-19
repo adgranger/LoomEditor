@@ -9,6 +9,8 @@
     <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
     <UseWinUI>true</UseWinUI>
     <RootNamespace>LoomEditor.WinUI</RootNamespace>
+    <!-- The LibraryImport generator emits unsafe code (Interop/NativeMethods.cs). -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>LoomEditor.WinUI</PackageId>
     <Description>LoomEditor: a native, Native AOT-compatible code editor control for WinUI 3, ported from the Monaco editor.</Description>
     <!-- See the same setting in LoomEditor.Rendering.csproj. -->

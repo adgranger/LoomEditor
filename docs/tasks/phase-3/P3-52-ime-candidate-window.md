@@ -1,6 +1,6 @@
 # P3-52 — IME: place the candidate window at the caret
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-51
 - **Size:** S
 
@@ -54,11 +54,11 @@ Manual (Windows 11, Gallery, Debug and AOT):
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app
-- [ ] `docs/PORTING.md`: map row `nativeEditContext.ts` (+ bounds, P3-52)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app
+- [x] `docs/PORTING.md`: map row `nativeEditContext.ts` (+ bounds, P3-52)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
