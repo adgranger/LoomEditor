@@ -1,6 +1,6 @@
 # P4-27 — Core model tokens: `FixedArray`, tokenization state stores, `RangePriorityQueueImpl`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-26
 - **Size:** M
 
@@ -33,17 +33,17 @@ ranges to tokenize first. `textModelTokens.test.ts` passes.
 
 ## Tests
 
-- [ ] Port: `'RangePriorityQueueImpl'` › `'addRange'`, `'addRangeAndResize'`
-- [ ] New: `TrackingStore_SetEndStateChanged_InvalidatesNextLine`
-- [ ] New: `TrackingStore_AcceptChange_InsertedLinesAreInvalid`
-- [ ] New: `FixedArray_Replace_GrowsAndShrinks`
+- [x] Port: `'RangePriorityQueueImpl'` › `'addRange'`, `'addRangeAndResize'`
+- [x] New: `TrackingStore_SetEndStateChanged_InvalidatesNextLine`
+- [x] New: `TrackingStore_AcceptChange_InsertedLinesAreInvalid`
+- [x] New: `FixedArray_Replace_GrowsAndShrinks`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map and ported-tests list updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map and ported-tests list updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -52,3 +52,9 @@ Tokenizers that use the stores (P4-28).
 ## Suggested commit message
 
 `feat(core): port tokenization state stores and the range priority queue`
+
+## Notes (done)
+
+- Monaco's `LineRange` does not exist in Core: line ranges are `OffsetRange`s of line numbers (`Start`, `EndExclusive`,
+  `Length`), which is exactly what the stores use.
+- `RangePriorityQueueImpl` is `RangePriorityQueue` (the private upstream interface is not ported).
