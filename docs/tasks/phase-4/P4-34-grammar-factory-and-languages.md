@@ -1,6 +1,6 @@
 # P4-34 — Languages, grammar definitions, `TMScopeRegistry` and `TMGrammarFactory`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-33
 - **Size:** L — split: `LanguageDefinition*.cs`, `LanguageRegistry.cs`, `TMScopeRegistry.cs`, `TMGrammarFactory.cs`, `RawGrammarCache.cs`
 
@@ -45,19 +45,19 @@ token types and bracket selectors, as VS Code's TextMate service does.
 
 No upstream unit tests. New:
 
-- [ ] `LanguageRegistry_ByExtensionAndFileName`
-- [ ] `ReadLanguageJson_AllFields`
-- [ ] `CreateGrammar_InjectionIsAppliedToTargetScope` (two in-memory grammars, `injectTo`)
-- [ ] `CreateGrammar_EmbeddedLanguagesAreEncoded` (an HTML-like grammar embedding a JS-like one)
-- [ ] `CreateTokenizationSupport_UnknownLanguage_ReturnsNull`
-- [ ] `RawGrammarCache_ParsesOnce_FromTwoThreads`
+- [x] `LanguageRegistry_ByExtensionAndFileName`
+- [x] `ReadLanguageJson_AllFields`
+- [x] `CreateGrammar_InjectionIsAppliedToTargetScope` (two in-memory grammars, `injectTo`)
+- [x] `CreateGrammar_EmbeddedLanguagesAreEncoded` (an HTML-like grammar embedding a JS-like one)
+- [x] `CreateTokenizationSupport_UnknownLanguage_ReturnsNull`
+- [x] `RawGrammarCache_ParsesOnce_FromTwoThreads`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": synchronous factory, `language.json` instead of extension manifests
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated; "Behavior differences": synchronous factory, `language.json` instead of extension manifests
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -66,3 +66,11 @@ The real grammar files (P4-35), the worker (P4-37).
 ## Suggested commit message
 
 `feat(textmate): register languages and create grammars from definitions`
+
+## Notes (done)
+
+- Added `TextMateTokenizationFactory` as the card lists it: grammar factory → `TextMateTokenizationSupport` →
+  `TokenizationSupportWithLineLimit`; unknown language, missing grammar or broken grammar give `null` (traced).
+- The embedded-languages map of a `TMGrammarFactory.CreateGrammar` is a copy: injected languages are merged into the
+  copy, not into the shared definition (upstream mutates the definition).
+- `RawGrammarCache.ParseCount` is only there for the tests.
