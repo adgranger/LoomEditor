@@ -100,4 +100,68 @@ internal static class ThemeParser
 
         return result;
     }
+
+    /// <summary>
+    /// <c>resolveParsedThemeRules</c>: resolves inheritance. Rules are sorted (stable) by scope, parent scopes and index;
+    /// the leading rules with the scope <c>""</c> give the defaults (black on white, no font style, when not set).
+    /// </summary>
+    public static Theme ResolveParsedThemeRules(IReadOnlyList<ParsedThemeRule> parsedThemeRules, IReadOnlyList<string>? colorMap)
+    {
+        ArgumentNullException.ThrowIfNull(parsedThemeRules);
+
+        // Sort rules lexicographically, and then by index if necessary
+        List<ParsedThemeRule> rules = [.. parsedThemeRules.Order(Comparer<ParsedThemeRule>.Create((a, b) =>
+        {
+            int r = Strings.Strcmp(a!.Scope, b!.Scope);
+            if (r != 0)
+            {
+                return r;
+            }
+
+            r = Strings.StrArrCmp(a.ParentScopes, b.ParentScopes);
+            if (r != 0)
+            {
+                return r;
+            }
+
+            return a.Index - b.Index;
+        }))];
+
+        // Determine defaults
+        FontStyle defaultFontStyle = FontStyle.None;
+        string defaultForeground = "#000000";
+        string defaultBackground = "#ffffff";
+
+        int first = 0;
+        while (first < rules.Count && rules[first].Scope.Length == 0)
+        {
+            ParsedThemeRule incomingDefaults = rules[first++];
+            if (incomingDefaults.FontStyle != FontStyle.NotSet)
+            {
+                defaultFontStyle = incomingDefaults.FontStyle;
+            }
+
+            if (incomingDefaults.Foreground is not null)
+            {
+                defaultForeground = incomingDefaults.Foreground;
+            }
+
+            if (incomingDefaults.Background is not null)
+            {
+                defaultBackground = incomingDefaults.Background;
+            }
+        }
+
+        var map = new ColorMap(colorMap);
+        var defaults = new StyleAttributes(defaultFontStyle, map.GetId(defaultForeground), map.GetId(defaultBackground));
+
+        var root = new ThemeTrieElement(new ThemeTrieElementRule(0, null, FontStyle.NotSet, 0, 0), []);
+        for (int i = first; i < rules.Count; i++)
+        {
+            ParsedThemeRule rule = rules[i];
+            root.Insert(0, rule.Scope, rule.ParentScopes, rule.FontStyle, map.GetId(rule.Foreground), map.GetId(rule.Background));
+        }
+
+        return new Theme(map, defaults, root);
+    }
 }
