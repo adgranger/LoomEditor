@@ -24,6 +24,11 @@ internal static class SampleText
         }
         """;
 
+    /// <summary>Five short lines for the multi-cursor sample.</summary>
+    public static string MultiCursor { get; } = string.Join(
+        Environment.NewLine,
+        "alpha beta", "gamma delta", "epsilon zeta", "eta theta", "iota kappa");
+
     /// <summary>The small C# file, followed by 200 numbered lines and one 300-character line, so that it scrolls.</summary>
     public static string HelloWorld { get; } = Header + Environment.NewLine + string.Join(
         Environment.NewLine,

@@ -1,6 +1,6 @@
 # P3-54 — Gallery: editing demo and the phase 3 manual test list
 
-- **Status:** todo
+- **Status:** done (the manual list is written but not run: see the note below)
 - **Depends on:** P3-53
 - **Size:** S
 
@@ -35,7 +35,7 @@ None (sample app and docs).
 
 ## Tests
 
-- [ ] Existing tests pass
+- [x] Existing tests pass
 - [ ] Manual: run the whole list of `docs/testing/phase-3-manual-tests.md` on the **AOT** build on Windows 11 and fill the
       Result column (pass / fail + note). Record the Windows build and the IME versions at the top of the file
 - [ ] The IME rows (Japanese and Chinese) pass — this is the phase 3 "done when". If they fail, **stop**: set the card
@@ -43,11 +43,11 @@ None (sample app and docs).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `Selections`, `SetSelections`, `SelectionChanged`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.WinUI`: only `Selections`, `SetSelections`, `SelectionChanged`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -56,3 +56,7 @@ New editing features; performance work.
 ## Suggested commit message
 
 `feat(gallery): editing demo and phase 3 manual test list`
+
+## Note
+
+The manual list `docs/testing/phase-3-manual-tests.md` is written but **not run**: the Result column is empty. The maintainer runs it on the AOT build; the IME rows 7.1 and 8.1 decide the phase 3 "done when" (P3-55 must not claim it before).

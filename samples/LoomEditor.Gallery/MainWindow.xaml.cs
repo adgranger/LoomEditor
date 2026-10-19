@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using LoomEditor.Core.Model;
+using LoomEditor.Core.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -18,6 +19,7 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
         Editor.Text = SampleText.HelloWorld;
         Editor.Model.ContentChanged += (_, _) => RefreshStatus();
+        Editor.SelectionChanged += (_, _) => RefreshStatus();
         RefreshStatus();
     }
 
@@ -46,6 +48,23 @@ public sealed partial class MainWindow : Window
     }
 
     private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
+
+    private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;
+
+    // Three cursors on three lines: type, delete, indent and paste show the multi-cursor behavior.
+    private void OnMultiCursorSample(object sender, RoutedEventArgs e)
+    {
+        Editor.Text = string.Empty;
+        Editor.Text = SampleText.MultiCursor;
+        Editor.SetSelections(
+            new[]
+            {
+                Selection.Collapsed(new Position(1, 6)),
+                Selection.Collapsed(new Position(2, 6)),
+                new Selection(new Position(3, 1), new Position(3, 6)),
+            });
+        Editor.Focus(FocusState.Programmatic);
+    }
 
     private async void OnLargeFile(object sender, RoutedEventArgs e) => await LoadDocumentAsync(LargeDocuments.Create100MB);
 
@@ -135,6 +154,7 @@ public sealed partial class MainWindow : Window
         LongLineButton.IsEnabled = isEnabled;
         UnicodeButton.IsEnabled = isEnabled;
         ScrollTestButton.IsEnabled = isEnabled;
+        MultiCursorButton.IsEnabled = isEnabled;
     }
 
     private void OnFontSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
@@ -166,9 +186,19 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    private string FormatCursors()
+    {
+        IReadOnlyList<Selection> selections = Editor.Selections;
+        Selection primary = selections[0];
+        return string.Create(
+            CultureInfo.InvariantCulture,
+            $" · Cursors: {selections.Count} · Primary: ({primary.SelectionStartLineNumber},{primary.SelectionStartColumn})-({primary.PositionLineNumber},{primary.PositionColumn})");
+    }
+
     private void RefreshStatus()
     {
-        StatusText.Text = ModelDemoActions.FormatStatus(Editor.Model);
+        StatusText.Text = ModelDemoActions.FormatStatus(Editor.Model)
+            + FormatCursors();
         UndoButton.IsEnabled = Editor.Model.CanUndo;
         RedoButton.IsEnabled = Editor.Model.CanRedo;
     }
