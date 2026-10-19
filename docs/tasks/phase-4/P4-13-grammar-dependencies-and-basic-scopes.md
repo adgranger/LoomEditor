@@ -1,6 +1,6 @@
 # P4-13 — Grammar dependencies and basic scope attributes
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-12
 - **Size:** M
 
@@ -38,17 +38,17 @@ languages, `tokenTypes`).
 
 No upstream unit tests. New:
 
-- [ ] `ScopeDependencyProcessor_CollectsExternalScopesAndRepositoryRules` (grammar A includes `source.b#rule` and `source.c`)
-- [ ] `ScopeDependencyProcessor_SelfAndBaseAreNotExternal`
-- [ ] `BasicScopeAttributes_EmbeddedLanguage_LongestScopeWins` (`source.css` vs `source.css.embedded`)
-- [ ] `BasicScopeAttributes_StandardTokenType_FromScopeName` and `…_FromTokenTypesMap`
+- [x] `ScopeDependencyProcessor_CollectsExternalScopesAndRepositoryRules` (grammar A includes `source.b#rule` and `source.c`)
+- [x] `ScopeDependencyProcessor_SelfAndBaseAreNotExternal`
+- [x] `BasicScopeAttributes_EmbeddedLanguage_LongestScopeWins` (`source.css` vs `source.css.embedded`)
+- [x] `BasicScopeAttributes_StandardTokenType_FromScopeName` and `…_FromTokenTypesMap`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
