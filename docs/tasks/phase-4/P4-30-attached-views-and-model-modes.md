@@ -1,6 +1,6 @@
 # P4-30 — `TextModel` tokenization (2/2): attached views, size limits, `model.modes.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-29
 - **Size:** M
 
@@ -36,21 +36,21 @@ the background has not reached them). Very large models are not tokenized. Monac
 
 ## Tests
 
-- [ ] Port: `'Editor Model - Model Modes 1'` › `'model calls syntax highlighter 1'`, `'… 2'`, `'model caches states'`,
+- [x] Port: `'Editor Model - Model Modes 1'` › `'model calls syntax highlighter 1'`, `'… 2'`, `'model caches states'`,
       `'model invalidates states for one line insert'`, `'… for many lines insert'`, `'… for one new line'`,
       `'… for one line delete'`, `'… for many lines delete'`
-- [ ] Port: `'Editor Model - Model Modes 2'` › `'getTokensForInvalidLines one text insert'`, `'… two text insert'`,
+- [x] Port: `'Editor Model - Model Modes 2'` › `'getTokensForInvalidLines one text insert'`, `'… two text insert'`,
       `'… one multi-line text insert, one small text insert'`, `'… one delete text'`, `'… one line delete text'`,
       `'… multiple lines delete text'`
-- [ ] New: `SetVisibleLines_TokenizesVisibleLinesFirst`
-- [ ] New: `TooLargeModel_IsNotTokenized`
+- [x] New: `SetVisibleLines_TokenizesVisibleLinesFirst`
+- [x] New: `TooLargeModel_IsNotTokenized`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map and ported-tests list updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map and ported-tests list updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -59,3 +59,12 @@ The view model calling `SetVisibleLines` (P4-43).
 ## Suggested commit message
 
 `feat(core): tokenize the visible lines first`
+
+## Notes (done)
+
+- `AttachedViewHandler` replaces Monaco's 50 ms `RunOnceScheduler` by `ITokenizationScheduler.Post` (a newer state
+  supersedes the pending refresh); without a scheduler it refreshes at once. `RateLimiter` is ported as the card says
+  but nothing uses it yet.
+- `LineTokens.ConvertToEndOffset` returns on an empty array (the model-modes supports return no tokens; JS ignores the
+  write at index -2).
+- `TextModel.IsAttachedToEditor` now counts attached views; the P4-29 flag on the part is gone.

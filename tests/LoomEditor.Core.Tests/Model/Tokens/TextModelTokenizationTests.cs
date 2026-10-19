@@ -111,7 +111,7 @@ public class TextModelTokenizationTests
         model.Tokenization.SetLanguageId("foo");
         Assert.Equal(BackgroundTokenizationState.InProgress, model.Tokenization.BackgroundTokenizationState);
 
-        model.Tokenization.IsAttachedToEditor = true; // the default background tokenizer only runs for an attached model
+        using IAttachedView view = model.AttachView(); // the default background tokenizer only runs for an attached model
         int slices = 0;
         while (scheduler.PendingIdleCount > 0 && slices++ < 1000)
         {

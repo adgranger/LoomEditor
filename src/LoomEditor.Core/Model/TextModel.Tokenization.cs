@@ -41,8 +41,54 @@ public sealed partial class TextModel
     {
     }
 
-    private void CreateTokenization(TokenizationRegistry registry, ILanguageIdCodec languageIdCodec, ITokenizationScheduler? scheduler) =>
-        _tokenization = new TokenizationTextModelPart(this, LanguageIdCodec.PlainTextLanguageId, registry, languageIdCodec, scheduler);
+    /// <summary>Models bigger than this (20 MB) are never tokenized (Monaco: <c>LARGE_FILE_SIZE_THRESHOLD</c>).</summary>
+    private const int LargeFileSizeThreshold = 20 * 1024 * 1024;
+
+    /// <summary>Models with more lines than this (300K) are never tokenized (Monaco: <c>LARGE_FILE_LINE_COUNT_THRESHOLD</c>).</summary>
+    private const int LargeFileLineCountThreshold = 300 * 1000;
+
+    private readonly AttachedViews _attachedViews = new();
+    private int _attachedEditorCount;
+
+    /// <summary>
+    /// Whether the model is too large to be tokenized (Monaco: <c>isTooLargeForTokenization</c>), decided once at creation
+    /// from its length and line count. <c>largeFileOptimizations</c> is always on.
+    /// </summary>
+    internal bool IsTooLargeForTokenization { get; private set; }
+
+    /// <summary>Whether at least one view is attached (Monaco: <c>isAttachedToEditor</c>).</summary>
+    internal bool IsAttachedToEditor => _attachedEditorCount > 0;
+
+    /// <summary>Attaches a view; dispose it to detach it (Monaco: <c>onBeforeAttached</c>).</summary>
+    internal IAttachedView AttachView()
+    {
+        _attachedEditorCount++;
+        if (_attachedEditorCount == 1)
+        {
+            _tokenization.HandleDidChangeAttached();
+        }
+
+        return _attachedViews.AttachView(DetachView);
+    }
+
+    /// <summary>Detaches a view (Monaco: <c>onBeforeDetached</c>); called when the view is disposed.</summary>
+    internal void DetachView(IAttachedView view)
+    {
+        _attachedEditorCount--;
+        if (_attachedEditorCount == 0)
+        {
+            _tokenization.HandleDidChangeAttached();
+        }
+
+        _attachedViews.DetachView(view);
+    }
+
+    private void CreateTokenization(TokenizationRegistry registry, ILanguageIdCodec languageIdCodec, ITokenizationScheduler? scheduler)
+    {
+        // Make a decision here and permanently respect it: a model too large at creation is never tokenized.
+        IsTooLargeForTokenization = _buffer.GetLength() > LargeFileSizeThreshold || _buffer.GetLineCount() > LargeFileLineCountThreshold;
+        _tokenization = new TokenizationTextModelPart(this, LanguageIdCodec.PlainTextLanguageId, registry, languageIdCodec, scheduler, _attachedViews);
+    }
 
     internal void RaiseTokensChanged(ModelTokensChangedEventArgs e) => TokensChanged?.Invoke(this, e);
 

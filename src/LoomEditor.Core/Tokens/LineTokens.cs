@@ -68,6 +68,12 @@ internal sealed partial class LineTokens : IViewLineTokens
     /// <summary><c>convertToEndOffset</c>: turns <c>[startOffset, metadata]</c> pairs into <c>[endOffset, metadata]</c>.</summary>
     public static void ConvertToEndOffset(uint[] tokens, int lineTextLength)
     {
+        if (tokens.Length == 0)
+        {
+            // Monaco writes at index -2 of an empty array, which JS ignores.
+            return;
+        }
+
         int tokenCount = tokens.Length >>> 1;
         int lastTokenIndex = tokenCount - 1;
         for (int tokenIndex = 0; tokenIndex < lastTokenIndex; tokenIndex++)

@@ -323,7 +323,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-27](phase-4/P4-27-state-stores-and-priority-queue.md) | `FixedArray`, state stores, `RangePriorityQueueImpl` | P4-26 | done |
 | [P4-28](phase-4/P4-28-tokenizer-with-state-store.md) | `TokenizerWithStateStore(AndTextModel)`, `DefaultBackgroundTokenizer` | P4-27 | done |
 | [P4-29](phase-4/P4-29-text-model-tokenization.md) | `TextModel` tokenization (1/2): language id, backend, `TokensChanged` | P4-28 | done |
-| [P4-30](phase-4/P4-30-attached-views-and-model-modes.md) | `TextModel` tokenization (2/2): attached views, size limits, `model.modes.test.ts` | P4-29 | todo |
+| [P4-30](phase-4/P4-30-attached-views-and-model-modes.md) | `TextModel` tokenization (2/2): attached views, size limits, `model.modes.test.ts` | P4-29 | done |
 | [P4-31](phase-4/P4-31-tests-model-line-tokens-1.md) | Tests: `model.line.test.ts` (1/2) | P4-30 | todo |
 | [P4-32](phase-4/P4-32-tests-model-line-tokens-2.md) | Tests: `model.line.test.ts` (2/2), token regressions | P4-31 | todo |
 
