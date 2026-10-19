@@ -27,3 +27,9 @@ internal interface IGrammarRepository
     /// <summary><c>injections</c>: the scope names of the grammars injected into <paramref name="scopeName"/>.</summary>
     IReadOnlyList<string> Injections(string scopeName);
 }
+
+/// <summary>Upstream's intersection type <c>IGrammarRepository &amp; IThemeProvider</c> (what a grammar is created with).</summary>
+/// <remarks>Threading: single-threaded, like the grammar.</remarks>
+internal interface IGrammarRepositoryAndThemeProvider : IGrammarRepository, IThemeProvider
+{
+}
