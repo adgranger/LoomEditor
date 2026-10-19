@@ -1,6 +1,6 @@
 # P4-20 — `SyncRegistry`, `Registry` (synchronous) and `diffStateStacks`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-19
 - **Size:** M
 
@@ -37,17 +37,17 @@ for the tests.
 
 No upstream unit tests of the registry itself (P4-21 runs the suites through it). New:
 
-- [ ] `LoadGrammar_LoadsIncludedGrammarsThroughTheLoader`
-- [ ] `LoadGrammar_UnknownScope_ReturnsNull`
-- [ ] `SetTheme_ChangesTheColorMapAndTheMetadata`
-- [ ] `DiffStateStacks_ApplyDiff_RebuildsAnEqualStack` (states from tokenizing three lines)
+- [x] `LoadGrammar_LoadsIncludedGrammarsThroughTheLoader`
+- [x] `LoadGrammar_UnknownScope_Throws` (upstream rejects with "No grammar provided for <scope>"; the card said "returns null")
+- [x] `SetTheme_ChangesTheColorMapAndTheMetadata`
+- [x] `DiffStateStacks_ApplyDiff_RebuildsAnEqualStack` (states from tokenizing three lines)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": synchronous registry
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated; "Behavior differences": synchronous registry
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
