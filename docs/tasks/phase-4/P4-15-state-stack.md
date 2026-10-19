@@ -1,6 +1,6 @@
 # P4-15 — Grammar (2/6): `StateStackImpl` (the rule stack, the state of a line)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-14
 - **Size:** M
 
@@ -36,17 +36,17 @@ stacks and anchor positions, with structural equality and the frame (de)serializ
 
 No upstream unit tests. New:
 
-- [ ] `Push_ThenPop_ReturnsEqualStack`
-- [ ] `Equals_StructurallyEqualStacks_AreEqual`, `…_DifferentEndRule_AreNotEqual`
-- [ ] `SafePop_OnRoot_ReturnsRoot`
-- [ ] `ToStateStackFrame_PushFrame_RoundTrips`
+- [x] `Push_ThenPop_ReturnsEqualStack`
+- [x] `Equals_StructurallyEqualStacks_AreEqual`, `…_DifferentEndRule_AreNotEqual`
+- [x] `SafePop_OnRoot_ReturnsRoot`
+- [x] `ToStateStackFrame_PushFrame_RoundTrips`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
