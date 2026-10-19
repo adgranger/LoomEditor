@@ -1,6 +1,6 @@
 # P4-06 — Raw grammar types and the JSON grammar reader
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-05
 - **Size:** M
 
@@ -47,18 +47,18 @@ reflection). vscode-textmate's test cases are copied into the test project.
 
 ## Tests
 
-- [ ] New: `ParseJsonGrammar_EveryFirstMateFixture_Parses` (theory over `TestCases/first-mate/fixtures/*.json`)
-- [ ] New: `ParseJsonGrammar_CapturesAreSortedNumerically` (`"10"` after `"2"`)
-- [ ] New: `ParseJsonGrammar_ApplyEndPatternLastAsNumber_IsTrue`
-- [ ] New: `ParseJsonGrammar_CommentsAndTrailingCommas_AreAccepted`
-- [ ] New: `DeepClone_CopiesNestedRepositoriesAndIds`
+- [x] New: `ParseJsonGrammar_EveryFirstMateFixture_Parses` (theory over `TestCases/first-mate/fixtures/*.json`)
+- [x] New: `ParseJsonGrammar_CapturesAreSortedNumerically` (`"10"` after `"2"`)
+- [x] New: `ParseJsonGrammar_ApplyEndPatternLastAsNumber_IsTrue`
+- [x] New: `ParseJsonGrammar_CommentsAndTrailingCommas_AreAccepted`
+- [x] New: `DeepClone_CopiesNestedRepositoriesAndIds`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map updated; "Behavior differences": no `json.ts`, no location metadata
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map updated; "Behavior differences": no `json.ts`, no location metadata
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

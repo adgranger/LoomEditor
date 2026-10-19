@@ -1,3 +1,5 @@
 * text=auto
 *.sh text eol=lf
 *.png binary
+# vscode-textmate test cases are copied byte for byte (docs/tasks/phase-4/README.md, section 6).
+tests/LoomEditor.TextMate.Tests/TestCases/** -text

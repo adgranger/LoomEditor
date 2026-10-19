@@ -17,4 +17,9 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- vscode-textmate test cases (MIT), copied byte for byte; found at run time by TestHelpers/TestCaseFiles.cs. -->
+    <None Update="TestCases\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

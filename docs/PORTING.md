@@ -104,6 +104,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | Line numbers and line highlight | Drawn on the canvas; only `RenderLineNumbersType.On`, `renderFinalNewline = on`, and `renderLineHighlight` `none` / `gutter` / `line` / `all` with `renderLineHighlightOnlyWhenFocus = false` | No relative or interval numbers or decorations yet |
 | Oniguruma encoding (vscode-oniguruma) | Patterns and subjects are UTF-16 LE, not UTF-8: no UTF-8 copy and no offset maps; offsets are UTF-16 code units directly. An unmatched group is `(-1, -1)` (vscode-oniguruma gives the string length or `4294967295`; the length is 0 in all cases). A start position outside the string is clamped (vscode-oniguruma clamps only non-ASCII strings) | ADR 0007, decision 2 |
 | `OnigScanner` (vscode-oniguruma) | Always the per-regex search with its cache; the `onig_regset_search` branch (strings under 1000 UTF-8 bytes) is not used. It returns the same match | ADR 0007, decision 3 |
+| Raw grammars (vscode-textmate) | JSON grammars are read with `System.Text.Json` (comments and trailing commas allowed), not with `json.ts`; no location metadata (`$vscodeTextmateLocation`), so debug messages cannot point to a grammar line. Properties of the wrong JSON type are ignored; `applyEndPatternLast` is `true` for `true` or a non-zero number | ADR 0008, decision 3 |
 | `tabSize` | `LoomEditor.TabSize` is a dependency property (default 4, Monaco's `EDITOR_MODEL_DEFAULTS.tabSize`); a value < 1 throws `ArgumentOutOfRangeException` and the old value is kept | WinUI property system; fail fast |
 
 ## Map: Monaco → LoomEditor
@@ -208,6 +209,10 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `src/tests/onigLibs.ts` | `LoomEditor.TextMate.Tests/TestHelpers/OnigTestLib.cs` | ✅ P4-04 (synchronous) |
 | `src/utils.ts` | `LoomEditor.TextMate/Grammar/` (`RegexSource`, `Strings`, `CachedFn`) | 🔶 P4-05: `clone`/`mergeObjects` (methods of the raw types, P4-06), `containsRTL` and `performanceNow` not ported; `OrMask` is a `[Flags]` enum |
 | `src/matcher.ts` | `LoomEditor.TextMate/Grammar/Matcher.cs` | ✅ P4-05 |
+| `src/rawGrammar.ts` | `LoomEditor.TextMate/Parsing/` (`RawGrammar`, `RawRule`, `RawRepository`, `RawCaptures`) | ✅ P4-06, without `ILocation`/`ILocatable`; `clone` is `DeepClone()` |
+| `src/parseRawGrammar.ts` | `LoomEditor.TextMate/Parsing/RawGrammarReader.cs` | 🔶 P4-06: JSON with `System.Text.Json`; plist in P4-07 |
+| `src/json.ts`, `src/tests/json.test.ts` | — | ❌ not ported (ADR 0008, decision 3) |
+| `test-cases/first-mate/`, `test-cases/suite1/` | `LoomEditor.TextMate.Tests/TestCases/` | copied byte for byte (P4-06) |
 | `src/tests/matcher.test.ts` | `LoomEditor.TextMate.Tests/Grammar/MatcherTests.cs` | ✅ 27 / 27 |
 
 ## Monaco tests ported in phases 1 and 3
