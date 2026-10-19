@@ -1,6 +1,6 @@
 # P4-17 — Grammar (4/6): the `Grammar` class, injections and rule registry
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-16
 - **Size:** M
 
@@ -41,17 +41,17 @@ and resolves external grammars.
 
 No upstream unit tests. New:
 
-- [ ] `CreateGrammar_InitializesSelfAndBase`
-- [ ] `CreateGrammar_DoesNotMutateTheGivenRawGrammar`
-- [ ] `GetInjections_CollectsGrammarAndRepositoryInjections_InPriorityOrder`
-- [ ] `GetExternalGrammar_LoadsFromRepositoryOnce`
+- [x] `CreateGrammar_InitializesSelfAndBase`
+- [x] `CreateGrammar_DoesNotMutateTheGivenRawGrammar`
+- [x] `GetInjections_CollectsGrammarAndRepositoryInjections_InPriorityOrder`
+- [x] `GetExternalGrammar_LoadsFromRepositoryOnce`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
