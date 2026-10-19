@@ -18,11 +18,11 @@ public class OnigRegexTests
         using var regex = new OnigRegex("ab");
         const string Subject = "\U0001F600 ab ab";
 
-        OnigMatch? match = regex.Search(Subject, 4, OnigSearchOptions.None);
+        OnigCaptureIndex[]? match = regex.Search(Subject, 4, OnigSearchOptions.None);
 
         Assert.NotNull(match);
-        Assert.Equal([new OnigCaptureIndex(6, 8)], match.CaptureIndices);
-        Assert.Equal(2, match.CaptureIndices[0].Length);
+        Assert.Equal([new OnigCaptureIndex(6, 8)], match);
+        Assert.Equal(2, match[0].Length);
     }
 
     [Fact]
@@ -38,10 +38,10 @@ public class OnigRegexTests
     {
         using var regex = new OnigRegex("(a)|(b)");
 
-        OnigMatch? match = regex.Search("xb", 0, OnigSearchOptions.None);
+        OnigCaptureIndex[]? match = regex.Search("xb", 0, OnigSearchOptions.None);
 
         Assert.NotNull(match);
-        Assert.Equal([new OnigCaptureIndex(1, 2), new OnigCaptureIndex(-1, -1), new OnigCaptureIndex(1, 2)], match.CaptureIndices);
+        Assert.Equal([new OnigCaptureIndex(1, 2), new OnigCaptureIndex(-1, -1), new OnigCaptureIndex(1, 2)], match);
     }
 
     [Theory]
@@ -53,10 +53,10 @@ public class OnigRegexTests
     {
         using var regex = new OnigRegex(pattern);
 
-        OnigMatch? match = regex.Search(subject, 0, OnigSearchOptions.None);
+        OnigCaptureIndex[]? match = regex.Search(subject, 0, OnigSearchOptions.None);
 
         Assert.NotNull(match);
-        Assert.Equal(new OnigCaptureIndex(start, end), match.CaptureIndices[0]);
+        Assert.Equal(new OnigCaptureIndex(start, end), match[0]);
     }
 
     [Fact]

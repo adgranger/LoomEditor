@@ -82,12 +82,12 @@ internal sealed unsafe class OnigRegex : IDisposable
     /// <summary>
     /// Searches <paramref name="subject"/> from <paramref name="start"/> to its end (<c>_searchOnigRegExp</c>).
     /// </summary>
-    /// <returns>The captures, or <see langword="null"/> when nothing matches.</returns>
+    /// <returns>The captures (group 0 first), or <see langword="null"/> when nothing matches.</returns>
     /// <remarks>
     /// A search error (for example, Oniguruma's retry limit) is "no match", as in vscode-oniguruma; it is written to
     /// <see cref="Debug"/>.
     /// </remarks>
-    public OnigMatch? Search(string subject, int start, OnigSearchOptions options)
+    public OnigCaptureIndex[]? Search(string subject, int start, OnigSearchOptions options)
     {
         ArgumentNullException.ThrowIfNull(subject);
         ArgumentOutOfRangeException.ThrowIfNegative(start);
@@ -120,7 +120,7 @@ internal sealed unsafe class OnigRegex : IDisposable
                 return null;
             }
 
-            return new OnigMatch(EncodeRegion((OnigNative.OnigRegion*)_region.DangerousGetHandle()));
+            return EncodeRegion((OnigNative.OnigRegion*)_region.DangerousGetHandle());
         }
         finally
         {

@@ -12,7 +12,7 @@ namespace LoomEditor.TextMate.Oniguruma;
 /// </para>
 /// <para>Phase 4. Monaco equivalent: <c>IOnigLib</c> in vscode-textmate.</para>
 /// </remarks>
-internal interface IRegexEngine
+internal interface IRegexEngine : IOnigLib
 {
     /// <summary>Version string of the underlying engine, for diagnostics.</summary>
     string Version { get; }
