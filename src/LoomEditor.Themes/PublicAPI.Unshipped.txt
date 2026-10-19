@@ -4,6 +4,8 @@ LoomEditor.Themes.EditorTheme
 LoomEditor.Themes.EditorTheme.<Clone>$() -> LoomEditor.Themes.EditorTheme!
 LoomEditor.Themes.EditorTheme.Background.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.Background.init -> void
+LoomEditor.Themes.EditorTheme.CompositionBorder.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.CompositionBorder.init -> void
 LoomEditor.Themes.EditorTheme.CursorForeground.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.CursorForeground.init -> void
 LoomEditor.Themes.EditorTheme.EditorTheme() -> void

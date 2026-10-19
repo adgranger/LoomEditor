@@ -172,6 +172,8 @@ internal sealed partial class TextViewRenderer : IDisposable
             }
         }
 
+        DrawCompositionUnderlines(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
+
         if (hasFocus && cursorVisible)
         {
             // Monaco: `ViewCursors` has one caret per selection, all with the same style.

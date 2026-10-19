@@ -21,6 +21,7 @@ public sealed partial class LoomEditor
         GotFocus += OnImeGotFocus;
         LostFocus += OnImeLostFocus;
         _context.SelectionChanged += (_, _) => _ime?.RequestSync();
+        _viewModel.CompositionFormatsChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.ContentChanged += (_, _) => _ime?.RequestSync();
     }
 

@@ -99,6 +99,35 @@ internal sealed class EditContextModel
         return new TypeData(string.Empty, 0, 0, selectionStart - previousStart);
     }
 
+    /// <summary>
+    /// Turns the formats of the IME (offsets in the text given to it, with an underline thickness) into model ranges
+    /// (Monaco: <c>_handleTextFormatUpdate</c>). The thickness is <c>"thin"</c>, <c>"thick"</c> or anything else for none.
+    /// </summary>
+    public IReadOnlyList<CompositionFormat> ToCompositionFormats(
+        TextModel model, IReadOnlyList<(int RangeStart, int RangeEnd, string Thickness)> formats)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+        ArgumentNullException.ThrowIfNull(formats);
+
+        var editContextStartPosition = new Position(PrimarySelection.Range.StartLineNumber, 1);
+        int offsetOfEditContextText = model.GetOffsetAt(editContextStartPosition);
+        var result = new List<CompositionFormat>(formats.Count);
+        foreach ((int rangeStart, int rangeEnd, string thickness) in formats)
+        {
+            Position start = model.GetPositionAt(offsetOfEditContextText + rangeStart);
+            Position end = model.GetPositionAt(offsetOfEditContextText + rangeEnd);
+            CompositionUnderline underline = thickness.ToLowerInvariant() switch
+            {
+                "thin" => CompositionUnderline.Secondary,
+                "thick" => CompositionUnderline.Primary,
+                _ => CompositionUnderline.None,
+            };
+            result.Add(new CompositionFormat(new Range(start, end), underline));
+        }
+
+        return result;
+    }
+
     /// <summary>Runs what the IME typed on the cursors (Monaco: <c>_onType</c>).</summary>
     public static void Apply(ViewModel viewModel, TypeData data)
     {

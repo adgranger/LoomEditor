@@ -4,6 +4,7 @@ using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 using Microsoft.UI.Dispatching;
 using Windows.Foundation;
+using Windows.UI.Text;
 using Windows.UI.Text.Core;
 
 namespace LoomEditor.WinUI.Input;
@@ -28,6 +29,7 @@ internal sealed class ImeInput : IDisposable
     private readonly DispatcherQueue _dispatcherQueue;
     private readonly Func<bool> _isReadOnly;
     private readonly Func<(Rect Text, Rect Control)?> _getLayoutBounds;
+    private readonly List<(int RangeStart, int RangeEnd, string Thickness)> _formats = [];
     private bool _applying;
     private bool _disposed;
 
@@ -208,9 +210,25 @@ internal sealed class ImeInput : IDisposable
         QueueSync(notify: false);
     }
 
-    // Underlines come with P3-53.
-    private static void OnFormatUpdating(CoreTextEditContext sender, CoreTextFormatUpdatingEventArgs args) =>
+    // Monaco: `_handleTextFormatUpdate`. `Windows.UI.Text.UnderlineType` has no "thin": the spike saw `Wave` for the text being
+    // typed and `Thick` for the segment being converted, so every underline but `Thick` is the thin one.
+    private void OnFormatUpdating(CoreTextEditContext sender, CoreTextFormatUpdatingEventArgs args)
+    {
         args.Result = CoreTextFormatUpdatingResult.Succeeded;
+        string thickness = args.UnderlineType switch
+        {
+            null or UnderlineType.None => "none",
+            UnderlineType.Thick => "thick",
+            _ => "thin",
+        };
+
+        // The IME reports one segment per event: a new segment replaces what it overlaps and the others stay.
+        int start = args.Range.StartCaretPosition;
+        int end = args.Range.EndCaretPosition;
+        _formats.RemoveAll(format => format.RangeStart < end && start < format.RangeEnd);
+        _formats.Add((start, end, thickness));
+        _viewModel.SetCompositionFormats(_editContextModel.ToCompositionFormats(_model, _formats));
+    }
 
     // The candidate window opens under TextBounds. Screen pixels, `LayoutBounds` only (ADR 0006, P3-48: the visual-pixels
     // properties crash the app).
@@ -247,6 +265,8 @@ internal sealed class ImeInput : IDisposable
     private void OnCompositionCompleted(CoreTextEditContext sender, CoreTextCompositionCompletedEventArgs args)
     {
         IsComposing = false;
+        _formats.Clear();
+        _viewModel.SetCompositionFormats(Array.Empty<CompositionFormat>());
         _applying = true;
         try
         {
