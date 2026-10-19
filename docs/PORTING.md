@@ -206,6 +206,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 |---|---|---|
 | `src/onigLib.ts` | `LoomEditor.TextMate/Oniguruma/` (`IOnigLib`, `IOnigScanner`, `IOnigString`, `OnigMatch.cs`, `FindOption`) | ✅ P4-04; `disposeOnigString` is `IDisposable.Dispose` |
 | `src/tests/onigLibs.ts` | `LoomEditor.TextMate.Tests/TestHelpers/OnigTestLib.cs` | ✅ P4-04 (synchronous) |
+| `src/utils.ts` | `LoomEditor.TextMate/Grammar/` (`RegexSource`, `Strings`, `CachedFn`) | 🔶 P4-05: `clone`/`mergeObjects` (methods of the raw types, P4-06), `containsRTL` and `performanceNow` not ported; `OrMask` is a `[Flags]` enum |
+| `src/matcher.ts` | `LoomEditor.TextMate/Grammar/Matcher.cs` | ✅ P4-05 |
+| `src/tests/matcher.test.ts` | `LoomEditor.TextMate.Tests/Grammar/MatcherTests.cs` | ✅ 27 / 27 |
 
 ## Monaco tests ported in phases 1 and 3
 

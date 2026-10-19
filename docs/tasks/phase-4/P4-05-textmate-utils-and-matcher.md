@@ -1,6 +1,6 @@
 # P4-05 — vscode-textmate helpers (`utils.ts`) and scope selectors (`matcher.ts`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-04
 - **Size:** S
 
@@ -35,16 +35,16 @@ injections and balanced-bracket selectors.
 
 ## Tests
 
-- [ ] Port: `'Matcher Test #' + i` for every case of `matcher.test.ts` as an xUnit theory (`// vscode-textmate: 'Matcher Test #<i>'`)
-- [ ] New: `RegexSource_ReplaceCaptures_DowncaseAndUpcase`, `RegexSource_HasCaptures_IsAsciiDigitsOnly`
-- [ ] New: `IsValidHexColor_AcceptsThreeFourSixEightDigits`
+- [x] Port: `'Matcher Test #' + i` for every case of `matcher.test.ts` as an xUnit theory (`// vscode-textmate: 'Matcher Test #<i>'`)
+- [x] New: `RegexSource_ReplaceCaptures_DowncaseAndUpcase`, `RegexSource_HasCaptures_IsAsciiDigitsOnly`
+- [x] New: `IsValidHexColor_AcceptsThreeFourSixEightDigits`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map updated (vscode-textmate section created)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map updated (vscode-textmate section created)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
