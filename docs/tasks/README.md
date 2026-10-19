@@ -266,6 +266,113 @@ point is named in the cards and listed in `docs/PORTING.md` by P3-55); Find-base
 word wrap and folding moves (phases 5–6); overtype mode, selection drag-and-drop, rich (HTML) copy, touch gestures,
 Intl word segmentation; IME on Windows 10 (would need a TSF `ITextStoreACP2` implementation).
 
+## Phase 4 — TextMate grammars and VS Code themes
+
+Reference commits: `microsoft/vscode` `0c9c0a4295a9222e12a605537738719455ae3056`, `microsoft/vscode-textmate` v9.3.2
+`25b68dad91920b1ed79d357534b8c4582f62d80d`, `microsoft/vscode-oniguruma` v1.7.0 `716aeaa229e4ae2e3b0057377b55743e9a3e995b`.
+Design: [ADR 0007](../adr/0007-textmate-regex-engine.md) (native Oniguruma 6.9.10, frozen) and
+[ADR 0008](../adr/0008-syntax-highlighting.md) (vscode-textmate port, Monaco's tokens in Core, a background tokenizer
+thread, VS Code themes, golden tests from the real vscode-textmate).
+**Read [phase-4/README.md](phase-4/README.md) before any phase 4 card.**
+
+### Step A — The regex engine
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-01](phase-4/P4-01-aot-resources-spike.md) | Spike: embedded resources and a native DLL in the Native AOT Gallery | P3-55 | todo |
+| [P4-02](phase-4/P4-02-ship-onig-dll.md) | Build and ship `onig.dll` with `LoomEditor.TextMate` | P4-01 | todo |
+| [P4-03](phase-4/P4-03-oniguruma-interop.md) | Oniguruma interop: `[LibraryImport]`, safe handles, one compiled regex | P4-02 | todo |
+| [P4-04](phase-4/P4-04-onig-scanner.md) | `OnigScanner`, `OnigString` and `IOnigLib` (vscode-oniguruma tests) | P4-03 | todo |
+
+### Step B — vscode-textmate building blocks
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-05](phase-4/P4-05-textmate-utils-and-matcher.md) | Helpers (`utils.ts`) and scope selectors (`matcher.ts`) | P4-04 | todo |
+| [P4-06](phase-4/P4-06-raw-grammar-json.md) | Raw grammar types and the JSON grammar reader | P4-05 | todo |
+| [P4-07](phase-4/P4-07-plist-grammars.md) | plist grammars (`plist.ts`) | P4-06 | todo |
+| [P4-08](phase-4/P4-08-textmate-theme-parsing.md) | Theme (1/2): scope stacks, theme parsing, color map | P4-07 | todo |
+| [P4-09](phase-4/P4-09-textmate-theme-matching.md) | Theme (2/2): resolving rules and matching scopes | P4-08 | todo |
+| [P4-10](phase-4/P4-10-textmate-encoded-attributes.md) | Token metadata (`encodedTokenAttributes.ts`) | P4-09 | todo |
+
+### Step C — vscode-textmate rules, grammar and tokenizer
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-11](phase-4/P4-11-regexp-source.md) | Rules (1/2): `RegExpSource`, `RegExpSourceList`, `CompiledRule` | P4-10 | todo |
+| [P4-12](phase-4/P4-12-rules-and-rule-factory.md) | Rules (2/2): rule classes, `RuleFactory`, `parseInclude` | P4-11 | todo |
+| [P4-13](phase-4/P4-13-grammar-dependencies-and-basic-scopes.md) | Grammar dependencies and basic scope attributes | P4-12 | todo |
+| [P4-14](phase-4/P4-14-attributed-scope-stack.md) | Grammar (1/6): `AttributedScopeStack`, `BalancedBracketSelectors` | P4-13 | todo |
+| [P4-15](phase-4/P4-15-state-stack.md) | Grammar (2/6): `StateStackImpl` | P4-14 | todo |
+| [P4-16](phase-4/P4-16-line-tokens-accumulator.md) | Grammar (3/6): the token accumulator | P4-15 | todo |
+| [P4-17](phase-4/P4-17-grammar-class.md) | Grammar (4/6): the `Grammar` class, injections, rule registry | P4-16 | todo |
+| [P4-18](phase-4/P4-18-tokenize-string-helpers.md) | Grammar (5/6): rule and injection matching | P4-17 | todo |
+| [P4-19](phase-4/P4-19-tokenize-line.md) | Grammar (6/6): the tokenization loop, captures, while, `tokenizeLine(2)` | P4-18 | todo |
+| [P4-20](phase-4/P4-20-registry.md) | `SyncRegistry`, `Registry` (synchronous), `diffStateStacks` | P4-19 | todo |
+| [P4-21](phase-4/P4-21-tests-first-mate.md) | Tests: the `first-mate` tokenization suite | P4-20 | todo |
+| [P4-22](phase-4/P4-22-tests-suite1-and-grammar.md) | Tests: `suite1`, `whileTests`, the rest of `grammar.test.ts` | P4-21 | todo |
+
+### Step D — Monaco's tokens in the text model (`LoomEditor.Core`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-23](phase-4/P4-23-core-token-types.md) | Token metadata, tokenization interfaces, null tokenizer, language ids, registry | P4-22 | todo |
+| [P4-24](phase-4/P4-24-line-tokens.md) | `LineTokens` and `IViewLineTokens` | P4-23 | todo |
+| [P4-25](phase-4/P4-25-contiguous-tokens-store.md) | `ContiguousTokensEditing` and `ContiguousTokensStore` | P4-24 | todo |
+| [P4-26](phase-4/P4-26-contiguous-multiline-tokens.md) | `ContiguousMultilineTokens` and its builder | P4-25 | todo |
+| [P4-27](phase-4/P4-27-state-stores-and-priority-queue.md) | `FixedArray`, state stores, `RangePriorityQueueImpl` | P4-26 | todo |
+| [P4-28](phase-4/P4-28-tokenizer-with-state-store.md) | `TokenizerWithStateStore(AndTextModel)`, `DefaultBackgroundTokenizer` | P4-27 | todo |
+| [P4-29](phase-4/P4-29-text-model-tokenization.md) | `TextModel` tokenization (1/2): language id, backend, `TokensChanged` | P4-28 | todo |
+| [P4-30](phase-4/P4-30-attached-views-and-model-modes.md) | `TextModel` tokenization (2/2): attached views, size limits, `model.modes.test.ts` | P4-29 | todo |
+| [P4-31](phase-4/P4-31-tests-model-line-tokens-1.md) | Tests: `model.line.test.ts` (1/2) | P4-30 | todo |
+| [P4-32](phase-4/P4-32-tests-model-line-tokens-2.md) | Tests: `model.line.test.ts` (2/2), token regressions | P4-31 | todo |
+
+### Step E — TextMate meets the model: languages, grammars, background thread
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-33](phase-4/P4-33-textmate-tokenization-support.md) | `TextMateTokenizationSupport` and `TokenizationSupportWithLineLimit` | P4-32 | todo |
+| [P4-34](phase-4/P4-34-grammar-factory-and-languages.md) | Languages, grammar definitions, `TMScopeRegistry`, `TMGrammarFactory` | P4-33 | todo |
+| [P4-35](phase-4/P4-35-bundle-grammars.md) | Bundle the ten built-in grammars | P4-34 | todo |
+| [P4-36](phase-4/P4-36-mirror-model-and-length-edits.md) | Background (1/3): `MirrorTextModel`, `PrefixSumComputer`, `LengthEdit`, index transformer | P4-35 | todo |
+| [P4-37](phase-4/P4-37-tokenization-worker.md) | Background (2/3): the worker on its own thread | P4-36 | todo |
+| [P4-38](phase-4/P4-38-worker-controller.md) | Background (3/3): the UI side and `IUiDispatcher` | P4-37 | todo |
+
+### Step F — VS Code themes (`LoomEditor.Themes`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-39](phase-4/P4-39-editor-color-defaults.md) | Theme types and VS Code's default editor colors | P4-38 | todo |
+| [P4-40](phase-4/P4-40-vscode-theme-loading.md) | Load a VS Code color theme | P4-39 | todo |
+| [P4-41](phase-4/P4-41-built-in-themes.md) | The ten built-in themes and `EditorTheme`'s public API | P4-40 | todo |
+
+### Step G — Highlighting in the editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-42](phase-4/P4-42-syntax-highlighter.md) | `SyntaxHighlighter`: grammars, worker and theme for one editor | P4-41 | todo |
+| [P4-43](phase-4/P4-43-view-model-tokens.md) | View model: tokens of the visible lines, visible lines to the model | P4-42 | todo |
+| [P4-44](phase-4/P4-44-render-token-colors.md) | Rendering: token colors and font styles | P4-43 | todo |
+| [P4-45](phase-4/P4-45-control-language-and-theme.md) | The control: `Language` and `Theme` properties | P4-44 | todo |
+| [P4-46](phase-4/P4-46-gallery-highlighting-demo.md) | Gallery: highlighting demo and the phase 4 manual test list | P4-45 | todo |
+
+### Step H — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P4-47](phase-4/P4-47-golden-generator.md) | Golden tests (1/2): the generator (real vscode-textmate) and the samples | P4-46 | todo |
+| [P4-48](phase-4/P4-48-golden-tests.md) | Golden tests (2/2): ten languages, two themes | P4-47 | todo |
+| [P4-49](phase-4/P4-49-tokenization-benchmarks.md) | Tokenization benchmarks and reference numbers | P4-48 | todo |
+| [P4-50](phase-4/P4-50-close-phase-4.md) | Close phase 4 | all | todo |
+
+Phase 4 cards form a single chain, in table order. P4-45 and P4-46 have manual checks for the maintainer; P4-47 needs
+Node (only to regenerate golden files).
+
+**Deferred on purpose:** language configuration and everything that uses it (brackets, auto-closing, auto-indent,
+comments — phase 5), bracket pair colorization, semantic highlighting, tree-sitter, font tokens (vscode-textmate 9.3
+`fontFamily` / `fontSize` / `lineHeight`), `.tmTheme` themes, grammars supplied by the host application, the token
+inspector.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
