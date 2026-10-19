@@ -22,6 +22,7 @@ public sealed record EditorTheme
         LineHighlightBorder = ThemeColor.Parse("#282828"),
         CursorForeground = ThemeColor.Parse("#AEAFAD"),
         SelectionBackground = ThemeColor.Parse("#264F78"),
+        CompositionBorder = ThemeColor.Parse("#FFFFFF"),
     };
 
     /// <summary>A light theme close to VS Code's "Light Modern".</summary>
@@ -36,6 +37,7 @@ public sealed record EditorTheme
         LineHighlightBorder = ThemeColor.Parse("#EEEEEE"),
         CursorForeground = ThemeColor.Parse("#000000"),
         SelectionBackground = ThemeColor.Parse("#ADD6FF"),
+        CompositionBorder = ThemeColor.Parse("#000000"),
     };
 
     /// <summary>Display name of the theme.</summary>
@@ -67,4 +69,7 @@ public sealed record EditorTheme
 
     /// <summary>Background of selected text (<c>editor.selectionBackground</c>).</summary>
     public required ThemeColor SelectionBackground { get; init; }
+
+    /// <summary>Underline of the text being composed with an IME (<c>editor.compositionBorder</c>); defaults to white.</summary>
+    public ThemeColor CompositionBorder { get; init; } = ThemeColor.Parse("#FFFFFF");
 }

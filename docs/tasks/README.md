@@ -248,7 +248,7 @@ phases 4–5, plain typing through `CharacterReceived`, IME through `CoreTextEdi
 | [P3-50](phase-3/P3-50-edit-context-state.md) | Edit context state (the text the IME sees, and its updates) | P3-49 | done |
 | [P3-51](phase-3/P3-51-control-core-text-edit-context.md) | The control: IME through `CoreTextEditContext` | P3-50 | done |
 | [P3-52](phase-3/P3-52-ime-candidate-window.md) | IME: place the candidate window at the caret | P3-51 | done |
-| [P3-53](phase-3/P3-53-composition-underline.md) | IME: underline the text being composed | P3-52 | todo |
+| [P3-53](phase-3/P3-53-composition-underline.md) | IME: underline the text being composed | P3-52 | done |
 
 ### Step I — Prove it and close the phase
 

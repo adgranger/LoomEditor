@@ -1,6 +1,6 @@
 # P3-53 — IME: underline the text being composed
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-52
 - **Size:** S
 
@@ -44,18 +44,18 @@ not (thin underline). Draw these underlines like Monaco: a 1-DIP line for "thin"
 
 ## Tests
 
-- [ ] New: `ToCompositionFormats` maps offsets on line 2 (edit-context text = lines 2–2) to the right model range
-- [ ] New: renderer draws a 2-DIP rectangle for a primary format and a 1-DIP rectangle for a secondary one, nothing for none
+- [x] New: `ToCompositionFormats` maps offsets on line 2 (edit-context text = lines 2–2) to the right model range
+- [x] New: renderer draws a 2-DIP rectangle for a primary format and a 1-DIP rectangle for a secondary one, nothing for none
 - [ ] Manual (Japanese IME): while converting, the segment being converted has a thick underline and the rest a thin one;
       the underlines disappear after Enter
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `nativeEditContext.ts` (+ formats, P3-53); behavior difference "composition underlines
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `nativeEditContext.ts` (+ formats, P3-53); behavior difference "composition underlines
       are view-model state, not model decorations"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
