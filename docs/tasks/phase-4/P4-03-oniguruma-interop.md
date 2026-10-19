@@ -1,6 +1,6 @@
 # P4-03 — Oniguruma interop: `[LibraryImport]`, safe handles, one compiled regex
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-02
 - **Size:** M
 
@@ -46,20 +46,20 @@ headers of the three upstream repositories.
 
 ## Tests
 
-- [ ] New: `Compile_InvalidPattern_ThrowsWithOnigurumaMessage`
-- [ ] New: `Search_FromPosition_ReturnsUtf16Offsets` (subject with a surrogate pair before the match)
-- [ ] New: `Search_UnmatchedGroup_ReturnsMinusOne`
-- [ ] New: `Search_OnigurumaOnlySyntax_Works` (`\h+`, `[[:alpha:]]+`, `a++`, `(?<n>a|\(\g<n>\))`)
-- [ ] New: `HasGAnchor_DetectsBackslashG`
-- [ ] New: `Version_Is6910`
-- [ ] New (architecture): a file whose header names `microsoft/vscode-textmate:` without a second line fails the convention test
+- [x] New: `Compile_InvalidPattern_ThrowsWithOnigurumaMessage`
+- [x] New: `Search_FromPosition_ReturnsUtf16Offsets` (subject with a surrogate pair before the match)
+- [x] New: `Search_UnmatchedGroup_ReturnsMinusOne`
+- [x] New: `Search_OnigurumaOnlySyntax_Works` (`\h+`, `[[:alpha:]]+`, `a++`, `(?<n>a|\(\g<n>\))`)
+- [x] New: `HasGAnchor_DetectsBackslashG`
+- [x] New: `Version_Is6910`
+- [x] New (architecture): a file whose header names `microsoft/vscode-textmate:` without a second line fails the convention test
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map updated (vscode-oniguruma section created)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map updated (vscode-oniguruma section created)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
