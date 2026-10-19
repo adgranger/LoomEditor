@@ -83,6 +83,22 @@ internal sealed class EditContextModel
         return EmitTypeEvent(e);
     }
 
+    /// <summary>
+    /// Stores a selection change made by the IME. With an empty selection (before and after), the cursors must follow:
+    /// the result moves them by the same number of columns; otherwise it is <see langword="null"/>.
+    /// </summary>
+    public TypeData? OnSelectionUpdate(int selectionStart, int selectionEnd)
+    {
+        (int previousStart, int previousEnd) = _previousSelection;
+        _previousSelection = (selectionStart, selectionEnd);
+        if (selectionStart != selectionEnd || previousStart != previousEnd || selectionStart == previousStart)
+        {
+            return null;
+        }
+
+        return new TypeData(string.Empty, 0, 0, selectionStart - previousStart);
+    }
+
     /// <summary>Runs what the IME typed on the cursors (Monaco: <c>_onType</c>).</summary>
     public static void Apply(ViewModel viewModel, TypeData data)
     {

@@ -1,6 +1,6 @@
 # P3-51 — The control: IME through `CoreTextEditContext`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P3-50
 - **Size:** M
 
@@ -75,12 +75,12 @@ The logic is tested in P3-49 and P3-50. Manual checks (Windows 11, Gallery, Debu
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app
-- [ ] `docs/PORTING.md`: map row `nativeEditContext.ts` (+ WinUI `CoreTextEditContext`, P3-51); behavior differences
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the manual checks pass in the AOT app
+- [x] `docs/PORTING.md`: map row `nativeEditContext.ts` (+ WinUI `CoreTextEditContext`, P3-51); behavior differences
       "IME needs Windows 11", "plain typing comes from `CharacterReceived`, composition from `CoreTextEditContext`"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

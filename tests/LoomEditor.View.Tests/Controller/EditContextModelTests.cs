@@ -101,6 +101,25 @@ public class EditContextModelTests
     }
 
     [Fact]
+    public void OnSelectionUpdate_EmptySelectionMoves_GivesAPositionDelta()
+    {
+        EditContextModel model = WithSelectionAt("12345", new Selection(1, 4, 1, 4));
+
+        Assert.Equal(new TypeData(string.Empty, 0, 0, -2), model.OnSelectionUpdate(1, 1));
+        Assert.Equal((1, 1), model.Selection);
+    }
+
+    [Fact]
+    public void OnSelectionUpdate_NonEmptyOrUnchanged_IsNullButStoresTheSelection()
+    {
+        EditContextModel model = WithSelectionAt("12345", new Selection(1, 4, 1, 4));
+
+        Assert.Null(model.OnSelectionUpdate(3, 3));
+        Assert.Null(model.OnSelectionUpdate(1, 3));
+        Assert.Equal((1, 3), model.Selection);
+    }
+
+    [Fact]
     public void Apply_PlainTypeData_TypesTheText()
     {
         TestCodeEditor.WithTestCodeEditor(
