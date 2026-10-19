@@ -1,6 +1,6 @@
 # P3-55 — Close phase 3
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all other phase 3 cards
 - **Size:** S (docs only)
 
@@ -34,13 +34,13 @@ recorded: *Japanese and Chinese IME input works* (P3-54 manual test list).
 
 ## Checks
 
-- [ ] Count the ported Monaco tests per file (by `test(` name, as in phases 1–2) and fill the table in `docs/PORTING.md`
-- [ ] Every `internal` class added in phase 3 has a threading note (`<remarks>Threading: ...</remarks>`)
-- [ ] Every "Phase 4–5 cut point" comment in the code is listed once in `docs/PORTING.md` (a "Cut points for phases 4–5"
+- [x] Count the ported Monaco tests per file (by `test(` name, as in phases 1–2) and fill the table in `docs/PORTING.md`
+- [x] Every `internal` class added in phase 3 has a threading note (`<remarks>Threading: ...</remarks>`)
+- [x] Every "Phase 4–5 cut point" comment in the code is listed once in `docs/PORTING.md` (a "Cut points for phases 4–5"
       section: file, Monaco lines, what is missing) — phases 4–5 will start from this list
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
 
 ## Out of scope
 

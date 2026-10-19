@@ -1,9 +1,11 @@
 # Controller
 
-**Phase 3.** The pure logic of Monaco's `src/vs/editor/browser/controller/` (clipboard data, mouse hit testing, drag
-scrolling, edit context state). It knows nothing about Windows or UI: the WinUI wiring is in `LoomEditor.WinUI/Input/`.
+**Phase 3.** The pure logic of Monaco's `src/vs/editor/browser/controller/` and `view/viewController.ts`. It knows nothing
+about Windows or UI: the WinUI wiring is in `LoomEditor.WinUI/Input/`.
 
-What is here so far:
-
-- P3-36: the data a copy puts on the clipboard and the metadata that makes the next paste smart (`ClipboardData.cs`).
-- P3-50: the text and selection given to the IME and the conversion of its updates into `Type` / `CompositionType` (`EditContextState.cs`, `EditContextModel.cs`).
+- **Mouse**: `MouseTargetFactory` (hit testing on our own layout, `ILineHitTester`), `ViewController` (clicks to cursor
+  commands), `MouseDownOperation` / `MouseDownState` (drag selection), `DragScrolling`.
+- **Clipboard**: `ClipboardData` (what a copy puts on the clipboard and the metadata that makes the next paste smart),
+  `ClipboardCommands`, `IClipboardService`.
+- **Text input**: `TextInputBuffer` (typed characters, surrogate pairs), `EditContextState` / `EditContextModel` (the
+  text and selection given to the IME, its updates as `Type` / `CompositionType`), `CompositionFormat` (the IME underlines).

@@ -189,7 +189,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
 
-## Monaco tests ported in phase 1
+## Monaco tests ported in phases 1 and 3
+
+The rows for phase 3 (`cursor*`, `wordOperations`, `shiftCommand`, `columnSelectionPaste`, `multicursor`, `intervalTree`, `cursorColumns`, `characterClassifier` …) are in this table, with the card that ported them. Phase 3 total: see the "Ported / total" column; every gap says why.
 
 Counted at the pinned commit by test name (`test(...)` / `it(...)` in the Monaco file; a `// Monaco: '<name>'` comment
 marks each ported test). "Ported" includes tests adapted to C# types.
@@ -240,6 +242,38 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 12 / 12 | |
 | `base/test/browser/ui/scrollbar/scrollableElement.test.ts` (`MouseWheelClassifier`) | 9 / 9 | |
 | `editor/test/browser/config/editorLayoutProvider.test.ts` (`Editor ViewLayout - EditorLayoutProvider`) | 10 / 20 | the 8 minimap tests (`EditorLayoutProvider 9` … `14`) and the 2 word-wrap tests (`issue #31312`, `leaves the rightmost column…`): minimap and word wrap are phase 6. The 10 ported ones are `EditorLayoutProvider 1` … `8 - rounds floats` |
+
+## Cut points for phases 4–5
+
+Where phase 3 stops because Monaco needs a language configuration, tokens or bracket matching. Without a language
+configuration Monaco itself behaves like this for a plain-text model, so phase 3 is faithful for plain text. Phases 4–5 start
+from this list (every place is marked `// Phase 4–5 cut point` in the code).
+
+| Where (LoomEditor) | Monaco (pinned commit) | What is missing |
+|---|---|---|
+| `Cursors/TypeOperations.cs` | `cursorTypeEditOperations.ts` 29–113, 115–152, 154–404, 421–478, 480–546; 591–656 | auto-indent on type, auto-closing overtype and open characters, surround selection, electric characters; the composition-as-surround check |
+| `Cursors/TypeEditOperations.Enter.cs` | `cursorTypeEditOperations.ts` 591–615 (`getEnterAction`), 620–656 (`getIndentForEnter`) | on-enter rules, indent after Enter |
+| `Cursors/TypeEditOperations.Tab.cs` | `cursorTypeEditOperations.ts` 877–916 (`_goodIndentForLine`) | smart Tab (`getInheritIndentForLine`, `getEnterAction`) |
+| `Cursors/DeleteOperations.cs`, `DeleteWordContext.cs`, `WordOperations.Delete.cs`, `Features/WordOperations/DeleteWordCommand.cs` | `cursorDeleteOperations.ts` 167–169; `cursorWordOperations.ts` | auto-closing pair delete, `autoClosingPairs` for word deletes |
+| `Cursors/CursorConfiguration.cs`, `AutoClosedAction.cs`, `CursorsController.Edits.cs` | `cursorCommon.ts`; `cursor.ts` 682–748 | `autoClosingPairs`, `surroundingPairs`, comment tokens, auto-closed characters (need model decorations) and the `"snippet"` source |
+| `Cursors/Commands/ShiftCommand.cs` | `shiftCommand.ts` 144–176 | enter action of the previous line (doc blocks) |
+| `Controller/ViewController.cs` | `viewController.ts` (`_trySelectBracketContent`, string content) | double-click on a bracket or string selects its content (bracket matching, tokens) |
+| `Layout/RevealCalculator.cs` | `viewLines.ts` reveal | sticky scroll lines |
+
+## Done in phase 3 (editing)
+
+The step-by-step cards are in **[docs/tasks/phase-3/](tasks/phase-3/)** (P3-01 … P3-55); the design is
+[ADR 0006](adr/0006-editing-and-text-input.md). Main design decisions:
+
+- Monaco's cursor (`editor/common/cursor/*`) is ported into `LoomEditor.View/Cursors/` as is: `CursorsController`,
+  `CommandExecutor`, move, type, delete, word, shift and paste operations, with Monaco's tests.
+- Ranges that follow edits are tracked ranges on a ported interval tree; there is no public decorations API yet.
+- Commands and keybindings: Monaco's core commands and VS Code's default Windows shortcuts; `when` clauses are C# predicates.
+- The mouse is hit-tested on our own layout; the click logic (`MouseDownOperation`, `ViewController`, drag scrolling) is pure.
+- The clipboard keeps the multi-cursor metadata in memory, like Monaco; text goes to Windows with CRLF.
+- Plain typing comes from `CharacterReceived`, composition from `CoreTextEditContext` (Windows 11 only).
+- The "done when" criterion is met: Japanese (Microsoft IME) and Chinese (Microsoft Pinyin) input work in the Native AOT
+  Gallery (`docs/testing/phase-3-manual-tests.md`, 2026-10-19). Not tested: Korean IME and Windows 10.
 
 ## Done in phase 2 (rendering)
 

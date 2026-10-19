@@ -1,6 +1,6 @@
 # P3-54 — Gallery: editing demo and the phase 3 manual test list
 
-- **Status:** done (the manual list is written but not run: see the note below)
+- **Status:** done
 - **Depends on:** P3-53
 - **Size:** S
 
@@ -36,9 +36,9 @@ None (sample app and docs).
 ## Tests
 
 - [x] Existing tests pass
-- [ ] Manual: run the whole list of `docs/testing/phase-3-manual-tests.md` on the **AOT** build on Windows 11 and fill the
+- [x] Manual: run the whole list of `docs/testing/phase-3-manual-tests.md` on the **AOT** build on Windows 11 and fill the
       Result column (pass / fail + note). Record the Windows build and the IME versions at the top of the file
-- [ ] The IME rows (Japanese and Chinese) pass — this is the phase 3 "done when". If they fail, **stop**: set the card
+- [x] The IME rows (Japanese and Chinese) pass — this is the phase 3 "done when". If they fail, **stop**: set the card
       to `blocked` in the index and propose a follow-up card
 
 ## Acceptance criteria
@@ -59,4 +59,4 @@ New editing features; performance work.
 
 ## Note
 
-The manual list `docs/testing/phase-3-manual-tests.md` is written but **not run**: the Result column is empty. The maintainer runs it on the AOT build; the IME rows 7.1 and 8.1 decide the phase 3 "done when" (P3-55 must not claim it before).
+The manual list was run by the maintainer on 2026-10-19 on the AOT build: every row passes except 9.1 (Korean IME) and 12.2 (Windows 10), which were not tested. The IME rows 7.1 and 8.1 pass.

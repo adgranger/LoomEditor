@@ -48,7 +48,7 @@ Monaco equivalents: Core ≈ `editor/common/core` + `editor/common/model`; View 
 | 8 | **Values are immutable**: `Position`, `Range`, `Selection`, `TextEdit` are `readonly record struct`. | code review |
 | 9 | **Threading is documented.** The model is changed on the UI thread only. Tokenization runs in the background, incrementally, cancellably, and publishes results on the UI thread. Each class states its thread contract in its XML doc. | code review |
 
-## How a key press becomes pixels (phase 0)
+## How a key press becomes pixels (phase 0, select all)
 
 ```
 KeyDown (WinUI)            LoomEditor.OnKeyDown
@@ -59,6 +59,26 @@ KeyDown (WinUI)            LoomEditor.OnKeyDown
   → TextViewRenderer       draws selection, line numbers, text on an IRenderSurface
   → Win2DRenderSurface     Direct2D / DirectWrite
 ```
+
+## How a key press becomes an edit (phase 3)
+
+```
+KeyDown (WinUI)              LoomEditor.OnKeyDown            ignored while an IME composition is active
+  → KeyboardInput            key + modifiers → Keybinding
+  → KeybindingResolver       Keybinding + KeybindingContext (the `when` clauses) → command id
+  → CommandRegistry          runs the command (CoreNavigationCommands / CoreEditingCommands, or a feature's)
+  → ViewModel                CursorMoveCommands, TypeOperations, DeleteOperations… → CursorsController
+  → CommandExecutor          IEditCommands → TextModel.PushEditOperations (one undo step) → ResultingSelection
+  → events                   ContentChanged, CursorStateChangedEvent (outgoing), view events
+  → reveal + redraw          RevealCalculator scrolls to keep the cursor visible, CanvasControl.Invalidate()
+```
+
+Plain typing does not go through commands: `CharacterReceived` → `TextInputBuffer` → `ViewModel.Type`. IME, emoji panel
+and other text services use `CoreTextEditContext` (Windows 11): `ImeInput` → `EditContextModel` → `ViewModel.Type` /
+`CompositionType`; its underlines and candidate window position come from the same `ImeInput`.
+
+The mouse: pointer events → `PointerInput` → `MouseTargetFactory` (hit test) → `MouseDownOperation` → `ViewController`
+→ cursor commands. The clipboard: `ClipboardCommands` (copy, cut, paste) with `WindowsClipboardService`.
 
 ## How a frame is drawn (phase 2)
 
@@ -103,6 +123,12 @@ Step-by-step guide: [how-to/add-a-feature.md](how-to/add-a-feature.md).
 | change a value type (`Range`…) | `src/LoomEditor.Core/Text/` |
 | add or fix an editor feature | `src/LoomEditor.View/Features/<Name>/` |
 | add a command or shortcut | the feature's `<Name>Commands.cs`; shortcuts in `src/LoomEditor.WinUI/Input/` (phase 3: `View/Commands/DefaultKeybindings.cs`) |
+| change cursors, selections, how typing / deleting / indenting / paste behave | `src/LoomEditor.View/Cursors/` (`CursorsController`, `TypeOperations`, `DeleteOperations`, `CursorMoveCommands`…) |
+| change a command or a default shortcut | `src/LoomEditor.View/Commands/` (`CoreNavigationCommands`, `CoreEditingCommands`, `DefaultKeybindings.cs`, `KeybindingResolver`) |
+| change mouse selection or hit testing | `src/LoomEditor.View/Controller/` (`MouseTargetFactory`, `MouseDownOperation`, `ViewController`), `src/LoomEditor.WinUI/Controls/LoomEditor.Pointer.cs` |
+| change the clipboard | `src/LoomEditor.View/Controller/ClipboardData.cs`, `ClipboardCommands.cs`, `src/LoomEditor.WinUI/Input/WindowsClipboardService.cs` |
+| change IME input (composition, candidate window, underlines) | `src/LoomEditor.View/Controller/EditContext*.cs`, `src/LoomEditor.WinUI/Input/ImeInput.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Ime.cs` |
+| change tracked ranges (ranges that follow edits) | `src/LoomEditor.Core/Decorations/` (interval tree), `src/LoomEditor.Core/Model/TextModel.TrackedRanges.cs` |
 | change how things are drawn | `src/LoomEditor.Rendering/TextViewRenderer.cs` |
 | change the Win2D backend | `src/LoomEditor.Rendering/Win2D/` |
 | change scrolling, wheel or the scroll position | `src/LoomEditor.View/Layout/` (`Scrollable`, `ViewLayout`, `MouseWheelScrolling`); the control side is `src/LoomEditor.WinUI/Controls/LoomEditor.Scrolling.cs` |

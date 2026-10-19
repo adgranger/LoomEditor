@@ -17,8 +17,14 @@ precision when they become `float`; the renderer works with `scrollTop - bigNumb
 **Column** — Position inside a line, **starting at 1**. Column 1 is *before* the first character; a line of
 length *n* has columns 1 to *n + 1*. Columns count UTF-16 code units (like `string.Length`), so an emoji may take 2.
 
+**Column (box) selection** — A rectangular selection made of one selection per line, built with Alt+Shift+mouse or
+Shift+Alt+arrows. `ColumnSelection` computes it, using *visible columns*.
+
 **Command** — An action identified by a string id, e.g. `editor.action.selectAll`. Commands are what keyboard
 shortcuts, menus and code run. See `CommandRegistry`.
+
+**Composition (IME)** — The text an IME shows while the user is still choosing the final characters (underlined). It is
+replaced by the final text when the composition ends. See *IME* and *edit context*.
 
 **Content width / scroll width** — The width of the scrollable content: the widest line seen so far plus some extra
 room, and the width of the scrollbar. The *scroll width* is the larger of it and the viewport width. They set the
@@ -36,7 +42,19 @@ Decorations move with the text when it is edited.
 
 **DirectWrite / Direct2D** — Windows' text and 2D graphics engines. We use them through **Win2D**.
 
+**Edit command (`IEditCommand`)** — An object that, given a model, says which edits to make and how to compute the
+resulting selection (`ShiftCommand`, `ReplaceCommand`…). The cursor collects the commands of all cursors and runs them as one edit.
+
+**Edit context** — The small copy of the text (the lines of the primary selection) and selection that the editor gives to
+the IME and other Windows text services, and which they update (`EditContextModel`, Windows `CoreTextEditContext`).
+
+**Edit operation identifier** — A label (`identifier`) attached to an edit so that the cursor can find out which range
+that edit produced when the model reports its result.
+
 **EOL** — End of line: `\n` (LF) or `\r\n` (CRLF). A text model has one preferred EOL.
+
+**Grapheme cluster** — What a user sees as one character: a letter with accents, an emoji with a skin tone, a family emoji…
+It can be several UTF-16 units; the cursor moves over a whole cluster (`GraphemeIterator`).
 
 **Gutter** — The margin on the left of the text: line numbers, folding arrows, breakpoints.
 
@@ -45,8 +63,14 @@ into characters). Needs special support from the editor (phase 3).
 
 **Interval tree** — A tree that quickly finds all ranges overlapping a given range. Used to store decorations.
 
+**Keybinding / `when` clause** — A key combination bound to a command id. A `when` clause says in which state the
+binding is active (for example "the editor has a selection"); here it is a C# predicate on a `KeybindingContext`.
+
 **Layout info** — The sizes of the parts of the editor, in DIPs: line numbers, glyph margin, folding strip, text area,
 scrollbars (`EditorLayoutInfo`, computed from the editor size and the font). `ContentLeft` is where the text starts.
+
+**Leftover visible columns** — When the cursor moves up or down through shorter lines, it remembers the column it
+started from (the "leftover") to return to it on a longer line.
 
 **Line layout cache** — A least-recently-used cache of laid-out lines (`LineLayoutCache`), keyed by the text of the
 line. A line that did not change keeps its layout while the user scrolls or edits other lines. It is cleared when the
@@ -65,12 +89,15 @@ run-time reflection or code generation**. That is why we use source generators.
 append-only *buffers*; the document is a list of *pieces* ("characters 10 to 50 of buffer 0") kept in a balanced
 binary tree (a red-black tree) so that finding a line or inserting text is fast even in a 100 MB file.
 
-**Position** — A (line number, column) pair, both starting at 1.
-
 **Pixel ratio** — The number of physical pixels in one DIP (1 at 100 % scale, 1.5 at 150 %). Fonts are measured with it,
 and the caret width is rounded to whole physical pixels.
 
+**Position** — A (line number, column) pair, both starting at 1.
+
 **PRI** — Package Resource Index: the file where Windows App SDK stores an app's resources, including compiled XAML.
+
+**Primary cursor / secondary cursor** — With several cursors, the primary one is the one the user created last; the
+view reveals it and the status bar shows it. The others are secondary.
 
 **Range** — A start position and an end position, start ≤ end. *Empty* if both are equal.
 
@@ -78,11 +105,11 @@ and the caret width is rounded to whole physical pixels.
 or deleted, or "everything flushed". The view uses it to update only the lines that changed. The *content change
 event* describes the same edit as text ranges.
 
-**Scroll beyond last line** — The option that lets the user scroll until the last line is at the top of the viewport,
-leaving empty space below it (`ViewLayoutOptions.ScrollBeyondLastLine`).
-
 **Scope** (TextMate) — A dotted name describing what a token is, e.g. `string.quoted.double.cs`. Themes pick
 colors by scope.
+
+**Scroll beyond last line** — The option that lets the user scroll until the last line is at the top of the viewport,
+leaving empty space below it (`ViewLayoutOptions.ScrollBeyondLastLine`).
 
 **Selection** — A range plus a direction (where the anchor and the caret are).
 
@@ -91,11 +118,20 @@ the model keeps changing. Used for saving files.
 
 **Source generator** — Code that runs at compile time and writes more C# code. Replaces reflection.
 
+**Stickiness** — What a tracked range does when text is inserted exactly at one of its ends: grow to include it or stay
+outside (`TrackedRangeStickiness`).
+
 **Token** — A piece of a line with one meaning and one color (a keyword, a string, a comment…).
 
 **Tokenization** — Cutting lines into tokens using a TextMate grammar. Runs in the background.
 
+**Tracked range** — A range the model keeps up to date through edits (stored in the interval tree). The cursor uses
+them to follow the selections during a command.
+
 **Undo stack element** — One undo step: all the edits (and EOL change) that one undo reverts together.
+
+**Undo stop** — A boundary between two undo steps. Typing keeps adding to the current step until an undo stop is
+pushed (for example when the cursor moves or a command ends).
 
 **View line** — A line *as displayed*. With word wrap, one model line may become several view lines; with folding,
 several model lines may be hidden. Model line numbers ≠ view line numbers.
@@ -104,9 +140,15 @@ several model lines may be hidden. Model line numbers ≠ view line numbers.
 
 **Virtualization** — Only creating/drawing what is visible in the viewport, so huge files stay fast.
 
+**Visible column** — A column counted as the user sees it: a tab counts up to the next tab stop, a wide character
+counts 2. Differs from the *column* (one per UTF-16 unit). `CursorColumns` converts between them.
+
+
 **Whitespace (view zone gap)** — Vertical space inserted between two lines, used by widgets such as inline diffs or
 peek views (`EditorWhitespace` in `LinesLayout`). It adds to the height of the document but is not a line.
 
 **Win2D** — Microsoft's C#-friendly wrapper over Direct2D and DirectWrite. See ADR 0002.
 
 **XBF** — Compiled (binary) XAML.
+**Auto whitespace** — Whitespace the editor inserted by itself (for example the indentation of a new line). If the
+user leaves the line without typing anything, the editor removes it (`trimAutoWhitespace`).

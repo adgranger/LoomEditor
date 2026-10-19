@@ -9,4 +9,4 @@ Monaco sources: `src/vs/editor/common/viewModelEventDispatcher.ts`, `src/vs/edit
 Only what phase 3 needs is ported: two view events (`ViewCursorStateChangedEvent`, `ViewRevealRangeRequestEvent`) and
 two outgoing events (`CursorStateChangedEvent`, `ReadOnlyEditAttemptEvent`). Monaco has about 20 view events and about
 10 outgoing events; they are added when a feature needs them. The control keeps its own .NET events for scrolling,
-configuration and line changes.
+configuration, line changes and composition formats.

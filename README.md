@@ -9,9 +9,10 @@
 - **Easy to maintain**: one feature = one folder, explicit registration, architecture rules checked by tests.
 - **MIT licensed.**
 
-> **Status: phase 2 done, phase 3 next (pre-alpha).** The text model (piece tree, edits, undo/redo, events) is ported and
-> tested, and the control draws text with line numbers, a blinking caret, scrollbars and smooth scrolling (a 100 MB file scrolls at 60 fps), but it is read-only: Ctrl+A selects all.
-> Not usable for real editing yet. See the roadmap below.
+> **Status: phase 3 done, phase 4 next (pre-alpha).** The text model (piece tree, edits, undo/redo, events) is ported and
+> tested, and the control draws and edits plain text: keyboard, mouse, multi-cursor, clipboard, undo/redo, and IME input
+> on Windows 11, with scrolling that stays fluid on a 100 MB file. There is no syntax highlighting, find or auto-closing yet:
+> not usable for real code editing before phases 4–5. See the roadmap below.
 
 ## Usage (target API)
 
@@ -25,13 +26,17 @@
 ```
 
 ```csharp
+using LoomEditor.Core.Text;
 using LoomEditor.View.Features.SelectAll;
 
 editor.Text = File.ReadAllText("Program.cs");
+editor.IsReadOnly = false;                       // the user can type, paste, undo (Ctrl+Z)…
+editor.SetSelections([Selection.Collapsed(new Position(1, 1))]);
+editor.SelectionChanged += (_, _) => UpdateStatusBar(editor.Selections);
 editor.Commands.Execute(SelectAllCommands.SelectAll);
 ```
 
-Planned for later phases: `Language="csharp"`, `Theme="Dark Modern"`, two-way editing with a `TextModel`,
+Planned for later phases: `Language="csharp"`, `Theme="Dark Modern"`, two-way binding of `Text`,
 decorations, LSP integration, diff editor.
 
 > `LoomEditor.Core.Text.Range` has the same name as `System.Range`. In projects that use it, add
@@ -39,7 +44,7 @@ decorations, LSP integration, diff editor.
 
 ## Requirements
 
-- Windows 10 version 2004 (build 19041) or later, x64 or ARM64
+- Windows 10 version 2004 (build 19041) or later, x64 or ARM64 (IME input needs Windows 11)
 - .NET 11 SDK (currently RC 1, see `global.json`)
 - Windows App SDK 2.5
 - To build Oniguruma (phase 4): Visual Studio 2022+ with the C++ workload
@@ -60,8 +65,8 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64  # Native AOT bu
 | 0 | Skeleton, docs, CI, AOT smoke test | CI green, AOT Gallery starts ✅ |
 | 1 | Text model: piece tree, positions, EOL, undo/redo | Monaco model tests ported and green ✅ |
 | 2 | Rendering: plain text, virtualized viewport, gutter, caret, scrolling | A 100 MB file is fluid ✅ |
-| **3** | Editing: selection, multi-cursor, keyboard, mouse, clipboard, IME | Japanese/Chinese IME input works ← **we are here** |
-| 4 | TextMate grammars + VS Code themes | Golden tests green for 10 languages |
+| 3 | Editing: selection, multi-cursor, keyboard, mouse, clipboard, IME | Japanese/Chinese IME input works ✅ |
+| **4** | TextMate grammars + VS Code themes | Golden tests green for 10 languages ← **we are here** |
 | 5 | Features: find/replace, folding, brackets, auto-indent, comment | One feature = one documented folder |
 | 6 | Minimap, sticky scroll, word wrap, whitespace, guides | — |
 | 7 | Full UI Automation accessibility | Narrator reads and navigates the content |
