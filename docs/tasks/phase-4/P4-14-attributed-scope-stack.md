@@ -1,6 +1,6 @@
 # P4-14 — Grammar (1/6): `AttributedScopeStack` and `BalancedBracketSelectors`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-13
 - **Size:** M
 
@@ -33,17 +33,17 @@ exists, with the balanced-bracket selectors that set the bracket bit.
 
 No upstream unit tests. New:
 
-- [ ] `PushAttributed_MergesThemeColorsOfTheDeepestMatch`
-- [ ] `PushAttributed_ScopeWithSpaces_PushesEachSegment`
-- [ ] `GetExtensionIfDefined_ReturnsFramesAboveBase`
-- [ ] `BalancedBracketSelectors_UnbalancedWins_AndStarMatchesAlways`
+- [x] `PushAttributed_MergesThemeColorsOfTheDeepestMatch`
+- [x] `PushAttributed_ScopeWithSpaces_PushesEachSegment`
+- [x] `GetExtensionIfDefined_ReturnsFramesAboveBase`
+- [x] `BalancedBracketSelectors_UnbalancedWins_AndStarMatchesAlways`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
