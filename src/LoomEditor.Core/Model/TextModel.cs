@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.Core.Languages;
+using LoomEditor.Core.Model.BracketPairs;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
 using LoomEditor.Core.Model.Tokens;
@@ -65,8 +66,15 @@ public sealed partial class TextModel
         _buffer = buffer;
         _editStack = new EditStack(this, _undoRedoStack);
         LanguageConfigurationRegistry = languageConfigurationRegistry ?? new LanguageConfigurationRegistry();
+
+        // Monaco's order (textModel.ts 357-365): the bracket pairs part exists before the tokenization part.
+        BracketPairs = new BracketPairsTextModelPart(this, LanguageConfigurationRegistry);
         CreateTokenization(registry, languageIdCodec, scheduler);
-        LanguageConfigurationRegistry.Changed += (_, e) => _tokenization.HandleLanguageConfigurationServiceChange(e);
+        LanguageConfigurationRegistry.Changed += (_, e) =>
+        {
+            BracketPairs.HandleLanguageConfigurationServiceChange(e);
+            _tokenization.HandleLanguageConfigurationServiceChange(e);
+        };
     }
 
     // Monaco: DEFAULT_CREATION_OPTIONS with the given default EOL, unless options are given

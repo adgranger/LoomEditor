@@ -11,7 +11,7 @@ namespace LoomEditor.Core.Model.Tokens;
 /// <summary>
 /// The tokenization of a <see cref="TextModel"/>: its language id and its syntax tokens (Monaco:
 /// <c>TokenizationTextModelPart</c> / <c>ITokenizationTextModelPart</c>). Not ported: semantic tokens, tree-sitter,
-/// font tokens, bracket pairs (phase 5).
+/// font tokens.
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
 internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
@@ -30,7 +30,8 @@ internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
     {
         _model = model;
         LanguageId = languageId;
-        _tokens = new TokenizerSyntaxTokenBackend(languageIdCodec, model, registry, this, scheduler, attachedViews, model.RaiseTokensChanged);
+        _tokens = new TokenizerSyntaxTokenBackend(
+            languageIdCodec, model, registry, this, scheduler, attachedViews, model.RaiseTokensChanged, model.BracketPairs.HandleDidChangeBackgroundTokenizationState);
     }
 
     /// <summary><c>getLanguageId</c>.</summary>
@@ -131,6 +132,7 @@ internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
         var e = new ModelLanguageChangedEventArgs(LanguageId, languageId, source);
         LanguageId = languageId;
         _tokens.ResetTokenization();
+        _model.BracketPairs.HandleDidChangeLanguage(e);
         _model.RaiseLanguageChanged(e);
         _model.RaiseLanguageConfigurationChanged();
     }

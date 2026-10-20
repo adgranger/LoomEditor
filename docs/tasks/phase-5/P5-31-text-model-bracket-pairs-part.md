@@ -1,6 +1,6 @@
 # P5-31 — `TextModel.BracketPairs`: the bracket pairs part (tree path)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-30
 - **Size:** M
 
@@ -67,28 +67,28 @@ background tokenization, language, options and language configuration changes.
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - getBracketPairsInRange` › `Basic 1`, `Basic 2`, `Basic Empty`,
+- [x] Port suite `Bracket Pair Colorizer - getBracketPairsInRange` › `Basic 1`, `Basic 2`, `Basic Empty`,
       `unmatched closing brackets after position`, `unmatched closing bracket query waits for background tokenization`,
       `unmatched closing brackets are language scoped`, `Basic All`, `getBracketsInRange`, `Test Error Brackets`,
       `colorizedBracketsVSBrackets` (`disposeOnReturn` → `using`/nothing; `TokenizedDocument` of P5-28;
       `createBackgroundTokenizer` returning a do-nothing tokenizer → the phase 4 `ITokenizationSupport` member
       `CreateBackgroundTokenizer` returning a no-op `IBackgroundTokenizer`; `bracketPairToJSON` → an anonymous record
       compared with `Assert.Equal`)
-- [ ] New: `BracketPairs_FirstRequest_BuildsTree_AndRaisesChanged`
-- [ ] New: `BracketPairs_LanguageChanged_RebuildsTree`
-- [ ] New: `BracketPairs_ConfigurationOfOtherLanguage_DoesNotRebuild` (`DidLanguageChange` false)
-- [ ] New: `MatchBracket_InsideBracket_ReturnsOpenThenClose`
-- [ ] New: `FindEnclosingBrackets_ReturnsInnermostClosedPair`
-- [ ] New: `MaxSupportedDocumentLength_Exceeded_TreeIsDropped_AndChangedRaised`
+- [x] New: `BracketPairs_FirstRequest_BuildsTree_AndRaisesChanged`
+- [x] New: `BracketPairs_LanguageChanged_RebuildsTree`
+- [x] New: `BracketPairs_ConfigurationOfOtherLanguage_DoesNotRebuild` (`DidLanguageChange` false)
+- [x] New: `MatchBracket_InsideBracket_ReturnsOpenThenClose`
+- [x] New: `FindEnclosingBrackets_ReturnsInnermostClosedPair`
+- [x] New: `MaxSupportedDocumentLength_Exceeded_TreeIsDropped_AndChangedRaised`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (phase 1–4 model tests untouched)
-- [ ] `docs/PORTING.md` map: `bracketPairsImpl.ts` 🔶 (tree path, P5-31), `textModelBracketPairs.ts` ✅; tests row
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (phase 1–4 model tests untouched)
+- [x] `docs/PORTING.md` map: `bracketPairsImpl.ts` 🔶 (tree path, P5-31), `textModelBracketPairs.ts` ✅; tests row
       `getBracketPairsInRange.test.ts` 10 / 10
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] `docs/tasks/phase-5/README.md` section 5: row for `AnnotatedDocument` (created by P5-31)
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] `docs/tasks/phase-5/README.md` section 5: row for `AnnotatedDocument` (created by P5-31)
 
 ## Out of scope
 
