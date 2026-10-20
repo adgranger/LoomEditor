@@ -223,6 +223,19 @@ public class TextViewRendererDecorationsTests
     }
 
     [Fact]
+    public void Render_BracketHighlightingClass_UsesTheBracketColorNotTheTokenColor()
+    {
+        using ViewHarness harness = CreateHarness("(hello)");
+        AddDecoration(harness, new Range(1, 1, 1, 2), new ModelDecorationOptionsData { Description = "test", InlineClassName = "bracket-highlighting-1" });
+
+        harness.Render();
+
+        FakeLineLayout layout = harness.Measurer.Layouts.Last(l => l.Text == "(hello)");
+        ThemeColor expected = BracketPairColorizationColors.GetLevelColor(harness.Renderer.Theme, 1)!.Value;
+        Assert.Equal(new StyleRun(0, 1, LineStyle.ToArgb(expected), FontStyle.None), layout.Style.Runs[0]);
+    }
+
+    [Fact]
     public void Render_InlineClassNameWithoutRow_KeepsTokenColors()
     {
         using ViewHarness harness = CreateHarness("hello world");

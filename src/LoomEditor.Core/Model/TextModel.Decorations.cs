@@ -169,8 +169,9 @@ public sealed partial class TextModel
         int end = Math.Min(lineCount, Math.Max(1, endLineNumber));
         var range = new Range(start, 1, end, GetLineMaxColumn(end));
 
-        // Phase 5 cut point (bracket pair colorization, step C): pushMany(decorations, this._decorationProvider.getDecorationsInRange(range, ownerId, filterOutValidation, filterFontDecorations))
-        return GetDecorationsInRangeCore(range, ownerId, filterOutValidation, filterFontDecorations);
+        List<ModelDecoration> decorations = GetDecorationsInRangeCore(range, ownerId, filterOutValidation, filterFontDecorations);
+        decorations.AddRange(_decorationProvider.GetDecorationsInRange(range, ownerId, filterOutValidation));
+        return decorations;
     }
 
     /// <summary>The decorations that intersect <paramref name="range"/> (validated first).</summary>
@@ -178,15 +179,17 @@ public sealed partial class TextModel
     {
         Range validated = ValidateRange(range);
 
-        // Phase 5 cut point (bracket pair colorization, step C): pushMany(decorations, this._decorationProvider.getDecorationsInRange(validatedRange, ownerId, filterOutValidation, filterFontDecorations, onlyMinimapDecorations))
-        return GetDecorationsInRangeCore(validated, ownerId, filterOutValidation, filterFontDecorations);
+        List<ModelDecoration> decorations = GetDecorationsInRangeCore(validated, ownerId, filterOutValidation, filterFontDecorations);
+        decorations.AddRange(_decorationProvider.GetDecorationsInRange(validated, ownerId, filterOutValidation));
+        return decorations;
     }
 
     /// <summary>All the decorations of the model (tracked ranges included).</summary>
     internal IReadOnlyList<ModelDecoration> GetAllDecorations(int ownerId = 0, bool filterOutValidation = false, bool filterFontDecorations = false)
     {
-        // Phase 5 cut point (bracket pair colorization, step C): result = result.concat(this._decorationProvider.getAllDecorations(ownerId, filterOutValidation))
-        return _decorationsTree.GetAll(this, ownerId, filterOutValidation, filterFontDecorations, onlyMarginDecorations: false);
+        List<ModelDecoration> result = [.. _decorationsTree.GetAll(this, ownerId, filterOutValidation, filterFontDecorations, onlyMarginDecorations: false)];
+        result.AddRange(_decorationProvider.GetAllDecorations(ownerId, filterOutValidation));
+        return result;
     }
 
     // Monaco: _getDecorationsInRange
