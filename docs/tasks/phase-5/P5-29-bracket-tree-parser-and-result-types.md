@@ -1,6 +1,6 @@
 # P5-29 — Bracket pair tree (8/9): parser, result types, `CallbackIterable`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-28
 - **Size:** M
 
@@ -62,23 +62,26 @@ tree that the edits did not touch). The result types of the bracket pairs API (`
 
 No upstream test targets the parser alone (it is covered by P5-30 and P5-31).
 
-- [ ] New: `ParseDocument_FastTokenizer_BuildsNestedPairs` (`"{ ( [] ) }"` with `{}`, `()`, `[]`: one pair whose
+- [x] New: `ParseDocument_FastTokenizer_BuildsNestedPairs` (`"{ ( [] ) }"` with `{}`, `()`, `[]`: one pair whose
       child holds a pair whose child holds a pair; lengths add up to the text length)
-- [ ] New: `ParseDocument_UnclosedBracket_PairWithoutClosingBracket`
-- [ ] New: `ParseDocument_UnexpectedClosingBracket_IsInvalidBracketNode`
-- [ ] New: `ParseDocument_MismatchedClosing_ClosesOuterPair` (`"{ ( }"`: the `(` pair is unclosed, the `{` pair is closed)
-- [ ] New: `ParseDocument_10000OpeningBrackets_DoesNotOverflowTheStack` (nesting stops at level 300)
-- [ ] New: `ParseDocument_CreateImmutableLists_ListsAreImmutable`
-- [ ] New: `ParseDocument_WithOldNodeAndNoEdit_ReusesNodes` (`NodesReused > 0`, same structure as a fresh parse)
-- [ ] New: `CallbackIterable_FindLastMaxBy_KeepsFirstOfEqualMaxima`, `…_FindFirst_StopsIterating`, `…_Empty_ToArrayIsEmpty`
+- [x] New: `ParseDocument_UnclosedBracket_PairWithoutClosingBracket`
+- [x] New: `ParseDocument_UnexpectedClosingBracket_IsInvalidBracketNode`
+- [x] New: `ParseDocument_MismatchedClosing_ClosesOuterPair` (`"{ ( }"`: the `(` pair is unclosed, the `{` pair is closed)
+- [x] New: `ParseDocument_10000OpeningBrackets_DoesNotOverflowTheStack` (nesting stops at level 300)
+- [x] New: `ParseDocument_CreateImmutableLists_ListsAreImmutable`
+- [x] New: `ParseDocument_WithOldNodeAndNoEdit_ReusesNodes` (`NodesReused > 0`, same structure as a fresh parse)
+- [x] New: `CallbackIterable_FindLastMaxBy_KeepsFirstOfEqualMaxima`, `…_FindFirst_StopsIterating`, `…_Empty_ToArrayIsEmpty`
+      (named `FindLastMaxBy_EqualMaxima_KeepsFirstOfEqualMaxima`, `FindFirst_StopsIterating`, `Empty_ToArray_IsEmpty` in
+      `CallbackIterableTests`, with 10 more; `ParserTests` adds `…_EmptyText_IsAnEmptyList`,
+      `Constructor_OldNodeWithImmutableLists_Throws` and `ParseDocument_WithOldNodeAndEdit_ReusesUntouchedPairsOnly`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `parser.ts` ✅ (P5-29), `textModelBracketPairs.ts` 🔶 (types), `base/common/arrays.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `parser.ts` ✅ (P5-29), `textModelBracketPairs.ts` 🔶 (types), `base/common/arrays.ts`
       🔶 (`CallbackIterable`, `compareBy`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
