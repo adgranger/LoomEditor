@@ -177,6 +177,71 @@ public class WorkerControllerTests
     }
 
     [Fact]
+    public void Results_AfterTheModelWasReplaced_AreDropped()
+    {
+        using var f = new Fixture(5);
+        f.CreateAttachedTokenizer();
+        f.Worker.RunToCompletion();
+
+        f.Model.SetValue("x");  // the batch was computed for 5 lines; the model has one now
+        f.Dispatcher.RunAll();
+
+        Assert.Empty(f.Store.Tokens);
+    }
+
+    [Fact]
+    public void Results_ForTextWithMixedLineBreaks_StayInsideTheModel()
+    {
+        using var f = new Fixture(1);
+        f.CreateAttachedTokenizer();
+
+        f.Model.SetValue("a\nb\r\nc\r\nd");
+        f.Worker.RunToCompletion();
+        f.Dispatcher.RunAll();
+
+        Assert.Equal(4, f.Model.LineCount);
+        Assert.All(f.Store.Tokens, t => Assert.True(t.EndLineNumber <= f.Model.LineCount, $"tokens up to line {t.EndLineNumber}, model has {f.Model.LineCount}"));
+    }
+
+    // The model resets its tokenization while it raises ContentChanged, which creates a controller; that controller
+    // must not receive the change that is already in the text it sent to the worker (the worker would apply it twice).
+    [Fact]
+    public void Controller_CreatedWhileTheModelRaisesAChange_DoesNotApplyThatChangeTwice()
+    {
+        using var f = new Fixture(1);
+        bool created = false;
+        f.Model.RawContentChanged += (_, _) =>
+        {
+            if (!created)
+            {
+                created = true;
+                f.CreateAttachedTokenizer();
+            }
+        };
+
+        f.Model.SetValue("a\nb\nc");
+        f.Worker.RunToCompletion();
+        f.Dispatcher.RunAll();
+
+        Assert.True(created);
+        Assert.NotEmpty(f.Store.Tokens);
+        Assert.All(f.Store.Tokens, t => Assert.True(t.EndLineNumber <= f.Model.LineCount, "tokens up to line " + t.EndLineNumber));
+    }
+    [Fact]
+    public void Results_AfterTwoReplacements_AreDropped()
+    {
+        using var f = new Fixture(250);
+        f.CreateAttachedTokenizer();
+        f.Worker.RunToCompletion();
+
+        f.Model.SetValue(string.Empty);
+        f.Model.SetValue("a\nb");
+        f.Dispatcher.RunAll();
+
+        Assert.All(f.Store.Tokens, t => Assert.True(t.EndLineNumber <= f.Model.LineCount));
+    }
+
+    [Fact]
     public void Results_ForDisposedController_AreIgnored()
     {
         using var f = new Fixture(5);

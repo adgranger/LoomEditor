@@ -34,4 +34,3 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Micro
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
-static readonly LoomEditor.WinUI.Controls.LoomEditor.ThemeProperty -> Microsoft.UI.Xaml.DependencyProperty!

@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.TextMate.Grammars;
+using LoomEditor.Themes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -13,10 +15,36 @@ public sealed partial class MainWindow : Window
 {
     private bool _isBusy;
 
+    /// <summary>The ids of the built-in languages (the items of the language picker).</summary>
+    public string[] LanguageIds { get; } = [.. BuiltInLanguages.Ids];
+
+    /// <summary>The names of the built-in themes (the items of the theme picker).</summary>
+    public string[] ThemeNames { get; } = [.. EditorTheme.BuiltIn.Select(theme => theme.Name)];
+
+    // Items are added in code (strings as ComboBoxItem content): the same as the static items of the font picker, which work under Native AOT.
+    private void PopulatePickers()
+    {
+        foreach (string id in LanguageIds)
+        {
+            LanguageBox.Items.Add(new ComboBoxItem { Content = id });
+        }
+
+        foreach (string name in ThemeNames)
+        {
+            ThemeBox.Items.Add(new ComboBoxItem { Content = name });
+        }
+
+        LanguageBox.SelectedIndex = 0;
+        ThemeBox.SelectedIndex = 0;
+    }
+
     /// <summary>Creates the window and loads the sample text.</summary>
     public MainWindow()
     {
         InitializeComponent();
+        PopulatePickers();
+        Editor.LanguageId = "csharp";
+        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
         Editor.Text = SampleText.HelloWorld;
         Editor.Model.ContentChanged += (_, _) => RefreshStatus();
         Editor.SelectionChanged += (_, _) => RefreshStatus();
@@ -155,6 +183,7 @@ public sealed partial class MainWindow : Window
         UnicodeButton.IsEnabled = isEnabled;
         ScrollTestButton.IsEnabled = isEnabled;
         MultiCursorButton.IsEnabled = isEnabled;
+        LargeCSharpButton.IsEnabled = isEnabled;
     }
 
     private void OnFontSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
@@ -176,6 +205,34 @@ public sealed partial class MainWindow : Window
         {
             Editor.FontFamily = new FontFamily(FontFamilies[index]);
         }
+    }
+
+    // SelectedIndex, not SelectedItem: see FontFamilies.
+    private void OnLanguageChanged(object sender, SelectionChangedEventArgs e)
+    {
+        int index = LanguageBox.SelectedIndex;
+        if (Editor is not null && index >= 0 && index < LanguageIds.Length)
+        {
+            Editor.LanguageId = LanguageIds[index];
+            Editor.Text = string.Empty;
+            Editor.Text = HighlightingSamples.For(LanguageIds[index]);
+        }
+    }
+
+    private void OnThemeChanged(object sender, SelectionChangedEventArgs e)
+    {
+        int index = ThemeBox.SelectedIndex;
+        if (Editor is not null && index >= 0 && index < EditorTheme.BuiltIn.Count)
+        {
+            Editor.Theme = EditorTheme.BuiltIn[index];
+        }
+    }
+
+    private async void OnLargeCSharp(object sender, RoutedEventArgs e)
+    {
+        Editor.LanguageId = "csharp";
+        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
+        await LoadDocumentAsync(HighlightingSamples.CreateLargeCSharp);
     }
 
     private void OnTabSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
