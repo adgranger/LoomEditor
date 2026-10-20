@@ -1,6 +1,6 @@
 # P5-13 — `LanguageBracketsConfiguration`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-12
 - **Size:** S
 
@@ -45,19 +45,19 @@ line processor (P5-16) use it.
 
 No upstream unit tests (the bracket pair tests of step C exercise it). New:
 
-- [ ] `ColorizedPairs_DefaultToTheBracketsWithoutAngleBrackets`
-- [ ] `ColorizedPairs_EmptyList_ColorizesNothing`
-- [ ] `ClosingBracket_ClosesOnlyItsOpeningBrackets`
-- [ ] `Closes_BracketOfAnotherConfiguration_IsFalse`
-- [ ] `EmptyOpenOrClose_IsIgnored`
-- [ ] `GetBracketRegExp_MatchesEveryBracketIgnoringCase` (`begin`/`END`)
+- [x] `ColorizedPairs_DefaultToTheBracketsWithoutAngleBrackets`
+- [x] `ColorizedPairs_EmptyList_ColorizesNothing`
+- [x] `ClosingBracket_ClosesOnlyItsOpeningBrackets`
+- [x] `Closes_BracketOfAnotherConfiguration_IsFalse`
+- [x] `EmptyOpenOrClose_IsIgnored`
+- [x] `GetBracketRegExp_MatchesEveryBracketIgnoringCase` (`begin`/`END`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`languageBracketsConfiguration.ts`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`languageBracketsConfiguration.ts`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
