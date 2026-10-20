@@ -66,6 +66,8 @@ internal sealed partial class TextViewRenderer
     {
         bool highlightMargin = ShouldRenderHighlightInMargin(hasFocus);
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
+        List<string>[] marginDecorations = RenderDedup(data.StartLineNumber, data.EndLineNumber, GetMarginDecorations(data));
+        List<string>[] linesDecorations = RenderDedup(data.StartLineNumber, data.EndLineNumber, GetLinesDecorations(data));
         for (int i = 0; i < lineCount; i++)
         {
             int lineNumber = data.StartLineNumber + i;
@@ -73,6 +75,17 @@ internal sealed partial class TextViewRenderer
             if (highlightMargin && cursorLines.Contains(lineNumber))
             {
                 DrawLineHighlight(surface, 0, layoutInfo.ContentLeft, top, font.LineHeight);
+            }
+
+            // Monaco (view.ts): current line, margin decorations, lines decorations, then line numbers.
+            foreach (string className in marginDecorations[i])
+            {
+                DrawDecorationBox(surface, className, 0, top, layoutInfo.ContentLeft, font.LineHeight);
+            }
+
+            foreach (string className in linesDecorations[i])
+            {
+                DrawDecorationBox(surface, className, layoutInfo.DecorationsLeft, top, layoutInfo.DecorationsWidth, font.LineHeight);
             }
 
             ILineLayout number = _cache.Get(lineNumber.ToString(CultureInfo.InvariantCulture));

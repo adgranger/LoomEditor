@@ -1,4 +1,5 @@
 using LoomEditor.Core.Decorations;
+using LoomEditor.Core.Tokens;
 using LoomEditor.Core.Text;
 using LoomEditor.Rendering.Tests.TestHelpers;
 using LoomEditor.Themes;
@@ -19,7 +20,11 @@ public class TextViewRendererDecorationsTests
             "editor.rangeHighlightBorder": "#220000",
             "editor.wordHighlightBackground": "#003300",
             "editor.findMatchHighlightBackground": "#000044",
-            "editor.selectionBackground": "#555555"
+            "editor.selectionBackground": "#555555",
+            "editor.findMatchForeground": "#ff00ff",
+            "editor.foldPlaceholderForeground": "#00ffff",
+            "editor.foldBackground": "#123456",
+            "editorBracketMatch.background": "#654321"
           }
         }
         """;
@@ -31,9 +36,8 @@ public class TextViewRendererDecorationsTests
         return harness;
     }
 
-    private static void AddDecoration(ViewHarness harness, Range range, string className, bool isWholeLine = false, bool showIfCollapsed = false, int? zIndex = null)
-    {
-        ModelDecorationOptions options = ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+    private static void AddDecoration(ViewHarness harness, Range range, string className, bool isWholeLine = false, bool showIfCollapsed = false, int? zIndex = null) =>
+        AddDecoration(harness, range, new ModelDecorationOptionsData
         {
             Description = "test",
             ClassName = className,
@@ -41,6 +45,10 @@ public class TextViewRendererDecorationsTests
             ShowIfCollapsed = showIfCollapsed,
             ZIndex = zIndex,
         });
+
+    private static void AddDecoration(ViewHarness harness, Range range, ModelDecorationOptionsData data)
+    {
+        ModelDecorationOptions options = ModelDecorationOptions.CreateDynamic(data);
         harness.Model.DeltaDecorations(harness.ViewModel.EditorId, [], new[] { new ModelDeltaDecoration(range, options) });
     }
 
@@ -199,5 +207,91 @@ public class TextViewRendererDecorationsTests
         FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.wordHighlightBackground"));
 
         Assert.Equal(harness.LayoutInfo.ContentLeft - 30, fill.X);
+    }
+
+    [Fact]
+    public void Render_InlineClassNameWithForeground_ColorsTheText()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), new ModelDecorationOptionsData { Description = "test", InlineClassName = "findMatchInline" });
+
+        harness.Render();
+
+        FakeLineLayout layout = harness.Measurer.Layouts.Last(l => l.Text == "hello world");
+        uint magenta = LineStyle.ToArgb(Color(harness, "editor.findMatchForeground"));
+        Assert.Equal(new StyleRun(0, 5, magenta, FontStyle.None), layout.Style.Runs[0]);
+    }
+
+    [Fact]
+    public void Render_InlineClassNameWithoutRow_KeepsTokenColors()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), new ModelDecorationOptionsData { Description = "test", InlineClassName = "no-such-class" });
+
+        harness.Render();
+
+        Assert.Same(LineStyle.Plain, harness.Measurer.Layouts.Last(l => l.Text == "hello world").Style);
+    }
+
+    [Fact]
+    public void Render_AfterContent_DrawnAfterTheLineEnd()
+    {
+        using ViewHarness harness = CreateHarness("abc\ndef");
+        AddDecoration(harness, new Range(1, 1, 1, 4), new ModelDecorationOptionsData { Description = "test", AfterContentClassName = "inline-folded", IsWholeLine = true });
+
+        RecordingRenderSurface surface = harness.Render();
+
+        DrawLineLayoutCall call = Assert.Single(surface.Calls.OfType<DrawLineLayoutCall>(), c => c.Text == "⋯");
+        float x = (float)(harness.LayoutInfo.ContentLeft + 3 * CharacterWidth + 0.2 * harness.Measurer.FontInfo.FontSize);
+        Assert.Equal(new DrawLineLayoutCall("⋯", x, 0, Color(harness, "editor.foldPlaceholderForeground")), call);
+        int text = surface.Calls.FindIndex(c => c is DrawLineLayoutCall { Text: "abc" });
+        Assert.True(text < surface.Calls.IndexOf(call), "the after content must be drawn after the text");
+    }
+
+    [Fact]
+    public void Render_MarginClassName_FillsTheMargin()
+    {
+        using ViewHarness harness = CreateHarness("a\nb\nc");
+        AddDecoration(harness, new Range(2, 1, 2, 1), new ModelDecorationOptionsData { Description = "test", MarginClassName = "folded-background" });
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.foldBackground"));
+
+        Assert.Equal(new FillRectangleCall(0, LineHeight, harness.LayoutInfo.ContentLeft, LineHeight, fill.Color), fill);
+    }
+
+    [Fact]
+    public void Render_LinesDecorationsClassName_FillsTheDecorationsColumn()
+    {
+        using ViewHarness harness = CreateHarness("a\nb\nc");
+        AddDecoration(harness, new Range(1, 1, 1, 1), new ModelDecorationOptionsData { Description = "test", LinesDecorationsClassName = "bracket-match" });
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editorBracketMatch.background"));
+
+        EditorLayoutInfo layout = harness.LayoutInfo;
+        Assert.True(layout.DecorationsWidth > 0);
+        Assert.Equal(new FillRectangleCall(layout.DecorationsLeft, 0, layout.DecorationsWidth, LineHeight, fill.Color), fill);
+    }
+
+    [Fact]
+    public void Render_FirstLineDecorationClassName_OnlyOnTheFirstLine()
+    {
+        using ViewHarness harness = CreateHarness("a\nb\nc");
+        AddDecoration(harness, new Range(2, 1, 3, 1), new ModelDecorationOptionsData { Description = "test", FirstLineDecorationClassName = "bracket-match" });
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editorBracketMatch.background"));
+
+        Assert.Equal(LineHeight, fill.Y);
+    }
+
+    [Fact]
+    public void Render_SameGutterClassTwiceOnALine_DrawnOnce()
+    {
+        using ViewHarness harness = CreateHarness("a\nb\nc");
+        AddDecoration(harness, new Range(1, 1, 2, 1), new ModelDecorationOptionsData { Description = "test", MarginClassName = "folded-background" });
+        AddDecoration(harness, new Range(2, 1, 2, 1), new ModelDecorationOptionsData { Description = "test", MarginClassName = "folded-background" });
+
+        List<FillRectangleCall> fills = Fills(harness, harness.Render(), "editor.foldBackground");
+
+        Assert.Equal(new[] { 0f, LineHeight }, fills.Select(f => f.Y));
     }
 }

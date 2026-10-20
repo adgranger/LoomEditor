@@ -165,6 +165,52 @@ internal sealed partial class TextViewRenderer
         }
     }
 
+    // The foreground of the inline decorations of a line, in the order of its list (a later one wins).
+    private List<StyleOverride>? GetStyleOverrides(ViewportData data, int lineNumber, int maxColumn, int length)
+    {
+        List<StyleOverride>? overrides = null;
+        foreach (LineDecoration d in LineDecoration.Filter(data.GetInlineDecorations(lineNumber), lineNumber, 1, maxColumn))
+        {
+            if (d.Type is not (InlineDecorationType.Regular or InlineDecorationType.RegularAffectingLetterSpacing)
+                || GetDecorationColor(DecorationStyles.Get(d.ClassName)?.ForegroundColorId) is not { } color)
+            {
+                continue;
+            }
+
+            int start = Math.Min(d.StartColumn - 1, length);
+            int end = Math.Min(d.EndColumn - 1, length);
+            (overrides ??= []).Add(new StyleOverride(start, end, LineStyle.ToArgb(color)));
+        }
+
+        return overrides;
+    }
+
+    // The CSS `::after` content of `After` decorations (`margin-left: 0.2em`). It takes no room: the text after it is
+    // not pushed right. Phase 6 cut point: before content.
+    private void DrawAfterContents(
+        IRenderSurface surface, ViewportData data, ILineLayout[] layouts, EditorLayoutInfo layoutInfo, double scrollLeft,
+        int topShift, FontInfo font)
+    {
+        for (int i = 0; i < layouts.Length; i++)
+        {
+            int lineNumber = data.StartLineNumber + i;
+            ILineLayout layout = layouts[i];
+            foreach (LineDecoration d in LineDecoration.Filter(data.GetInlineDecorations(lineNumber), lineNumber, 1, layout.Text.Length + 1))
+            {
+                if (d.Type != InlineDecorationType.After
+                    || DecorationStyles.Get(d.ClassName) is not { AfterContentText: { } text } style
+                    || GetDecorationColor(style.AfterContentColorId) is not { } color)
+                {
+                    continue;
+                }
+
+                double x = layout.GetCharacterX(Math.Min(d.EndColumn - 1, layout.Text.Length)) + 0.2 * font.FontSize;
+                surface.DrawLineLayout(
+                    _cache.Get(text), (float)(layoutInfo.ContentLeft + x - scrollLeft), data.RelativeVerticalOffset[i] - topShift, color);
+            }
+        }
+    }
+
     // The background, then the border inside the box (CSS `box-sizing: border-box`, like `DrawLineHighlight`).
     private void DrawDecorationBox(IRenderSurface surface, string className, float left, float top, float width, float height)
     {

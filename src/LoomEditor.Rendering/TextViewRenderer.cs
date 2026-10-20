@@ -135,7 +135,9 @@ internal sealed partial class TextViewRenderer : IDisposable
                 : model.GetLineContent(lineNumber);
 
             // The renderer only reads tokens: the model or the background worker tokenizes.
-            LineStyle style = LineStyle.Create(data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground);
+            LineStyle style = LineStyle.Create(
+                data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
+                GetStyleOverrides(data, lineNumber, model.GetLineMaxColumn(lineNumber), text.Length));
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
@@ -188,6 +190,7 @@ internal sealed partial class TextViewRenderer : IDisposable
             }
         }
 
+        DrawAfterContents(surface, data, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawCompositionUnderlines(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
 
         if (hasFocus && cursorVisible)

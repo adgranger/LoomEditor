@@ -63,4 +63,46 @@ public class LineStyleTests
 
         Assert.Equal(new StyleRun[] { new(0, 4, Red, FontStyle.None), new(4, 2, Blue, FontStyle.None) }, style.Runs);
     }
+
+    [Fact]
+    public void Create_Override_SplitsTheTokenRun()
+    {
+        LineTokens tokens = Tokens(("abcdef", Meta(3, FontStyle.Italic)));
+
+        LineStyle style = LineStyle.Create(tokens, 6, ColorMap, DefaultColor, new[] { new StyleOverride(2, 4, Blue) });
+
+        Assert.Equal(
+            new StyleRun[] { new(0, 2, Red, FontStyle.Italic), new(2, 2, Blue, FontStyle.Italic), new(4, 2, Red, FontStyle.Italic) },
+            style.Runs);
+    }
+
+    [Fact]
+    public void Create_OverlappingOverrides_LastWins()
+    {
+        LineTokens tokens = Tokens(("abcdef", Meta(ColorId.DefaultForeground)));
+
+        LineStyle style = LineStyle.Create(tokens, 6, ColorMap, DefaultColor, new[] { new StyleOverride(0, 4, Blue), new StyleOverride(2, 6, Red) });
+
+        Assert.Equal(new StyleRun[] { new(0, 2, Blue, FontStyle.None), new(2, 4, Red, FontStyle.None) }, style.Runs);
+    }
+
+    [Fact]
+    public void Create_OverridesPastTheLength_AreClamped()
+    {
+        LineTokens tokens = Tokens(("abcdefgh", Meta(ColorId.DefaultForeground)));
+
+        LineStyle style = LineStyle.Create(tokens, 4, ColorMap, DefaultColor, new[] { new StyleOverride(2, 10, Blue), new StyleOverride(6, 8, Red) });
+
+        Assert.Equal(new StyleRun[] { new(0, 2, DefaultColor, FontStyle.None), new(2, 2, Blue, FontStyle.None) }, style.Runs);
+    }
+
+    [Fact]
+    public void Create_OverrideOnPlainLine_GivesRuns()
+    {
+        LineTokens tokens = Tokens(("abcd", Meta(ColorId.DefaultForeground)));
+
+        LineStyle style = LineStyle.Create(tokens, 4, null, DefaultColor, new[] { new StyleOverride(0, 4, Blue) });
+
+        Assert.Equal(new StyleRun[] { new(0, 4, Blue, FontStyle.None) }, style.Runs);
+    }
 }
