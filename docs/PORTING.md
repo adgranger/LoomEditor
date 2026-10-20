@@ -317,6 +317,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `editableTextModelAuto.test.ts` | 4 / 4 | the disabled `GENERATE_TESTS` loop is ported as a helper |
 | `textModel.test.ts` (`TextModel.mightContainRTL`, `createSnapshot`, `TextModelData.fromString`) | 14 / 14 | |
 | `textModel.test.ts` (`Editor Model - TextModel`) | 14 / 26 | indentation guessing and `normalizeIndentation` (10), `issue #168836` indent size option (1), `does not use events internally` (1): phases 4–5. The 3 NaN / float `validatePosition` / `validateRange` tests are adapted to `int` inside the validation tests |
+| `modelDecorations.test.ts` (`Editor Model - Model Decorations`, `deltaDecorations`, `Decorations and editing`) | 24 + 5 / 28; 7 / 10; 62 / 62 | P5-03 and P5-04. Not ported: `injected text width must be finite and non-negative` (injected text), `removeAllDecorationsWithOwnerId can be called after model dispose` (no `Dispose`), `issue #4317` (`hoverMessage`). The card counts 59 tests in `Decorations and editing`; the file has 62 (insert 8, delete 18, replace short 18, replace long 18) and all are ported |
 | `model.line.test.ts` | see "Tests ported in phase 4" | `ModelLine` tokens: ported in P4-31 and P4-32; `getIndentLevel` is not about tokens |
 | `viewModel/prefixSumComputer.test.ts` (`Editor ViewModel - PrefixSumComputer`) | 48 / 48 | P4-36: run on `PrefixSumComputer` only; the same tests ran on `ConstantTimePrefixSumComputer` (not ported) too |
 | `textMate/test/browser/arrayOperation.test.ts` | 1 / 1 | P4-36 |

@@ -1,6 +1,6 @@
 # P5-04 — `TextModel.DecorationsChanged` and the decorations-and-editing tests
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-03
 - **Size:** S
 
@@ -65,12 +65,12 @@ File: `src/vs/editor/common/model/textModel.ts` unless said otherwise.
 
 Port (`modelDecorations.test.ts`):
 
-- [ ] `Editor Model - Model Decorations` (5): `decorations emit event on add`, `decorations emit event on change`,
+- [x] `Editor Model - Model Decorations` (5): `decorations emit event on add`, `decorations emit event on change`,
   `decorations emit event on remove`, `decorations emit event when inserting one line text before it`,
   `decorations do not emit event on no-op deltaDecorations`
-- [ ] `Decorations and editing` › `insert` › `collapsed dec`: `before`, `equal`, `after`; › `non-collapsed dec`: `before`,
+- [x] `Decorations and editing` › `insert` › `collapsed dec`: `before`, `equal`, `after`; › `non-collapsed dec`: `before`,
   `start`, `inside`, `end`, `after`
-- [ ] `Decorations and editing` › `delete` › `collapsed dec`: `edit.end < range.start`, `edit.end <= range.start`,
+- [x] `Decorations and editing` › `delete` › `collapsed dec`: `edit.end < range.start`, `edit.end <= range.start`,
   `edit.start < range.start && edit.end > range.end`, `edit.start >= range.end`, `edit.start > range.end`;
   › `non-collapsed dec`: `edit.end < range.start`, `edit.end <= range.start`, `edit.start < range.start && edit.end < range.end`,
   `edit.start < range.start && edit.end == range.end`, `edit.start < range.start && edit.end > range.end`,
@@ -78,23 +78,23 @@ Port (`modelDecorations.test.ts`):
   `edit.start == range.start && edit.end > range.end`, `edit.start > range.start && edit.start < range.end && edit.end < range.end`,
   `edit.start > range.start && edit.start < range.end && edit.end == range.end`,
   `edit.start > range.start && edit.start < range.end && edit.end > range.end`, `edit.start == range.end`, `edit.start > range.end`
-- [ ] `Decorations and editing` › `replace short`: the same 5 `collapsed dec` and 12 `non-collapsed dec` names as `delete`
-- [ ] `Decorations and editing` › `replace long`: the same 5 + 12 names
+- [x] `Decorations and editing` › `replace short`: the same 5 `collapsed dec` and 12 `non-collapsed dec` names as `delete`
+- [x] `Decorations and editing` › `replace long`: the same 5 + 12 names
   (59 tests in this suite. Use one `[Fact]` per Monaco test; the C# method name is the suite path plus a short name,
   e.g. `Delete_NonCollapsed_EditStartEqualsRangeEnd`, with the Monaco name in the `// Monaco:` comment. `_runTest` and
   `runTest` (lines 449–478) are private helpers; the edit goes through the new internal `ApplyEdits` with
   `ForceMoveMarkers`.)
-- [ ] New: `DecorationsChanged_PushEditOperations_RaisedOnceAfterContentChanged`
-- [ ] New: `DecorationsChanged_UndoAndRedo_RaisedOncePerStep`
-- [ ] New: `DecorationsChanged_SetTrackedRange_NotRaised` (`suppressEvents`)
-- [ ] New: `DecorationsChanged_GlyphMarginClassName_SetsAffectsGlyphMargin`
+- [x] New: `DecorationsChanged_PushEditOperations_RaisedOnceAfterContentChanged`
+- [x] New: `DecorationsChanged_UndoAndRedo_RaisedOncePerStep`
+- [x] New: `DecorationsChanged_SetTrackedRange_NotRaised` (`suppressEvents`)
+- [x] New: `DecorationsChanged_GlyphMarginClassName_SetsAffectsGlyphMargin`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `modelDecorations.test.ts` row in the tests table (ported / total, and why 3 are not)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `modelDecorations.test.ts` row in the tests table (ported / total, and why 3 are not)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

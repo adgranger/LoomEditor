@@ -152,6 +152,121 @@ public class ModelDecorationsTests
         ModelHasDecoration(_model, 1, 1, 1, 2, "myType");
     }
 
+    // --------- eventing
+
+    private int CountDecorationsChanged(Action<int> act)
+    {
+        int listenerCalled = 0;
+        _model.DecorationsChanged += (_, _) => listenerCalled++;
+        act(0);
+        return listenerCalled;
+    }
+
+    [Fact]
+    public void DecorationsEmitEventOnAdd()
+    {
+        // Monaco: 'decorations emit event on add'
+        Assert.Equal(1, CountDecorationsChanged(_ => AddDecoration(_model, 1, 2, 3, 2, "myType")));
+    }
+
+    [Fact]
+    public void DecorationsEmitEventOnChange()
+    {
+        // Monaco: 'decorations emit event on change'
+        string decId = AddDecoration(_model, 1, 2, 3, 2, "myType");
+
+        int called = CountDecorationsChanged(_ => _model.ChangeDecorations(0, accessor => accessor.ChangeDecoration(decId, new Range(1, 1, 1, 2))));
+
+        Assert.Equal(1, called);
+    }
+
+    [Fact]
+    public void DecorationsEmitEventOnRemove()
+    {
+        // Monaco: 'decorations emit event on remove'
+        string decId = AddDecoration(_model, 1, 2, 3, 2, "myType");
+
+        int called = CountDecorationsChanged(_ => _model.ChangeDecorations(0, accessor => accessor.RemoveDecoration(decId)));
+
+        Assert.Equal(1, called);
+    }
+
+    [Fact]
+    public void DecorationsEmitEventWhenInsertingOneLineTextBeforeIt()
+    {
+        // Monaco: 'decorations emit event when inserting one line text before it'
+        AddDecoration(_model, 1, 2, 3, 2, "myType");
+
+        int called = CountDecorationsChanged(_ => _model.ApplyEdits([TextEdit.Insert(new Position(1, 1), "Hallo ")]));
+
+        Assert.Equal(1, called);
+    }
+
+    [Fact]
+    public void DecorationsDoNotEmitEventOnNoOpDeltaDecorations()
+    {
+        // Monaco: 'decorations do not emit event on no-op deltaDecorations'
+        int called = CountDecorationsChanged(_ =>
+        {
+            _model.DeltaDecorations(0, [], []);
+            _model.ChangeDecorations(0, accessor => accessor.DeltaDecorations([], []));
+        });
+
+        Assert.Equal(0, called);
+    }
+
+    [Fact]
+    public void DecorationsChanged_PushEditOperations_RaisedOnceAfterContentChanged()
+    {
+        AddDecoration(_model, 1, 2, 3, 2, "myType");
+        var order = new List<string>();
+        _model.ContentChanged += (_, _) => order.Add("content");
+        _model.DecorationsChanged += (_, _) => order.Add("decorations");
+
+        _model.PushEditOperations(null, [TextEdit.Insert(new Position(1, 1), "a"), TextEdit.Insert(new Position(2, 1), "b")], null);
+
+        Assert.Equal(["content", "decorations"], order);
+    }
+
+    [Fact]
+    public void DecorationsChanged_UndoAndRedo_RaisedOncePerStep()
+    {
+        AddDecoration(_model, 1, 2, 3, 2, "myType");
+        _model.PushEditOperations(null, [TextEdit.Insert(new Position(1, 1), "a"), TextEdit.Insert(new Position(2, 1), "b")], null);
+        int called = 0;
+        _model.DecorationsChanged += (_, _) => called++;
+
+        _model.Undo();
+        Assert.Equal(1, called);
+        _model.Redo();
+
+        Assert.Equal(2, called);
+    }
+
+    [Fact]
+    public void DecorationsChanged_SetTrackedRange_NotRaised()
+    {
+        int called = CountDecorationsChanged(_ => _model.SetTrackedRange(null, new Range(1, 1, 1, 3), TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges));
+
+        Assert.Equal(0, called);
+    }
+
+    [Fact]
+    public void DecorationsChanged_GlyphMarginClassName_SetsAffectsGlyphMargin()
+    {
+        var args = new List<LoomEditor.Core.Model.Events.ModelDecorationsChangedEventArgs>();
+        _model.DecorationsChanged += (_, e) => args.Add(e);
+        var glyph = ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData { Description = "test", GlyphMarginClassName = "glyph" });
+
+        _model.DeltaDecorations(0, [], [new ModelDeltaDecoration(new Range(1, 1, 1, 2), glyph)]);
+        _model.DeltaDecorations(0, [], [new ModelDeltaDecoration(new Range(1, 1, 1, 2), Options("plain"))]);
+
+        Assert.Equal(2, args.Count);
+        Assert.True(args[0].AffectsGlyphMargin);
+        Assert.False(args[1].AffectsGlyphMargin);
+        Assert.False(args[0].AffectsMinimap);
+    }
+
     // --------- editing text & effects on decorations
 
     private void Insert(int line, int column, string text) => _model.ApplyEdits([TextEdit.Insert(new Position(line, column), text)]);

@@ -30,7 +30,15 @@ public sealed partial class TextModel
             return;
         }
 
-        _editStack.PushEol(eol);
+        try
+        {
+            BeginDecorationsDeferredEmit();
+            _editStack.PushEol(eol);
+        }
+        finally
+        {
+            EndDecorationsDeferredEmit();
+        }
     }
 
     /// <summary>
@@ -74,6 +82,7 @@ public sealed partial class TextModel
         // state computer has run (the cursor relies on that, see CursorsController.ExecuteEdits).
         try
         {
+            BeginDecorationsDeferredEmit();
             BeginDeferredEmit();
 
             // Monaco: _pushEditOperations
@@ -89,6 +98,7 @@ public sealed partial class TextModel
         finally
         {
             EndDeferredEmit();
+            EndDecorationsDeferredEmit();
         }
     }
 
@@ -184,6 +194,7 @@ public sealed partial class TextModel
     {
         try
         {
+            BeginDecorationsDeferredEmit();
             BeginDeferredEmit();
             _isUndoing = isUndoing;
             _isRedoing = isRedoing;
@@ -196,6 +207,7 @@ public sealed partial class TextModel
             _isUndoing = false;
             _isRedoing = false;
             EndDeferredEmit(resultingSelection);
+            EndDecorationsDeferredEmit();
         }
     }
 }
