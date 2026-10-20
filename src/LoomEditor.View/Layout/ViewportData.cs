@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 
 namespace LoomEditor.View.Layout;
 
@@ -14,12 +15,15 @@ namespace LoomEditor.View.Layout;
 /// </remarks>
 internal sealed class ViewportData
 {
+    private readonly TextModel _model;
+
     public ViewportData(
         IReadOnlyList<Selection> selections,
         PartialViewLinesViewportData partialData,
         IReadOnlyList<ViewWhitespaceViewportData> whitespaceViewportData,
         TextModel model)
     {
+        _model = model;
         Selections = selections;
         StartLineNumber = partialData.StartLineNumber;
         EndLineNumber = partialData.EndLineNumber;
@@ -34,6 +38,9 @@ internal sealed class ViewportData
             partialData.EndLineNumber,
             model.GetLineMaxColumn(partialData.EndLineNumber));
     }
+
+    /// <summary>The tokens of a line, computed when asked (Monaco: <c>getViewLineData</c>); view lines are model lines.</summary>
+    public IViewLineTokens GetTokens(int lineNumber) => _model.Tokenization.GetLineTokens(lineNumber).Inflate();
 
     /// <summary>The selections (one for now).</summary>
     public IReadOnlyList<Selection> Selections { get; }

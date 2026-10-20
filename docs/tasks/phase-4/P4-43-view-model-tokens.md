@@ -1,6 +1,6 @@
 # P4-43 — View model: tokens in the viewport data, visible lines, tokens-changed events
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-42
 - **Size:** M
 
@@ -41,16 +41,16 @@ are tokenized first), and turns the model's `TokensChanged` into a view event th
 
 New:
 
-- [ ] `Viewport_ReportsVisibleLinesToTheModel`
-- [ ] `ModelTokensChanged_RaisesViewTokensChangedEvent`
-- [ ] `ViewportData_GetTokens_ReturnsInflatedLineTokens`
+- [x] `Viewport_ReportsVisibleLinesToTheModel`
+- [x] `ModelTokensChanged_RaisesViewTokensChangedEvent`
+- [x] `ViewportData_GetTokens_ReturnsInflatedLineTokens`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

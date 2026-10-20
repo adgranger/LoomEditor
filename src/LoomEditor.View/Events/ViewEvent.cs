@@ -73,3 +73,14 @@ internal sealed class ViewRevealRangeRequestEvent(
 
     public ScrollType ScrollType { get; } = ScrollType;
 }
+
+/// <summary>A range of view lines (Monaco: the <c>{ fromLineNumber, toLineNumber }</c> of <c>ViewTokensChangedEvent</c>), both inclusive.</summary>
+internal readonly record struct ViewLineRange(int FromLineNumber, int ToLineNumber);
+
+/// <summary>The tokens of some lines changed (Monaco: <c>ViewTokensChangedEvent</c>).</summary>
+/// <remarks>Threading: immutable; UI thread only.</remarks>
+internal sealed class ViewTokensChangedEvent(IReadOnlyList<ViewLineRange> ranges) : ViewEvent
+{
+    /// <summary>The lines whose tokens changed.</summary>
+    public IReadOnlyList<ViewLineRange> Ranges { get; } = ranges;
+}

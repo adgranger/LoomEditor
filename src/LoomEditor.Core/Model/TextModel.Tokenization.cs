@@ -48,6 +48,9 @@ public sealed partial class TextModel
     private const int LargeFileLineCountThreshold = 300 * 1000;
 
     private readonly AttachedViews _attachedViews = new();
+
+    /// <summary>The views attached to the model and their visible lines (Monaco: <c>_attachedViews</c>).</summary>
+    internal AttachedViews AttachedViews => _attachedViews;
     private int _attachedEditorCount;
 
     /// <summary>
