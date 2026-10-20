@@ -1,6 +1,6 @@
 # P5-23 — Bracket pair tree (2/9): AST base, leaves and pairs
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-22
 - **Size:** M
 
@@ -62,24 +62,24 @@ File: `common/model/bracketPairsTextModelPart/bracketPairsTree/ast.ts` (706 line
 
 No upstream test targets these classes alone (they are covered by P5-24 … P5-31).
 
-- [ ] New: `PairAstNode_Create_SumsLengthsOfBracketsAndChild` (`{` + text `0,3` + `}` → `Length.Of(0, 5)`)
-- [ ] New: `PairAstNode_Unclosed_CannotBeReused`
-- [ ] New: `PairAstNode_MissingIdsIntersectOpenIds_CannotBeReused`
-- [ ] New: `InvalidBracketAstNode_CanBeReused_OnlyWhenNoOpenedBracketMatches`
-- [ ] New: `BracketAstNode_CanNeverBeReused`, `TextAstNode_CanAlwaysBeReused`
-- [ ] New: `TextAstNode_ComputeMinIndentation_SkipsFirstPartialLine` (a model `"ab\n    c\n  d"`, a text node from
+- [x] New: `PairAstNode_Create_SumsLengthsOfBracketsAndChild` (`{` + text `0,3` + `}` → `Length.Of(0, 5)`)
+- [x] New: `PairAstNode_Unclosed_CannotBeReused`
+- [x] New: `PairAstNode_MissingIdsIntersectOpenIds_CannotBeReused`
+- [x] New: `InvalidBracketAstNode_CanBeReused_OnlyWhenNoOpenedBracketMatches`
+- [x] New: `BracketAstNode_CanNeverBeReused`, `TextAstNode_CanAlwaysBeReused`
+- [x] New: `TextAstNode_ComputeMinIndentation_SkipsFirstPartialLine` (a model `"ab\n    c\n  d"`, a text node from
       offset `Of(0, 1)` to the end → `2`; from `Of(0, 0)` → `0`)
-- [ ] New: `Leaf_DeepClone_ReturnsSameInstance`
+- [x] New: `Leaf_DeepClone_ReturnsSameInstance`
 
 Brackets for these tests come from the `LanguageBracketsConfiguration` of a `LanguageConfigurationRegistry`
 (`new LanguageConfigurationRegistry()` and `Register(languageId, new LanguageConfiguration { Brackets = … })`, P5-14) with the brackets `{` `}`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `ast.ts` 🔶 in progress (P5-23)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `ast.ts` 🔶 in progress (P5-23)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
