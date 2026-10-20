@@ -1,0 +1,10 @@
+{
+  "name": "loomeditor-golden",
+  "private": true,
+  "type": "module",
+  "description": "Generates the golden token files of the TextMate tests with the real vscode-textmate.",
+  "dependencies": {
+    "vscode-oniguruma": "1.7.0",
+    "vscode-textmate": "9.3.2"
+  }
+}
