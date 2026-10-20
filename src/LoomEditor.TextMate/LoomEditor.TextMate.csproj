@@ -20,6 +20,12 @@
     <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
   </ItemGroup>
 
+  <!-- Grammars: embedded with an explicit LogicalName "Grammars/<folder>/<file>" (ADR 0008, decision 7). -->
+  <ItemGroup>
+    <EmbeddedResource Include="Grammars\**\*.json;Grammars\**\*.tmLanguage"
+                      LogicalName="Grammars/$([System.String]::new('%(RecursiveDir)').Replace('\', '/'))%(Filename)%(Extension)" />
+  </ItemGroup>
+
   <!-- Builds (when missing), copies and packs onig.dll. -->
   <Import Project="..\native\oniguruma\Oniguruma.targets" />
 </Project>

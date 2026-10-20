@@ -81,6 +81,56 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 ```
 
+## Bundled TextMate grammars
+
+`src/LoomEditor.TextMate/Grammars/` contains grammar files copied unchanged from `microsoft/vscode`
+(`extensions/<name>/syntaxes/`, commit `0c9c0a4295a9222e12a605537738719455ae3056`). They come from these repositories
+(source: each extension's `cgmanifest.json`):
+
+| Grammar | Upstream repository | Commit | License |
+|---|---|---|---|
+| C# | `dotnet/csharp-tmLanguage` | `c2719309e91d2e26be21fce0ecaaca86c7b48ce4` | MIT |
+| TypeScript, JSDoc injections | `microsoft/TypeScript-TmLanguage` | `48f608692aa6d6ad7bd65b478187906c798234a8` | MIT |
+| JavaScript | `microsoft/TypeScript-TmLanguage` | `3133e3d914db9a2bb8812119f9273727a305f16b` | MIT |
+| JavaScript regular expressions | `textmate/javascript.tmbundle` | `fccf0af0c95430a42e1bf98f0c7a4723a53283e7` | TextMate Bundle License |
+| JSON, JSON with Comments | `microsoft/vscode-JSON.tmLanguage` | `9bd83f1c252b375e957203f21793316203f61f70` | MIT |
+| HTML | `textmate/html.tmbundle` | `0c3d5ee54de3a993f747f54186b73a4d2d3c44a2` | TextMate Bundle License |
+| CSS | `microsoft/vscode-css` (from `atom/language-css`) | `de9e6beee756760f31b15efbd782735fc25de3db` | MIT |
+| XML | `atom/language-xml` | `7bc75dfe779ad5b35d9bf4013d9181864358cb49` | MIT |
+| Markdown | `textmate/markdown.tmbundle` and `microsoft/vscode-markdown-tm-grammar` | `11cf764606cb2cde54badb5d0e5a0758a8871c4b`, `0812fc4b190efc17bfed0d5b4ff918eff8e4e377` | TextMate Bundle License, MIT |
+| Python | `MagicStack/MagicPython` | `7d0f2b22a5ad8fccbd7341bc7b7a715169283044` | MIT |
+| YAML | `RedCMD/YAML-Syntax-Highlighter` | `53d38bbc66b704803de54ffce5b251bf97211c60` | MIT |
+
+The MIT-licensed grammars carry the license of their repository (copyright holders: the authors of each repository;
+`microsoft/*` repositories: Microsoft Corporation, with the MIT terms shown above). The YAML grammar:
+
+```
+MIT License
+
+Copyright 2024 RedCMD
+
+(Same MIT terms as above.)
+```
+
+The grammars under the **TextMate Bundle License** (HTML, Markdown and the JavaScript regular expressions; the CSS
+grammar also derives from such a bundle) are distributed under this license:
+
+```
+Copyright (c) textmate-javascript.tmbundle, textmate-html.tmbundle and markdown.tmbundle project authors
+
+If not otherwise specified (see below), files in this repository fall under the following license:
+
+Permission to copy, use, modify, sell and distribute this
+software is granted. This software is provided "as is" without
+express or implied warranty, and with no claim as to its
+suitability for any purpose.
+
+An exception is made for files in readable text which contain their own license information,
+or files where an accompanying file exists (in the same directory) with a "-license" suffix added
+to the base-name name of the original file, and an extension of txt, html, or similar. For example
+"tidy" is accompanied by "tidy-license.txt".
+```
+
 ## Win2D and Windows App SDK
 
 Used as NuGet dependencies (not redistributed in source form): `Microsoft.Graphics.Win2D` and

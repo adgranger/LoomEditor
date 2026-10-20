@@ -16,6 +16,7 @@ namespace LoomEditor.TextMate.Oniguruma;
 /// Compiled with vscode-oniguruma's options (<c>ONIG_OPTION_CAPTURE_GROUP</c>, <c>ONIG_SYNTAX_DEFAULT</c>) but in
 /// <b>UTF-16 LE</b> instead of UTF-8 (ADR 0007, decision 2): patterns and subjects are .NET strings passed as they are,
 /// and offsets are UTF-16 code units.
+/// Difference: byte escapes (<c>\xHH</c>) are compiled as code points (see <see cref="ToUtf16Pattern"/>).
 /// </para>
 /// <para>Threading: single-threaded; used and disposed by the thread that created it (ADR 0008, decision 5).</para>
 /// </remarks>
@@ -34,10 +35,11 @@ internal sealed unsafe class OnigRegex : IDisposable
         nint regex;
         OnigNative.OnigErrorInfo errorInfo = default;
         int status;
-        fixed (char* chars = pattern)
+        string compiled = ToUtf16Pattern(pattern);
+        fixed (char* chars = compiled)
         {
             byte* data = (byte*)chars;
-            status = OnigNative.New(&regex, data, data + (pattern.Length * 2), OnigNative.OptionCaptureGroup,
+            status = OnigNative.New(&regex, data, data + (compiled.Length * 2), OnigNative.OptionCaptureGroup,
                 OnigLibrary.EncodingUtf16Le, OnigLibrary.DefaultSyntax, &errorInfo);
         }
 
@@ -57,6 +59,43 @@ internal sealed unsafe class OnigRegex : IDisposable
 
     /// <summary>Whether the pattern contains <c>\G</c> (results of such a regex are never cached).</summary>
     public bool HasGAnchor { get; }
+
+    /// <summary>
+    /// <c>\xHH</c> is a byte escape: Oniguruma rejects it in UTF-16 ("too short multibyte code string"). It is rewritten
+    /// as <c>\x{HH}</c>, the code point; the UTF-8 BOM bytes <c>\xEF\xBB\xBF</c> (bundled CSS grammar) become <c>\x{FEFF}</c>.
+    /// </summary>
+    internal static string ToUtf16Pattern(string pattern)
+    {
+        pattern = pattern.Replace(@"\xEF\xBB\xBF", @"\x{FEFF}", StringComparison.Ordinal);
+        if (!pattern.Contains(@"\x", StringComparison.Ordinal))
+        {
+            return pattern;
+        }
+
+        var result = new StringBuilder(pattern.Length + 8);
+        for (int pos = 0; pos < pattern.Length; pos++)
+        {
+            char c = pattern[pos];
+            if (c != '\\' || pos + 1 >= pattern.Length)
+            {
+                result.Append(c);
+                continue;
+            }
+
+            char next = pattern[++pos];
+            if (next != 'x' || pos + 1 >= pattern.Length || !char.IsAsciiHexDigit(pattern[pos + 1]))
+            {
+                result.Append(c).Append(next); // any other escape, including an escaped backslash, is copied as is
+                continue;
+            }
+
+            int digits = pos + 2 < pattern.Length && char.IsAsciiHexDigit(pattern[pos + 2]) ? 2 : 1;
+            result.Append(@"\x{").Append(pattern, pos + 1, digits).Append('}');
+            pos += digits;
+        }
+
+        return result.ToString();
+    }
 
     /// <summary>
     /// <c>hasGAnchor</c>: the naive scan of vscode-oniguruma (a backslash followed by <c>G</c>, even if that backslash

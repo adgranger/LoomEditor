@@ -1,0 +1,42 @@
+{
+  "id": "markdown",
+  "aliases": ["Markdown", "markdown"],
+  "extensions": [
+    ".md", ".mkd", ".mkdn", ".mdwn", ".mdown", ".markdown", ".markdn", ".mdtxt", ".mdtext", ".litcoffee", ".ron",
+    ".ronn", ".workbook"
+  ],
+  "scopeName": "text.html.markdown",
+  "path": "markdown.tmLanguage.json",
+  "embeddedLanguages": {
+    "meta.embedded.block.html": "html",
+    "source.js": "javascript",
+    "source.css": "css",
+    "meta.embedded.block.frontmatter": "yaml",
+    "meta.embedded.block.css": "css",
+    "meta.embedded.block.xml": "xml",
+    "meta.embedded.block.yaml": "yaml",
+    "meta.embedded.block.javascript": "javascript",
+    "meta.embedded.block.json": "json",
+    "meta.embedded.block.jsonc": "jsonc",
+    "meta.embedded.block.python": "python",
+    "meta.embedded.block.typescript": "typescript",
+    "meta.embedded.block.csharp": "csharp"
+  },
+  "unbalancedBracketScopes": [
+    "markup.underline.link.markdown",
+    "punctuation.definition.list.begin.markdown",
+    "keyword.operator.relational.cs",
+    "keyword.operator.arrow.cs",
+    "punctuation.accessor.pointer.cs",
+    "keyword.operator.bitwise.shift.cs",
+    "keyword.operator.assignment.compound.bitwise.cs",
+    "keyword.operator.relational.ts",
+    "storage.type.function.arrow.ts",
+    "keyword.operator.bitwise.shift.ts",
+    "keyword.operator.assignment.compound.bitwise.ts",
+    "keyword.operator.relational.tsx",
+    "storage.type.function.arrow.tsx",
+    "keyword.operator.bitwise.shift.tsx",
+    "keyword.operator.assignment.compound.bitwise.tsx"
+  ]
+}

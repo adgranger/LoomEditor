@@ -1,0 +1,8 @@
+{
+  "id": "css",
+  "aliases": ["CSS", "css"],
+  "extensions": [".css"],
+  "scopeName": "source.css",
+  "path": "css.tmLanguage.json",
+  "tokenTypes": { "meta.function.url string.quoted": "other" }
+}

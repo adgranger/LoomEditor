@@ -1,0 +1,11 @@
+{
+  "id": "json",
+  "aliases": ["JSON", "json"],
+  "extensions": [
+    ".json", ".bowerrc", ".jscsrc", ".webmanifest", ".js.map", ".css.map", ".ts.map", ".har",
+    ".jslintrc", ".jsonld", ".geojson", ".ipynb", ".vuerc", ".tsbuildinfo"
+  ],
+  "filenames": ["composer.lock", ".watchmanconfig"],
+  "scopeName": "source.json",
+  "path": "JSON.tmLanguage.json"
+}
