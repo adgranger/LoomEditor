@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/textModel.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.Tokens;
 using LoomEditor.Core.Tokens;
@@ -30,14 +31,16 @@ public sealed partial class TextModel
     /// <param name="registry">Where the tokenization supports are looked up.</param>
     /// <param name="languageIdCodec">Maps language names to the ids stored in token metadata.</param>
     /// <param name="scheduler">Runs the default background tokenizer; without it, tokens are only computed on demand.</param>
+    /// <param name="languageConfigurationRegistry">The language configurations of the editor; <see langword="null"/> for a new registry.</param>
     internal TextModel(
         string text,
         DefaultEndOfLine defaultEol,
         TextModelOptions? options,
         TokenizationRegistry registry,
         ILanguageIdCodec languageIdCodec,
-        ITokenizationScheduler? scheduler)
-        : this(CreateBuffer(text, options?.DefaultEol ?? defaultEol), ResolveOptions(defaultEol, options), registry, languageIdCodec, scheduler)
+        ITokenizationScheduler? scheduler,
+        LanguageConfigurationRegistry? languageConfigurationRegistry = null)
+        : this(CreateBuffer(text, options?.DefaultEol ?? defaultEol), ResolveOptions(defaultEol, options), registry, languageIdCodec, scheduler, languageConfigurationRegistry)
     {
     }
 

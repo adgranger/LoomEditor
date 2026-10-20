@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/textModel.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
 using LoomEditor.Core.Model.Tokens;
@@ -45,7 +46,8 @@ public sealed partial class TextModel
     {
     }
 
-    // The public constructors and FromSnapshot: an empty registry, so the language is plain text without tokens.
+    // The public constructors and FromSnapshot: an empty registry, so the language is plain text without tokens, and
+    // a new language configuration registry (Monaco's plaintext defaults).
     private TextModel(PieceTreeTextBuffer buffer, TextModelOptions options)
         : this(buffer, options, new TokenizationRegistry(), new LanguageIdCodec(), null)
     {
@@ -56,12 +58,15 @@ public sealed partial class TextModel
         TextModelOptions options,
         TokenizationRegistry registry,
         ILanguageIdCodec languageIdCodec,
-        ITokenizationScheduler? scheduler)
+        ITokenizationScheduler? scheduler,
+        LanguageConfigurationRegistry? languageConfigurationRegistry = null)
     {
         _options = options;
         _buffer = buffer;
         _editStack = new EditStack(this, _undoRedoStack);
+        LanguageConfigurationRegistry = languageConfigurationRegistry ?? new LanguageConfigurationRegistry();
         CreateTokenization(registry, languageIdCodec, scheduler);
+        LanguageConfigurationRegistry.Changed += (_, e) => _tokenization.HandleLanguageConfigurationServiceChange(e);
     }
 
     // Monaco: DEFAULT_CREATION_OPTIONS with the given default EOL, unless options are given

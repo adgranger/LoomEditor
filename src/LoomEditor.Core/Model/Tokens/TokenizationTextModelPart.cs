@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/tokens/tokenizationTextModelPart.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
 using LoomEditor.Core.Tokens;
@@ -10,7 +11,7 @@ namespace LoomEditor.Core.Model.Tokens;
 /// <summary>
 /// The tokenization of a <see cref="TextModel"/>: its language id and its syntax tokens (Monaco:
 /// <c>TokenizationTextModelPart</c> / <c>ITokenizationTextModelPart</c>). Not ported: semantic tokens, tree-sitter,
-/// font tokens, word helpers (<c>getWordAtPosition</c>...), language configuration events, bracket pairs (phase 5).
+/// font tokens, bracket pairs (phase 5).
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
 internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
@@ -131,5 +132,105 @@ internal sealed class TokenizationTextModelPart : ITokenizationModelInfo
         LanguageId = languageId;
         _tokens.ResetTokenization();
         _model.RaiseLanguageChanged(e);
+        _model.RaiseLanguageConfigurationChanged();
+    }
+
+    /// <summary><c>handleLanguageConfigurationServiceChange</c>.</summary>
+    public void HandleLanguageConfigurationServiceChange(LanguageConfigurationChangedEventArgs e)
+    {
+        if (e.Affects(LanguageId))
+        {
+            _model.RaiseLanguageConfigurationChanged();
+        }
+    }
+
+    /// <summary><c>getWordAtPosition</c>.</summary>
+    public WordAtPosition? GetWordAtPosition(Position originalPosition)
+    {
+        Position position = _model.ValidatePosition(originalPosition);
+        string lineContent = _model.GetLineContent(position.LineNumber);
+        LineTokens lineTokens = GetLineTokens(position.LineNumber);
+        int tokenIndex = lineTokens.FindTokenIndexAtOffset(position.Column - 1);
+
+        // (1). First try checking right biased word
+        (int rbStartOffset, int rbEndOffset) = FindLanguageBoundaries(lineTokens, tokenIndex);
+        WordAtPosition? rightBiasedWord = WordHelper.GetWordAtText(
+            position.Column,
+            GetLanguageConfiguration(lineTokens.GetLanguageId(tokenIndex)).GetWordDefinition(),
+            lineContent[rbStartOffset..rbEndOffset],
+            rbStartOffset);
+        // Make sure the result touches the original passed in position
+        if (
+            rightBiasedWord is { } rb &&
+            rb.StartColumn <= originalPosition.Column &&
+            originalPosition.Column <= rb.EndColumn)
+        {
+            return rb;
+        }
+
+        // (2). Else, if we were at a language boundary, check the left biased word
+        if (tokenIndex > 0 && rbStartOffset == position.Column - 1)
+        {
+            // edge case, where `position` sits between two tokens belonging to two different languages
+            (int lbStartOffset, int lbEndOffset) = FindLanguageBoundaries(lineTokens, tokenIndex - 1);
+            WordAtPosition? leftBiasedWord = WordHelper.GetWordAtText(
+                position.Column,
+                GetLanguageConfiguration(lineTokens.GetLanguageId(tokenIndex - 1)).GetWordDefinition(),
+                lineContent[lbStartOffset..lbEndOffset],
+                lbStartOffset);
+            // Make sure the result touches the original passed in position
+            if (
+                leftBiasedWord is { } lb &&
+                lb.StartColumn <= originalPosition.Column &&
+                originalPosition.Column <= lb.EndColumn)
+            {
+                return lb;
+            }
+        }
+
+        return null;
+    }
+
+    private ResolvedLanguageConfiguration GetLanguageConfiguration(string languageId) =>
+        _model.LanguageConfigurationRegistry.GetLanguageConfiguration(languageId);
+
+    // Monaco: _findLanguageBoundaries
+    private static (int StartOffset, int EndOffset) FindLanguageBoundaries(LineTokens lineTokens, int tokenIndex)
+    {
+        string languageId = lineTokens.GetLanguageId(tokenIndex);
+
+        // go left until a different language is hit
+        int startOffset = 0;
+        for (int i = tokenIndex; i >= 0 && lineTokens.GetLanguageId(i) == languageId; i--)
+        {
+            startOffset = lineTokens.GetStartOffset(i);
+        }
+
+        // go right until a different language is hit
+        int endOffset = lineTokens.GetLineContent().Length;
+        for (
+            int i = tokenIndex, tokenCount = lineTokens.GetCount();
+            i < tokenCount && lineTokens.GetLanguageId(i) == languageId;
+            i++)
+        {
+            endOffset = lineTokens.GetEndOffset(i);
+        }
+
+        return (startOffset, endOffset);
+    }
+
+    /// <summary><c>getWordUntilPosition</c>.</summary>
+    public WordAtPosition GetWordUntilPosition(Position position)
+    {
+        WordAtPosition? wordAtPosition = GetWordAtPosition(position);
+        if (wordAtPosition is not { } word)
+        {
+            return new WordAtPosition(string.Empty, position.Column, position.Column);
+        }
+
+        return new WordAtPosition(
+            word.Word.Substring(0, position.Column - word.StartColumn),
+            word.StartColumn,
+            position.Column);
     }
 }
