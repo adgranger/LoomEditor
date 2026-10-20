@@ -59,6 +59,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         CursorConfig = CreateCursorConfiguration();
         _cursor = new CursorsController(model, this, CoordinatesConverter, CursorConfig);
 
+        AttachDecorations();
+
         _model.RawContentChanged += OnModelRawContentChanged;
         _model.OptionsChanged += OnModelOptionsChanged;
         AttachToModelTokens(scheduleAtNextAnimationFrame);
@@ -87,6 +89,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 
         _disposed = true;
         DetachFromModelTokens();
+        DetachDecorations();
         _model.RawContentChanged -= OnModelRawContentChanged;
         _model.OptionsChanged -= OnModelOptionsChanged;
         _cursor.Dispose();
@@ -134,7 +137,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             selections,
             ViewLayout.GetLinesViewportData(),
             ViewLayout.GetWhitespaceViewportData(),
-            _model);
+            _model,
+            _decorations);
     }
 
     private void OnModelRawContentChanged(object? sender, ModelRawContentChangedEventArgs e)
@@ -145,6 +149,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             {
                 case ModelRawFlush:
                     ViewLayout.OnFlushed(_model.LineCount, []);
+                    _decorations.Reset();
                     break;
                 case ModelRawLinesDeleted deleted:
                     ViewLayout.OnLinesDeleted(deleted.FromLineNumber, deleted.ToLineNumber);

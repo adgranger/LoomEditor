@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/viewEvents.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Layout;
@@ -76,6 +77,19 @@ internal sealed class ViewRevealRangeRequestEvent(
 
 /// <summary>A range of view lines (Monaco: the <c>{ fromLineNumber, toLineNumber }</c> of <c>ViewTokensChangedEvent</c>), both inclusive.</summary>
 internal readonly record struct ViewLineRange(int FromLineNumber, int ToLineNumber);
+
+/// <summary>The decorations changed (Monaco: <c>ViewDecorationsChangedEvent</c>); without a source, everything is affected.</summary>
+/// <remarks>Threading: immutable; UI thread only.</remarks>
+internal sealed class ViewDecorationsChangedEvent(ModelDecorationsChangedEventArgs? source) : ViewEvent
+{
+    public bool AffectsMinimap { get; } = source?.AffectsMinimap ?? true;
+
+    public bool AffectsOverviewRuler { get; } = source?.AffectsOverviewRuler ?? true;
+
+    public bool AffectsGlyphMargin { get; } = source?.AffectsGlyphMargin ?? true;
+
+    public bool AffectsLineNumber { get; } = source?.AffectsLineNumber ?? true;
+}
 
 /// <summary>The tokens of some lines changed (Monaco: <c>ViewTokensChangedEvent</c>).</summary>
 /// <remarks>Threading: immutable; UI thread only.</remarks>
