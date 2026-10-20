@@ -352,7 +352,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 |---|---|---|---|
 | [P4-42](phase-4/P4-42-syntax-highlighter.md) | `SyntaxHighlighter`: grammars, worker and theme for one editor | P4-41 | done |
 | [P4-43](phase-4/P4-43-view-model-tokens.md) | View model: tokens of the visible lines, visible lines to the model | P4-42 | done |
-| [P4-44](phase-4/P4-44-render-token-colors.md) | Rendering: token colors and font styles | P4-43 | todo |
+| [P4-44](phase-4/P4-44-render-token-colors.md) | Rendering: token colors and font styles | P4-43 | done |
 | [P4-45](phase-4/P4-45-control-language-and-theme.md) | The control: `Language` and `Theme` properties | P4-44 | todo |
 | [P4-46](phase-4/P4-46-gallery-highlighting-demo.md) | Gallery: highlighting demo and the phase 4 manual test list | P4-45 | todo |
 

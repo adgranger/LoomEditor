@@ -8,9 +8,9 @@ namespace LoomEditor.Rendering.Tests.TestHelpers;
 /// <remarks>Threading: not thread-safe; one test, one thread.</remarks>
 internal sealed class ViewHarness : IDisposable
 {
-    public ViewHarness(string text, int width = 500, int height = 200, double pixelRatio = 1)
+    public ViewHarness(string text, int width = 500, int height = 200, double pixelRatio = 1, TextModel? model = null)
     {
-        Model = new TextModel(text);
+        Model = model ?? new TextModel(text);
         Measurer = new FakeTextMeasurer(pixelRatio);
         ViewModel = new ViewModel(
             Model,
