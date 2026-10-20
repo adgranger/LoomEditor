@@ -1,6 +1,6 @@
 # P5-10 — Language configuration types and scoped line tokens
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-09
 - **Size:** M
 
@@ -79,20 +79,20 @@ which every later card of step B uses.
 
 ## Tests
 
-- [ ] Port (`languageConfiguration.test.ts`) `StandardAutoClosingPairConditional`: `Missing notIn`, `Empty notIn`,
+- [x] Port (`languageConfiguration.test.ts`) `StandardAutoClosingPairConditional`: `Missing notIn`, `Empty notIn`,
   `Invalid notIn`, `notIn in strings`, `notIn in comments`, `notIn in regex`, `notIn in strings nor comments`,
   `notIn in strings nor regex`, `notIn in comments nor regex`, `notIn in strings, comments nor regex`
   (`language configurations priorities` is P5-14)
-- [ ] New: `Create_EmbeddedLanguage_ScopesToTheTokensOfThatLanguage`, `GetActualLineContentBefore_IncludesTextBeforeTheScope`,
+- [x] New: `Create_EmbeddedLanguage_ScopesToTheTokensOfThatLanguage`, `GetActualLineContentBefore_IncludesTextBeforeTheScope`,
   `IgnoreBracketsInToken_OnlyOtherIsFalse`, `AutoClosingPairs_IndexesByFirstAndLastCharacters`,
   `FindNeutralCharacter_SkipsCharactersOfThePair`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`languageConfiguration.ts`, `supports.ts`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`languageConfiguration.ts`, `supports.ts`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
