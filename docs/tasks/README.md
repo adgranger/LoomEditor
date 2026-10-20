@@ -406,7 +406,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-13](phase-5/P5-13-language-brackets-configuration.md) | `LanguageBracketsConfiguration` | P5-12 | done |
 | [P5-14](phase-5/P5-14-language-configuration-registry.md) | `LanguageConfigurationRegistry` and `ResolvedLanguageConfiguration` | P5-13 | done |
 | [P5-15](phase-5/P5-15-text-model-language-configuration-and-words.md) | The model gets the registry: `GetWordAtPosition`, `LanguageConfigurationChanged` | P5-14 | done |
-| [P5-16](phase-5/P5-16-indentation-line-processor.md) | Indentation line processor and the test languages | P5-15 | todo |
+| [P5-16](phase-5/P5-16-indentation-line-processor.md) | Indentation line processor and the test languages | P5-15 | done |
 | [P5-17](phase-5/P5-17-enter-action-and-inherit-indent.md) | `GetEnterAction`, `GetInheritIndentForLine`, `GetGoodIndentForLine` | P5-16 | todo |
 | [P5-18](phase-5/P5-18-auto-indent-enter-and-type.md) | `GetIndentForEnter`, `GetIndentActionForType`, `GetIndentMetadata` | P5-17 | todo |
 | [P5-19](phase-5/P5-19-indentation-guesser.md) | Indentation guesser, `DetectIndentation`, `NormalizeIndentation` | P5-18 | todo |

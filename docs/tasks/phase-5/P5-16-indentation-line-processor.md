@@ -1,6 +1,6 @@
 # P5-16 — Indentation line processor and the test languages
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-15
 - **Size:** M
 
@@ -77,19 +77,19 @@ and E.
 
 ## Tests
 
-- [ ] Port (`indentationLineProcessor.test.ts`) `Indentation Context Processor - TypeScript/JavaScript`:
+- [x] Port (`indentationLineProcessor.test.ts`) `Indentation Context Processor - TypeScript/JavaScript`:
   `brackets inside of string`, `brackets inside of comment`, `brackets inside of regex`
-- [ ] Port (same) `Processed Indent Rules Support - TypeScript/JavaScript`: `should increase`, `should decrease`,
+- [x] Port (same) `Processed Indent Rules Support - TypeScript/JavaScript`: `should increase`, `should decrease`,
   `should increase next line`
-- [ ] New: `IsLanguageDifferentFromLineStart_EmbeddedLanguageInTheMiddle_IsTrue`,
+- [x] New: `IsLanguageDifferentFromLineStart_EmbeddedLanguageInTheMiddle_IsTrue`,
   `GetProcessedLine_NewIndentation_ReplacesTheLeadingWhitespace`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`indentationLineProcessor.ts`, `autoIndent.ts` `IVirtualModel`); tests table: `indentationLineProcessor.test.ts` 6 / 6
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`indentationLineProcessor.ts`, `autoIndent.ts` `IVirtualModel`); tests table: `indentationLineProcessor.test.ts` 6 / 6
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
