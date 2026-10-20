@@ -1,7 +1,6 @@
 // Ported from microsoft/vscode: src/vs/editor/common/model/textModel.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
-using System.Globalization;
 using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Text;
 using Range = LoomEditor.Core.Text.Range;
@@ -9,11 +8,9 @@ using Range = LoomEditor.Core.Text.Range;
 namespace LoomEditor.Core.Model;
 
 // Tracked ranges: ranges of the model that move with the text when it is edited. The cursor stores its selections as
-// tracked ranges. Phase 3 has no public decorations API: only the tracked-range path of Monaco's _deltaDecorationsImpl.
+// tracked ranges, owner 0 decorations of TextModel.Decorations.cs.
 public sealed partial class TextModel
 {
-    private static int _nextInstanceId;
-
     // Monaco: TRACKED_RANGE_OPTIONS (indexed by stickiness)
     private static readonly ModelDecorationOptions[] TrackedRangeOptions =
     [
@@ -23,20 +20,11 @@ public sealed partial class TextModel
         ModelDecorationOptions.Register(new ModelDecorationOptionsData { Description = "tracked-range-grows-only-when-typing-after", Stickiness = TrackedRangeStickiness.GrowsOnlyWhenTypingAfter }),
     ];
 
-    private readonly int _instanceId = Interlocked.Increment(ref _nextInstanceId);
-    private readonly Dictionary<string, IntervalNode> _decorations = [];
-    private DecorationsTrees _decorationsTree = new();
-    private int _lastDecorationId;
-
     // For tests: the number of tracked ranges (and decorations) that are alive.
     internal int TrackedRangeCount => _decorations.Count;
 
     /// <summary>The current range of a tracked range, or <see langword="null"/> when the id is unknown (Monaco: <c>_getTrackedRange</c>).</summary>
-    internal Range? GetTrackedRange(string id)
-    {
-        // Monaco: getDecorationRange(id)
-        return _decorations.TryGetValue(id, out IntervalNode? node) ? _decorationsTree.GetNodeRange(this, node) : null;
-    }
+    internal Range? GetTrackedRange(string id) => GetDecorationRange(id);
 
     /// <summary>
     /// Creates, moves or deletes a tracked range (Monaco: <c>_setTrackedRange</c>).
@@ -62,20 +50,7 @@ public sealed partial class TextModel
             }
 
             // node doesn't exist, the request is to set => add the tracked range
-            // Monaco: _deltaDecorationsImpl(0, [], [{ range, options }], true), the part that creates a node
-            string decorationId = string.Create(CultureInfo.InvariantCulture, $"{_instanceId};{++_lastDecorationId}");
-            node = new IntervalNode(decorationId, 0, 0);
-            _decorations[decorationId] = node;
-
-            Range validated = ValidateRangeRelaxed(newRange.Value);
-            int start = _buffer.GetOffsetAt(validated.StartLineNumber, validated.StartColumn);
-            int end = _buffer.GetOffsetAt(validated.EndLineNumber, validated.EndColumn);
-
-            node.OwnerId = 0;
-            node.Reset(_versionId, start, end, validated);
-            node.SetOptions(TrackedRangeOptions[(int)stickiness]);
-            _decorationsTree.Insert(node);
-            return node.Id;
+            return DeltaDecorationsImpl(0, [], [new ModelDeltaDecoration(newRange.Value, TrackedRangeOptions[(int)stickiness])], suppressEvents: true)[0];
         }
 
         if (newRange is null)

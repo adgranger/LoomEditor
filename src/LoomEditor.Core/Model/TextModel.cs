@@ -18,7 +18,7 @@ namespace LoomEditor.Core.Model;
 /// <remarks>
 /// <para>Monaco: <c>TextModel</c> (read and edit API).</para>
 /// <para>
-/// Not ported yet: language, options (tab size...), decorations, tokens, injected text, attached editors,
+/// Decorations are internal (TextModel.Decorations.cs). Not ported: injected text, attached editors,
 /// <c>isTooLargeForSyncing</c> and disposal. Methods that take a position or range validate it first, like Monaco.
 /// </para>
 /// <para>Threading: UI thread only. Not thread-safe.</para>
