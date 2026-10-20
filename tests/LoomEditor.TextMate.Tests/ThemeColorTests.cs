@@ -8,6 +8,7 @@ public class ThemeColorTests
     [Theory]
     [InlineData("#1F1F1F", 255, 0x1F, 0x1F, 0x1F)]
     [InlineData("#abc", 255, 0xAA, 0xBB, 0xCC)]
+    [InlineData("#abc8", 0x88, 0xAA, 0xBB, 0xCC)]
     [InlineData("#11223380", 0x80, 0x11, 0x22, 0x33)]
     public void Parse_ValidColors(string text, int a, int r, int g, int b)
     {

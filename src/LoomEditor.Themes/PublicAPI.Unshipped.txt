@@ -42,11 +42,27 @@ LoomEditor.Themes.ThemeType.Dark = 0 -> LoomEditor.Themes.ThemeType
 LoomEditor.Themes.ThemeType.HighContrastDark = 2 -> LoomEditor.Themes.ThemeType
 LoomEditor.Themes.ThemeType.HighContrastLight = 3 -> LoomEditor.Themes.ThemeType
 LoomEditor.Themes.ThemeType.Light = 1 -> LoomEditor.Themes.ThemeType
+LoomEditor.Themes.TokenColorRule
+LoomEditor.Themes.TokenColorRule.<Clone>$() -> LoomEditor.Themes.TokenColorRule!
+LoomEditor.Themes.TokenColorRule.Background.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.TokenColorRule.Background.init -> void
+LoomEditor.Themes.TokenColorRule.Deconstruct(out System.Collections.Generic.IReadOnlyList<string!>! Scopes, out LoomEditor.Themes.ThemeColor? Foreground, out LoomEditor.Themes.ThemeColor? Background, out string? FontStyle) -> void
+LoomEditor.Themes.TokenColorRule.Equals(LoomEditor.Themes.TokenColorRule? other) -> bool
+LoomEditor.Themes.TokenColorRule.FontStyle.get -> string?
+LoomEditor.Themes.TokenColorRule.FontStyle.init -> void
+LoomEditor.Themes.TokenColorRule.Foreground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.TokenColorRule.Foreground.init -> void
+LoomEditor.Themes.TokenColorRule.Scopes.get -> System.Collections.Generic.IReadOnlyList<string!>!
+LoomEditor.Themes.TokenColorRule.Scopes.init -> void
+LoomEditor.Themes.TokenColorRule.TokenColorRule(System.Collections.Generic.IReadOnlyList<string!>! Scopes, LoomEditor.Themes.ThemeColor? Foreground, LoomEditor.Themes.ThemeColor? Background, string? FontStyle) -> void
 override LoomEditor.Themes.EditorTheme.Equals(object? obj) -> bool
 override LoomEditor.Themes.EditorTheme.GetHashCode() -> int
 override LoomEditor.Themes.EditorTheme.ToString() -> string!
 override LoomEditor.Themes.ThemeColor.GetHashCode() -> int
 override LoomEditor.Themes.ThemeColor.ToString() -> string!
+override LoomEditor.Themes.TokenColorRule.Equals(object? obj) -> bool
+override LoomEditor.Themes.TokenColorRule.GetHashCode() -> int
+override LoomEditor.Themes.TokenColorRule.ToString() -> string!
 static LoomEditor.Themes.EditorTheme.Dark.get -> LoomEditor.Themes.EditorTheme!
 static LoomEditor.Themes.EditorTheme.Light.get -> LoomEditor.Themes.EditorTheme!
 static LoomEditor.Themes.EditorTheme.operator !=(LoomEditor.Themes.EditorTheme? left, LoomEditor.Themes.EditorTheme? right) -> bool
@@ -55,3 +71,5 @@ static LoomEditor.Themes.ThemeColor.FromRgb(byte r, byte g, byte b) -> LoomEdito
 static LoomEditor.Themes.ThemeColor.operator !=(LoomEditor.Themes.ThemeColor left, LoomEditor.Themes.ThemeColor right) -> bool
 static LoomEditor.Themes.ThemeColor.operator ==(LoomEditor.Themes.ThemeColor left, LoomEditor.Themes.ThemeColor right) -> bool
 static LoomEditor.Themes.ThemeColor.Parse(string! hex) -> LoomEditor.Themes.ThemeColor
+static LoomEditor.Themes.TokenColorRule.operator !=(LoomEditor.Themes.TokenColorRule? left, LoomEditor.Themes.TokenColorRule? right) -> bool
+static LoomEditor.Themes.TokenColorRule.operator ==(LoomEditor.Themes.TokenColorRule? left, LoomEditor.Themes.TokenColorRule? right) -> bool
