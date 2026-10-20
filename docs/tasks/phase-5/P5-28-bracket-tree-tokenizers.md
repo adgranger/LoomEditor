@@ -1,6 +1,6 @@
 # P5-28 — Bracket pair tree (7/9): `TextBufferTokenizer` and `FastTokenizer`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-27
 - **Size:** M
 
@@ -58,25 +58,25 @@ File: `common/model/bracketPairsTextModelPart/bracketPairsTree/tokenizer.ts` (39
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - Tokenizer` › `Basic` (`createModelServices` / `instantiateTextModel` →
+- [x] Port suite `Bracket Pair Colorizer - Tokenizer` › `Basic` (`createModelServices` / `instantiateTextModel` →
       a `TokenizationRegistry`, a `LanguageIdCodec`, a `LanguageConfigurationRegistry` (P5-14) and the
       internal `TextModel` constructor that takes them (phase 4 + step B); `toArr` / `tokenToObj` compare text,
       bracket ids through `DenseKeyProvider.ReverseLookup` / `ReverseLookupSet`, and kind)
-- [ ] New: `FastTokenizer_SplitsTextAndBrackets` (`"a{b\n}c"` with `{}` → text `0,1`, `{`, text `1,0`, `}`, text
+- [x] New: `FastTokenizer_SplitsTextAndBrackets` (`"a{b\n}c"` with `{}` → text `0,1`, `{`, text `1,0`, `}`, text
       `0,1`; `Length` of the tokenizer `1,2`)
-- [ ] New: `FastTokenizer_NoBrackets_IsOneTextToken`
-- [ ] New: `FastTokenizer_Skip_Throws`
-- [ ] New: `TextBufferTokenizer_CommentToken_HasNoBrackets` (a `{` inside a comment token is text)
-- [ ] New: `TextBufferTokenizer_LongLine_TextTokensAreCutAt1500` (a 4000-character line without brackets gives text
+- [x] New: `FastTokenizer_NoBrackets_IsOneTextToken`
+- [x] New: `FastTokenizer_Skip_Throws`
+- [x] New: `TextBufferTokenizer_CommentToken_HasNoBrackets` (a `{` inside a comment token is text)
+- [x] New: `TextBufferTokenizer_LongLine_TextTokensAreCutAt1500` (a 4000-character line without brackets gives text
       tokens of at most ~1500 columns)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `tokenizer.ts` ✅ (P5-27, P5-28); tests row `tokenizer.test.ts` 1 / 1
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] `docs/tasks/phase-5/README.md` section 5: row for `TokenizedDocument` (created by P5-28)
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `tokenizer.ts` ✅ (P5-27, P5-28); tests row `tokenizer.test.ts` 1 / 1
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] `docs/tasks/phase-5/README.md` section 5: row for `TokenizedDocument` (created by P5-28; the row already exists)
 
 ## Out of scope
 

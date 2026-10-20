@@ -56,13 +56,20 @@ internal sealed class DenseKeyProvider<T> : IDenseKeyProvider<T>
         return key >= 0 && key < _items.Count ? _items[key] : default;
     }
 
-    /// <summary>Returns the values of the set, in key order (insertion order).</summary>
-    public List<T> ReverseLookupSet(SmallImmutableSet<T> set)
+    /// <summary>
+    /// Returns the values whose keys are in the set, in key order (insertion order).
+    /// </summary>
+    /// <remarks>
+    /// Behavior difference: the set holds the <b>keys</b> (<see cref="SmallImmutableSet{T}"/> of <see cref="int"/>, as in
+    /// <see cref="Token.BracketIds"/>), where Monaco types it <c>SmallImmutableSet&lt;T&gt;</c> and relies on TypeScript's
+    /// method bivariance to pass a set of numbers.
+    /// </remarks>
+    public List<T> ReverseLookupSet(SmallImmutableSet<int> set)
     {
         var result = new List<T>();
         foreach (var item in _items)
         {
-            if (set.Has(item, this))
+            if (set.Has(GetKey(item), IdentityKeyProvider.Instance))
             {
                 result.Add(item);
             }
