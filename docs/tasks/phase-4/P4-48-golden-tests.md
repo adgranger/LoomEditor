@@ -1,6 +1,6 @@
 # P4-48 — Golden tests (2/2): compare our tokens with vscode-textmate for ten languages
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-47
 - **Size:** M (test code; fix the port until green)
 
@@ -31,14 +31,14 @@ The golden files of P4-47. The port under `src/LoomEditor.TextMate/` and `src/Lo
 
 ## Tests
 
-- [ ] New: `Golden_Scopes(language)` and `Golden_Colors(language, theme)` for the ten languages and the two themes
+- [x] New: `Golden_Scopes(language)` and `Golden_Colors(language, theme)` for the ten languages and the two themes
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: bugs found by the golden tests, known differences (if any, agreed)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: bugs found by the golden tests, known differences (if any, agreed)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

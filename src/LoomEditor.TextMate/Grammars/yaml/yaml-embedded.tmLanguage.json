@@ -154,7 +154,7 @@
 				},
 				{
 					"comment": "https://yaml.org/spec/1.2.2/#rule-ns-reserved-directive",
-					"begin": "(?>^|\\G)(%)([\\x{85}[^ \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]++)",
+					"begin": "(?>^|\\G)(%)((?:[^ \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})++)",
 					"end": "$",
 					"beginCaptures": {
 						"1": {
@@ -166,7 +166,7 @@
 					},
 					"patterns": [
 						{
-							"match": "\\G([\t ]++)([\\x{85}[^ \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]++)",
+							"match": "\\G([\t ]++)((?:[^ \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})++)",
 							"captures": {
 								"1": {
 									"name": "punctuation.whitespace.separator.yaml"
@@ -177,7 +177,7 @@
 							}
 						},
 						{
-							"match": "([\t ]++)([\\x{85}[^ \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]++)",
+							"match": "([\t ]++)((?:[^ \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})++)",
 							"captures": {
 								"1": {
 									"name": "punctuation.whitespace.separator.yaml"
@@ -218,7 +218,7 @@
 		},
 		"block-mapping": {
 			"//": "The check for plain keys is expensive",
-			"begin": "(?<=^|\\G|\t| )(?<![^\t ][\t ]*+:[\t ]*+|^---[\t ]*+)(?!:[\r\n\t ])(?=(?>(?#Double Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[ \t]*+(?!:[\r\n\t ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r\n\t ]))++]|(?#Plain)(?>[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))(?>[^:#]++|:(?![\r\n\t ])|(?<! |\t)#++)*+)?+(?#Map Value)[\t ]*+:[\r\n\t ])",
+			"begin": "(?<=^|\\G|\t| )(?<![^\t ][\t ]*+:[\t ]*+|^---[\t ]*+)(?!:[\r\n\t ])(?=(?>(?#Double Quote)\"(?>[^\\\\\"]++|\\\\.)*+\"|(?#Single Quote)'(?>[^']++|'')*+'|(?#Flow-Map){(?>[^}]++|}[ \t]*+(?!:[\r\n\t ]))++}|(?#Flow-Seq)\\[(?>[^]]++|][ \t]*+(?!:[\r\n\t ]))++]|(?#Plain)(?>(?:[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})|[?:-](?![\r\n\t ]))(?>[^:#]++|:(?![\r\n\t ])|(?<! |\t)#++)*+)?+(?#Map Value)[\t ]*+:[\r\n\t ])",
 			"end": "(?=:[\r\n\t ])",
 			"endCaptures": {
 				"0": {
@@ -429,7 +429,7 @@
 		},
 		"block-plain-out": {
 			"comment": "https://yaml.org/spec/1.2.2/#rule-ns-plain-multi-line (FLOW-OUT)",
-			"begin": "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))",
+			"begin": "(?=(?:[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})|[?:-](?![\r\n\t ]))",
 			"end": "(?=[\t ]++#|[\t ]*+$)",
 			"name": "string.unquoted.plain.out.yaml",
 			"patterns": [
@@ -451,7 +451,7 @@
 		},
 		"flow-key-plain-out": {
 			"comment": "https://yaml.org/spec/1.2.2/#rule-ns-plain-one-line (FLOW-OUT)",
-			"begin": "(?=[\\x{85}[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]|[?:-](?![\r\n\t ]))",
+			"begin": "(?=(?:[^-?:,\\[\\]{}#&*!|>'\"%@` \\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})|[?:-](?![\r\n\t ]))",
 			"end": "(?=[\t ]*+(?>$|:[\r\n\t ])|[\t ]++#)",
 			"name": "meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml",
 			"patterns": [
@@ -468,7 +468,7 @@
 			]
 		},
 		"alias": {
-			"match": "(\\*)([\\x{85}[^ ,\\[\\]{}\\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]]++)|(\\*)",
+			"match": "(\\*)((?:[^ ,\\[\\]{}\\p{Cntrl}\\p{Surrogate}\\x{FEFF FFFE FFFF}]|\\x{85})++)|(\\*)",
 			"captures": {
 				"0": {
 					"name": "keyword.control.flow.alias.yaml"
