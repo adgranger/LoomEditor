@@ -1,6 +1,6 @@
 # P5-08 — `DecorationStyles` and drawing decoration backgrounds and borders
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-07
 - **Size:** M
 
@@ -94,10 +94,10 @@ redraws when decorations change.
 
 No Monaco test (Monaco renders HTML). New:
 
-- [ ] `DecorationStylesTests`: `Get_KnownClass_ReturnsItsRow`, `Get_ClassList_ReturnsTheFirstKnownClass`,
+- [x] `DecorationStylesTests`: `Get_KnownClass_ReturnsItsRow`, `Get_ClassList_ReturnsTheFirstKnownClass`,
   `Get_UnknownOrNull_ReturnsNull`. `DecorationStyles` exposes `internal static IEnumerable<string> ColorIds` (every id
   of the table) for the next test.
-- [ ] `TextViewRendererDecorationsTests` (decorations added with `Model.DeltaDecorations(harness.ViewModel.EditorId, …)`,
+- [x] `TextViewRendererDecorationsTests` (decorations added with `Model.DeltaDecorations(harness.ViewModel.EditorId, …)`,
   a theme from `EditorTheme.Load` with known colors):
   `DecorationStyles_EveryColorId_IsAKnownThemeColor` (`EditorColorDefaults.IsKnown`: the Rendering tests see the
   Themes internals since P5-05),
@@ -110,12 +110,12 @@ No Monaco test (Monaco renders HTML). New:
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`decorations.ts` → `TextViewRenderer.Decorations.cs`); "Behavior differences":
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`decorations.ts` → `TextViewRenderer.Decorations.cs`); "Behavior differences":
       the CSS rows above (solid borders, no padding, focused-only selection highlight)
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] No manual check yet: no feature makes decorations (the first visual check is bracket matching, step C)
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] No manual check yet: no feature makes decorations (the first visual check is bracket matching, step C)
 
 ## Out of scope
 

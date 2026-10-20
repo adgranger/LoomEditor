@@ -38,6 +38,7 @@ internal sealed partial class TextViewRenderer : IDisposable
     private ITextMeasurer _measurer;
     private LineLayoutCache _cache;
     private int _maxLineWidth;
+    private EditorTheme _theme = EditorTheme.Dark;
 
     /// <summary>Creates a renderer that lays out lines with <paramref name="measurer"/>.</summary>
     /// <remarks>Create a new renderer when the measurer changes (new font or new graphics device).</remarks>
@@ -50,7 +51,16 @@ internal sealed partial class TextViewRenderer : IDisposable
     }
 
     /// <summary>The colors to use.</summary>
-    public EditorTheme Theme { get; set; } = EditorTheme.Dark;
+    /// <remarks>Setting it forgets the decoration colors resolved with the previous theme.</remarks>
+    public EditorTheme Theme
+    {
+        get => _theme;
+        set
+        {
+            _theme = value;
+            _decorationColors.Clear();
+        }
+    }
 
     /// <summary>
     /// Width of the caret in DIPs; 0 means the default of 2. Monaco: the <c>cursorWidth</c> editor option (default 0).
@@ -163,6 +173,9 @@ internal sealed partial class TextViewRenderer : IDisposable
                 }
             }
         }
+
+        // Monaco: the decorations overlay is after the selections overlay, under the text.
+        DrawDecorations(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
 
         for (int i = 0; i < lineCount; i++)
         {

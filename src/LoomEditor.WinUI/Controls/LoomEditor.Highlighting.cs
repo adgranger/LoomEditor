@@ -84,7 +84,7 @@ public sealed partial class LoomEditor
     {
         public void HandleEvents(IReadOnlyList<ViewEvent> events)
         {
-            if (events.Any(e => e is ViewTokensChangedEvent))
+            if (events.Any(e => e is ViewTokensChangedEvent or ViewDecorationsChangedEvent))
             {
                 editor._canvas?.Invalidate();
             }
