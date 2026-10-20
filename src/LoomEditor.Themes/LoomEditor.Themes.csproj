@@ -13,6 +13,8 @@
     <!-- The Themes tests live in LoomEditor.TextMate.Tests (the test project of phase 4). -->
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <InternalsVisibleTo Include="LoomEditor.View" />
+    <InternalsVisibleTo Include="LoomEditor.Rendering" />
+    <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
   </ItemGroup>
 
   <ItemGroup>

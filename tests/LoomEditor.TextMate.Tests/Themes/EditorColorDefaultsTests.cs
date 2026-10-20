@@ -54,6 +54,61 @@ public class EditorColorDefaultsTests
     }
 
     [Fact]
+    public void Resolve_Transparent_MultipliesAlpha()
+    {
+        // editor.foldBackground = transparent(editor.selectionBackground (#264F78 in dark), 0.3): 0.3 * 255 rounds to 0x4D
+        Assert.Equal("#264F784D", Default("editor.foldBackground", ThemeType.Dark));
+    }
+
+    [Fact]
+    public void Resolve_Transparent_UsesTheThemesValueOfTheOperand()
+    {
+        ThemeColor? Theme(string id) => id == "editor.selectionBackground" ? ThemeColor.Parse("#FF0000") : null;
+
+        Assert.Equal("#FF00004D", EditorColorDefaults.Resolve("editor.foldBackground", ThemeType.Dark, Theme)?.ToString());
+    }
+
+    [Fact]
+    public void Resolve_LessProminent_DarkTheme_IsTheDarkerColorMadeTransparent()
+    {
+        // The selection is lighter than the background: Monaco takes the darker color, then makes it transparent.
+        Color selection = Color.FromThemeColor(ThemeColor.Parse("#264F78"));
+        Color background = Color.FromThemeColor(ThemeColor.Parse("#1E1E1E"));
+        string expected = Color.GetDarkerColor(selection, background, 0.3).Transparent(0.6).ToThemeColor().ToString();
+
+        Assert.Equal(expected, Default("editor.selectionHighlightBackground", ThemeType.Dark));
+    }
+
+    [Fact]
+    public void Resolve_LessProminent_LightTheme_IsTheLighterColorMadeTransparent()
+    {
+        // The selection is darker than the background: Monaco takes the lighter color, then makes it transparent.
+        Color selection = Color.FromThemeColor(ThemeColor.Parse("#ADD6FF"));
+        Color background = Color.FromThemeColor(ThemeColor.Parse("#ffffff"));
+        string expected = Color.GetLighterColor(selection, background, 0.3).Transparent(0.6).ToThemeColor().ToString();
+
+        Assert.Equal(expected, Default("editor.selectionHighlightBackground", ThemeType.Light));
+    }
+
+    [Theory]
+    [InlineData("editor.findMatchForeground")]
+    [InlineData("editorBracketMatch.foreground")]
+    [InlineData("editor.selectionHighlightBackground")] // null for the high contrast themes
+    public void Resolve_NullDefault_IsNull(string id)
+    {
+        Assert.Null(Default(id, id == "editor.selectionHighlightBackground" ? ThemeType.HighContrastDark : ThemeType.Dark));
+    }
+
+    [Fact]
+    public void GetColor_DarkModern_ReturnsTheThemeValueElseTheDefault()
+    {
+        // Dark Modern sets editor.findMatchBackground (#9E6A03) but not editor.findMatchHighlightBackground.
+        Assert.Equal(ThemeColor.Parse("#9E6A03"), EditorTheme.Dark.GetColor("editor.findMatchBackground"));
+        Assert.Equal(ThemeColor.Parse("#EA5C0055"), EditorTheme.Dark.GetColor("editor.findMatchHighlightBackground"));
+        Assert.Null(EditorTheme.Dark.GetColor("nope"));
+    }
+
+    [Fact]
     public void Resolve_UnknownColor_IsNull()
     {
         Assert.False(EditorColorDefaults.IsKnown("nope"));

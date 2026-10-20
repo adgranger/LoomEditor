@@ -390,7 +390,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-02](phase-5/P5-02-model-decoration-options.md) | `ModelDecorationOptions`: Monaco's options, `Register` / `CreateDynamic` | P5-01 | done |
 | [P5-03](phase-5/P5-03-text-model-decorations.md) | `TextModel` decorations: `DeltaDecorations`, `ChangeDecorations`, queries | P5-02 | done |
 | [P5-04](phase-5/P5-04-decorations-changed-event.md) | `TextModel.DecorationsChanged` and the decorations-and-editing tests | P5-03 | done |
-| [P5-05](phase-5/P5-05-decoration-theme-colors.md) | Theme colors of the phase 5 decorations | P5-04 | todo |
+| [P5-05](phase-5/P5-05-decoration-theme-colors.md) | Theme colors of the phase 5 decorations | P5-04 | done |
 | [P5-06](phase-5/P5-06-editor-decorations-collection.md) | Editor id and `EditorDecorationsCollection` | P5-05 | todo |
 | [P5-07](phase-5/P5-07-view-model-decorations.md) | View model decorations: viewport decorations, inline decorations, decorations-changed view event | P5-06 | todo |
 | [P5-08](phase-5/P5-08-decoration-styles-and-backgrounds.md) | `DecorationStyles` and drawing decoration backgrounds and borders | P5-07 | todo |

@@ -1,6 +1,6 @@
 # P5-05 — Theme colors of the phase 5 decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-04
 - **Size:** M
 
@@ -65,24 +65,24 @@ not only its typed properties.
 
 ## Tests
 
-- [ ] Port (`color.test.ts` › `Color`): `isLighterColor`, `getLighterColor`, `isDarkerColor`, `getDarkerColor`,
+- [x] Port (`color.test.ts` › `Color`): `isLighterColor`, `getLighterColor`, `isDarkerColor`, `getDarkerColor`,
   `luminance`; › `HSLA`: `HSLA.toRGBA`, `HSLA.fromRGBA`. `Color.fromHex` in these tests → `Color.FromThemeColor(ThemeColor.Parse(…))`.
   Not ported: `blending`, `toString`, `toNumber32Bit`, `HSVA`, `Format`, `ensureContrastRatio` (not needed).
-- [ ] New: `Resolve_Transparent_MultipliesAlpha` (`editor.foldBackground` of a dark theme without colors =
+- [x] New: `Resolve_Transparent_MultipliesAlpha` (`editor.foldBackground` of a dark theme without colors =
   `#264F78` with alpha 0.3 → `#264F784D`)
-- [ ] New: `Resolve_Transparent_UsesTheThemesValueOfTheOperand` (a theme that sets `editor.selectionBackground`)
-- [ ] New: `Resolve_LessProminent_DarkTheme_IsTheDarkerColorMadeTransparent` (expected value computed in the test with
+- [x] New: `Resolve_Transparent_UsesTheThemesValueOfTheOperand` (a theme that sets `editor.selectionBackground`)
+- [x] New: `Resolve_LessProminent_DarkTheme_IsTheDarkerColorMadeTransparent` (expected value computed in the test with
   `Color.GetDarkerColor(#264F78, #1E1E1E, 0.3).Transparent(0.6)`; and a light-theme twin with `GetLighterColor` /
   `GetDarkerColor` as Monaco chooses)
-- [ ] New: `Resolve_NullDefault_IsNull` (`editor.findMatchForeground`, `editorBracketMatch.foreground`)
-- [ ] New: `GetColor_DarkModern_ReturnsTheThemeValueElseTheDefault` (`EditorTheme.Dark`; an id the theme sets and one it does not)
+- [x] New: `Resolve_NullDefault_IsNull` (`editor.findMatchForeground`, `editorBracketMatch.foreground`)
+- [x] New: `GetColor_DarkModern_ReturnsTheThemeValueElseTheDefault` (`EditorTheme.Dark`; an id the theme sets and one it does not)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (the golden color tests of phase 4 untouched)
-- [ ] `docs/PORTING.md` map updated (`color.ts` subset, `colorUtils.ts` transforms)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (the golden color tests of phase 4 untouched)
+- [x] `docs/PORTING.md` map updated (`color.ts` subset, `colorUtils.ts` transforms)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
