@@ -1,7 +1,12 @@
 using LoomEditor.Core.Model;
+using LoomEditor.Core.Threading;
 using LoomEditor.Core.Text;
+using LoomEditor.TextMate.Grammars;
+using LoomEditor.TextMate.Tokenization;
+using LoomEditor.Core.Tokens;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Events;
+using LoomEditor.View.Highlighting;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Features;
@@ -13,7 +18,7 @@ namespace LoomEditor.View.Features;
 /// The selections live in the cursor, which the <see cref="Layout.ViewModel"/> owns (ADR 0006, decision 3).
 /// Threading: UI thread only. Not thread-safe.
 /// </remarks>
-public sealed class EditorContext : IEditorContext
+public sealed class EditorContext : IEditorContext, IDisposable
 {
     // Keeps the registration of the core commands (cursorLeft, cursorHome...) alive for the life of the editor.
     private readonly IDisposable _coreCommands;
@@ -31,8 +36,13 @@ public sealed class EditorContext : IEditorContext
     {
     }
 
-    internal EditorContext(Func<Action, IDisposable> scheduleAtNextAnimationFrame, TimeProvider timeProvider)
+    internal EditorContext(Func<Action, IDisposable> scheduleAtNextAnimationFrame, TimeProvider timeProvider, IUiDispatcher? dispatcher = null)
     {
+        var tokenizationRegistry = new TokenizationRegistry();
+        var languages = new LanguageRegistry();
+        BuiltInLanguages.RegisterAll(languages);
+        Model = new TextModel(string.Empty, DefaultEndOfLine.LF, null, tokenizationRegistry, languages.Codec, NoopTokenizationScheduler.Instance);
+        Highlighter = new SyntaxHighlighter(Model, tokenizationRegistry, languages, dispatcher);
         FontInfo fontInfo = FontInfo.Default;
         ViewModel = new ViewModel(
             Model,
@@ -49,7 +59,9 @@ public sealed class EditorContext : IEditorContext
     public CommandRegistry Commands { get; } = new();
 
     /// <inheritdoc />
-    public TextModel Model { get; } = new(string.Empty);
+    public TextModel Model { get; }
+
+    internal SyntaxHighlighter Highlighter { get; }
 
     internal ViewModel ViewModel { get; }
 
@@ -87,6 +99,13 @@ public sealed class EditorContext : IEditorContext
         ArgumentNullException.ThrowIfNull(text);
 
         Model.SetValue(text);
+    }
+
+    /// <summary>Stops the background tokenizer and releases the grammars.</summary>
+    public void Dispose()
+    {
+        Highlighter.Dispose();
+        _coreCommands.Dispose();
     }
 
     private void OnViewModelEvent(object? sender, OutgoingViewModelEvent e)
