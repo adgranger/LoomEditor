@@ -112,7 +112,12 @@ public sealed partial class TextModel
         _tokenization = new TokenizationTextModelPart(this, LanguageIdCodec.PlainTextLanguageId, registry, languageIdCodec, scheduler, _attachedViews);
     }
 
-    internal void RaiseTokensChanged(ModelTokensChangedEventArgs e) => TokensChanged?.Invoke(this, e);
+    // Monaco: _emitModelTokensChangedEvent calls the bracket pairs part before firing the event.
+    internal void RaiseTokensChanged(ModelTokensChangedEventArgs e)
+    {
+        BracketPairs.HandleDidChangeTokens(e);
+        TokensChanged?.Invoke(this, e);
+    }
 
     internal void RaiseLanguageChanged(ModelLanguageChangedEventArgs e) => LanguageChanged?.Invoke(this, e);
 }

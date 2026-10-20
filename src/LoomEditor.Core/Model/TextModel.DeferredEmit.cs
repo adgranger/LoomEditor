@@ -31,8 +31,9 @@ public sealed partial class TextModel
     // Monaco: DidChangeContentEmitter.fire
     private void Deliver(ModelRawContentChangedEventArgs raw, ModelContentChangedEventArgs content)
     {
-        // Monaco: _emitContentChangedEvent calls the tokenization part before firing the (deferred) event.
+        // Monaco: _emitContentChangedEvent calls the tokenization part, then the bracket pairs part, before firing the (deferred) event.
         _tokenization.HandleDidChangeContent(content);
+        BracketPairs.HandleDidChangeContent(content);
 
         if (_deferredCount > 0)
         {

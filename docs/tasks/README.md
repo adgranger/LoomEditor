@@ -426,7 +426,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-28](phase-5/P5-28-bracket-tree-tokenizers.md) | Bracket pair tree (7/9): `TextBufferTokenizer` and `FastTokenizer` | P5-27 | done |
 | [P5-29](phase-5/P5-29-bracket-tree-parser-and-result-types.md) | Bracket pair tree (8/9): parser, result types, `CallbackIterable` | P5-28 | done |
 | [P5-30](phase-5/P5-30-bracket-pairs-tree.md) | Bracket pair tree (9/9): `BracketPairsTree` | P5-29 | done |
-| [P5-31](phase-5/P5-31-text-model-bracket-pairs-part.md) | `TextModel.BracketPairs`: the bracket pairs part (tree path) | P5-30 | todo |
+| [P5-31](phase-5/P5-31-text-model-bracket-pairs-part.md) | `TextModel.BracketPairs`: the bracket pairs part (tree path) | P5-30 | done |
 | [P5-32](phase-5/P5-32-bracket-pairs-legacy-match.md) | Bracket pairs: legacy `MatchBracket` and `FindMatchingBracketUp` (no tree) | P5-31 | todo |
 | [P5-33](phase-5/P5-33-bracket-pairs-legacy-find.md) | Bracket pairs: legacy `FindPrevBracket`, `FindNextBracket`, `FindEnclosingBrackets` (no tree) | P5-32 | todo |
 | [P5-34](phase-5/P5-34-bracket-pair-colorization.md) | Bracket pair colorization | P5-33 | todo |

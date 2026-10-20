@@ -12,8 +12,7 @@ namespace LoomEditor.Core.Model.Tokens;
 /// <summary>
 /// The syntax tokens of a model, computed by the <see cref="ITokenizationSupport"/> of its language (Monaco:
 /// <c>TokenizerSyntaxTokenBackend</c> merged with <c>AbstractSyntaxTokenBackend</c>: there is no other backend). Not
-/// ported: the verify-only debug path, <c>onDidChangeBackgroundTokenizationState</c> (bracket pairs, phase 5), font
-/// tokens.
+/// ported: the verify-only debug path, font tokens. <c>onDidChangeBackgroundTokenizationState</c> is a callback.
 /// </summary>
 /// <remarks>
 /// Threading: not thread-safe. Differences from Monaco: without a scheduler, the default background tokenizer is not
@@ -28,6 +27,7 @@ internal sealed class TokenizerSyntaxTokenBackend
     private readonly ITokenizationModelInfo _modelInfo;
     private readonly ITokenizationScheduler? _scheduler;
     private readonly Action<ModelTokensChangedEventArgs> _raiseTokensChanged;
+    private readonly Action _raiseBackgroundTokenizationStateChanged;
     private readonly ContiguousTokensStore _tokens;
     private TokenizerWithStateStoreAndTextModel? _tokenizer;
 
@@ -44,7 +44,8 @@ internal sealed class TokenizerSyntaxTokenBackend
         ITokenizationModelInfo modelInfo,
         ITokenizationScheduler? scheduler,
         AttachedViews attachedViews,
-        Action<ModelTokensChangedEventArgs> raiseTokensChanged)
+        Action<ModelTokensChangedEventArgs> raiseTokensChanged,
+        Action raiseBackgroundTokenizationStateChanged)
     {
         _languageIdCodec = languageIdCodec;
         _model = model;
@@ -52,6 +53,7 @@ internal sealed class TokenizerSyntaxTokenBackend
         _modelInfo = modelInfo;
         _scheduler = scheduler;
         _raiseTokensChanged = raiseTokensChanged;
+        _raiseBackgroundTokenizationStateChanged = raiseBackgroundTokenizationStateChanged;
         _tokens = new ContiguousTokensStore(languageIdCodec);
 
         registry.Changed += (_, e) =>
@@ -307,8 +309,14 @@ internal sealed class TokenizerSyntaxTokenBackend
 
         public void BackgroundTokenizationFinished()
         {
+            if (owner.BackgroundTokenizationState == BackgroundTokenizationState.Completed)
+            {
+                return;
+            }
+
             // We already did a full tokenization and don't go back to progressing.
             owner.BackgroundTokenizationState = BackgroundTokenizationState.Completed;
+            owner._raiseBackgroundTokenizationStateChanged();
         }
 
         public void SetEndState(int lineNumber, IState state)
