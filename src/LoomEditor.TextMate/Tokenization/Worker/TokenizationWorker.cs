@@ -18,7 +18,7 @@ namespace LoomEditor.TextMate.Tokenization.Worker;
 /// The <see cref="ITextMateWorkerHost"/> is called on the worker thread. An exception while handling a message is
 /// written with <see cref="Debug"/> and the loop goes on.
 /// </remarks>
-internal sealed class TokenizationWorker : IDisposable
+internal sealed class TokenizationWorker : ITokenizationWorker
 {
     /// <summary>Lines per batch (Monaco: 200).</summary>
     public const int MaxLinesPerSlice = 200;
