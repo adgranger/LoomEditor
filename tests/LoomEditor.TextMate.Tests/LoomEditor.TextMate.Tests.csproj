@@ -21,5 +21,8 @@
   <ItemGroup>
     <!-- vscode-textmate test cases (MIT), copied byte for byte; found at run time by TestHelpers/TestCaseFiles.cs. -->
     <None Update="TestCases\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Golden samples are data, not code (sample.cs would be compiled); P4-48 finds them next to the test assembly. -->
+    <Compile Remove="Golden\**" />
+    <None Include="Golden\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
