@@ -29,6 +29,16 @@ public sealed record EditorTheme
     /// <summary>The token color rules, in VS Code's order: rule 0 is the default foreground and background.</summary>
     public IReadOnlyList<TokenColorRule> TokenColors { get; init; } = [];
 
+    /// <summary>The colors the theme file sets, by id (empty for a theme built in code).</summary>
+    internal IReadOnlyDictionary<string, ThemeColor> Colors { get; init; } = new Dictionary<string, ThemeColor>();
+
+    /// <summary>
+    /// The color of <paramref name="colorId"/>: the one the theme sets, else VS Code's default for the theme type;
+    /// <see langword="null"/> when there is none.
+    /// </summary>
+    internal ThemeColor? GetColor(string colorId) =>
+        EditorColorDefaults.Resolve(colorId, Type, id => Colors.TryGetValue(id, out ThemeColor color) ? color : null);
+
     /// <summary>Loads a VS Code color theme (<c>.json</c>, with comments and trailing commas).</summary>
     /// <param name="json">The content of the theme file.</param>
     /// <param name="uiTheme">The <c>uiTheme</c> of the theme: <c>vs</c>, <c>vs-dark</c>, <c>hc-black</c> or <c>hc-light</c>.</param>
@@ -48,6 +58,7 @@ public sealed record EditorTheme
             Name = name,
             Type = theme.Type,
             TokenColors = theme.TokenColors,
+            Colors = theme.Colors,
             Background = Color("editor.background"),
             Foreground = Color("editor.foreground"),
             LineNumberForeground = Color("editorLineNumber.foreground"),
