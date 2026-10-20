@@ -1,0 +1,203 @@
+using LoomEditor.Core.Decorations;
+using LoomEditor.Core.Text;
+using LoomEditor.Rendering.Tests.TestHelpers;
+using LoomEditor.Themes;
+using LoomEditor.View.Layout;
+
+namespace LoomEditor.Rendering.Tests;
+
+// Monaco has no test for the decorations overlay (it renders HTML): all tests are new.
+public class TextViewRendererDecorationsTests
+{
+    private const float CharacterWidth = (float)FakeTextMeasurer.CharacterWidth;
+    private const float LineHeight = FakeTextMeasurer.LineHeight;
+
+    private const string ThemeJson = """
+        {
+          "colors": {
+            "editor.rangeHighlightBackground": "#110000",
+            "editor.rangeHighlightBorder": "#220000",
+            "editor.wordHighlightBackground": "#003300",
+            "editor.findMatchHighlightBackground": "#000044",
+            "editor.selectionBackground": "#555555"
+          }
+        }
+        """;
+
+    private static ViewHarness CreateHarness(string text, int width = 500)
+    {
+        var harness = new ViewHarness(text, width: width);
+        harness.Renderer.Theme = EditorTheme.Load(ThemeJson, "vs-dark", "Test");
+        return harness;
+    }
+
+    private static void AddDecoration(ViewHarness harness, Range range, string className, bool isWholeLine = false, bool showIfCollapsed = false, int? zIndex = null)
+    {
+        ModelDecorationOptions options = ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+        {
+            Description = "test",
+            ClassName = className,
+            IsWholeLine = isWholeLine,
+            ShowIfCollapsed = showIfCollapsed,
+            ZIndex = zIndex,
+        });
+        harness.Model.DeltaDecorations(harness.ViewModel.EditorId, [], new[] { new ModelDeltaDecoration(range, options) });
+    }
+
+    private static ThemeColor Color(ViewHarness harness, string id) => harness.Renderer.Theme.GetColor(id)!.Value;
+
+    private static List<FillRectangleCall> Fills(ViewHarness harness, RecordingRenderSurface surface, string colorId)
+    {
+        ThemeColor color = Color(harness, colorId);
+        return [.. surface.Calls.OfType<FillRectangleCall>().Where(call => call.Color == color)];
+    }
+
+    private static int IndexOf(RecordingRenderSurface surface, DrawCall call) => surface.Calls.IndexOf(call);
+
+    [Fact]
+    public void DecorationStyles_EveryColorId_IsAKnownThemeColor() =>
+        Assert.All(DecorationStyles.ColorIds, id => Assert.True(EditorColorDefaults.IsKnown(id), id));
+
+    [Fact]
+    public void Render_RangeDecoration_FillsItsBackgroundUnderTheText()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "rangeHighlight");
+
+        RecordingRenderSurface surface = harness.Render();
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, surface, "editor.rangeHighlightBackground"));
+        Assert.Equal(new FillRectangleCall(harness.LayoutInfo.ContentLeft, 0, 5 * CharacterWidth, LineHeight, fill.Color), fill);
+        int text = surface.Calls.FindIndex(call => call is DrawLineLayoutCall { Text: "hello world" });
+        Assert.True(IndexOf(surface, fill) < text, "the decoration must be drawn under the text");
+    }
+
+    [Fact]
+    public void Render_RangeDecoration_DrawsItsBorderInside()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "rangeHighlight");
+
+        RecordingRenderSurface surface = harness.Render();
+
+        ThemeColor border = Color(harness, "editor.rangeHighlightBorder");
+        DrawRectangleCall call = Assert.Single(surface.Calls.OfType<DrawRectangleCall>(), c => c.Color == border);
+        Assert.Equal(new DrawRectangleCall(harness.LayoutInfo.ContentLeft + 0.5f, 0.5f, 5 * CharacterWidth - 1, LineHeight - 1, border, 1), call);
+        Assert.True(IndexOf(surface, Fills(harness, surface, "editor.rangeHighlightBackground")[0]) < IndexOf(surface, call));
+    }
+
+    [Fact]
+    public void Render_WholeLineDecoration_FillsTheLine()
+    {
+        using ViewHarness harness = CreateHarness("a\nb\nc");
+        AddDecoration(harness, new Range(2, 1, 2, 1), "wordHighlight", isWholeLine: true);
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.wordHighlightBackground"));
+
+        int contentLeft = harness.LayoutInfo.ContentLeft;
+        Assert.Equal(new FillRectangleCall(contentLeft, LineHeight, harness.LayoutInfo.Width - contentLeft, LineHeight, fill.Color), fill);
+    }
+
+    [Fact]
+    public void Render_MultiLineDecoration_ContinuesToTheLineEnd()
+    {
+        using ViewHarness harness = CreateHarness("ab\ncdef");
+        AddDecoration(harness, new Range(1, 2, 2, 3), "wordHighlight");
+
+        List<FillRectangleCall> fills = Fills(harness, harness.Render(), "editor.wordHighlightBackground");
+
+        int contentLeft = harness.LayoutInfo.ContentLeft;
+        Assert.Equal(2, fills.Count);
+        Assert.Equal((contentLeft + CharacterWidth, 0f, CharacterWidth), (fills[0].X, fills[0].Y, fills[0].Width));
+        Assert.Equal((contentLeft, LineHeight, 2 * CharacterWidth), (fills[1].X, fills[1].Y, fills[1].Width));
+    }
+
+    [Fact]
+    public void Render_FindMatch_IncludesTheNewLine()
+    {
+        using ViewHarness harness = CreateHarness("ab\ncdef");
+        AddDecoration(harness, new Range(1, 2, 2, 3), "findMatch");
+
+        List<FillRectangleCall> fills = Fills(harness, harness.Render(), "editor.findMatchHighlightBackground");
+
+        float halfwidth = (float)harness.Measurer.FontInfo.TypicalHalfwidthCharacterWidth;
+        Assert.Equal(CharacterWidth + halfwidth, fills[0].Width);
+        Assert.Equal(2 * CharacterWidth, fills[1].Width);
+    }
+
+    [Fact]
+    public void Render_TouchingDecorationsOfTheSameClass_AreMerged()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 3), "wordHighlight");
+        AddDecoration(harness, new Range(1, 3, 1, 5), "wordHighlight");
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.wordHighlightBackground"));
+
+        Assert.Equal(4 * CharacterWidth, fill.Width);
+    }
+
+    [Fact]
+    public void Render_ShowIfCollapsed_EmptyRange_IsWidened()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 3, 1, 3), "wordHighlight", showIfCollapsed: true);
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.wordHighlightBackground"));
+
+        double halfwidth = harness.Measurer.FontInfo.TypicalHalfwidthCharacterWidth;
+        Assert.Equal((float)halfwidth, fill.Width);
+        Assert.Equal((float)(harness.LayoutInfo.ContentLeft + Math.Round(2 * CharacterWidth - halfwidth / 2)), fill.X);
+    }
+
+    [Fact]
+    public void Render_UnknownClassName_DrawsNothing()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        int expected = harness.Render().Calls.Count;
+        AddDecoration(harness, new Range(1, 1, 1, 6), "no-such-class");
+
+        Assert.Equal(expected, harness.Render().Calls.Count);
+    }
+
+    [Fact]
+    public void Render_ZIndex_DrawsHigherLast()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        // By class name alone, rangeHighlight would come first.
+        AddDecoration(harness, new Range(1, 1, 1, 6), "rangeHighlight", zIndex: 10);
+        AddDecoration(harness, new Range(1, 1, 1, 6), "wordHighlight");
+
+        RecordingRenderSurface surface = harness.Render();
+
+        int word = IndexOf(surface, Assert.Single(Fills(harness, surface, "editor.wordHighlightBackground")));
+        int range = IndexOf(surface, Assert.Single(Fills(harness, surface, "editor.rangeHighlightBackground")));
+        Assert.True(word < range, "the decoration with the higher z-index must be drawn last");
+    }
+
+    [Fact]
+    public void Render_DecorationAboveTheSelection()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "wordHighlight");
+
+        RecordingRenderSurface surface = harness.Render(new Selection(1, 1, 1, 6));
+
+        int selection = surface.Calls.FindIndex(call => call is FillRectangleCall fill && fill.Color == harness.Renderer.Theme.SelectionBackground);
+        int decoration = IndexOf(surface, Assert.Single(Fills(harness, surface, "editor.wordHighlightBackground")));
+        Assert.InRange(selection, 0, decoration - 1);
+    }
+
+    [Fact]
+    public void Render_HorizontalScroll_ShiftsDecorations()
+    {
+        using ViewHarness harness = CreateHarness(new string('x', 100));
+        AddDecoration(harness, new Range(1, 1, 1, 6), "wordHighlight");
+        harness.Render(); // reports the width of the line, so that there is room to scroll
+        harness.ScrollTo(scrollLeft: 30);
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.wordHighlightBackground"));
+
+        Assert.Equal(harness.LayoutInfo.ContentLeft - 30, fill.X);
+    }
+}
