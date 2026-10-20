@@ -1,0 +1,32 @@
+{
+  "id": "javascript",
+  "aliases": ["JavaScript", "javascript", "js"],
+  "extensions": [".js", ".es6", ".mjs", ".cjs", ".pac"],
+  "filenames": ["jakefile"],
+  "scopeName": "source.js",
+  "path": "JavaScript.tmLanguage.json",
+  "embeddedLanguages": {
+    "meta.tag.js": "jsx-tags",
+    "meta.tag.without-attributes.js": "jsx-tags",
+    "meta.tag.attributes.js": "javascript",
+    "meta.embedded.expression.js": "javascript"
+  },
+  "tokenTypes": {
+    "punctuation.definition.template-expression": "other",
+    "entity.name.type.instance.jsdoc": "other",
+    "entity.name.function.tagged-template": "other",
+    "meta.import string.quoted": "other",
+    "variable.other.jsdoc": "other"
+  },
+  "grammars": [
+    {
+      "scopeName": "source.js.regexp",
+      "path": "Regular Expressions (JavaScript).tmLanguage"
+    },
+    {
+      "scopeName": "documentation.injection.js.jsx",
+      "path": "jsdoc.js.injection.tmLanguage.json",
+      "injectTo": ["source.js", "source.js.jsx"]
+    }
+  ]
+}

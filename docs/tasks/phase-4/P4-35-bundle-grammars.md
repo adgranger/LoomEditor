@@ -1,6 +1,6 @@
 # P4-35 — Bundle the ten built-in grammars
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-34
 - **Size:** M (data files + one list + tests; little code)
 
@@ -49,18 +49,18 @@ come from TextMate bundles under the **TextMate Bundle License**: copy its full 
 
 ## Tests
 
-- [ ] New: `EveryBuiltInGrammar_LoadsAndTokenizesAShortSample` (theory over the ten language ids; a two-line sample in the test)
-- [ ] New: `Html_ScriptTag_IsTokenizedAsJavaScript` (embedded language id of the token inside `<script>`)
-- [ ] New: `Markdown_FencedCsharp_IsTokenizedAsCsharp`
-- [ ] New: `EveryEmbeddedResource_IsListedByALanguage` (no orphan file)
+- [x] New: `EveryBuiltInGrammar_LoadsAndTokenizesAShortSample` (theory over the ten language ids; a two-line sample in the test)
+- [x] New: `Html_ScriptTag_IsTokenizedAsJavaScript` (embedded language id of the token inside `<script>`)
+- [x] New: `Markdown_FencedCsharp_IsTokenizedAsCsharp`
+- [x] New: `EveryEmbeddedResource_IsListedByALanguage` (no orphan file)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] `docs/how-to/add-a-language.md` updated to the real steps (remove "Status: phase 4 — not available yet" only in P4-50)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] `docs/how-to/add-a-language.md` updated to the real steps (remove "Status: phase 4 — not available yet" only in P4-50)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

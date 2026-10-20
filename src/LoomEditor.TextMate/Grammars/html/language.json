@@ -1,0 +1,29 @@
+{
+  "id": "html",
+  "aliases": ["HTML", "htm", "html", "xhtml"],
+  "extensions": [
+    ".html", ".htm", ".shtml", ".xhtml", ".xht", ".mdoc", ".jsp", ".asp", ".aspx", ".jshtm", ".volt", ".ejs", ".rhtml"
+  ],
+  "scopeName": "text.html.derivative",
+  "path": "html-derivative.tmLanguage.json",
+  "embeddedLanguages": {
+    "text.html": "html",
+    "source.css": "css",
+    "source.js": "javascript",
+    "source.python": "python"
+  },
+  "tokenTypes": { "meta.tag string.quoted": "other" },
+  "grammars": [
+    {
+      "scopeName": "text.html.basic",
+      "path": "html.tmLanguage.json",
+      "embeddedLanguages": {
+        "text.html": "html",
+        "source.css": "css",
+        "source.js": "javascript",
+        "source.python": "python"
+      },
+      "tokenTypes": { "meta.tag string.quoted": "other" }
+    }
+  ]
+}

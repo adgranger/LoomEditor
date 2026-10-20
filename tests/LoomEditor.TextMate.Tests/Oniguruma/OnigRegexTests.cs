@@ -13,6 +13,28 @@ public class OnigRegexTests
     }
 
     [Fact]
+    public void Compile_Utf8BomByteEscapes_MatchTheBomCharacter()
+    {
+        using var regex = new OnigRegex(@"\A(?:\xEF\xBB\xBF)?@charset");
+
+        OnigCaptureIndex[]? match = regex.Search((char)0xFEFF + "@charset", 0, OnigSearchOptions.None);
+
+        Assert.NotNull(match);
+        Assert.Equal([new OnigCaptureIndex(0, 9)], match);
+    }
+
+    [Theory]
+    [InlineData(@"\x20{2,}", @"\x{20}{2,}")]
+    [InlineData(@"[^\x00-\x7F]", @"[^\x{00}-\x{7F}]")]
+    [InlineData(@"\xA", @"\x{A}")]
+    [InlineData(@"\\x20", @"\\x20")]
+    [InlineData(@"\x{20}\d", @"\x{20}\d")]
+    public void ToUtf16Pattern_ByteEscapes_BecomeCodePoints(string pattern, string expected)
+    {
+        Assert.Equal(expected, OnigRegex.ToUtf16Pattern(pattern));
+    }
+
+    [Fact]
     public void Search_FromPosition_ReturnsUtf16Offsets()
     {
         using var regex = new OnigRegex("ab");

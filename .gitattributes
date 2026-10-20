@@ -3,3 +3,5 @@
 *.png binary
 # vscode-textmate test cases are copied byte for byte (docs/tasks/phase-4/README.md, section 6).
 tests/LoomEditor.TextMate.Tests/TestCases/** -text
+# Bundled grammars are copied byte for byte from upstream (docs/tasks/phase-4/P4-35).
+src/LoomEditor.TextMate/Grammars/** -text

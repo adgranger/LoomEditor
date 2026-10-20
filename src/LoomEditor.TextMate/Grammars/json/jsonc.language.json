@@ -1,0 +1,14 @@
+{
+  "id": "jsonc",
+  "aliases": ["JSON with Comments"],
+  "extensions": [
+    ".jsonc", ".eslintrc", ".eslintrc.json", ".jsfmtrc", ".jshintrc", ".swcrc", ".hintrc", ".babelrc",
+    ".toolset.jsonc"
+  ],
+  "filenames": [
+    "babel.config.json", "bun.lock", ".babelrc.json", ".ember-cli", "typedoc.json",
+    "tsconfig.json", "jsconfig.json"
+  ],
+  "scopeName": "source.json.comments",
+  "path": "JSONC.tmLanguage.json"
+}
