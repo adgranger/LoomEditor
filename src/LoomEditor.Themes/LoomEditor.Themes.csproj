@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="BuiltIn\*.json" LogicalName="Themes/BuiltIn/%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
   </ItemGroup>
 </Project>

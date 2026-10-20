@@ -24,6 +24,10 @@ LoomEditor.Themes.EditorTheme.Name.get -> string!
 LoomEditor.Themes.EditorTheme.Name.init -> void
 LoomEditor.Themes.EditorTheme.SelectionBackground.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.SelectionBackground.init -> void
+LoomEditor.Themes.EditorTheme.TokenColors.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Themes.TokenColorRule!>!
+LoomEditor.Themes.EditorTheme.TokenColors.init -> void
+LoomEditor.Themes.EditorTheme.Type.get -> LoomEditor.Themes.ThemeType
+LoomEditor.Themes.EditorTheme.Type.init -> void
 LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.ThemeColor.A.get -> byte
 LoomEditor.Themes.ThemeColor.A.init -> void
@@ -63,8 +67,10 @@ override LoomEditor.Themes.ThemeColor.ToString() -> string!
 override LoomEditor.Themes.TokenColorRule.Equals(object? obj) -> bool
 override LoomEditor.Themes.TokenColorRule.GetHashCode() -> int
 override LoomEditor.Themes.TokenColorRule.ToString() -> string!
+static LoomEditor.Themes.EditorTheme.BuiltIn.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Themes.EditorTheme!>!
 static LoomEditor.Themes.EditorTheme.Dark.get -> LoomEditor.Themes.EditorTheme!
 static LoomEditor.Themes.EditorTheme.Light.get -> LoomEditor.Themes.EditorTheme!
+static LoomEditor.Themes.EditorTheme.Load(string! json, string! uiTheme, string! name, System.Func<string!, string?>? readInclude = null) -> LoomEditor.Themes.EditorTheme!
 static LoomEditor.Themes.EditorTheme.operator !=(LoomEditor.Themes.EditorTheme? left, LoomEditor.Themes.EditorTheme? right) -> bool
 static LoomEditor.Themes.EditorTheme.operator ==(LoomEditor.Themes.EditorTheme? left, LoomEditor.Themes.EditorTheme? right) -> bool
 static LoomEditor.Themes.ThemeColor.FromRgb(byte r, byte g, byte b) -> LoomEditor.Themes.ThemeColor

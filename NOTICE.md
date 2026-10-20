@@ -135,3 +135,10 @@ to the base-name name of the original file, and an extension of txt, html, or si
 
 Used as NuGet dependencies (not redistributed in source form): `Microsoft.Graphics.Win2D` and
 `Microsoft.WindowsAppSDK`, under their respective Microsoft licenses.
+
+## Built-in VS Code themes
+
+`src/LoomEditor.Themes/BuiltIn/` contains the ten default color themes of `microsoft/vscode`
+(`extensions/theme-defaults/themes/`, commit `0c9c0a4295a9222e12a605537738719455ae3056`), copied unchanged:
+Dark+, Dark Modern, Dark 2026, Visual Studio Dark, Light+, Light Modern, Light 2026, Visual Studio Light and the two
+High Contrast themes. They are under the MIT License of Microsoft Corporation shown above.

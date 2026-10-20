@@ -1,6 +1,6 @@
 # P4-41 — Themes: the ten built-in VS Code themes and `EditorTheme`'s public API
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-40
 - **Size:** M
 
@@ -43,19 +43,19 @@ LoomEditor ships VS Code's ten default themes. `EditorTheme` carries the theme t
 
 New:
 
-- [ ] `BuiltIn_TenThemes_AllLoad` (theory: each has a name, a type, a background and token rules)
-- [ ] `DarkModern_Background_Is1F1F1F` and `LightModern_Background_IsFFFFFF` (from the JSON files)
-- [ ] `DarkModern_InheritsDarkPlusTokenColors` (a keyword rule from `dark_plus.json` is present)
-- [ ] `Load_CustomTheme_WithInclude`
+- [x] `BuiltIn_TenThemes_AllLoad` (theory: each has a name, a type, a background and token rules)
+- [x] `DarkModern_Background_Is1F1F1F` and `LightModern_Background_IsFFFFFF` (from the JSON files)
+- [x] `DarkModern_InheritsDarkPlusTokenColors` (a keyword rule from `dark_plus.json` is present)
+- [x] `Load_CustomTheme_WithInclude`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.Themes` run, diff checked
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.Themes` run, diff checked
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
