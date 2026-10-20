@@ -68,3 +68,6 @@ src/native/oniguruma/.build/
 
 # Claude Code: personal settings (the shared .claude/settings.json and .claude/skills/ are committed)
 .claude/settings.local.json
+
+# Node packages of the golden generator (eng/golden).
+eng/golden/node_modules/

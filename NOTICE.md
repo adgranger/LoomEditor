@@ -142,3 +142,8 @@ Used as NuGet dependencies (not redistributed in source form): `Microsoft.Graphi
 (`extensions/theme-defaults/themes/`, commit `0c9c0a4295a9222e12a605537738719455ae3056`), copied unchanged:
 Dark+, Dark Modern, Dark 2026, Visual Studio Dark, Light+, Light Modern, Light 2026, Visual Studio Light and the two
 High Contrast themes. They are under the MIT License of Microsoft Corporation shown above.
+
+## VS Code colorize fixtures
+
+`tests/LoomEditor.TextMate.Tests/Golden/*/sample.*` are the fixtures of `extensions/vscode-colorize-tests/test/colorize-fixtures/`
+of `microsoft/vscode` (commit `0c9c0a4295a9222e12a605537738719455ae3056`), copied unchanged, under the MIT License of Microsoft Corporation shown above.

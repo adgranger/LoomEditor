@@ -18,7 +18,15 @@ require writing C#.
 3. **Register it** in the single list of built-in languages: one line in `Grammars/BuiltInLanguages.cs` (`Sources`:
    folder and `language.json` name).
 4. **Add a golden test**: a sample file in `tests/LoomEditor.TextMate.Tests/Golden/<language>/sample.<ext>` and run
-   the regeneration script to produce `sample.<ext>.tokens.json` (the expected tokens).
+   the regeneration script to produce `sample.<ext>.tokens.json` (the expected tokens, made by the real vscode-textmate):
+
+   ```powershell
+   cd eng/golden
+   npm ci
+   node generate.mjs
+   ```
+
+   (Node 20+; see ng/golden/README.md.)
    Review the generated file — it is the specification.
 5. Run `dotnet test`. The golden test fails if tokenization changes.
 

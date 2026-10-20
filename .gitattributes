@@ -7,3 +7,5 @@ tests/LoomEditor.TextMate.Tests/TestCases/** -text
 src/LoomEditor.TextMate/Grammars/** -text
 # Built-in themes are copied byte for byte from upstream (docs/tasks/phase-4/P4-41).
 src/LoomEditor.Themes/BuiltIn/** -text
+# Golden token files and their samples are generated/copied byte for byte (docs/tasks/phase-4/P4-47).
+tests/LoomEditor.TextMate.Tests/Golden/** -text

@@ -1,6 +1,6 @@
 # P4-47 — Golden tests (1/2): the reference generator (real vscode-textmate) and the samples
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-46
 - **Size:** M (a Node script + data files)
 
@@ -48,10 +48,10 @@ None in C# here (P4-48). The script prints one line per sample and exits non-zer
 
 ## Acceptance criteria
 
-- [ ] `npm ci && node generate.mjs` in `eng/golden/` produces the ten `.tokens.json` files; running it twice gives no diff
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings; `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `NOTICE.md`: the colorize fixtures (MIT, VS Code)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `npm ci && node generate.mjs` in `eng/golden/` produces the ten `.tokens.json` files; running it twice gives no diff
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings; `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `NOTICE.md`: the colorize fixtures (MIT, VS Code)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
