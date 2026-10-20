@@ -68,6 +68,27 @@ public class EditorContextTests
     }
 
     [Fact]
+    public void Id_TwoContexts_AreDifferentAndNotZero()
+    {
+        var first = new EditorContext();
+        var second = new EditorContext();
+
+        Assert.NotEqual(0, first.Id);
+        Assert.NotEqual(0, second.Id);
+        Assert.NotEqual(first.Id, second.Id);
+        Assert.Equal(first.Id, first.ViewModel.EditorId);
+    }
+
+    [Fact]
+    public void DeltaDecorations_BothEmpty_ReturnsTheOldIds()
+    {
+        var context = new EditorContext();
+        IReadOnlyList<string> oldIds = [];
+
+        Assert.Same(oldIds, context.DeltaDecorations(oldIds, []));
+    }
+
+    [Fact]
     public void SetSelections_EmptyList_Throws()
     {
         var context = new EditorContext();

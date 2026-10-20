@@ -1,6 +1,6 @@
 # P5-06 — Editor id and `EditorDecorationsCollection`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-05
 - **Size:** S
 
@@ -60,24 +60,24 @@ File: `src/vs/editor/browser/widget/codeEditor/codeEditorWidget.ts`.
 
 No Monaco test covers the collection. New:
 
-- [ ] `Set_ReplacesThePreviousDecorations` (count, ranges, `GetAllDecorations` of the model)
-- [ ] `Append_KeepsThePreviousDecorations`
-- [ ] `Clear_RemovesEverything`
-- [ ] `GetRange_IndexOutOfRange_IsNull`
-- [ ] `GetRanges_AfterAnEdit_FollowTheText`
-- [ ] `Has_OwnDecoration_IsTrue_OtherDecoration_IsFalse`
-- [ ] `OnDidChange_NotRaisedForItsOwnChanges_RaisedForOtherChanges`
-- [ ] `Decorations_AreOwnedByTheEditor` (the model's `GetDecorationsInRange(range, ownerId: id)` of another id does not
+- [x] `Set_ReplacesThePreviousDecorations` (count, ranges, `GetAllDecorations` of the model)
+- [x] `Append_KeepsThePreviousDecorations`
+- [x] `Clear_RemovesEverything`
+- [x] `GetRange_IndexOutOfRange_IsNull`
+- [x] `GetRanges_AfterAnEdit_FollowTheText`
+- [x] `Has_OwnDecoration_IsTrue_OtherDecoration_IsFalse`
+- [x] `OnDidChange_NotRaisedForItsOwnChanges_RaisedForOtherChanges`
+- [x] `Decorations_AreOwnedByTheEditor` (the model's `GetDecorationsInRange(range, ownerId: id)` of another id does not
   see them)
-- [ ] `Id_TwoContexts_AreDifferentAndNotZero` (in `EditorContextTests`)
-- [ ] `DeltaDecorations_BothEmpty_ReturnsTheOldIds` (in `EditorContextTests`)
+- [x] `Id_TwoContexts_AreDifferentAndNotZero` (in `EditorContextTests`)
+- [x] `DeltaDecorations_BothEmpty_ReturnsTheOldIds` (in `EditorContextTests`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`codeEditorWidget.ts` decorations part)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`codeEditorWidget.ts` decorations part)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
