@@ -1,6 +1,6 @@
 # P5-27 — Bracket pair tree (6/9): bracket tokens per language
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-26
 - **Size:** S
 
@@ -52,23 +52,23 @@ that finds any of them in a line.
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - Brackets` › `Basic` (with `new LanguageConfigurationRegistry()` and `Register` (P5-14) and
+- [x] Port suite `Bracket Pair Colorizer - Brackets` › `Basic` (with `new LanguageConfigurationRegistry()` and `Register` (P5-14) and
       the Verilog / LaTeX brackets of the test; `bracketIds` compared with `SmallImmutableSet.Equals`, `length` with
       `Length.Of(0, n)`)
-- [ ] New: `RegExpGlobal_LongerBracketFirst` (`begin` / `beginning` style: with `["end", "end if"]`, the regex
+- [x] New: `RegExpGlobal_LongerBracketFirst` (`begin` / `beginning` style: with `["end", "end if"]`, the regex
       matches `end if` in `"end if;"`)
-- [ ] New: `RegExpGlobal_WordBrackets_NeedAsciiWordBoundaries` (`begin` matches in `"x begin y"`, not in `"xbegin"`;
+- [x] New: `RegExpGlobal_WordBrackets_NeedAsciiWordBoundaries` (`begin` matches in `"x begin y"`, not in `"xbegin"`;
       `é` before `begin` counts as a boundary, as in JavaScript)
-- [ ] New: `GetToken_IsCaseInsensitive`
-- [ ] New: `RegExpGlobal_NoBrackets_IsNull`
+- [x] New: `GetToken_IsCaseInsensitive`
+- [x] New: `RegExpGlobal_NoBrackets_IsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `brackets.ts` ✅, `tokenizer.ts` 🔶 (P5-27); tests row `brackets.test.ts` 1 / 1; behavior
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `brackets.ts` ✅, `tokenizer.ts` 🔶 (P5-27); tests row `brackets.test.ts` 1 / 1; behavior
       difference "bracket regex: .NET regex with an explicit ASCII word boundary"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
