@@ -301,6 +301,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `workbench/contrib/codeEditor/common/languageConfigurationExtensionPoint.ts` (lines 22–495: `_readConfigFile` parse, `extractValidConfig`, `_parseRegex`, `_mapIndentationRules`) | `LoomEditor.TextMate/Tokenization/LanguageConfigurationReader.cs`, `LanguageConfigurationReader.Regex.cs` | 🔶 P5-20: internal; `Read(json, languageId, warn)` with `JsonNode`; JavaScript regexes translated (see "Behavior differences"); `_handleConfig` registration (priority 50) is in `SyntaxHighlighter` (P5-21); no JSON schema; no upstream tests, new tests in `LanguageConfigurationReaderTests` |
 | `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/length.ts`, `smallImmutableSet.ts` (✅ P5-22), `editor/common/core/text/textLength.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`Length`, `SmallImmutableSet`, `DenseKeyProvider.cs`), `LoomEditor.Core/Text/TextLength.cs` | ✅ P5-22 for `length.ts` and `smallImmutableSet.ts`; 🔶 `textLength.ts` subset (`zero`, constructor, `isZero`, `toString`); `lengthHash` not ported; see "Behavior differences" |
 | `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/ast.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`AstNodeKind.cs`, `AstNode.cs`, `PairAstNode.cs`, `LeafAstNodes.cs`, `ListAstNode.cs`, `ListAstNode.Implementations.cs`) | ✅ P5-23, P5-24: the `AstNode` union and `BaseAstNode` are one abstract class; `BugIndicatingError` and `Error` are `InvalidOperationException` |
+| `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/concat23Trees.ts`, `nodeReader.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`Concat23Trees.cs`, `NodeReader.cs`) | ✅ P5-25 |
 
 ## Monaco tests ported in phases 1 and 3
 
@@ -351,7 +352,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `characterPair.test.ts`, `onEnter.test.ts`, `onEnterRules.ts` (helper) | 13 / 13; 4 / 4; 5 / 5 rule sets | P5-12: pairs compared as `(Open, Close)` tuples; the empty-line test uses one empty `Other` token (JavaScript reads the missing metadata as 0) |
 | `indentationLineProcessor.test.ts` | 6 / 6 | P5-16 (`IndentationLineProcessorTests`): no `withTestCodeEditor` (the processor only reads the model); the model is created before the fake tokenizer is registered, as in Monaco |
 | `length.test.ts`, `smallImmutableSet.test.ts` (bracketPairColorizer) | 2 / 2; 2 / 2 | P5-22 |
-| `concat23Trees.test.ts` | 1 / 6 | P5-24 (`Clone`, with the `equals` helper in `AstAssert`); the other five tests come with `concat23Trees.ts` in P5-25 |
+| `concat23Trees.test.ts` | 6 / 6 | P5-24 (`Clone`, with the `equals` helper in `AstAssert`) and P5-25 (the five merge tests in `Concat23TreesTests`) |
 | `model.line.test.ts` | see "Tests ported in phase 4" | `ModelLine` tokens: ported in P4-31 and P4-32; `getIndentLevel` is not about tokens |
 | `viewModel/prefixSumComputer.test.ts` (`Editor ViewModel - PrefixSumComputer`) | 48 / 48 | P4-36: run on `PrefixSumComputer` only; the same tests ran on `ConstantTimePrefixSumComputer` (not ported) too |
 | `textMate/test/browser/arrayOperation.test.ts` | 1 / 1 | P4-36 |

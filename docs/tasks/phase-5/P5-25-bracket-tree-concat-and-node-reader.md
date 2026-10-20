@@ -1,6 +1,6 @@
 # P5-25 — Bracket pair tree (4/9): `concat23Trees` and `NodeReader`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-24
 - **Size:** M
 
@@ -48,21 +48,21 @@ Folder: `common/model/bracketPairsTextModelPart/bracketPairsTree/`.
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - mergeItems` › `Empty List`, `Same Height Lists`, `Different Height Lists 1`,
+- [x] Port suite `Bracket Pair Colorizer - mergeItems` › `Empty List`, `Same Height Lists`, `Different Height Lists 1`,
       `Different Height Lists 2`, `Different Height Lists 3` (with `testMerge` and the `AstAssert` helper of P5-24)
-- [ ] New: `ConcatOfSameHeight_SevenLeaves_GivesBalancedTreeOfHeight2`
-- [ ] New: `Concat_ManyRandomHeights_FlattensToSameLeaves` (seeded `[Theory]` 1…20, seed in the message: random lists
+- [x] New: `ConcatOfSameHeight_SevenLeaves_GivesBalancedTreeOfHeight2`
+- [x] New: `Concat_ManyRandomHeights_FlattensToSameLeaves` (seeded `[Theory]` 1…20, seed in the message: random lists
       of text nodes of heights 0–3, `Concat(...).FlattenLists()` equals `ListAstNode.Create(items).FlattenLists()`)
-- [ ] New: `ReadLongestNodeAt_OffsetAtNodeStart_ReturnsLongestMatchingNode`
-- [ ] New: `ReadLongestNodeAt_OffsetGoesBackwards_Throws`
-- [ ] New: `ReadLongestNodeAt_PredicateRejectsAll_ReturnsNull`
+- [x] New: `ReadLongestNodeAt_OffsetAtNodeStart_ReturnsLongestMatchingNode`
+- [x] New: `ReadLongestNodeAt_OffsetGoesBackwards_Throws`
+- [x] New: `ReadLongestNodeAt_PredicateRejectsAll_ReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `concat23Trees.ts`, `nodeReader.ts` ✅ (P5-25); tests row `concat23Trees.test.ts` 6 / 6
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `concat23Trees.ts`, `nodeReader.ts` ✅ (P5-25); tests row `concat23Trees.test.ts` 6 / 6
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
