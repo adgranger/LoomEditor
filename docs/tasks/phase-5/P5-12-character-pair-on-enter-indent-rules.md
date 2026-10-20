@@ -1,6 +1,6 @@
 # P5-12 — `CharacterPairSupport`, `OnEnterSupport` and `IndentRulesSupport`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-11
 - **Size:** M
 
@@ -59,23 +59,23 @@ Core has the three rule engines of a language configuration: auto-closing / surr
 
 ## Tests
 
-- [ ] Port (`characterPair.test.ts`) `CharacterPairSupport`: `only autoClosingPairs`, `only empty autoClosingPairs`,
+- [x] Port (`characterPair.test.ts`) `CharacterPairSupport`: `only autoClosingPairs`, `only empty autoClosingPairs`,
   `only brackets`, `only empty brackets`, `only surroundingPairs`, `only empty surroundingPairs`,
   `brackets is ignored when having autoClosingPairs`, `shouldAutoClosePair in empty line`,
   `shouldAutoClosePair in not interesting line 1`, `shouldAutoClosePair in not interesting line 2`,
   `shouldAutoClosePair in interesting line 1`, `shouldAutoClosePair in interesting line 2`,
   `shouldAutoClosePair in interesting line 3`
-- [ ] Port (`onEnter.test.ts`) `OnEnter`: `uses brackets`, `Issue #121125: onEnterRules with global modifier`,
+- [x] Port (`onEnter.test.ts`) `OnEnter`: `uses brackets`, `Issue #121125: onEnterRules with global modifier`,
   `uses regExpRules`, `issue #141816`
-- [ ] New: `GetIndentMetadata_CombinesTheFourMasks`, `ShouldIgnore_WithoutUnIndentedLinePattern_IsFalse`,
+- [x] New: `GetIndentMetadata_CombinesTheFourMasks`, `ShouldIgnore_WithoutUnIndentedLinePattern_IsFalse`,
   `OnEnter_BelowAdvanced_IgnoresRegExpRules`, `OnEnter_None_ReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (phase 3 cursor tests unchanged)
-- [ ] `docs/PORTING.md` map updated (`characterPair.ts`, `onEnter.ts`, `indentRules.ts`, `editorOptions.ts` `EditorAutoIndentStrategy` now in Core)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (phase 3 cursor tests unchanged)
+- [x] `docs/PORTING.md` map updated (`characterPair.ts`, `onEnter.ts`, `indentRules.ts`, `editorOptions.ts` `EditorAutoIndentStrategy` now in Core)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

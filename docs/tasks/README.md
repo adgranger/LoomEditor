@@ -402,7 +402,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 |---|---|---|---|
 | [P5-10](phase-5/P5-10-language-configuration-types.md) | Language configuration types and scoped line tokens | P5-09 | done |
 | [P5-11](phase-5/P5-11-rich-edit-brackets.md) | `RichEditBrackets`, `BracketsUtils` and electric characters | P5-10 | done |
-| [P5-12](phase-5/P5-12-character-pair-on-enter-indent-rules.md) | `CharacterPairSupport`, `OnEnterSupport` and `IndentRulesSupport` | P5-11 | todo |
+| [P5-12](phase-5/P5-12-character-pair-on-enter-indent-rules.md) | `CharacterPairSupport`, `OnEnterSupport` and `IndentRulesSupport` | P5-11 | done |
 | [P5-13](phase-5/P5-13-language-brackets-configuration.md) | `LanguageBracketsConfiguration` | P5-12 | todo |
 | [P5-14](phase-5/P5-14-language-configuration-registry.md) | `LanguageConfigurationRegistry` and `ResolvedLanguageConfiguration` | P5-13 | todo |
 | [P5-15](phase-5/P5-15-text-model-language-configuration-and-words.md) | The model gets the registry: `GetWordAtPosition`, `LanguageConfigurationChanged` | P5-14 | todo |

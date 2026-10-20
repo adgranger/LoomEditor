@@ -1,3 +1,4 @@
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;

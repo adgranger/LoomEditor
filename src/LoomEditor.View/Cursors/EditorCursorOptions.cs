@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/config/editorOptions.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Text;
 
 namespace LoomEditor.View.Cursors;

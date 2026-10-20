@@ -15,6 +15,13 @@ internal static class ModesTestUtils
 {
     public static ScopedLineTokens CreateFakeScopedLineTokens(IReadOnlyList<TokenText> rawTokens)
     {
+        if (rawTokens.Count == 0)
+        {
+            // JavaScript reads the missing metadata of an empty token array as 0 (an `Other` token of language 0)
+            // where .NET throws: use that empty token explicitly.
+            rawTokens = [new TokenText("", StandardTokenType.Other)];
+        }
+
         uint[] tokens = new uint[rawTokens.Count << 1];
         string line = "";
 
