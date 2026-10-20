@@ -1,6 +1,6 @@
 # P5-22 — Bracket pair tree (1/9): `Length`, `TextLength`, `SmallImmutableSet`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-21
 - **Size:** M
 
@@ -75,20 +75,20 @@ Folder: `common/model/bracketPairsTextModelPart/bracketPairsTree/`.
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - Length` › `Basic`, `lengthDiffNonNeg` (`toStr` = `ToObj().ToString()`)
-- [ ] Port suite `Bracket Pair Colorizer - ImmutableSet` › `Basic`, `Many Elements`
-- [ ] New: `Add_LinesInSecondLength_DropsFirstColumns` (`Add(Of(10, 5), Of(20, 3)) == Of(30, 3)`, the comment of length.ts 76–77)
-- [ ] New: `ToRange_And_FromPosition_RoundTrip` (`Length.ToRange(Of(0, 4), Of(2, 1))` is `[1,5 -> 3,2]`; `FromPosition(new Position(3, 2)) == Of(2, 1)`)
-- [ ] New: `OfString_CountsLinesAndLastLineLength` (`"ab\ncd\r\nefg"` → `2,3`)
-- [ ] New: `Add_KeyAbove31_UsesAdditionalItems` and `Merge_SetsWithAdditionalItems_ContainsBoth` (keys 0, 31, 32, 70)
-- [ ] New: `GetEmpty_And_SmallSets_AreCachedInstances` (`ReferenceEquals` for two `Add(3)` on the empty set)
+- [x] Port suite `Bracket Pair Colorizer - Length` › `Basic`, `lengthDiffNonNeg` (`toStr` = `ToObj().ToString()`)
+- [x] Port suite `Bracket Pair Colorizer - ImmutableSet` › `Basic`, `Many Elements`
+- [x] New: `Add_LinesInSecondLength_DropsFirstColumns` (`Add(Of(10, 5), Of(20, 3)) == Of(30, 3)`, the comment of length.ts 76–77)
+- [x] New: `ToRange_And_FromPosition_RoundTrip` (`Length.ToRange(Of(0, 4), Of(2, 1))` is `[1,5 -> 3,2]`; `FromPosition(new Position(3, 2)) == Of(2, 1)`)
+- [x] New: `OfString_CountsLinesAndLastLineLength` (`"ab\ncd\r\nefg"` → `2,3`)
+- [x] New: `Add_KeyAbove31_UsesAdditionalItems` and `Merge_SetsWithAdditionalItems_ContainsBoth` (keys 0, 31, 32, 70)
+- [x] New: `GetEmpty_And_SmallSets_AreCachedInstances` (`ReferenceEquals` for two `Add(3)` on the empty set)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `length.ts`, `smallImmutableSet.ts` ✅ (P5-22), `textLength.ts` 🔶 subset; tests table rows `length.test.ts` 2 / 2, `smallImmutableSet.test.ts` 2 / 2; behavior difference "`Length` is a packed `long`"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `length.ts`, `smallImmutableSet.ts` ✅ (P5-22), `textLength.ts` 🔶 subset; tests table rows `length.test.ts` 2 / 2, `smallImmutableSet.test.ts` 2 / 2; behavior difference "`Length` is a packed `long`"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
