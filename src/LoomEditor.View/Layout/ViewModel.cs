@@ -59,6 +59,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 
         _model.RawContentChanged += OnModelRawContentChanged;
         _model.OptionsChanged += OnModelOptionsChanged;
+        AttachToModelTokens(scheduleAtNextAnimationFrame);
     }
 
     /// <summary>Raised after <see cref="LayoutInfo"/> changed.</summary>
@@ -80,6 +81,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         }
 
         _disposed = true;
+        DetachFromModelTokens();
         _model.RawContentChanged -= OnModelRawContentChanged;
         _model.OptionsChanged -= OnModelOptionsChanged;
         _cursor.Dispose();
@@ -152,6 +154,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         }
 
         ViewLayout.OnHeightMaybeChanged();
+        HandleVisibleLinesChanged();
 
         int digitCount = CountDigits(_model.LineCount);
         if (digitCount != _lineNumbersDigitCount)
