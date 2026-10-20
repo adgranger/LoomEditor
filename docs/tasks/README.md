@@ -408,7 +408,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-15](phase-5/P5-15-text-model-language-configuration-and-words.md) | The model gets the registry: `GetWordAtPosition`, `LanguageConfigurationChanged` | P5-14 | done |
 | [P5-16](phase-5/P5-16-indentation-line-processor.md) | Indentation line processor and the test languages | P5-15 | done |
 | [P5-17](phase-5/P5-17-enter-action-and-inherit-indent.md) | `GetEnterAction`, `GetInheritIndentForLine`, `GetGoodIndentForLine` | P5-16 | done |
-| [P5-18](phase-5/P5-18-auto-indent-enter-and-type.md) | `GetIndentForEnter`, `GetIndentActionForType`, `GetIndentMetadata` | P5-17 | todo |
+| [P5-18](phase-5/P5-18-auto-indent-enter-and-type.md) | `GetIndentForEnter`, `GetIndentActionForType`, `GetIndentMetadata` | P5-17 | done |
 | [P5-19](phase-5/P5-19-indentation-guesser.md) | Indentation guesser, `DetectIndentation`, `NormalizeIndentation` | P5-18 | todo |
 | [P5-20](phase-5/P5-20-language-configuration-reader.md) | `LanguageConfigurationReader`: `language-configuration.json` → `LanguageConfiguration` | P5-19 | todo |
 | [P5-21](phase-5/P5-21-bundle-language-configurations.md) | Bundle the ten language configurations and register them | P5-20 | todo |

@@ -1,6 +1,6 @@
 # P5-18 — `GetIndentForEnter`, `GetIndentActionForType`, `GetIndentMetadata`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-17
 - **Size:** S
 
@@ -42,20 +42,20 @@ typed character makes the line match `decreaseIndentPattern`, and the indent met
 No upstream unit tests (`indentation.test.ts` `Auto Indent On Type - …` suites, step E, and `cursor.test.ts`, step
 C, exercise them through typing). New, with `TestLanguages.TypeScript` and fake tokens:
 
-- [ ] `GetIndentForEnter_BelowFull_ReturnsNull`
-- [ ] `GetIndentForEnter_AfterOpenBrace_ShiftsTheNewLine`
-- [ ] `GetIndentForEnter_BeforeClosingBrace_UnshiftsTheNewLine`
-- [ ] `GetIndentActionForType_ClosingBrace_Outdents`
-- [ ] `GetIndentActionForType_AlreadyDecreased_ReturnsNull` (intentional indentation is kept)
-- [ ] `GetIndentActionForType_OpenBraceAfterIndentNextLine_UsesTheInheritedIndentation`
-- [ ] `GetIndentMetadata_OutOfRangeLine_ReturnsNull`
+- [x] `GetIndentForEnter_BelowFull_ReturnsNull`
+- [x] `GetIndentForEnter_AfterOpenBrace_ShiftsTheNewLine`
+- [x] `GetIndentForEnter_BeforeClosingBrace_UnshiftsTheNewLine`
+- [x] `GetIndentActionForType_ClosingBrace_Outdents`
+- [x] `GetIndentActionForType_AlreadyDecreased_ReturnsNull` (intentional indentation is kept)
+- [x] `GetIndentActionForType_OpenBraceAfterIndentNextLine_UsesTheInheritedIndentation`
+- [x] `GetIndentMetadata_OutOfRangeLine_ReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`autoIndent.ts` complete)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`autoIndent.ts` complete)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
