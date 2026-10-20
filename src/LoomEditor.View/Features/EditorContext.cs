@@ -1,4 +1,5 @@
 using LoomEditor.Core.Decorations;
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Threading;
 using LoomEditor.Core.Text;
@@ -60,7 +61,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
         var tokenizationRegistry = new TokenizationRegistry();
         var languages = new LanguageRegistry();
         BuiltInLanguages.RegisterAll(languages);
-        Model = new TextModel(string.Empty, DefaultEndOfLine.LF, null, tokenizationRegistry, languages.Codec, NoopTokenizationScheduler.Instance);
+        Model = new TextModel(string.Empty, DefaultEndOfLine.LF, null, tokenizationRegistry, languages.Codec, NoopTokenizationScheduler.Instance, new LanguageConfigurationRegistry());
         Highlighter = new SyntaxHighlighter(Model, tokenizationRegistry, languages, dispatcher);
         FontInfo fontInfo = FontInfo.Default;
         ViewModel = new ViewModel(

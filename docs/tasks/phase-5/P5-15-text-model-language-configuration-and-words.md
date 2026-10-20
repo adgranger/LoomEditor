@@ -1,6 +1,6 @@
 # P5-15 — The model gets the registry: `GetWordAtPosition`, `LanguageConfigurationChanged`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-14
 - **Size:** M
 
@@ -64,19 +64,19 @@ when the configuration of its language changes, and finds the word at a position
 
 ## Tests
 
-- [ ] Port (`model.test.ts`) `Editor Model - Words`: `Get word at position`, `getWordAtPosition at embedded language boundaries`,
+- [x] Port (`model.test.ts`) `Editor Model - Words`: `Get word at position`, `getWordAtPosition at embedded language boundaries`,
   `issue #61296: VS code freezes when editing CSS file with emoji`
-- [ ] New: `GetWordUntilPosition_CutsTheWordAtTheColumn`, `GetWordUntilPosition_NoWord_ReturnsEmptyWordAtTheColumn`,
+- [x] New: `GetWordUntilPosition_CutsTheWordAtTheColumn`, `GetWordUntilPosition_NoWord_ReturnsEmptyWordAtTheColumn`,
   `LanguageConfigurationChanged_RegisterForTheModelLanguage_IsRaised`, `LanguageConfigurationChanged_OtherLanguage_IsNotRaised`,
   `LanguageConfigurationChanged_SetLanguageId_IsRaisedAfterLanguageChanged`, `GetWordAtText_LongLine_SearchesAWindowAroundTheColumn`,
   `GetWordAtText_EmptyMatchPattern_Terminates`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`wordHelper.ts` complete, `tokenizationTextModelPart.ts` word part); tests table: `model.test.ts` (`Words`) 3 / 3; "Behavior differences": empty-match guard and no `setDefaultGetWordAtTextConfig`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`wordHelper.ts` complete, `tokenizationTextModelPart.ts` word part); tests table: `model.test.ts` (`Words`) 3 / 3; "Behavior differences": empty-match guard and no `setDefaultGetWordAtTextConfig`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
