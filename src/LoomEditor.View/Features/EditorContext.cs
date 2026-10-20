@@ -1,3 +1,4 @@
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Threading;
 using LoomEditor.Core.Text;
@@ -21,6 +22,9 @@ namespace LoomEditor.View.Features;
 /// </remarks>
 public sealed class EditorContext : IEditorContext, IDisposable
 {
+    // Monaco: EDITOR_ID (the first id is 1: owner 0 means "no owner" in the model)
+    private static int _nextEditorId;
+
     // Keeps the registration of the core commands (cursorLeft, cursorHome...) alive for the life of the editor.
     private readonly IDisposable _coreCommands;
 
@@ -52,6 +56,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
         IEditorScheduler? scheduler = null)
     {
         Scheduler = scheduler ?? NullEditorScheduler.Instance;
+        Id = Interlocked.Increment(ref _nextEditorId);
         var tokenizationRegistry = new TokenizationRegistry();
         var languages = new LanguageRegistry();
         BuiltInLanguages.RegisterAll(languages);
@@ -64,7 +69,8 @@ public sealed class EditorContext : IEditorContext, IDisposable
             new EditorLayoutOptions(),
             new ViewLayoutOptions(fontInfo.LineHeight),
             scheduleAtNextAnimationFrame,
-            timeProvider);
+            timeProvider,
+            Id);
         ViewModel.TokenColorMap = tokenizationRegistry.GetColorMap();
         tokenizationRegistry.Changed += (_, e) =>
         {
@@ -85,6 +91,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <inheritdoc />
     public TextModel Model { get; }
+
+    /// <summary>The id of this editor; it owns the decorations the editor creates (Monaco: <c>getId</c>).</summary>
+    internal int Id { get; }
 
     internal SyntaxHighlighter Highlighter { get; }
 
@@ -124,6 +133,49 @@ public sealed class EditorContext : IEditorContext, IDisposable
         ArgumentNullException.ThrowIfNull(text);
 
         Model.SetValue(text);
+    }
+
+    /// <summary>Creates a decorations collection owned by this editor (Monaco: <c>createDecorationsCollection</c>).</summary>
+    internal EditorDecorationsCollection CreateDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>
+        new(Model, Id, decorations);
+
+    /// <summary>Changes the decorations of this editor with an accessor (Monaco: <c>changeDecorations</c>).</summary>
+    internal T ChangeDecorations<T>(Func<IModelDecorationsChangeAccessor, T> callback) => Model.ChangeDecorations(Id, callback);
+
+    /// <inheritdoc cref="ChangeDecorations{T}(Func{IModelDecorationsChangeAccessor, T})"/>
+    internal void ChangeDecorations(Action<IModelDecorationsChangeAccessor> callback) => Model.ChangeDecorations(Id, callback);
+
+    /// <summary>The decorations of this editor that touch a line (Monaco: <c>getLineDecorations</c>).</summary>
+    internal IReadOnlyList<ModelDecoration> GetLineDecorations(int lineNumber) =>
+        // Monaco passes filterValidationDecorations(options) and filterFontDecorations(options): both are false here
+        // (no validation decorations and no font decorations exist, and the renderValidationDecorations option is not ported).
+        Model.GetLineDecorations(lineNumber, Id, filterOutValidation: false, filterFontDecorations: false);
+
+    /// <summary>The decorations of this editor that intersect a range (Monaco: <c>getDecorationsInRange</c>).</summary>
+    internal IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range) =>
+        Model.GetDecorationsInRange(range, Id, filterOutValidation: false, filterFontDecorations: false);
+
+    /// <summary>Replaces decorations of this editor (Monaco: the deprecated <c>deltaDecorations</c>); with both lists empty it returns <paramref name="oldDecorationIds"/>.</summary>
+    internal IReadOnlyList<string> DeltaDecorations(IReadOnlyList<string> oldDecorationIds, IReadOnlyList<ModelDeltaDecoration> newDecorations)
+    {
+        if (oldDecorationIds.Count == 0 && newDecorations.Count == 0)
+        {
+            return oldDecorationIds;
+        }
+
+        return Model.DeltaDecorations(Id, oldDecorationIds, newDecorations);
+    }
+
+    /// <summary>Removes decorations by id (Monaco: <c>removeDecorations</c>).</summary>
+    internal void RemoveDecorations(IReadOnlyList<string> decorationIds)
+    {
+        if (decorationIds.Count == 0)
+        {
+            return;
+        }
+
+        // Monaco: model.changeDecorations(callback) with the default owner 0: only the old ids matter here.
+        Model.ChangeDecorations(0, accessor => accessor.DeltaDecorations(decorationIds, []));
     }
 
     /// <summary>Stops the background tokenizer and releases the grammars.</summary>

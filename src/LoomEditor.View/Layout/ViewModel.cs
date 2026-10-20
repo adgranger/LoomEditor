@@ -40,8 +40,10 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         EditorLayoutOptions layoutOptions,
         ViewLayoutOptions viewLayoutOptions,
         Func<Action, IDisposable> scheduleAtNextAnimationFrame,
-        TimeProvider timeProvider)
+        TimeProvider timeProvider,
+        int editorId = 0)
     {
+        EditorId = editorId;
         _model = model;
         _fontInfo = fontInfo;
         _layoutOptions = layoutOptions;
@@ -68,6 +70,9 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     public TextModel Model => _model;
 
     public ViewLayout ViewLayout { get; }
+
+    /// <summary>The id of the editor that owns this view model and its decorations; 0 when there is none (Monaco: <c>editorId</c>).</summary>
+    public int EditorId { get; }
 
     public EditorLayoutInfo LayoutInfo { get; private set; }
 
