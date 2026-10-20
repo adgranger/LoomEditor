@@ -7,7 +7,8 @@ public class ConventionTests
         new(Path.Combine(RepositoryLayout.Source.FullName, "LoomEditor.View", "Features"));
 
     public static TheoryData<string> FeatureFolders =>
-        new(FeaturesFolder.EnumerateDirectories().Select(directory => directory.Name));
+        // Scheduling is infrastructure, not a feature (ADR 0009, decision 2).
+        new(FeaturesFolder.EnumerateDirectories().Select(directory => directory.Name).Where(name => name != "Scheduling"));
 
     [Theory]
     [MemberData(nameof(FeatureFolders))]

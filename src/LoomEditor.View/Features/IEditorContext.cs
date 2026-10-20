@@ -1,6 +1,7 @@
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
+using LoomEditor.View.Features.Scheduling;
 
 namespace LoomEditor.View.Features;
 
@@ -16,6 +17,9 @@ namespace LoomEditor.View.Features;
 /// </remarks>
 public interface IEditorContext
 {
+    /// <summary>Runs actions on the UI thread after a delay. Features use it instead of timers of their own.</summary>
+    IEditorScheduler Scheduler { get; }
+
     /// <summary>The commands of this editor. Features register their commands here.</summary>
     CommandRegistry Commands { get; }
 

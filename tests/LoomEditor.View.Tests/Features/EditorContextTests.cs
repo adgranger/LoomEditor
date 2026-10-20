@@ -1,5 +1,6 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Features;
+using LoomEditor.View.Tests.Features.TestHelpers;
 
 namespace LoomEditor.View.Tests.Features;
 
@@ -44,6 +45,26 @@ public class EditorContextTests
 
         Assert.Equal(Caret(1, 1), context.Selection);
         Assert.Equal(1, raised);
+    }
+
+    [Fact]
+    public void Scheduler_PublicConstructor_NeverRunsActions()
+    {
+        var context = new EditorContext();
+        int runs = 0;
+
+        context.Scheduler.Schedule(TimeSpan.Zero, () => runs++);
+
+        Assert.Equal(0, runs);
+    }
+
+    [Fact]
+    public void Scheduler_InternalConstructor_IsTheGivenScheduler()
+    {
+        var scheduler = new ManualEditorScheduler();
+        var context = new EditorContext(scheduler);
+
+        Assert.Same(scheduler, context.Scheduler);
     }
 
     [Fact]
