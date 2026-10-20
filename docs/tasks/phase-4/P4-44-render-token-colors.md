@@ -1,6 +1,6 @@
 # P4-44 — Rendering: draw token colors and font styles
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-43
 - **Size:** M
 
@@ -41,18 +41,18 @@ text and token styles did not change keep their cached layout.
 
 New (with the fake measurer of the Rendering tests, which records the style it was given):
 
-- [ ] `LineStyle_MergesRunsWithSameStyle`
-- [ ] `LineStyle_PlainLine_IsPlain`
-- [ ] `Cache_SameTextDifferentStyle_CreatesNewLayout`, `…_SameTextSameStyle_ReusesLayout`
-- [ ] `Render_TokensOfVisibleLines_AreGivenToTheMeasurer`
-- [ ] `Render_LongLine_RunsAreCutAtRenderedLength`
+- [x] `LineStyle_MergesRunsWithSameStyle`
+- [x] `LineStyle_PlainLine_IsPlain`
+- [x] `Cache_SameTextDifferentStyle_CreatesNewLayout`, `…_SameTextSameStyle_ReusesLayout`
+- [x] `Render_TokensOfVisibleLines_AreGivenToTheMeasurer`
+- [x] `Render_LongLine_RunsAreCutAtRenderedLength`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

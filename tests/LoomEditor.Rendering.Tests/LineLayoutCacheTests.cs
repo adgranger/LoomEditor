@@ -1,3 +1,4 @@
+using LoomEditor.Core.Tokens;
 using LoomEditor.Rendering.Tests.TestHelpers;
 
 namespace LoomEditor.Rendering.Tests;
@@ -12,6 +13,35 @@ public class LineLayoutCacheTests
 
         ILineLayout first = cache.Get("abc");
         ILineLayout second = cache.Get("abc");
+
+        Assert.Same(first, second);
+        Assert.Single(measurer.Layouts);
+    }
+
+    [Fact]
+    public void Cache_SameTextDifferentStyle_CreatesNewLayout()
+    {
+        var measurer = new FakeTextMeasurer();
+        using var cache = new LineLayoutCache(measurer, capacity: 10);
+        LineStyle red = LineStyle.Create(LineTokens.CreateFromTextAndMetadata(new[] { ("abc", 3u << MetadataConsts.ForegroundOffset) }, new LanguageIdCodec()), 3, new uint[] { 0, 1, 2, 0xFFFF0000 }, 0xFFCCCCCC);
+
+        ILineLayout plain = cache.Get("abc");
+        ILineLayout colored = cache.Get("abc", red);
+
+        Assert.NotSame(plain, colored);
+        Assert.Equal(2, measurer.Layouts.Count);
+        Assert.Same(colored, measurer.Layouts[1]);
+    }
+
+    [Fact]
+    public void Cache_SameTextSameStyle_ReusesLayout()
+    {
+        var measurer = new FakeTextMeasurer();
+        using var cache = new LineLayoutCache(measurer, capacity: 10);
+        LineStyle Red() => LineStyle.Create(LineTokens.CreateFromTextAndMetadata(new[] { ("abc", 3u << MetadataConsts.ForegroundOffset) }, new LanguageIdCodec()), 3, new uint[] { 0, 1, 2, 0xFFFF0000 }, 0xFFCCCCCC);
+
+        ILineLayout first = cache.Get("abc", Red());
+        ILineLayout second = cache.Get("abc", Red()); // another LineStyle instance with the same runs
 
         Assert.Same(first, second);
         Assert.Single(measurer.Layouts);

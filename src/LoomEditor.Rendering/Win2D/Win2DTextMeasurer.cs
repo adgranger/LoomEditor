@@ -1,6 +1,7 @@
 using LoomEditor.View.Layout;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
+using Windows.UI;
 using Windows.UI.Text;
 
 namespace LoomEditor.Rendering.Win2D;
@@ -58,11 +59,37 @@ internal sealed class Win2DTextMeasurer : ITextMeasurer
     public float GlyphTopOffset { get; }
 
     /// <inheritdoc />
-    public ILineLayout CreateLineLayout(string text)
+    public ILineLayout CreateLineLayout(string text, LineStyle style)
     {
         ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(style);
 
-        return new Win2DLineLayout(text, new CanvasTextLayout(_resourceCreator, text, _textFormat, float.MaxValue, float.MaxValue));
+        var textLayout = new CanvasTextLayout(_resourceCreator, text, _textFormat, float.MaxValue, float.MaxValue);
+        foreach (StyleRun run in style.Runs)
+        {
+            textLayout.SetColor(run.Start, run.Length, Color.FromArgb((byte)(run.ForegroundArgb >> 24), (byte)(run.ForegroundArgb >> 16), (byte)(run.ForegroundArgb >> 8), (byte)run.ForegroundArgb));
+            if ((run.FontStyle & Core.Tokens.FontStyle.Italic) != 0)
+            {
+                textLayout.SetFontStyle(run.Start, run.Length, FontStyle.Italic);
+            }
+
+            if ((run.FontStyle & Core.Tokens.FontStyle.Bold) != 0)
+            {
+                textLayout.SetFontWeight(run.Start, run.Length, new FontWeight { Weight = 700 });
+            }
+
+            if ((run.FontStyle & Core.Tokens.FontStyle.Underline) != 0)
+            {
+                textLayout.SetUnderline(run.Start, run.Length, true);
+            }
+
+            if ((run.FontStyle & Core.Tokens.FontStyle.Strikethrough) != 0)
+            {
+                textLayout.SetStrikethrough(run.Start, run.Length, true);
+            }
+        }
+
+        return new Win2DLineLayout(text, textLayout);
     }
 
     /// <inheritdoc />

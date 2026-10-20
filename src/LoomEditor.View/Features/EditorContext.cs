@@ -51,6 +51,14 @@ public sealed class EditorContext : IEditorContext, IDisposable
             new ViewLayoutOptions(fontInfo.LineHeight),
             scheduleAtNextAnimationFrame,
             timeProvider);
+        ViewModel.TokenColorMap = tokenizationRegistry.GetColorMap();
+        tokenizationRegistry.Changed += (_, e) =>
+        {
+            if (e.ChangedColorMap)
+            {
+                ViewModel.TokenColorMap = tokenizationRegistry.GetColorMap();
+            }
+        };
         ViewModel.EventDispatcher.OnEvent += OnViewModelEvent;
         _coreCommands = CoreCommandRegistration.Register(Commands, ViewModel);
     }

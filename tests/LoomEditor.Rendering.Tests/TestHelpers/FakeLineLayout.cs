@@ -8,6 +8,8 @@ internal sealed class FakeLineLayout(string text, double characterWidth, int tab
 
     public bool IsDisposed { get; private set; }
 
+    public LineStyle Style { get; init; } = LineStyle.Plain;
+
     public double Width => GetCharacterX(Text.Length);
 
     public double GetCharacterX(int index)

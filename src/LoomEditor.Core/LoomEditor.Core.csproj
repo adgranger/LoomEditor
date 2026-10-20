@@ -15,5 +15,8 @@
     <InternalsVisibleTo Include="LoomEditor.TextMate" />
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <InternalsVisibleTo Include="LoomEditor.View.Tests" />
+    <!-- The renderer reads token metadata (font styles, color ids). -->
+    <InternalsVisibleTo Include="LoomEditor.Rendering" />
+    <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
   </ItemGroup>
 </Project>

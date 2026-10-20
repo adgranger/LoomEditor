@@ -16,6 +16,9 @@ internal sealed partial class ViewModel
     private Func<Action, IDisposable>? _scheduleAtNextAnimationFrame;
     private IDisposable? _pendingStabilize;
 
+    /// <summary>The ARGB colors the color ids of the tokens refer to (index 0 unused), or <see langword="null"/> without a theme.</summary>
+    public IReadOnlyList<uint>? TokenColorMap { get; set; }
+
     private void AttachToModelTokens(Func<Action, IDisposable> scheduleAtNextAnimationFrame)
     {
         _scheduleAtNextAnimationFrame = scheduleAtNextAnimationFrame;

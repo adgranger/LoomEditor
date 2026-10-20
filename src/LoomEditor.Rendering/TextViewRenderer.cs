@@ -110,6 +110,7 @@ internal sealed partial class TextViewRenderer : IDisposable
         double scrollLeft = viewModel.ViewLayout.GetCurrentScrollLeft();
         int topShift = scrollTop - data.BigNumbersDelta;
 
+        uint defaultForeground = LineStyle.ToArgb(Theme.Foreground);
         var layouts = new ILineLayout[lineCount];
         var labels = new ILineLayout?[lineCount];
         double widestLine = 1;
@@ -123,7 +124,9 @@ internal sealed partial class TextViewRenderer : IDisposable
                 ? model.GetValueInRange(new Range(lineNumber, 1, lineNumber, StopRenderingLineAfter + 1))
                 : model.GetLineContent(lineNumber);
 
-            layouts[i] = _cache.Get(text);
+            // The renderer only reads tokens: the model or the background worker tokenizes.
+            LineStyle style = LineStyle.Create(data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground);
+            layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
             {

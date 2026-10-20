@@ -23,9 +23,9 @@ internal sealed class FakeTextMeasurer : ITextMeasurer
 
     public List<FakeLineLayout> Layouts { get; } = [];
 
-    public ILineLayout CreateLineLayout(string text)
+    public ILineLayout CreateLineLayout(string text, LineStyle style)
     {
-        var layout = new FakeLineLayout(text, CharacterWidth, TabSize);
+        var layout = new FakeLineLayout(text, CharacterWidth, TabSize) { Style = style };
         Layouts.Add(layout);
         return layout;
     }
