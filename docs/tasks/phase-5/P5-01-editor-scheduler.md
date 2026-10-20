@@ -1,6 +1,6 @@
 # P5-01 — Editor scheduler: `IEditorScheduler`, `RunOnceScheduler`, `Delayer`, `TimeoutTimer`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-50
 - **Size:** M
 
@@ -74,7 +74,7 @@ new `ManualEditorScheduler`.
 
 ## Tests
 
-- [ ] Port (`async.test.ts` › `Async` › `Delayer`, adapted: `Action` instead of promises, `ManualEditorScheduler`
+- [x] Port (`async.test.ts` › `Async` › `Delayer`, adapted: `Action` instead of promises, `ManualEditorScheduler`
   instead of `setTimeout`; "the promise resolves with N" becomes "after `AdvanceBy(TimeSpan.Zero)` the last task ran
   once"; "the promise is rejected" becomes "the task never ran"):
   `simple`, `simple cancel`, `cancel should cancel all calls to trigger`, `trigger, cancel, then trigger again`,
@@ -82,24 +82,24 @@ new `ManualEditorScheduler`.
   (the last two are the `${release} releases the pending task` loop).
   Not ported: `microtask delay simple`, `simple cancel microtask`, `cancel after the delay elapsed does not run the task`,
   `cancel and trigger after the delay elapsed settles both triggers` (microtasks), the `ThrottledDelayer` suite.
-- [ ] New (`RunOnceSchedulerTests`): `Schedule_DelayElapsed_RunsRunnerOnce`, `Schedule_Twice_RestartsTheDelay`,
+- [x] New (`RunOnceSchedulerTests`): `Schedule_DelayElapsed_RunsRunnerOnce`, `Schedule_Twice_RestartsTheDelay`,
   `Schedule_WithDelay_UsesThatDelay`, `Cancel_RunnerDoesNotRun`, `Flush_WhenScheduled_RunsNow`,
   `Flush_WhenNotScheduled_DoesNothing`, `IsScheduled_AfterRun_IsFalse`, `Dispose_RunnerNeverRuns`
-- [ ] New (`TimeoutTimerTests`): `CancelAndSet_ReplacesThePendingRunner`, `SetIfNotSet_WhenSet_KeepsTheFirstRunner`,
+- [x] New (`TimeoutTimerTests`): `CancelAndSet_ReplacesThePendingRunner`, `SetIfNotSet_WhenSet_KeepsTheFirstRunner`,
   `Cancel_RunnerDoesNotRun`, `CancelAndSet_AfterDispose_Throws`
-- [ ] New (`ManualEditorSchedulerTests`): `AdvanceBy_RunsDueActionsInDueTimeOrder`,
+- [x] New (`ManualEditorSchedulerTests`): `AdvanceBy_RunsDueActionsInDueTimeOrder`,
   `AdvanceBy_ActionScheduledByAnAction_RunsWhenDue`, `Dispose_BeforeDue_CancelsTheAction`, `Schedule_NegativeDelay_Throws`
-- [ ] New (`EditorContextTests`): `Scheduler_PublicConstructor_NeverRunsActions`,
+- [x] New (`EditorContextTests`): `Scheduler_PublicConstructor_NeverRunsActions`,
   `Scheduler_InternalConstructor_IsTheGivenScheduler`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`async.ts` subset → `Features/Scheduling/`); "Behavior differences": `Delayer`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`async.ts` subset → `Features/Scheduling/`); "Behavior differences": `Delayer`
       without promises, `EditorContext()` never runs scheduled actions
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] No manual check: no feature schedules anything yet (the first is bracket matching, step C)
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] No manual check: no feature schedules anything yet (the first is bracket matching, step C)
 
 ## Out of scope
 

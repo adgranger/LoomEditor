@@ -6,6 +6,7 @@ using LoomEditor.TextMate.Tokenization;
 using LoomEditor.Core.Tokens;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Events;
+using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Highlighting;
 using LoomEditor.View.Layout;
 
@@ -30,14 +31,27 @@ public sealed class EditorContext : IEditorContext, IDisposable
         }
     }
 
-    /// <summary>Creates a context whose animations never run (smooth scrolling needs a real scheduler).</summary>
+    /// <summary>
+    /// Creates a context whose animations never run (smooth scrolling needs a real scheduler) and whose
+    /// <see cref="Scheduler"/> never runs the actions it is given.
+    /// </summary>
     public EditorContext()
         : this(_ => new NoopDisposable(), TimeProvider.System)
     {
     }
 
-    internal EditorContext(Func<Action, IDisposable> scheduleAtNextAnimationFrame, TimeProvider timeProvider, IUiDispatcher? dispatcher = null)
+    internal EditorContext(IEditorScheduler scheduler)
+        : this(_ => new NoopDisposable(), TimeProvider.System, null, scheduler)
     {
+    }
+
+    internal EditorContext(
+        Func<Action, IDisposable> scheduleAtNextAnimationFrame,
+        TimeProvider timeProvider,
+        IUiDispatcher? dispatcher = null,
+        IEditorScheduler? scheduler = null)
+    {
+        Scheduler = scheduler ?? NullEditorScheduler.Instance;
         var tokenizationRegistry = new TokenizationRegistry();
         var languages = new LanguageRegistry();
         BuiltInLanguages.RegisterAll(languages);
@@ -62,6 +76,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
         ViewModel.EventDispatcher.OnEvent += OnViewModelEvent;
         _coreCommands = CoreCommandRegistration.Register(Commands, ViewModel);
     }
+
+    /// <inheritdoc />
+    public IEditorScheduler Scheduler { get; }
 
     /// <inheritdoc />
     public CommandRegistry Commands { get; } = new();

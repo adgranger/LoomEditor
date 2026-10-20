@@ -386,7 +386,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P5-01](phase-5/P5-01-editor-scheduler.md) | Editor scheduler: `IEditorScheduler`, `RunOnceScheduler`, `Delayer`, `TimeoutTimer` | P4-50 | todo |
+| [P5-01](phase-5/P5-01-editor-scheduler.md) | Editor scheduler: `IEditorScheduler`, `RunOnceScheduler`, `Delayer`, `TimeoutTimer` | P4-50 | done |
 | [P5-02](phase-5/P5-02-model-decoration-options.md) | `ModelDecorationOptions`: Monaco's options, `Register` / `CreateDynamic` | P5-01 | todo |
 | [P5-03](phase-5/P5-03-text-model-decorations.md) | `TextModel` decorations: `DeltaDecorations`, `ChangeDecorations`, queries | P5-02 | todo |
 | [P5-04](phase-5/P5-04-decorations-changed-event.md) | `TextModel.DecorationsChanged` and the decorations-and-editing tests | P5-03 | todo |
