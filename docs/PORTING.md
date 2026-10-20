@@ -121,6 +121,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `SyntaxHighlighter` language configurations (P5-21) | Only the ten built-in languages have a language configuration (the bundled VS Code files, registered with priority 50 when the language, or a language its grammar embeds, is first used); `jsx-tags` and every other non-bundled language keep the empty configuration. No `languages` extension point: the configurations are read per editor | No extension host or language service in LoomEditor |
 | `Length` (P5-22) | `Length` is a `readonly record struct` over a packed `long` (`lineCount * 2^26 + columnCount`) instead of a branded JavaScript number; `lengthHash` is replaced by `GetHashCode`. `SmallImmutableSet` fills its cache of 129 small sets eagerly, one cache per closed generic type | Native value type without allocation; no static mutable state |
 | `WordHelper.GetWordAtText` (P5-15) | After an empty match the search moves one character further (Monaco would loop forever); `setDefaultGetWordAtTextConfig` is not ported, the configuration is a parameter (`GetWordAtTextConfig.Default`) | Monaco's `exec` does not move `lastIndex` after an empty match; no global mutable state |
+| `combineTextEditInfos` (P5-26) | `ArrayQueue` is a `Queue<T>` (only `dequeue` and `takeWhile(() => true)` were used, the latter is "drain the queue"); the `undefined` sentinel entry pushed after the second map is a last loop iteration with a `null` length | `ArrayQueue` is not ported; no behavior change |
 
 ## Map: Monaco → LoomEditor
 
@@ -302,6 +303,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/length.ts`, `smallImmutableSet.ts` (✅ P5-22), `editor/common/core/text/textLength.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`Length`, `SmallImmutableSet`, `DenseKeyProvider.cs`), `LoomEditor.Core/Text/TextLength.cs` | ✅ P5-22 for `length.ts` and `smallImmutableSet.ts`; 🔶 `textLength.ts` subset (`zero`, constructor, `isZero`, `toString`); `lengthHash` not ported; see "Behavior differences" |
 | `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/ast.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`AstNodeKind.cs`, `AstNode.cs`, `PairAstNode.cs`, `LeafAstNodes.cs`, `ListAstNode.cs`, `ListAstNode.Implementations.cs`) | ✅ P5-23, P5-24: the `AstNode` union and `BaseAstNode` are one abstract class; `BugIndicatingError` and `Error` are `InvalidOperationException` |
 | `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/concat23Trees.ts`, `nodeReader.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`Concat23Trees.cs`, `NodeReader.cs`) | ✅ P5-25 |
+| `editor/common/model/bracketPairsTextModelPart/bracketPairsTree/beforeEditPositionMapper.ts`, `combineTextEditInfos.ts` | `LoomEditor.Core/Model/BracketPairs/Tree/` (`TextEditInfo.cs`, `BeforeEditPositionMapper.cs` with the private `TextEditInfoCache`, `CombineTextEditInfos.cs`: `TextEditInfoCombiner`) | ✅ P5-26 |
 
 ## Monaco tests ported in phases 1 and 3
 
@@ -353,6 +355,8 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `indentationLineProcessor.test.ts` | 6 / 6 | P5-16 (`IndentationLineProcessorTests`): no `withTestCodeEditor` (the processor only reads the model); the model is created before the fake tokenizer is registered, as in Monaco |
 | `length.test.ts`, `smallImmutableSet.test.ts` (bracketPairColorizer) | 2 / 2; 2 / 2 | P5-22 |
 | `concat23Trees.test.ts` | 6 / 6 | P5-24 (`Clone`, with the `equals` helper in `AstAssert`) and P5-25 (the five merge tests in `Concat23TreesTests`) |
+| `beforeEditPositionMapper.test.ts` | 9 / 9 | P5-26 (`BeforeEditPositionMapperTests`; the test class `TextEdit` is nested, so it does not hide `Core.Text.TextEdit`) |
+| `combineTextEditInfos.test.ts` | 50 / 50 | P5-26 (`CombineTextEditInfosTests`, one `[Theory]` over the seeds 0…49; `new Random(seed)` instead of `Random.create(seed)`: the test checks the round trip, not generated values) |
 | `model.line.test.ts` | see "Tests ported in phase 4" | `ModelLine` tokens: ported in P4-31 and P4-32; `getIndentLevel` is not about tokens |
 | `viewModel/prefixSumComputer.test.ts` (`Editor ViewModel - PrefixSumComputer`) | 48 / 48 | P4-36: run on `PrefixSumComputer` only; the same tests ran on `ConstantTimePrefixSumComputer` (not ported) too |
 | `textMate/test/browser/arrayOperation.test.ts` | 1 / 1 | P4-36 |
