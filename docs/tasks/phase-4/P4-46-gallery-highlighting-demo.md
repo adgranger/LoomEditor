@@ -1,6 +1,6 @@
 # P4-46 — Gallery: syntax-highlighting demo and the phase 4 manual test list
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-45
 - **Size:** S
 
@@ -37,10 +37,10 @@ Manual (in `phase-4-manual-tests.md`, with a result column for the maintainer):
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -49,3 +49,9 @@ Golden tests (P4-47, P4-48).
 ## Suggested commit message
 
 `feat(gallery): syntax highlighting demo and phase 4 manual test list`
+
+## Notes
+
+- The manual checks are in `docs/testing/phase-4-manual-tests.md` (result column empty: for the maintainer). The agent only checked that the published Gallery starts and stays open with C# highlighting.
+- Running the AOT Gallery found a bug in the P4-38 controller: it also received the `ContentChanged` event that created it (the model resets its tokenization before raising the event), so the worker mirror applied the change twice. Fixed in `TextMateWorkerTokenizerController` (events up to the creation version are ignored) with a test.
+- `ItemsSource` set from `x:Bind` to a `string[]` fails under Native AOT (invalid parameter): the pickers are filled in code.

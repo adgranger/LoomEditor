@@ -29,6 +29,7 @@ internal sealed partial class TextMateWorkerTokenizerController : IDisposable
     // These states will eventually equal the worker states. _states[i] stores the state at the end of line number i + 1.
     private readonly TokenizationStateStore<StateStack> _states = new();
     private bool _isDisposed;
+    private readonly int _initialVersionId;
 
     /// <summary>Mirrors <paramref name="model"/> to <paramref name="worker"/>: sends the model, then every change.</summary>
     public TextMateWorkerTokenizerController(
@@ -48,6 +49,7 @@ internal sealed partial class TextMateWorkerTokenizerController : IDisposable
         _backgroundTokenizationStore = backgroundTokenizationStore;
         ControllerId = Interlocked.Increment(ref _nextControllerId);
 
+        _initialVersionId = _model.VersionId;
         _model.ContentChanged += OnContentChanged;
         _model.LanguageChanged += OnLanguageChanged;
 
@@ -169,6 +171,13 @@ internal sealed partial class TextMateWorkerTokenizerController : IDisposable
 
     private void OnContentChanged(object? sender, ModelContentChangedEventArgs e)
     {
+        // Difference: the model resets its tokenization (which creates this controller) before it raises ContentChanged, so the
+        // event that created us can still reach us. Its change is already in the lines sent to the worker: skip it.
+        if (e.VersionId <= _initialVersionId)
+        {
+            return;
+        }
+
         _worker.Post(new ModelChangedMessage(ControllerId, new MirrorModelChangedEvent(e.Changes, e.Eol, e.VersionId)));
         _pendingChanges.Add(new PendingChange(e.VersionId, e.Changes));
     }

@@ -5,11 +5,11 @@
     xmlns:loom="using:LoomEditor.WinUI.Controls"
     Title="LoomEditor Gallery">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
         <TextBlock
             Margin="12,8"
             Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="LoomEditor — phase 3: editing (keyboard, mouse, clipboard, undo/redo, multi-cursor, IME)" />
+            Text="LoomEditor — phase 4: syntax highlighting (TextMate grammars, VS Code themes) and editing" />
         <StackPanel Grid.Row="1" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
             <Button Click="OnInsertHeader" Content="Insert header" />
             <Button Click="OnAppendLine" Content="Append line" />
@@ -39,7 +39,12 @@
             <Button x:Name="ScrollTestButton" Click="OnScrollTest" Content="Scroll test" />
             <Button x:Name="MultiCursorButton" Click="OnMultiCursorSample" Content="Sample: multi-cursor" />
         </StackPanel>
-        <loom:LoomEditor x:Name="Editor" Grid.Row="4" />
-        <TextBlock x:Name="StatusText" Grid.Row="5" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
+        <StackPanel Grid.Row="4" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
+            <ComboBox x:Name="LanguageBox" Header="Language" SelectedIndex="0" SelectionChanged="OnLanguageChanged" />
+            <ComboBox x:Name="ThemeBox" Header="Theme" SelectedIndex="0" SelectionChanged="OnThemeChanged" />
+            <Button x:Name="LargeCSharpButton" Click="OnLargeCSharp" Content="Large C# (20 000 lines)" VerticalAlignment="Bottom" />
+        </StackPanel>
+        <loom:LoomEditor x:Name="Editor" Grid.Row="5" />
+        <TextBlock x:Name="StatusText" Grid.Row="6" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
     </Grid>
 </Window>
