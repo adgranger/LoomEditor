@@ -1,6 +1,6 @@
 # P4-36 — Background tokenization (1/3): `MirrorTextModel`, `PrefixSumComputer`, `LengthEdit`, index transformer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-35
 - **Size:** M
 
@@ -40,17 +40,17 @@ changes (the worker's model), and the length edits / index transformer that reba
 
 ## Tests
 
-- [ ] Port: `'array operation'` › `'simple'`
-- [ ] Port: the Monaco tests of `PrefixSumComputer` and `MirrorTextModel`, if they exist (list them in the commit body)
-- [ ] New: `MirrorTextModel_AppliesChangesInOrder_AndTracksVersion`
-- [ ] New: `MonotonousIndexTransformer_IndexInsideReplacedRange_IsUndefined`
+- [x] Port: `'array operation'` › `'simple'`
+- [x] Port: the Monaco tests of `PrefixSumComputer` and `MirrorTextModel`, if they exist (list them in the commit body)
+- [x] New: `MirrorTextModel_AppliesChangesInOrder_AndTracksVersion`
+- [x] New: `MonotonousIndexTransformer_IndexInsideReplacedRange_IsUndefined`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map and ported-tests list updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map and ported-tests list updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
