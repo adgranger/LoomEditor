@@ -1,6 +1,6 @@
 # P5-17 — `GetEnterAction`, `GetInheritIndentForLine`, `GetGoodIndentForLine`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-16
 - **Size:** M
 
@@ -57,23 +57,23 @@ Enter and smart Tab, step E for re-indentation.
 No upstream unit tests: `indentation.test.ts` (step E) and `cursor.test.ts` (step D) exercise these functions
 through the editor. New, with `TestLanguages.TypeScript` (P5-16) and fake tokens:
 
-- [ ] `GetEnterAction_BetweenBraces_IsIndentOutdentWithTab`
-- [ ] `GetEnterAction_AfterDocCommentStart_AppendsStar`
-- [ ] `GetEnterAction_RemoveText_ShortensTheIndentation`
-- [ ] `GetEnterAction_NoRuleMatches_ReturnsNull`
-- [ ] `GetInheritIndentForLine_BelowFull_ReturnsNull`
-- [ ] `GetInheritIndentForLine_AfterOpenBrace_IsIndent`
-- [ ] `GetInheritIndentForLine_FirstNonBlankLine_HasNoIndentation`
-- [ ] `GetInheritIndentForLine_AfterIndentNextLine_UsesTheLineBefore`
-- [ ] `GetGoodIndentForLine_ClosingBrace_IsUnshifted`
-- [ ] `GetGoodIndentForLine_AfterOnEnterRule_AppliesTheEnterAction`
+- [x] `GetEnterAction_BetweenBraces_IsIndentOutdentWithTab`
+- [x] `GetEnterAction_AfterDocCommentStart_AppendsStar`
+- [x] `GetEnterAction_RemoveText_ShortensTheIndentation`
+- [x] `GetEnterAction_NoRuleMatches_ReturnsNull`
+- [x] `GetInheritIndentForLine_BelowFull_ReturnsNull`
+- [x] `GetInheritIndentForLine_AfterOpenBrace_IsIndent`
+- [x] `GetInheritIndentForLine_FirstNonBlankLine_HasNoIndentation`
+- [x] `GetInheritIndentForLine_AfterIndentNextLine_UsesTheLineBefore`
+- [x] `GetGoodIndentForLine_ClosingBrace_IsUnshifted`
+- [x] `GetGoodIndentForLine_AfterOnEnterRule_AppliesTheEnterAction`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`enterAction.ts`, `autoIndent.ts` partly)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`enterAction.ts`, `autoIndent.ts` partly)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
