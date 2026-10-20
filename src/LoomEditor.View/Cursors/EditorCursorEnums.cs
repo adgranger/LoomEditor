@@ -29,16 +29,6 @@ internal enum EditorAutoSurroundStrategy
     Never,
 }
 
-/// <summary>How much the editor adjusts the indentation of new lines (Monaco: <c>EditorAutoIndentStrategy</c>).</summary>
-internal enum EditorAutoIndentStrategy
-{
-    None = 0,
-    Keep = 1,
-    Brackets = 2,
-    Advanced = 3,
-    Full = 4,
-}
-
 /// <summary>How a paste with as many lines as cursors is distributed (Monaco: <c>multiCursorPaste</c> strings).</summary>
 internal enum MultiCursorPasteMode
 {
