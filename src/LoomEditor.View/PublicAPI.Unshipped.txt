@@ -49,6 +49,7 @@ LoomEditor.View.Commands.EditorCommand.Execute() -> bool
 LoomEditor.View.Commands.EditorCommand.Id.get -> string!
 LoomEditor.View.Features.EditorContext
 LoomEditor.View.Features.EditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
+LoomEditor.View.Features.EditorContext.Dispose() -> void
 LoomEditor.View.Features.EditorContext.EditorContext() -> void
 LoomEditor.View.Features.EditorContext.Model.get -> LoomEditor.Core.Model.TextModel!
 LoomEditor.View.Features.EditorContext.Selection.get -> LoomEditor.Core.Text.Selection

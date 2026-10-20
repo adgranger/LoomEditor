@@ -1,6 +1,6 @@
 # P4-42 — `SyntaxHighlighter`: grammars, worker and theme for one editor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-41
 - **Size:** M
 
@@ -44,18 +44,18 @@ vscode-textmate theme + color map). Setting a language or a theme on it re-token
 
 New:
 
-- [ ] `SetLanguage_Csharp_ModelGetsCsharpTokens` (no dispatcher, `ForceTokenization`)
-- [ ] `SetLanguage_Unknown_FallsBackToPlainText`
-- [ ] `SetTheme_ChangesTokenColors` (same text, Dark Modern vs Light Modern: different foreground ids/colors)
-- [ ] `WithDispatcher_WorkerTokensArriveOnDispatch` (`ManualUiDispatcher`, wait for the worker with a timeout, then `RunAll`)
-- [ ] `Dispose_StopsTheWorker`
+- [x] `SetLanguage_Csharp_ModelGetsCsharpTokens` (no dispatcher, `ForceTokenization`)
+- [x] `SetLanguage_Unknown_FallsBackToPlainText`
+- [x] `SetTheme_ChangesTokenColors` (same text, Dark Modern vs Light Modern: different foreground ids/colors)
+- [x] `WithDispatcher_WorkerTokensArriveOnDispatch` (`ManualUiDispatcher`, wait for the worker with a timeout, then `RunAll`)
+- [x] `Dispose_StopsTheWorker`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
