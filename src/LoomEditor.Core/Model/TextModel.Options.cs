@@ -5,7 +5,7 @@ using LoomEditor.Core.Text;
 
 namespace LoomEditor.Core.Model;
 
-// Indentation options. Phase 3 does not guess the indentation (Monaco: detectIndentation is false).
+// Indentation options. There is no detectIndentation creation option: DetectIndentation applies the guess on demand.
 public sealed partial class TextModel
 {
     private TextModelOptions _options;
@@ -51,6 +51,20 @@ public sealed partial class TextModel
         _options = resolved;
         OptionsChanged?.Invoke(this, e);
     }
+
+    // Monaco: detectIndentation. Monaco's TODO: guess indentSize independent of tabSize.
+    internal void DetectIndentation(bool defaultInsertSpaces, int defaultTabSize)
+    {
+        GuessedIndentation guessedIndentation = IndentationGuesser.GuessIndentation(_buffer, defaultTabSize, defaultInsertSpaces);
+        UpdateOptions(new TextModelUpdateOptions(
+            TabSize: guessedIndentation.TabSize,
+            IndentSize: guessedIndentation.TabSize,
+            InsertSpaces: guessedIndentation.InsertSpaces));
+    }
+
+    // Monaco: normalizeIndentation.
+    internal string NormalizeIndentation(string str) =>
+        Indentation.NormalizeIndentation(str, _options.IndentSize, _options.InsertSpaces);
 
     // Monaco: normalizePosition. The model has no injected text, so the position is already normalized. Static (CA1822): no model state is needed.
     internal static Position NormalizePosition(Position position, PositionAffinity affinity) => position;
