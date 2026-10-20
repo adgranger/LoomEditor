@@ -7,3 +7,5 @@ Monaco source: `src/vs/editor/common/model/intervalTree.ts`.
 
 **Phase 3 (P3-05 to P3-08).** `IntervalNode`, `IntervalTree` (insert, delete, rotations, `maxEnd`, delta normalization, searches, `ResolveNode`),
 `NodeColor` and a minimal `ModelDecorationOptions` are ported. Edits (`AcceptReplace`, `NodeAcceptEdit`, P3-07) and the tracked ranges of `TextModel` (P3-08) follow it.
+
+**Phase 5 (P5-02).** `ModelDecorationOptions` is now Monaco's class (subset): built from a `ModelDecorationOptionsData` with `Register` / `CreateDynamic`, class names cleaned. `ModelDeltaDecoration` and `ModelDecoration` are added. The `TextModel` decorations API follows (P5-03).
