@@ -3,10 +3,11 @@
 
 using LoomEditor.Core.Languages;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 
 namespace LoomEditor.Core.Model;
 
-public sealed partial class TextModel
+public sealed partial class TextModel : IVirtualModel
 {
     /// <summary>
     /// The language configurations of the editor of the model (Monaco: the <c>ILanguageConfigurationService</c>
@@ -25,6 +26,14 @@ public sealed partial class TextModel
 
     /// <summary>The word at a position, cut at the position (Monaco: <c>getWordUntilPosition</c>).</summary>
     internal WordAtPosition GetWordUntilPosition(Position position) => _tokenization.GetWordUntilPosition(position);
+
+    IViewLineTokens IVirtualModel.GetLineTokens(int lineNumber) => _tokenization.GetLineTokens(lineNumber);
+
+    string IVirtualModel.GetLanguageId() => _tokenization.GetLanguageId();
+
+    string IVirtualModel.GetLanguageIdAtPosition(int lineNumber, int column) => _tokenization.GetLanguageIdAtPosition(lineNumber, column);
+
+    void IVirtualModel.ForceTokenization(int lineNumber) => _tokenization.ForceTokenization(lineNumber);
 
     internal void RaiseLanguageConfigurationChanged() => LanguageConfigurationChanged?.Invoke(this, EventArgs.Empty);
 }
