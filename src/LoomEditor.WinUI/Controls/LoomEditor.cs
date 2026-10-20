@@ -6,6 +6,7 @@ using LoomEditor.View.Layout;
 using LoomEditor.View.Features;
 using LoomEditor.WinUI.Accessibility;
 using LoomEditor.WinUI.Input;
+using LoomEditor.WinUI.Threading;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Peers;
@@ -68,7 +69,7 @@ public sealed partial class LoomEditor : Control
     public LoomEditor()
     {
         DefaultStyleKey = typeof(LoomEditor);
-        _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System);
+        _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System, new DispatcherQueueUiDispatcher(DispatcherQueue));
         _viewModel = _context.ViewModel;
         _clipboardCommands = ClipboardCommands.Register(_context.Commands, _viewModel, new WindowsClipboardService());
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
@@ -82,6 +83,7 @@ public sealed partial class LoomEditor : Control
         InitializeIme();
         CharacterReceived += OnCharacterReceived;
         InitializeFont();
+        InitializeHighlighting();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;
         Loaded += OnLoaded;
@@ -183,12 +185,14 @@ public sealed partial class LoomEditor : Control
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        StartHighlighting();
         ObserveXamlRoot();
         StartIme();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+        StopHighlighting();
         StopIme();
         _featureHost?.Dispose();
         _featureHost = null;
@@ -256,6 +260,7 @@ public sealed partial class LoomEditor : Control
         _measurer?.Dispose();
         _measurer = CreateTextMeasurer(canvas);
         _renderer = new TextViewRenderer(_measurer);
+        _renderer.Theme = Theme;
 
         _viewModel.SetFontInfo(_measurer.FontInfo);
         _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);

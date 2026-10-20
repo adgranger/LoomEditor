@@ -1,1 +1,3 @@
 #nullable enable
+LoomEditor.TextMate.Grammars.BuiltInLanguages
+static LoomEditor.TextMate.Grammars.BuiltInLanguages.Ids.get -> System.Collections.Generic.IReadOnlyList<string!>!

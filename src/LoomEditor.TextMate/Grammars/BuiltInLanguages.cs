@@ -7,10 +7,10 @@ namespace LoomEditor.TextMate.Grammars;
 /// reader of the grammar files embedded in this assembly. To add a language: see <c>docs/how-to/add-a-language.md</c>.
 /// </summary>
 /// <remarks>Threading: immutable after the type initializer; <see cref="ReadFile"/> is thread-safe.</remarks>
-internal static class BuiltInLanguages
+public static class BuiltInLanguages
 {
     /// <summary>The prefix of every embedded grammar resource (<c>Grammars/&lt;folder&gt;/&lt;file&gt;</c>).</summary>
-    public const string ResourcePrefix = "Grammars/";
+    internal const string ResourcePrefix = "Grammars/";
 
     // (folder, language file): a folder holds one language, except json/ (json and jsonc).
     private static readonly (string Folder, string File)[] Sources =
@@ -29,10 +29,13 @@ internal static class BuiltInLanguages
     ];
 
     /// <summary>The bundled languages, in the order of <see cref="Sources"/>.</summary>
-    public static readonly IReadOnlyList<LanguageDefinition> All = Load();
+    internal static readonly IReadOnlyList<LanguageDefinition> All = Load();
+
+    /// <summary>The ids of the bundled languages (<c>plaintext</c> first): the values the editor control accepts as its language.</summary>
+    public static IReadOnlyList<string> Ids { get; } = ["plaintext", .. All.Select(language => language.Id)];
 
     /// <summary>Registers every bundled language in <paramref name="registry"/>.</summary>
-    public static void RegisterAll(LanguageRegistry registry)
+    internal static void RegisterAll(LanguageRegistry registry)
     {
         ArgumentNullException.ThrowIfNull(registry);
         foreach (LanguageDefinition language in All)
@@ -42,7 +45,7 @@ internal static class BuiltInLanguages
     }
 
     /// <summary>Reads an embedded grammar file by resource name (the <c>readFile</c> of <c>TMGrammarFactory</c>); <see langword="null"/> when it does not exist.</summary>
-    public static string? ReadFile(string location)
+    internal static string? ReadFile(string location)
     {
         using Stream? stream = typeof(BuiltInLanguages).Assembly.GetManifestResourceStream(location);
         if (stream is null)

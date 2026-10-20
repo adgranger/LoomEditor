@@ -15,8 +15,9 @@
     <InternalsVisibleTo Include="LoomEditor.TextMate" />
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <InternalsVisibleTo Include="LoomEditor.View.Tests" />
-    <!-- The renderer reads token metadata (font styles, color ids). -->
+    <!-- The renderer reads token metadata (font styles, color ids); the control gives the model a UI dispatcher. -->
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
+    <InternalsVisibleTo Include="LoomEditor.WinUI" />
   </ItemGroup>
 </Project>

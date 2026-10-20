@@ -83,19 +83,19 @@ public sealed record EditorTheme
     }
 
     /// <summary>Display name of the theme.</summary>
-    public required string Name { get; init; }
+    public string Name { get; init; } = string.Empty;
 
     /// <summary>Editor background (<c>editor.background</c>).</summary>
-    public required ThemeColor Background { get; init; }
+    public ThemeColor Background { get; init; }
 
     /// <summary>Default text color (<c>editor.foreground</c>).</summary>
-    public required ThemeColor Foreground { get; init; }
+    public ThemeColor Foreground { get; init; }
 
     /// <summary>Line numbers in the gutter (<c>editorLineNumber.foreground</c>).</summary>
-    public required ThemeColor LineNumberForeground { get; init; }
+    public ThemeColor LineNumberForeground { get; init; }
 
     /// <summary>Line number of the cursor line (<c>editorLineNumber.activeForeground</c>).</summary>
-    public required ThemeColor LineNumberActiveForeground { get; init; }
+    public ThemeColor LineNumberActiveForeground { get; init; }
 
     /// <summary>
     /// Background of the cursor line (<c>editor.lineHighlightBackground</c>); when <see langword="null"/>, the
@@ -107,10 +107,10 @@ public sealed record EditorTheme
     public ThemeColor? LineHighlightBorder { get; init; }
 
     /// <summary>Color of the text cursor (<c>editorCursor.foreground</c>).</summary>
-    public required ThemeColor CursorForeground { get; init; }
+    public ThemeColor CursorForeground { get; init; }
 
     /// <summary>Background of selected text (<c>editor.selectionBackground</c>).</summary>
-    public required ThemeColor SelectionBackground { get; init; }
+    public ThemeColor SelectionBackground { get; init; }
 
     /// <summary>Underline of the text being composed with an IME (<c>editor.compositionBorder</c>); defaults to white.</summary>
     public ThemeColor CompositionBorder { get; init; } = ThemeColor.Parse("#FFFFFF");

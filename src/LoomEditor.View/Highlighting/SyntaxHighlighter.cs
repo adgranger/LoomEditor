@@ -30,6 +30,7 @@ internal sealed class SyntaxHighlighter : IDisposable
     private TMGrammarFactory? _grammarFactory;
     private TextMateTokenizationFactory? _tokenization;
     private EditorTheme _theme;
+    private bool _workerStopped;
 
     /// <summary>Creates the highlighter of <paramref name="model"/>, with the Dark Modern theme.</summary>
     /// <param name="model">A model created with <paramref name="registry"/> and the codec of <paramref name="languages"/>.</param>
@@ -95,6 +96,26 @@ internal sealed class SyntaxHighlighter : IDisposable
         _grammarFactory?.SetTheme(rawTheme, textColorMap);
         _threaded?.AcceptTheme(rawTheme, textColorMap);
         _registry.SetColorMap(ThemeToTextMate.ToColorMap(theme));
+    }
+
+    /// <summary>Stops the background worker (the control is unloaded); the visible lines are still tokenized on demand.</summary>
+    public void StopWorker()
+    {
+        if (_threaded is not null)
+        {
+            _threaded.SetGrammarDefinitions(_languages.CreateGrammarDefinitions());
+            _workerStopped = true;
+        }
+    }
+
+    /// <summary>Starts the worker again after <see cref="StopWorker"/> (the control is loaded again).</summary>
+    public void StartWorker()
+    {
+        if (_workerStopped)
+        {
+            _workerStopped = false;
+            _model.Tokenization.ResetTokenization();
+        }
     }
 
     /// <summary>Stops the worker and disposes the grammar factory.</summary>
