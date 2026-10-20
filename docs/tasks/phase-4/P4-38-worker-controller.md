@@ -1,6 +1,6 @@
 # P4-38 — Background tokenization (3/3): the UI side (`TextMateWorkerTokenizerController`) and `IUiDispatcher`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-37
 - **Size:** L — split: `TextMateWorkerTokenizerController.cs` (+ `.Rebase.cs`), `ThreadedBackgroundTokenizerFactory.cs`
 
@@ -42,19 +42,19 @@ tokens, and marks background tokenization as finished.
 
 No upstream unit tests. New:
 
-- [ ] `Results_ForCurrentVersion_AreStored`
-- [ ] `Results_AfterAnEdit_AreRebased` (edit lines above the batch before running the dispatcher)
-- [ ] `Results_ForEditedLines_AreDropped`
-- [ ] `Results_ForDisposedController_AreIgnored`
-- [ ] `LastLineReceived_MarksBackgroundTokenizationFinished`
-- [ ] `TooLargeForSyncing_UsesNoWorker`
+- [x] `Results_ForCurrentVersion_AreStored`
+- [x] `Results_AfterAnEdit_AreRebased` (edit lines above the batch before running the dispatcher)
+- [x] `Results_ForEditedLines_AreDropped`
+- [x] `Results_ForDisposedController_AreIgnored`
+- [x] `LastLineReceived_MarksBackgroundTokenizationFinished`
+- [x] `TooLargeForSyncing_UsesNoWorker`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

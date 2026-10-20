@@ -56,6 +56,19 @@ public sealed partial class TextModel
     /// </summary>
     internal bool IsTooLargeForTokenization { get; private set; }
 
+    /// <summary>The first view was attached or the last one detached (Monaco: <c>onDidChangeAttached</c>).</summary>
+    internal event EventHandler? AttachedChanged;
+
+    /// <summary>
+    /// Models bigger than this (50 MB) are not mirrored to the tokenization worker (Monaco: <c>_MODEL_SYNC_LIMIT</c>,
+    /// which is also a static that tests lower). A model that is too large for syncing falls back to the default
+    /// background tokenizer.
+    /// </summary>
+    internal static int ModelSyncLimit { get; set; } = 50 * 1024 * 1024;
+
+    /// <summary>Whether the model was too large to sync at creation (Monaco: <c>isTooLargeForSyncing</c>).</summary>
+    internal bool IsTooLargeForSyncing { get; private set; }
+
     /// <summary>Whether at least one view is attached (Monaco: <c>isAttachedToEditor</c>).</summary>
     internal bool IsAttachedToEditor => _attachedEditorCount > 0;
 
@@ -66,6 +79,7 @@ public sealed partial class TextModel
         if (_attachedEditorCount == 1)
         {
             _tokenization.HandleDidChangeAttached();
+            AttachedChanged?.Invoke(this, EventArgs.Empty);
         }
 
         return _attachedViews.AttachView(DetachView);
@@ -78,6 +92,7 @@ public sealed partial class TextModel
         if (_attachedEditorCount == 0)
         {
             _tokenization.HandleDidChangeAttached();
+            AttachedChanged?.Invoke(this, EventArgs.Empty);
         }
 
         _attachedViews.DetachView(view);
@@ -87,6 +102,7 @@ public sealed partial class TextModel
     {
         // Make a decision here and permanently respect it: a model too large at creation is never tokenized.
         IsTooLargeForTokenization = _buffer.GetLength() > LargeFileSizeThreshold || _buffer.GetLineCount() > LargeFileLineCountThreshold;
+        IsTooLargeForSyncing = _buffer.GetLength() > ModelSyncLimit;
         _tokenization = new TokenizationTextModelPart(this, LanguageIdCodec.PlainTextLanguageId, registry, languageIdCodec, scheduler, _attachedViews);
     }
 
