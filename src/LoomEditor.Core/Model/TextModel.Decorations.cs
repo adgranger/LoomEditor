@@ -82,11 +82,13 @@ public sealed partial class TextModel
         var accessor = new ChangeAccessor(this, ownerId);
         try
         {
+            BeginDecorationsDeferredEmit();
             return callback(accessor);
         }
         finally
         {
             accessor.Invalidate();
+            EndDecorationsDeferredEmit();
         }
     }
 
@@ -119,10 +121,12 @@ public sealed partial class TextModel
         {
             _deltaDecorationCallCnt++;
             Guard.Assert(_deltaDecorationCallCnt <= 1, "Invoking DeltaDecorations recursively could lead to leaking decorations.");
+            BeginDecorationsDeferredEmit();
             return DeltaDecorationsImpl(ownerId, oldDecorationIds, newDecorations);
         }
         finally
         {
+            EndDecorationsDeferredEmit();
             _deltaDecorationCallCnt--;
         }
     }
@@ -193,7 +197,7 @@ public sealed partial class TextModel
         return _decorationsTree.GetAllInInterval(this, startOffset, endOffset, ownerId, filterOutValidation, filterFontDecorations, onlyMarginDecorations: false);
     }
 
-    // Monaco: _changeDecorationImpl, without the line-affected records and the event (P5-04).
+    // Monaco: _changeDecorationImpl, without the line-affected records.
     private void ChangeDecorationImpl(string decorationId, Range newRange)
     {
         if (!_decorations.TryGetValue(decorationId, out IntervalNode? node))
@@ -208,6 +212,7 @@ public sealed partial class TextModel
         _decorationsTree.Delete(node);
         node.Reset(_versionId, startOffset, endOffset, range);
         _decorationsTree.Insert(node);
+        CheckAffectedAndFireDecorations(node.Options);
     }
 
     // Monaco: _changeDecorationOptionsImpl. Monaco moves the node between its trees when it enters or leaves the
@@ -216,12 +221,27 @@ public sealed partial class TextModel
     {
         if (_decorations.TryGetValue(decorationId, out IntervalNode? node))
         {
+            CheckAffectedAndFireDecorations(node.Options);
+            CheckAffectedAndFireDecorations(options);
             node.SetOptions(options);
         }
     }
 
-    // Monaco: _deltaDecorationsImpl, without the line-affected records. suppressEvents is for the events of P5-04.
+    // Monaco: _deltaDecorationsImpl (the deferral part), without the line-affected records.
     private string[] DeltaDecorationsImpl(int ownerId, IReadOnlyList<string> oldDecorationIds, IReadOnlyList<ModelDeltaDecoration> newDecorations, bool suppressEvents = false)
+    {
+        BeginDecorationsDeferredEmit();
+        try
+        {
+            return DeltaDecorationsCore(ownerId, oldDecorationIds, newDecorations, suppressEvents);
+        }
+        finally
+        {
+            EndDecorationsDeferredEmit();
+        }
+    }
+
+    private string[] DeltaDecorationsCore(int ownerId, IReadOnlyList<string> oldDecorationIds, IReadOnlyList<ModelDeltaDecoration> newDecorations, bool suppressEvents)
     {
         int versionId = _versionId;
 
@@ -249,6 +269,11 @@ public sealed partial class TextModel
                 if (node is not null)
                 {
                     _decorationsTree.Delete(node);
+
+                    if (!suppressEvents)
+                    {
+                        CheckAffectedAndFireDecorations(node.Options);
+                    }
                 }
             }
 
@@ -271,6 +296,10 @@ public sealed partial class TextModel
                 node.OwnerId = ownerId;
                 node.Reset(versionId, startOffset, endOffset, range);
                 node.SetOptions(newDecoration.Options);
+                if (!suppressEvents)
+                {
+                    CheckAffectedAndFireDecorations(newDecoration.Options);
+                }
 
                 _decorationsTree.Insert(node);
 

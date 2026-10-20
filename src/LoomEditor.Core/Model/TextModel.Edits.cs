@@ -130,8 +130,28 @@ public sealed partial class TextModel
         }
     }
 
-    // Monaco: applyEdits + _doApplyEdits (with tracked ranges only: no other decorations, no edit sources)
+    // Monaco: applyEdits with forceMoveMarkers (the edits carry their flags). Not named ApplyEdits: `ApplyEdits([])` would be ambiguous.
+    internal void ApplyIdentifiedEdits(IReadOnlyList<IdentifiedEditOperation> edits) => DoApplyEdits(edits, computeUndoEdits: false);
+
+    // Monaco: applyEdits. The decorations event is raised once per call, after the content event: the decorations
+    // deferral is outside the delivery of the content event, like Monaco's order.
     private IReadOnlyList<ValidEditOperation> DoApplyEdits(
+        IReadOnlyList<IdentifiedEditOperation> edits,
+        bool computeUndoEdits)
+    {
+        try
+        {
+            BeginDecorationsDeferredEmit();
+            return DoApplyEditsCore(edits, computeUndoEdits);
+        }
+        finally
+        {
+            EndDecorationsDeferredEmit();
+        }
+    }
+
+    // Monaco: _doApplyEdits (no edit sources)
+    private IReadOnlyList<ValidEditOperation> DoApplyEditsCore(
         IReadOnlyList<IdentifiedEditOperation> edits,
         bool computeUndoEdits)
     {
@@ -150,7 +170,7 @@ public sealed partial class TextModel
 
         if (result.Changes.Count != 0)
         {
-            // We do a first pass to update the tracked ranges, before the content change events are delivered
+            // We do a first pass to update the decorations, before the content change events are delivered
             foreach (InternalModelContentChange change in result.Changes)
             {
                 _decorationsTree.AcceptReplace(
@@ -163,6 +183,7 @@ public sealed partial class TextModel
             for (int i = 0; i < changes.Length; i++)
             {
                 changes[i] = result.Changes[i].Change;
+                FireDecorationsChanged();
             }
 
             Deliver(
