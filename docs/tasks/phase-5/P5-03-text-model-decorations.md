@@ -1,6 +1,6 @@
 # P5-03 — `TextModel` decorations: `DeltaDecorations`, `ChangeDecorations`, queries
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-02
 - **Size:** M
 
@@ -81,7 +81,7 @@ File: `src/vs/editor/common/model/textModel.ts` unless said otherwise.
 
 Port (`modelDecorations.test.ts`; `createTextModel` → `new TextModel(text)`; option literals → `ModelDecorationOptions.CreateDynamic(new() { Description = "test", ClassName = … })`):
 
-- [ ] `Editor Model - Model Decorations` (24): `single character decoration`, `line decoration`, `full line decoration`,
+- [x] `Editor Model - Model Decorations` (24): `single character decoration`, `line decoration`, `full line decoration`,
   `multiple line decoration`, `decoration gets removed`, `decorations get removed`, `decoration range can be changed`,
   `decorations are updated when inserting one line text before it`, `decorations are updated when inserting one line text before it 2`,
   `decorations are updated when inserting multiple lines text before it`, `decorations change when inserting text after them`,
@@ -91,25 +91,25 @@ Port (`modelDecorations.test.ts`; `createTextModel` → `new TextModel(text)`; o
   `decorations are updated when deleting multiple lines text before it 2`, `decorations are updated when deleting text inside`,
   `decorations are updated when deleting text inside 2`, `decorations are updated when deleting multiple lines text`,
   `decorations are updated when changing EOL`, `an apparently simple edit`, `removeAllDecorationsWithOwnerId works`
-- [ ] `deltaDecorations` (7): `result respects input`, `deltaDecorations 1`, `deltaDecorations 2`, `deltaDecorations 3`,
+- [x] `deltaDecorations` (7): `result respects input`, `deltaDecorations 1`, `deltaDecorations 2`, `deltaDecorations 3`,
   `model doesn't get confused with individual tracked ranges`, `issue #16922: Clicking on link doesn't seem to do anything`,
   `issue #41492: URL highlighting persists after pasting over url`
 - Not ported: `injected text width must be finite and non-negative` (injected text, ADR 0009 decision 4),
   `removeAllDecorationsWithOwnerId can be called after model dispose` (no `TextModel.Dispose`),
   `issue #4317: editor.setDecorations doesn't update the hover message` (`hoverMessage` not ported). The 5 event tests
   and the `Decorations and editing` suite are P5-04.
-- [ ] New: `ChangeDecorations_AccessorUsedAfterTheCallback_Throws`
-- [ ] New: `DeltaDecorations_UnknownOldId_IsSkipped`
-- [ ] New: `GetDecorationsInRange_OwnerFilter_SeesOwnAndOwnerZeroDecorations` (owners 0, 1, 2; query with owner 1)
-- [ ] New: `SetValue_RemovesAllDecorations`
+- [x] New: `ChangeDecorations_AccessorUsedAfterTheCallback_Throws`
+- [x] New: `DeltaDecorations_UnknownOldId_IsSkipped`
+- [x] New: `GetDecorationsInRange_OwnerFilter_SeesOwnAndOwnerZeroDecorations` (owners 0, 1, 2; query with owner 1)
+- [x] New: `SetValue_RemovesAllDecorations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `textModel.ts` mentions decorations (P5-03); "Behavior differences": one decorations
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `textModel.ts` mentions decorations (P5-03); "Behavior differences": one decorations
       tree (no overview-ruler or injected-text tree), callback exceptions propagate
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

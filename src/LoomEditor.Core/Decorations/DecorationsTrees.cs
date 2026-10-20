@@ -11,9 +11,9 @@ namespace LoomEditor.Core.Decorations;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Monaco: <c>DecorationsTrees</c>. Monaco has three trees (normal, overview ruler, injected text); phase 3 only
-/// needs the first one because tracked ranges are neither in the overview ruler nor injected text. The other two
-/// come with decorations.
+/// Monaco: <c>DecorationsTrees</c>. Monaco has three trees (normal, overview ruler, injected text); LoomEditor only
+/// needs the first one: the overview ruler and injected text are not ported (ADR 0009, decision 3). The other two
+/// trees do not exist.
 /// </para>
 /// <para>Threading: not thread-safe; owned by one text model.</para>
 /// </remarks>
@@ -36,6 +36,43 @@ internal sealed class DecorationsTrees
 
         node.Range ??= host.GetRangeAt((int)node.CachedAbsoluteStart, (int)node.CachedAbsoluteEnd);
         return node.Range.Value;
+    }
+
+    /// <summary>The decorations that intersect [<paramref name="start"/>, <paramref name="end"/>] (Monaco: <c>getAllInInterval</c>).</summary>
+    public List<ModelDecoration> GetAllInInterval(
+        TextModel host,
+        long start,
+        long end,
+        int filterOwnerId,
+        bool filterOutValidation,
+        bool filterFontDecorations,
+        bool onlyMarginDecorations)
+    {
+        List<IntervalNode> nodes = _tree.IntervalSearch(start, end, filterOwnerId, filterOutValidation, filterFontDecorations, host.VersionId, onlyMarginDecorations);
+        return ToDecorations(host, nodes);
+    }
+
+    /// <summary>All the decorations that pass the filters (Monaco: <c>getAll</c>, without <c>overviewRulerOnly</c>).</summary>
+    public List<ModelDecoration> GetAll(TextModel host, int filterOwnerId, bool filterOutValidation, bool filterFontDecorations, bool onlyMarginDecorations)
+    {
+        List<IntervalNode> nodes = _tree.Search(filterOwnerId, filterOutValidation, filterFontDecorations, host.VersionId, onlyMarginDecorations);
+        return ToDecorations(host, nodes);
+    }
+
+    /// <summary>The nodes of an owner (all nodes for owner 0); the cached offsets are not set.</summary>
+    public List<IntervalNode> CollectNodesFromOwner(int ownerId) => _tree.CollectNodesFromOwner(ownerId);
+
+    // Monaco: _ensureNodesHaveRanges; the result holds snapshots, not the nodes themselves.
+    private static List<ModelDecoration> ToDecorations(TextModel host, List<IntervalNode> nodes)
+    {
+        var result = new List<ModelDecoration>(nodes.Count);
+        foreach (IntervalNode node in nodes)
+        {
+            node.Range ??= host.GetRangeAt((int)node.CachedAbsoluteStart, (int)node.CachedAbsoluteEnd);
+            result.Add(new ModelDecoration(node.Id, node.OwnerId, node.Range.Value, node.Options));
+        }
+
+        return result;
     }
 
     public void AcceptReplace(long offset, long length, long textLength, bool forceMoveMarkers) =>
