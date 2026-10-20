@@ -1,6 +1,6 @@
 # P5-14 — `LanguageConfigurationRegistry` and `ResolvedLanguageConfiguration`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-13
 - **Size:** M
 
@@ -78,8 +78,8 @@ indentation rules, folding rules, electric characters and the brackets configura
 
 ## Tests
 
-- [ ] Port (`languageConfiguration.test.ts`) `StandardAutoClosingPairConditional`: `language configurations priorities`
-- [ ] New: `GetLanguageConfiguration_Plaintext_HasTheDefaultBracketsAndSurroundingPairs`,
+- [x] Port (`languageConfiguration.test.ts`) `StandardAutoClosingPairConditional`: `language configurations priorities`
+- [x] New: `GetLanguageConfiguration_Plaintext_HasTheDefaultBracketsAndSurroundingPairs`,
   `GetLanguageConfiguration_UnknownLanguage_IsEmpty`, `Register_RaisesChanged_AndRecomputes`,
   `DisposeRegistration_RaisesChanged_AndRestoresTheOtherEntry`, `Combine_EmptyAutoCloseBefore_FallsBack`,
   `Resolved_IndentationRulesWithoutBrackets_GetTheDefaultBrackets`, `Resolved_LineCommentObject_KeepsNoIndent`,
@@ -88,10 +88,10 @@ indentation rules, folding rules, electric characters and the brackets configura
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`languageConfigurationRegistry.ts`, `wordHelper.ts` partly); "Behavior differences": the settings-based bracket customization is not ported
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`languageConfigurationRegistry.ts`, `wordHelper.ts` partly); "Behavior differences": the settings-based bracket customization is not ported
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
