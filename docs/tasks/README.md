@@ -423,7 +423,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-25](phase-5/P5-25-bracket-tree-concat-and-node-reader.md) | Bracket pair tree (4/9): `concat23Trees` and `NodeReader` | P5-24 | done |
 | [P5-26](phase-5/P5-26-bracket-tree-edit-mapping.md) | Bracket pair tree (5/9): `TextEditInfo`, `BeforeEditPositionMapper`, `combineTextEditInfos` | P5-25 | done |
 | [P5-27](phase-5/P5-27-bracket-tree-bracket-tokens.md) | Bracket pair tree (6/9): bracket tokens per language | P5-26 | done |
-| [P5-28](phase-5/P5-28-bracket-tree-tokenizers.md) | Bracket pair tree (7/9): `TextBufferTokenizer` and `FastTokenizer` | P5-27 | todo |
+| [P5-28](phase-5/P5-28-bracket-tree-tokenizers.md) | Bracket pair tree (7/9): `TextBufferTokenizer` and `FastTokenizer` | P5-27 | done |
 | [P5-29](phase-5/P5-29-bracket-tree-parser-and-result-types.md) | Bracket pair tree (8/9): parser, result types, `CallbackIterable` | P5-28 | todo |
 | [P5-30](phase-5/P5-30-bracket-pairs-tree.md) | Bracket pair tree (9/9): `BracketPairsTree` | P5-29 | todo |
 | [P5-31](phase-5/P5-31-text-model-bracket-pairs-part.md) | `TextModel.BracketPairs`: the bracket pairs part (tree path) | P5-30 | todo |
