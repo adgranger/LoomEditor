@@ -243,7 +243,7 @@ public class BracketPairsTextModelPartTests
         Assert.Empty(Pairs(test));
         Assert.Equal(1, changed);
         Assert.Empty(part.GetBracketsInRange(model.FullModelRange).ToArray());
-        Assert.Null(part.FindPrevBracket(new Position(1, 5)));
+        Assert.Equal(new Range(1, 3, 1, 4), part.FindPrevBracket(new Position(1, 5))?.Range);
         Assert.Equal(((Range, Range)?)(new Range(1, 1, 1, 2), new Range(1, 7, 1, 8)), part.MatchBracket(new Position(1, 1)));
         Assert.Equal(1, changed);
 

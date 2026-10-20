@@ -428,7 +428,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-30](phase-5/P5-30-bracket-pairs-tree.md) | Bracket pair tree (9/9): `BracketPairsTree` | P5-29 | done |
 | [P5-31](phase-5/P5-31-text-model-bracket-pairs-part.md) | `TextModel.BracketPairs`: the bracket pairs part (tree path) | P5-30 | done |
 | [P5-32](phase-5/P5-32-bracket-pairs-legacy-match.md) | Bracket pairs: legacy `MatchBracket` and `FindMatchingBracketUp` (no tree) | P5-31 | done |
-| [P5-33](phase-5/P5-33-bracket-pairs-legacy-find.md) | Bracket pairs: legacy `FindPrevBracket`, `FindNextBracket`, `FindEnclosingBrackets` (no tree) | P5-32 | todo |
+| [P5-33](phase-5/P5-33-bracket-pairs-legacy-find.md) | Bracket pairs: legacy `FindPrevBracket`, `FindNextBracket`, `FindEnclosingBrackets` (no tree) | P5-32 | done |
 | [P5-34](phase-5/P5-34-bracket-pair-colorization.md) | Bracket pair colorization | P5-33 | todo |
 | [P5-35](phase-5/P5-35-bracket-matching-feature.md) | BracketMatching feature: highlight, jump, select, remove | P5-34 | todo |
 | [P5-36](phase-5/P5-36-double-click-selects-block.md) | Double-click inside brackets or quotes selects their content | P5-35 | todo |

@@ -19,9 +19,8 @@ namespace LoomEditor.Core.Model.BracketPairs;
 /// <para>
 /// Monaco uses the tree whenever the text is at most <see cref="MaxSupportedDocumentLength"/> characters long; it does not
 /// tie the tree to colorization. For larger documents <see cref="FindMatchingBracketUp"/> and <see cref="MatchBracket"/> use the
-/// legacy regex search over the syntax tokens (<c>BracketPairsTextModelPart.Legacy.cs</c>). The legacy branches of
-/// <see cref="FindPrevBracket"/>, <see cref="FindNextBracket"/> and <see cref="FindEnclosingBrackets"/> are ported by P5-33:
-/// until then they return <see langword="null"/>.
+/// legacy regex search over the syntax tokens (<c>BracketPairsTextModelPart.Legacy*.cs</c>), as do <see cref="FindPrevBracket"/>,
+/// <see cref="FindNextBracket"/> and <see cref="FindEnclosingBrackets"/>.
 /// </para>
 /// <para>
 /// Differences from Monaco: <c>MutableDisposable&lt;IReference&lt;BracketPairsTree&gt;&gt;</c> and <c>createDisposableRef</c>
@@ -285,8 +284,7 @@ internal sealed partial class BracketPairsTextModelPart
             return _bracketPairsTree?.GetFirstBracketBefore(position);
         }
 
-        // Fallback to the old bracket matching code: ported by P5-33.
-        return null;
+        return FindPrevBracketLegacy(position);
     }
 
     /// <summary>The first bracket that starts after <paramref name="position"/>, or <see langword="null"/>.</summary>
@@ -300,13 +298,12 @@ internal sealed partial class BracketPairsTextModelPart
             return _bracketPairsTree?.GetFirstBracketAfter(position);
         }
 
-        // Fallback to the old bracket matching code: ported by P5-33.
-        return null;
+        return FindNextBracketLegacy(position);
     }
 
     /// <summary>
     /// The ranges of the opening and closing brackets (in this order) of the innermost closed pair that strictly contains
-    /// <paramref name="position"/>, or <see langword="null"/>.
+    /// <paramref name="position"/>, or <see langword="null"/>. As in Monaco, the legacy search (large documents) returns the closing bracket first.
     /// </summary>
     /// <param name="position">The position to search from.</param>
     /// <param name="maxDuration">The time budget of the legacy search; <see langword="null"/> for none.</param>
@@ -322,8 +319,6 @@ internal sealed partial class BracketPairsTextModelPart
             return bracketPair is null ? null : (bracketPair.OpeningBracketRange, bracketPair.ClosingBracketRange!.Value);
         }
 
-        // Fallback to the old bracket matching code: ported by P5-33.
-        _ = maxDuration;
-        return null;
+        return FindEnclosingBracketsLegacy(position, maxDuration);
     }
 }
