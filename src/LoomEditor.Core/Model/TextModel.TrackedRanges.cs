@@ -17,10 +17,10 @@ public sealed partial class TextModel
     // Monaco: TRACKED_RANGE_OPTIONS (indexed by stickiness)
     private static readonly ModelDecorationOptions[] TrackedRangeOptions =
     [
-        new() { Stickiness = TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges },
-        new() { Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges },
-        new() { Stickiness = TrackedRangeStickiness.GrowsOnlyWhenTypingBefore },
-        new() { Stickiness = TrackedRangeStickiness.GrowsOnlyWhenTypingAfter },
+        ModelDecorationOptions.Register(new ModelDecorationOptionsData { Description = "tracked-range-always-grows-when-typing-at-edges", Stickiness = TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges }),
+        ModelDecorationOptions.Register(new ModelDecorationOptionsData { Description = "tracked-range-never-grows-when-typing-at-edges", Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges }),
+        ModelDecorationOptions.Register(new ModelDecorationOptionsData { Description = "tracked-range-grows-only-when-typing-before", Stickiness = TrackedRangeStickiness.GrowsOnlyWhenTypingBefore }),
+        ModelDecorationOptions.Register(new ModelDecorationOptionsData { Description = "tracked-range-grows-only-when-typing-after", Stickiness = TrackedRangeStickiness.GrowsOnlyWhenTypingAfter }),
     ];
 
     private readonly int _instanceId = Interlocked.Increment(ref _nextInstanceId);

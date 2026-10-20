@@ -1,6 +1,6 @@
 # P5-02 — `ModelDecorationOptions`: Monaco's options, `Register` / `CreateDynamic`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-01
 - **Size:** S
 
@@ -67,19 +67,19 @@ the tracked-range options. ADR 0009, decisions 3 and 4.
 
 ## Tests
 
-- [ ] New: `Register_Defaults_AreMonacosDefaults` (stickiness `AlwaysGrowsWhenTypingAtEdges`, z-index 0, flags false,
+- [x] New: `Register_Defaults_AreMonacosDefaults` (stickiness `AlwaysGrowsWhenTypingAtEdges`, z-index 0, flags false,
   class names null, `AffectsFont` false)
-- [ ] New: `Register_ClassNames_AreCleaned` (`"a.b c#d"` → `"a b c d"` in each of the eight class-name properties)
-- [ ] New: `CleanClassName_KeepsLettersDigitsDashAndUnderscore` (`"Find-Match_2"` unchanged; `"é"` → `" "`)
-- [ ] New: `Empty_HasTheDescriptionEmpty`
-- [ ] New: `CreateDynamic_ReturnsANewInstanceEachTime`
+- [x] New: `Register_ClassNames_AreCleaned` (`"a.b c#d"` → `"a b c d"` in each of the eight class-name properties)
+- [x] New: `CleanClassName_KeepsLettersDigitsDashAndUnderscore` (`"Find-Match_2"` unchanged; `"é"` → `" "`)
+- [x] New: `Empty_HasTheDescriptionEmpty`
+- [x] New: `CreateDynamic_ReturnsANewInstanceEachTime`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (tracked-range tests of phase 3 untouched)
-- [ ] `docs/PORTING.md` map updated (`textModel.ts` `ModelDecorationOptions`, `model.ts` decoration types)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (tracked-range tests of phase 3 untouched)
+- [x] `docs/PORTING.md` map updated (`textModel.ts` `ModelDecorationOptions`, `model.ts` decoration types)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
