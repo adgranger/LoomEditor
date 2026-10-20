@@ -12,6 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\LoomEditor.TextMate\LoomEditor.TextMate.csproj" />
     <ProjectReference Include="..\..\src\LoomEditor.Themes\LoomEditor.Themes.csproj" />
+    <!-- The golden tests go through the product path of the editor: ThemeToTextMate is in View. -->
+    <ProjectReference Include="..\..\src\LoomEditor.View\LoomEditor.View.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +24,7 @@
     <!-- vscode-textmate test cases (MIT), copied byte for byte; found at run time by TestHelpers/TestCaseFiles.cs. -->
     <None Update="TestCases\**" CopyToOutputDirectory="PreserveNewest" />
     <!-- Golden samples are data, not code (sample.cs would be compiled); P4-48 finds them next to the test assembly. -->
-    <Compile Remove="Golden\**" />
-    <None Include="Golden\**" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Remove="Golden\*\**" />
+    <None Include="Golden\*\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
