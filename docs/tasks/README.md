@@ -361,7 +361,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P4-47](phase-4/P4-47-golden-generator.md) | Golden tests (1/2): the generator (real vscode-textmate) and the samples | P4-46 | done |
-| [P4-48](phase-4/P4-48-golden-tests.md) | Golden tests (2/2): ten languages, two themes | P4-47 | todo |
+| [P4-48](phase-4/P4-48-golden-tests.md) | Golden tests (2/2): ten languages, two themes | P4-47 | done |
 | [P4-49](phase-4/P4-49-tokenization-benchmarks.md) | Tokenization benchmarks and reference numbers | P4-48 | todo |
 | [P4-50](phase-4/P4-50-close-phase-4.md) | Close phase 4 | all | todo |
 

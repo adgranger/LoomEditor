@@ -110,6 +110,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | TextMate themes (vscode-textmate) | No font attributes: `fontFamily`, `fontSize` and `lineHeight` of theme settings are ignored; `StyleAttributes` and `ParsedThemeRule` have no font fields; `FontAttribute`, `FontInfo`, `LineFonts` are not ported, nor the tests `'Fonts are correctly set'` and `'… 2'` | ADR 0008, decision 3 |
 | Tokenization registry (`tokenizationRegistry.ts`) | An instance per editor (ADR 0008, decision 4), not generic, no lazy factories (`registerFactory`, `getOrCreate`, `isResolved`); the color map is `IReadOnlyList<uint>` (ARGB) instead of `Color[]`; `onDidChange` is the `Changed` event; no CSS class names or inline styles from metadata (`getClassNameFromMetadata`, `getInlineStyleFromMetadata`) | Core does not know the theme types; WinUI draws, it has no CSS |
 | `tabSize` | `LoomEditor.TabSize` is a dependency property (default 4, Monaco's `EDITOR_MODEL_DEFAULTS.tabSize`); a value < 1 throws `ArgumentOutOfRangeException` and the old value is kept | WinUI property system; fail fast |
+| YAML grammars (P4-48) | The class `[\x{85}[^...]]` (nested negated class in a union) is written `(?:[^...]|\x{85})` in `yaml-1.2` and `yaml-embedded` | Oniguruma 6.9.10 (ours) matches `-` and space in the nested form, 6.9.8 (vscode-oniguruma) does not, which broke block sequences; the rewritten class has the 6.9.8 meaning on both. We stay on 6.9.10 (maintainer decision). Re-apply it when updating these grammars |
 
 ## Map: Monaco → LoomEditor
 
