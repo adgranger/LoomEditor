@@ -1,6 +1,6 @@
 # P5-09 — Drawing inline decorations, after content and gutter decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-08
 - **Size:** M
 
@@ -66,17 +66,17 @@ and the decorations of the gutter (`marginClassName` over the whole margin, `lin
 
 ## Tests
 
-- [ ] Port (`lineDecorations.test.ts` › `Editor ViewLayout - ViewLineParts`): `issue #3661: Link decoration bleeds to next line when wrapping`.
+- [x] Port (`lineDecorations.test.ts` › `Editor ViewLayout - ViewLineParts`): `issue #3661: Link decoration bleeds to next line when wrapping`.
   Not ported: `Bug 9827:Overlapping inline decorations can cause wrong inline class to be applied`,
   `issue #3462: no whitespace shown at the end of a decorated line`, `empty width only decorations are kept, empty regular ones are not`,
   `width only decorations come before other decorations at the same position`, `width only decorations are not turned into pseudo elements`,
   `ViewLineParts` (normalizer, injected text), `issue #37401: Allow both before and after decorations on empty line`
   (a range with column 0 cannot be built in C#).
-- [ ] New (`LineDecorationTests`): `Filter_DecorationOnOtherLine_IsDropped`, `Filter_EmptyRegular_IsDropped_EmptyAfter_IsKept`,
+- [x] New (`LineDecorationTests`): `Filter_DecorationOnOtherLine_IsDropped`, `Filter_EmptyRegular_IsDropped_EmptyAfter_IsKept`,
   `Filter_MultiLine_UsesMinAndMaxColumnOnInnerLines`
-- [ ] New (`LineStyleTests`): `Create_Override_SplitsTheTokenRun`, `Create_OverlappingOverrides_LastWins`,
+- [x] New (`LineStyleTests`): `Create_Override_SplitsTheTokenRun`, `Create_OverlappingOverrides_LastWins`,
   `Create_OverridesPastTheLength_AreClamped`, `Create_OverrideOnPlainLine_GivesRuns`
-- [ ] New (`TextViewRendererDecorationsTests`): `Render_InlineClassNameWithForeground_ColorsTheText` (`findMatchInline`
+- [x] New (`TextViewRendererDecorationsTests`): `Render_InlineClassNameWithForeground_ColorsTheText` (`findMatchInline`
   with a theme loaded by `EditorTheme.Load` that sets `editor.findMatchForeground`: its default is `null`),
   `Render_InlineClassNameWithoutRow_KeepsTokenColors`, `Render_AfterContent_DrawnAfterTheLineEnd`
   (`inline-folded` on a whole line: a `⋯` layout at the expected x and color),
@@ -87,12 +87,12 @@ and the decorations of the gutter (`marginClassName` over the whole margin, `lin
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`lineDecorations.ts` subset, `linesDecorations.ts`, `marginDecorations.ts`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`lineDecorations.ts` subset, `linesDecorations.ts`, `marginDecorations.ts`,
       `DedupOverlay`); "Behavior differences": last inline decoration wins, after content takes no room
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] No manual check yet (first visual check: bracket matching in step C, folding in step G)
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] No manual check yet (first visual check: bracket matching in step C, folding in step G)
 
 ## Out of scope
 

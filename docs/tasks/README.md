@@ -394,7 +394,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-06](phase-5/P5-06-editor-decorations-collection.md) | Editor id and `EditorDecorationsCollection` | P5-05 | done |
 | [P5-07](phase-5/P5-07-view-model-decorations.md) | View model decorations: viewport decorations, inline decorations, decorations-changed view event | P5-06 | done |
 | [P5-08](phase-5/P5-08-decoration-styles-and-backgrounds.md) | `DecorationStyles` and drawing decoration backgrounds and borders | P5-07 | done |
-| [P5-09](phase-5/P5-09-inline-and-gutter-decorations.md) | Drawing inline decorations, after content and gutter decorations | P5-08 | todo |
+| [P5-09](phase-5/P5-09-inline-and-gutter-decorations.md) | Drawing inline decorations, after content and gutter decorations | P5-08 | done |
 
 ### Step B — Language configuration
 

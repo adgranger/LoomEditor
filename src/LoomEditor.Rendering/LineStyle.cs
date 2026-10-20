@@ -14,6 +14,13 @@ namespace LoomEditor.Rendering;
 /// <remarks>Threading: immutable.</remarks>
 internal readonly record struct StyleRun(int Start, int Length, uint ForegroundArgb, FontStyle FontStyle);
 
+/// <summary>A foreground color given to a stretch of a line by an inline decoration.</summary>
+/// <param name="Start">The UTF-16 offset of the first character.</param>
+/// <param name="End">The offset after the last character (exclusive).</param>
+/// <param name="ForegroundArgb">The text color, <c>0xAARRGGBB</c>.</param>
+/// <remarks>Threading: immutable.</remarks>
+internal readonly record struct StyleOverride(int Start, int End, uint ForegroundArgb);
+
 /// <summary>
 /// The colors and font styles of one line: the runs that its tokens give, with neighbours of the same style merged
 /// (fewer DirectWrite ranges). A line drawn with the default foreground and no font style has no runs
@@ -53,7 +60,14 @@ internal sealed class LineStyle : IEquatable<LineStyle>
     /// <param name="length">The number of characters that are laid out.</param>
     /// <param name="colorMap">The ARGB colors by color id, or <see langword="null"/> when no theme is set.</param>
     /// <param name="defaultForeground">The ARGB of the default foreground (color id 1, or unknown ids).</param>
-    public static LineStyle Create(IViewLineTokens tokens, int length, IReadOnlyList<uint>? colorMap, uint defaultForeground)
+    /// <param name="overrides">
+    /// Foreground colors of inline decorations, applied in list order: a later one wins on the characters it covers
+    /// (behavior difference: Monaco splits the line with <c>LineDecorationsNormalizer</c> and lets the CSS cascade
+    /// pick the color of overlapping classes). The font style of the tokens is kept.
+    /// </param>
+    public static LineStyle Create(
+        IViewLineTokens tokens, int length, IReadOnlyList<uint>? colorMap, uint defaultForeground,
+        IReadOnlyList<StyleOverride>? overrides = null)
     {
         ArgumentNullException.ThrowIfNull(tokens);
 
@@ -75,22 +89,66 @@ internal sealed class LineStyle : IEquatable<LineStyle>
                 | (presentation.Bold ? FontStyle.Bold : 0)
                 | (presentation.Underline ? FontStyle.Underline : 0)
                 | (presentation.Strikethrough ? FontStyle.Strikethrough : 0);
-
-            if (runs.Count > 0 && runs[^1] is { } last && last.ForegroundArgb == foreground && last.FontStyle == fontStyle)
-            {
-                runs[^1] = last with { Length = last.Length + (end - start) };
-            }
-            else
-            {
-                runs.Add(new StyleRun(start, end - start, foreground, fontStyle));
-            }
-
+            runs.Add(new StyleRun(start, end - start, foreground, fontStyle));
             start = end;
         }
 
-        return runs.Count == 0 || (runs.Count == 1 && runs[0].ForegroundArgb == defaultForeground && runs[0].FontStyle == FontStyle.None)
+        foreach (StyleOverride styleOverride in overrides ?? [])
+        {
+            runs = ApplyOverride(runs, Math.Max(0, styleOverride.Start), Math.Min(styleOverride.End, length), styleOverride.ForegroundArgb);
+        }
+
+        var merged = new List<StyleRun>(runs.Count);
+        foreach (StyleRun run in runs)
+        {
+            if (merged.Count > 0 && merged[^1] is { } last && last.ForegroundArgb == run.ForegroundArgb && last.FontStyle == run.FontStyle)
+            {
+                merged[^1] = last with { Length = last.Length + run.Length };
+            }
+            else
+            {
+                merged.Add(run);
+            }
+        }
+
+        return merged.Count == 0 || (merged.Count == 1 && merged[0].ForegroundArgb == defaultForeground && merged[0].FontStyle == FontStyle.None)
             ? Plain
-            : new LineStyle([.. runs]);
+            : new LineStyle([.. merged]);
+    }
+
+    // Splits the runs at the bounds of [start, end) and gives the part inside the foreground of the override.
+    private static List<StyleRun> ApplyOverride(List<StyleRun> runs, int start, int end, uint foreground)
+    {
+        if (end <= start)
+        {
+            return runs;
+        }
+
+        var result = new List<StyleRun>(runs.Count + 2);
+        foreach (StyleRun run in runs)
+        {
+            int runEnd = run.Start + run.Length;
+            int from = Math.Max(run.Start, start);
+            int to = Math.Min(runEnd, end);
+            if (from >= to)
+            {
+                result.Add(run);
+                continue;
+            }
+
+            if (from > run.Start)
+            {
+                result.Add(run with { Length = from - run.Start });
+            }
+
+            result.Add(new StyleRun(from, to - from, foreground, run.FontStyle));
+            if (runEnd > to)
+            {
+                result.Add(run with { Start = to, Length = runEnd - to });
+            }
+        }
+
+        return result;
     }
 
     /// <inheritdoc />
