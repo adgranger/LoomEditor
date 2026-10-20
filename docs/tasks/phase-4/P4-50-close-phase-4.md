@@ -1,6 +1,6 @@
 # P4-50 — Close phase 4
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all phase 4 cards
 - **Size:** S (docs)
 
@@ -29,10 +29,10 @@ The documentation describes the code as it is at the end of phase 4, and phase 5
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -83,7 +83,7 @@ SUCH DAMAGE.
 
 ## Bundled TextMate grammars
 
-`src/LoomEditor.TextMate/Grammars/` contains grammar files copied unchanged from `microsoft/vscode`
+`src/LoomEditor.TextMate/Grammars/` contains grammar files copied from `microsoft/vscode` (unchanged, except `yaml-1.2.tmLanguage.json` and `yaml-embedded.tmLanguage.json`, where the character class `[\x{85}[^...]]` is written `(?:[^...]|\x{85})`, see `docs/PORTING.md`)
 (`extensions/<name>/syntaxes/`, commit `0c9c0a4295a9222e12a605537738719455ae3056`). They come from these repositories
 (source: each extension's `cgmanifest.json`):
 
