@@ -1,6 +1,6 @@
 # P5-07 — View model decorations: viewport decorations, inline decorations, decorations-changed view event
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-06
 - **Size:** M
 
@@ -72,7 +72,7 @@ change, the view model forgets its cache and sends a `ViewDecorationsChangedEven
 
 ## Tests
 
-- [ ] Port (`inlineDecorations.test.ts` › `InlineModelDecorationsComputer`, 11 of 12; `getDecorations(range, false, false)` →
+- [x] Port (`inlineDecorations.test.ts` › `InlineModelDecorationsComputer`, 11 of 12; `getDecorations(range, false, false)` →
   `GetDecorations(range)`; `IdentityCoordinatesConverter` exists): `no decorations`, `inline class name decoration on a single line`,
   `inlineClassName with affectsLetterSpacing`, `beforeContentClassName decoration`, `afterContentClassName decoration`,
   `all decoration types combined`, `decoration spanning multiple lines`, `multiple decorations on different lines`,
@@ -80,23 +80,23 @@ change, the view model forgets its cache and sends a `ViewDecorationsChangedEven
   `getInlineDecorations returns inline decorations for a model line`.
   Not ported: `decoration with affectsFont sets hasVariableFonts` (font decorations), the
   `InjectedTextInlineDecorationsComputer` suite (21 tests, injected text: ADR 0009 decision 4).
-- [ ] Port (`viewModelDecorations.test.ts` › `ViewModelDecorations`): `issue #37401: Allow both before and after decorations on empty line`
+- [x] Port (`viewModelDecorations.test.ts` › `ViewModelDecorations`): `issue #37401: Allow both before and after decorations on empty line`
   (adapted: `GetViewportInlineDecorations(new Range(1, 1, 1, 1), 1)` instead of `getViewportViewLineRenderingData(…).inlineDecorations`).
   Not ported: `getDecorationsViewportData`, `issue #17208: Problem scrolling in 1.8.0` (word wrap: phase 6).
-- [ ] New: `DecorationsChanged_EmitsViewDecorationsChangedEvent`
-- [ ] New: `GetDecorationsInViewport_OtherEditorsDecorations_AreHidden` (owner filter with `EditorId`)
-- [ ] New: `GetDecorationsInViewport_HideInCommentTokens_HidesDecorationInAComment` (a tokenization support that marks
+- [x] New: `DecorationsChanged_EmitsViewDecorationsChangedEvent`
+- [x] New: `GetDecorationsInViewport_OtherEditorsDecorations_AreHidden` (owner filter with `EditorId`)
+- [x] New: `GetDecorationsInViewport_HideInCommentTokens_HidesDecorationInAComment` (a tokenization support that marks
   the line as a comment, like `TextViewRendererTokensTests`)
-- [ ] New: `SetValue_ResetsTheCache`
-- [ ] New: `ViewportData_GetInlineDecorations_ReturnsTheLinesInlineDecorations`
+- [x] New: `SetValue_ResetsTheCache`
+- [x] New: `ViewportData_GetInlineDecorations_ReturnsTheLinesInlineDecorations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`viewModelDecoration.ts`, `inlineDecorations.ts` subset, `viewModelDecorations.ts`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`viewModelDecoration.ts`, `inlineDecorations.ts` subset, `viewModelDecorations.ts`,
       `viewEvents.ts` `ViewDecorationsChangedEvent`); tests table rows for the two test files
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

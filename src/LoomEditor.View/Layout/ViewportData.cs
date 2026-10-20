@@ -10,20 +10,23 @@ namespace LoomEditor.View.Layout;
 /// <summary>Everything needed to render one viewport. Monaco: <c>ViewportData</c>.</summary>
 /// <remarks>
 /// Threading: immutable after creation (the arrays are not modified again); UI thread only because it is built from the
-/// model. Not ported: <c>getViewLineRenderingData</c>, <c>getViewLineContinuesWithWrappedLine</c>,
-/// <c>getDecorationsInViewport</c> (rendering data and decorations come in later phases).
+/// model. Not ported: <c>getViewLineRenderingData</c>, <c>getViewLineContinuesWithWrappedLine</c> (rendering data comes
+/// in a later phase). <c>getDecorationsInViewport</c> is ported (P5-07).
 /// </remarks>
 internal sealed class ViewportData
 {
     private readonly TextModel _model;
+    private readonly ViewModelDecorations _decorations;
 
     public ViewportData(
         IReadOnlyList<Selection> selections,
         PartialViewLinesViewportData partialData,
         IReadOnlyList<ViewWhitespaceViewportData> whitespaceViewportData,
-        TextModel model)
+        TextModel model,
+        ViewModelDecorations decorations)
     {
         _model = model;
+        _decorations = decorations;
         Selections = selections;
         StartLineNumber = partialData.StartLineNumber;
         EndLineNumber = partialData.EndLineNumber;
@@ -41,6 +44,14 @@ internal sealed class ViewportData
 
     /// <summary>The tokens of a line, computed when asked (Monaco: <c>getViewLineData</c>); view lines are model lines.</summary>
     public IViewLineTokens GetTokens(int lineNumber) => _model.Tokenization.GetLineTokens(lineNumber).Inflate();
+
+    /// <summary>The decorations of the viewport, in view coordinates (Monaco: <c>getDecorationsInViewport</c>).</summary>
+    public IReadOnlyList<ViewModelDecoration> GetDecorationsInViewport() =>
+        _decorations.GetDecorationsViewportData(VisibleRange).Decorations;
+
+    /// <summary>The inline decorations of a visible line (Monaco: the <c>inlineDecorations</c> of the line rendering data).</summary>
+    public IReadOnlyList<InlineDecoration> GetInlineDecorations(int lineNumber) =>
+        _decorations.GetDecorationsViewportData(VisibleRange).InlineDecorations[lineNumber - VisibleRange.StartLineNumber];
 
     /// <summary>The selections (one for now).</summary>
     public IReadOnlyList<Selection> Selections { get; }
