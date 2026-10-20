@@ -5,3 +5,5 @@
 tests/LoomEditor.TextMate.Tests/TestCases/** -text
 # Bundled grammars are copied byte for byte from upstream (docs/tasks/phase-4/P4-35).
 src/LoomEditor.TextMate/Grammars/** -text
+# Built-in themes are copied byte for byte from upstream (docs/tasks/phase-4/P4-41).
+src/LoomEditor.Themes/BuiltIn/** -text
