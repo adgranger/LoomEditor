@@ -2,6 +2,7 @@ using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Tests.Model.BracketPairs.TestHelpers;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 
 namespace LoomEditor.Core.Tests.Model.BracketPairs;
 
@@ -159,6 +160,75 @@ public class BracketPairsTextModelPartTests
     }
 
     [Fact]
+    public void FindMatchingBracketUp_Legacy_FindsOpeningBracket()
+    {
+        var model = Create("{\n  (\n  )\n}", new CharacterPair("{", "}"), new CharacterPair("(", ")")).Model;
+        model.BracketPairs.MaxSupportedDocumentLength = 0;
+
+        Assert.Equal(new Range(1, 1, 1, 2), model.BracketPairs.FindMatchingBracketUp("}", new Position(4, 1)));
+        Assert.Null(model.BracketPairs.FindMatchingBracketUp("]", new Position(4, 1)));
+    }
+
+    [Fact]
+    public void FindMatchingBracketUp_Tree_FindsOpeningBracket()
+    {
+        var model = Create("{\n  (\n  )\n}", new CharacterPair("{", "}"), new CharacterPair("(", ")")).Model;
+
+        Assert.Equal(new Range(1, 1, 1, 2), model.BracketPairs.FindMatchingBracketUp("}", new Position(4, 1)));
+        Assert.Null(model.BracketPairs.FindMatchingBracketUp("]", new Position(4, 1)));
+    }
+
+    [Fact]
+    public void MatchBracket_Legacy_MaxDurationZero_ReturnsNull()
+    {
+        string text = "(\n" + string.Concat(Enumerable.Repeat("x\n", 2000)) + ")";
+        var model = Create(text, new CharacterPair("(", ")")).Model;
+        model.BracketPairs.MaxSupportedDocumentLength = 0;
+        var lastLine = model.LineCount;
+        Assert.Equal(2002, lastLine);
+
+        // The search is canceled at its 100th call, which is on the 100th line.
+        Assert.Null(model.BracketPairs.MatchBracket(new Position(lastLine, 1), TimeSpan.Zero));
+        Assert.Null(model.BracketPairs.MatchBracket(new Position(1, 1), TimeSpan.Zero));
+        Assert.Null(model.BracketPairs.FindMatchingBracketUp(")", new Position(lastLine, 1), TimeSpan.Zero));
+
+        // The legacy search answers the bracket at the position first.
+        (Range, Range)? pair = (new Range(1, 1, 1, 2), new Range(lastLine, 1, lastLine, 2));
+        Assert.Equal(((Range, Range)?)(pair.Value.Item2, pair.Value.Item1), model.BracketPairs.MatchBracket(new Position(lastLine, 1)));
+        Assert.Equal(pair, model.BracketPairs.MatchBracket(new Position(1, 1)));
+        Assert.Equal(pair, model.BracketPairs.MatchBracket(new Position(1, 1), TimeSpan.FromMinutes(1)));
+        Assert.Equal(new Range(1, 1, 1, 2), model.BracketPairs.FindMatchingBracketUp(")", new Position(lastLine, 1)));
+    }
+
+    [Fact]
+    public void MatchBracket_Legacy_BracketInComment_IsIgnored()
+    {
+        const string text = "( /* ) */ )";
+        var test = TestLanguageModels.Create(
+            text,
+            LanguageId,
+            new LanguageConfiguration { Brackets = [new("(", ")")] },
+            codec =>
+            {
+                uint Metadata(StandardTokenType type) =>
+                    ((uint)codec.EncodeLanguageId(LanguageId) << MetadataConsts.LanguageIdOffset)
+                    | ((uint)type << MetadataConsts.TokenTypeOffset);
+                return new LineTokensSupport(new Dictionary<string, uint[]>
+                {
+                    [text] = [0, Metadata(StandardTokenType.Other), 2, Metadata(StandardTokenType.Comment), 9, Metadata(StandardTokenType.Other)],
+                });
+            });
+        var model = test.Model;
+        model.BracketPairs.MaxSupportedDocumentLength = 0;
+        model.Tokenization.ForceTokenization(1);
+
+        (Range, Range)? pair = (new Range(1, 1, 1, 2), new Range(1, 11, 1, 12));
+        Assert.Equal(pair, model.BracketPairs.MatchBracket(new Position(1, 1)));
+        Assert.Equal(((Range, Range)?)(pair.Value.Item2, pair.Value.Item1), model.BracketPairs.MatchBracket(new Position(1, 11)));
+        Assert.Null(model.BracketPairs.MatchBracket(new Position(1, 6)));
+    }
+
+    [Fact]
     public void MaxSupportedDocumentLength_Exceeded_TreeIsDropped_AndChangedRaised()
     {
         var test = Create("{ [ ] }", new CharacterPair("{", "}"), new CharacterPair("[", "]"));
@@ -174,7 +244,7 @@ public class BracketPairsTextModelPartTests
         Assert.Equal(1, changed);
         Assert.Empty(part.GetBracketsInRange(model.FullModelRange).ToArray());
         Assert.Null(part.FindPrevBracket(new Position(1, 5)));
-        Assert.Null(part.MatchBracket(new Position(1, 1)));
+        Assert.Equal(((Range, Range)?)(new Range(1, 1, 1, 2), new Range(1, 7, 1, 8)), part.MatchBracket(new Position(1, 1)));
         Assert.Equal(1, changed);
 
         part.MaxSupportedDocumentLength = 50_000 * 100;

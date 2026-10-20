@@ -1,6 +1,6 @@
 # P5-32 — Bracket pairs: legacy `MatchBracket` and `FindMatchingBracketUp` (no tree)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-31
 - **Size:** M
 
@@ -69,28 +69,28 @@ Tests: `test/common/model/textModelWithTokens.test.ts`:
 
 ## Tests
 
-- [ ] Port suite `TextModelWithTokens - bracket matching` › `bracket matching 1`, `bracket matching 2`
-- [ ] Port suite `TextModelWithTokens 2` › `bracket matching 3`, `bracket matching 4`,
+- [x] Port suite `TextModelWithTokens - bracket matching` › `bracket matching 1`, `bracket matching 2`
+- [x] Port suite `TextModelWithTokens 2` › `bracket matching 3`, `bracket matching 4`,
       `issue #95843: Highlighting of closing braces is indicating wrong brace when cursor is behind opening brace`,
       ``issue #88075: TypeScript brace matching is incorrect in `${}` strings``
-- [ ] Port suite `TextModelWithTokens regression tests` › `microsoft/monaco-editor#133: Error: Cannot read property
+- [x] Port suite `TextModelWithTokens regression tests` › `microsoft/monaco-editor#133: Error: Cannot read property
       'modeId' of undefined`, `issue #11856: Bracket matching does not work as expected if the opening brace symbol is
       contained in the closing brace symbol`
-- [ ] New: `FindMatchingBracketUp_Legacy_FindsOpeningBracket` and `FindMatchingBracketUp_Tree_FindsOpeningBracket`
+- [x] New: `FindMatchingBracketUp_Legacy_FindsOpeningBracket` and `FindMatchingBracketUp_Tree_FindsOpeningBracket`
       (`"{\n  (\n  )\n}"`, `FindMatchingBracketUp("}", (4, 1))` → `(1, 1, 1, 2)`)
-- [ ] New: `MatchBracket_Legacy_MaxDurationZero_ReturnsNull` (`"("`, 2,000 lines of `x`, then `")"`; matching the last
+- [x] New: `MatchBracket_Legacy_MaxDurationZero_ReturnsNull` (`"("`, 2,000 lines of `x`, then `")"`; matching the last
       `)` with the time limit `TimeSpan.Zero` is canceled at the 100th call and gives `null`; without a limit it finds
       the pair)
-- [ ] New: `MatchBracket_Legacy_BracketInComment_IsIgnored`
+- [x] New: `MatchBracket_Legacy_BracketInComment_IsIgnored`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `bracketPairsImpl.ts` 🔶 (P5-31, P5-32); tests row `textModelWithTokens.test.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `bracketPairsImpl.ts` 🔶 (P5-31, P5-32); tests row `textModelWithTokens.test.ts`
       10 / 29 (see P5-33 for the last bracket test; the 18 `TextModel.getLineIndentGuide` tests are guides: phase 6);
       the "Tests ported in phase 4" row `2 / 4` points to this card
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

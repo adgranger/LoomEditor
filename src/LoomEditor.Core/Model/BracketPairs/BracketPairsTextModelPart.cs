@@ -18,18 +18,20 @@ namespace LoomEditor.Core.Model.BracketPairs;
 /// <remarks>
 /// <para>
 /// Monaco uses the tree whenever the text is at most <see cref="MaxSupportedDocumentLength"/> characters long; it does not
-/// tie the tree to colorization. The legacy regex search for larger documents is ported by P5-32 and P5-33: until then
-/// the legacy branches of <see cref="FindMatchingBracketUp"/>, <see cref="MatchBracket"/>, <see cref="FindPrevBracket"/>,
-/// <see cref="FindNextBracket"/> and <see cref="FindEnclosingBrackets"/> return <see langword="null"/>.
+/// tie the tree to colorization. For larger documents <see cref="FindMatchingBracketUp"/> and <see cref="MatchBracket"/> use the
+/// legacy regex search over the syntax tokens (<c>BracketPairsTextModelPart.Legacy.cs</c>). The legacy branches of
+/// <see cref="FindPrevBracket"/>, <see cref="FindNextBracket"/> and <see cref="FindEnclosingBrackets"/> are ported by P5-33:
+/// until then they return <see langword="null"/>.
 /// </para>
 /// <para>
 /// Differences from Monaco: <c>MutableDisposable&lt;IReference&lt;BracketPairsTree&gt;&gt;</c> and <c>createDisposableRef</c>
 /// are a nullable tree field and the subscription to its <c>Changed</c> event; <c>maxDuration</c> is a
-/// <see cref="TimeSpan"/> used only by the legacy paths; results that may be absent are nullable.
+/// <see cref="TimeSpan"/> used only by the legacy paths, measured with <see cref="System.Diagnostics.Stopwatch"/> instead of
+/// <c>Date.now()</c>; results that may be absent are nullable.
 /// </para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
-internal sealed class BracketPairsTextModelPart
+internal sealed partial class BracketPairsTextModelPart
 {
     private readonly TextModel _textModel;
     private readonly LanguageConfigurationRegistry _languageConfigurationRegistry;
@@ -230,9 +232,21 @@ internal sealed class BracketPairsTextModelPart
             return bracketPair?.OpeningBracketRange;
         }
 
-        // Fallback to the old bracket matching code: ported by P5-32.
-        _ = maxDuration;
-        return null;
+        // Fallback to old bracket matching code:
+        string lowerBracket = bracket.ToLowerInvariant();
+
+        var bracketsSupport = _languageConfigurationRegistry.GetLanguageConfiguration(languageId).Brackets;
+        if (bracketsSupport is null)
+        {
+            return null;
+        }
+
+        if (!bracketsSupport.TextIsBracket.TryGetValue(lowerBracket, out var data))
+        {
+            return null;
+        }
+
+        return StripBracketSearchCanceled(FindMatchingBracketUpLegacy(data, validated, CreateTimeBasedContinueBracketSearchPredicate(maxDuration)));
     }
 
     /// <summary>
@@ -252,9 +266,9 @@ internal sealed class BracketPairsTextModelPart
             return bracketPair is null ? null : (bracketPair.OpeningBracketRange, bracketPair.ClosingBracketRange!.Value);
         }
 
-        // Fallback to the old bracket matching code: ported by P5-32.
-        _ = maxDuration;
-        return null;
+        // Fallback to old bracket matching code:
+        var continueSearchPredicate = CreateTimeBasedContinueBracketSearchPredicate(maxDuration);
+        return MatchBracketLegacy(_textModel.ValidatePosition(position), continueSearchPredicate);
     }
 
     private static Range BracketAt(BracketPairInfo item, Position position) =>
