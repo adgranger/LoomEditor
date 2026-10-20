@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Languages.Supports;
 using LoomEditor.Core.Model.BracketPairs.Tree;
+using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Core.Model.BracketPairs;
 
