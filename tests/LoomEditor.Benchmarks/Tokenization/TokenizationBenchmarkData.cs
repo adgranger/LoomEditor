@@ -32,6 +32,6 @@ internal static class TokenizationBenchmarkData
         var languages = new LanguageRegistry();
         BuiltInLanguages.RegisterAll(languages);
         var model = new TextModel(string.Join('\n', Lines(language, lineCount)), DefaultEndOfLine.LF, null, registry, languages.Codec, NoopTokenizationScheduler.Instance);
-        return (model, new SyntaxHighlighter(model, registry, languages, dispatcher));
+        return (model, new SyntaxHighlighter(model, registry, languages, model.LanguageConfigurationRegistry, dispatcher));
     }
 }

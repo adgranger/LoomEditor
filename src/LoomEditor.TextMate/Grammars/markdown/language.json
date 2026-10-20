@@ -6,6 +6,7 @@
     ".ronn", ".workbook"
   ],
   "scopeName": "text.html.markdown",
+  "configuration": "language-configuration.json",
   "path": "markdown.tmLanguage.json",
   "embeddedLanguages": {
     "meta.embedded.block.html": "html",

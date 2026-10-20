@@ -5,6 +5,7 @@
     ".html", ".htm", ".shtml", ".xhtml", ".xht", ".mdoc", ".jsp", ".asp", ".aspx", ".jshtm", ".volt", ".ejs", ".rhtml"
   ],
   "scopeName": "text.html.derivative",
+  "configuration": "language-configuration.json",
   "path": "html-derivative.tmLanguage.json",
   "embeddedLanguages": {
     "text.html": "html",

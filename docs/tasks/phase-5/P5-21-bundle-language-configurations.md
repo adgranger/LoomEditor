@@ -1,6 +1,6 @@
 # P5-21 — Bundle the ten language configurations and register them
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-20
 - **Size:** M (data files, a few lines of code, tests)
 
@@ -63,24 +63,24 @@ Copy **byte for byte** from `microsoft/vscode` at the pinned commit (raw URL, ph
 
 ## Tests
 
-- [ ] New (TextMate): `EveryBundledRegex_Compiles` (theory over the eleven language ids: `Read` with a warning
+- [x] New (TextMate): `EveryBundledRegex_Compiles` (theory over the eleven language ids: `Read` with a warning
   collector gives no warning — an invalid or untranslated regex is a warning, P5-20)
-- [ ] New (TextMate): `EveryLanguageWithAGrammar_HasAConfiguration`
-- [ ] New (TextMate): `Markdown_WordPattern_MatchesUnicodeWords` (`héllo_wörld` is one word)
-- [ ] New (TextMate): `Csharp_Configuration_HasCommentsBracketsAndRegionMarkers`
-- [ ] Update: `EveryEmbeddedResource_IsListedByALanguage`
-- [ ] New (View): `SetLanguage_RegistersTheLanguageConfiguration` (`csharp`: line comment `//`)
-- [ ] New (View): `SetLanguage_Html_RegistersTheEmbeddedLanguagesConfigurations` (`css`, `javascript`)
-- [ ] New (View): `SetLanguage_Twice_RegistersOnce`
-- [ ] New (View): `Dispose_UnregistersTheConfigurations`
+- [x] New (TextMate): `EveryLanguageWithAGrammar_HasAConfiguration`
+- [x] New (TextMate): `Markdown_WordPattern_MatchesUnicodeWords` (`héllo_wörld` is one word)
+- [x] New (TextMate): `Csharp_Configuration_HasCommentsBracketsAndRegionMarkers`
+- [x] Update: `EveryEmbeddedResource_IsListedByALanguage`
+- [x] New (View): `SetLanguage_RegistersTheLanguageConfiguration` (`csharp`: line comment `//`)
+- [x] New (View): `SetLanguage_Html_RegistersTheEmbeddedLanguagesConfigurations` (`css`, `javascript`)
+- [x] New (View): `SetLanguage_Twice_RegistersOnce`
+- [x] New (View): `Dispose_UnregistersTheConfigurations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings (Native AOT: JSON and regexes)
-- [ ] `docs/PORTING.md`: the "Cut points for phases 4–5" section says the language configuration now exists (`TextModel.LanguageConfigurationRegistry`); behavior difference: `jsx-tags` and the other non-bundled languages have no configuration
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `docs/PORTING.md`: the "Cut points for phases 4–5" section says the language configuration now exists (`TextModel.LanguageConfigurationRegistry`); behavior difference: `jsx-tags` and the other non-bundled languages have no configuration
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

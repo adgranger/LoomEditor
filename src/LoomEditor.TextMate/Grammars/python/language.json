@@ -4,6 +4,7 @@
   "extensions": [".py", ".rpy", ".pyw", ".cpy", ".gyp", ".gypi", ".pyi", ".ipy", ".pyt"],
   "filenames": ["SConstruct", "SConscript"],
   "scopeName": "source.python",
+  "configuration": "language-configuration.json",
   "path": "MagicPython.tmLanguage.json",
   "grammars": [
     { "scopeName": "source.regexp.python", "path": "MagicRegExp.tmLanguage.json" }

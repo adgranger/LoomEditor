@@ -411,7 +411,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-18](phase-5/P5-18-auto-indent-enter-and-type.md) | `GetIndentForEnter`, `GetIndentActionForType`, `GetIndentMetadata` | P5-17 | done |
 | [P5-19](phase-5/P5-19-indentation-guesser.md) | Indentation guesser, `DetectIndentation`, `NormalizeIndentation` | P5-18 | done |
 | [P5-20](phase-5/P5-20-language-configuration-reader.md) | `LanguageConfigurationReader`: `language-configuration.json` → `LanguageConfiguration` | P5-19 | done |
-| [P5-21](phase-5/P5-21-bundle-language-configurations.md) | Bundle the ten language configurations and register them | P5-20 | todo |
+| [P5-21](phase-5/P5-21-bundle-language-configurations.md) | Bundle the ten language configurations and register them | P5-20 | done |
 
 ### Step C — The bracket pair tree, bracket matching and colorization
 

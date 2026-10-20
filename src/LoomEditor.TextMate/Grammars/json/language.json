@@ -7,5 +7,6 @@
   ],
   "filenames": ["composer.lock", ".watchmanconfig"],
   "scopeName": "source.json",
+  "configuration": "language-configuration.json",
   "path": "JSON.tmLanguage.json"
 }

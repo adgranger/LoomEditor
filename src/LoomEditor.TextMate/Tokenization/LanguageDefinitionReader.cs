@@ -38,7 +38,8 @@ internal static class LanguageDefinitionReader
             AsStringArray(root["extensions"]) ?? [],
             AsStringArray(root["filenames"]) ?? [],
             ReadGrammar(root, folder),
-            extras);
+            extras,
+            AsString(root["configuration"]) is { } configuration ? folder + configuration : null);
     }
 
     // A grammar needs a scopeName and a path.

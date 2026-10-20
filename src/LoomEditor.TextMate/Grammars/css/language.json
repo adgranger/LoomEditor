@@ -3,6 +3,7 @@
   "aliases": ["CSS", "css"],
   "extensions": [".css"],
   "scopeName": "source.css",
+  "configuration": "language-configuration.json",
   "path": "css.tmLanguage.json",
   "tokenTypes": { "meta.function.url string.quoted": "other" }
 }

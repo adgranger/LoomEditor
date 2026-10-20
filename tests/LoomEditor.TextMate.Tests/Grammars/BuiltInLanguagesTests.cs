@@ -1,3 +1,4 @@
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Tokens;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.TextMate.Tests.TestHelpers;
@@ -105,6 +106,11 @@ public class BuiltInLanguagesTests
             {
                 listed.Add(grammar.Location);
             }
+
+            if (language.ConfigurationLocation is { } configuration)
+            {
+                listed.Add(configuration);
+            }
         }
 
         string[] grammarResources = typeof(BuiltInLanguages).Assembly.GetManifestResourceNames()
@@ -115,5 +121,58 @@ public class BuiltInLanguagesTests
         Assert.NotEmpty(grammarResources);
         Assert.Empty(grammarResources.Except(listed)); // no orphan file
         Assert.All(listed, location => Assert.NotNull(BuiltInLanguages.ReadFile(location))); // no missing file
+    }
+
+    public static TheoryData<string> LanguageIds => [.. BuiltInLanguages.All.Select(language => language.Id)];
+
+    private static LanguageConfiguration ReadConfiguration(string languageId, List<string>? warnings = null)
+    {
+        LanguageDefinition language = BuiltInLanguages.All.Single(l => l.Id == languageId);
+        string json = BuiltInLanguages.ReadFile(language.ConfigurationLocation!)!;
+        return LanguageConfigurationReader.Read(json, languageId, warnings is null ? null : warnings.Add);
+    }
+
+    [Theory]
+    [MemberData(nameof(LanguageIds))]
+    public void EveryBundledRegex_Compiles(string languageId)
+    {
+        var warnings = new List<string>();
+
+        ReadConfiguration(languageId, warnings);
+
+        Assert.Empty(warnings);
+    }
+
+    [Fact]
+    public void EveryLanguageWithAGrammar_HasAConfiguration()
+    {
+        Assert.Equal(11, BuiltInLanguages.All.Count);
+        Assert.All(
+            BuiltInLanguages.All.Where(language => language.Grammar is not null),
+            language => Assert.NotNull(BuiltInLanguages.ReadFile(language.ConfigurationLocation ?? string.Empty)));
+    }
+
+    [Fact]
+    public void Markdown_WordPattern_MatchesUnicodeWords()
+    {
+        LanguageConfiguration configuration = ReadConfiguration("markdown");
+
+        Assert.NotNull(configuration.WordPattern);
+        Assert.Equal("héllo_wörld", configuration.WordPattern.Match("  héllo_wörld!").Value);
+    }
+
+    [Fact]
+    public void Csharp_Configuration_HasCommentsBracketsAndRegionMarkers()
+    {
+        LanguageConfiguration configuration = ReadConfiguration("csharp");
+
+        Assert.Equal("//", configuration.Comments?.LineComment?.Comment);
+        Assert.Equal(new CharacterPair("/*", "*/"), configuration.Comments?.BlockComment);
+        Assert.Equal([new CharacterPair("{", "}"), new CharacterPair("[", "]"), new CharacterPair("(", ")")], configuration.Brackets);
+        FoldingMarkers? markers = configuration.Folding?.Markers;
+        Assert.NotNull(markers);
+        Assert.Matches(markers.Start, "  #region Fields");
+        Assert.Matches(markers.End, "  #endregion");
+        Assert.DoesNotMatch(markers.Start, "  #endregion");
     }
 }

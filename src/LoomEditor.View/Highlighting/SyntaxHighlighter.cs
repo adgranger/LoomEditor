@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/workbench/services/textMate/browser/textMateTokenizationFeatureImpl.ts (_getOrCreateGrammarFactory, _updateTheme)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Threading;
 using LoomEditor.Core.Tokens;
@@ -25,6 +26,8 @@ internal sealed class SyntaxHighlighter : IDisposable
     private readonly TextModel _model;
     private readonly TokenizationRegistry _registry;
     private readonly LanguageRegistry _languages;
+    private readonly LanguageConfigurationRegistry _configurations;
+    private readonly HashSet<string> _configuredLanguages = new(StringComparer.Ordinal);
     private readonly List<IDisposable> _registrations = [];
     private readonly ThreadedBackgroundTokenizerFactory? _threaded;
     private TMGrammarFactory? _grammarFactory;
@@ -36,15 +39,23 @@ internal sealed class SyntaxHighlighter : IDisposable
     /// <param name="model">A model created with <paramref name="registry"/> and the codec of <paramref name="languages"/>.</param>
     /// <param name="registry">The registry of the model.</param>
     /// <param name="languages">The known languages, all registered.</param>
+    /// <param name="configurations">The language configuration registry of the model.</param>
     /// <param name="dispatcher">The UI thread, or <see langword="null"/> for no background worker.</param>
-    public SyntaxHighlighter(TextModel model, TokenizationRegistry registry, LanguageRegistry languages, IUiDispatcher? dispatcher)
+    public SyntaxHighlighter(
+        TextModel model,
+        TokenizationRegistry registry,
+        LanguageRegistry languages,
+        LanguageConfigurationRegistry configurations,
+        IUiDispatcher? dispatcher)
     {
         ArgumentNullException.ThrowIfNull(model);
         ArgumentNullException.ThrowIfNull(registry);
         ArgumentNullException.ThrowIfNull(languages);
+        ArgumentNullException.ThrowIfNull(configurations);
         _model = model;
         _registry = registry;
         _languages = languages;
+        _configurations = configurations;
         if (dispatcher is not null)
         {
             _threaded = new ThreadedBackgroundTokenizerFactory(
@@ -68,7 +79,9 @@ internal sealed class SyntaxHighlighter : IDisposable
 
     /// <summary>
     /// Sets the language of the model; a language with no grammar, or an unknown id, is plain text. The tokenization
-    /// support of a language is created the first time it is needed.
+    /// support of a language is created the first time it is needed, and so is the registration of the bundled language
+    /// configurations of the language and of the languages its grammar embeds (VS Code: languageConfigurationExtensionPoint.ts,
+    /// priority 50).
     /// </summary>
     public void SetLanguage(string languageId)
     {
@@ -81,6 +94,15 @@ internal sealed class SyntaxHighlighter : IDisposable
         if (_registry.Get(languageId) is null && GetTokenizationFactory().CreateTokenizationSupport(languageId) is { } support)
         {
             _registrations.Add(_registry.Register(languageId, support));
+        }
+
+        RegisterConfiguration(languageId);
+        if (_languages.GetLanguageDefinition(languageId)?.Grammar is { } grammar)
+        {
+            foreach (string embedded in grammar.EmbeddedLanguages.Values)
+            {
+                RegisterConfiguration(embedded);
+            }
         }
 
         _model.Tokenization.SetLanguageId(languageId);
@@ -127,10 +149,24 @@ internal sealed class SyntaxHighlighter : IDisposable
         }
 
         _registrations.Clear();
+        _configuredLanguages.Clear();
         _threaded?.Dispose();
         _grammarFactory?.Dispose();
         _grammarFactory = null;
         _tokenization = null;
+    }
+
+    // Languages without a bundled configuration (jsx-tags, plaintext) keep the empty configuration.
+    private void RegisterConfiguration(string languageId)
+    {
+        if (_languages.GetLanguageDefinition(languageId)?.ConfigurationLocation is not { } location
+            || !_configuredLanguages.Add(languageId)
+            || BuiltInLanguages.ReadFile(location) is not { } json)
+        {
+            return;
+        }
+
+        _registrations.Add(_configurations.Register(languageId, LanguageConfigurationReader.Read(json, languageId), 50));
     }
 
     private TextMateTokenizationFactory GetTokenizationFactory()

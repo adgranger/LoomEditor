@@ -3,6 +3,7 @@
   "aliases": ["TypeScript", "ts", "typescript"],
   "extensions": [".ts", ".cts", ".mts"],
   "scopeName": "source.ts",
+  "configuration": "language-configuration.json",
   "path": "TypeScript.tmLanguage.json",
   "unbalancedBracketScopes": [
     "keyword.operator.relational",
