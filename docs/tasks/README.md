@@ -342,7 +342,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P4-39](phase-4/P4-39-editor-color-defaults.md) | Theme types and VS Code's default editor colors | P4-38 | todo |
+| [P4-39](phase-4/P4-39-editor-color-defaults.md) | Theme types and VS Code's default editor colors | P4-38 | done |
 | [P4-40](phase-4/P4-40-vscode-theme-loading.md) | Load a VS Code color theme | P4-39 | todo |
 | [P4-41](phase-4/P4-41-built-in-themes.md) | The ten built-in themes and `EditorTheme`'s public API | P4-40 | todo |
 

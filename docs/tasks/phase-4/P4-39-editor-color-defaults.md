@@ -1,6 +1,6 @@
 # P4-39 — Themes: theme types and VS Code's default editor colors
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-38
 - **Size:** S
 
@@ -40,16 +40,16 @@ another color).
 
 No upstream unit tests. New:
 
-- [ ] `Defaults_DarkTheme_MatchVsCode` (each key, values from the files)
-- [ ] `Defaults_ReferenceToAnotherColor_UsesTheThemeValueFirst` (`editorLineNumber.activeForeground` with a theme that sets `editorActiveLineNumber.foreground`)
-- [ ] `ThemeType_FromUiTheme`
+- [x] `Defaults_DarkTheme_MatchVsCode` (each key, values from the files)
+- [x] `Defaults_ReferenceToAnotherColor_UsesTheThemeValueFirst` (`editorLineNumber.activeForeground` with a theme that sets `editorActiveLineNumber.foreground`)
+- [x] `ThemeType_FromUiTheme`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

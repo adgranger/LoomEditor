@@ -37,6 +37,11 @@ LoomEditor.Themes.ThemeColor.R.get -> byte
 LoomEditor.Themes.ThemeColor.R.init -> void
 LoomEditor.Themes.ThemeColor.ThemeColor() -> void
 LoomEditor.Themes.ThemeColor.ThemeColor(byte A, byte R, byte G, byte B) -> void
+LoomEditor.Themes.ThemeType
+LoomEditor.Themes.ThemeType.Dark = 0 -> LoomEditor.Themes.ThemeType
+LoomEditor.Themes.ThemeType.HighContrastDark = 2 -> LoomEditor.Themes.ThemeType
+LoomEditor.Themes.ThemeType.HighContrastLight = 3 -> LoomEditor.Themes.ThemeType
+LoomEditor.Themes.ThemeType.Light = 1 -> LoomEditor.Themes.ThemeType
 override LoomEditor.Themes.EditorTheme.Equals(object? obj) -> bool
 override LoomEditor.Themes.EditorTheme.GetHashCode() -> int
 override LoomEditor.Themes.EditorTheme.ToString() -> string!
