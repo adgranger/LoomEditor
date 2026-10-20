@@ -1,6 +1,6 @@
 # P5-33 — Bracket pairs: legacy `FindPrevBracket`, `FindNextBracket`, `FindEnclosingBrackets` (no tree)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-32
 - **Size:** M
 
@@ -47,19 +47,19 @@ helpers `testBrackets` and `toRelaxedFoundBracket`).
 
 ## Tests
 
-- [ ] Port suite `TextModelWithTokens` › `brackets1` (tree and legacy)
-- [ ] New: `FindEnclosingBrackets_Legacy_NestedPairs_ReturnsInnermost` (same input and result as P5-31's
-      `FindEnclosingBrackets_ReturnsInnermostClosedPair`)
-- [ ] New: `FindNextBracket_Legacy_SkipsBracketsInStrings`
-- [ ] New: `FindPrevBracket_Legacy_TwoLanguages_UsesLanguageOfEachToken`
+- [x] Port suite `TextModelWithTokens` › `brackets1` (tree and legacy)
+- [x] New: `FindEnclosingBrackets_Legacy_NestedPairs_ReturnsInnermost` (same input as P5-31's
+      `FindEnclosingBrackets_ReturnsInnermostClosedPair`; the legacy result is (closing, opening) as in Monaco)
+- [x] New: `FindNextBracket_Legacy_SkipsBracketsInStrings`
+- [x] New: `FindPrevBracket_Legacy_TwoLanguages_UsesLanguageOfEachToken`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `bracketPairsImpl.ts` ✅ (P5-31 … P5-33); tests row `textModelWithTokens.test.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `bracketPairsImpl.ts` ✅ (P5-31 … P5-33); tests row `textModelWithTokens.test.ts`
       11 / 29 — not ported: the 18 tests of `TextModel.getLineIndentGuide` (`guidesTextModelPart.ts`, phase 6)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
