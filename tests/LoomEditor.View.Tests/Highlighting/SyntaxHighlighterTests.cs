@@ -1,3 +1,4 @@
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Tokens;
 using LoomEditor.Themes;
 using LoomEditor.View.Features;
@@ -105,6 +106,54 @@ public class SyntaxHighlighterTests
         context.Dispose();
 
         Assert.Equal(0, context.Highlighter.WorkerControllerCount);
+    }
+
+    [Fact]
+    public void SetLanguage_RegistersTheLanguageConfiguration()
+    {
+        using EditorContext context = CreateContext();
+
+        context.Highlighter.SetLanguage("csharp");
+
+        Assert.Equal("//", context.Model.LanguageConfigurationRegistry.GetLanguageConfiguration("csharp").Comments?.LineCommentToken);
+    }
+
+    [Fact]
+    public void SetLanguage_Html_RegistersTheEmbeddedLanguagesConfigurations()
+    {
+        using EditorContext context = CreateContext();
+        LanguageConfigurationRegistry registry = context.Model.LanguageConfigurationRegistry;
+
+        context.Highlighter.SetLanguage("html");
+
+        Assert.Equal("<!--", registry.GetLanguageConfiguration("html").Comments?.BlockCommentStartToken);
+        Assert.Equal("/*", registry.GetLanguageConfiguration("css").Comments?.BlockCommentStartToken);
+        Assert.Equal("//", registry.GetLanguageConfiguration("javascript").Comments?.LineCommentToken);
+    }
+
+    [Fact]
+    public void SetLanguage_Twice_RegistersOnce()
+    {
+        using EditorContext context = CreateContext();
+        context.Highlighter.SetLanguage("csharp");
+        var changed = new List<string>();
+        context.Model.LanguageConfigurationRegistry.Changed += (_, e) => changed.Add(e.LanguageId);
+
+        context.Highlighter.SetLanguage("csharp");
+
+        Assert.Empty(changed);
+    }
+
+    [Fact]
+    public void Dispose_UnregistersTheConfigurations()
+    {
+        EditorContext context = CreateContext();
+        LanguageConfigurationRegistry registry = context.Model.LanguageConfigurationRegistry;
+        context.Highlighter.SetLanguage("csharp");
+
+        context.Dispose();
+
+        Assert.Null(registry.GetLanguageConfiguration("csharp").Comments?.LineCommentToken);
     }
 
     private sealed class NoopDisposable : IDisposable

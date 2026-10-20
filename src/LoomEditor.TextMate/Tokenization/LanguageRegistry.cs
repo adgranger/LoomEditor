@@ -39,6 +39,9 @@ internal sealed class LanguageRegistry
     /// <summary><c>isRegisteredLanguageId</c>.</summary>
     public bool IsRegisteredLanguageId(string languageId) => _languages.ContainsKey(languageId);
 
+    /// <summary>The definition of a language, or <see langword="null"/> when the id is not registered.</summary>
+    public LanguageDefinition? GetLanguageDefinition(string languageId) => _languages.GetValueOrDefault(languageId);
+
     /// <summary>The language of a file extension (with or without its dot, case insensitive), or <see langword="null"/>.</summary>
     public string? GetLanguageIdByExtension(string extension)
     {

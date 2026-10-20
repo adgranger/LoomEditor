@@ -4,6 +4,7 @@
   "extensions": [".js", ".es6", ".mjs", ".cjs", ".pac"],
   "filenames": ["jakefile"],
   "scopeName": "source.js",
+  "configuration": "javascript-language-configuration.json",
   "path": "JavaScript.tmLanguage.json",
   "embeddedLanguages": {
     "meta.tag.js": "jsx-tags",

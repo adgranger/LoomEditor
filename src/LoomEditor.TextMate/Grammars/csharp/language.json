@@ -3,6 +3,7 @@
   "aliases": ["C#", "csharp"],
   "extensions": [".cs", ".csx", ".cake"],
   "scopeName": "source.cs",
+  "configuration": "language-configuration.json",
   "path": "csharp.tmLanguage.json",
   "tokenTypes": { "meta.interpolation": "other" },
   "unbalancedBracketScopes": [

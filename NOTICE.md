@@ -6,7 +6,8 @@ third-party works.
 ## Monaco Editor / Visual Studio Code
 
 Large parts of LoomEditor are ports of `microsoft/vscode` (folder `src/vs/editor`). Each ported file states its
-origin and the upstream commit in its header.
+origin and the upstream commit in its header. The `language-configuration.json` files of the ten built-in languages
+(`src/LoomEditor.TextMate/Grammars/`) come unchanged from `extensions/<language>/` of `microsoft/vscode` (MIT).
 
 ```
 MIT License

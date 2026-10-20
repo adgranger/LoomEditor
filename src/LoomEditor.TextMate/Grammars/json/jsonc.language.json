@@ -10,5 +10,6 @@
     "tsconfig.json", "jsconfig.json"
   ],
   "scopeName": "source.json.comments",
+  "configuration": "language-configuration.json",
   "path": "JSONC.tmLanguage.json"
 }

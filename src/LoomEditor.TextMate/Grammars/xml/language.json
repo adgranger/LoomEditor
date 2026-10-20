@@ -10,5 +10,6 @@
     ".xbl", ".xib", ".xlf", ".xliff", ".xpdl", ".xul", ".xoml"
   ],
   "scopeName": "text.xml",
+  "configuration": "xml.language-configuration.json",
   "path": "xml.tmLanguage.json"
 }

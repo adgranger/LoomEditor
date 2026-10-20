@@ -62,7 +62,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
         var languages = new LanguageRegistry();
         BuiltInLanguages.RegisterAll(languages);
         Model = new TextModel(string.Empty, DefaultEndOfLine.LF, null, tokenizationRegistry, languages.Codec, NoopTokenizationScheduler.Instance, new LanguageConfigurationRegistry());
-        Highlighter = new SyntaxHighlighter(Model, tokenizationRegistry, languages, dispatcher);
+        Highlighter = new SyntaxHighlighter(Model, tokenizationRegistry, languages, Model.LanguageConfigurationRegistry, dispatcher);
         FontInfo fontInfo = FontInfo.Default;
         ViewModel = new ViewModel(
             Model,

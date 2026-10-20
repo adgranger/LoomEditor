@@ -3,6 +3,7 @@
   "aliases": ["YAML", "yaml"],
   "extensions": [".yaml", ".yml", ".eyaml", ".eyml", ".cff", ".yaml-tmlanguage", ".yaml-tmpreferences", ".yaml-tmtheme", ".winget"],
   "scopeName": "source.yaml",
+  "configuration": "language-configuration.json",
   "path": "yaml.tmLanguage.json",
   "unbalancedBracketScopes": [
     "invalid.illegal",

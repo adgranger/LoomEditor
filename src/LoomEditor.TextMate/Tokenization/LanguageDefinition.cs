@@ -29,6 +29,10 @@ internal sealed record GrammarDefinition(
 /// <param name="FileNames"><c>filenames</c>.</param>
 /// <param name="Grammar">The grammar of the language, or <see langword="null"/> (plain text).</param>
 /// <param name="ExtraGrammars">Other grammars of the folder: injections and grammars only included by others.</param>
+/// <param name="ConfigurationLocation">
+/// The resource name of the language configuration file (the language folder joined with <c>configuration</c>), or
+/// <see langword="null"/>.
+/// </param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record LanguageDefinition(
     string Id,
@@ -36,4 +40,5 @@ internal sealed record LanguageDefinition(
     IReadOnlyList<string> Extensions,
     IReadOnlyList<string> FileNames,
     GrammarDefinition? Grammar,
-    IReadOnlyList<GrammarDefinition> ExtraGrammars);
+    IReadOnlyList<GrammarDefinition> ExtraGrammars,
+    string? ConfigurationLocation = null);
