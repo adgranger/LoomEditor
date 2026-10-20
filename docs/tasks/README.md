@@ -373,6 +373,162 @@ comments — phase 5), bracket pair colorization, semantic highlighting, tree-si
 `fontFamily` / `fontSize` / `lineHeight`), `.tmTheme` themes, grammars supplied by the host application, the token
 inspector.
 
+
+## Phase 5 — Editor features
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Design: [ADR 0009](../adr/0009-editor-features.md)
+(model decorations, Monaco's language configuration per editor, the full bracket pair tree, hidden areas without word
+wrap, folding from indentation and markers, a XAML find widget, .NET regexes). Extras chosen by the maintainer on
+2026-10-20: Find-based multi-cursor, line operations, the chunk based search tests.
+**Read [phase-5/README.md](phase-5/README.md) before any phase 5 card.**
+
+### Step A — Scheduling and model decorations
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-01](phase-5/P5-01-editor-scheduler.md) | Editor scheduler: `IEditorScheduler`, `RunOnceScheduler`, `Delayer`, `TimeoutTimer` | P4-50 | todo |
+| [P5-02](phase-5/P5-02-model-decoration-options.md) | `ModelDecorationOptions`: Monaco's options, `Register` / `CreateDynamic` | P5-01 | todo |
+| [P5-03](phase-5/P5-03-text-model-decorations.md) | `TextModel` decorations: `DeltaDecorations`, `ChangeDecorations`, queries | P5-02 | todo |
+| [P5-04](phase-5/P5-04-decorations-changed-event.md) | `TextModel.DecorationsChanged` and the decorations-and-editing tests | P5-03 | todo |
+| [P5-05](phase-5/P5-05-decoration-theme-colors.md) | Theme colors of the phase 5 decorations | P5-04 | todo |
+| [P5-06](phase-5/P5-06-editor-decorations-collection.md) | Editor id and `EditorDecorationsCollection` | P5-05 | todo |
+| [P5-07](phase-5/P5-07-view-model-decorations.md) | View model decorations: viewport decorations, inline decorations, decorations-changed view event | P5-06 | todo |
+| [P5-08](phase-5/P5-08-decoration-styles-and-backgrounds.md) | `DecorationStyles` and drawing decoration backgrounds and borders | P5-07 | todo |
+| [P5-09](phase-5/P5-09-inline-and-gutter-decorations.md) | Drawing inline decorations, after content and gutter decorations | P5-08 | todo |
+
+### Step B — Language configuration
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-10](phase-5/P5-10-language-configuration-types.md) | Language configuration types and scoped line tokens | P5-09 | todo |
+| [P5-11](phase-5/P5-11-rich-edit-brackets.md) | `RichEditBrackets`, `BracketsUtils` and electric characters | P5-10 | todo |
+| [P5-12](phase-5/P5-12-character-pair-on-enter-indent-rules.md) | `CharacterPairSupport`, `OnEnterSupport` and `IndentRulesSupport` | P5-11 | todo |
+| [P5-13](phase-5/P5-13-language-brackets-configuration.md) | `LanguageBracketsConfiguration` | P5-12 | todo |
+| [P5-14](phase-5/P5-14-language-configuration-registry.md) | `LanguageConfigurationRegistry` and `ResolvedLanguageConfiguration` | P5-13 | todo |
+| [P5-15](phase-5/P5-15-text-model-language-configuration-and-words.md) | The model gets the registry: `GetWordAtPosition`, `LanguageConfigurationChanged` | P5-14 | todo |
+| [P5-16](phase-5/P5-16-indentation-line-processor.md) | Indentation line processor and the test languages | P5-15 | todo |
+| [P5-17](phase-5/P5-17-enter-action-and-inherit-indent.md) | `GetEnterAction`, `GetInheritIndentForLine`, `GetGoodIndentForLine` | P5-16 | todo |
+| [P5-18](phase-5/P5-18-auto-indent-enter-and-type.md) | `GetIndentForEnter`, `GetIndentActionForType`, `GetIndentMetadata` | P5-17 | todo |
+| [P5-19](phase-5/P5-19-indentation-guesser.md) | Indentation guesser, `DetectIndentation`, `NormalizeIndentation` | P5-18 | todo |
+| [P5-20](phase-5/P5-20-language-configuration-reader.md) | `LanguageConfigurationReader`: `language-configuration.json` → `LanguageConfiguration` | P5-19 | todo |
+| [P5-21](phase-5/P5-21-bundle-language-configurations.md) | Bundle the ten language configurations and register them | P5-20 | todo |
+
+### Step C — The bracket pair tree, bracket matching and colorization
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-22](phase-5/P5-22-bracket-tree-length-and-small-set.md) | Bracket pair tree (1/9): `Length`, `TextLength`, `SmallImmutableSet` | P5-21 | todo |
+| [P5-23](phase-5/P5-23-bracket-tree-ast-leaves-and-pairs.md) | Bracket pair tree (2/9): AST base, leaves and pairs | P5-22 | todo |
+| [P5-24](phase-5/P5-24-bracket-tree-ast-lists.md) | Bracket pair tree (3/9): AST list nodes | P5-23 | todo |
+| [P5-25](phase-5/P5-25-bracket-tree-concat-and-node-reader.md) | Bracket pair tree (4/9): `concat23Trees` and `NodeReader` | P5-24 | todo |
+| [P5-26](phase-5/P5-26-bracket-tree-edit-mapping.md) | Bracket pair tree (5/9): `TextEditInfo`, `BeforeEditPositionMapper`, `combineTextEditInfos` | P5-25 | todo |
+| [P5-27](phase-5/P5-27-bracket-tree-bracket-tokens.md) | Bracket pair tree (6/9): bracket tokens per language | P5-26 | todo |
+| [P5-28](phase-5/P5-28-bracket-tree-tokenizers.md) | Bracket pair tree (7/9): `TextBufferTokenizer` and `FastTokenizer` | P5-27 | todo |
+| [P5-29](phase-5/P5-29-bracket-tree-parser-and-result-types.md) | Bracket pair tree (8/9): parser, result types, `CallbackIterable` | P5-28 | todo |
+| [P5-30](phase-5/P5-30-bracket-pairs-tree.md) | Bracket pair tree (9/9): `BracketPairsTree` | P5-29 | todo |
+| [P5-31](phase-5/P5-31-text-model-bracket-pairs-part.md) | `TextModel.BracketPairs`: the bracket pairs part (tree path) | P5-30 | todo |
+| [P5-32](phase-5/P5-32-bracket-pairs-legacy-match.md) | Bracket pairs: legacy `MatchBracket` and `FindMatchingBracketUp` (no tree) | P5-31 | todo |
+| [P5-33](phase-5/P5-33-bracket-pairs-legacy-find.md) | Bracket pairs: legacy `FindPrevBracket`, `FindNextBracket`, `FindEnclosingBrackets` (no tree) | P5-32 | todo |
+| [P5-34](phase-5/P5-34-bracket-pair-colorization.md) | Bracket pair colorization | P5-33 | todo |
+| [P5-35](phase-5/P5-35-bracket-matching-feature.md) | BracketMatching feature: highlight, jump, select, remove | P5-34 | todo |
+| [P5-36](phase-5/P5-36-double-click-selects-block.md) | Double-click inside brackets or quotes selects their content | P5-35 | todo |
+
+### Step D — Typing with the language configuration (phase 3 cut points)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-37](phase-5/P5-37-editor-controller-test-languages.md) | Test editor with a language (`createCodeEditorServices`, the `Editor Controller` languages) | P5-36 | todo |
+| [P5-38](phase-5/P5-38-cursor-configuration-language.md) | `CursorConfiguration` reads the language configuration | P5-37 | todo |
+| [P5-39](phase-5/P5-39-enter-on-enter-rules.md) | Enter with on-enter rules and indentation rules (`_enter`) | P5-38 | todo |
+| [P5-40](phase-5/P5-40-smart-tab-and-shift-doc-blocks.md) | Smart Tab (`_goodIndentForLine`) and `ShiftCommand` in doc blocks | P5-39 | todo |
+| [P5-41](phase-5/P5-41-auto-closed-characters.md) | Track auto-closed characters with model decorations (`AutoClosedAction`) | P5-40 | todo |
+| [P5-42](phase-5/P5-42-auto-closing-overtype-and-delete.md) | Overtype auto-closed characters, delete auto-closed pairs | P5-41 | todo |
+| [P5-43](phase-5/P5-43-auto-closing-open-characters.md) | Auto-close when typing an open character (`AutoClosingOpenCharTypeOperation`) | P5-42 | todo |
+| [P5-44](phase-5/P5-44-surround-selection-and-composition-end.md) | Surround the selection, and auto-close at the end of a composition | P5-43 | todo |
+| [P5-45](phase-5/P5-45-auto-indent-on-type.md) | Auto-indent while typing (`AutoIndentOperation`) | P5-44 | todo |
+| [P5-46](phase-5/P5-46-electric-characters-and-bracket-balance.md) | Electric characters and bracket balance | P5-45, P5-31, P5-32 | todo |
+
+### Step E — Comment, indentation and line operations
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-47](phase-5/P5-47-keybinding-chords.md) | Two-key chords in keybindings (`Ctrl+K Ctrl+C`) | P5-46 | todo |
+| [P5-48](phase-5/P5-48-block-comment-command.md) | `BlockCommentCommand` | P5-47 | todo |
+| [P5-49](phase-5/P5-49-line-comment-command.md) | `LineCommentCommand` | P5-48 | todo |
+| [P5-50](phase-5/P5-50-line-comment-tests.md) | Line comment tests: empty lines, block fallback, mixed languages | P5-49 | todo |
+| [P5-51](phase-5/P5-51-comment-feature.md) | Comment feature: toggle, add, remove line comment and block comment | P5-50 | todo |
+| [P5-52](phase-5/P5-52-indentation-commands-and-reindent.md) | Indentation: convert indentation commands and reindent edits | P5-51 | todo |
+| [P5-53](phase-5/P5-53-indentation-actions.md) | Indentation feature: convert, change size, detect, reindent | P5-52 | todo |
+| [P5-54](phase-5/P5-54-auto-indent-on-paste.md) | Auto indent on paste | P5-53 | todo |
+| [P5-55](phase-5/P5-55-copy-sort-trim-commands.md) | `CopyLinesCommand`, `SortLinesCommand`, `TrimTrailingWhitespaceCommand` | P5-54 | todo |
+| [P5-56](phase-5/P5-56-move-lines-command.md) | `MoveLinesCommand` (with auto-indent) | P5-55 | todo |
+| [P5-57](phase-5/P5-57-lines-operations-copy-move-sort.md) | LinesOperations: copy, duplicate, move, sort, remove duplicates, reverse, trim | P5-56 | todo |
+| [P5-58](phase-5/P5-58-delete-indent-insert-lines.md) | LinesOperations: delete lines, indent / outdent lines, insert line above / below | P5-57 | todo |
+| [P5-59](phase-5/P5-59-delete-all-and-join-lines.md) | LinesOperations: delete all left / right, join lines | P5-58 | todo |
+| [P5-60](phase-5/P5-60-transpose-and-case-transforms.md) | LinesOperations: transpose and case transforms | P5-59 | todo |
+| [P5-61](phase-5/P5-61-auto-indent-on-type-tests.md) | Auto indent on type: the language suites of `indentation.test.ts` | P5-60 | todo |
+
+### Step F — Find, replace and Find-based multi-cursor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-62](phase-5/P5-62-search-primitives.md) | Search primitives: `SearchParams`, `SearchData`, `FindMatch`, `Searcher` | P5-61 | todo |
+| [P5-63](phase-5/P5-63-text-model-search.md) | `TextModelSearch`: find all, next and previous matches in a model | P5-62 | todo |
+| [P5-64](phase-5/P5-64-piece-tree-search-and-model-api.md) | Piece tree search and `TextModel.FindMatches / FindNextMatch / FindPreviousMatch` | P5-63 | todo |
+| [P5-65](phase-5/P5-65-find-replace-state.md) | The Find feature folder, `FindReplaceState` and the selection search string | P5-64 | todo |
+| [P5-66](phase-5/P5-66-replace-pattern.md) | `ReplacePattern` and case-preserving replace | P5-65 | todo |
+| [P5-67](phase-5/P5-67-find-decorations.md) | `FindDecorations` and the find colors | P5-66 | todo |
+| [P5-68](phase-5/P5-68-find-model-navigation.md) | `FindModelBoundToEditorModel`: search, decorations, next / previous, select all | P5-67 | todo |
+| [P5-69](phase-5/P5-69-find-model-replace.md) | Find model: replace, replace all, `ReplaceAllCommand` | P5-68 | todo |
+| [P5-70](phase-5/P5-70-find-controller.md) | `FindController` and the find actions (without UI) | P5-69 | todo |
+| [P5-71](phase-5/P5-71-find-commands-and-keybindings.md) | Find commands, `when` clauses and VS Code's keybindings | P5-70 | todo |
+| [P5-72](phase-5/P5-72-find-widget-layout.md) | The find widget (XAML): layout, theme colors and the find row | P5-71 | todo |
+| [P5-73](phase-5/P5-73-find-widget-keyboard-and-focus.md) | The find widget: keyboard and focus routing | P5-72 | todo |
+| [P5-74](phase-5/P5-74-find-widget-replace-and-count.md) | The find widget: replace row, "n of m", find in selection, manual checks | P5-73 | todo |
+| [P5-75](phase-5/P5-75-multicursor-find-session.md) | Find-based multi-cursor: `MultiCursorSession` and Ctrl+D | P5-74 | todo |
+| [P5-76](phase-5/P5-76-multicursor-selected-text-tests.md) | Port tests: multi-cursor "Selected text occurrence matching" | P5-75 | todo |
+| [P5-77](phase-5/P5-77-selection-highlighter.md) | `SelectionHighlighter`: highlight the other occurrences of the selection | P5-76 | todo |
+
+### Step G — Hidden areas and folding
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-78](phase-5/P5-78-constant-time-prefix-sum-and-projections.md) | `ConstantTimePrefixSumComputer` and the identity / hidden line projections | P5-77 | todo |
+| [P5-79](phase-5/P5-79-view-model-lines.md) | `ViewModelLinesFromProjectedModel`: view lines, hidden areas, model changes | P5-78 | todo |
+| [P5-80](phase-5/P5-80-view-model-lines-conversions.md) | `ViewModelLinesFromProjectedModel`: coordinate conversions and the real `CoordinatesConverter` | P5-79 | todo |
+| [P5-81](phase-5/P5-81-view-model-hidden-areas.md) | The view model uses view lines: `SetHiddenAreas`, the real converter, the cursor in folded code | P5-80 | todo |
+| [P5-82](phase-5/P5-82-view-lines-in-renderer-and-mouse.md) | The renderer, the hit testing and the control draw view lines | P5-81 | todo |
+| [P5-83](phase-5/P5-83-folding-ranges.md) | Folding ranges (`FoldingRegions`, `sanitizeAndMerge`) | P5-82 | todo |
+| [P5-84](phase-5/P5-84-indent-range-provider.md) | Indentation folding ranges with `#region` markers and off-side rule | P5-83 | todo |
+| [P5-85](phase-5/P5-85-folding-model.md) | `FoldingModel`: regions, collapse state and their decorations | P5-84 | todo |
+| [P5-86](phase-5/P5-86-folding-model-functions.md) | Folding model functions: fold levels, recursive folding, fold jumping | P5-85 | todo |
+| [P5-87](phase-5/P5-87-hidden-range-model-and-folding-decorations.md) | Hidden range model and the folding decoration provider | P5-86 | todo |
+| [P5-88](phase-5/P5-88-folding-controller.md) | The `Folding` feature: the folding controller | P5-87 | todo |
+| [P5-89](phase-5/P5-89-folding-commands-and-keybindings.md) | Folding commands and their keyboard shortcuts | P5-88 | todo |
+| [P5-90](phase-5/P5-90-gutter-folding-controls.md) | Folding controls in the gutter: room, chevrons, mouse-over | P5-89 | todo |
+| [P5-91](phase-5/P5-91-folding-mouse.md) | Clicking the folding controls and the `⋯` | P5-90 | todo |
+
+### Step H — Word highlight
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-92](phase-5/P5-92-word-highlighter.md) | Word highlighter: textual occurrences and their decorations | P5-91 | todo |
+| [P5-93](phase-5/P5-93-word-highlighter-feature.md) | The `WordHighlighter` feature and its commands (F7 / Shift+F7) | P5-92 | todo |
+
+### Step I — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P5-94](phase-5/P5-94-detect-indentation-on-set-text.md) | Detect the indentation when the text is set (`detectIndentation`) | P5-93 | todo |
+| [P5-95](phase-5/P5-95-gallery-features-demo.md) | Gallery: the phase 5 features demo and the manual test list | P5-94 | todo |
+| [P5-96](phase-5/P5-96-close-phase-5.md) | Close phase 5 | all | todo |
+
+Phase 5 cards form a single chain, in table order (P5-46 also needs P5-31 and P5-32). P5-72 … P5-74, P5-90, P5-91 and P5-95 have manual checks for the maintainer.
+
+**Deferred on purpose:** syntax folding and language-feature providers (word highlight, folding ranges: phase 8);
+word wrap, bracket pair guides, minimap, sticky scroll (phase 6); overtype mode; find history, overview ruler marks,
+the global find clipboard; injected text; the `editor.language.brackets` / `colorizedBracketPairs` settings.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
