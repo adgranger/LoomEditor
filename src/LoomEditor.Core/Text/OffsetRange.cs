@@ -40,6 +40,12 @@ internal readonly record struct OffsetRange
     /// <summary><c>fromTo</c>.</summary>
     public static OffsetRange FromTo(int start, int endExclusive) => new(start, endExclusive);
 
+    /// <summary><c>ofStartAndLength</c>.</summary>
+    public static OffsetRange OfStartAndLength(int start, int length) => new(start, start + length);
+
+    /// <summary><c>emptyAt</c>.</summary>
+    public static OffsetRange EmptyAt(int offset) => new(offset, offset);
+
     /// <summary><c>addRange</c>: adds <paramref name="range"/> to <paramref name="sortedRanges"/>, merging overlapping or touching ranges.</summary>
     public static void AddRange(OffsetRange range, List<OffsetRange> sortedRanges)
     {
@@ -76,6 +82,11 @@ internal readonly record struct OffsetRange
 
     /// <summary><c>join</c>: the smallest range that contains both ranges.</summary>
     public OffsetRange Join(OffsetRange other) => new(Math.Min(Start, other.Start), Math.Max(EndExclusive, other.EndExclusive));
+
+    /// <summary><c>joinRightTouching</c>: <paramref name="other"/> must start where this range ends.</summary>
+    /// <exception cref="ArgumentException">The ranges do not touch.</exception>
+    public OffsetRange JoinRightTouching(OffsetRange other) =>
+        EndExclusive == other.Start ? new OffsetRange(Start, other.EndExclusive) : throw new ArgumentException($"Invalid join: {this} and {other}");
 
     /// <summary><c>intersect</c>: empty when the ranges only touch, <c>null</c> when they do not even touch.</summary>
     public OffsetRange? Intersect(OffsetRange other)
