@@ -335,7 +335,7 @@ thread, VS Code themes, golden tests from the real vscode-textmate).
 | [P4-34](phase-4/P4-34-grammar-factory-and-languages.md) | Languages, grammar definitions, `TMScopeRegistry`, `TMGrammarFactory` | P4-33 | done |
 | [P4-35](phase-4/P4-35-bundle-grammars.md) | Bundle the ten built-in grammars | P4-34 | done |
 | [P4-36](phase-4/P4-36-mirror-model-and-length-edits.md) | Background (1/3): `MirrorTextModel`, `PrefixSumComputer`, `LengthEdit`, index transformer | P4-35 | done |
-| [P4-37](phase-4/P4-37-tokenization-worker.md) | Background (2/3): the worker on its own thread | P4-36 | todo |
+| [P4-37](phase-4/P4-37-tokenization-worker.md) | Background (2/3): the worker on its own thread | P4-36 | done |
 | [P4-38](phase-4/P4-38-worker-controller.md) | Background (3/3): the UI side and `IUiDispatcher` | P4-37 | todo |
 
 ### Step F — VS Code themes (`LoomEditor.Themes`)

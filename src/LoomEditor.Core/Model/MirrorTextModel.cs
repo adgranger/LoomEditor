@@ -51,7 +51,7 @@ internal class MirrorTextModel
     public int Version => _versionId;
 
     /// <summary><c>dispose</c>.</summary>
-    public void Dispose() => _lines.Clear();
+    public virtual void Dispose() => _lines.Clear();
 
     /// <summary><c>getText</c>.</summary>
     public string GetText() => _cachedTextValue ??= string.Join(_eol, _lines);

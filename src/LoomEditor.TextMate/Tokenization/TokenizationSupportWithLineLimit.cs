@@ -18,7 +18,7 @@ internal sealed class TokenizationSupportWithLineLimit : ITokenizationSupport
 
     private readonly int _encodedLanguageId;
     private readonly ITokenizationSupport _actual;
-    private readonly int _maxTokenizationLineLength;
+    private int _maxTokenizationLineLength;
 
     /// <summary>Wraps <paramref name="actual"/>; lines of <paramref name="maxTokenizationLineLength"/> characters or more are not tokenized.</summary>
     public TokenizationSupportWithLineLimit(int encodedLanguageId, ITokenizationSupport actual, int maxTokenizationLineLength = DefaultMaxTokenizationLineLength)
@@ -27,6 +27,16 @@ internal sealed class TokenizationSupportWithLineLimit : ITokenizationSupport
         _encodedLanguageId = encodedLanguageId;
         _actual = actual;
         _maxTokenizationLineLength = maxTokenizationLineLength;
+    }
+
+    /// <summary>
+    /// The limit; set it to follow <c>editor.maxTokenizationLineLength</c> (Monaco's observable). Lines tokenized later
+    /// use the new value; the tokenizing thread must be the one that sets it.
+    /// </summary>
+    public int MaxTokenizationLineLength
+    {
+        get => _maxTokenizationLineLength;
+        set => _maxTokenizationLineLength = value;
     }
 
     /// <inheritdoc />
