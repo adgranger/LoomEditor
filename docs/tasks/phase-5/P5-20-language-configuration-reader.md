@@ -1,6 +1,6 @@
 # P5-20 — `LanguageConfigurationReader`: `language-configuration.json` → `LanguageConfiguration`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-19
 - **Size:** M
 
@@ -62,26 +62,26 @@ LoomEditor reads a VS Code `language-configuration.json` (JSON with comments and
 
 No upstream unit tests. New (inline JSON):
 
-- [ ] `Read_AllSections_AreRead` (a TypeScript-like file: comments, brackets, pairs, wordPattern, indentation rules, on-enter rules, folding)
-- [ ] `Read_CommentsAndTrailingCommas_AreAccepted`
-- [ ] `Read_PairsAsArraysOrObjects_AreRead`
-- [ ] `Read_InvalidEntries_AreSkippedWithAWarning`
-- [ ] `Read_LineCommentObject_KeepsNoIndent`
-- [ ] `Read_RegexObjectWithFlags_MapsIgnoreCase`
-- [ ] `Read_UnknownRegexFlag_IsAWarning`
-- [ ] `Read_InvalidRegex_IsAWarning`
-- [ ] `Read_IndentationRulesWithoutDecreasePattern_AreDropped`
-- [ ] `Read_FoldingMarkers_NeedStartAndEnd`
-- [ ] `Read_OnEnterAction_IndentNamesAndRemoveText`
-- [ ] `Read_NotAnObject_GivesAnEmptyConfiguration`
-- [ ] `TranslateJavaScriptPattern_UnicodePropertyNames_InsideAndOutsideClasses`
+- [x] `Read_AllSections_AreRead` (a TypeScript-like file: comments, brackets, pairs, wordPattern, indentation rules, on-enter rules, folding)
+- [x] `Read_CommentsAndTrailingCommas_AreAccepted`
+- [x] `Read_PairsAsArraysOrObjects_AreRead`
+- [x] `Read_InvalidEntries_AreSkippedWithAWarning`
+- [x] `Read_LineCommentObject_KeepsNoIndent`
+- [x] `Read_RegexObjectWithFlags_MapsIgnoreCase`
+- [x] `Read_UnknownRegexFlag_IsAWarning`
+- [x] `Read_InvalidRegex_IsAWarning`
+- [x] `Read_IndentationRulesWithoutDecreasePattern_AreDropped`
+- [x] `Read_FoldingMarkers_NeedStartAndEnd`
+- [x] `Read_OnEnterAction_IndentNamesAndRemoveText`
+- [x] `Read_NotAnObject_GivesAnEmptyConfiguration`
+- [x] `TranslateJavaScriptPattern_UnicodePropertyNames_InsideAndOutsideClasses`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`languageConfigurationExtensionPoint.ts`); "Behavior differences": the regex translation, Unicode `\w` / `\d` / `\b`, the `u` / `y` / `d` flags, strict JSON
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`languageConfigurationExtensionPoint.ts`); "Behavior differences": the regex translation, Unicode `\w` / `\d` / `\b`, the `u` / `y` / `d` flags, strict JSON
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
