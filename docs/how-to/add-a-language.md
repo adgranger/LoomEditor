@@ -1,7 +1,5 @@
 # How to add a language (syntax highlighting)
 
-> **Status: phase 4 — not available yet.** This page describes the planned workflow so that the design stays simple.
-
 LoomEditor highlights code with **TextMate grammars**, the same format as VS Code. Adding a language should never
 require writing C#.
 
@@ -34,4 +32,5 @@ require writing C#.
 
 - Grammars are read with `System.Text.Json.Nodes.JsonNode` (no serializer, no reflection; Native AOT) — ADR 0008, decision 3.
 - Regexes in grammars use the Oniguruma syntax and run through `IRegexEngine` (native Oniguruma 6.9.10, ADR 0007).
-- The plan for phase 4 is in `docs/tasks/README.md` (cards P4-34, P4-35, P4-47, P4-48 make this workflow real).
+- Our Oniguruma (6.9.10) is newer than the one in vscode-oniguruma (6.9.8). If a golden test fails on a nested negated class `[a[^b]]`, write it as `(?:[^b]|a)` (done for the YAML grammars, `docs/PORTING.md`, "Behavior differences") and tell the maintainer.
+- How the pieces fit together: `docs/ARCHITECTURE.md`, "How a line gets its colors (phase 4)".

@@ -96,6 +96,26 @@ The caret blinks on its own: a `DispatcherQueueTimer` ticks `CursorBlinking` onl
 every tick invalidates the canvas. A font, tab size or DPI change goes through `RecreateTextMeasurer`: new measurer,
 `ViewModel.SetFontInfo`, `TextViewRenderer.OnFontChanged` (cache cleared), first visible line kept.
 
+## How a line gets its colors (phase 4)
+
+```
+LanguageId / Theme (control)     LoomEditor (WinUI)      → SyntaxHighlighter.SetLanguage / SetTheme (View/Highlighting)
+  → TMGrammarFactory             grammar of the language (embedded .tmLanguage.json, regexes on native Oniguruma)
+  → worker thread                one per editor: TextMateWorkerTokenizer keeps a mirror of the text and its own
+                                 state store, tokenizes in slices of 20 ms, batches of at most 200 lines
+  → UI thread                    ThreadedBackgroundTokenizerFactory: batches arrive through the dispatcher
+  → token store                  TextModel.Tokenization (Core/Model/Tokens): tokens + one state per line,
+                                 TokensChanged event, BackgroundTokenizationState
+  → ViewModel                    OnModelTokensChanged → redraw; GetViewLineTokens(line) for the renderer
+  → TextViewRenderer             token foreground / font style from the registry's color map (the theme)
+```
+
+The visible lines come first: when the viewport changes, the view model calls `SetVisibleLines` on its attached view,
+and the model tokenizes the lines it does not know yet **on the UI thread** with Monaco's heuristics (a few lines
+before the viewport, then `TokenizeLine2`), so scrolling never waits for the worker. An edit tells the worker (the model
+change is mirrored) and invalidates the states after it. Without a dispatcher there is no worker and only the visible
+lines are tokenized. Benchmarks: [performance.md](performance.md). To add a language: [how-to/add-a-language.md](how-to/add-a-language.md).
+
 ## Extension model: features
 
 A feature (Find, Folding, BracketMatching…) implements `IEditorFeature`:
@@ -133,6 +153,14 @@ Step-by-step guide: [how-to/add-a-feature.md](how-to/add-a-feature.md).
 | change the Win2D backend | `src/LoomEditor.Rendering/Win2D/` |
 | change scrolling, wheel or the scroll position | `src/LoomEditor.View/Layout/` (`Scrollable`, `ViewLayout`, `MouseWheelScrolling`); the control side is `src/LoomEditor.WinUI/Controls/LoomEditor.Scrolling.cs` |
 | change the layout (line heights, content size, visible lines) | `src/LoomEditor.View/Layout/` (`LinesLayout`, `LineHeightsManager`, `ViewLayout`, `ViewModel`) |
+| change the tokens of a model (token store, states, `TokensChanged`, viewport-first tokenization) | `src/LoomEditor.Core/Model/Tokens/`, `src/LoomEditor.Core/Tokens/`, `src/LoomEditor.Core/Model/TextModel.Tokenization.cs` |
+| change how a grammar is loaded or a line is tokenized | `src/LoomEditor.TextMate/Grammar/` (vscode-textmate), `Parsing/`, `Tokenization/` (`TMGrammarFactory`, `TextMateTokenizationSupport`) |
+| change the background tokenization thread | `src/LoomEditor.TextMate/Tokenization/Worker/`, `ThreadedBackgroundTokenizerFactory.cs`, `TextMateWorkerTokenizerController*.cs` |
+| add or fix a grammar / a language | `src/LoomEditor.TextMate/Grammars/<language>/` and `BuiltInLanguages.cs` ([how-to](how-to/add-a-language.md)) |
+| change the regex engine (Oniguruma) | `src/LoomEditor.TextMate/Oniguruma/`, `src/native/oniguruma/` ([ADR 0007](adr/0007-textmate-regex-engine.md)) |
+| change a theme or how themes are loaded | `src/LoomEditor.Themes/` (`VsCodeThemeLoader`, `EditorTheme`, `BuiltIn/*.json`), `src/LoomEditor.View/Highlighting/ThemeToTextMate.cs` |
+| wire highlighting into the control (`LanguageId`, `Theme`) | `src/LoomEditor.View/Highlighting/SyntaxHighlighter.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Highlighting.cs` |
+| regenerate the golden token files | `eng/golden/` (`generate.mjs`), tests in `tests/LoomEditor.TextMate.Tests/Golden/` |
 | change the caret or its blinking | `src/LoomEditor.Rendering/CursorBlinking.cs` (state machine), `TextViewRenderer.cs` (drawing), `src/LoomEditor.WinUI/Controls/LoomEditor.Caret.cs` (timer and focus) |
 | change font measurement, tab size or DPI handling | `src/LoomEditor.View/Layout/FontMeasurements.cs`, `src/LoomEditor.Rendering/Win2D/Win2DTextMeasurer.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Font.cs` |
 | change the control's XAML template | `src/LoomEditor.WinUI/Themes/Generic.xaml` |

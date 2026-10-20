@@ -311,7 +311,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `editableTextModelAuto.test.ts` | 4 / 4 | the disabled `GENERATE_TESTS` loop is ported as a helper |
 | `textModel.test.ts` (`TextModel.mightContainRTL`, `createSnapshot`, `TextModelData.fromString`) | 14 / 14 | |
 | `textModel.test.ts` (`Editor Model - TextModel`) | 14 / 26 | indentation guessing and `normalizeIndentation` (10), `issue #168836` indent size option (1), `does not use events internally` (1): phases 4–5. The 3 NaN / float `validatePosition` / `validateRange` tests are adapted to `int` inside the validation tests |
-| `model.line.test.ts` | 0 / 53 | `ModelLine` tokens and `getIndentLevel`: phase 4 (tokenization) |
+| `model.line.test.ts` | see "Tests ported in phase 4" | `ModelLine` tokens: ported in P4-31 and P4-32; `getIndentLevel` is not about tokens |
 | `viewModel/prefixSumComputer.test.ts` (`Editor ViewModel - PrefixSumComputer`) | 48 / 48 | P4-36: run on `PrefixSumComputer` only; the same tests ran on `ConstantTimePrefixSumComputer` (not ported) too |
 | `textMate/test/browser/arrayOperation.test.ts` | 1 / 1 | P4-36 |
 | `textChange.test.ts` | 0 / 10 | **gap**: card P1-26 wrongly said Monaco has no test file for `textChange.ts`. LoomEditor has its own `TextChange*Tests` instead; porting these 10 tests (9 `TextChangeCompressor`, 1 `issue #118041`) is a follow-up |
@@ -343,6 +343,60 @@ from this list (every place is marked `// Phase 4–5 cut point` in the code).
 | `Cursors/Commands/ShiftCommand.cs` | `shiftCommand.ts` 144–176 | enter action of the previous line (doc blocks) |
 | `Controller/ViewController.cs` | `viewController.ts` (`_trySelectBracketContent`, string content) | double-click on a bracket or string selects its content (bracket matching, tokens) |
 | `Layout/RevealCalculator.cs` | `viewLines.ts` reveal | sticky scroll lines |
+
+### After phase 4
+
+Tokens now exist: `TextModel.Tokenization.GetLineTokens(line)` gives, for every token, its language id (`GetLanguageId`)
+and its `StandardTokenType` (other, comment, string, regex; `GetStandardTokenType`). `getStandardTokenTypeAtPosition` is not
+ported yet (add it when a phase 5 feature needs it). Language configuration (auto-closing pairs, surrounding pairs, comment
+tokens, on-enter rules, brackets, indentation rules) is **not** ported: it is what every row above still lacks.
+
+| Cut point | Can read tokens now? | Still missing for phase 5 |
+|---|---|---|
+| Auto-closing, overtype, surround, electric characters (`TypeOperations*`, `CursorConfiguration`) | yes: the token type tells whether the caret is in a string or a comment | language configuration; auto-closed characters need model decorations |
+| Enter, smart Tab, `ShiftCommand` (on-enter rules, indent) | partly (comment / string at the caret) | language configuration (on-enter and indentation rules) |
+| Double-click on a bracket or a string (`ViewController`) | yes for strings | bracket matching |
+| Auto-closing pair delete, `autoClosingPairs` for word deletes | no | language configuration |
+| Sticky scroll (`RevealCalculator`) | no | outline / folding model |
+
+## Done in phase 4 (TextMate grammars and themes)
+
+The step-by-step cards are in **[docs/tasks/phase-4/](tasks/phase-4/)** (P4-01 … P4-50); the design is
+[ADR 0007](adr/0007-textmate-regex-engine.md) (regex engine) and [ADR 0008](adr/0008-syntax-highlighting.md). Main
+design decisions:
+
+- Three upstream repositories are ported: `microsoft/vscode` (Monaco's token model and the workbench's TextMate
+  service), `microsoft/vscode-textmate` v9.3.2 and `microsoft/vscode-oniguruma` v1.7.0 (headers name the repository).
+  The map above is complete for all three.
+- Regexes run on a **native Oniguruma 6.9.10** (`onig.dll`, built by `src/native/oniguruma/build.ps1`), through
+  `IOnigLib`; patterns and subjects are UTF-16.
+- Grammars are read with `System.Text.Json.Nodes` (no serializer, Native AOT); loading is synchronous.
+- Monaco's token store, state store and `AttachedViews` live in `LoomEditor.Core`; the tokenization registry is an
+  instance per editor, not a global.
+- One **background thread** per editor tokenizes the whole file (`TextMateWorkerTokenizer`) and publishes its results on
+  the UI thread; the UI thread only tokenizes the visible lines it does not know yet, with Monaco's heuristics.
+- Themes are VS Code `.json` themes (Dark Modern and Light Modern among the ten built in); `ThemeToTextMate` gives
+  the grammars their token rules and the registry its color map. The control has `LanguageId` and `Theme`.
+- The "done when" criterion is met: the golden tests (`tests/LoomEditor.TextMate.Tests/Golden`) compare the scopes and
+  the Dark Modern / Light Modern colors of ten languages (C#, TypeScript, JavaScript, JSON, HTML, CSS, XML, Markdown,
+  Python, YAML) with files produced by the real vscode-textmate (`eng/golden`), 2026-10-20: 30 tests, all green.
+  One deliberate change was needed: the YAML grammars (see "Behavior differences").
+- Reference numbers (grammar speed, 60 visible lines in a 100 000-line file, whole-file worker run) are in
+  `docs/performance.md`. The viewport case (8.1 ms) is just over the 8 ms limit of card P4-49: follow-up card proposed.
+
+## Tests ported in phase 4
+
+| Upstream test | Ported / total | Not ported, and why |
+|---|---|---|
+| vscode-textmate `tokenization.test.ts` (`first-mate` cases) | 64 / 64 | |
+| vscode-textmate `suite1` + `whileTests` | 29 / 29 | the shadowed-rules test is skipped as upstream |
+| vscode-textmate `themes.test.ts` | matching, parsing, resolving | data-driven theme tests (73–123) and timing tests: covered by the golden tests; font tests (ADR 0008) |
+| vscode-textmate `grammar.test.ts` (`Fonts are correctly set`, `… 2`) | 0 / 2 | fonts are not ported (ADR 0008, decision 3) |
+| `model.line.test.ts` (`ModelLinesTokens`) | 29 + 25 | the `getIndentLevel` suite is not about tokens |
+| `textModelWithTokens.test.ts` | 2 / 4 | `monaco-editor#133` and `issue #11856` need bracket matching (phase 5) |
+| `prefixSumComputer.test.ts`, `arrayOperation.test.ts` | 48 / 48, 1 / 1 | |
+| `json.test.ts` of vscode-textmate | 0 | JSON is read with `System.Text.Json` |
+| Golden tests (no upstream test file) | 30 | |
 
 ## Done in phase 3 (editing)
 
