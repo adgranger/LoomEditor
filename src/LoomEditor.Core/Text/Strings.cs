@@ -16,6 +16,27 @@ internal static partial class Strings
     private const int Tab = 0x0009;
     private const int SupplementaryPlaneBegin = 0x10000;
 
+    /// <summary>
+    /// Escapes regular expression characters in a given string: exactly <c>\ { } * + ? | ^ $ . [ ] ( )</c>, like
+    /// JavaScript (Monaco: <c>escapeRegExpCharacters</c>). Not <c>Regex.Escape</c>, which escapes other characters
+    /// and not <c>]</c> or <c>}</c>.
+    /// </summary>
+    public static string EscapeRegExpCharacters(string value)
+    {
+        var result = new System.Text.StringBuilder(value.Length);
+        foreach (char c in value)
+        {
+            if (c is '\\' or '{' or '}' or '*' or '+' or '?' or '|' or '^' or '$' or '.' or '[' or ']' or '(' or ')')
+            {
+                result.Append('\\');
+            }
+
+            result.Append(c);
+        }
+
+        return result.ToString();
+    }
+
     /// <summary>Splits on <c>\r\n</c>, <c>\r</c> or <c>\n</c> (Monaco: <c>splitLines</c>, regex <c>/\r\n|\r|\n/</c>).</summary>
     public static string[] SplitLines(string str)
     {

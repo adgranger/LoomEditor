@@ -1,6 +1,6 @@
 # P5-11 — `RichEditBrackets`, `BracketsUtils` and electric characters
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-10
 - **Size:** M
 
@@ -61,21 +61,21 @@ Core has Monaco's bracket regex builders (`RichEditBrackets`, `createBracketOrRe
 
 ## Tests
 
-- [ ] Port (`richEditBrackets.test.ts`) `richEditBrackets`: `findPrevBracketInToken one char 1`, `findPrevBracketInToken one char 2`,
+- [x] Port (`richEditBrackets.test.ts`) `richEditBrackets`: `findPrevBracketInToken one char 1`, `findPrevBracketInToken one char 2`,
   `findPrevBracketInToken one char 3`, `findPrevBracketInToken more chars 1`, `findPrevBracketInToken more chars 2`,
   `findPrevBracketInToken more chars 3`, `findNextBracketInToken one char`, `findNextBracketInToken more chars`,
   `findNextBracketInToken with emoty result`, `issue #3894: [Handlebars] Curly braces edit issues`
-- [ ] Port (`electricCharacter.test.ts`) `Editor Modes - Auto Indentation`: `getElectricCharacters uses all sources and dedups`, `matchOpenBracket`
-- [ ] New: `EscapeRegExpCharacters_EscapesLikeJavaScript`, `RichEditBrackets_GroupsBracketsWithTheSameOpenOrClose`
+- [x] Port (`electricCharacter.test.ts`) `Editor Modes - Auto Indentation`: `getElectricCharacters uses all sources and dedups`, `matchOpenBracket`
+- [x] New: `EscapeRegExpCharacters_EscapesLikeJavaScript`, `RichEditBrackets_GroupsBracketsWithTheSameOpenOrClose`
   (`['IF','END']`, `['for','end']`, `['{','}']` → two groups, lower-cased), `CreateBracketOrRegExp_WordBrackets_GetWordBoundaries`,
   `CreateBracketOrRegExp_IsCaseInsensitive`, `ForwardRegexForBracketPair_IncludesSuperstrings` (`['begin','end']`, `['if','end if']`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`richEditBrackets.ts`, `electricCharacter.ts`, `strings.ts` `escapeRegExpCharacters`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`richEditBrackets.ts`, `electricCharacter.ts`, `strings.ts` `escapeRegExpCharacters`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
