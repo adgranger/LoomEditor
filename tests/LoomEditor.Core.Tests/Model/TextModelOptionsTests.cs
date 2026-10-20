@@ -117,4 +117,18 @@ public class TextModelOptionsTests
 
         Assert.Equal(expected, model.GetLineIndentColumn(1));
     }
+
+    // Monaco: 'issue #168836: updating tabSize should also update indentSize when indentSize is set to "tabSize"'
+    [Fact]
+    public void Issue168836_UpdatingTabSizeAlsoUpdatesIndentSizeWhenItFollowsTheTabSize()
+    {
+        var m = new TextModel("some text", options: new TextModelOptions(tabSize: 2, indentSize: null));
+        Assert.Equal(2, m.Options.TabSize);
+        Assert.Equal(2, m.Options.IndentSize);
+        Assert.True(m.Options.IndentSizeIsTabSize);
+        m.UpdateOptions(new TextModelUpdateOptions(TabSize: 4));
+        Assert.Equal(4, m.Options.TabSize);
+        Assert.Equal(4, m.Options.IndentSize);
+        Assert.True(m.Options.IndentSizeIsTabSize);
+    }
 }

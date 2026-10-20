@@ -1,6 +1,6 @@
 # P5-19 — Indentation guesser, `DetectIndentation`, `NormalizeIndentation`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-18
 - **Size:** M
 
@@ -49,20 +49,20 @@ its options (`normalizeIndentation`). The 11 deferred `textModel.test.ts` tests 
 
 ## Tests
 
-- [ ] Port (`textModel.test.ts`) `Editor Model - TextModel`: `guess indentation 1`,
+- [x] Port (`textModel.test.ts`) `Editor Model - TextModel`: `guess indentation 1`,
   `issue #44991: Wrong indentation size auto-detection`, `issue #55818: Broken indentation detection`,
   `issue #70832: Broken indentation detection`, `issue #62143: Broken indentation detection`,
   `issue #84217: Broken indentation detection`, `issue #65668: YAML file indented with 2 spaces`,
   `issue #249040: 4-space indent should win over 2-space when predominant`, `normalizeIndentation 1`,
   `normalizeIndentation 2`, `issue #168836: updating tabSize should also update indentSize when indentSize is set to "tabSize"`
-- [ ] New: `DetectIndentation_RaisesOptionsChanged`, `GuessIndentation_EmptyText_KeepsTheDefaults`
+- [x] New: `DetectIndentation_RaisesOptionsChanged`, `GuessIndentation_EmptyText_KeepsTheDefaults`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated (`indentationGuesser.ts`, `textModel.ts` options part); tests table: `textModel.test.ts` (`Editor Model - TextModel`) 25 / 26 (only `TextModel does not use events internally` left)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated (`indentationGuesser.ts`, `textModel.ts` options part); tests table: `textModel.test.ts` (`Editor Model - TextModel`) 25 / 26 (only `TextModel does not use events internally` left)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
