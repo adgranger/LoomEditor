@@ -1,6 +1,6 @@
 # P4-37 — Background tokenization (2/3): the worker (`textMateWorkerTokenizer.ts`) on its own thread
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-36
 - **Size:** L — split: `TextMateWorkerTokenizer.cs` (the logic, no thread), `TokenizationWorker.cs` (thread + channel), `StateDeltas.cs`
 
@@ -45,18 +45,18 @@ A background thread keeps a mirror of the document, tokenizes it from the first 
 
 No upstream unit tests. New:
 
-- [ ] `TokenizeSlice_StopsAfter200Lines_AndSendsOneBatch`
-- [ ] `TokenizeSlice_StateUnchanged_SendsNullDelta`
-- [ ] `AcceptEvents_EditInvalidatesFromEditedLine`
-- [ ] `Retokenize_InvalidatesTheRange`
-- [ ] `Worker_ProcessesMessagesInOrder_AndStopsOnDispose` (real thread, `ManualResetEventSlim` + 5 s timeout)
+- [x] `TokenizeSlice_StopsAfter200Lines_AndSendsOneBatch`
+- [x] `TokenizeSlice_StateUnchanged_SendsNullDelta`
+- [x] `AcceptEvents_EditInvalidatesFromEditedLine`
+- [x] `Retokenize_InvalidatesTheRange`
+- [x] `Worker_ProcessesMessagesInOrder_AndStopsOnDispose` (real thread, `ManualResetEventSlim` + 5 s timeout)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, and stable when run 10 times in a row
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": thread + channel instead of a web worker, references instead of serialization
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, and stable when run 10 times in a row
+- [x] `docs/PORTING.md` map updated; "Behavior differences": thread + channel instead of a web worker, references instead of serialization
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
