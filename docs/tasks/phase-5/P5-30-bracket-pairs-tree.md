@@ -1,6 +1,6 @@
 # P5-30 — Bracket pair tree (9/9): `BracketPairsTree`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-29
 - **Size:** M (two partial files)
 
@@ -65,26 +65,26 @@ File: `common/model/bracketPairsTextModelPart/bracketPairsTree/bracketPairsTree.
 The upstream tests of this class go through the model part (`getBracketPairsInRange.test.ts`, P5-31). Here, new tests
 on the tree alone, with `BracketPairsTestModels`:
 
-- [ ] New: `ModelWithoutTokens_UsesFastTokenizer_FindsPairs` (`"{ [ ( ) ] }"`, `GetBracketPairsInRange` over the whole
+- [x] New: `ModelWithoutTokens_UsesFastTokenizer_FindsPairs` (`"{ [ ( ) ] }"`, `GetBracketPairsInRange` over the whole
       text gives three pairs sorted by start, nesting levels 0, 1, 2)
-- [ ] New: `GetBracketsInRange_OnlyColorized_SkipsPairsNotColorized` (with `colorizedBracketPairs` smaller than
+- [x] New: `GetBracketsInRange_OnlyColorized_SkipsPairsNotColorized` (with `colorizedBracketPairs` smaller than
       `brackets`)
-- [ ] New: `GetFirstBracketBefore_And_After_SkipUnexpectedClosingBrackets`
-- [ ] New: `ContentChanged_ThenQuery_ReparsesIncrementally` and the randomized
+- [x] New: `GetFirstBracketBefore_And_After_SkipUnexpectedClosingBrackets`
+- [x] New: `ContentChanged_ThenQuery_ReparsesIncrementally` and the randomized
       `IncrementalReparse_EqualsFreshTree` (seeded `[Theory]` 1…30, seed in the message: 20 random edits of a text made
       of brackets, letters and newlines, each followed by a query; after each edit the brackets of the tree equal the
       brackets of a new `BracketPairsTree` built on a copy of the model)
-- [ ] New: `TokensChanged_FiresChanged_WhenNoInitialTree`
-- [ ] New: `BackgroundTokenizationCompleted_DropsInitialTree_AndFiresChanged`
-- [ ] New: `HasUnmatchedClosingBracketAfter_TokensNotAccurate_ReturnsFalse`
+- [x] New: `TokensChanged_FiresChanged_WhenNoInitialTree`
+- [x] New: `BackgroundTokenizationCompleted_DropsInitialTree_AndFiresChanged`
+- [x] New: `HasUnmatchedClosingBracketAfter_TokensNotAccurate_ReturnsFalse`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `bracketPairsTree.ts` ✅ (P5-30); the whole `bracketPairsTree/` folder ✅
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] `docs/tasks/phase-5/README.md` section 5: row for `BracketPairsTestModels` (created by P5-30)
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `bracketPairsTree.ts` ✅ (P5-30); the whole `bracketPairsTree/` folder ✅
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] `docs/tasks/phase-5/README.md` section 5: row for `BracketPairsTestModels` (created by P5-30)
 
 ## Out of scope
 
