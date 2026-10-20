@@ -1,6 +1,6 @@
 # P5-24 — Bracket pair tree (3/9): AST list nodes
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-23
 - **Size:** M
 
@@ -54,21 +54,21 @@ Test: `test/common/model/bracketPairColorizer/concat23Trees.test.ts` 16–59 (`C
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - mergeItems` › `Clone` (with the `equals` helper)
-- [ ] New: `Create23_DifferentHeights_Throws`
-- [ ] New: `Immutable23_AppendChild_Throws`, `ImmutableArray_ToMutable_ReturnsMutableCopy` (the copy accepts
+- [x] Port suite `Bracket Pair Colorizer - mergeItems` › `Clone` (with the `equals` helper)
+- [x] New: `Create23_DifferentHeights_Throws`
+- [x] New: `Immutable23_AppendChild_Throws`, `ImmutableArray_ToMutable_ReturnsMutableCopy` (the copy accepts
       `AppendChildOfSameHeight`, the original is unchanged)
-- [ ] New: `TwoThree_PrependThenUnprepend_RestoresChildrenAndLength`
-- [ ] New: `HandleChildrenChanged_RecomputesLengthAndMissingIds`
-- [ ] New: `MakeLastElementMutable_ImmutableChildList_IsReplacedByMutableCopy`
-- [ ] New: `CanBeReused_EmptyList_IsFalse`
+- [x] New: `TwoThree_PrependThenUnprepend_RestoresChildrenAndLength`
+- [x] New: `HandleChildrenChanged_RecomputesLengthAndMissingIds`
+- [x] New: `MakeLastElementMutable_ImmutableChildList_IsReplacedByMutableCopy`
+- [x] New: `CanBeReused_EmptyList_IsFalse`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `ast.ts` ✅ ported (P5-23, P5-24); tests row `concat23Trees.test.ts` 1 / 6 (P5-24)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `ast.ts` ✅ ported (P5-23, P5-24); tests row `concat23Trees.test.ts` 1 / 6 (P5-24)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
