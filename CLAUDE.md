@@ -31,6 +31,14 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64   # Native AOT c
 
 A task is done only when the Release build has **0 warnings** and **all tests pass**.
 
+**rtk:** run shell commands through `rtk` (e.g. `rtk dotnet test ...`). If `rtk dotnet test` crashes (e.g. "Zero tests ran"),
+select the VSTest runner and run it again (PowerShell: `$env:DOTNET_TEST_RUNNER = 'VSTest'`; bash: `export DOTNET_TEST_RUNNER=VSTest`):
+
+```powershell
+$env:DOTNET_TEST_RUNNER = 'VSTest'
+rtk dotnet test --solution LoomEditor.slnx -c Release
+```
+
 ## Porting rules (see docs/PORTING.md)
 
 - Read Monaco at the pinned commit: `https://raw.githubusercontent.com/microsoft/vscode/0c9c0a4295a9222e12a605537738719455ae3056/<path>`
