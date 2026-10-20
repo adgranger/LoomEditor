@@ -16,7 +16,7 @@ public readonly record struct ThemeColor(byte A, byte R, byte G, byte B)
     public static ThemeColor FromRgb(byte r, byte g, byte b) => new(255, r, g, b);
 
     /// <summary>
-    /// Parses a color written like in VS Code themes: <c>#RGB</c>, <c>#RRGGBB</c> or <c>#RRGGBBAA</c>.
+    /// Parses a color written like in VS Code themes: <c>#RGB</c>, <c>#RGBA</c>, <c>#RRGGBB</c> or <c>#RRGGBBAA</c> (VS Code: <c>Color.fromHex</c>).
     /// </summary>
     /// <exception cref="FormatException">The text is not a valid color.</exception>
     public static ThemeColor Parse(string hex)
@@ -25,16 +25,17 @@ public readonly record struct ThemeColor(byte A, byte R, byte G, byte B)
 
         if (hex.Length < 2 || hex[0] != '#')
         {
-            throw new FormatException($"'{hex}' is not a color: expected #RGB, #RRGGBB or #RRGGBBAA.");
+            throw new FormatException($"'{hex}' is not a color: expected #RGB, #RGBA, #RRGGBB or #RRGGBBAA.");
         }
 
         ReadOnlySpan<char> digits = hex.AsSpan(1);
         return digits.Length switch
         {
             3 => FromRgb(ParseShortChannel(digits[0]), ParseShortChannel(digits[1]), ParseShortChannel(digits[2])),
+            4 => new ThemeColor(ParseShortChannel(digits[3]), ParseShortChannel(digits[0]), ParseShortChannel(digits[1]), ParseShortChannel(digits[2])),
             6 => FromRgb(ParseChannel(digits[0..2]), ParseChannel(digits[2..4]), ParseChannel(digits[4..6])),
             8 => new ThemeColor(ParseChannel(digits[6..8]), ParseChannel(digits[0..2]), ParseChannel(digits[2..4]), ParseChannel(digits[4..6])),
-            _ => throw new FormatException($"'{hex}' is not a color: expected #RGB, #RRGGBB or #RRGGBBAA."),
+            _ => throw new FormatException($"'{hex}' is not a color: expected #RGB, #RGBA, #RRGGBB or #RRGGBBAA."),
         };
     }
 

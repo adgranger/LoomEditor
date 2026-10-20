@@ -1,6 +1,6 @@
 # P4-40 — Themes: load a VS Code color theme (`colorThemeData.ts` subset)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-39
 - **Size:** M
 
@@ -42,23 +42,23 @@ color map.
 
 No upstream unit tests. New (inline JSON in the tests):
 
-- [ ] `Load_Include_ParentRulesComeFirst`
-- [ ] `Load_ColorDefault_RemovesInheritedColor`
-- [ ] `Load_CommentsAndTrailingCommas_AreAccepted`
-- [ ] `TokenColors_FirstRuleIsTheDefaultForegroundAndBackground`
-- [ ] `TokenColors_NoInfoTokenRule_AppendsDefaultThemeColors`
-- [ ] `TokenColorIndex_SameColorTwice_SameId_AndIdsStartAtOne`
-- [ ] `Load_SettingsForm_ConvertsScopelessSettingsToColors`
-- [ ] `Load_TokenColorsAsPath_IsRejected`
-- [ ] `ThemeColor_Parse_FourDigits`
+- [x] `Load_Include_ParentRulesComeFirst`
+- [x] `Load_ColorDefault_RemovesInheritedColor`
+- [x] `Load_CommentsAndTrailingCommas_AreAccepted`
+- [x] `TokenColors_FirstRuleIsTheDefaultForegroundAndBackground`
+- [x] `TokenColors_NoInfoTokenRule_AppendsDefaultThemeColors`
+- [x] `TokenColorIndex_SameColorTwice_SameId_AndIdsStartAtOne`
+- [x] `Load_SettingsForm_ConvertsScopelessSettingsToColors`
+- [x] `Load_TokenColorsAsPath_IsRejected`
+- [x] `ThemeColor_Parse_FourDigits`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.Themes` run, diff checked
-- [ ] `docs/PORTING.md` map updated; "Behavior differences": no `.tmTheme`, no semantic token colors
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.Themes` run, diff checked
+- [x] `docs/PORTING.md` map updated; "Behavior differences": no `.tmTheme`, no semantic token colors
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
