@@ -114,3 +114,49 @@ All three runs meet the criteria (average ≥ 58 fps, p95 ≤ 20 ms, no interval
 the first second). The median run is the one with the median longest interval. The frame rate is capped at the 60 Hz
 refresh rate of the display. The intervals are read with a `Stopwatch` in each `CompositionTarget.Rendering` callback:
 casting the event arguments to read `RenderingTime` fails in a Native AOT build.
+
+### Tokenization (card P4-49)
+
+Machine: 11th Gen Intel Core i7-1165G7 (2.80 GHz), 32 GB, Windows 11, .NET 11, Release, native Oniguruma 6.9.10.
+Command: `dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter *Tokenization*`
+(1 launch, 1 warm-up, 3 iterations; 5 for the viewport). These numbers are a reference for later changes, not a target.
+
+`GrammarBenchmarks`: `TokenizeLine2` over each golden sample repeated to 10 000 lines, each line from the state the
+previous one ended in. The samples are small (about 30 lines, from 864 B for C#) and differ a lot in how dense the
+grammar is, so compare a language with itself over time, not with another language.
+
+| Language | Mean for 10 000 lines | Lines per second | Allocated |
+|---|---:|---:|---:|
+| csharp | 1,103 ms | ~9,100 | 80.6 MB |
+| typescript | 2,445 ms | ~4,100 | 185.4 MB |
+| javascript | 1,957 ms | ~5,100 | 142.3 MB |
+| json | 62 ms | ~161,000 | 26.7 MB |
+| html | 726 ms | ~13,800 | 82.9 MB |
+| css | 2,075 ms | ~4,800 | 34.4 MB |
+| xml | 84 ms | ~120,000 | 29.8 MB |
+| markdown | 535 ms | ~18,700 | 58.6 MB |
+| python | 1,131 ms | ~8,800 | 26.1 MB |
+| yaml | 345 ms | ~29,000 | 95.1 MB |
+
+The error bars are wide with 3 iterations (the csharp StdDev is 74 ms; the CSS one is 62 ms with a 1,133 ms error).
+
+`ViewportTokenizationBenchmarks.SetVisibleLines`: the 60 visible lines in the middle of a 100 000-line C# file, no
+worker (heuristic path), on the calling thread. Each call first runs `ResetTokenization`, which is part of the number.
+
+| Benchmark | Mean | Allocated | Card limit |
+|---|---:|---:|---|
+| `SetVisibleLines` (60 lines, stabilized) | 8.11 ms (StdDev 0.36 ms) | 1.52 MB | 8 ms: **exceeded by 0.1 ms** |
+
+The limit of the card is exceeded, so a follow-up card is proposed (in the report of P4-49) and nothing is optimized
+here. The number includes `ResetTokenization`.
+
+`WorkerBenchmarks.TokenizeInBackground`: from `SetLanguage` to `BackgroundTokenizationState.Completed` for a 100 000-line
+C# file, including the start of the worker and the compilation of the grammar, with the model and the highlighter
+created in the measured call.
+
+| Benchmark | Mean | Allocated |
+|---|---:|---:|
+| `TokenizeInBackground` (100 000 lines of C#) | 12.4 s (StdDev 2.2 s, 3 iterations) | 864 MB |
+
+The UI thread only runs what the worker posts, about 1,100 ms per 10 000 lines is consistent with `GrammarBenchmarks`
+(about 11 s of raw tokenization for 100 000 lines).

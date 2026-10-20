@@ -1,6 +1,6 @@
 # P4-49 — Tokenization benchmarks and reference numbers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P4-48
 - **Size:** S
 
@@ -33,10 +33,10 @@ None (benchmarks). `dotnet run -c Release --project tests/LoomEditor.Benchmarks 
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/performance.md` updated with the numbers
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/performance.md` updated with the numbers
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

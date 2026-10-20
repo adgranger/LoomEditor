@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The golden samples (not their token files) are the text the tokenization benchmarks read. -->
+    <None Include="..\LoomEditor.TextMate.Tests\Golden\**\sample.*" Exclude="..\LoomEditor.TextMate.Tests\Golden\**\*.tokens.json" LinkBase="Golden" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
   </ItemGroup>
 </Project>
