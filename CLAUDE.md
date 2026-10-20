@@ -31,13 +31,9 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64   # Native AOT c
 
 A task is done only when the Release build has **0 warnings** and **all tests pass**.
 
-**rtk:** run shell commands through `rtk` (e.g. `rtk dotnet test ...`). If `rtk dotnet test` crashes (e.g. "Zero tests ran"),
-select the VSTest runner and run it again (PowerShell: `$env:DOTNET_TEST_RUNNER = 'VSTest'`; bash: `export DOTNET_TEST_RUNNER=VSTest`):
-
-```powershell
-$env:DOTNET_TEST_RUNNER = 'VSTest'
-rtk dotnet test --solution LoomEditor.slnx -c Release
-```
+**rtk:** run shell commands through `rtk` (e.g. `rtk dotnet test ...`). `rtk dotnet test` needs the
+`Microsoft.Testing.Extensions.TrxReport` package (already referenced by every test project) to report results, so a new
+test project must reference it too. No environment variable is needed.
 
 ## Porting rules (see docs/PORTING.md)
 
