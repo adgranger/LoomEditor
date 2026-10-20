@@ -50,6 +50,7 @@ public sealed partial class TextModel
         ModelOptionsChangedEventArgs e = _options.CreateChangeEvent(resolved);
         _options = resolved;
         BracketPairs.HandleDidChangeOptions(e);
+        _decorationProvider.HandleDidChangeOptions();
         OptionsChanged?.Invoke(this, e);
     }
 

@@ -1,6 +1,6 @@
 # P5-34 — Bracket pair colorization
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-33
 - **Size:** M
 
@@ -72,28 +72,28 @@ decoration.
 
 No upstream test targets the provider (the bracket levels are tested by `colorizedBracketsVSBrackets`, P5-31).
 
-- [ ] New: `GetDecorationsInRange_NestedBrackets_ClassNamesFollowNestingLevel` (`"{ [ ( ) ] }"` →
+- [x] New: `GetDecorationsInRange_NestedBrackets_ClassNamesFollowNestingLevel` (`"{ [ ( ) ] }"` →
       `bracket-highlighting-0`, `-1`, `-2`, `-2`, `-1`, `-0`)
-- [ ] New: `GetDecorationsInRange_IndependentColorPool_UsesLevelOfEqualBracketType`
-- [ ] New: `GetDecorationsInRange_UnexpectedClosingBracket_UsesUnexpectedClassName`
-- [ ] New: `GetDecorationsInRange_Disabled_ReturnsNothing`
-- [ ] New: `TextModel_GetDecorationsInRange_IncludesBracketColors`
-- [ ] New: `UpdateBracketPairColorizationOptions_RaisesDecorationsChanged`
-- [ ] New: `Edit_ThatChangesBrackets_RaisesDecorationsChanged`
-- [ ] New (View): `GetLevelColor_DefaultDarkColors_CycleOverThreeColors` (levels 0…5 → `#FFD700`, `#DA70D6`,
+- [x] New: `GetDecorationsInRange_IndependentColorPool_UsesLevelOfEqualBracketType`
+- [x] New: `GetDecorationsInRange_UnexpectedClosingBracket_UsesUnexpectedClassName`
+- [x] New: `GetDecorationsInRange_Disabled_ReturnsNothing`
+- [x] New: `TextModel_GetDecorationsInRange_IncludesBracketColors`
+- [x] New: `UpdateBracketPairColorizationOptions_RaisesDecorationsChanged`
+- [x] New: `Edit_ThatChangesBrackets_RaisesDecorationsChanged`
+- [x] New (View): `GetLevelColor_DefaultDarkColors_CycleOverThreeColors` (levels 0…5 → `#FFD700`, `#DA70D6`,
       `#179FFF`, then again: foreground4…6 are transparent by default)
-- [ ] New (View): `GetLevelColor_ThemeSetsSixColors_CycleOverSix`
-- [ ] New (View): `GetLevelColor_AllTransparent_NoColor`
-- [ ] New (View): the line style of a rendered line with a bracket uses the bracket color, not the token color (with the
+- [x] New (View): `GetLevelColor_ThemeSetsSixColors_CycleOverSix`
+- [x] New (View): `GetLevelColor_AllTransparent_NoColor`
+- [x] New (View): the line style of a rendered line with a bracket uses the bracket color, not the token color (with the
       test measurer of the Rendering tests, through P5-09's inline decoration path)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `colorizedBracketPairsDecorationProvider.ts` ✅ (P5-34); behavior difference "bracket
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `colorizedBracketPairsDecorationProvider.ts` ✅ (P5-34); behavior difference "bracket
       colors: a computed `DecorationStyles` row instead of generated CSS rules"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 - [ ] Manual check in the Gallery (C# and JSON samples, Dark Modern and Light Modern): brackets are colored by level,
       a stray `}` is red, typing a `{` recolors the following brackets at once
 

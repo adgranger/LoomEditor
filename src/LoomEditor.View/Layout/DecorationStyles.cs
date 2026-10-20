@@ -38,8 +38,20 @@ internal static class DecorationStyles
 
         // folding.css 33–44
         ["folded-background"] = new("editor.foldBackground"),
+        // colorizedBracketPairsDecorationProvider.ts 106–128: the only computed rows (see BracketPairColorizationColors)
+        ["unexpected-closing-bracket"] = new(ForegroundResolver: BracketPairColorizationColors.GetUnexpectedBracketColor),
+
         ["inline-folded"] = new(AfterContentText: "⋯", AfterContentColorId: "editor.foldPlaceholderForeground"),
     };
+
+    static DecorationStyles()
+    {
+        for (int level = 0; level < 30; level++)
+        {
+            int l = level;
+            Table[$"bracket-highlighting-{level}"] = new(ForegroundResolver: theme => BracketPairColorizationColors.GetLevelColor(theme, l));
+        }
+    }
 
     /// <summary>Every color id of the table.</summary>
     internal static IEnumerable<string> ColorIds =>

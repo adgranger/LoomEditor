@@ -12,6 +12,9 @@ internal sealed partial class TextViewRenderer
 {
     private readonly Dictionary<string, ThemeColor?> _decorationColors = new(StringComparer.Ordinal);
 
+    private ThemeColor? GetDecorationForeground(DecorationStyle? style) =>
+        style?.ForegroundResolver is { } resolver ? resolver(Theme) : GetDecorationColor(style?.ForegroundColorId);
+
     private ThemeColor? GetDecorationColor(string? colorId)
     {
         if (colorId is null)
@@ -172,7 +175,7 @@ internal sealed partial class TextViewRenderer
         foreach (LineDecoration d in LineDecoration.Filter(data.GetInlineDecorations(lineNumber), lineNumber, 1, maxColumn))
         {
             if (d.Type is not (InlineDecorationType.Regular or InlineDecorationType.RegularAffectingLetterSpacing)
-                || GetDecorationColor(DecorationStyles.Get(d.ClassName)?.ForegroundColorId) is not { } color)
+                || GetDecorationForeground(DecorationStyles.Get(d.ClassName)) is not { } color)
             {
                 continue;
             }
