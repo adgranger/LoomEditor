@@ -1,6 +1,6 @@
 # P5-26 — Bracket pair tree (5/9): `TextEditInfo`, `BeforeEditPositionMapper`, `combineTextEditInfos`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-25
 - **Size:** M
 
@@ -52,27 +52,27 @@ back to the old text. The incremental parser (P5-29) uses this to find which old
 
 ## Tests
 
-- [ ] Port suite `Bracket Pair Colorizer - BeforeEditPositionMapper` › `Single-Line 1`, `Single-Line 2`,
+- [x] Port suite `Bracket Pair Colorizer - BeforeEditPositionMapper` › `Single-Line 1`, `Single-Line 2`,
       `Multi-Line Replace 1`, `Multi-Line Replace 2`, `Multi-Line Replace 3`, `Multi-Line Insert 1`,
       `Multi-Line Insert 2`, `Multi-Line Replace/Insert 1`, `Multi-Line Replace/Insert 2` (expected strings copied
       byte for byte, including `∞`; the file is UTF-8)
-- [ ] Port suite `combineTextEditInfos` › `test0` … `test49` as one `[Theory]` with `[MemberData]` seeds 0…49 and the
+- [x] Port suite `combineTextEditInfos` › `test0` … `test49` as one `[Theory]` with `[MemberData]` seeds 0…49 and the
       comment `// Monaco: 'combineTextEditInfos' > 'test' + seed (0…49)`. Monaco's `Random.create(seed)` is replaced by
       `new Random(seed)` (the test checks an invariant — the round trip gives back the original text — not values
       drawn from the generator); the seed is in every failure message. `rng.nextIntRange(a, b)` is `rng.Next(a, b)`
       (both exclude `b`: `nextIntRange(start, endExclusive)`, `test/common/core/random.ts` line 37). `createTextModel` is
       `new TextModel(text)`; `textModel.applyEdits` is `ApplyEdits`.
-- [ ] New: `FromModelContentChanges_ReversesTheChanges`
-- [ ] New: `Combine_EmptyFirst_ReturnsSecond`
+- [x] New: `FromModelContentChanges_ReversesTheChanges`
+- [x] New: `Combine_EmptyFirst_ReturnsSecond`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `beforeEditPositionMapper.ts`, `combineTextEditInfos.ts` ✅ (P5-26); tests rows
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `beforeEditPositionMapper.ts`, `combineTextEditInfos.ts` ✅ (P5-26); tests rows
       `beforeEditPositionMapper.test.ts` 9 / 9, `combineTextEditInfos.test.ts` 50 / 50; behavior difference
       "`ArrayQueue` is a `Queue<T>`"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
