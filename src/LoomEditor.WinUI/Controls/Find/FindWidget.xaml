@@ -1,0 +1,235 @@
+<UserControl
+    x:Class="LoomEditor.WinUI.Controls.Find.FindWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.Resources>
+        <!-- One brush per theme color; ApplyTheme changes their Color, so a theme change needs no template refresh. -->
+        <SolidColorBrush x:Key="WidgetBackgroundBrush" />
+        <SolidColorBrush x:Key="WidgetForegroundBrush" />
+        <SolidColorBrush x:Key="WidgetBorderBrush" />
+        <SolidColorBrush x:Key="InputBackgroundBrush" />
+        <SolidColorBrush x:Key="InputForegroundBrush" />
+        <SolidColorBrush x:Key="InputBorderBrush" />
+        <SolidColorBrush x:Key="FocusBorderBrush" />
+        <SolidColorBrush x:Key="OptionActiveBackgroundBrush" />
+        <SolidColorBrush x:Key="OptionActiveBorderBrush" />
+        <SolidColorBrush x:Key="OptionActiveForegroundBrush" />
+        <SolidColorBrush x:Key="ErrorForegroundBrush" />
+        <SolidColorBrush x:Key="HoverBackgroundBrush" />
+        <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
+
+        <StaticResource x:Key="TextControlBackground" ResourceKey="InputBackgroundBrush" />
+        <StaticResource x:Key="TextControlBackgroundPointerOver" ResourceKey="InputBackgroundBrush" />
+        <StaticResource x:Key="TextControlBackgroundFocused" ResourceKey="InputBackgroundBrush" />
+        <StaticResource x:Key="TextControlForeground" ResourceKey="InputForegroundBrush" />
+        <StaticResource x:Key="TextControlForegroundPointerOver" ResourceKey="InputForegroundBrush" />
+        <StaticResource x:Key="TextControlForegroundFocused" ResourceKey="InputForegroundBrush" />
+        <StaticResource x:Key="TextControlBorderBrush" ResourceKey="InputBorderBrush" />
+        <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="InputBorderBrush" />
+        <StaticResource x:Key="TextControlBorderBrushFocused" ResourceKey="FocusBorderBrush" />
+
+        <StaticResource x:Key="ToggleButtonBackground" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ToggleButtonBackgroundPointerOver" ResourceKey="HoverBackgroundBrush" />
+        <StaticResource x:Key="ToggleButtonBackgroundPressed" ResourceKey="HoverBackgroundBrush" />
+        <StaticResource x:Key="ToggleButtonBackgroundChecked" ResourceKey="OptionActiveBackgroundBrush" />
+        <StaticResource x:Key="ToggleButtonBackgroundCheckedPointerOver" ResourceKey="OptionActiveBackgroundBrush" />
+        <StaticResource x:Key="ToggleButtonBackgroundCheckedPressed" ResourceKey="OptionActiveBackgroundBrush" />
+        <StaticResource x:Key="ToggleButtonForeground" ResourceKey="WidgetForegroundBrush" />
+        <StaticResource x:Key="ToggleButtonForegroundPointerOver" ResourceKey="WidgetForegroundBrush" />
+        <StaticResource x:Key="ToggleButtonForegroundPressed" ResourceKey="WidgetForegroundBrush" />
+        <StaticResource x:Key="ToggleButtonForegroundChecked" ResourceKey="OptionActiveForegroundBrush" />
+        <StaticResource x:Key="ToggleButtonForegroundCheckedPointerOver" ResourceKey="OptionActiveForegroundBrush" />
+        <StaticResource x:Key="ToggleButtonForegroundCheckedPressed" ResourceKey="OptionActiveForegroundBrush" />
+        <StaticResource x:Key="ToggleButtonBorderBrush" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ToggleButtonBorderBrushPointerOver" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ToggleButtonBorderBrushPressed" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ToggleButtonBorderBrushChecked" ResourceKey="OptionActiveBorderBrush" />
+        <StaticResource x:Key="ToggleButtonBorderBrushCheckedPointerOver" ResourceKey="OptionActiveBorderBrush" />
+        <StaticResource x:Key="ToggleButtonBorderBrushCheckedPressed" ResourceKey="OptionActiveBorderBrush" />
+
+        <StaticResource x:Key="ButtonBackground" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="HoverBackgroundBrush" />
+        <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="HoverBackgroundBrush" />
+        <StaticResource x:Key="ButtonForeground" ResourceKey="WidgetForegroundBrush" />
+        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="WidgetForegroundBrush" />
+        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="WidgetForegroundBrush" />
+        <StaticResource x:Key="ButtonBorderBrush" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="TransparentBrush" />
+        <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="TransparentBrush" />
+
+        <Style x:Key="IconButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="2,0,0,0" />
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style x:Key="OptionToggleStyle" TargetType="ToggleButton">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="1,0,0,0" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+        <Style x:Key="InputBoxStyle" TargetType="TextBox">
+            <Setter Property="Width" Value="221" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="MaxHeight" Value="100" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+        </Style>
+    </UserControl.Resources>
+
+    <Border
+        Width="419"
+        Padding="4"
+        Background="{StaticResource WidgetBackgroundBrush}"
+        BorderBrush="{StaticResource WidgetBorderBrush}"
+        BorderThickness="1"
+        CornerRadius="4">
+        <Grid ColumnSpacing="4" RowSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="18" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="ToggleReplaceButton"
+                Grid.RowSpan="2"
+                Width="18"
+                VerticalAlignment="Stretch"
+                AutomationProperties.Name="Toggle Replace"
+                Content="&#xE76C;"
+                Style="{StaticResource IconButtonStyle}"
+                ToolTipService.ToolTip="Toggle Replace" />
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Grid>
+                    <TextBox
+                        x:Name="FindTextBox"
+                        Padding="6,3,72,3"
+                        AutomationProperties.Name="Find"
+                        PlaceholderText="Find"
+                        Style="{StaticResource InputBoxStyle}"
+                        TextChanged="OnFindTextChanged"
+                        ToolTipService.ToolTip="Find" />
+                    <StackPanel
+                        Margin="0,0,3,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <ToggleButton
+                            x:Name="MatchCaseToggle"
+                            AutomationProperties.Name="Match Case"
+                            Click="OnOptionToggleClick"
+                            Content="Aa"
+                            Style="{StaticResource OptionToggleStyle}"
+                            ToolTipService.ToolTip="Match Case (Alt+C)" />
+                        <ToggleButton
+                            x:Name="WholeWordToggle"
+                            AutomationProperties.Name="Match Whole Word"
+                            Click="OnOptionToggleClick"
+                            Style="{StaticResource OptionToggleStyle}"
+                            ToolTipService.ToolTip="Match Whole Word (Alt+W)">
+                            <TextBlock Text="ab" TextDecorations="Underline" />
+                        </ToggleButton>
+                        <ToggleButton
+                            x:Name="RegexToggle"
+                            AutomationProperties.Name="Use Regular Expression"
+                            Click="OnOptionToggleClick"
+                            Content=".*"
+                            Style="{StaticResource OptionToggleStyle}"
+                            ToolTipService.ToolTip="Use Regular Expression (Alt+R)" />
+                    </StackPanel>
+                </Grid>
+                <TextBlock
+                    x:Name="MatchesCountText"
+                    MinWidth="69"
+                    Margin="4,0,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Foreground="{StaticResource WidgetForegroundBrush}"
+                    TextAlignment="Center" />
+                <Button
+                    x:Name="PreviousButton"
+                    AutomationProperties.Name="Previous Match"
+                    Click="OnPreviousClick"
+                    Content="&#xE70E;"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="Previous Match (Shift+Enter)" />
+                <Button
+                    x:Name="NextButton"
+                    AutomationProperties.Name="Next Match"
+                    Click="OnNextClick"
+                    Content="&#xE70D;"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="Next Match (Enter)" />
+                <ToggleButton
+                    x:Name="FindInSelectionToggle"
+                    Margin="2,0,0,0"
+                    AutomationProperties.Name="Find in Selection"
+                    FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                    Content="&#xE8A9;"
+                    Style="{StaticResource OptionToggleStyle}"
+                    ToolTipService.ToolTip="Find in Selection (Alt+L)" />
+                <Button
+                    x:Name="CloseButton"
+                    AutomationProperties.Name="Close"
+                    Click="OnCloseClick"
+                    Content="&#xE711;"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="Close (Escape)" />
+            </StackPanel>
+
+            <StackPanel
+                x:Name="ReplaceRow"
+                Grid.Row="1"
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Visibility="Collapsed">
+                <Grid>
+                    <TextBox
+                        x:Name="ReplaceTextBox"
+                        Padding="6,3,28,3"
+                        AutomationProperties.Name="Replace"
+                        PlaceholderText="Replace"
+                        Style="{StaticResource InputBoxStyle}"
+                        ToolTipService.ToolTip="Replace" />
+                    <ToggleButton
+                        x:Name="PreserveCaseToggle"
+                        Margin="0,0,3,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Preserve Case"
+                        Content="AB"
+                        Style="{StaticResource OptionToggleStyle}"
+                        ToolTipService.ToolTip="Preserve Case (Alt+P)" />
+                </Grid>
+                <Button
+                    x:Name="ReplaceButton"
+                    Margin="4,0,0,0"
+                    AutomationProperties.Name="Replace"
+                    Content="&#xE8AB;"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="Replace (Enter)" />
+                <Button
+                    x:Name="ReplaceAllButton"
+                    AutomationProperties.Name="Replace All"
+                    Content="&#xE8EE;"
+                    Style="{StaticResource IconButtonStyle}"
+                    ToolTipService.ToolTip="Replace All (Ctrl+Alt+Enter)" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

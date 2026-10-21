@@ -5,6 +5,7 @@ using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 using LoomEditor.View.Features;
 using LoomEditor.WinUI.Accessibility;
+using LoomEditor.WinUI.Controls.Find;
 using LoomEditor.WinUI.Input;
 using LoomEditor.WinUI.Threading;
 using Microsoft.Graphics.Canvas.UI.Xaml;
@@ -37,6 +38,7 @@ namespace LoomEditor.WinUI.Controls;
 [TemplatePart(Name = CanvasPartName, Type = typeof(CanvasControl))]
 [TemplatePart(Name = VerticalScrollBarPartName, Type = typeof(ScrollBar))]
 [TemplatePart(Name = HorizontalScrollBarPartName, Type = typeof(ScrollBar))]
+[TemplatePart(Name = FindWidgetPartName, Type = typeof(FindWidget))]
 #pragma warning disable CA1724 // Type name matches the root namespace on purpose: see remarks above.
 #pragma warning disable CA1001 // WinUI controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomEditor : Control
@@ -44,6 +46,7 @@ public sealed partial class LoomEditor : Control
 #pragma warning restore CA1724
 {
     private const string CanvasPartName = "PART_Canvas";
+    private const string FindWidgetPartName = "PART_FindWidget";
 
     /// <summary>Identifies the <see cref="Text"/> dependency property.</summary>
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -64,6 +67,7 @@ public sealed partial class LoomEditor : Control
     private readonly IDisposable _clipboardCommands;
     private CanvasControl? _canvas;
     private Win2DTextMeasurer? _measurer;
+    private FindWidget? _findWidget;
 
     /// <summary>Creates the control.</summary>
     public LoomEditor()
@@ -144,6 +148,7 @@ public sealed partial class LoomEditor : Control
         _canvas.Draw += OnCanvasDraw;
         _canvas.SizeChanged += OnCanvasSizeChanged;
         AttachScrollBars();
+        _findWidget = GetTemplateChild(FindWidgetPartName) as FindWidget;
     }
 
     /// <inheritdoc />
@@ -186,6 +191,7 @@ public sealed partial class LoomEditor : Control
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        ConnectFindWidget();
         StartHighlighting();
         ObserveXamlRoot();
         StartIme();
@@ -193,6 +199,7 @@ public sealed partial class LoomEditor : Control
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+        _findWidget?.Disconnect();
         StopHighlighting();
         StopIme();
         _featureHost?.Dispose();
