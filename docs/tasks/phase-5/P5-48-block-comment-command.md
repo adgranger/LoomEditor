@@ -1,6 +1,6 @@
 # P5-48 — `BlockCommentCommand`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-47
 - **Size:** S
 
@@ -60,18 +60,18 @@ The command reads the block comment tokens of the language at the selection from
 
 Port, suite `Editor Contrib - Block Comment Command` (12):
 
-- [ ] `empty selection wraps itself`, `invisible selection ignored`, `bug9511`
-- [ ] `one line selection`, `one line selection toggle`, `multi line selection`, `multi line selection toggle`
-- [ ] `fuzzy removes`, `bug #30358`, `issue #34618`
-- [ ] `insertSpace false`, `insertSpace false does not remove space`
+- [x] `empty selection wraps itself`, `invisible selection ignored`, `bug9511`
+- [x] `one line selection`, `one line selection toggle`, `multi line selection`, `multi line selection toggle`
+- [x] `fuzzy removes`, `bug #30358`, `issue #34618`
+- [x] `insertSpace false`, `insertSpace false does not remove space`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/comment/browser/blockCommentCommand.ts` → `Features/Comment/BlockCommentCommand.cs`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/comment/browser/blockCommentCommand.ts` → `Features/Comment/BlockCommentCommand.cs`
       (✅, P5-48); tests table `blockCommentCommand.test.ts` 12 / 12
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
