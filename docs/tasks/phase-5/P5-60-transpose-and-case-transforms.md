@@ -1,6 +1,6 @@
 # P5-60 — LinesOperations: transpose and case transforms
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-59
 - **Size:** M
 
@@ -58,18 +58,18 @@ selection is empty. This completes `linesOperations.ts` and its test file.
 
 ## Tests
 
-- [ ] Port `transpose`
-- [ ] Port `toggle case` (one test, as upstream)
-- [ ] New: `ToTitleCase_Apostrophes_FollowMonaco` (`"o'neil isn't"` → `"O'neil Isn't"`, from the `titleBoundary` regex)
-- [ ] New: `CaseTransforms_AllRegexesCompile` (touches every static `Regex`)
+- [x] Port `transpose`
+- [x] Port `toggle case` (one test, as upstream)
+- [x] New: `ToTitleCase_Apostrophes_FollowMonaco` (`"o'neil isn't"` → `"O'neil Isn't"`, from the `titleBoundary` regex)
+- [x] New: `CaseTransforms_AllRegexesCompile` (touches every static `Regex`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/linesOperations/browser/linesOperations.ts` (✅, P5-60); behavior difference
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/linesOperations/browser/linesOperations.ts` (✅, P5-60); behavior difference
       "case transforms use the invariant culture"; tests table `linesOperations.test.ts` 55 / 55
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
