@@ -1,6 +1,6 @@
 # P5-76 — Port tests: multi-cursor "Selected text occurrence matching"
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-75
 - **Size:** M (tests only, plus the bug fixes they reveal)
 
@@ -34,15 +34,15 @@ port of P5-75: fix the production code by comparing it line by line with Monaco 
 
 Suite `Selected text occurrence matching`:
 
-- [ ] `defaults to Find and reports live option changes`, `default selected-text matching uses Find match case and whole word options`
-- [ ] For each id `editor.action.addSelectionToNextFindMatch`, `editor.action.addSelectionToPreviousFindMatch`,
+- [x] `defaults to Find and reports live option changes`, `default selected-text matching uses Find match case and whole word options`
+- [x] For each id `editor.action.addSelectionToNextFindMatch`, `editor.action.addSelectionToPreviousFindMatch`,
       `editor.action.moveSelectionToNextFindMatch`, `editor.action.moveSelectionToPreviousFindMatch`,
       `editor.action.selectHighlights` (30): `<id>: selected text, match case false, Find visible false`,
       `<id>: selected text, match case false, Find visible true`,
       `<id>: empty selection always starts whole-word and case-sensitive, caseInsensitive setting`,
       `<id>: selected text, match case true, Find visible false`, `<id>: selected text, match case true, Find visible true`,
       `<id>: empty selection always starts whole-word and case-sensitive, caseSensitive setting`
-- [ ] `issue #18239: replacing selected prefixes preserves differently cased identifiers`,
+- [x] `issue #18239: replacing selected prefixes preserves differently cased identifiers`,
       `select all replaces only selected-text occurrences while regex Find is visible`,
       `changing Find options ends caret-started sessions before applying the selected-text matching setting`,
       `mixed-case initial selections are compared using the selection setting, not Find`,
@@ -52,22 +52,22 @@ Suite `Selected text occurrence matching`:
       `the default Find session survives returning focus to the editor`,
       `multiline CRLF selections match literal substrings with match case false`,
       `multiline CRLF selections match literal substrings with match case true`
-- [ ] `editor.action.addSelectionToNextFindMatch: Find-focused commands retain Find matching rules`,
+- [x] `editor.action.addSelectionToNextFindMatch: Find-focused commands retain Find matching rules`,
       `editor.action.addSelectionToPreviousFindMatch: Find-focused commands retain Find matching rules`,
       `editor.action.selectHighlights: Find-focused commands retain Find matching rules`,
       `Find-focused regex select all follows Find options in both independent matching modes`,
       `add next occurrence does not highlight unrelated Find options`, `add previous occurrence does not highlight unrelated Find options`,
       `select all occurrences does not highlight unrelated Find options`, `Find-focused occurrence selection still highlights Find options`
-- [ ] **Not ported:** `a selection session does not survive replacing the editor model` — `editor.setModel` does not exist
+- [x] **Not ported:** `a selection session does not survive replacing the editor model` — `editor.setModel` does not exist
       (one model per editor). Reason in the PORTING tests table.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Every bug fix is listed in the commit body (Monaco line vs. our line)
-- [ ] `docs/PORTING.md`: tests table `multicursor.test.ts` 68 / 76
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Every bug fix is listed in the commit body (Monaco line vs. our line)
+- [x] `docs/PORTING.md`: tests table `multicursor.test.ts` 68 / 76
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
