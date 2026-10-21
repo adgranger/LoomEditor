@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using System.Diagnostics;
+using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Layout;
 
@@ -86,7 +87,12 @@ internal static class ClipboardCommands
             pasteOnNewLine = viewModel.CursorOptions.EmptySelectionClipboard && metadata.IsFromEmptySelection;
         }
 
+        // Monaco: codeEditorWidget._paste raises onDidPaste for source === 'keyboard' with the range from the start of
+        // the selection before to the start of the selection after.
+        Position startPosition = viewModel.GetSelection().Range.Start;
         viewModel.Paste(clipboardText, pasteOnNewLine, metadata?.MulticursorText, "keyboard", metadata?.IsBlock ?? false);
+        Position endPosition = viewModel.GetSelection().Range.Start;
+        viewModel.NotifyDidPaste(new Range(startPosition.LineNumber, startPosition.Column, endPosition.LineNumber, endPosition.Column));
     }
 
     // The command is synchronous: it starts the paste on the UI thread and returns. A failed clipboard read must not crash

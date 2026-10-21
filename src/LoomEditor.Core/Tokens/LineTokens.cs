@@ -3,14 +3,16 @@
 
 using System.Text;
 using LoomEditor.Core.Diagnostics;
+using LoomEditor.Core.Model;
+using LoomEditor.Core.Text;
 
 namespace LoomEditor.Core.Tokens;
 
 /// <summary>
 /// The tokens of one line: pairs <c>[endOffset, metadata]</c> over the line text (Monaco: <c>LineTokens</c>).
 /// Not ported: <c>getClassName</c>, <c>getInlineStyle</c> (CSS), <c>getTokensInRange</c> and <c>sliceZeroCopy</c>
-/// (need <c>TokenArray</c> / <c>OffsetRange</c>, later phases), <c>toString</c>, <c>getStandardTokenTypeAtPosition</c>
-/// (needs <c>ITextModel</c>, P4-29). A token / text length mismatch is a <see cref="Guard"/> failure (Debug) instead of
+/// (need <c>TokenArray</c> / <c>OffsetRange</c>, later phases), <c>toString</c>.
+/// A token / text length mismatch is a <see cref="Guard"/> failure (Debug) instead of
 /// Monaco's <c>onUnexpectedError</c>.
 /// </summary>
 /// <remarks>Threading: immutable as long as nobody changes the array it was created with.</remarks>
@@ -183,6 +185,24 @@ internal sealed partial class LineTokens : IViewLineTokens
 
     /// <summary>Finds the token containing <paramref name="offset"/>.</summary>
     public int FindTokenIndexAtOffset(int offset) => FindIndexInTokensArray(_tokens, offset);
+
+    /// <summary>
+    /// The standard token type at <paramref name="position"/>, or <see langword="null"/> if the line is not cheap to tokenize
+    /// (Monaco: <c>getStandardTokenTypeAtPosition</c>, where <c>undefined</c> is <see langword="null"/>).
+    /// </summary>
+    internal static StandardTokenType? GetStandardTokenTypeAtPosition(TextModel model, Position position)
+    {
+        int lineNumber = position.LineNumber;
+        if (!model.Tokenization.IsCheapToTokenize(lineNumber))
+        {
+            return null;
+        }
+
+        model.Tokenization.ForceTokenization(lineNumber);
+        LineTokens lineTokens = model.Tokenization.GetLineTokens(lineNumber);
+        int tokenIndex = lineTokens.FindTokenIndexAtOffset(position.Column - 1);
+        return lineTokens.GetStandardTokenType(tokenIndex);
+    }
 
     /// <summary><c>inflate</c>.</summary>
     public IViewLineTokens Inflate() => this;

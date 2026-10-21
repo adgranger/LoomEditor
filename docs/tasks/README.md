@@ -459,7 +459,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-51](phase-5/P5-51-comment-feature.md) | Comment feature: toggle, add, remove line comment and block comment | P5-50 | done |
 | [P5-52](phase-5/P5-52-indentation-commands-and-reindent.md) | Indentation: convert indentation commands and reindent edits | P5-51 | done |
 | [P5-53](phase-5/P5-53-indentation-actions.md) | Indentation feature: convert, change size, detect, reindent | P5-52 | done |
-| [P5-54](phase-5/P5-54-auto-indent-on-paste.md) | Auto indent on paste | P5-53 | todo |
+| [P5-54](phase-5/P5-54-auto-indent-on-paste.md) | Auto indent on paste | P5-53 | done |
 | [P5-55](phase-5/P5-55-copy-sort-trim-commands.md) | `CopyLinesCommand`, `SortLinesCommand`, `TrimTrailingWhitespaceCommand` | P5-54 | todo |
 | [P5-56](phase-5/P5-56-move-lines-command.md) | `MoveLinesCommand` (with auto-indent) | P5-55 | todo |
 | [P5-57](phase-5/P5-57-lines-operations-copy-move-sort.md) | LinesOperations: copy, duplicate, move, sort, remove duplicates, reverse, trim | P5-56 | todo |

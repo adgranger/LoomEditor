@@ -1,6 +1,6 @@
 # P5-54 — Auto indent on paste
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-53
 - **Size:** M
 
@@ -69,23 +69,23 @@ want, and the following lines move by the same amount. It is off by default, as 
 
 Port, suite `Auto Indent On Paste - TypeScript/JavaScript` (6):
 
-- [ ] `issue #119225: Do not add extra leading space when pasting JSDoc`
-- [ ] `issue #167299: Blank line removes indent`
-- [ ] `issue #29803: do not indent when pasting text with only one line`
-- [ ] `issue #29753: incorrect indentation after comment`
-- [ ] `issue #29753: incorrect indentation of header comment`
-- [ ] `issue #209859: do not do change indentation when pasted inside of a string`
-- [ ] **Not ported** (`test.skip` upstream, failing in Monaco too): `issue #181065`, `issue #86301`, `issue #85781`,
+- [x] `issue #119225: Do not add extra leading space when pasting JSDoc`
+- [x] `issue #167299: Blank line removes indent`
+- [x] `issue #29803: do not indent when pasting text with only one line`
+- [x] `issue #29753: incorrect indentation after comment`
+- [x] `issue #29753: incorrect indentation of header comment`
+- [x] `issue #209859: do not do change indentation when pasted inside of a string`
+- [x] **Not ported** (`test.skip` upstream, failing in Monaco too): `issue #181065`, `issue #86301`, `issue #85781`,
       `issue #29589`, `issue #201420` — listed in the PORTING tests table
-- [ ] New: `DidPaste_OptionOff_DoesNotChangeTheText`; `DidPaste_OptionOn_ReindentsThePastedBlock` (through `ClipboardCommands.PasteAsync` with a fake clipboard)
+- [x] New: `DidPaste_OptionOff_DoesNotChangeTheText`; `DidPaste_OptionOn_ReindentsThePastedBlock` (through `ClipboardCommands.PasteAsync` with a fake clipboard)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/indentation/browser/indentation.ts` (✅ except the quick pick, P5-54);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/indentation/browser/indentation.ts` (✅ except the quick pick, P5-54);
       `codeEditorWidget.ts` `_paste` (`onDidPaste`); tests table `indentation.test.ts` 14 / 85
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
