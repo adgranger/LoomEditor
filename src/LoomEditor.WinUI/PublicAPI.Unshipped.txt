@@ -1,7 +1,12 @@
 #nullable enable
+~LoomEditor.WinUI.Controls.Find.FindWidget.Connect(int connectionId, object target) -> void
+~LoomEditor.WinUI.Controls.Find.FindWidget.GetBindingConnector(int connectionId, object target) -> Microsoft.UI.Xaml.Markup.IComponentConnector
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(string fullName) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type type) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
+LoomEditor.WinUI.Controls.Find.FindWidget
+LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
+LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomEditor
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!

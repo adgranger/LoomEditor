@@ -14,6 +14,7 @@
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <InternalsVisibleTo Include="LoomEditor.View" />
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
+    <InternalsVisibleTo Include="LoomEditor.WinUI" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
   </ItemGroup>
 

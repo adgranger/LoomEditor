@@ -168,6 +168,36 @@ internal static class EditorColorDefaults
 
         // baseColors.ts:45
         ["contrastActiveBorder"] = (null, null, "focusBorder", "focusBorder"),
+
+        // baseColors.ts:25
+        ["errorForeground"] = ("#F48771", "#A1260D", "#F48771", "#B5200D"),
+
+        // editorColors.ts:49
+        ["editorWidget.background"] = ("#252526", "#F3F3F3", "#0C141F", "#FFFFFF"),
+
+        // editorColors.ts:53
+        ["editorWidget.foreground"] = ("foreground", "foreground", "foreground", "foreground"),
+
+        // editorColors.ts:57
+        ["editorWidget.border"] = ("#CCCCCC33", "#61616133", "contrastBorder", "contrastBorder"),
+
+        // inputColors.ts:20
+        ["input.background"] = ("#3C3C3C", "#FFFFFF", "#000000", "#FFFFFF"),
+
+        // inputColors.ts:24
+        ["input.foreground"] = ("foreground", "foreground", "foreground", "foreground"),
+
+        // inputColors.ts:28
+        ["input.border"] = (null, null, "contrastBorder", "contrastBorder"),
+
+        // inputColors.ts:32
+        ["inputOption.activeBorder"] = ("#007ACC", "#007ACC", "contrastBorder", "contrastBorder"),
+
+        // inputColors.ts:40
+        ["inputOption.activeBackground"] = ("#007FD466", "#0090F133", "#00000000", "#00000000"),
+
+        // inputColors.ts:44
+        ["inputOption.activeForeground"] = ("#FFFFFF", "#000000", "foreground", "foreground"),
     };
 
     /// <summary>Whether <paramref name="id"/> has a default (even a <see langword="null"/> one).</summary>

@@ -76,6 +76,26 @@ public class EditorColorDefaultsTests
     }
 
     [Fact]
+    public void Resolve_FindWidgetColors_DarkAndLightDefaults()
+    {
+        Assert.Equal("#252526FF", Default("editorWidget.background", ThemeType.Dark));
+        Assert.Equal("#F3F3F3FF", Default("editorWidget.background", ThemeType.Light));
+        Assert.Equal("#CCCCCCFF", Default("editorWidget.foreground", ThemeType.Dark));
+        Assert.Equal("#CCCCCC33", Default("editorWidget.border", ThemeType.Dark));
+        Assert.Equal("#61616133", Default("editorWidget.border", ThemeType.Light));
+        Assert.Equal("#3C3C3CFF", Default("input.background", ThemeType.Dark));
+        Assert.Equal("#FFFFFFFF", Default("input.background", ThemeType.Light));
+        Assert.Null(Default("input.border", ThemeType.Dark));
+        Assert.Equal("#6FC3DFFF", Default("input.border", ThemeType.HighContrastDark));
+        Assert.Equal("#007ACCFF", Default("inputOption.activeBorder", ThemeType.Light));
+        Assert.Equal("#007FD466", Default("inputOption.activeBackground", ThemeType.Dark));
+        Assert.Equal("#0090F133", Default("inputOption.activeBackground", ThemeType.Light));
+        Assert.Equal("#FFFFFFFF", Default("inputOption.activeForeground", ThemeType.Dark));
+        Assert.Equal("#F48771FF", Default("errorForeground", ThemeType.Dark));
+        Assert.Equal("#B5200DFF", Default("errorForeground", ThemeType.HighContrastLight));
+    }
+
+    [Fact]
     public void Resolve_Transparent_UsesTheThemesValueOfTheOperand()
     {
         ThemeColor? Theme(string id) => id == "editor.selectionBackground" ? ThemeColor.Parse("#FF0000") : null;

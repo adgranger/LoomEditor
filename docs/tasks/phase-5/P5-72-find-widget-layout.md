@@ -1,6 +1,6 @@
 # P5-72 — The find widget (XAML): layout, theme colors and the find row
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-71
 - **Size:** M
 
@@ -98,12 +98,12 @@ No WinUI test project. Covered: the color defaults test above. **Manual check by
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings (the new XAML is AOT-safe)
-- [ ] Public API file updated with the script, diff checked
-- [ ] `docs/PORTING.md`: map row `contrib/find/browser/findWidget.ts` 🔶 (XAML, find row, P5-72); the color difference
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings (the new XAML is AOT-safe)
+- [x] Public API file updated with the script, diff checked
+- [x] `docs/PORTING.md`: map row `contrib/find/browser/findWidget.ts` 🔶 (XAML, find row, P5-72); the color difference
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
