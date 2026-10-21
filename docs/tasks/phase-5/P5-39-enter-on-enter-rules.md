@@ -1,6 +1,6 @@
 # P5-39 — Enter with on-enter rules and indentation rules (`_enter`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-38
 - **Size:** S
 
@@ -55,31 +55,31 @@ Step B provides `getEnterAction` (`common/languages/enterAction.ts`) and `getInd
 
 Port from `cursor.test.ts`, suite `Editor Controller` (helpers of P5-37):
 
-- [ ] `Enter auto-indents with insertSpaces setting 1` (3285), `… 2` (3301), `… 3` (3317)
-- [ ] `issue #115033: indent and appendText` (3402)
-- [ ] `issue #6862: Editor removes auto inserted indentation when formatting on type` (3430)
-- [ ] `Enter honors increaseIndentPattern` (3801), `Enter honors unIndentedLinePattern` (3844),
+- [x] `Enter auto-indents with insertSpaces setting 1` (3285), `… 2` (3301), `… 3` (3317)
+- [x] `issue #115033: indent and appendText` (3402)
+- [x] `issue #6862: Editor removes auto inserted indentation when formatting on type` (3430)
+- [x] `Enter honors increaseIndentPattern` (3801), `Enter honors unIndentedLinePattern` (3844),
       `Enter honors indentNextLinePattern` (3862), `Enter honors intential indent` (3915)
-- [ ] `Enter supports selection 1` (3935), `Enter supports selection 2` (3956)
-- [ ] `Enter honors tabSize and insertSpaces 1` (3977), `… 2` (4001), `… 3` (4025)
-- [ ] `Enter supports intentional indentation` (4050)
-- [ ] `Enter should not adjust cursor position when press enter in the middle of a line 1` (4073), `… 2` (4093), `… 3` (4113)
-- [ ] `Enter should adjust cursor position when press enter in the middle of leading whitespaces 1` (4132), `… 2` (4159),
+- [x] `Enter supports selection 1` (3935), `Enter supports selection 2` (3956)
+- [x] `Enter honors tabSize and insertSpaces 1` (3977), `… 2` (4001), `… 3` (4025)
+- [x] `Enter supports intentional indentation` (4050)
+- [x] `Enter should not adjust cursor position when press enter in the middle of a line 1` (4073), `… 2` (4093), `… 3` (4113)
+- [x] `Enter should adjust cursor position when press enter in the middle of leading whitespaces 1` (4132), `… 2` (4159),
       `… 3` (4186), `… 4` (4210), `… 5` (4243)
-- [ ] `issue microsoft/monaco-editor#108 part 1/2: Auto indentation on Enter with selection is half broken` (4265),
+- [x] `issue microsoft/monaco-editor#108 part 1/2: Auto indentation on Enter with selection is half broken` (4265),
       `issue microsoft/monaco-editor#108 part 2/2: Auto indentation on Enter with selection is half broken` (4288)
-- [ ] `issue #57197: indent rules regex should be stateless` (4645)
-- [ ] `typing in json` (4673)
-- [ ] `issue #111128: Multicursor \`Enter\` issue with indentation` (4735)
-- [ ] The already ported `onEnter works if there are no indentation rules` and `… 2` (`TypingTests`) still pass.
+- [x] `issue #57197: indent rules regex should be stateless` (4645)
+- [x] `typing in json` (4673)
+- [x] `issue #111128: Multicursor \`Enter\` issue with indentation` (4735)
+- [x] The already ported `onEnter works if there are no indentation rules` and `… 2` (`TypingTests`) still pass.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ `_enter` complete, P5-39); tests table `cursor.test.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ `_enter` complete, P5-39); tests table `cursor.test.ts`
       (`Editor Controller` +28); "Cut points" row `TypeEditOperations.Enter.cs` removed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
