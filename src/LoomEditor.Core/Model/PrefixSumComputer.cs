@@ -11,8 +11,7 @@ internal readonly record struct PrefixSumIndexOfResult(int Index, int Remainder)
 
 /// <summary>
 /// Sums of the first values of an array that is edited (Monaco: <c>PrefixSumComputer</c>). Values are
-/// <c>uint</c> like Monaco's <c>Uint32Array</c>; sums are returned as <c>int</c>. Not ported:
-/// <c>ConstantTimePrefixSumComputer</c> (used by view lines, not by tokenization).
+/// <c>uint</c> like Monaco's <c>Uint32Array</c>; sums are returned as <c>int</c>.
 /// </summary>
 /// <remarks>Threading: not thread-safe.</remarks>
 internal sealed class PrefixSumComputer
