@@ -1,3 +1,6 @@
+using System.Text.RegularExpressions;
+using LoomEditor.Core.Languages;
+using LoomEditor.Core.Model;
 using LoomEditor.View.Features.Folding;
 
 namespace LoomEditor.View.Tests.Features.Folding;
@@ -170,5 +173,99 @@ public class FoldingRangesTests
     {
         Assert.False(FoldingRegions.FromFoldRanges([Fold(1, 2)]).HasTypes());
         Assert.True(FoldingRegions.FromFoldRanges([Fold(1, 2, type: "region")]).HasTypes());
+    }
+
+    // Monaco: 'test max folding regions'
+    [Fact]
+    public void TestMaxFoldingRegions()
+    {
+        var lines = new List<string>();
+        int nRegions = (int)FoldingRegions.MaxFoldingRegions;
+        var collector = new RangesCollector(new Reporter((int)FoldingRegions.MaxFoldingRegions));
+        for (int i = 0; i < nRegions; i++)
+        {
+            int startLineNumber = lines.Count;
+            lines.Add("#region");
+            int endLineNumber = lines.Count;
+            lines.Add("#endregion");
+            collector.InsertFirst(startLineNumber, endLineNumber, 0);
+        }
+
+        var model = new TextModel(string.Join('\n', lines));
+        FoldingRegions actual = collector.ToIndentRanges(model);
+
+        Assert.Equal(nRegions, actual.Length);
+    }
+
+    // Monaco: 'findRange'
+    [Fact]
+    public void FindRange()
+    {
+        string[] lines =
+        [
+            "#region",
+            "#endregion",
+            "class A {",
+            "  void foo() {",
+            "    if (true) {",
+            "        return;",
+            "    }",
+            "",
+            "    if (true) {",
+            "      return;",
+            "    }",
+            "  }",
+            "}",
+        ];
+        var textModel = new TextModel(string.Join('\n', lines));
+
+        FoldingRegions actual = IndentRanges.ComputeRanges(textModel, false, Markers);
+
+        int[] expected = [0, 0, 1, 2, 3, 3, 2, 2, 4, 4, 2, 1, -1];
+        for (int line = 1; line <= 13; line++)
+        {
+            Assert.Equal(expected[line - 1], actual.FindRange(line));
+        }
+    }
+
+    // Monaco: 'setCollapsed'
+    [Fact]
+    public void SetCollapsed()
+    {
+        var lines = new List<string>();
+        int nRegions = 500;
+        for (int i = 0; i < nRegions; i++)
+        {
+            lines.Add("#region");
+        }
+
+        for (int i = 0; i < nRegions; i++)
+        {
+            lines.Add("#endregion");
+        }
+
+        var model = new TextModel(string.Join('\n', lines));
+        FoldingRegions actual = IndentRanges.ComputeRanges(model, false, Markers);
+        Assert.Equal(nRegions, actual.Length);
+        for (int i = 0; i < nRegions; i++)
+        {
+            actual.SetCollapsed(i, i % 3 == 0);
+        }
+
+        for (int i = 0; i < nRegions; i++)
+        {
+            Assert.Equal(i % 3 == 0, actual.IsCollapsed(i));
+        }
+    }
+
+    private static readonly FoldingMarkers Markers = new(new Regex(@"^\s*#region$"), new Regex(@"^\s*#endregion$"));
+
+    private sealed class Reporter(int limit) : IFoldingLimitReporter
+    {
+        public int Limit => limit;
+
+        public void Update(int computed, int? limited)
+        {
+        }
     }
 }
