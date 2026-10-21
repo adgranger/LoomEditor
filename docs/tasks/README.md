@@ -493,7 +493,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P5-78](phase-5/P5-78-constant-time-prefix-sum-and-projections.md) | `ConstantTimePrefixSumComputer` and the identity / hidden line projections | P5-77 | todo |
+| [P5-78](phase-5/P5-78-constant-time-prefix-sum-and-projections.md) | `ConstantTimePrefixSumComputer` and the identity / hidden line projections | P5-77 | done |
 | [P5-79](phase-5/P5-79-view-model-lines.md) | `ViewModelLinesFromProjectedModel`: view lines, hidden areas, model changes | P5-78 | todo |
 | [P5-80](phase-5/P5-80-view-model-lines-conversions.md) | `ViewModelLinesFromProjectedModel`: coordinate conversions and the real `CoordinatesConverter` | P5-79 | todo |
 | [P5-81](phase-5/P5-81-view-model-hidden-areas.md) | The view model uses view lines: `SetHiddenAreas`, the real converter, the cursor in folded code | P5-80 | todo |

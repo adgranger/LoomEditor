@@ -1,6 +1,6 @@
 # P5-78 — `ConstantTimePrefixSumComputer` and the identity / hidden line projections
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-77
 - **Size:** M
 
@@ -61,21 +61,21 @@ model line is one view line, a hidden one is zero view lines). The projection wi
 
 ## Tests
 
-- [ ] Port: `Editor ViewModel - PrefixSumComputer` › all 48 tests now run on both computers (96 runs)
-- [ ] New: `IdentityProjection_ReturnsModelLine` — content, length, min/max column, `GetViewLineCount() == 1`,
+- [x] Port: `Editor ViewModel - PrefixSumComputer` › all 48 tests now run on both computers (96 runs)
+- [x] New: `IdentityProjection_ReturnsModelLine` — content, length, min/max column, `GetViewLineCount() == 1`,
       `GetViewLineData` tokens equal the model's inflated tokens
-- [ ] New: `HiddenProjection_HasNoViewLine` — `GetViewLineCount() == 0`, `GetViewLineContent` throws `InvalidOperationException`
-- [ ] New: `SetVisible_SwitchesBetweenTheTwoSingletons`
-- [ ] New: `IdentityProjection_GetViewPositionOfModelPosition_KeepsTheColumn` (`deltaLineNumber` is the view line)
+- [x] New: `HiddenProjection_HasNoViewLine` — `GetViewLineCount() == 0`, `GetViewLineContent` throws `InvalidOperationException`
+- [x] New: `SetVisible_SwitchesBetweenTheTwoSingletons`
+- [x] New: `IdentityProjection_GetViewPositionOfModelPosition_KeepsTheColumn` (`deltaLineNumber` is the view line)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the `prefixSumComputer.ts` row includes `ConstantTimePrefixSumComputer`; new row
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the `prefixSumComputer.ts` row includes `ConstantTimePrefixSumComputer`; new row
       `common/viewModel/modelLineProjection.ts` (🔶 identity and hidden projections, P5-78); the
       `prefixSumComputer.test.ts` row says the tests run on both computers
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
