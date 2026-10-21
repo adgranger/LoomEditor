@@ -1,6 +1,6 @@
 # P5-84 — Indentation folding ranges with `#region` markers and off-side rule
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-83
 - **Size:** M
 
@@ -55,28 +55,28 @@ Monaco.
 
 ## Tests
 
-- [ ] Port: `Indentation Folding` (indentRangeProvider.test.ts) › `Fold one level`, `Fold two levels`,
+- [x] Port: `Indentation Folding` (indentRangeProvider.test.ts) › `Fold one level`, `Fold two levels`,
       `Fold three levels`, `Fold decreasing indent`, `Fold Java`, `Fold Javadoc`, `Fold Whitespace Java`,
       `Fold Whitespace Python`, `Fold Tabs`
-- [ ] Port: `Folding with regions` › `Inside region, indented`, `Inside region, not indented`, `Empty Regions`,
+- [x] Port: `Folding with regions` › `Inside region, indented`, `Inside region, not indented`, `Empty Regions`,
       `Nested Regions`, `Nested Regions 2`, `Incomplete Regions`, `Incomplete Regions 2`, `Indented region before`,
       `Indented region before 2`, `Indented region in-between`, `Indented region after`, `With off-side`,
       `Nested with off-side`, `Issue 35981`, `Misspelled Markers`, `Issue 79359`, `Markers with stateful flags`
       (JavaScript's `g` flag has no .NET equivalent and is dropped; `i` becomes `RegexOptions.IgnoreCase`, so the
       "different options" path is taken exactly where Monaco's flags differ; a comment says so)
-- [ ] Port: `Indentation Folding` (indentFold.test.ts) › `Limit by indent`
-- [ ] Port: `FoldingRanges` › `test max folding regions`, `findRange`, `setCollapsed`
-- [ ] New (Core): `ComputeIndentLevel_TabsAndSpaces_CountsVisibleColumns`, `ComputeIndentLevel_WhitespaceOnly_ReturnsMinusOne`
-- [ ] New: `IndentRangeProvider_UsesTheLanguageFoldingRules` (a language whose configuration has markers: the region is found)
+- [x] Port: `Indentation Folding` (indentFold.test.ts) › `Limit by indent`
+- [x] Port: `FoldingRanges` › `test max folding regions`, `findRange`, `setCollapsed`
+- [x] New (Core): `ComputeIndentLevel_TabsAndSpaces_CountsVisibleColumns`, `ComputeIndentLevel_WhitespaceOnly_ReturnsMinusOne`
+- [x] New: `IndentRangeProvider_UsesTheLanguageFoldingRules` (a language whose configuration has markers: the region is found)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows `contrib/folding/browser/indentRangeProvider.ts` (✅ P5-84), `common/model/utils.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows `contrib/folding/browser/indentRangeProvider.ts` (✅ P5-84), `common/model/utils.ts`
       (`computeIndentLevel` only); "Tests ported": `indentRangeProvider.test.ts` 26 / 26, `indentFold.test.ts` 1 / 1,
       `foldingRanges.test.ts` 7 / 7
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

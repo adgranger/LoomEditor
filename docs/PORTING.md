@@ -196,6 +196,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/commands/shiftCommand.ts` | `LoomEditor.View/Cursors/Commands/ShiftCommand.cs` | ✅ ported (P3-31, enter-action re-alignment P5-40) |
 | `editor/common/commands/columnSelectionPasteCommand.ts` | `LoomEditor.View/Cursors/Commands/ColumnSelectionPasteCommand.cs` | ✅ ported (P3-35) |
 | `editor/common/commands/surroundSelectionCommand.ts` | `LoomEditor.View/Cursors/Commands/SurroundSelectionCommand.cs` | ✅ ported (P5-44): `SurroundSelectionCommand`, `CompositionSurroundSelectionCommand` |
+| `editor/contrib/folding/browser/indentRangeProvider.ts` | `LoomEditor.View/Features/Folding/` (`IndentRangeProvider.cs`, `IndentRanges.cs`, `IRangeProvider.cs`) | ✅ P5-84: `computeRanges` lives in the static class `IndentRanges`; the provider is synchronous; `RangeProvider` and `FoldingLimitReporter` (`Update(computed, int? limited)`) are in `IRangeProvider.cs` |
+| `editor/common/model/utils.ts` | `LoomEditor.Core/Model/TextModelUtils.cs` | 🔶 P5-84: `computeIndentLevel` only |
 | `editor/contrib/folding/browser/foldingRanges.ts` | `LoomEditor.View/Features/Folding/` (`FoldingRanges.cs`, `FoldingRegions.SanitizeAndMerge.cs`, `FoldingRegion.cs`) | ✅ P5-83: `FoldingRegions` (packed `uint[]`), `FoldRange`, `FoldingRegion`, `sanitizeAndMerge` |
 | `editor/contrib/folding/browser/folding.ts` | `LoomEditor.View/Features/Folding/SelectedLines.cs` | 🔶 P5-83: `toSelectedLines` only |
 | `editor/contrib/multicursor/browser/multicursor.ts` | `LoomEditor.View/Features/MultiCursor/` | ✅ P3-38, P5-75, P5-77: all the commands, `MultiCursorSession`, `MultiCursorSelectionController`, `SelectionHighlighter`; no menus, no `announceCursorChange`, no `onDidChangeModel` (one model per editor); `hasSemanticHighlights` is always false (no document highlight provider before phase 8) |
@@ -523,6 +525,7 @@ design decisions:
 | `model.line.test.ts` (`ModelLinesTokens`) | 29 + 25 | the `getIndentLevel` suite is not about tokens |
 | `textModelWithTokens.test.ts` | 2 / 4 | `monaco-editor#133` and `issue #11856`: ported in P5-32 |
 | `prefixSumComputer.test.ts`, `arrayOperation.test.ts` | 48 / 48, 1 / 1 | |
+| `indentRangeProvider.test.ts`, `indentFold.test.ts`, `foldingRanges.test.ts` | 26 / 26, 1 / 1, 7 / 7 | JavaScript regex flags: `g` dropped, `i` is `RegexOptions.IgnoreCase` (P5-84) |
 | `json.test.ts` of vscode-textmate | 0 | JSON is read with `System.Text.Json` |
 | Golden tests (no upstream test file) | 30 | |
 
