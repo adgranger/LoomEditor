@@ -36,7 +36,7 @@ internal sealed record EditorCursorOptions
     /// <summary>The <c>multiCursorModifier</c> option: the key that adds a cursor when held during a click (default Alt).</summary>
     public MultiCursorModifier MultiCursorModifier { get; init; } = MultiCursorModifier.Alt;
 
-    /// <summary>The <c>doubleClickSelectsBlock</c> option (default <c>true</c>; brackets and strings need phase 4–5).</summary>
+    /// <summary>The <c>doubleClickSelectsBlock</c> option (default <c>true</c>).</summary>
     public bool DoubleClickSelectsBlock { get; init; } = true;
 
     /// <summary>The <c>cursorSurroundingLines</c> option: lines kept visible around the cursor when it is revealed (default 0).</summary>

@@ -66,7 +66,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | Mouse hit testing | Geometric on the canvas (no DOM, no `ElementPath`): `x < contentLeft` is the gutter, the column comes from the DirectWrite layout of the line (`ILineLayout.HitTest`) | Monaco's `viewLinesGpu` path; there are no DOM nodes to ask |
 | Clipboard | The metadata of a copy (empty-selection line, block, one text per cursor) are kept in memory only (no custom clipboard format); the empty-selection check uses the primary selection, like Monaco | Native AOT and no JSON; Monaco does the same on the web |
 | Mouse down | No drag-and-drop of the selection (ADR 0006, decision 12); no view zones; the click count is made by `MouseDownState` because WinUI reports none | Cut for phase 3 |
-| `ViewController.dispatchMouse` | Double-click never selects bracket or string content in phase 3 (`_trySelectBracketContent` and `_trySelectStringContent` return nothing); no Linux selection clipboard, no `scrollOnMiddleClick` | Needs bracket pairs and tokens (phases 4–5) |
+| `ViewController.dispatchMouse` | No Linux selection clipboard, no `scrollOnMiddleClick` | Bracket and string content are done (P5-36) |
 | `ClipboardUtils` | No rich (HTML) copy: `copyWithSyntaxHighlighting` and `getRichTextToCopy` are not ported, the stored `mode` is always `null` | ADR 0006, decision 12 |
 | `ShiftCommand` | No `cachedStringRepeat` cache: the indent is built each time | Monaco's global mutable cache is a performance trick only; same result |
 | `StringBuffer` | Growable `char[]` instead of a `string` | Monaco's `buffer += text` on the change buffer would be quadratic in .NET |
@@ -216,7 +216,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/browser/viewParts/viewCursors/viewCursors.ts`, `editor/browser/viewParts/viewCursors/viewCursor.ts` | `LoomEditor.Rendering/` (`CursorBlinking`, `TextEditorCursorBlinkingStyle`, caret drawing in `TextViewRenderer`) | 🔶 adapted (P2-16): blinking state machine without a timer (the control ticks it with a `DispatcherQueueTimer`, P2-19) and `Line` cursor style only. Behavior difference: the CSS-animated styles `Smooth`, `Phase` and `Expand` behave like `Blink`; no secondary cursors, block/underline styles or IME; several cursors (P3-42): one caret per selection, same style |
 | `editor/browser/controller/mouseTarget.ts` | `LoomEditor.View/Controller/MouseTarget.cs`, `MouseTargetFactory.cs`, `ILineHitTester.cs`; `LoomEditor.Rendering/TextViewRenderer.HitTest.cs` | 🔶 canvas subset (P3-43): gutter, content text, empty content, `_getMouseColumn`, soft tab snap; no widgets, view zones, minimap, scrollbars, RTL |
 | `editor/contrib/clipboard/browser/clipboard.ts` | `LoomEditor.View/Controller/ClipboardCommands.cs`, `IClipboardService.cs`; `LoomEditor.WinUI/Input/WindowsClipboardService.cs` | 🔶 cut, copy and paste (P3-47): the web path over the system clipboard; no paste providers or rich copy |
-| `editor/browser/view/viewController.ts` | `LoomEditor.View/Controller/ViewController.cs`, `MouseDispatchData.cs` | 🔶 `dispatchMouse` and the mouse helpers (P3-44); the mouse commands `createCursor`, `_wordSelect`, `_lineSelect`... are in `Commands/CoreNavigationCommands.Mouse.cs` |
+| `editor/browser/view/viewController.ts` | `LoomEditor.View/Controller/ViewController.cs`, `MouseDispatchData.cs` | 🔶 `dispatchMouse` and the mouse helpers (P3-44), `_trySelectBracketContent` and `_trySelectStringContent` (P5-36); the mouse commands `createCursor`, `_wordSelect`, `_lineSelect`... are in `Commands/CoreNavigationCommands.Mouse.cs` |
 | `editor/browser/controller/mouseHandler.ts` | `LoomEditor.View/Controller/MouseDownState.cs`, `MouseDownOperation.cs`, `EditorMouseEvent.cs` | 🔶 `MouseDownState` and `MouseDownOperation` without drag-and-drop of the selection (P3-45); pointer events: `LoomEditor.WinUI/Controls/LoomEditor.Pointer.cs`, `Input/PointerInput.cs` (P3-46) |
 | `editor/browser/controller/dragScrolling.ts` | `LoomEditor.View/Controller/DragScrolling.cs` | ✅ ported (P3-45) |
 | `editor/common/viewLayout/viewLayout.ts` | `LoomEditor.View/Layout/` (`ViewLayout` (+ `.Scrollable.cs`: `EditorScrollDimensions`, `EditorScrollable`), `ViewLayoutOptions`, `ViewLayoutState`, `ScrollType`, `ContentSizeChangedEventArgs`) | ✅ ported (P2-08); no word-wrap branch in the content width, explicit options instead of `IEditorConfiguration` (`onConfigurationChanged` → `OnOptionsChanged`, `OnLayoutInfoChanged`, `OnFontInfoChanged`); `ContentSizeChangedEvent.attemptToMerge` not ported |
@@ -411,7 +411,7 @@ from this list (every place is marked `// Phase 4–5 cut point` in the code).
 | `Cursors/DeleteOperations.cs`, `DeleteWordContext.cs`, `WordOperations.Delete.cs`, `Features/WordOperations/DeleteWordCommand.cs` | `cursorDeleteOperations.ts` 167–169; `cursorWordOperations.ts` | auto-closing pair delete, `autoClosingPairs` for word deletes |
 | `Cursors/CursorConfiguration.cs`, `AutoClosedAction.cs`, `CursorsController.Edits.cs` | `cursorCommon.ts`; `cursor.ts` 682–748 | `autoClosingPairs`, `surroundingPairs`, comment tokens, auto-closed characters (need model decorations) and the `"snippet"` source |
 | `Cursors/Commands/ShiftCommand.cs` | `shiftCommand.ts` 144–176 | enter action of the previous line (doc blocks) |
-| `Controller/ViewController.cs` | `viewController.ts` (`_trySelectBracketContent`, string content) | double-click on a bracket or string selects its content (bracket matching, tokens) |
+| `Controller/ViewController.cs` | `viewController.ts` (`_trySelectBracketContent`, string content) | done (P5-36): double-click on a bracket or string selects its content |
 | `Layout/RevealCalculator.cs` | `viewLines.ts` reveal | sticky scroll lines |
 
 ### After phase 4
@@ -426,7 +426,7 @@ bundled configurations of the ten built-in languages, but the editing code does 
 |---|---|---|
 | Auto-closing, overtype, surround, electric characters (`TypeOperations*`, `CursorConfiguration`) | yes: the token type tells whether the caret is in a string or a comment | language configuration; auto-closed characters need model decorations |
 | Enter, smart Tab, `ShiftCommand` (on-enter rules, indent) | partly (comment / string at the caret) | language configuration (on-enter and indentation rules) |
-| Double-click on a bracket or a string (`ViewController`) | yes for strings | bracket matching |
+| Double-click on a bracket or a string (`ViewController`) | done (P5-36) | |
 | Auto-closing pair delete, `autoClosingPairs` for word deletes | no | language configuration |
 | Sticky scroll (`RevealCalculator`) | no | outline / folding model |
 

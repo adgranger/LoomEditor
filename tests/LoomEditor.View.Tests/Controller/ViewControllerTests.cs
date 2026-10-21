@@ -1,4 +1,7 @@
+using LoomEditor.Core.Languages;
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Cursors;
@@ -214,5 +217,131 @@ public class ViewControllerTests
                 Assert.Equal(3, editor.ViewModel.GetSelections().Count);
             },
             new TestCodeEditorOptions(CursorOptions: new EditorCursorOptions { ColumnSelection = true }));
+    }
+
+    // Every string literal of the line is one string token; the rest is `Other`.
+    private sealed class StringSupport : ITokenizationSupport
+    {
+        private const uint OtherMeta = (uint)StandardTokenType.Other << MetadataConsts.TokenTypeOffset;
+        private const uint StringMeta = (uint)StandardTokenType.String << MetadataConsts.TokenTypeOffset;
+
+        public IState GetInitialState() => NullState.Instance;
+
+        public EncodedTokenizationResult TokenizeEncoded(string line, bool hasEol, IState state)
+        {
+            int start = line.IndexOf('"');
+            int end = line.LastIndexOf('"');
+            if (start < 0 || end == start)
+            {
+                return new([0, OtherMeta], NullState.Instance);
+            }
+
+            var tokens = new List<uint>();
+            if (start > 0)
+            {
+                tokens.AddRange([0, OtherMeta]);
+            }
+
+            tokens.AddRange([(uint)start, StringMeta]);
+            if (end + 1 < line.Length)
+            {
+                tokens.AddRange([(uint)(end + 1), OtherMeta]);
+            }
+
+            return new([.. tokens], NullState.Instance);
+        }
+    }
+
+    private static void WithText(string text, Action<TestCodeEditor, ViewController> callback, TestCodeEditorOptions? options = null)
+    {
+        var registry = new TokenizationRegistry();
+        registry.Register("strings", new StringSupport());
+        var codec = new LanguageIdCodec();
+        codec.Register("strings");
+        var configurations = new LanguageConfigurationRegistry();
+        configurations.Register("strings", new LanguageConfiguration { Brackets = [new("(", ")"), new("[", "]"), new("{", "}")] });
+        var model = new TextModel(text, DefaultEndOfLine.LF, null, registry, codec, null, configurations);
+        model.Tokenization.SetLanguageId("strings");
+        TestCodeEditor.WithTestCodeEditor(model, editor => callback(editor, new ViewController(editor.ViewModel)), options);
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickAfterOpeningBracket_SelectsPairContent()
+    {
+        WithText("f(abc def)", (editor, controller) =>
+        {
+            controller.DispatchMouse(Data(1, 3, mouseDownCount: 2));
+
+            Assert.Equal(new Selection(1, 3, 1, 10), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickBeforeClosingBracket_SelectsPairContent()
+    {
+        WithText("f(abc def)", (editor, controller) =>
+        {
+            controller.DispatchMouse(Data(1, 10, mouseDownCount: 2));
+
+            Assert.Equal(new Selection(1, 3, 1, 10), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickInsideWordBetweenBrackets_SelectsTheWord()
+    {
+        WithText("f(abc def)", (editor, controller) =>
+        {
+            controller.DispatchMouse(Data(1, 5, mouseDownCount: 2));
+
+            Assert.Equal(new Selection(1, 3, 1, 6), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickAfterOpeningQuote_SelectsStringContent()
+    {
+        WithText("x = \"hello world\"", (editor, controller) =>
+        {
+            controller.DispatchMouse(Data(1, 6, mouseDownCount: 2));
+
+            Assert.Equal(new Selection(1, 6, 1, 17), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickBeforeClosingQuote_SelectsStringContent()
+    {
+        WithText("x = \"hello world\"", (editor, controller) =>
+        {
+            controller.DispatchMouse(Data(1, 17, mouseDownCount: 2));
+
+            Assert.Equal(new Selection(1, 6, 1, 17), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickInStringWithRtlText_SelectsTheWord()
+    {
+        WithText("\"של ום\"", (editor, controller) =>
+        {
+            controller.DispatchMouse(Data(1, 2, mouseDownCount: 2));
+
+            Assert.Equal(new Selection(1, 2, 1, 4), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void DispatchMouse_DoubleClickSelectsBlockOff_SelectsTheWord()
+    {
+        WithText(
+            "f(abc def)",
+            (editor, controller) =>
+            {
+                controller.DispatchMouse(Data(1, 3, mouseDownCount: 2));
+
+                Assert.Equal(new Selection(1, 3, 1, 6), editor.ViewModel.GetSelection());
+            },
+            new TestCodeEditorOptions(CursorOptions: new EditorCursorOptions { DoubleClickSelectsBlock = false }));
     }
 }
