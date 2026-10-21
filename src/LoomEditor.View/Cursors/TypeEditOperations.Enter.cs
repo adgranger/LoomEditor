@@ -10,8 +10,6 @@ namespace LoomEditor.View.Cursors;
 
 /// <summary>Enter, and the commands that insert a line (Monaco: <c>EnterOperation</c>).</summary>
 /// <remarks>
-/// Without a language configuration (phases 4–5) Monaco gets no enter action and no indentation rule, so the new line
-/// keeps the indentation of the current line.
 /// Threading: stateless; UI thread only.
 /// </remarks>
 internal static class EnterOperation
@@ -94,18 +92,80 @@ internal static class EnterOperation
             return TypeEditHelpers.TypeCommand(range, "\n", keepPosition);
         }
 
-        const bool isCheapToTokenize = true; // Phase 4 cut point: there is no tokenizer in phase 3.
-        if (!isCheapToTokenize || config.AutoIndent == EditorAutoIndentStrategy.Keep)
+        if (!model.Tokenization.IsCheapToTokenize(range.StartLineNumber) || config.AutoIndent == EditorAutoIndentStrategy.Keep)
         {
             string keptLineText = model.GetLineContent(range.StartLineNumber);
             string keptIndentation = LeadingIndentationBeforeColumn(keptLineText, range.StartColumn);
             return TypeEditHelpers.TypeCommand(range, "\n" + config.NormalizeIndentation(keptIndentation), keepPosition);
         }
 
-        // Phase 4–5 cut point: cursorTypeEditOperations.ts 591–615 (getEnterAction) and 620–656 (getIndentForEnter).
-        // Without a language configuration Monaco gets null from both and falls through to the last line.
+        CompleteEnterAction? r = EnterActions.GetEnterAction(config.AutoIndent, model, range, config.LanguageConfigurationService);
+        if (r is { } action)
+        {
+            switch (action.IndentAction)
+            {
+                case IndentAction.None:
+                    // Nothing special
+                    return TypeEditHelpers.TypeCommand(range, "\n" + config.NormalizeIndentation(action.Indentation + action.AppendText), keepPosition);
+
+                case IndentAction.Indent:
+                    // Indent once
+                    return TypeEditHelpers.TypeCommand(range, "\n" + config.NormalizeIndentation(action.Indentation + action.AppendText), keepPosition);
+
+                case IndentAction.IndentOutdent:
+                {
+                    // Ultra special
+                    string normalIndent = config.NormalizeIndentation(action.Indentation);
+                    string increasedIndent = config.NormalizeIndentation(action.Indentation + action.AppendText);
+                    string typeText = "\n" + increasedIndent + "\n" + normalIndent;
+                    if (keepPosition)
+                    {
+                        return new ReplaceCommandWithoutChangingPosition(range, typeText, true);
+                    }
+
+                    return new ReplaceCommandWithOffsetCursorState(range, typeText, -1, increasedIndent.Length - normalIndent.Length, true);
+                }
+
+                case IndentAction.Outdent:
+                {
+                    string actualIndentation = TypeEditHelpers.UnshiftIndent(config, action.Indentation);
+                    return TypeEditHelpers.TypeCommand(range, "\n" + config.NormalizeIndentation(actualIndentation + action.AppendText), keepPosition);
+                }
+            }
+        }
+
         string lineText = model.GetLineContent(range.StartLineNumber);
         string indentation = LeadingIndentationBeforeColumn(lineText, range.StartColumn);
+
+        if (config.AutoIndent >= EditorAutoIndentStrategy.Full
+            && AutoIndent.GetIndentForEnter(config.AutoIndent, model, range, new CursorIndentConverter(config), config.LanguageConfigurationService) is { } ir)
+        {
+            int oldEndViewColumn = config.VisibleColumnFromColumn(new TextModelCursorSimpleModel(model), range.End);
+            int oldEndColumn = range.EndColumn;
+            string newLineContent = model.GetLineContent(range.EndLineNumber);
+            int firstNonWhitespace = StringClassification.FirstNonWhitespaceIndex(newLineContent);
+            range = firstNonWhitespace >= 0
+                ? new Range(range.StartLineNumber, range.StartColumn, range.EndLineNumber, Math.Max(range.EndColumn, firstNonWhitespace + 1))
+                : new Range(range.StartLineNumber, range.StartColumn, range.EndLineNumber, model.GetLineMaxColumn(range.EndLineNumber));
+            if (keepPosition)
+            {
+                return new ReplaceCommandWithoutChangingPosition(range, "\n" + config.NormalizeIndentation(ir.AfterEnter), true);
+            }
+
+            int offset = 0;
+            if (oldEndColumn <= firstNonWhitespace + 1)
+            {
+                if (!config.InsertSpaces)
+                {
+                    oldEndViewColumn = (oldEndViewColumn + config.IndentSize - 1) / config.IndentSize;
+                }
+
+                offset = Math.Min(oldEndViewColumn + 1 - config.NormalizeIndentation(ir.AfterEnter).Length - 1, 0);
+            }
+
+            return new ReplaceCommandWithOffsetCursorState(range, "\n" + config.NormalizeIndentation(ir.AfterEnter), 0, offset, true);
+        }
+
         return TypeEditHelpers.TypeCommand(range, "\n" + config.NormalizeIndentation(indentation), keepPosition);
     }
 

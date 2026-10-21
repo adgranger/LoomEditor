@@ -155,7 +155,15 @@ internal sealed partial class LineTokens : IViewLineTokens
     public int GetStartOffset(int tokenIndex) => tokenIndex > 0 ? (int)_tokens[(tokenIndex - 1) << 1] : 0;
 
     /// <inheritdoc />
-    public uint GetMetadata(int tokenIndex) => _tokens[(tokenIndex << 1) + 1];
+    /// <remarks>
+    /// Behavior difference: a token index past the end reads 0, like the JavaScript typed array, whose missing element is
+    /// <c>undefined</c> and becomes 0 in the bit operations of <c>TokenMetadata</c> (the processed tokens of an empty range have no token).
+    /// </remarks>
+    public uint GetMetadata(int tokenIndex)
+    {
+        int index = (tokenIndex << 1) + 1;
+        return (uint)index < (uint)_tokens.Length ? _tokens[index] : 0;
+    }
 
     /// <inheritdoc />
     public string GetLanguageId(int tokenIndex) =>
