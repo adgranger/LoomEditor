@@ -91,7 +91,7 @@ internal sealed class ReplaceCommandWithoutChangingPosition(Range range, string 
 /// offset (Monaco: <c>ReplaceCommandWithOffsetCursorState</c>).
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class ReplaceCommandWithOffsetCursorState(
+internal class ReplaceCommandWithOffsetCursorState(
     Range range,
     string text,
     int lineNumberDeltaOffset,
@@ -100,10 +100,10 @@ internal sealed class ReplaceCommandWithOffsetCursorState(
 {
     public bool InsertsAutoWhitespace { get; } = insertsAutoWhitespace;
 
-    public void GetEditOperations(TextModel model, IEditOperationBuilder builder) =>
+    public virtual void GetEditOperations(TextModel model, IEditOperationBuilder builder) =>
         builder.AddTrackedEditOperation(range, text);
 
-    public Selection ComputeCursorState(TextModel model, ICursorStateComputerData helper)
+    public virtual Selection ComputeCursorState(TextModel model, ICursorStateComputerData helper)
     {
         Range srcRange = helper.GetInverseEditOperations()[0].Range;
         return Selection.Collapsed(srcRange.End.Delta(lineNumberDeltaOffset, columnDeltaOffset));

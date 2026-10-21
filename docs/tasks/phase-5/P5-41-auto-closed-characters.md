@@ -1,6 +1,6 @@
 # P5-41 — Track auto-closed characters with model decorations (`AutoClosedAction`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-40
 - **Size:** M
 
@@ -67,21 +67,21 @@ in P5-42, the typing that creates them in P5-43.
 
 ## Tests
 
-- [ ] New: `ExecuteEdits_SnippetWithQuotes_TracksTheClosingQuote` (`autoClosingLanguage`, `'<div id'`, snippet edit
+- [x] New: `ExecuteEdits_SnippetWithQuotes_TracksTheClosingQuote` (`autoClosingLanguage`, `'<div id'`, snippet edit
       `id=""` → `GetCursorAutoClosedCharacters()` is `[(1,10)-(1,11)]`)
-- [ ] New: `ExecuteEdits_OtherSource_TracksNothing`
-- [ ] New: `AutoClosedAction_CursorLeavesThePair_IsForgotten`
-- [ ] New: `AutoClosedAction_PairBecomesMultiline_IsForgotten`
-- [ ] New: `AutoClosedAction_Forgotten_RemovesItsDecorations` (no decoration with a description starting with
+- [x] New: `ExecuteEdits_OtherSource_TracksNothing`
+- [x] New: `AutoClosedAction_CursorLeavesThePair_IsForgotten`
+- [x] New: `AutoClosedAction_PairBecomesMultiline_IsForgotten`
+- [x] New: `AutoClosedAction_Forgotten_RemovesItsDecorations` (no decoration with a description starting with
       `auto-closed-` is left)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursor.ts` (+ auto-closed actions, P5-41); "Cut points" row of `AutoClosedAction.cs`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursor.ts` (+ auto-closed actions, P5-41); "Cut points" row of `AutoClosedAction.cs`
       and `CursorsController.Edits.cs` removed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
