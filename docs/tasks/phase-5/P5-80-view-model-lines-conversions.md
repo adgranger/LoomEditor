@@ -1,6 +1,6 @@
 # P5-80 — `ViewModelLinesFromProjectedModel`: coordinate conversions and the real `CoordinatesConverter`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-79
 - **Size:** M
 
@@ -47,26 +47,26 @@ Tests: `test/browser/viewModel/modelLineProjection.test.ts` 100–135 (`withSpli
 
 `withSplitLinesCollection(text, …)` builds the class on `TestCodeEditor.CreateTextModel(text)` with the model's tab size.
 
-- [ ] Port: `Editor ViewModel - SplitLinesCollection` › `Invalid line numbers` — **without** the
+- [x] Port: `Editor ViewModel - SplitLinesCollection` › `Invalid line numbers` — **without** the
       `getViewLinesIndentGuides` assertions (indent guides are phase 6: a `// Phase 6 cut point` comment in the test
       says so); the content, min / max column and `convertViewPositionToModelPosition` assertions are ported as they are
-- [ ] Port: `Editor ViewModel - SplitLinesCollection` › `issue #3662`
-- [ ] New: `ConvertModelPositionToViewPosition_InHiddenArea_GoesToTheLineAbove` (end of the previous visible line)
-- [ ] New: `ConvertModelPositionToViewPosition_BelowHiddenRanges_GoesToTheLineBelow` (column 1)
-- [ ] New: `ConvertModelPositionToViewPosition_FirstLinesHidden_AllowZeroLineNumber_ReturnsLineZero`
-- [ ] New: `ValidateViewPosition_ViewPositionOfAnotherModelPosition_ConvertsTheExpectedPosition`
-- [ ] New: `GetDecorationsInRange_AcrossHiddenLines_SkipsTheHiddenDecorationsOnce` (a decoration inside the hidden
+- [x] Port: `Editor ViewModel - SplitLinesCollection` › `issue #3662`
+- [x] New: `ConvertModelPositionToViewPosition_InHiddenArea_GoesToTheLineAbove` (end of the previous visible line)
+- [x] New: `ConvertModelPositionToViewPosition_BelowHiddenRanges_GoesToTheLineBelow` (column 1)
+- [x] New: `ConvertModelPositionToViewPosition_FirstLinesHidden_AllowZeroLineNumberIsIgnored_ReturnsLineOne` (deviation: `Position` cannot hold line 0, so `allowZeroLineNumber` is accepted but ignored; a view line number as `int` comes with the view zones)
+- [x] New: `ValidateViewPosition_ViewPositionOfAnotherModelPosition_ConvertsTheExpectedPosition`
+- [x] New: `GetDecorationsInRange_AcrossHiddenLines_SkipsTheHiddenDecorationsOnce` (a decoration inside the hidden
       lines is not returned; one that spans two visible runs is returned once)
-- [ ] New: `CoordinatesConverter_ForwardsToTheLines` (`ModelPositionIsVisible`, `GetModelLineViewLineCount`,
+- [x] New: `CoordinatesConverter_ForwardsToTheLines` (`ModelPositionIsVisible`, `GetModelLineViewLineCount`,
       `GetViewLineNumberOfModelPosition`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows `viewModelLines.ts` (conversions, P5-80) and `coordinatesConverter.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows `viewModelLines.ts` (conversions, P5-80) and `coordinatesConverter.ts`
       (`CoordinatesConverter`, P5-80); "Tests ported": `modelLineProjection.test.ts` so far 3 / 6
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
