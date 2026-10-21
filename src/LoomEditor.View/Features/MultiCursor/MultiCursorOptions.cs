@@ -1,4 +1,4 @@
-// Ported from microsoft/vscode: src/vs/editor/common/config/editorOptions.ts (selectedTextMatchMode)
+// Ported from microsoft/vscode: src/vs/editor/common/config/editorOptions.ts (selectedTextMatchMode, selectionHighlight*)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 namespace LoomEditor.View.Features.MultiCursor;
@@ -16,9 +16,13 @@ internal enum SelectedTextMatchMode
     CaseInsensitive,
 }
 
-/// <summary>The editor options the multi-cursor commands read.</summary>
+/// <summary>The editor options the multi-cursor commands and the selection highlighter read (<c>selectionHighlightMaxLength</c>: 0 means no limit).</summary>
 /// <remarks>Threading: immutable; thread-safe.</remarks>
-internal sealed record MultiCursorOptions(SelectedTextMatchMode SelectedTextMatchMode = SelectedTextMatchMode.FindOptions)
+internal sealed record MultiCursorOptions(
+    SelectedTextMatchMode SelectedTextMatchMode = SelectedTextMatchMode.FindOptions,
+    bool SelectionHighlight = true,
+    int SelectionHighlightMaxLength = 200,
+    bool SelectionHighlightMultiline = false)
 {
     /// <summary>VS Code's defaults.</summary>
     public static MultiCursorOptions Default { get; } = new();

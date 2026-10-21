@@ -337,7 +337,7 @@ internal sealed class MultiCursorSelectionController : IDisposable
         }
     }
 
-    private static bool ModelRangesContainSameText(TextModel model, List<Selection> ranges, bool matchCase)
+    internal static bool ModelRangesContainSameText(TextModel model, List<Selection> ranges, bool matchCase)
     {
         string selectedText = GetValueInRange(model, ranges[0].Range, !matchCase);
         for (int i = 1; i < ranges.Count; i++)
