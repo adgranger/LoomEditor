@@ -1,6 +1,6 @@
 # P5-63 — `TextModelSearch`: find all, next and previous matches in a model
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-62
 - **Size:** M
 
@@ -43,30 +43,30 @@ Monaco's `textModelSearch.test.ts` pass.
 
 `textModelSearch.test.ts`, suite `TextModelSearch` — port all of these (36), with `// Monaco:` names:
 
-- [ ] `Simple find`, `Case sensitive find`, `Whole words find`, `/^/ find`, `/$/ find`, `/.*/ find`, `/^$/ find`
-- [ ] `multiline find 1`, `multiline find 2`, `multiline find 3`, `multiline find 4`, `multiline find with line beginning regex`,
+- [x] `Simple find`, `Case sensitive find`, `Whole words find`, `/^/ find`, `/$/ find`, `/.*/ find`, `/^$/ find`
+- [x] `multiline find 1`, `multiline find 2`, `multiline find 3`, `multiline find 4`, `multiline find with line beginning regex`,
       `matching empty lines using boundary expression`, `matching lines starting with A and ending with B`,
       `multiline find with line ending regex`, `issue #4836 - ^.*$`, `multiline find for non-regex string`
-- [ ] `issue #3623: Match whole word does not work for not latin characters`, `issue #27459: Match whole words regression`,
+- [x] `issue #3623: Match whole word does not work for not latin characters`, `issue #27459: Match whole words regression`,
       `issue #27594: Search results disappear`
-- [ ] `findNextMatch without regex`, `findNextMatch with beginning boundary regex`,
+- [x] `findNextMatch without regex`, `findNextMatch with beginning boundary regex`,
       `findNextMatch with beginning boundary regex and line has repetitive beginnings`,
       `findNextMatch with beginning boundary multiline regex and line has repetitive beginnings`, `findNextMatch with ending boundary regex`
-- [ ] `findMatches with capturing matches`, `findMatches multiline with capturing matches`, `findNextMatch with capturing matches`,
+- [x] `findMatches with capturing matches`, `findMatches multiline with capturing matches`, `findNextMatch with capturing matches`,
       `findNextMatch multiline with capturing matches`, `findPreviousMatch with capturing matches`, `findPreviousMatch multiline with capturing matches`
-- [ ] `\n matches \r\n`, `\r can never be found`, `issue #53415. \W should match line break.`
-- [ ] `issue #74715. \d* finds empty string and stops searching.`, `issue #100134. Zero-length matches should properly step over surrogate pairs`
-- [ ] **Not ported:** `Simple find using unicode escape sequences` — `\u{0066}` is JavaScript-only syntax; .NET rejects it
+- [x] `\n matches \r\n`, `\r can never be found`, `issue #53415. \W should match line break.`
+- [x] `issue #74715. \d* finds empty string and stops searching.`, `issue #100134. Zero-length matches should properly step over surrogate pairs`
+- [x] **Not ported:** `Simple find using unicode escape sequences` — `\u{0066}` is JavaScript-only syntax; .NET rejects it
       (ADR 0009, decision 6). Write the reason in the PORTING tests table.
 - `createTextModel(text)` → `new TextModel(text)`; `model.setEOL(EndOfLineSequence.CRLF)` → `model.SetEol(EndOfLineSequence.CRLF)`.
   `assertFindMatches` runs every case on an LF and on a CRLF model, as in Monaco.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `textModelSearch.ts` ✅ (P5-62, P5-63); tests table `textModelSearch.test.ts` 41 / 42 with the reason
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `textModelSearch.ts` ✅ (P5-62, P5-63); tests table `textModelSearch.test.ts` 41 / 42 with the reason
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

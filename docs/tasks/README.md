@@ -473,7 +473,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P5-62](phase-5/P5-62-search-primitives.md) | Search primitives: `SearchParams`, `SearchData`, `FindMatch`, `Searcher` | P5-61 | done |
-| [P5-63](phase-5/P5-63-text-model-search.md) | `TextModelSearch`: find all, next and previous matches in a model | P5-62 | todo |
+| [P5-63](phase-5/P5-63-text-model-search.md) | `TextModelSearch`: find all, next and previous matches in a model | P5-62 | done |
 | [P5-64](phase-5/P5-64-piece-tree-search-and-model-api.md) | Piece tree search and `TextModel.FindMatches / FindNextMatch / FindPreviousMatch` | P5-63 | todo |
 | [P5-65](phase-5/P5-65-find-replace-state.md) | The Find feature folder, `FindReplaceState` and the selection search string | P5-64 | todo |
 | [P5-66](phase-5/P5-66-replace-pattern.md) | `ReplacePattern` and case-preserving replace | P5-65 | todo |
