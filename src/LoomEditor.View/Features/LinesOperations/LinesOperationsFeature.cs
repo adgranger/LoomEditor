@@ -6,7 +6,7 @@ using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Features.LinesOperations;
 
-/// <summary>Line commands: copy, move, sort, trim, delete, join, transpose and case transforms (the first eleven so far).</summary>
+/// <summary>Line commands: copy, move, sort, trim, delete, join, transpose and case transforms (the first sixteen so far).</summary>
 /// <remarks>Menus (<c>menuOpts</c>) are not ported. Threading: UI thread only.</remarks>
 public sealed class LinesOperationsFeature : IEditorFeature
 {
@@ -40,6 +40,11 @@ public sealed class LinesOperationsFeature : IEditorFeature
         Register(LinesOperationsCommands.RemoveDuplicateLines, () => LinesOperationsActions.RemoveDuplicateLines(viewModel));
         Register(LinesOperationsCommands.ReverseLines, () => LinesOperationsActions.ReverseLines(viewModel));
         Register(LinesOperationsCommands.TrimTrailingWhitespace, () => LinesOperationsActions.TrimTrailingWhitespace(viewModel));
+        Register(LinesOperationsCommands.DeleteLines, () => LinesOperationsActions.DeleteLines(viewModel));
+        Register(LinesOperationsCommands.IndentLines, () => LinesOperationsActions.IndentLines(viewModel));
+        Register(LinesOperationsCommands.OutdentLines, () => LinesOperationsActions.OutdentLines(viewModel));
+        Register(LinesOperationsCommands.InsertLineBefore, () => LinesOperationsActions.InsertLineBefore(viewModel));
+        Register(LinesOperationsCommands.InsertLineAfter, () => LinesOperationsActions.InsertLineAfter(viewModel));
     }
 
     /// <inheritdoc />

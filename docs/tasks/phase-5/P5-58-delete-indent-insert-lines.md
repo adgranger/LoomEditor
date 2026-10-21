@@ -1,6 +1,6 @@
 # P5-58 — LinesOperations: delete lines, indent / outdent lines, insert line above / below
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-57
 - **Size:** S
 
@@ -54,18 +54,18 @@ lines (`Ctrl+[`), insert line above (`Ctrl+Shift+Enter`) and below (`Ctrl+Enter`
 
 ## Tests
 
-- [ ] Port `InsertLineBeforeAction`, `InsertLineAfterAction`
-- [ ] Port `Bug 18276:[editor] Indentation broken when selection is empty`, `issue #80736: Indenting while the cursor is at the start of a line of text causes the added spaces or tab to be selected`, `Indenting on empty line should move cursor`
-- [ ] Port `issue #62112: Delete line does not work properly when multiple cursors are on line`
-- [ ] Port `empty selection in middle of lines`, `empty selection at top of lines`, `empty selection at end of lines`, `with selection in middle of lines`, `with selection at top of lines`, `with selection at end of lines`, `with full line selection in middle of lines`, `with full line selection at top of lines`, `with full line selection at end of lines`, `multicursor 1`
-- [ ] New: keybindings `Ctrl+Shift+K`, `Ctrl+]`, `Ctrl+Enter` resolve to their ids; not writable → no command
+- [x] Port `InsertLineBeforeAction`, `InsertLineAfterAction`
+- [x] Port `Bug 18276:[editor] Indentation broken when selection is empty`, `issue #80736: Indenting while the cursor is at the start of a line of text causes the added spaces or tab to be selected`, `Indenting on empty line should move cursor`
+- [x] Port `issue #62112: Delete line does not work properly when multiple cursors are on line`
+- [x] Port `empty selection in middle of lines`, `empty selection at top of lines`, `empty selection at end of lines`, `with selection in middle of lines`, `with selection at top of lines`, `with selection at end of lines`, `with full line selection in middle of lines`, `with full line selection at top of lines`, `with full line selection at end of lines`, `multicursor 1`
+- [x] New: keybindings `Ctrl+Shift+K`, `Ctrl+]`, `Ctrl+Enter` resolve to their ids; not writable → no command
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `linesOperations.ts` updated (P5-58); tests table `linesOperations.test.ts` 38 / 55; keybindings row
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `linesOperations.ts` updated (P5-58); tests table `linesOperations.test.ts` 38 / 55; keybindings row
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
