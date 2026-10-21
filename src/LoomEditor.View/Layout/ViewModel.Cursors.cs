@@ -66,6 +66,12 @@ internal sealed partial class ViewModel
     /// <summary>Raised when <see cref="HasFocus"/> changes (Monaco: <c>onDidFocusEditorWidget</c> and <c>onDidBlurEditorWidget</c>).</summary>
     public event EventHandler? FocusChanged;
 
+    /// <summary>Raised after a keyboard paste, with the pasted range (Monaco: <c>onDidPaste</c>).</summary>
+    internal event EventHandler<Range>? DidPaste;
+
+    /// <summary>Raises <see cref="DidPaste"/> (Monaco: the end of <c>_paste</c>).</summary>
+    internal void NotifyDidPaste(Range range) => DidPaste?.Invoke(this, range);
+
     // ----- ICursorSimpleModel (identity mapping)
 
     public int GetLineCount() => _model.LineCount;

@@ -6,7 +6,7 @@ using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Features.Indentation;
 
-/// <summary>Registers the eight indentation commands.</summary>
+/// <summary>Registers the eight indentation commands and re-indents pasted text when <see cref="Options"/> asks for it.</summary>
 /// <remarks>
 /// The size commands (<see cref="IndentationCommands.IndentUsingTabs"/>, <see cref="IndentationCommands.IndentUsingSpaces"/>,
 /// <see cref="IndentationCommands.ChangeTabDisplaySize"/>) have no quick pick and no argument: they apply the item the
@@ -15,9 +15,12 @@ namespace LoomEditor.View.Features.Indentation;
 public sealed class IndentationFeature : IEditorFeature
 {
     private readonly List<IDisposable> _registrations = [];
+    private AutoIndentOnPaste? _autoIndentOnPaste;
 
     /// <inheritdoc />
     public string Id => "loom.indentation";
+
+    internal EditorIndentationOptions Options { get; set; } = EditorIndentationOptions.Default;
 
     /// <inheritdoc />
     public void Attach(IEditorContext context)
@@ -41,11 +44,16 @@ public sealed class IndentationFeature : IEditorFeature
         Register(context, IndentationCommands.IndentUsingSpaces, () => IndentationActions.ChangeIndentationSizeToPreselected(viewModel, true, false));
         Register(context, IndentationCommands.ChangeTabDisplaySize, () => IndentationActions.ChangeIndentationSizeToPreselected(viewModel, true, true));
         Register(context, IndentationCommands.DetectIndentation, () => IndentationActions.DetectIndentation(viewModel));
+
+        _autoIndentOnPaste = new AutoIndentOnPaste(viewModel, () => Options, viewModel.Model.LanguageConfigurationRegistry);
     }
 
     /// <inheritdoc />
     public void Dispose()
     {
+        _autoIndentOnPaste?.Dispose();
+        _autoIndentOnPaste = null;
+
         foreach (IDisposable registration in _registrations)
         {
             registration.Dispose();
