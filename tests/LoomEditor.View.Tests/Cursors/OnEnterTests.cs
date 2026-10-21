@@ -14,7 +14,7 @@ using static LoomEditor.View.Tests.Cursors.TestHelpers.CursorTestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors;
 
-// Not ported here: 'Enter honors indentNextLinePattern 2' and 'Type honors decreaseIndentPattern' (they type characters that
+// Ported in AutoIndentOnTypeTests (P5-45): 'Enter honors indentNextLinePattern 2' and 'Type honors decreaseIndentPattern' (they type characters that
 // are auto-indented: P5-45) and the two 'onEnter works if there are no indentation rules' tests (they are in TypingTests).
 public class OnEnterTests
 {
