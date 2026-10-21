@@ -46,7 +46,21 @@ internal sealed partial class ViewModel
     private void OnModelOptionsChanged(object? sender, ModelOptionsChangedEventArgs e) => UpdateCursorConfiguration();
 
     /// <summary>Tells the cursor whether the editor has the focus (Monaco: <c>setHasFocus</c>, the cursor part).</summary>
-    public void SetHasFocus(bool hasFocus) => _cursor.SetHasFocus(hasFocus);
+    public void SetHasFocus(bool hasFocus)
+    {
+        _cursor.SetHasFocus(hasFocus);
+        if (HasFocus != hasFocus)
+        {
+            HasFocus = hasFocus;
+            FocusChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    /// <summary>Whether the editor has the focus (Monaco: <c>hasWidgetFocus</c>).</summary>
+    public bool HasFocus { get; private set; }
+
+    /// <summary>Raised when <see cref="HasFocus"/> changes (Monaco: <c>onDidFocusEditorWidget</c> and <c>onDidBlurEditorWidget</c>).</summary>
+    public event EventHandler? FocusChanged;
 
     // ----- ICursorSimpleModel (identity mapping)
 

@@ -58,4 +58,5 @@ internal enum KeyCode
     F10,
     F11,
     F12,
+    Backslash,
 }

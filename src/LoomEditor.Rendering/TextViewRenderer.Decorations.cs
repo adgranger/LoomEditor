@@ -172,20 +172,30 @@ internal sealed partial class TextViewRenderer
     private List<StyleOverride>? GetStyleOverrides(ViewportData data, int lineNumber, int maxColumn, int length)
     {
         List<StyleOverride>? overrides = null;
+        List<StyleOverride>? important = null;
         foreach (LineDecoration d in LineDecoration.Filter(data.GetInlineDecorations(lineNumber), lineNumber, 1, maxColumn))
         {
             if (d.Type is not (InlineDecorationType.Regular or InlineDecorationType.RegularAffectingLetterSpacing)
-                || GetDecorationForeground(DecorationStyles.Get(d.ClassName)) is not { } color)
+                || DecorationStyles.Get(d.ClassName) is not { } style
+                || GetDecorationForeground(style) is not { } color)
             {
                 continue;
             }
 
             int start = Math.Min(d.StartColumn - 1, length);
             int end = Math.Min(d.EndColumn - 1, length);
-            (overrides ??= []).Add(new StyleOverride(start, end, LineStyle.ToArgb(color)));
+            var item = new StyleOverride(start, end, LineStyle.ToArgb(color));
+            if (style.Important)
+            {
+                (important ??= []).Add(item);
+            }
+            else
+            {
+                (overrides ??= []).Add(item);
+            }
         }
 
-        return overrides;
+        return important is null ? overrides : [.. overrides ?? [], .. important];
     }
 
     // The CSS `::after` content of `After` decorations (`margin-left: 0.2em`). It takes no room: the text after it is

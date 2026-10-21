@@ -13,6 +13,7 @@ namespace LoomEditor.View.Layout;
 /// <param name="ForegroundResolver">Computes the color of the decorated text from the theme; used instead of <paramref name="ForegroundColorId"/> when set.</param>
 /// <param name="AfterContentText">Text drawn after the decorated range (CSS <c>::after</c> content).</param>
 /// <param name="AfterContentColorId">The color of <paramref name="AfterContentText"/>.</param>
+/// <param name="Important">The foreground wins over the other inline foregrounds (CSS <c>!important</c>).</param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record DecorationStyle(
     string? BackgroundColorId = null,
@@ -21,4 +22,5 @@ internal sealed record DecorationStyle(
     string? ForegroundColorId = null,
     string? AfterContentText = null,
     string? AfterContentColorId = null,
-    Func<EditorTheme, ThemeColor?>? ForegroundResolver = null);
+    Func<EditorTheme, ThemeColor?>? ForegroundResolver = null,
+    bool Important = false);

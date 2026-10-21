@@ -25,6 +25,7 @@ internal static class KeyMapping
         VirtualKey.Down => KeyCode.DownArrow,
         VirtualKey.Insert => KeyCode.Insert,
         VirtualKey.Delete => KeyCode.Delete,
+        (VirtualKey)220 => KeyCode.Backslash, // VK_OEM_5
         >= VirtualKey.A and <= VirtualKey.Z => KeyCode.KeyA + (key - VirtualKey.A),
         >= VirtualKey.F1 and <= VirtualKey.F12 => KeyCode.F1 + (key - VirtualKey.F1),
         _ => null,

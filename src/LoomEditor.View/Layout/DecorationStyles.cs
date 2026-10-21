@@ -34,7 +34,7 @@ internal static class DecorationStyles
 
         // bracketMatching.css 6–10, bracketMatching.ts 422–429
         ["bracket-match"] = new("editorBracketMatch.background", "editorBracketMatch.border"),
-        ["bracket-match-inline"] = new(ForegroundColorId: "editorBracketMatch.foreground"),
+        ["bracket-match-inline"] = new(ForegroundColorId: "editorBracketMatch.foreground", Important: true),
 
         // folding.css 33–44
         ["folded-background"] = new("editor.foldBackground"),
