@@ -1,6 +1,6 @@
 # P5-43 — Auto-close when typing an open character (`AutoClosingOpenCharTypeOperation`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-42
 - **Size:** M (≈ 260 lines of production code, 30 ported tests)
 
@@ -70,41 +70,41 @@ Step B provides `StandardAutoClosingPairConditional` (`shouldAutoClose`, `findNe
 
 Port from `cursor.test.ts`, suite `Editor Controller`:
 
-- [ ] `issue #61070: backtick (\`) should auto-close after a word character` (4975)
-- [ ] `issue #132912: quotes should not auto-close if they are closing a string` (4985)
-- [ ] `autoClosingPairs - open parens: default` (4999), `autoClosingPairs - open parens: whitespace` (5040)
-- [ ] `autoClosingPairs - open parens disabled/enabled open quotes enabled/disabled` (5084)
-- [ ] `autoClosingPairs - configurable open parens` (5146), `autoClosingPairs - auto-pairing can be disabled` (5191)
-- [ ] `autoClosingPairs - quote` (5329), `autoClosingPairs - multi-character autoclose` (5372)
-- [ ] `issue #338693: undo after multi-character autoclose first removes only the auto-closed characters` (5392)
-- [ ] `issue #338693: multi-character autoclose does not insert an orphan close when a listener reentrantly removes the typed character` (5419)
-- [ ] `issue #338693: multi-character autoclose does not use stale selections after a reentrant edit` (5441)
-- [ ] `autoClosingPairs - doc comments can be turned off` (5501)
-- [ ] `issue #72177: multi-character autoclose with conflicting patterns` (5519)
-- [ ] `issue #55314: Do not auto-close when ending with open` (5558)
-- [ ] `issue #27937: Trying to add an item to the front of a list is cumbersome` (5597)
-- [ ] `issue #25658 - Do not auto-close single/double quotes after word characters` (5711)
-- [ ] `issue #37315 - overtypes only those characters that it inserted` (5775)
-- [ ] `issue #37315 - stops overtyping once cursor leaves area` (5803)
-- [ ] `issue #37315 - it overtypes only once` (5822)
-- [ ] `issue #37315 - it can remember multiple auto-closed instances` (5844)
-- [ ] `issue #205598 - retains auto-closed actions created by a reentrant decorations listener` (5868)
-- [ ] `issue #118270 - auto closing deletes only those characters that it inserted` (5903)
-- [ ] `issue #78527 - does not close quote on odd count` (5936)
-- [ ] `issue #85983 - editor.autoClosingBrackets: beforeWhitespace is incorrect for Python` (5962)
-- [ ] `issue #78833 - Add config to use old brackets/quotes overtyping` (6026)
-- [ ] `issue #53357: Over typing ignores characters after backslash` (6093)
-- [ ] `issue #84998: Overtyping Brackets doesn't work after backslash` (6117)
-- [ ] `issue #20891: All cursors should do the same thing` (6298)
-- [ ] `All cursors should do the same thing when deleting left` (6348)
+- [x] `issue #61070: backtick (\`) should auto-close after a word character` (4975)
+- [x] `issue #132912: quotes should not auto-close if they are closing a string` (4985)
+- [x] `autoClosingPairs - open parens: default` (4999), `autoClosingPairs - open parens: whitespace` (5040)
+- [x] `autoClosingPairs - open parens disabled/enabled open quotes enabled/disabled` (5084)
+- [x] `autoClosingPairs - configurable open parens` (5146), `autoClosingPairs - auto-pairing can be disabled` (5191)
+- [x] `autoClosingPairs - quote` (5329), `autoClosingPairs - multi-character autoclose` (5372)
+- [x] `issue #338693: undo after multi-character autoclose first removes only the auto-closed characters` (5392)
+- [x] `issue #338693: multi-character autoclose does not insert an orphan close when a listener reentrantly removes the typed character` (5419)
+- [x] `issue #338693: multi-character autoclose does not use stale selections after a reentrant edit` (5441)
+- [x] `autoClosingPairs - doc comments can be turned off` (5501)
+- [x] `issue #72177: multi-character autoclose with conflicting patterns` (5519)
+- [x] `issue #55314: Do not auto-close when ending with open` (5558)
+- [x] `issue #27937: Trying to add an item to the front of a list is cumbersome` (5597)
+- [x] `issue #25658 - Do not auto-close single/double quotes after word characters` (5711)
+- [x] `issue #37315 - overtypes only those characters that it inserted` (5775)
+- [x] `issue #37315 - stops overtyping once cursor leaves area` (5803)
+- [x] `issue #37315 - it overtypes only once` (5822)
+- [x] `issue #37315 - it can remember multiple auto-closed instances` (5844)
+- [x] `issue #205598 - retains auto-closed actions created by a reentrant decorations listener` (5868)
+- [x] `issue #118270 - auto closing deletes only those characters that it inserted` (5903)
+- [x] `issue #78527 - does not close quote on odd count` (5936)
+- [x] `issue #85983 - editor.autoClosingBrackets: beforeWhitespace is incorrect for Python` (5962)
+- [x] `issue #78833 - Add config to use old brackets/quotes overtyping` (6026)
+- [x] `issue #53357: Over typing ignores characters after backslash` (6093)
+- [x] `issue #84998: Overtyping Brackets doesn't work after backslash` (6117)
+- [x] `issue #20891: All cursors should do the same thing` (6298)
+- [x] `All cursors should do the same thing when deleting left` (6348)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ auto-closing open characters); tests table
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ auto-closing open characters); tests table
       `cursor.test.ts` (`Editor Controller` +30); "Cut points" table: the step C cut point of `getAutoClosingPair`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

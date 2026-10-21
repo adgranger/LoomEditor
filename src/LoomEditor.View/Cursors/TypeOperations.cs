@@ -151,7 +151,12 @@ internal static class TypeOperations
             return autoClosingOverTypeEdits;
         }
 
-        // Phase 4–5 cut point: AutoClosingOpenCharTypeOperation (154–404)
+        EditOperationResult? autoClosingOpenCharEdits = AutoClosingOpenCharTypeOperation.GetEdits(config, model, selections, ch, false, isDoingComposition);
+        if (autoClosingOpenCharEdits is not null)
+        {
+            return autoClosingOpenCharEdits;
+        }
+
         // Phase 4–5 cut point: SurroundSelectionOperation (421–478)
         // Phase 4–5 cut point: InterceptorElectricCharOperation (480–546)
         return SimpleCharacterTypeOperation.GetEdits(config, prevEditOperationType, selections, ch, isDoingComposition);
