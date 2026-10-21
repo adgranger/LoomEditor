@@ -28,6 +28,9 @@ internal static class WhenClauses
     /// <summary><c>writable AND editorTextFocus AND tabDoesNotMoveFocus</c> (<c>tab</c>, <c>outdent</c>).</summary>
     public static bool Tab(KeybindingContext c) => c.Writable && c.EditorTextFocus && c.TabDoesNotMoveFocus;
 
+    /// <summary><c>writable AND editorTextFocus</c> (the comment commands).</summary>
+    public static bool WritableEditorTextFocus(KeybindingContext c) => c.Writable && c.EditorTextFocus;
+
     /// <summary><c>writable AND textInputFocus</c> (word deletes).</summary>
     public static bool WritableTextInput(KeybindingContext c) => c.Writable && c.TextInputFocus;
 

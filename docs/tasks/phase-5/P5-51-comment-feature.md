@@ -1,6 +1,6 @@
 # P5-51 — Comment feature: toggle, add, remove line comment and block comment
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-50
 - **Size:** S
 
@@ -56,24 +56,24 @@ block comment, with every cursor, using the language configuration of the docume
 
 ## Tests
 
-- [ ] New: `CommentLine_TypeScriptDocument_TogglesSlashSlashOnEverySelectedLine` (a `TestEditorServices` model whose
+- [x] New: `CommentLine_TypeScriptDocument_TogglesSlashSlashOnEverySelectedLine` (a `TestEditorServices` model whose
       language has `{ lineComment: '//', blockComment: ['/*', '*/'] }`; run twice → original text)
-- [ ] New: `CommentLine_TwoCursorsOnTheSameLine_CommentsTheLineOnce` (the `ignoreFirstLine` logic of lines 44–59)
-- [ ] New: `AddAndRemoveCommentLine_RunOnPlainText_DoNothing` (plain text has no comment tokens)
-- [ ] New: `BlockComment_WithSelection_WrapsItAndUndoRestoresTheText`
-- [ ] New: `CommentLine_ReadOnly_DoesNotRun`
-- [ ] New: `Options_InsertSpaceFalse_AddsTheTokenWithoutSpace`
-- [ ] New: keybinding resolution: `Ctrl+/` → `editor.action.commentLine`; `Ctrl+K` then `Ctrl+C` → `editor.action.addCommentLine`;
+- [x] New: `CommentLine_TwoCursorsOnTheSameLine_CommentsTheLineOnce` (the `ignoreFirstLine` logic of lines 44–59)
+- [x] New: `AddAndRemoveCommentLine_RunOnPlainText_DoNothing` (plain text has no comment tokens)
+- [x] New: `BlockComment_WithSelection_WrapsItAndUndoRestoresTheText`
+- [x] New: `CommentLine_ReadOnly_DoesNotRun`
+- [x] New: `Options_InsertSpaceFalse_AddsTheTokenWithoutSpace`
+- [x] New: keybinding resolution: `Ctrl+/` → `editor.action.commentLine`; `Ctrl+K` then `Ctrl+C` → `editor.action.addCommentLine`;
       not writable → no command
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/comment/browser/comment.ts` → `Features/Comment/` (✅ without menus, P5-51);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/comment/browser/comment.ts` → `Features/Comment/` (✅ without menus, P5-51);
       keybindings row lists the comment keys
 - [ ] Manual check (maintainer): in the Gallery with a C# document, `Ctrl+/`, `Ctrl+K Ctrl+C`, `Ctrl+K Ctrl+U`, `Shift+Alt+A`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
