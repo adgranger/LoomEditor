@@ -1,5 +1,6 @@
 using LoomEditor.View.Features.BracketMatching;
 using LoomEditor.View.Features.Comment;
+using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Indentation;
 using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
@@ -24,6 +25,7 @@ public static class EditorFeatures
     [
         () => new SelectAllFeature(),
         () => new WordOperationsFeature(),
+        () => new FindFeature(),
         () => new MultiCursorFeature(),
         () => new WordPartOperationsFeature(),
         () => new BracketMatchingFeature(),

@@ -1,6 +1,6 @@
 # P5-65 — The Find feature folder, `FindReplaceState` and the selection search string
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-64
 - **Size:** M
 
@@ -75,21 +75,21 @@ nothing yet (commands come with P5-71).
 
 ## Tests
 
-- [ ] Port `find.test.ts` › suite `Find` (3): `search string at position`, `search string with selection`,
+- [x] Port `find.test.ts` › suite `Find` (3): `search string at position`, `search string with selection`,
       `search string with multiline selection` — with `TestCodeEditor.WithTestCodeEditor` (P3-20).
-- [ ] New: `Change_SameValues_RaisesNoEvent`, `Change_MatchCaseOverride_ChangesEffectiveValueOnly` (`MatchCase` vs
+- [x] New: `Change_SameValues_RaisesNoEvent`, `Change_MatchCaseOverride_ChangesEffectiveValueOnly` (`MatchCase` vs
       `ActualMatchCase`), `Change_SearchScopeNull_ClearsScope`, `ChangeMatchInfo_PositionAboveCount_IsClamped`,
       `CanNavigateForward_LoopOff_FalseOnLastMatch`, `FindFeature_IsListedBeforeMultiCursorFeature`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (including the architecture tests: the folder has
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (including the architecture tests: the folder has
       `FindFeature.cs`, `FindCommands.cs`, `README.md` and is listed in `EditorFeatures.cs`)
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `FindFeature` and `FindCommands`
-- [ ] `docs/PORTING.md`: map rows `contrib/find/browser/findState.ts` ✅ (P5-65), `findController.ts` 🔶 (`getSelectionSearchString`),
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only `FindFeature` and `FindCommands`
+- [x] `docs/PORTING.md`: map rows `contrib/find/browser/findState.ts` ✅ (P5-65), `findController.ts` 🔶 (`getSelectionSearchString`),
       `findModel.ts` 🔶 (ids, limits); tests table `find.test.ts` 3 / 3
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

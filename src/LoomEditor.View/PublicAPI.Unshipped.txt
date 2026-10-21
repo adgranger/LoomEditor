@@ -3,6 +3,22 @@ const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.
 const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.RemoveCommentLine = "editor.action.removeCommentLine" -> string!
+const LoomEditor.View.Features.Find.FindCommands.CloseFindWidgetCommand = "closeFindWidget" -> string!
+const LoomEditor.View.Features.Find.FindCommands.NextMatchFindAction = "editor.action.nextMatchFindAction" -> string!
+const LoomEditor.View.Features.Find.FindCommands.NextSelectionMatchFindAction = "editor.action.nextSelectionMatchFindAction" -> string!
+const LoomEditor.View.Features.Find.FindCommands.PreviousMatchFindAction = "editor.action.previousMatchFindAction" -> string!
+const LoomEditor.View.Features.Find.FindCommands.PreviousSelectionMatchFindAction = "editor.action.previousSelectionMatchFindAction" -> string!
+const LoomEditor.View.Features.Find.FindCommands.ReplaceAllAction = "editor.action.replaceAll" -> string!
+const LoomEditor.View.Features.Find.FindCommands.ReplaceOneAction = "editor.action.replaceOne" -> string!
+const LoomEditor.View.Features.Find.FindCommands.SelectAllMatchesAction = "editor.action.selectAllMatches" -> string!
+const LoomEditor.View.Features.Find.FindCommands.StartFindAction = "actions.find" -> string!
+const LoomEditor.View.Features.Find.FindCommands.StartFindReplaceAction = "editor.action.startFindReplaceAction" -> string!
+const LoomEditor.View.Features.Find.FindCommands.StartFindWithSelection = "actions.findWithSelection" -> string!
+const LoomEditor.View.Features.Find.FindCommands.ToggleCaseSensitiveCommand = "toggleFindCaseSensitive" -> string!
+const LoomEditor.View.Features.Find.FindCommands.TogglePreserveCaseCommand = "togglePreserveCase" -> string!
+const LoomEditor.View.Features.Find.FindCommands.ToggleRegexCommand = "toggleFindRegex" -> string!
+const LoomEditor.View.Features.Find.FindCommands.ToggleSearchScopeCommand = "toggleFindInSelection" -> string!
+const LoomEditor.View.Features.Find.FindCommands.ToggleWholeWordCommand = "toggleFindWholeWord" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ChangeTabDisplaySize = "editor.action.changeTabDisplaySize" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.DetectIndentation = "editor.action.detectIndentation" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.IndentationToSpaces = "editor.action.indentationToSpaces" -> string!
@@ -108,6 +124,12 @@ LoomEditor.View.Features.EditorFeatureHost.Dispose() -> void
 LoomEditor.View.Features.EditorFeatureHost.EditorFeatureHost(LoomEditor.View.Features.IEditorContext! context, System.Collections.Generic.IEnumerable<System.Func<LoomEditor.View.Features.IEditorFeature!>!>! factories) -> void
 LoomEditor.View.Features.EditorFeatureHost.Features.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.Features.IEditorFeature!>!
 LoomEditor.View.Features.EditorFeatures
+LoomEditor.View.Features.Find.FindCommands
+LoomEditor.View.Features.Find.FindFeature
+LoomEditor.View.Features.Find.FindFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.Find.FindFeature.Dispose() -> void
+LoomEditor.View.Features.Find.FindFeature.FindFeature() -> void
+LoomEditor.View.Features.Find.FindFeature.Id.get -> string!
 LoomEditor.View.Features.IEditorContext
 LoomEditor.View.Features.IEditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.View.Features.IEditorContext.Model.get -> LoomEditor.Core.Model.TextModel!
