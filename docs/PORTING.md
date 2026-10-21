@@ -134,6 +134,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `PositionOffsetTransformer` test helper (P5-31) | `GetPosition` answers the last line that starts at or before the offset; Monaco's `findIndex` always answers the first line (same result for a single-line text) | Monaco's helper is correct for one line only |
 | `LineTokens.getMetadata` (P5-39) | A token index past the end returns 0 (the JavaScript typed array reads `undefined`, which the bit operations turn into 0): `IndentationLineProcessor.getProcessedTokens` reads the language of the empty tokens of an empty range | .NET arrays throw |
 | `BracketMatchingController` (P5-35) | The `bracket-match-inline` foreground is `DecorationStyle.Important` (Monaco: CSS `!important`); important foregrounds are applied after the others. `ViewModel.HasFocus` and `FocusChanged` replace `hasWidgetFocus` and the focus/blur events. `Ctrl+Shift+` uses `VK_OEM_5`, not the scan code. |
+| Search primitives (P5-62) | Regex syntax is .NET's (`\u{…}`, `\p{…}`; `\d`, `\w`, `\b` are Unicode-aware; without `u`, `.` and classes match one UTF-16 unit); the JavaScript flags map to `RegexOptions` (`i` → `IgnoreCase`, `m` → `Multiline`, always `CultureInvariant`); `Searcher` keeps its own `lastIndex` and calls `Regex.Match(text, startat)`; case-insensitive matching uses .NET invariant case folding instead of JavaScript simple case folding |
 
 ## Map: Monaco → LoomEditor
 
@@ -338,6 +339,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/bracketPairsTextModelPart/colorizedBracketPairsDecorationProvider.ts`, `common/model/decorationProvider.ts`, `common/model.ts` (649–652, `BracketPairColorizationOptions`) | `LoomEditor.Core/Model/BracketPairs/` (`ColorizedBracketPairsDecorationProvider.cs`, `BracketPairColorizationOptions.cs`), `LoomEditor.Core/Decorations/IDecorationProvider.cs`, `TextModel.BracketPairs.cs`, `TextModel.Decorations.cs`, `LoomEditor.View/Layout/BracketPairColorizationColors.cs`, `DecorationStyles.cs` | ✅ P5-34: see "Behavior differences" |
 | `base/common/arrays.ts` (`Comparator`, `CallbackIterable`; `compareBy` is a lambda in `BracketPairsTextModelPart`) | `LoomEditor.Core/Model/BracketPairs/CallbackIterable.cs` | 🔶 P5-29; `Comparator<T>` is `Comparison<T>`; the rest of the file is the BCL (rule 5) |
 | `editor/contrib/bracketMatching/browser/bracketMatching.ts` (P5-35) ✅, `bracketMatching.css`, `matchBrackets` option | `LoomEditor.View/Features/BracketMatching/` | 🔶 P5-35: internal; no overview ruler marker, no Go menu entry, `onDidChangeModel` dropped; `MatchBrackets` is a feature property, not a control option |
+| `editor/common/model/textModelSearch.ts` (`SearchParams`, `isMultilineRegexSource`, `createFindMatch`, `Searcher`, `isValidMatch`), `model.ts` (`FindMatch`, `SearchData`), `strings.ts` (`escapeRegExpCharacters`, `createRegExp`) | `LoomEditor.Core/Model/Search/`, `LoomEditor.Core/Text/Strings.Regex.cs` | 🔶 primitives (P5-62); `TextModelSearch` is P5-63, the piece tree search P5-64 |
 
 ## Monaco tests ported in phases 1 and 3
 

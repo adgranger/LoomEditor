@@ -1,6 +1,6 @@
 # P5-62 — Search primitives: `SearchParams`, `SearchData`, `FindMatch`, `Searcher`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-61
 - **Size:** M
 
@@ -77,21 +77,21 @@ regex plus word separators (`SearchData`), and a `Searcher` walks the matches of
 
 `src/vs/editor/test/common/model/textModelSearch.test.ts`, suite `TextModelSearch` (the rest is P5-63):
 
-- [ ] Port: `parseSearchRequest invalid`, `parseSearchRequest non regex`, `parseSearchRequest regex`, `isMultilineRegexSource`,
+- [x] Port: `parseSearchRequest invalid`, `parseSearchRequest non regex`, `parseSearchRequest regex`, `isMultilineRegexSource`,
       `isMultilineRegexSource correctly identifies multiline patterns`. `deepStrictEqual(actual.regex, /foo/giu)` becomes
       two asserts: `actual.Regex.ToString()` equals the JavaScript source (`"foo"`, `"foo\\\\n"`…) and `actual.Regex.Options`
       equals the mapped options (`g` and `u` map to nothing, `i` → `IgnoreCase`, `m` → `Multiline`, always `CultureInvariant`).
-- [ ] New: `Searcher_EmptyMatchBeforeSurrogatePair_AdvancesByTwo`, `Searcher_SameNonEmptyMatchTwice_ReturnsNull`,
+- [x] New: `Searcher_EmptyMatchBeforeSurrogatePair_AdvancesByTwo`, `Searcher_SameNonEmptyMatchTwice_ReturnsNull`,
       `Searcher_WordSeparators_SkipsMatchInsideWord`, `Searcher_LookbehindSeesTextBeforeLastIndex`,
       `CreateRegExp_InvalidPattern_ThrowsArgumentException`, `EscapeRegExpCharacters_KeepsSpacesAndHash`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `common/model/textModelSearch.ts` (🔶 primitives, P5-62), `model.ts` (+ `FindMatch`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `common/model/textModelSearch.ts` (🔶 primitives, P5-62), `model.ts` (+ `FindMatch`,
       `SearchData`), `strings.ts` (+ `escapeRegExpCharacters`, `createRegExp`); the two behavior differences above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
