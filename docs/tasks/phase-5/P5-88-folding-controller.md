@@ -91,6 +91,7 @@ attached through an `EditorContext`-like helper (reuse whatever step A tests use
       "folding update delay is fixed (300 ms, then 200 ms)"
 - [ ] `Features/Folding/README.md` lists the Monaco sources and the known limits (indentation only, no view-state
       memento, no import folding, fixed delays)
+- [ ] `ConventionTests.FeatureFolders`: remove the temporary `Folding` exemption added in P5-83 (the feature class, `FoldingCommands.cs` and `README.md` now exist)
 - [ ] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
