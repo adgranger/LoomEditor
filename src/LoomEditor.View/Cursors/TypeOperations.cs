@@ -135,6 +135,7 @@ internal static class TypeOperations
         CursorConfiguration config,
         TextModel model,
         IReadOnlyList<Selection> selections,
+        IReadOnlyList<Range> autoClosedCharacters,
         string ch)
     {
         EditOperationResult? enterEdits = EnterOperation.GetEdits(config, model, selections, ch, isDoingComposition);
@@ -144,7 +145,12 @@ internal static class TypeOperations
         }
 
         // Phase 4–5 cut point: AutoIndentOperation (cursorTypeEditOperations.ts 29–113)
-        // Phase 4–5 cut point: AutoClosingOvertypeOperation (115–152)
+        EditOperationResult? autoClosingOverTypeEdits = AutoClosingOvertypeOperation.GetEdits(prevEditOperationType, config, model, selections, autoClosedCharacters, ch);
+        if (autoClosingOverTypeEdits is not null)
+        {
+            return autoClosingOverTypeEdits;
+        }
+
         // Phase 4–5 cut point: AutoClosingOpenCharTypeOperation (154–404)
         // Phase 4–5 cut point: SurroundSelectionOperation (421–478)
         // Phase 4–5 cut point: InterceptorElectricCharOperation (480–546)

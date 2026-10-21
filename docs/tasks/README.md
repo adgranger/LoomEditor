@@ -442,7 +442,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-39](phase-5/P5-39-enter-on-enter-rules.md) | Enter with on-enter rules and indentation rules (`_enter`) | P5-38 | done |
 | [P5-40](phase-5/P5-40-smart-tab-and-shift-doc-blocks.md) | Smart Tab (`_goodIndentForLine`) and `ShiftCommand` in doc blocks | P5-39 | done |
 | [P5-41](phase-5/P5-41-auto-closed-characters.md) | Track auto-closed characters with model decorations (`AutoClosedAction`) | P5-40 | done |
-| [P5-42](phase-5/P5-42-auto-closing-overtype-and-delete.md) | Overtype auto-closed characters, delete auto-closed pairs | P5-41 | todo |
+| [P5-42](phase-5/P5-42-auto-closing-overtype-and-delete.md) | Overtype auto-closed characters, delete auto-closed pairs | P5-41 | done |
 | [P5-43](phase-5/P5-43-auto-closing-open-characters.md) | Auto-close when typing an open character (`AutoClosingOpenCharTypeOperation`) | P5-42 | todo |
 | [P5-44](phase-5/P5-44-surround-selection-and-composition-end.md) | Surround the selection, and auto-close at the end of a composition | P5-43 | todo |
 | [P5-45](phase-5/P5-45-auto-indent-on-type.md) | Auto-indent while typing (`AutoIndentOperation`) | P5-44 | todo |
