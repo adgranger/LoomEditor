@@ -28,16 +28,18 @@ internal sealed record ShiftCommandOptions(
 internal sealed class ShiftCommand : IEditCommand
 {
     private readonly ShiftCommandOptions _opts;
+    private readonly LanguageConfigurationRegistry _languageConfigurationService;
     private readonly Selection _selection;
     private string? _selectionId;
     private bool _useLastEditRangeForCursorEndPosition;
     private bool _selectionStartColumnStaysPut;
 
     /// <summary>Creates a command that shifts the lines touched by <paramref name="range"/>.</summary>
-    /// <remarks>Monaco's third parameter, the language configuration service, is not ported (phases 4–5).</remarks>
-    public ShiftCommand(Selection range, ShiftCommandOptions opts)
+    public ShiftCommand(Selection range, ShiftCommandOptions opts, LanguageConfigurationRegistry languageConfigurationService)
     {
         ArgumentNullException.ThrowIfNull(opts);
+        ArgumentNullException.ThrowIfNull(languageConfigurationService);
+        _languageConfigurationService = languageConfigurationService;
         _opts = opts;
         _selection = range;
     }
@@ -142,8 +144,48 @@ internal sealed class ShiftCommand : IEditCommand
                     {
                         // The current line is "miss-aligned", so let's see if this is expected...
                         // This can only happen when it has trailing commas in the indent
-                        // Phase 4–5 cut point: shiftCommand.ts 144–176 (enter action of the previous line). Without a language configuration Monaco gets no enter action and does nothing here.
-                        // The extraSpaces / previousLineExtraSpaces variables stay so that the phase 4 port fits back in.
+                        if (model.Tokenization.IsCheapToTokenize(lineNumber - 1))
+                        {
+                            CompleteEnterAction? enterAction = EnterActions.GetEnterAction(
+                                _opts.AutoIndent,
+                                model,
+                                new Range(lineNumber - 1, model.GetLineMaxColumn(lineNumber - 1), lineNumber - 1, model.GetLineMaxColumn(lineNumber - 1)),
+                                _languageConfigurationService);
+                            if (enterAction is { } action)
+                            {
+                                extraSpaces = previousLineExtraSpaces;
+                                if (action.AppendText.Length > 0)
+                                {
+                                    for (int j = 0; j < action.AppendText.Length && extraSpaces < indentSize; j++)
+                                    {
+                                        if (action.AppendText[j] == ' ')
+                                        {
+                                            extraSpaces++;
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (action.RemoveText > 0)
+                                {
+                                    extraSpaces = Math.Max(0, extraSpaces - action.RemoveText);
+                                }
+
+                                // Act as if `prefixSpaces` is not part of the indentation
+                                for (int j = 0; j < extraSpaces; j++)
+                                {
+                                    if (indentationEndIndex == 0 || lineText[indentationEndIndex - 1] != ' ')
+                                    {
+                                        break;
+                                    }
+
+                                    indentationEndIndex--;
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -165,7 +207,6 @@ internal sealed class ShiftCommand : IEditCommand
                 }
             }
 
-            _ = previousLineExtraSpaces;
         }
         else
         {

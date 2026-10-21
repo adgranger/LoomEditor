@@ -1,6 +1,6 @@
 # P5-40 — Smart Tab (`_goodIndentForLine`) and `ShiftCommand` in doc blocks
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-39
 - **Size:** S
 
@@ -54,24 +54,24 @@ and the test helper `OnEnterRules` (`javascriptOnEnterRules`).
 
 ## Tests
 
-- [ ] Port `cursor.test.ts` › `Editor Controller`: `bug #16543: Tab should indent to correct indentation spot immediately` (4351)
-- [ ] `bug #2938 (1): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4377)
-- [ ] `bug #2938 (2): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4403)
-- [ ] `bug #2938 (3): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4428)
-- [ ] `bug #2938 (4): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4453)
-- [ ] `bug #31015: When pressing Tab on lines and Enter rules are avail, indent straight to the right spotTab` (4478)
-- [ ] `issue #38261: TAB key results in bizarre indentation in C++ mode ` (4588; the name ends with a space)
-- [ ] Port `shiftCommand.test.ts` › `Editor Commands - ShiftCommand`: `issue #348: indenting around doc block comments` (567),
+- [x] Port `cursor.test.ts` › `Editor Controller`: `bug #16543: Tab should indent to correct indentation spot immediately` (4351)
+- [x] `bug #2938 (1): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4377)
+- [x] `bug #2938 (2): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4403)
+- [x] `bug #2938 (3): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4428)
+- [x] `bug #2938 (4): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)` (4453)
+- [x] `bug #31015: When pressing Tab on lines and Enter rules are avail, indent straight to the right spotTab` (4478)
+- [x] `issue #38261: TAB key results in bizarre indentation in C++ mode ` (4588; the name ends with a space)
+- [x] Port `shiftCommand.test.ts` › `Editor Commands - ShiftCommand`: `issue #348: indenting around doc block comments` (567),
       `issue #1609: Wrong indentation of block comments` (635)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `cursorTypeEditOperations.ts` (+ `_goodIndentForLine`), `shiftCommand.ts` (✅); tests
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `cursorTypeEditOperations.ts` (+ `_goodIndentForLine`), `shiftCommand.ts` (✅); tests
       table `cursor.test.ts` (`Editor Controller` +7), `shiftCommand.test.ts` (25 / 25); "Cut points" rows
       `TypeEditOperations.Tab.cs` and `ShiftCommand.cs` removed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

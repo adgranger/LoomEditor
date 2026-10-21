@@ -4,23 +4,40 @@
 using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tests.Languages.TestHelpers;
 using LoomEditor.View.Cursors.Commands;
 using LoomEditor.View.Tests.Cursors.TestHelpers;
+using LoomEditor.View.Tests.TestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors.Commands;
 
-// Not ported (they need a language with doc-block on-enter rules, phases 4–5):
-// 'issue #348: indenting around doc block comments' and 'issue #1609: Wrong indentation of block comments'.
 public class ShiftCommandTests
 {
-    private static Func<Selection, IEditCommand> Cmd(bool isUnshift, int tabSize, int indentSize, bool insertSpaces, bool useTabStops) =>
-        sel => new ShiftCommand(sel, new ShiftCommandOptions(isUnshift, tabSize, indentSize, insertSpaces, useTabStops, EditorAutoIndentStrategy.Full));
+    private static Func<TestEditorServices, Selection, IEditCommand> Cmd(bool isUnshift, int tabSize, int indentSize, bool insertSpaces, bool useTabStops) =>
+        (services, sel) => new ShiftCommand(
+            sel,
+            new ShiftCommandOptions(isUnshift, tabSize, indentSize, insertSpaces, useTabStops, EditorAutoIndentStrategy.Full),
+            services.LanguageConfigurationRegistry);
 
-    private static void TestShift(string[] lines, bool useTabStops, Selection selection, string[] expectedLines, Selection expectedSelection) =>
-        CommandTester.TestCommand(lines, selection, Cmd(false, 4, 4, false, useTabStops), expectedLines, expectedSelection);
+    private static void TestShift(
+        string[] lines,
+        bool useTabStops,
+        Selection selection,
+        string[] expectedLines,
+        Selection expectedSelection,
+        string? languageId = null,
+        Action<TestEditorServices>? prepare = null) =>
+        CommandTester.TestCommand(lines, selection, Cmd(false, 4, 4, false, useTabStops), expectedLines, expectedSelection, null, languageId, prepare);
 
-    private static void TestUnshift(string[] lines, bool useTabStops, Selection selection, string[] expectedLines, Selection expectedSelection) =>
-        CommandTester.TestCommand(lines, selection, Cmd(true, 4, 4, false, useTabStops), expectedLines, expectedSelection);
+    private static void TestUnshift(
+        string[] lines,
+        bool useTabStops,
+        Selection selection,
+        string[] expectedLines,
+        Selection expectedSelection,
+        string? languageId = null,
+        Action<TestEditorServices>? prepare = null) =>
+        CommandTester.TestCommand(lines, selection, Cmd(true, 4, 4, false, useTabStops), expectedLines, expectedSelection, null, languageId, prepare);
 
     // Monaco: 'Bug 9503: Shifting without any selection'
     [Fact]
@@ -816,7 +833,67 @@ public class ShiftCommandTests
         var model = new TextModel(string.Join('\n', text));
         var op = new ShiftCommand(
             new Selection(1, 1, text.Length + 1, 1),
-            new ShiftCommandOptions(isUnshift, tabSize, indentSize, insertSpaces, true, EditorAutoIndentStrategy.Full));
+            new ShiftCommandOptions(isUnshift, tabSize, indentSize, insertSpaces, true, EditorAutoIndentStrategy.Full),
+            new LanguageConfigurationRegistry());
         Assert.Equal(expected, CommandTester.GetEditOperation(model, op));
+    }
+
+    private const string DocBlockCommentLanguageId = "commentMode";
+
+    // Monaco: DocBlockCommentMode and prepareDocBlockCommentLanguage
+    private static void PrepareDocBlockCommentLanguage(TestEditorServices services)
+    {
+        services.RegisterLanguage(DocBlockCommentLanguageId);
+        services.Add(services.LanguageConfigurationRegistry.Register(DocBlockCommentLanguageId, new LanguageConfiguration
+        {
+            Brackets = [new("(", ")"), new("{", "}"), new("[", "]")],
+            OnEnterRules = OnEnterRules.JavascriptOnEnterRules,
+        }));
+    }
+
+    // Monaco: 'issue #348: indenting around doc block comments'
+    [Fact]
+    public void Issue348IndentingAroundDocBlockComments()
+    {
+        TestShift(
+            ["", "/**", " * a doc comment", " */", "function hello() {}"],
+            true,
+            new Selection(1, 1, 5, 20),
+            ["", "\t/**", "\t * a doc comment", "\t */", "\tfunction hello() {}"],
+            new Selection(1, 1, 5, 21),
+            DocBlockCommentLanguageId,
+            PrepareDocBlockCommentLanguage);
+
+        TestUnshift(
+            ["", "/**", " * a doc comment", " */", "function hello() {}"],
+            true,
+            new Selection(1, 1, 5, 20),
+            ["", "/**", " * a doc comment", " */", "function hello() {}"],
+            new Selection(1, 1, 5, 20),
+            DocBlockCommentLanguageId,
+            PrepareDocBlockCommentLanguage);
+
+        TestUnshift(
+            ["\t", "\t/**", "\t * a doc comment", "\t */", "\tfunction hello() {}"],
+            true,
+            new Selection(1, 1, 5, 21),
+            ["", "/**", " * a doc comment", " */", "function hello() {}"],
+            new Selection(1, 1, 5, 20),
+            DocBlockCommentLanguageId,
+            PrepareDocBlockCommentLanguage);
+    }
+
+    // Monaco: 'issue #1609: Wrong indentation of block comments'
+    [Fact]
+    public void Issue1609WrongIndentationOfBlockComments()
+    {
+        TestShift(
+            ["", "/**", " * test", " *", " * @type {number}", " */", "var foo = 0;"],
+            true,
+            new Selection(1, 1, 7, 13),
+            ["", "\t/**", "\t * test", "\t *", "\t * @type {number}", "\t */", "\tvar foo = 0;"],
+            new Selection(1, 1, 7, 14),
+            DocBlockCommentLanguageId,
+            PrepareDocBlockCommentLanguage);
     }
 }

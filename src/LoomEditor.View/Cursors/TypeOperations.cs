@@ -26,7 +26,7 @@ internal static class TypeOperations
         var commands = new List<IEditCommand?>(selections.Count);
         foreach (Selection selection in selections)
         {
-            commands.Add(new ShiftCommand(selection, ShiftOptions(config, false)));
+            commands.Add(new ShiftCommand(selection, ShiftOptions(config, false), config.LanguageConfigurationService));
         }
 
         return commands;
@@ -39,7 +39,7 @@ internal static class TypeOperations
         var commands = new List<IEditCommand?>(selections.Count);
         foreach (Selection selection in selections)
         {
-            commands.Add(new ShiftCommand(selection, ShiftOptions(config, true)));
+            commands.Add(new ShiftCommand(selection, ShiftOptions(config, true), config.LanguageConfigurationService));
         }
 
         return commands;

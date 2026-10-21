@@ -440,7 +440,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-37](phase-5/P5-37-editor-controller-test-languages.md) | Test editor with a language (`createCodeEditorServices`, the `Editor Controller` languages) | P5-36 | done |
 | [P5-38](phase-5/P5-38-cursor-configuration-language.md) | `CursorConfiguration` reads the language configuration | P5-37 | done |
 | [P5-39](phase-5/P5-39-enter-on-enter-rules.md) | Enter with on-enter rules and indentation rules (`_enter`) | P5-38 | done |
-| [P5-40](phase-5/P5-40-smart-tab-and-shift-doc-blocks.md) | Smart Tab (`_goodIndentForLine`) and `ShiftCommand` in doc blocks | P5-39 | todo |
+| [P5-40](phase-5/P5-40-smart-tab-and-shift-doc-blocks.md) | Smart Tab (`_goodIndentForLine`) and `ShiftCommand` in doc blocks | P5-39 | done |
 | [P5-41](phase-5/P5-41-auto-closed-characters.md) | Track auto-closed characters with model decorations (`AutoClosedAction`) | P5-40 | todo |
 | [P5-42](phase-5/P5-42-auto-closing-overtype-and-delete.md) | Overtype auto-closed characters, delete auto-closed pairs | P5-41 | todo |
 | [P5-43](phase-5/P5-43-auto-closing-open-characters.md) | Auto-close when typing an open character (`AutoClosingOpenCharTypeOperation`) | P5-42 | todo |
