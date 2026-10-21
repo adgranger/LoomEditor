@@ -147,14 +147,14 @@ internal sealed class BlockCommentCommand(Selection selection, bool insertSpace,
         string startLineText = model.GetLineContent(startLineNumber);
         string endLineText = model.GetLineContent(endLineNumber);
 
-        int startTokenIndex = JsLastIndexOf(startLineText, startToken, startColumn - 1 + startToken.Length);
-        int endTokenIndex = endLineText.IndexOf(endToken, Math.Max(0, endColumn - 1 - endToken.Length), StringComparison.Ordinal);
+        int startTokenIndex = JsStrings.LastIndexOf(startLineText, startToken, startColumn - 1 + startToken.Length);
+        int endTokenIndex = JsStrings.IndexOf(endLineText, endToken, endColumn - 1 - endToken.Length);
 
         if (startTokenIndex != -1 && endTokenIndex != -1)
         {
             if (startLineNumber == endLineNumber)
             {
-                string lineBetweenTokens = JsSubstring(startLineText, startTokenIndex + startToken.Length, endTokenIndex);
+                string lineBetweenTokens = JsStrings.Substring(startLineText, startTokenIndex + startToken.Length, endTokenIndex);
 
                 if (lineBetweenTokens.Contains(endToken, StringComparison.Ordinal))
                 {
@@ -208,20 +208,5 @@ internal sealed class BlockCommentCommand(Selection selection, bool insertSpace,
         {
             builder.AddTrackedEditOperation(opRange, text);
         }
-    }
-
-    // JavaScript's lastIndexOf(search, position): the last match that starts at or before `position`.
-    private static int JsLastIndexOf(string text, string search, int position)
-    {
-        int lastStart = Math.Min(position, text.Length - search.Length);
-        return lastStart < 0 ? -1 : text.LastIndexOf(search, lastStart + search.Length - 1, StringComparison.Ordinal);
-    }
-
-    // JavaScript's substring(start, end): the arguments are clamped, and swapped when start is after end.
-    private static string JsSubstring(string text, int start, int end)
-    {
-        int from = Math.Clamp(Math.Min(start, end), 0, text.Length);
-        int to = Math.Clamp(Math.Max(start, end), 0, text.Length);
-        return text.Substring(from, to - from);
     }
 }

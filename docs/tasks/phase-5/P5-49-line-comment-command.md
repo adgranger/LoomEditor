@@ -1,6 +1,6 @@
 # P5-49 — `LineCommentCommand`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-48
 - **Size:** M
 
@@ -62,23 +62,23 @@ indentation; falls back to a block comment when the language has no line comment
 
 Port, suite `Editor Contrib - Line Comment Command` (24):
 
-- [ ] `comment single line`, `case insensitive`, `comment with token column fixed`
-- [ ] `_analyzeLines`, `_normalizeInsertionPoint`
-- [ ] `detects indentation`, `detects mixed indentation`, `ignores whitespace lines`, `removes its own`, `works in only whitespace`
-- [ ] `bug 9697 - whitespace before comment token`, `bug 10162 - line comment before caret`, `comment single line - leading whitespace`
-- [ ] `ignores invisible selection`, `multiple lines`, `multiple modes on multiple lines`, `toggle single line`, `toggle multiple lines`
-- [ ] `issue #5964: Ctrl+/ to create comment when cursor is at the beginning of the line puts the cursor in a strange position`
-- [ ] `issue #35673: Comment hotkeys throws the cursor before the comment`
-- [ ] `issue #2837 "Add Line Comment" fault when blank lines involved`, `issue #47004: Toggle comments shouldn't move cursor`
-- [ ] `insertSpace false`, `insertSpace false does not remove space`
+- [x] `comment single line`, `case insensitive`, `comment with token column fixed`
+- [x] `_analyzeLines`, `_normalizeInsertionPoint`
+- [x] `detects indentation`, `detects mixed indentation`, `ignores whitespace lines`, `removes its own`, `works in only whitespace`
+- [x] `bug 9697 - whitespace before comment token`, `bug 10162 - line comment before caret`, `comment single line - leading whitespace`
+- [x] `ignores invisible selection`, `multiple lines`, `multiple modes on multiple lines`, `toggle single line`, `toggle multiple lines`
+- [x] `issue #5964: Ctrl+/ to create comment when cursor is at the beginning of the line puts the cursor in a strange position`
+- [x] `issue #35673: Comment hotkeys throws the cursor before the comment`
+- [x] `issue #2837 "Add Line Comment" fault when blank lines involved`, `issue #47004: Toggle comments shouldn't move cursor`
+- [x] `insertSpace false`, `insertSpace false does not remove space`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/comment/browser/lineCommentCommand.ts` → `Features/Comment/LineCommentCommand.cs`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/comment/browser/lineCommentCommand.ts` → `Features/Comment/LineCommentCommand.cs`
       (✅, P5-49); tests table `lineCommentCommand.test.ts` 24 / 39 (the other 15 in P5-50)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
