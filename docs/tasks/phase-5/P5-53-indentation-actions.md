@@ -1,6 +1,6 @@
 # P5-53 — Indentation feature: convert, change size, detect, reindent
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-52
 - **Size:** S
 
@@ -53,21 +53,21 @@ reindent the selected lines. VS Code opens a quick pick for the size; LoomEditor
 
 ## Tests
 
-- [ ] New: `IndentationToSpaces_TabIndentedDocument_ConvertsAndSetsInsertSpaces` (and the Tabs mirror)
-- [ ] New: `ChangeIndentationSize_DisplaySizeOnly_ChangesOnlyTheTabSize`
-- [ ] New: `IndentUsingSpacesCommand_TabSize12_AppliesEight` (the pre-selected quick pick item is capped to 8)
-- [ ] New: `DetectIndentation_TwoSpaceDocument_SetsTabSizeTwoAndSpaces`
-- [ ] New: `ReindentLines_JavaScriptRules_FixesTheWholeDocumentInOneUndoStep`
-- [ ] New: `ReindentSelectedLines_SelectionEndingAtColumnOne_IgnoresTheLastLine`
-- [ ] New: `ReindentLines_ReadOnly_DoesNotRun`
+- [x] New: `IndentationToSpaces_TabIndentedDocument_ConvertsAndSetsInsertSpaces` (and the Tabs mirror)
+- [x] New: `ChangeIndentationSize_DisplaySizeOnly_ChangesOnlyTheTabSize`
+- [x] New: `IndentUsingSpacesCommand_TabSize12_AppliesEight` (the pre-selected quick pick item is capped to 8)
+- [x] New: `DetectIndentation_TwoSpaceDocument_SetsTabSizeTwoAndSpaces`
+- [x] New: `ReindentLines_JavaScriptRules_FixesTheWholeDocumentInOneUndoStep`
+- [x] New: `ReindentSelectedLines_SelectionEndingAtColumnOne_IgnoresTheLastLine`
+- [x] New: `ReindentLines_ReadOnly_DoesNotRun`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/indentation/browser/indentation.ts` (🔶 actions + commands, no quick pick,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/indentation/browser/indentation.ts` (🔶 actions + commands, no quick pick,
       P5-53); behavior difference "size actions without a quick pick"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
