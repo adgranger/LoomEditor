@@ -393,7 +393,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursor.test.ts` (`Editor Controller`: surround selection and composition end in the auto-closing language, 11 tests) | 11 / 11 | `SurroundSelectionTests` (4 ported + 1 new), `CompositionTests.Languages.cs` (7 ported) (P5-44) |
 | `cursor.test.ts` (`Editor Controller`: auto-indent on type, 8 tests) | 8 / 8 | `AutoIndentOnTypeTests` (P5-45); the `Auto Indent On Type` suites of `indentation.test.ts` are step E |
 | `cursor.test.ts` (`Editor Controller`: electric characters and `issue #6841`, 15 tests) | 15 / 15 | `ElectricCharacterTests` (14), `AutoClosingTests.Balance.cs` (P5-46) |
-| `multicursor.test.ts` | 18 / 76 | `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); the 58 tests of `Selected text occurrence matching` and later are P5-76 |
+| `multicursor.test.ts` | 68 / 76 | `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); `a selection session does not survive replacing the editor model` (`editor.setModel`: one model per editor); the 6 other tests are P5-77 |
 | `bracketMatching.test.ts` | 7 / 7 | |
 | `pieceTreeTextBuffer.test.ts` | 87 / 87 | suite `chunk based search` (3) in `PieceTreeChunkBasedSearchTests` (P5-64) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
