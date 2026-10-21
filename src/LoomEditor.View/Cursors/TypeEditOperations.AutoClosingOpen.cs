@@ -212,14 +212,12 @@ internal static class AutoClosingOpenCharTypeOperation
                 }
             }
 
-            // Phase 5 step C cut point: model.bracketPairs.hasUnmatchedClosingBracketAfter (bracketPairsImpl.ts 121–133).
-            const bool hasUnmatchedClosingBracketAfter = false;
             if (shouldCheckBracketBalance
                 // When 'always', always insert the closing bracket
                 && autoCloseConfig != EditorAutoClosingStrategy.Always
                 // Need to check character is not already typed so brackets are still imbalanced
                 && !chIsAlreadyTyped
-                && hasUnmatchedClosingBracketAfter)
+                && model.BracketPairs.HasUnmatchedClosingBracketAfter(new Position(lineNumber, beforeColumn), pair.Open))
             {
                 return null;
             }

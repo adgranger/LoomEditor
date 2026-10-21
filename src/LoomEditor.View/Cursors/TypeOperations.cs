@@ -7,10 +7,8 @@ using LoomEditor.View.Cursors.Commands;
 
 namespace LoomEditor.View.Cursors;
 
-/// <summary>The entry points of typing (Monaco: <c>TypeOperations</c>); only the plain-text part is ported so far.</summary>
+/// <summary>The entry points of typing (Monaco: <c>TypeOperations</c>).</summary>
 /// <remarks>
-/// The <c>autoClosedCharacters</c> parameter of Monaco's <c>typeWithInterceptors</c> is not ported: only the auto-closing
-/// interceptors read it (phases 4–5).
 /// Threading: stateless; UI thread only.
 /// </remarks>
 internal static class TypeOperations
@@ -134,7 +132,12 @@ internal static class TypeOperations
             return surroundSelectionEdits;
         }
 
-        // Phase 4–5 cut point: InterceptorElectricCharOperation (480–546)
+        EditOperationResult? electricCharEdits = InterceptorElectricCharOperation.GetEdits(prevEditOperationType, config, model, selections, ch, isDoingComposition);
+        if (electricCharEdits is not null)
+        {
+            return electricCharEdits;
+        }
+
         return SimpleCharacterTypeOperation.GetEdits(config, prevEditOperationType, selections, ch, isDoingComposition);
     }
 

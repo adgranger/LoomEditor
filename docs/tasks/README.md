@@ -446,7 +446,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-43](phase-5/P5-43-auto-closing-open-characters.md) | Auto-close when typing an open character (`AutoClosingOpenCharTypeOperation`) | P5-42 | done |
 | [P5-44](phase-5/P5-44-surround-selection-and-composition-end.md) | Surround the selection, and auto-close at the end of a composition | P5-43 | done |
 | [P5-45](phase-5/P5-45-auto-indent-on-type.md) | Auto-indent while typing (`AutoIndentOperation`) | P5-44 | done |
-| [P5-46](phase-5/P5-46-electric-characters-and-bracket-balance.md) | Electric characters and bracket balance | P5-45, P5-31, P5-32 | todo |
+| [P5-46](phase-5/P5-46-electric-characters-and-bracket-balance.md) | Electric characters and bracket balance | P5-45, P5-31, P5-32 | done |
 
 ### Step E — Comment, indentation and line operations
 

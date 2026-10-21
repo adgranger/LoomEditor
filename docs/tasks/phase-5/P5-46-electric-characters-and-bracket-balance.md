@@ -1,6 +1,6 @@
 # P5-46 — Electric characters and bracket balance
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-45, P5-31 (`TextModel.BracketPairs`), P5-32 (legacy `FindMatchingBracketUp`)
 - **Size:** S
 
@@ -47,30 +47,30 @@ typing an open bracket does not auto-close when an unmatched closing bracket alr
 
 Port from `cursor.test.ts`, suite `Editor Controller`:
 
-- [ ] `ElectricCharacter - does nothing if no electric char` (4767)
-- [ ] `ElectricCharacter - indents in order to match bracket` (4781)
-- [ ] `ElectricCharacter - unindents in order to match bracket` (4795)
-- [ ] `ElectricCharacter - matches with correct bracket` (4809)
-- [ ] `ElectricCharacter - does nothing if bracket does not match` (4825)
-- [ ] `ElectricCharacter - matches bracket even in line with content` (4841)
-- [ ] `ElectricCharacter - is no-op if bracket is lined up` (4855)
-- [ ] `ElectricCharacter - is no-op if there is non-whitespace text before` (4869)
-- [ ] `ElectricCharacter - is no-op if pairs are all matched before` (4883)
-- [ ] `ElectricCharacter - is no-op if matching bracket is on the same line` (4898)
-- [ ] `ElectricCharacter - is no-op if the line has other content` (4917)
-- [ ] `ElectricCharacter - appends text` (4932)
-- [ ] `ElectricCharacter - appends text 2` (4946)
-- [ ] `ElectricCharacter - issue #23711: Replacing selected text with )]} fails to delete old text with backwards-dragged selection` (4960)
-- [ ] `issue #6841: Auto closing brackets should balance brackets` (5608)
-- [ ] Any test moved here by P5-39 or P5-43 because of the step C cut point.
+- [x] `ElectricCharacter - does nothing if no electric char` (4767)
+- [x] `ElectricCharacter - indents in order to match bracket` (4781)
+- [x] `ElectricCharacter - unindents in order to match bracket` (4795)
+- [x] `ElectricCharacter - matches with correct bracket` (4809)
+- [x] `ElectricCharacter - does nothing if bracket does not match` (4825)
+- [x] `ElectricCharacter - matches bracket even in line with content` (4841)
+- [x] `ElectricCharacter - is no-op if bracket is lined up` (4855)
+- [x] `ElectricCharacter - is no-op if there is non-whitespace text before` (4869)
+- [x] `ElectricCharacter - is no-op if pairs are all matched before` (4883)
+- [x] `ElectricCharacter - is no-op if matching bracket is on the same line` (4898)
+- [x] `ElectricCharacter - is no-op if the line has other content` (4917)
+- [x] `ElectricCharacter - appends text` (4932)
+- [x] `ElectricCharacter - appends text 2` (4946)
+- [x] `ElectricCharacter - issue #23711: Replacing selected text with )]} fails to delete old text with backwards-dragged selection` (4960)
+- [x] `issue #6841: Auto closing brackets should balance brackets` (5608)
+- [x] Any test moved here by P5-39 or P5-43 because of the step C cut point.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (✅); tests table `cursor.test.ts` (`Editor Controller`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (✅); tests table `cursor.test.ts` (`Editor Controller`
       +15: 162 / 171, the 9 left are word wrap, phase 6); "Cut points" row `TypeOperations.cs` removed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
