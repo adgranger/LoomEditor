@@ -9,4 +9,7 @@ internal static class CursorCommon
 {
     /// <summary>True for <c>'</c>, <c>"</c> and <c>`</c> (Monaco: <c>isQuote</c>).</summary>
     public static bool IsQuote(char ch) => ch is '\'' or '"' or '`';
+
+    /// <summary>True for <c>'</c>, <c>"</c> and <c>`</c> (Monaco: <c>isQuote</c>, string overload).</summary>
+    public static bool IsQuote(string ch) => ch is "'" or "\"" or "`";
 }

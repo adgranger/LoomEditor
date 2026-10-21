@@ -1,6 +1,6 @@
 # P5-38 — `CursorConfiguration` reads the language configuration
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-37
 - **Size:** S
 
@@ -65,22 +65,22 @@ members yet (P5-39 … P5-46 do).
 
 ## Tests
 
-- [ ] New: `Constructor_LanguageWithAutoClosingPairs_ExposesThem` (`autoClosingPairs: [{ '(' , ')' }]` →
+- [x] New: `Constructor_LanguageWithAutoClosingPairs_ExposesThem` (`autoClosingPairs: [{ '(' , ')' }]` →
       `AutoClosingPairs.AutoClosingPairsOpenByEnd` has `(`)
-- [ ] New: `Constructor_NoSurroundingPairs_UsesAutoClosingPairs` (step B's `CharacterPairSupport` default)
-- [ ] New: `ShouldAutoCloseBefore_LanguageDefined_UsesAutoCloseBeforeSet`, `…_BeforeWhitespace_OnlySpaceAndTab`,
+- [x] New: `Constructor_NoSurroundingPairs_UsesAutoClosingPairs` (step B's `CharacterPairSupport` default)
+- [x] New: `ShouldAutoCloseBefore_LanguageDefined_UsesAutoCloseBeforeSet`, `…_BeforeWhitespace_OnlySpaceAndTab`,
       `…_Always_True`, `…_Never_False`
-- [ ] New: `ElectricChars_LanguageWithBrackets_ContainsLastCharacterOfEachClose`
-- [ ] New: `BlockCommentStartToken_LanguageWithBlockComment_IsOpenToken`
-- [ ] New: `ViewModel_LanguageChanged_RecreatesCursorConfig`, `ViewModel_LanguageConfigurationRegistered_RecreatesCursorConfig`
+- [x] New: `ElectricChars_LanguageWithBrackets_ContainsLastCharacterOfEachClose`
+- [x] New: `BlockCommentStartToken_LanguageWithBlockComment_IsOpenToken`
+- [x] New: `ViewModel_LanguageChanged_RecreatesCursorConfig`, `ViewModel_LanguageConfigurationRegistered_RecreatesCursorConfig`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorCommon.ts` (✅ language configuration part, P5-38); remove `CursorConfiguration.cs`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorCommon.ts` (✅ language configuration part, P5-38); remove `CursorConfiguration.cs`
       from the "Cut points for phases 4–5" row it shares
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

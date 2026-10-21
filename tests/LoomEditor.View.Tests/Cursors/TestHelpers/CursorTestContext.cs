@@ -1,3 +1,4 @@
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Layout;
@@ -31,7 +32,7 @@ internal static class CursorTestContext
             VerticalScrollbarWidth: 14,
             HorizontalScrollbarHeight: 12,
             OverviewRuler: new OverviewRulerPosition(14, 600, 0, 0));
-        var config = new CursorConfiguration(model.Options, options ?? EditorCursorOptions.Default, font, layout);
+        var config = new CursorConfiguration("plaintext", model.Options, options ?? EditorCursorOptions.Default, font, layout, new LanguageConfigurationRegistry());
         return new CursorContext(model, new TextModelCursorSimpleModel(model), new IdentityCoordinatesConverter(model), config);
     }
 
