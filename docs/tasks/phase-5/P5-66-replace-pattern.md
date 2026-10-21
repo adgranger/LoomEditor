@@ -1,6 +1,6 @@
 # P5-66 — `ReplacePattern` and case-preserving replace
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-65
 - **Size:** M
 
@@ -46,24 +46,24 @@ case" (`buildReplaceStringWithCasePreserved`). No `Regex.Replace` anywhere.
 
 `replacePattern.test.ts`, suite `Replace Pattern test` — port all 8 with `// Monaco:` names:
 
-- [ ] `parse replace string`, `parse replace string with case modifiers`
-- [ ] `replace has JavaScript semantics` — Monaco computes the expected value with `'hi'.replace(...)` at run time; write
+- [x] `parse replace string`, `parse replace string with case modifiers`
+- [x] `replace has JavaScript semantics` — Monaco computes the expected value with `'hi'.replace(...)` at run time; write
       the JavaScript results as literals: `"hello"`, `"\t"`, `"\n"`, `"\\t"`, `"\\n"`, `"hellohi"`, `"hellohi"`, `"hellohi1"`,
       `"hellohi1"`, `"hellohi0"` (`$10`, one group), `"hello"` (`$10`, ten groups), `"hellohi00"` (`$100`, one group),
       `"hello$20"` (`$20`, one group)
-- [ ] `get replace string if given text is a complete match`, `get replace string if match is sub-string of the text`
-- [ ] `issue #19740 Find and replace capture group/backreference inserts \`undefined\` instead of empty string`
-- [ ] `buildReplaceStringWithCasePreserved test`, `preserve case`
+- [x] `get replace string if given text is a complete match`, `get replace string if match is sub-string of the text`
+- [x] `issue #19740 Find and replace capture group/backreference inserts \`undefined\` instead of empty string`
+- [x] `buildReplaceStringWithCasePreserved test`, `preserve case`
 - JavaScript regex literals become `.NET` patterns with the same text and `RegexOptions.CultureInvariant` (`/i` →
   `IgnoreCase`); all patterns in this file mean the same in both engines.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `contrib/find/browser/replacePattern.ts` ✅ (P5-66), `base/common/search.ts` ✅,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `contrib/find/browser/replacePattern.ts` ✅ (P5-66), `base/common/search.ts` ✅,
       `strings.ts` (+ `containsUppercaseCharacter`); tests table `replacePattern.test.ts` 8 / 8; the `ß` difference
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

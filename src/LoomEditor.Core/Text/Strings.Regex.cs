@@ -41,4 +41,34 @@ internal static partial class Strings
 
         return new Regex(searchString, options);
     }
+
+    /// <summary>Whether a string has an upper case character (Monaco: <c>containsUppercaseCharacter</c>).</summary>
+    /// <param name="target">The string to test.</param>
+    /// <param name="ignoreEscapedChars">Skip every backslash and the character after it.</param>
+    public static bool ContainsUppercaseCharacter(string target, bool ignoreEscapedChars = false)
+    {
+        if (target.Length == 0)
+        {
+            return false;
+        }
+
+        if (ignoreEscapedChars)
+        {
+            var kept = new System.Text.StringBuilder(target.Length);
+            for (var i = 0; i < target.Length; i++)
+            {
+                if (target[i] == '\\' && i + 1 < target.Length)
+                {
+                    i++;
+                    continue;
+                }
+
+                kept.Append(target[i]);
+            }
+
+            target = kept.ToString();
+        }
+
+        return !string.Equals(target.ToLowerInvariant(), target, StringComparison.Ordinal);
+    }
 }
