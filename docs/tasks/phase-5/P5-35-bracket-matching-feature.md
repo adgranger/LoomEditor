@@ -1,6 +1,6 @@
 # P5-35 — BracketMatching feature: highlight, jump, select, remove
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-34
 - **Size:** M
 
@@ -79,24 +79,24 @@ Monaco's tests.
 
 ## Tests
 
-- [ ] Port suite `bracket matching` › `issue #183: jump to matching bracket position`, `Jump to next bracket`,
+- [x] Port suite `bracket matching` › `issue #183: jump to matching bracket position`, `Jump to next bracket`,
       `Select to next bracket`, `issue #1772: jump to enclosing brackets`, `issue #43371: argument to not select
       brackets`, `issue #45369: Select to Bracket with multicursor`, `Removes brackets`
       (`editor.registerAndInstantiateContribution` → a `BracketMatchingFeature` attached to the test editor's context)
-- [ ] New (with `ManualEditorScheduler`): `CursorOnBracket_After50ms_HighlightsBothBrackets`
-- [ ] New: `CursorInsidePair_Always_HighlightsEnclosingPair`, `…_Near_HighlightsNothing`, `…_Never_HighlightsNothing`
-- [ ] New: `MoreThan100Selections_HighlightsNothing`
-- [ ] New: `NoFocus_HighlightsNothing`
-- [ ] New: `SameVersion_ReusesPreviousBracketsData` (no new `MatchBracket` call for an unchanged position)
-- [ ] New: `Keybindings_CtrlShiftBackslash_And_CtrlAltBackspace_AreBound`
+- [x] New (with `ManualEditorScheduler`): `CursorOnBracket_After50ms_HighlightsBothBrackets`
+- [x] New: `CursorInsidePair_Always_HighlightsEnclosingPair`, `…_Near_HighlightsNothing`, `…_Never_HighlightsNothing`
+- [x] New: `MoreThan100Selections_HighlightsNothing`
+- [x] New: `NoFocus_HighlightsNothing`
+- [x] New: `SameVersion_ReusesPreviousBracketsData` (no new `MatchBracket` call for an unchanged position)
+- [x] New: `Keybindings_CtrlShiftBackslash_And_CtrlAltBackspace_AreBound`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `contrib/bracketMatching/browser/bracketMatching.ts` ✅ (P5-35); tests row
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `contrib/bracketMatching/browser/bracketMatching.ts` ✅ (P5-35); tests row
       `bracketMatching.test.ts` 7 / 7
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 - [ ] Manual check in the Gallery: the brackets around the caret get a box; Ctrl+Shift+\ jumps between them;
       Ctrl+Alt+Backspace removes them (one undo step restores them)
 

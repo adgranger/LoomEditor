@@ -116,6 +116,10 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.DownArrow, "editor.action.insertCursorBelow", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.KeyI, "editor.action.insertCursorAtEndOfEachLineSelected", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
 
+        // bracketMatching.ts (Contrib): jumpToBracket and removeBrackets (selectToBracket has no keybinding).
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.Backslash, "editor.action.jumpToBracket", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.Backspace, "editor.action.removeBrackets", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+
         // clipboard.ts (Contrib): no when. Windows overrides cut and copy with a secondary key; paste has Shift+Insert only on Linux.
         Add(KeyModifiers.Ctrl, KeyCode.KeyX, ClipboardCut, null, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift, KeyCode.Delete, ClipboardCut, null, KeybindingWeight.EditorContrib);

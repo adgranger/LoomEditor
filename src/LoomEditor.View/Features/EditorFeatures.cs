@@ -1,3 +1,4 @@
+using LoomEditor.View.Features.BracketMatching;
 using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.WordOperations;
@@ -22,5 +23,6 @@ public static class EditorFeatures
         () => new WordOperationsFeature(),
         () => new MultiCursorFeature(),
         () => new WordPartOperationsFeature(),
+        () => new BracketMatchingFeature(),
     ];
 }

@@ -29,6 +29,8 @@ public sealed class EditorContext : IEditorContext, IDisposable
     // Keeps the registration of the core commands (cursorLeft, cursorHome...) alive for the life of the editor.
     private readonly IDisposable _coreCommands;
 
+    private readonly LanguageRegistry _languages;
+
     private sealed class NoopDisposable : IDisposable
     {
         public void Dispose()
@@ -60,6 +62,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
         Id = Interlocked.Increment(ref _nextEditorId);
         var tokenizationRegistry = new TokenizationRegistry();
         var languages = new LanguageRegistry();
+        _languages = languages;
         BuiltInLanguages.RegisterAll(languages);
         Model = new TextModel(string.Empty, DefaultEndOfLine.LF, null, tokenizationRegistry, languages.Codec, NoopTokenizationScheduler.Instance, new LanguageConfigurationRegistry());
         Highlighter = new SyntaxHighlighter(Model, tokenizationRegistry, languages, Model.LanguageConfigurationRegistry, dispatcher);
@@ -95,6 +98,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <summary>The id of this editor; it owns the decorations the editor creates (Monaco: <c>getId</c>).</summary>
     internal int Id { get; }
+
+    internal void RegisterLanguage(string languageId) =>
+        _languages.Register(new LanguageDefinition(languageId, [], [], [], null, []));
 
     internal SyntaxHighlighter Highlighter { get; }
 
