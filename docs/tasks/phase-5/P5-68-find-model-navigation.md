@@ -1,6 +1,6 @@
 # P5-68 — `FindModelBoundToEditorModel`: search, decorations, next / previous, select all
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-67
 - **Size:** M
 
@@ -66,7 +66,7 @@ without loop, inside a search scope, with `^` / `$` line stops) and selects all 
 `_getFindState` reads `TextModel.GetDecorationsInRange(model.GetFullModelRange())` and keeps the class names
 `currentFindMatch` / `findMatch`.
 
-- [ ] Port (27): `incremental find from beginning of file`, `find model removes its decorations`,
+- [x] Port (27): `incremental find from beginning of file`, `find model removes its decorations`,
       `find model updates state matchesCount`, `find model reacts to position change`, `find model next`,
       `find model next stays in scope`, `multi-selection find model next stays in scope (overlap)`,
       `multi-selection find model next stays in scope`, `find model prev`, `find model prev stays in scope`,
@@ -77,14 +77,14 @@ without loop, inside a search scope, with `^` / `$` line stops) and selects all 
       `issue #3516: Control behavior of "Next" operations (not looping back to beginning)`,
       `issue #3516: Control behavior of "Next" operations (looping back to beginning)`,
       `issue #288515: Wrong current index in find widget if matches > 1000` (a plain `[Fact]`, as in Monaco)
-- [ ] New: `ContentChange_RunsResearchAfter100Ms` (ManualEditorScheduler), `Dispose_CancelsPendingResearch`
+- [x] New: `ContentChange_RunsResearchAfter100Ms` (ManualEditorScheduler), `Dispose_CancelsPendingResearch`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/find/browser/findModel.ts` 🔶 (navigation, P5-68); tests table `findModel.test.ts` 27 / 44 (replace: P5-69)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/find/browser/findModel.ts` 🔶 (navigation, P5-68); tests table `findModel.test.ts` 27 / 44 (replace: P5-69)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
