@@ -1,6 +1,6 @@
 # P5-59 — LinesOperations: delete all left / right, join lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-58
 - **Size:** M
 
@@ -45,17 +45,17 @@ boundaries) and `editor.action.joinLines`, with their tests. On Windows none of 
 
 ## Tests
 
-- [ ] Port `DeleteAllLeftAction` › `should delete to the left of the cursor`, `should jump to the previous line when on first column`, `should keep deleting lines in multi cursor mode`, `should work in multi cursor mode`, `issue #36234: should push undo stop`
-- [ ] Port `JoinLinesAction` › `should join lines and insert space if necessary`, `#50471 Join lines at the end of document`, `should work in multi cursor mode`, `should push undo stop`
-- [ ] Port `DeleteAllRightAction` › `should be noop on empty`, `should delete selected range`, `should delete to the right of the cursor`, `should join two lines, if at the end of the line`, `should work with multiple cursors`, `should work with undo/redo`
-- [ ] New: `JoinLines_TrailingNoBreakSpace_IsReplacedByOneSpace` (`"a \t"` + `"b"` → `"a b"`)
+- [x] Port `DeleteAllLeftAction` › `should delete to the left of the cursor`, `should jump to the previous line when on first column`, `should keep deleting lines in multi cursor mode`, `should work in multi cursor mode`, `issue #36234: should push undo stop`
+- [x] Port `JoinLinesAction` › `should join lines and insert space if necessary`, `#50471 Join lines at the end of document`, `should work in multi cursor mode`, `should push undo stop`
+- [x] Port `DeleteAllRightAction` › `should be noop on empty`, `should delete selected range`, `should delete to the right of the cursor`, `should join two lines, if at the end of the line`, `should work with multiple cursors`, `should work with undo/redo`
+- [x] New: `JoinLines_TrailingNoBreakSpace_IsReplacedByOneSpace` (`"a \t"` + `"b"` → `"a b"`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `linesOperations.ts` updated (P5-59); tests table `linesOperations.test.ts` 53 / 55
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `linesOperations.ts` updated (P5-59); tests table `linesOperations.test.ts` 53 / 55
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
