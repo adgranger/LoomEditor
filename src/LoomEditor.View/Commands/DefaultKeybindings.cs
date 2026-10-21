@@ -136,6 +136,13 @@ internal static class DefaultKeybindings
         rules.Add(new KeybindingRule(
             new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), "editor.action.trimTrailingWhitespace", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyX)));
 
+        // linesOperations.ts (Contrib): delete, indent, outdent and insert lines.
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.KeyK, "editor.action.deleteLines", WhenClauses.WritableTextInput, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.BracketRight, "editor.action.indentLines", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.BracketLeft, "editor.action.outdentLines", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.Enter, "editor.action.insertLineBefore", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.Enter, "editor.action.insertLineAfter", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+
         // clipboard.ts (Contrib): no when. Windows overrides cut and copy with a secondary key; paste has Shift+Insert only on Linux.
         Add(KeyModifiers.Ctrl, KeyCode.KeyX, ClipboardCut, null, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift, KeyCode.Delete, ClipboardCut, null, KeybindingWeight.EditorContrib);
