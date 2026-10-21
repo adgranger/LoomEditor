@@ -83,6 +83,7 @@ public sealed partial class LoomEditor : Control
         LostFocus += (_, _) => _keyboard.LeaveChordMode();
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
+        InitializeFind();
         InitializeReveal();
         InitializePointer();
         InitializeIme();

@@ -1,6 +1,6 @@
 # P5-74 — The find widget: replace row, "n of m", find in selection, manual checks
 
-- **Status:** todo
+- **Status:** done (manual checks pending, maintainer)
 - **Depends on:** P5-73
 - **Size:** M
 
@@ -55,7 +55,7 @@ button is enabled exactly when VS Code enables it. The maintainer runs the full 
 
 ## Tests
 
-- [ ] New: `Format_NoMatches_NoResults`, `Format_PositionZero_QuestionMark`, `Format_AtLimit_AddsPlus`, `Format_Normal_NOfM`
+- [x] New: `Format_NoMatches_NoResults`, `Format_PositionZero_QuestionMark`, `Format_AtLimit_AddsPlus`, `Format_Normal_NOfM`
 - [ ] **Manual check by the maintainer** (Gallery, Debug and the AOT build; write the results in the card when done):
   - [ ] Ctrl+H opens the widget with the replace row; with a one-line selection the find box gets the selection and the
         replace box gets the focus; read-only editor: Ctrl+H does nothing, the chevron is disabled
@@ -71,12 +71,12 @@ button is enabled exactly when VS Code enables it. The maintainer runs the full 
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, manual checks pass in the AOT app
-- [ ] `docs/PORTING.md`: map row `findWidget.ts` 🔶 final (XAML; not ported: history, sash, overview ruler, accessibility
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings (the manual checks in the AOT app are still to do)
+- [x] `docs/PORTING.md`: map row `findWidget.ts` 🔶 final (XAML; not ported: history, sash, overview ruler, accessibility
       help, animation, view zone, find options widget)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

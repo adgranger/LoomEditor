@@ -31,6 +31,7 @@ public sealed partial class LoomEditor
         bool readOnly = (bool)e.NewValue;
         editor._viewModel.SetCursorOptions(editor._viewModel.CursorOptions with { ReadOnly = readOnly });
         editor._cursorBlinking.Update(editor.HasFocus, readOnly);
+        editor._findWidget?.OnReadOnlyChanged();
     }
 
     // The state the `when` conditions of the keybindings read (Monaco: the editor's context keys).
