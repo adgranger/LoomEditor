@@ -63,6 +63,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 
         _model.RawContentChanged += OnModelRawContentChanged;
         _model.OptionsChanged += OnModelOptionsChanged;
+        _model.LanguageChanged += OnModelLanguageChanged;
+        _model.LanguageConfigurationChanged += OnModelLanguageChanged;
         AttachToModelTokens(scheduleAtNextAnimationFrame);
     }
 
@@ -92,6 +94,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         DetachDecorations();
         _model.RawContentChanged -= OnModelRawContentChanged;
         _model.OptionsChanged -= OnModelOptionsChanged;
+        _model.LanguageChanged -= OnModelLanguageChanged;
+        _model.LanguageConfigurationChanged -= OnModelLanguageChanged;
         _cursor.Dispose();
         ViewLayout.Dispose();
     }

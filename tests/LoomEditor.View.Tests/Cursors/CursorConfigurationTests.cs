@@ -1,15 +1,23 @@
 using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Layout;
+using LoomEditor.View.Tests.TestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors;
 
 // Monaco has no test for CursorConfiguration: all tests are new.
 public class CursorConfigurationTests
 {
-    private static CursorConfiguration Create(int height = 600, int lineHeight = 19, TextModelOptions? modelOptions = null, EditorCursorOptions? options = null)
+    private static CursorConfiguration Create(
+        int height = 600,
+        int lineHeight = 19,
+        TextModelOptions? modelOptions = null,
+        EditorCursorOptions? options = null,
+        string languageId = "plaintext",
+        LanguageConfigurationRegistry? registry = null)
     {
         var font = new FontInfo(1, "Consolas", "normal", 14, lineHeight, 0, true, 8, 16, true, 8, 8, 8, 8);
         var layout = new EditorLayoutInfo(
@@ -28,7 +36,7 @@ public class CursorConfigurationTests
             VerticalScrollbarWidth: 14,
             HorizontalScrollbarHeight: 12,
             OverviewRuler: new OverviewRulerPosition(14, height, 0, 0));
-        return new CursorConfiguration(modelOptions ?? TextModelOptions.Default, options ?? EditorCursorOptions.Default, font, layout);
+        return new CursorConfiguration(languageId, modelOptions ?? TextModelOptions.Default, options ?? EditorCursorOptions.Default, font, layout, registry ?? new LanguageConfigurationRegistry());
     }
 
     [Fact]
@@ -94,5 +102,133 @@ public class CursorConfigurationTests
         var config = Create();
 
         Assert.Equal("     x", config.NormalizeIndentation("\t x"));
+    }
+
+    private static CursorConfiguration CreateForLanguage(LanguageConfiguration configuration, EditorCursorOptions? options = null)
+    {
+        var registry = new LanguageConfigurationRegistry();
+        registry.Register("test", configuration);
+        return Create(options: options, languageId: "test", registry: registry);
+    }
+
+    [Fact]
+    public void Constructor_LanguageWithAutoClosingPairs_ExposesThem()
+    {
+        CursorConfiguration config = CreateForLanguage(new LanguageConfiguration { AutoClosingPairs = [new AutoClosingPairConditional("(", ")")] });
+
+        Assert.True(config.AutoClosingPairs.AutoClosingPairsOpenByEnd.ContainsKey("("));
+    }
+
+    [Fact]
+    public void Constructor_NoSurroundingPairs_UsesAutoClosingPairs()
+    {
+        CursorConfiguration config = CreateForLanguage(new LanguageConfiguration { AutoClosingPairs = [new AutoClosingPairConditional("(", ")")] });
+
+        Assert.Equal(")", config.SurroundingPairs["("]);
+    }
+
+    [Fact]
+    public void Constructor_SurroundingPairs_AreOpenToClose()
+    {
+        CursorConfiguration config = CreateForLanguage(new LanguageConfiguration { SurroundingPairs = [new AutoClosingPair("<", ">"), new AutoClosingPair("<", "/>")] });
+
+        Assert.Equal("/>", config.SurroundingPairs["<"]);
+    }
+
+    [Fact]
+    public void ShouldAutoCloseBefore_LanguageDefined_UsesAutoCloseBeforeSet()
+    {
+        CursorConfiguration config = CreateForLanguage(
+            new LanguageConfiguration { AutoCloseBefore = ";" },
+            new EditorCursorOptions { AutoClosingBrackets = EditorAutoClosingStrategy.LanguageDefined });
+
+        Assert.True(config.ShouldAutoCloseBefore.Bracket(';'));
+        Assert.False(config.ShouldAutoCloseBefore.Bracket('a'));
+    }
+
+    [Fact]
+    public void ShouldAutoCloseBefore_BeforeWhitespace_OnlySpaceAndTab()
+    {
+        CursorConfiguration config = CreateForLanguage(
+            new LanguageConfiguration(),
+            new EditorCursorOptions { AutoClosingQuotes = EditorAutoClosingStrategy.BeforeWhitespace });
+
+        Assert.True(config.ShouldAutoCloseBefore.Quote(' '));
+        Assert.True(config.ShouldAutoCloseBefore.Quote((char)9));
+        Assert.False(config.ShouldAutoCloseBefore.Quote(')'));
+    }
+
+    [Fact]
+    public void ShouldAutoCloseBefore_Always_True()
+    {
+        CursorConfiguration config = CreateForLanguage(
+            new LanguageConfiguration(),
+            new EditorCursorOptions { AutoClosingComments = EditorAutoClosingStrategy.Always });
+
+        Assert.True(config.ShouldAutoCloseBefore.Comment('x'));
+    }
+
+    [Fact]
+    public void ShouldAutoCloseBefore_Never_False()
+    {
+        CursorConfiguration config = CreateForLanguage(
+            new LanguageConfiguration(),
+            new EditorCursorOptions { AutoClosingBrackets = EditorAutoClosingStrategy.Never });
+
+        Assert.False(config.ShouldAutoCloseBefore.Bracket(' '));
+    }
+
+    [Fact]
+    public void ElectricChars_LanguageWithBrackets_ContainsLastCharacterOfEachClose()
+    {
+        CursorConfiguration config = CreateForLanguage(new LanguageConfiguration { Brackets = [new("{", "}"), new("(", ")")] });
+
+        Assert.Contains("}", config.ElectricChars);
+        Assert.Contains(")", config.ElectricChars);
+        Assert.DoesNotContain("{", config.ElectricChars);
+    }
+
+    [Fact]
+    public void BlockCommentStartToken_LanguageWithBlockComment_IsOpenToken()
+    {
+        CursorConfiguration config = CreateForLanguage(new LanguageConfiguration { Comments = new CommentRule(BlockComment: new CharacterPair("/*", "*/")) });
+
+        Assert.Equal("/*", config.BlockCommentStartToken);
+    }
+
+    [Fact]
+    public void ViewModel_LanguageChanged_RecreatesCursorConfig()
+    {
+        var registry = new LanguageConfigurationRegistry();
+        registry.Register("withBlockComment", new LanguageConfiguration { Comments = new CommentRule(BlockComment: new CharacterPair("/*", "*/")) });
+        var codec = new LanguageIdCodec();
+        codec.Register("withBlockComment");
+        var model = new TextModel("text", DefaultEndOfLine.LF, null, new TokenizationRegistry(), codec, null, registry);
+        TestCodeEditor.WithTestCodeEditor(model, editor =>
+        {
+            Assert.Null(editor.ViewModel.CursorConfig.BlockCommentStartToken);
+
+            model.Tokenization.SetLanguageId("withBlockComment");
+
+            Assert.Equal("/*", editor.ViewModel.CursorConfig.BlockCommentStartToken);
+        });
+    }
+
+    [Fact]
+    public void ViewModel_LanguageConfigurationRegistered_RecreatesCursorConfig()
+    {
+        var registry = new LanguageConfigurationRegistry();
+        var codec = new LanguageIdCodec();
+        codec.Register("late");
+        var model = new TextModel("text", DefaultEndOfLine.LF, null, new TokenizationRegistry(), codec, null, registry);
+        model.Tokenization.SetLanguageId("late");
+        TestCodeEditor.WithTestCodeEditor(model, editor =>
+        {
+            Assert.Null(editor.ViewModel.CursorConfig.BlockCommentStartToken);
+
+            registry.Register("late", new LanguageConfiguration { Comments = new CommentRule(BlockComment: new CharacterPair("/*", "*/")) });
+
+            Assert.Equal("/*", editor.ViewModel.CursorConfig.BlockCommentStartToken);
+        });
     }
 }

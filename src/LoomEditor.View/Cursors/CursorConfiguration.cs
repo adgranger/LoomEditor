@@ -2,8 +2,10 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.Core.Languages;
+using LoomEditor.Core.Languages.Supports;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Cursors;
@@ -14,18 +16,30 @@ namespace LoomEditor.View.Cursors;
 /// Monaco: <c>CursorConfiguration</c>. The view model creates a new configuration whenever one of its inputs changes
 /// (Monaco's <c>shouldRecreate</c> is not ported).
 /// </para>
-/// <para>
-/// Phase 4–5 cut points: <c>autoClosingPairs</c>, <c>surroundingPairs</c>, <c>blockCommentStartToken</c>,
-/// <c>shouldAutoCloseBefore</c>, <c>electricChars</c>, <c>onElectricCharacter</c>, <c>_getShouldAutoClose</c>, the
-/// language id and the <c>languageConfigurationService</c> are not ported. Phase 3 behaves as Monaco does for a model
-/// with no language configuration.
-/// </para>
 /// <para>Threading: immutable; thread-safe.</para>
 /// </remarks>
+/// <summary>Tells whether the text after an auto-closed character allows closing it (Monaco: <c>shouldAutoCloseBefore</c>; the predicates take the first character after the cursor).</summary>
+internal sealed record AutoCloseBeforePredicates(Func<char, bool> Quote, Func<char, bool> Bracket, Func<char, bool> Comment);
+
 internal sealed class CursorConfiguration
 {
-    public CursorConfiguration(TextModelOptions modelOptions, EditorCursorOptions options, FontInfo fontInfo, EditorLayoutInfo layoutInfo)
+    private static readonly Func<char, bool> AutoCloseAlways = _ => true;
+    private static readonly Func<char, bool> AutoCloseNever = _ => false;
+    private static readonly Func<char, bool> AutoCloseBeforeWhitespace = c => c == ' ' || c == (char)9; // space or tab
+
+    private readonly string _languageId;
+    private IReadOnlySet<string>? _electricChars;
+
+    public CursorConfiguration(
+        string languageId,
+        TextModelOptions modelOptions,
+        EditorCursorOptions options,
+        FontInfo fontInfo,
+        EditorLayoutInfo layoutInfo,
+        LanguageConfigurationRegistry languageConfigurationService)
     {
+        _languageId = languageId;
+        LanguageConfigurationService = languageConfigurationService;
         ReadOnly = options.ReadOnly;
         TabSize = modelOptions.TabSize;
         IndentSize = modelOptions.IndentSize;
@@ -51,6 +65,23 @@ internal sealed class CursorConfiguration
         AutoIndent = options.AutoIndent;
         WordSegmenterLocales = options.WordSegmenterLocales;
         OvertypeOnPaste = options.OvertypeOnPaste;
+
+        ShouldAutoCloseBefore = new AutoCloseBeforePredicates(
+            GetShouldAutoClose(languageId, AutoClosingQuotes, forQuotes: true),
+            GetShouldAutoClose(languageId, AutoClosingBrackets, forQuotes: false),
+            GetShouldAutoClose(languageId, AutoClosingComments, forQuotes: false));
+
+        ResolvedLanguageConfiguration languageConfiguration = languageConfigurationService.GetLanguageConfiguration(languageId);
+        AutoClosingPairs = languageConfiguration.GetAutoClosingPairs();
+
+        var surroundingPairs = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (IAutoClosingPair pair in languageConfiguration.GetSurroundingPairs())
+        {
+            surroundingPairs[pair.Open] = pair.Close;
+        }
+
+        SurroundingPairs = surroundingPairs;
+        BlockCommentStartToken = languageConfiguration.Comments?.BlockCommentStartToken;
     }
 
     public bool ReadOnly { get; }
@@ -103,11 +134,38 @@ internal sealed class CursorConfiguration
 
     public bool OvertypeOnPaste { get; }
 
+    /// <summary>The language configurations (Monaco: <c>languageConfigurationService</c>).</summary>
+    public LanguageConfigurationRegistry LanguageConfigurationService { get; }
+
+    public AutoClosingPairs AutoClosingPairs { get; }
+
+    /// <summary>The surrounding pairs, open to close.</summary>
+    public IReadOnlyDictionary<string, string> SurroundingPairs { get; }
+
+    public string? BlockCommentStartToken { get; }
+
+    public AutoCloseBeforePredicates ShouldAutoCloseBefore { get; }
+
+    /// <summary>The electric characters of the language, computed on first read.</summary>
+    public IReadOnlySet<string> ElectricChars =>
+        _electricChars ??= new HashSet<string>(
+            LanguageConfigurationService.GetLanguageConfiguration(_languageId).ElectricCharacter.GetElectricCharacters(),
+            StringComparer.Ordinal);
+
     // Monaco reads a global (InputMode.getInputMode()) that is not ported: overtype mode is out of phase 3 (ADR 0006,
     // decision 12), so it is always Insert. It stays an instance member, as the operations read it from the configuration.
     private readonly InputMode _inputMode = InputMode.Insert;
 
     public InputMode InputMode => _inputMode;
+
+    /// <summary>Returns the opening bracket type to match indentation with (Monaco: <c>onElectricCharacter</c>).</summary>
+    public ElectricAction? OnElectricCharacter(string character, LineTokens context, int column)
+    {
+        ScopedLineTokens scopedLineTokens = ScopedLineTokens.Create(context, column - 1);
+        BracketElectricCharacterSupport electricCharacterSupport =
+            LanguageConfigurationService.GetLanguageConfiguration(scopedLineTokens.LanguageId).ElectricCharacter;
+        return electricCharacterSupport.OnElectricCharacter(character, scopedLineTokens, column - scopedLineTokens.FirstCharOffset);
+    }
 
     public string NormalizeIndentation(string str) => Indentation.NormalizeIndentation(str, IndentSize, InsertSpaces);
 
@@ -133,5 +191,20 @@ internal sealed class CursorConfiguration
         }
 
         return result;
+    }
+
+    private Func<char, bool> GetShouldAutoClose(string languageId, EditorAutoClosingStrategy autoCloseConfig, bool forQuotes) => autoCloseConfig switch
+    {
+        EditorAutoClosingStrategy.BeforeWhitespace => AutoCloseBeforeWhitespace,
+        EditorAutoClosingStrategy.LanguageDefined => GetLanguageDefinedShouldAutoClose(languageId, forQuotes),
+        EditorAutoClosingStrategy.Always => AutoCloseAlways,
+        EditorAutoClosingStrategy.Never => AutoCloseNever,
+        _ => throw new ArgumentOutOfRangeException(nameof(autoCloseConfig)),
+    };
+
+    private Func<char, bool> GetLanguageDefinedShouldAutoClose(string languageId, bool forQuotes)
+    {
+        string autoCloseBeforeSet = LanguageConfigurationService.GetLanguageConfiguration(languageId).GetAutoCloseBeforeSet(forQuotes);
+        return c => autoCloseBeforeSet.Contains(c, StringComparison.Ordinal);
     }
 }

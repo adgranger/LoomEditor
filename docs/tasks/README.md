@@ -438,7 +438,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P5-37](phase-5/P5-37-editor-controller-test-languages.md) | Test editor with a language (`createCodeEditorServices`, the `Editor Controller` languages) | P5-36 | done |
-| [P5-38](phase-5/P5-38-cursor-configuration-language.md) | `CursorConfiguration` reads the language configuration | P5-37 | todo |
+| [P5-38](phase-5/P5-38-cursor-configuration-language.md) | `CursorConfiguration` reads the language configuration | P5-37 | done |
 | [P5-39](phase-5/P5-39-enter-on-enter-rules.md) | Enter with on-enter rules and indentation rules (`_enter`) | P5-38 | todo |
 | [P5-40](phase-5/P5-40-smart-tab-and-shift-doc-blocks.md) | Smart Tab (`_goodIndentForLine`) and `ShiftCommand` in doc blocks | P5-39 | todo |
 | [P5-41](phase-5/P5-41-auto-closed-characters.md) | Track auto-closed characters with model decorations (`AutoClosedAction`) | P5-40 | todo |

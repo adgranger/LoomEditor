@@ -41,9 +41,13 @@ internal sealed partial class ViewModel
     }
 
     private CursorConfiguration CreateCursorConfiguration() =>
-        new(_model.Options, _cursorOptions, _fontInfo, LayoutInfo);
+        new(
+            _model.Tokenization.GetLanguageId(), _model.Options, _cursorOptions, _fontInfo, LayoutInfo, _model.LanguageConfigurationRegistry);
 
     private void OnModelOptionsChanged(object? sender, ModelOptionsChangedEventArgs e) => UpdateCursorConfiguration();
+
+    // Monaco: onDidChangeLanguageConfiguration and onDidChangeLanguage
+    private void OnModelLanguageChanged(object? sender, EventArgs e) => UpdateCursorConfiguration();
 
     /// <summary>Tells the cursor whether the editor has the focus (Monaco: <c>setHasFocus</c>, the cursor part).</summary>
     public void SetHasFocus(bool hasFocus)
