@@ -143,7 +143,7 @@ internal static partial class CursorMoveCommands
     {
         TextModelCursorSimpleModel model = ModelOf(viewModel);
         int lineCount = model.GetLineCount();
-        IReadOnlyList<Range> hiddenAreas = ViewModel.GetHiddenAreas();
+        IReadOnlyList<Range> hiddenAreas = viewModel.GetHiddenAreas();
 
         return MapCursors(cursors, cursor =>
         {
@@ -165,7 +165,7 @@ internal static partial class CursorMoveCommands
     private static List<PartialCursorState> MoveUpByFoldedLines(ViewModel viewModel, IReadOnlyList<CursorState> cursors, bool inSelectionMode, int count)
     {
         TextModelCursorSimpleModel model = ModelOf(viewModel);
-        IReadOnlyList<Range> hiddenAreas = ViewModel.GetHiddenAreas();
+        IReadOnlyList<Range> hiddenAreas = viewModel.GetHiddenAreas();
 
         return MapCursors(cursors, cursor =>
         {

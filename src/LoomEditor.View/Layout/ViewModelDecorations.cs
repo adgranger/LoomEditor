@@ -7,21 +7,20 @@ namespace LoomEditor.View.Layout;
 
 /// <summary>The decorations of one editor, in view coordinates, with a cache for the last viewport (Monaco: <c>ViewModelDecorations</c>).</summary>
 /// <remarks>
-/// Not ported: <c>getMinimapDecorationsInRange</c> (minimap: phase 6). View lines are model lines, so the model query
-/// stands in for <c>ViewModelLinesFromModelAsIs.getDecorationsInRange</c>. Threading: UI thread only.
+/// Not ported: <c>getMinimapDecorationsInRange</c> (minimap: phase 6). Threading: UI thread only.
 /// </remarks>
 internal sealed class ViewModelDecorations
 {
     private readonly int _editorId;
-    private readonly TextModel _model;
+    private readonly ViewModelLinesFromProjectedModel _lines;
     private readonly InlineModelDecorationsComputer _inlineDecorationsComputer;
     private ViewDecorationsCollection? _cachedModelDecorationsResolver;
     private Range? _cachedModelDecorationsResolverViewRange;
 
-    public ViewModelDecorations(int editorId, TextModel model, ICoordinatesConverter coordinatesConverter)
+    public ViewModelDecorations(int editorId, TextModel model, ViewModelLinesFromProjectedModel lines, ICoordinatesConverter coordinatesConverter)
     {
         _editorId = editorId;
-        _model = model;
+        _lines = lines;
         _inlineDecorationsComputer = new InlineModelDecorationsComputer(GetModelDecorations, model, coordinatesConverter);
     }
 
@@ -65,15 +64,14 @@ internal sealed class ViewModelDecorations
     /// <summary>The decorations of one view line, whole line.</summary>
     public ViewDecorationsCollection GetDecorationsOnLine(int lineNumber)
     {
-        var range = new Range(lineNumber, _model.GetLineMinColumn(lineNumber), lineNumber, _model.GetLineMaxColumn(lineNumber));
+        var range = new Range(lineNumber, _lines.GetViewLineMinColumn(lineNumber), lineNumber, _lines.GetViewLineMaxColumn(lineNumber));
         return _inlineDecorationsComputer.GetDecorations(range);
     }
 
     // Monaco: _linesCollection.getDecorationsInRange(viewRange, editorId, filterValidationDecorations, filterFontDecorations, ...).
     // filterValidationDecorations is false: the renderValidationDecorations option is not ported.
     private IReadOnlyList<LoomEditor.Core.Decorations.ModelDecoration> GetModelDecorations(Range viewRange) =>
-        // Phase 5 cut point (hidden areas, step G): ViewModelLinesFromProjectedModel.getDecorationsInRange
-        _model.GetDecorationsInRange(viewRange, _editorId, filterOutValidation: false, filterFontDecorations: false);
+        _lines.GetDecorationsInRange(viewRange, _editorId, filterOutValidation: false, filterFontDecorations: false);
 
     private void ClearCachedModelDecorationsResolver()
     {

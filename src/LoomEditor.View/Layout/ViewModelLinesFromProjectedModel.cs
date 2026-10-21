@@ -350,11 +350,16 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
             deleteFrom <= deleteTo ? new ViewLineRange(deleteFrom, deleteTo) : null);
     }
 
-    /// <summary>Tells the lines the model version they are valid for.</summary>
-    public void AcceptVersionId(int versionId)
+    /// <summary>
+    /// Tells the lines the model version they are valid for. Returns whether this revealed a line because every line was hidden
+    /// (Behavior difference: Monaco does not report it, its layout copes with a line count of 0).
+    /// </summary>
+    public bool AcceptVersionId(int versionId)
     {
         _validModelVersionId = versionId;
+        int viewLineCount = GetViewLineCount();
         EnsureAtLeastOneVisibleLine();
+        return GetViewLineCount() != viewLineCount;
     }
 
     private void EnsureAtLeastOneVisibleLine()

@@ -1,7 +1,6 @@
 // Ported from microsoft/vscode: src/vs/editor/common/viewLayout/viewLinesViewportData.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
-using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Core.Tokens;
 
@@ -10,22 +9,22 @@ namespace LoomEditor.View.Layout;
 /// <summary>Everything needed to render one viewport. Monaco: <c>ViewportData</c>.</summary>
 /// <remarks>
 /// Threading: immutable after creation (the arrays are not modified again); UI thread only because it is built from the
-/// model. Not ported: <c>getViewLineRenderingData</c>, <c>getViewLineContinuesWithWrappedLine</c> (rendering data comes
+/// view model. Not ported: <c>getViewLineRenderingData</c>, <c>getViewLineContinuesWithWrappedLine</c> (rendering data comes
 /// in a later phase). <c>getDecorationsInViewport</c> is ported (P5-07).
 /// </remarks>
 internal sealed class ViewportData
 {
-    private readonly TextModel _model;
+    private readonly ViewModel _viewModel;
     private readonly ViewModelDecorations _decorations;
 
     public ViewportData(
         IReadOnlyList<Selection> selections,
         PartialViewLinesViewportData partialData,
         IReadOnlyList<ViewWhitespaceViewportData> whitespaceViewportData,
-        TextModel model,
+        ViewModel viewModel,
         ViewModelDecorations decorations)
     {
-        _model = model;
+        _viewModel = viewModel;
         _decorations = decorations;
         Selections = selections;
         StartLineNumber = partialData.StartLineNumber;
@@ -37,13 +36,13 @@ internal sealed class ViewportData
 
         VisibleRange = new Range(
             partialData.StartLineNumber,
-            model.GetLineMinColumn(partialData.StartLineNumber),
+            viewModel.GetLineMinColumn(partialData.StartLineNumber),
             partialData.EndLineNumber,
-            model.GetLineMaxColumn(partialData.EndLineNumber));
+            viewModel.GetLineMaxColumn(partialData.EndLineNumber));
     }
 
-    /// <summary>The tokens of a line, computed when asked (Monaco: <c>getViewLineData</c>); view lines are model lines.</summary>
-    public IViewLineTokens GetTokens(int lineNumber) => _model.Tokenization.GetLineTokens(lineNumber).Inflate();
+    /// <summary>The tokens of a line, computed when asked (Monaco: <c>getViewLineData</c>).</summary>
+    public IViewLineTokens GetTokens(int lineNumber) => _viewModel.GetViewLineTokens(lineNumber);
 
     /// <summary>The decorations of the viewport, in view coordinates (Monaco: <c>getDecorationsInViewport</c>).</summary>
     public IReadOnlyList<ViewModelDecoration> GetDecorationsInViewport() =>

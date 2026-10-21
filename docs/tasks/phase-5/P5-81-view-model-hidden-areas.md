@@ -1,6 +1,6 @@
 # P5-81 — The view model uses view lines: `SetHiddenAreas`, the real converter, the cursor in folded code
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-80
 - **Size:** M
 
@@ -89,11 +89,11 @@ Tests: `test/browser/viewModel/viewModelImpl.test.ts` (see below), `test/browser
 
 `viewModelImpl.test.ts`, suite `ViewModel` (Monaco's `testViewModel` = `TestCodeEditor.WithTestCodeEditor`):
 
-- [ ] Port: `issue #21073: SplitLinesCollection: attempt to access a 'newer' model` (without `setViewport`: not ported, it is only a hint)
-- [ ] Port: `issue #44805: No visible lines via API call`
-- [ ] Port: `issue #44805: No visible lines via undoing`
-- [ ] Port: `issue #40926: Incorrect spacing when inserting new line after multiple folded blocks of code`
-- [ ] Port: suite `hidden areas must always leave at least one visible line` › `replacing the only visible line content does not make it hidden`,
+- [x] Port: `issue #21073: SplitLinesCollection: attempt to access a 'newer' model` (without `setViewport`: not ported, it is only a hint)
+- [x] Port: `issue #44805: No visible lines via API call`
+- [x] Port: `issue #44805: No visible lines via undoing`
+- [x] Port: `issue #40926: Incorrect spacing when inserting new line after multiple folded blocks of code`
+- [x] Port: suite `hidden areas must always leave at least one visible line` › `replacing the only visible line content does not make it hidden`,
       `deleting the only visible line when it is the last line`, `deleting the only visible line when it is in the middle`,
       `undo that removes the only visible line`, `deleting the only visible line between two hidden areas leaves all lines hidden`,
       `multiple visible lines deleted leaving only hidden lines`, `hidden areas from multiple sources that overlap produce valid merged result`,
@@ -101,32 +101,32 @@ Tests: `test/browser/viewModel/viewModelImpl.test.ts` (see below), `test/browser
 
 `cursorMoveCommand.test.ts`, suite `Cursor move command - foldedLine unit`:
 
-- [ ] Port: `move down by foldedLine skips a fold below the cursor`, `move up by foldedLine skips a fold above the cursor`,
+- [x] Port: `move down by foldedLine skips a fold below the cursor`, `move up by foldedLine skips a fold above the cursor`,
       `move down by foldedLine with count treats each fold as one step`, `move down by foldedLine skips a multi-line fold as one step`,
       `move down by foldedLine at last line stays at last line`, `move up by foldedLine at first line stays at first line`,
       `move down by foldedLine with count clamps to last visible line after fold`, `move up by foldedLine with count clamps to first visible line before fold`
 
 New:
 
-- [ ] `SetHiddenAreas_UpdatesTheLayoutLineCount` (`ViewLayout` content height = 3 visible lines × line height)
-- [ ] `SetHiddenAreas_CursorInHiddenArea_MovesToTheLineAbove` (cursor view state; model selection unchanged)
-- [ ] `SetHiddenAreas_SameRanges_RaisesNoEvent`; `SetHiddenAreas_RaisesHiddenAreasChangedEvent`
-- [ ] `ModelTokensChanged_HiddenLines_RaisesViewLineRanges`
-- [ ] `VisibleLines_WithHiddenArea_ReportsModelRangesAroundIt`
-- [ ] Existing `ViewModelTests`, `ViewModelCursorTests`, `ViewModelTokensTests`, cursor tests: unchanged and green
+- [x] `SetHiddenAreas_UpdatesTheLayoutLineCount` (`ViewLayout` content height = 3 visible lines × line height)
+- [x] `SetHiddenAreas_CursorInHiddenArea_MovesToTheLineAbove` (cursor view state; model selection unchanged)
+- [x] `SetHiddenAreas_SameRanges_RaisesNoEvent`; `SetHiddenAreas_RaisesHiddenAreasChangedEvent`
+- [x] `ModelTokensChanged_HiddenLines_RaisesViewLineRanges`
+- [x] `VisibleLines_WithHiddenArea_ReportsModelRangesAroundIt`
+- [x] Existing `ViewModelTests`, `ViewModelCursorTests`, `ViewModelTokensTests`, cursor tests: unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewModelImpl.ts` row (hidden areas, view lines, P5-81); `coordinatesConverter.ts` row
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewModelImpl.ts` row (hidden areas, view lines, P5-81); `coordinatesConverter.ts` row
       (identity converter removed); "Tests ported": `cursorMoveCommand.test.ts` 55 / 55, `viewModelImpl.test.ts` 12 / 29
       (the rest: `getPlainTextToCopy` ×12 and `issue #22688` belong to the clipboard port of P3-36 and are counted
       there if ported; `issue #44805: …'newer' model` counts Monaco view events that LoomEditor does not emit;
       `view models react first to model changes` needs two editors with Monaco's listener order;
       `normalizePosition with multiple touching injected text` and `issue #193262` need injected text / word wrap:
       phase 6); behavior difference "StableViewport without `_viewportStart`"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

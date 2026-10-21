@@ -9,7 +9,7 @@ using LoomEditor.View.Tests.TestHelpers;
 
 namespace LoomEditor.View.Tests.Commands;
 
-// Suite 'Cursor move command test'. The 'foldedLine unit' suite (8 tests) is not ported: it needs setHiddenAreas (folding, phase 5).
+// Suites 'Cursor move command test' and 'Cursor move command - foldedLine unit'.
 public class CursorMoveCommandTests
 {
     private static readonly string Text = string.Join(
@@ -538,6 +538,97 @@ public class CursorMoveCommandTests
         SelectionEqual(viewModel.GetSelection(), 4, 1, 7, 1);
     });
 
+    // ----- Suite 'Cursor move command - foldedLine unit': moves by model lines but treats each fold as a single step.
+
+    private static void ExecuteFoldTest(Action<ViewModel> callback) =>
+        TestCodeEditor.WithTestCodeEditor("line1\nline2\nline3\nline4\nline5", editor => callback(editor.ViewModel));
+
+    // Monaco: 'move down by foldedLine skips a fold below the cursor'
+    [Fact]
+    public void MoveDownByFoldedLine_SkipsAFoldBelowTheCursor() => ExecuteFoldTest(viewModel =>
+    {
+        // Line 4 is hidden (folded under line 3 as header)
+        viewModel.SetHiddenAreas([new Range(4, 1, 4, 1)]);
+        MoveTo(viewModel, 2, 1);
+        MoveDownByFoldedLine(viewModel);
+        CursorEqual(viewModel, 3, 1);
+        // line 4 is hidden, lands on line 5
+        MoveDownByFoldedLine(viewModel);
+        CursorEqual(viewModel, 5, 1);
+    });
+
+    // Monaco: 'move up by foldedLine skips a fold above the cursor'
+    [Fact]
+    public void MoveUpByFoldedLine_SkipsAFoldAboveTheCursor() => ExecuteFoldTest(viewModel =>
+    {
+        // Line 3 is hidden (folded under line 2 as header)
+        viewModel.SetHiddenAreas([new Range(3, 1, 3, 1)]);
+        MoveTo(viewModel, 4, 1);
+        MoveUpByFoldedLine(viewModel);
+        CursorEqual(viewModel, 2, 1);
+        MoveUpByFoldedLine(viewModel);
+        CursorEqual(viewModel, 1, 1);
+    });
+
+    // Monaco: 'move down by foldedLine with count treats each fold as one step'
+    [Fact]
+    public void MoveDownByFoldedLine_WithCount_TreatsEachFoldAsOneStep() => ExecuteFoldTest(viewModel =>
+    {
+        viewModel.SetHiddenAreas([new Range(3, 1, 3, 1)]);
+        MoveTo(viewModel, 1, 1);
+        // step1 -> 2, step2 -> 3 (hidden) -> 4, step3 -> 5
+        MoveDownByFoldedLine(viewModel, 3);
+        CursorEqual(viewModel, 5, 1);
+    });
+
+    // Monaco: 'move down by foldedLine skips a multi-line fold as one step'
+    [Fact]
+    public void MoveDownByFoldedLine_SkipsAMultiLineFoldAsOneStep() => ExecuteFoldTest(viewModel =>
+    {
+        viewModel.SetHiddenAreas([new Range(2, 1, 4, 1)]);
+        MoveTo(viewModel, 1, 1);
+        MoveDownByFoldedLine(viewModel);
+        CursorEqual(viewModel, 5, 1);
+    });
+
+    // Monaco: 'move down by foldedLine at last line stays at last line'
+    [Fact]
+    public void MoveDownByFoldedLine_AtLastLine_StaysAtLastLine() => ExecuteFoldTest(viewModel =>
+    {
+        MoveTo(viewModel, 5, 1);
+        MoveDownByFoldedLine(viewModel);
+        CursorEqual(viewModel, 5, 1);
+    });
+
+    // Monaco: 'move up by foldedLine at first line stays at first line'
+    [Fact]
+    public void MoveUpByFoldedLine_AtFirstLine_StaysAtFirstLine() => ExecuteFoldTest(viewModel =>
+    {
+        MoveTo(viewModel, 1, 1);
+        MoveUpByFoldedLine(viewModel);
+        CursorEqual(viewModel, 1, 1);
+    });
+
+    // Monaco: 'move down by foldedLine with count clamps to last visible line after fold'
+    [Fact]
+    public void MoveDownByFoldedLine_WithCount_ClampsToLastVisibleLineAfterFold() => ExecuteFoldTest(viewModel =>
+    {
+        viewModel.SetHiddenAreas([new Range(2, 1, 4, 1)]);
+        MoveTo(viewModel, 1, 1);
+        MoveDownByFoldedLine(viewModel, 2);
+        CursorEqual(viewModel, 5, 1);
+    });
+
+    // Monaco: 'move up by foldedLine with count clamps to first visible line before fold'
+    [Fact]
+    public void MoveUpByFoldedLine_WithCount_ClampsToFirstVisibleLineBeforeFold() => ExecuteFoldTest(viewModel =>
+    {
+        viewModel.SetHiddenAreas([new Range(2, 1, 4, 1)]);
+        MoveTo(viewModel, 5, 1);
+        MoveUpByFoldedLine(viewModel, 2);
+        CursorEqual(viewModel, 1, 1);
+    });
+
     // ----- Move command helpers (Monaco: lines 619–736)
 
     private static void Move(ViewModel viewModel, CursorMoveArguments args) =>
@@ -581,6 +672,12 @@ public class CursorMoveCommandTests
 
     private static void MoveDownByModelLine(ViewModel viewModel, int noOfLines = 1, bool select = false) =>
         Move(viewModel, new CursorMoveArguments(CursorMoveRawDirection.Down, select, null, noOfLines));
+
+    private static void MoveDownByFoldedLine(ViewModel viewModel, int noOfLines = 1, bool select = false) =>
+        Move(viewModel, new CursorMoveArguments(CursorMoveRawDirection.Down, select, CursorMoveRawUnit.FoldedLine, noOfLines));
+
+    private static void MoveUpByFoldedLine(ViewModel viewModel, int noOfLines = 1, bool select = false) =>
+        Move(viewModel, new CursorMoveArguments(CursorMoveRawDirection.Up, select, CursorMoveRawUnit.FoldedLine, noOfLines));
 
     private static void MoveToTop(ViewModel viewModel, int noOfLines = 1, bool select = false) =>
         Move(viewModel, new CursorMoveArguments(CursorMoveRawDirection.ViewPortTop, select, null, noOfLines));

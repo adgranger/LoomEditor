@@ -3,13 +3,13 @@
 
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.Tokens;
+using LoomEditor.Core.Text;
 using LoomEditor.Core.Tokens;
 using LoomEditor.View.Events;
 
 namespace LoomEditor.View.Layout;
 
-// Tokens: the view model is the one view attached to the model. View lines are model lines (ADR 0005, decision 6), so
-// no coordinate conversion is needed.
+// Tokens: the view model is the one view attached to the model; the visible ranges it reports are model ranges.
 internal sealed partial class ViewModel
 {
     private IAttachedView? _attachedView;
@@ -39,8 +39,8 @@ internal sealed partial class ViewModel
         _attachedView = null;
     }
 
-    /// <summary>The tokens of a line, ready for the renderer (<c>getViewLineData</c>: <c>getLineTokens(…).inflate()</c>).</summary>
-    public IViewLineTokens GetViewLineTokens(int lineNumber) => _model.Tokenization.GetLineTokens(lineNumber).Inflate();
+    /// <summary>The tokens of a view line, ready for the renderer (<c>getViewLineData(…).tokens</c>).</summary>
+    public IViewLineTokens GetViewLineTokens(int viewLineNumber) => _lines.GetViewLineData(viewLineNumber).Tokens;
 
     /// <summary>
     /// <c>visibleLinesStabilized</c>: the visible lines will not change for a while, so the model may tokenize them
@@ -66,8 +66,7 @@ internal sealed partial class ViewModel
             return;
         }
 
-        PartialViewLinesViewportData viewport = ViewLayout.GetLinesViewportData();
-        _attachedView.SetVisibleLines([(viewport.StartLineNumber, viewport.EndLineNumber)], stabilized);
+        _attachedView.SetVisibleLines([.. GetModelVisibleRanges().Select(r => (r.StartLineNumber, r.EndLineNumber))], stabilized);
     }
 
     private void OnViewLayoutScroll(object? sender, ScrollEvent e)
@@ -82,6 +81,15 @@ internal sealed partial class ViewModel
 
     private void OnModelTokensChanged(object? sender, ModelTokensChangedEventArgs e)
     {
-        EventDispatcher.EmitSingleViewEvent(new ViewTokensChangedEvent([.. e.Ranges.Select(r => new ViewLineRange(r.FromLineNumber, r.ToLineNumber))]));
+        var viewRanges = new List<ViewLineRange>(e.Ranges.Count);
+        foreach (var modelRange in e.Ranges)
+        {
+            int viewStartLineNumber = CoordinatesConverter.ConvertModelPositionToViewPosition(new Position(modelRange.FromLineNumber, 1)).LineNumber;
+            int viewEndLineNumber = CoordinatesConverter
+                .ConvertModelPositionToViewPosition(new Position(modelRange.ToLineNumber, _model.GetLineMaxColumn(modelRange.ToLineNumber))).LineNumber;
+            viewRanges.Add(new ViewLineRange(viewStartLineNumber, viewEndLineNumber));
+        }
+
+        EventDispatcher.EmitSingleViewEvent(new ViewTokensChangedEvent(viewRanges));
     }
 }
