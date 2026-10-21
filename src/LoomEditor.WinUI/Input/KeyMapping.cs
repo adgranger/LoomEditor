@@ -26,6 +26,9 @@ internal static class KeyMapping
         VirtualKey.Insert => KeyCode.Insert,
         VirtualKey.Delete => KeyCode.Delete,
         (VirtualKey)220 => KeyCode.Backslash, // VK_OEM_5
+        (VirtualKey)191 => KeyCode.Slash, // VK_OEM_2
+        (VirtualKey)219 => KeyCode.BracketLeft, // VK_OEM_4
+        (VirtualKey)221 => KeyCode.BracketRight, // VK_OEM_6
         >= VirtualKey.A and <= VirtualKey.Z => KeyCode.KeyA + (key - VirtualKey.A),
         >= VirtualKey.F1 and <= VirtualKey.F12 => KeyCode.F1 + (key - VirtualKey.F1),
         _ => null,

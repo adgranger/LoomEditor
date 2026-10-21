@@ -10,21 +10,29 @@ namespace LoomEditor.WinUI.Input;
 /// </summary>
 /// <remarks>
 /// <para>
-/// The key and the modifiers become a <see cref="Keybinding"/>, <see cref="KeybindingResolver"/> picks the command for the
-/// current <see cref="KeybindingContext"/>, and <see cref="CommandRegistry.Execute"/> runs it.
+/// The key and the modifiers become a <see cref="Keybinding"/>, <see cref="KeybindingDispatcher"/> picks the command for the
+/// current <see cref="KeybindingContext"/> (and remembers the first key press of a two-key chord), and
+/// <see cref="CommandRegistry.Execute"/> runs it.
 /// </para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
 internal sealed class KeyboardInput(CommandRegistry commands)
 {
-    private readonly KeybindingResolver _resolver = KeybindingResolver.Default;
+    private readonly KeybindingDispatcher _dispatcher = new(KeybindingResolver.Default);
 
     /// <summary>Runs the command bound to <paramref name="key"/> (with the current modifiers), if any.</summary>
-    /// <returns>True if a command ran; the key event should then be marked as handled.</returns>
+    /// <returns>True if the key press was handled (a command ran, or a chord is in progress); the key event should then be marked as handled.</returns>
     public bool TryHandle(VirtualKey key, KeybindingContext context)
     {
         if (KeyMapping.ToKeyCode(key) is not { } keyCode)
         {
+            // A key that no rule uses ends a chord; pressing a modifier on its way to the second key does not.
+            if (_dispatcher.InChordMode && !IsModifier(key))
+            {
+                _dispatcher.LeaveChordMode();
+                return true;
+            }
+
             return false;
         }
 
@@ -49,9 +57,23 @@ internal sealed class KeyboardInput(CommandRegistry commands)
             modifiers |= KeyModifiers.Meta;
         }
 
-        string? commandId = _resolver.Resolve(new Keybinding(modifiers, keyCode), context);
-        return commandId is not null && commands.Execute(commandId);
+        bool handled = _dispatcher.Dispatch(new Keybinding(modifiers, keyCode), context, out string? commandId);
+        if (commandId is not null)
+        {
+            commands.Execute(commandId);
+        }
+
+        return handled;
     }
+
+    /// <summary>Forgets the first key press of a chord, e.g. when the editor loses focus.</summary>
+    public void LeaveChordMode() => _dispatcher.LeaveChordMode();
+
+    private static bool IsModifier(VirtualKey key) =>
+        key is VirtualKey.Control or VirtualKey.LeftControl or VirtualKey.RightControl
+            or VirtualKey.Shift or VirtualKey.LeftShift or VirtualKey.RightShift
+            or VirtualKey.Menu or VirtualKey.LeftMenu or VirtualKey.RightMenu
+            or VirtualKey.LeftWindows or VirtualKey.RightWindows;
 
     private static bool IsDown(VirtualKey key) =>
         InputKeyboardSource.GetKeyStateForCurrentThread(key).HasFlag(CoreVirtualKeyStates.Down);

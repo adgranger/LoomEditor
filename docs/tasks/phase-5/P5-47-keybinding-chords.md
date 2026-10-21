@@ -1,6 +1,6 @@
 # P5-47 — Two-key chords in keybindings (`Ctrl+K Ctrl+C`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-46
 - **Size:** S
 
@@ -57,22 +57,22 @@ resolver answers "more chords needed", and the control waits for the second key.
 
 ## Tests
 
-- [ ] New: `Resolve_FirstKeyOfAChord_ReturnsMoreChordsNeeded` (a rule `Ctrl+K` then `Ctrl+C`)
-- [ ] New: `Resolve_SecondKeyOfAChord_ReturnsKbFoundWithTheCommand`
-- [ ] New: `Resolve_SecondKeyWithoutRule_ReturnsNoMatchingKb`
-- [ ] New: `Resolve_ChordWhoseWhenIsFalse_ReturnsNoMatchingKb`
-- [ ] New: `Dispatch_ChordThenUnknownKey_LeavesChordModeAndHandlesTheKey`
-- [ ] New: `Dispatch_ChordThenSecondKey_ReturnsTheCommandAndLeavesChordMode`
-- [ ] New: `Dispatch_SingleKeyRule_StillReturnsTheCommandOutsideChordMode`
+- [x] New: `Resolve_FirstKeyOfAChord_ReturnsMoreChordsNeeded` (a rule `Ctrl+K` then `Ctrl+C`)
+- [x] New: `Resolve_SecondKeyOfAChord_ReturnsKbFoundWithTheCommand`
+- [x] New: `Resolve_SecondKeyWithoutRule_ReturnsNoMatchingKb`
+- [x] New: `Resolve_ChordWhoseWhenIsFalse_ReturnsNoMatchingKb`
+- [x] New: `Dispatch_ChordThenUnknownKey_LeavesChordModeAndHandlesTheKey`
+- [x] New: `Dispatch_ChordThenSecondKey_ReturnsTheCommandAndLeavesChordMode`
+- [x] New: `Dispatch_SingleKeyRule_StillReturnsTheCommandOutsideChordMode`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row "keybindings" updated (chords: `keybindingResolver.ts` `resolve`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row "keybindings" updated (chords: `keybindingResolver.ts` `resolve`,
       `abstractKeybindingService.ts` `_doDispatch` subset); the two behavior differences above
 - [ ] Manual check (maintainer): in the Gallery, `Ctrl+K` then `Escape` does nothing and the next key works normally
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

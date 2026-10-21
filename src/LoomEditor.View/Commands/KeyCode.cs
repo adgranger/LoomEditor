@@ -59,4 +59,7 @@ internal enum KeyCode
     F11,
     F12,
     Backslash,
+    Slash,
+    BracketLeft,
+    BracketRight,
 }

@@ -19,5 +19,5 @@ Tab, Enter, undo, redo, cut, paste) are Monaco's `coreCommands.ts`. `CoreCommand
 equal weights: the rule registered last wins). Notes:
 
 - `when` conditions are C# predicates (`WhenClauses`), not expressions: there is no expression parser.
-- A `Keybinding` is one key press. There are no chords (`Ctrl+K Ctrl+D`) in phase 3.
+- A `Keybinding` is one key press. A two-key chord (`Ctrl+K Ctrl+C`) is a rule with a `Chord` (its second key press); `KeybindingResolver.Resolve(context, currentChord, keypress)` answers `NoMatchingKb`, `MoreChordsNeeded` or `KbFound`, and `KeybindingDispatcher` remembers the first key press. At most two key presses. There is no status bar message and no timeout while waiting for the second key: chord mode ends on the next key press or when the editor loses focus (`KeyboardInput.LeaveChordMode`).
 - Only the Windows table exists. The clipboard command ids are declared here but registered by the Windows clipboard (P3-47).
