@@ -54,6 +54,18 @@ with their output.
 Never weaken a test, never change a ported Monaco test's expected values, never add `#pragma warning disable` or
 `NoWarn` to get green unless the card explicitly says so.
 
+### Kill every launched application instance (mandatory)
+
+Any application you started during steps 3–4 (the Gallery sample, a `dotnet run`, a published exe, a test host, a
+dev server…) **must be killed before you go on**, whether the run succeeded or failed. No exception, no "it will close
+by itself". A leftover process locks the `bin/obj` files and breaks the next build.
+
+1. Stop what you started (`Stop-Process -Id <pid> -Force`, or `Stop-Process -Name LoomEditor.Gallery -Force`).
+2. Check that nothing is left: `Get-Process LoomEditor*, testhost*, dotnet -ErrorAction SilentlyContinue` must show
+   no process you launched (do not kill unrelated `dotnet` processes you did not start, such as the build server
+   used by the IDE).
+3. Do this again at the end of the skill if you launched anything later, including on every "stop" path.
+
 ## 5. Update the bookkeeping
 
 - Card: tick every checkbox that is done, set `Status: done`.
@@ -63,6 +75,7 @@ Never weaken a test, never change a ported Monaco test's expected values, never 
 
 ## 6. Commit
 
+0. Confirm no application instance you launched is still running (see "Kill every launched application instance").
 1. `git status` and `git diff --stat`: make sure only files related to this card changed.
 2. `git add -A`
 3. Commit with the card's "Suggested commit message" as the subject (adjust only if it no longer describes the change),
