@@ -169,3 +169,42 @@ internal static class AutoClosingOvertype
         return true;
     }
 }
+
+/// <summary>Types an open character and its closing text, and re-indents the line in the same edit (Monaco: <c>TypeWithIndentationAndAutoClosingCommand</c>).</summary>
+/// <remarks>Threading: UI thread only.</remarks>
+internal sealed class TypeWithIndentationAndAutoClosingCommand : BaseTypeWithAutoClosingCommand
+{
+    private readonly Range _autoIndentationRange;
+    private readonly string _autoIndentationText;
+    private readonly Range _autoClosingRange;
+    private readonly string _autoClosingText;
+
+    public TypeWithIndentationAndAutoClosingCommand(Range autoIndentationRange, string autoIndentationText, Range selection, string openCharacter, string closeCharacter)
+        : base(selection, openCharacter + closeCharacter, 0, openCharacter.Length, openCharacter, closeCharacter)
+    {
+        _autoIndentationRange = autoIndentationRange;
+        _autoIndentationText = autoIndentationText;
+        _autoClosingRange = selection;
+        _autoClosingText = openCharacter + closeCharacter;
+    }
+
+    public override void GetEditOperations(TextModel model, IEditOperationBuilder builder)
+    {
+        builder.AddTrackedEditOperation(_autoIndentationRange, _autoIndentationText);
+        builder.AddTrackedEditOperation(_autoClosingRange, _autoClosingText);
+    }
+
+    public override Selection ComputeCursorState(TextModel model, ICursorStateComputerData helper)
+    {
+        IReadOnlyList<LoomEditor.Core.Model.Edits.ValidEditOperation> inverseEditOperations = helper.GetInverseEditOperations();
+        if (inverseEditOperations.Count != 2)
+        {
+            throw new InvalidOperationException("There should be two inverse edit operations!");
+        }
+
+        Range range1 = inverseEditOperations[0].Range;
+        Range range2 = inverseEditOperations[1].Range;
+        Range range = range1.Plus(range2);
+        return ComputeCursorStateWithRange(model, range, helper);
+    }
+}

@@ -1,6 +1,6 @@
 # P5-45 — Auto-indent while typing (`AutoIndentOperation`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-44
 - **Size:** S
 
@@ -49,25 +49,25 @@ Step B provides `getIndentActionForType` (`autoIndent.ts` 360–433) and `getInd
 
 Port from `cursor.test.ts`, suite `Editor Controller`:
 
-- [ ] `Type honors decreaseIndentPattern` (3826)
-- [ ] `Enter honors indentNextLinePattern 2` (3889; it types `console.log();` between two Enters)
-- [ ] `type honors indentation rules: ruby keywords` (4503)
-- [ ] `Auto indent on type: increaseIndentPattern has higher priority than decreaseIndent when inheriting` (4527)
-- [ ] `type honors users indentation adjustment` (4547)
-- [ ] `bug 29972: if a line is line comment, open bracket should not indent next line` (4568)
-- [ ] `issue #122714: tabSize=1 prevent typing a string matching decreaseIndentPattern in an empty file` (4747)
-- [ ] `issue #338693: undo after multi-character autoclose with auto-indentation first removes only the auto-closed characters` (5463)
-- [ ] Not here: the `Auto Indent On Type - …` suites of `contrib/indentation/test/browser/indentation.test.ts` exercise
+- [x] `Type honors decreaseIndentPattern` (3826)
+- [x] `Enter honors indentNextLinePattern 2` (3889; it types `console.log();` between two Enters)
+- [x] `type honors indentation rules: ruby keywords` (4503)
+- [x] `Auto indent on type: increaseIndentPattern has higher priority than decreaseIndent when inheriting` (4527)
+- [x] `type honors users indentation adjustment` (4547)
+- [x] `bug 29972: if a line is line comment, open bracket should not indent next line` (4568)
+- [x] `issue #122714: tabSize=1 prevent typing a string matching decreaseIndentPattern in an empty file` (4747)
+- [x] `issue #338693: undo after multi-character autoclose with auto-indentation first removes only the auto-closed characters` (5463)
+- [x] Not here: the `Auto Indent On Type - …` suites of `contrib/indentation/test/browser/indentation.test.ts` exercise
       this code too, but they need the bundled language configurations and the `Indentation` feature helpers: step E
       ports them.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ auto-indent on type); tests table `cursor.test.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `cursorTypeEditOperations.ts` (+ auto-indent on type); tests table `cursor.test.ts`
       (`Editor Controller` +8)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

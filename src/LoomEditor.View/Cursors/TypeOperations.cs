@@ -110,7 +110,12 @@ internal static class TypeOperations
             return enterEdits;
         }
 
-        // Phase 4–5 cut point: AutoIndentOperation (cursorTypeEditOperations.ts 29–113)
+        EditOperationResult? autoIndentEdits = AutoIndentOperation.GetEdits(config, model, selections, ch, isDoingComposition);
+        if (autoIndentEdits is not null)
+        {
+            return autoIndentEdits;
+        }
+
         EditOperationResult? autoClosingOverTypeEdits = AutoClosingOvertypeOperation.GetEdits(prevEditOperationType, config, model, selections, autoClosedCharacters, ch);
         if (autoClosingOverTypeEdits is not null)
         {
