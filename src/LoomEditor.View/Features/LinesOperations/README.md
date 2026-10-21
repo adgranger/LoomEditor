@@ -6,6 +6,7 @@
 and `src/vs/editor/common/commands/trimTrailingWhitespaceCommand.ts`.
 
 **Files:**
+- `MoveLinesCommand.cs`, `MoveLinesCommand.AutoIndent.cs` — move lines up or down with auto-indent.
 - `CopyLinesCommand.cs`, `SortLinesCommand.cs` — the edit commands (the trim command is `Cursors/Commands/TrimTrailingWhitespaceCommand.cs`).
 - `LinesOperationsFeature.cs` — the feature (it registers nothing yet: the actions come in P5-57 and later).
 - `LinesOperationsCommands.cs` — all the command ids, already.
