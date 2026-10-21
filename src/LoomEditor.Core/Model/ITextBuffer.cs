@@ -80,6 +80,9 @@ internal interface ITextBuffer
     /// <summary>The content of a line, without its line break (Monaco: <c>getLineContent</c>).</summary>
     string GetLineContent(int lineNumber);
 
+    /// <summary>Finds the matches of a plain-text query inside a range, in the pieces (Monaco: <c>findMatchesLineByLine</c>).</summary>
+    List<Search.FindMatch> FindMatchesLineByLine(Range searchRange, Search.SearchData searchData, bool captureMatches, int limitResultCount);
+
     /// <summary>The character at a 0-based index of a line (Monaco: <c>getLineCharCode</c>).</summary>
     char GetLineCharCode(int lineNumber, int index);
 

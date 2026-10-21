@@ -13,5 +13,5 @@ Monaco source: `src/vs/editor/common/model/pieceTreeTextBuffer/`.
 | `PieceTreeTextBufferBuilder`, `PieceTreeTextBufferFactory` | build a buffer from chunks, detect the EOL |
 | `PieceTreeTextBuffer` (`.ApplyEdits`, `.EditHelpers`) | the `ITextBuffer` used by `TextModel`: queries and `ApplyEdits` |
 
-Not ported: search (`findMatchesLineByLine`), phase 5. See docs/PORTING.md for the differences from Monaco and
+Search (`findMatchesLineByLine`, `PieceTreeBase.Search.cs`) is ported (P5-64). See docs/PORTING.md for the differences from Monaco and
 docs/performance.md for the benchmarks.

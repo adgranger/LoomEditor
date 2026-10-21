@@ -82,7 +82,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `PieceTreeBase.GetCharCode`, `GetLineCharCode` | Return `char` (`'\0'` at the end of the document) instead of a number (`0` or `NaN`) | Same UTF-16 unit; no `NaN` in C# |
 | `PieceTreeBase.Insert` | Inserting an empty string is a no-op (Monaco splits the piece; inside a CRLF pair this made `GetLineCount` count one line too many) | Found by the P1-15 property test; Monaco callers never insert empty text |
 | `PieceTreeTextBufferFactory.Create` | Returns the `PieceTreeTextBuffer` directly, not a `{ textBuffer, disposable }` pair; `PieceTreeTextBuffer` is not `IDisposable` and has no `onDidChangeContent` | Nothing to dispose in this port |
-| `ITextBuffer` | `IReadonlyTextBuffer` and `ITextBuffer` are one interface; no `onDidChangeContent`, not `IDisposable`, no `findMatchesLineByLine` yet (phase 5) | Simpler contract; search is deferred |
+| `ITextBuffer` | `IReadonlyTextBuffer` and `ITextBuffer` are one interface; no `onDidChangeContent`, not `IDisposable` | Simpler contract |
 | `TextModel.GetLineMinColumn` | Throws `ArgumentOutOfRangeException` for an illegal line number (Monaco ignores it and returns 1) | Consistent with the other line methods; avoids a static-able public instance method |
 | `ModelRawLineChanged` | Has `LineNumber` and `LineNumberPostEdit` only, as at the pinned commit (the card listed a `Detail` field that does not exist upstream) | Faithful to the pinned Monaco source |
 | `TextChange` | Monaco's binary serialization (`write`, `read`, `writeSize`) is not ported | Nothing in LoomEditor persists undo stacks |
@@ -135,6 +135,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `LineTokens.getMetadata` (P5-39) | A token index past the end returns 0 (the JavaScript typed array reads `undefined`, which the bit operations turn into 0): `IndentationLineProcessor.getProcessedTokens` reads the language of the empty tokens of an empty range | .NET arrays throw |
 | `BracketMatchingController` (P5-35) | The `bracket-match-inline` foreground is `DecorationStyle.Important` (Monaco: CSS `!important`); important foregrounds are applied after the others. `ViewModel.HasFocus` and `FocusChanged` replace `hasWidgetFocus` and the focus/blur events. `Ctrl+Shift+` uses `VK_OEM_5`, not the scan code. |
 | Search primitives (P5-62) | Regex syntax is .NET's (`\u{…}`, `\p{…}`; `\d`, `\w`, `\b` are Unicode-aware; without `u`, `.` and classes match one UTF-16 unit); the JavaScript flags map to `RegexOptions` (`i` → `IgnoreCase`, `m` → `Multiline`, always `CultureInvariant`); `Searcher` keeps its own `lastIndex` and calls `Regex.Match(text, startat)`; case-insensitive matching uses .NET invariant case folding instead of JavaScript simple case folding |
+| `PieceTreeBase.FindMatchesInNode` (P5-64) | Always searches the text cut to the search range (Monaco's word-separator branch); Monaco without word separators searches the whole buffer from the start and can report a match crossing the end of the range. `NodeAt2` has a `TryNodeAt2` twin that returns `null` like Monaco; `TextModel.FindNextMatch` does not call the discarded `TextModelSearch.findNextMatch` of the plain-text branch |
 
 ## Map: Monaco → LoomEditor
 
@@ -155,7 +156,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
 | `editor/common/cursor/cursorMoveCommands.ts` | `LoomEditor.View/Cursors/CursorMoveCommands*.cs`, `CursorMove.cs` | ✅ ported (P3-24, P3-25) except `word` (P3-30); `CursorMove.metadata` is not ported |
-| `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ✅ ported (phase 1), except search (phase 5) |
+| `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ✅ ported (phase 1; search P5-64) |
 | `editor/common/encodedTokenAttributes.ts` | `LoomEditor.Core/Tokens/` (`TokenMetadata`, `MetadataConsts`, `LanguageId`, `ColorId`, `FontStyle`, `StandardTokenType`, `TokenPresentation`) | ✅ P4-23; without the CSS helpers; ids are `int` constants, metadata is `uint` |
 | `editor/common/languages.ts` (tokens), `languages/nullTokenize.ts`, `tokenizationRegistry.ts`, `services/languagesRegistry.ts` (`LanguageIdCodec`) | `LoomEditor.Core/Tokens/` (`IState`, `ITokenizationSupport`, `EncodedTokenizationResult`, `NullTokenize` with `NullState`, `LanguageIdCodec`, `TokenizationRegistry`, `TokenizationSupportChangedEventArgs`) | 🔶 P4-23; `IBackgroundTokenizer` and `IBackgroundTokenizationStore` come with P4-28, `createBackgroundTokenizer` with P4-29 (it needs `TextModel`); no string `tokenize`, no `fontInfo` |
 | `editor/common/tokens/lineTokens.ts`, `test/common/core/lineTokens.test.ts` | `LoomEditor.Core/Tokens/` (`IViewLineTokens`, `LineTokens`, `LineTokens.Slice.cs`) | 🔶 P4-24; no `getClassName` / `getInlineStyle` (CSS; `GetMetadata`, `GetForeground`, `GetPresentation` instead), no `getTokensInRange`, `sliceZeroCopy`, `TokenArray*`, `toString` (later phases); `getStandardTokenTypeAtPosition` is `LineTokens.GetStandardTokenTypeAtPosition` (P5-54); length mismatch is a Debug `Guard.Assert`, not `onUnexpectedError`; 7 tests ported (`LineTokensTests`) |
@@ -169,10 +170,10 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `test/common/model/model.line.test.ts` (`ModelLinesTokens`, 1/2: deletes, inserts, insertion updates), `testLineToken.ts` helpers | `tests/LoomEditor.Core.Tests/Model/Tokens/ModelLinesTokensTests.cs`, `TestHelpers/ManualTokenizationSupport.cs` | ✅ P4-31; 29 tests ported (`single delete 1-5`, `multi delete 6-9`, `single insert 1-5`, `multi insert 6-9`, `insertion on empty line`, `updates tokens on insertion 1-10`); no bug found; compares the foreground instead of `getClassName`; the `getIndentLevel` suite is not about tokens |
 | `test/common/model/model.line.test.ts` (2/2: deletes inside tokens, replace, split, append), `textModelWithTokens.test.ts` (`TextModelWithTokens regression tests`) | `tests/LoomEditor.Core.Tests/Model/Tokens/ModelLinesTokensTests.cs`, `TextModelWithTokensRegressionTests.cs` | ✅ P4-32; 25 + 2 tests ported (`microsoft/monaco-editor#122`, `issue #63822`); left for phase 5: `microsoft/monaco-editor#133` and `issue #11856` (bracket matching); no bug found |
 | `editor/common/model/pieceTreeTextBuffer/rbTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/RedBlackTree*.cs`, `TreeNode.cs`, `NodeColor.cs` | ✅ ported (P1-03; `rbInsertLeft/Right` and `NodePosition` from `pieceTreeBase.ts`) |
-| `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ✅ ported (P1-01, P1-05 to P1-08, P1-14, tests P1-10 to P1-15) except search (`findMatchesInNode`…), which comes in phase 5 |
+| `editor/common/model/pieceTreeTextBuffer/pieceTreeBase.ts` | `LoomEditor.Core/Model/PieceTree/LineStarts.cs`, `PieceTreeBase*.cs` (+ more) | ✅ ported (P1-01, P1-05 to P1-08, P1-14, tests P1-10 to P1-15; search `PieceTreeBase.Search.cs` P5-64, `nodeAt2` also as `TryNodeAt2`) |
 | `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBufferBuilder.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBufferBuilder.cs`, `PieceTreeTextBufferFactory.cs` | ✅ ported (P1-09) |
-| `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer*.cs` | ✅ ported (P1-09, P1-16, P1-17, P1-18 `PieceTreeTextBuffer.ApplyEdits.cs`) except `findMatchesLineByLine` (phase 5); reverse edits carry a `TextChange` (P1-27) |
-| `editor/common/model.ts` (`EndOfLinePreference`, `DefaultEndOfLine`, `EndOfLineSequence`, `IReadonlyTextBuffer` + `ITextBuffer` merged, without search) | `LoomEditor.Core/Model/` | ✅ ported (P1-09, P1-16); `applyEdits` added in P1-18 |
+| `editor/common/model/pieceTreeTextBuffer/pieceTreeTextBuffer.ts` | `LoomEditor.Core/Model/PieceTree/PieceTreeTextBuffer*.cs` | ✅ ported (P1-09, P1-16, P1-17, P1-18 `PieceTreeTextBuffer.ApplyEdits.cs`, `findMatchesLineByLine` P5-64); reverse edits carry a `TextChange` (P1-27) |
+| `editor/common/model.ts` (`EndOfLinePreference`, `DefaultEndOfLine`, `EndOfLineSequence`, `IReadonlyTextBuffer` + `ITextBuffer` merged) | `LoomEditor.Core/Model/` | ✅ ported (P1-09, P1-16); `applyEdits` added in P1-18 |
 | `editor/common/core/misc/eolCounter.ts` (`countEOL`, without the EOL kind) and the edit types of `model.ts` / `mirrorTextModel.ts` | `LoomEditor.Core/Model/Edits/`, `Model/ModelContentChange.cs` | ✅ ported (P1-17) |
 | `editor/test/common/model/linesTextBuffer/linesTextBuffer.test.ts` (`_getInverseEdits`, `_toSingleEditOperation`) | `tests/LoomEditor.Core.Tests/Model/PieceTree/PieceTreeTextBufferInverseEditsTests.cs`, `PieceTreeTextBufferToSingleEditOperationTests.cs` | ✅ all tests ported |
 | `base/common/strings.ts` (`containsRTL`, `isBasicASCII`, `containsUnusualLineTerminators`, BOM, `firstNonWhitespaceIndex`, `lastNonWhitespaceIndex`) | `LoomEditor.Core/Model/StringClassification.cs` | ✅ ported (P1-09, P1-16) |
@@ -340,6 +341,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `base/common/arrays.ts` (`Comparator`, `CallbackIterable`; `compareBy` is a lambda in `BracketPairsTextModelPart`) | `LoomEditor.Core/Model/BracketPairs/CallbackIterable.cs` | 🔶 P5-29; `Comparator<T>` is `Comparison<T>`; the rest of the file is the BCL (rule 5) |
 | `editor/contrib/bracketMatching/browser/bracketMatching.ts` (P5-35) ✅, `bracketMatching.css`, `matchBrackets` option | `LoomEditor.View/Features/BracketMatching/` | 🔶 P5-35: internal; no overview ruler marker, no Go menu entry, `onDidChangeModel` dropped; `MatchBrackets` is a feature property, not a control option |
 | `editor/common/model/textModelSearch.ts` (`TextModelSearch`, `SearchParams`, `isMultilineRegexSource`, `createFindMatch`, `Searcher`, `isValidMatch`), `model.ts` (`FindMatch`, `SearchData`), `strings.ts` (`escapeRegExpCharacters`, `createRegExp`) | `LoomEditor.Core/Model/Search/`, `LoomEditor.Core/Text/Strings.Regex.cs` | 🔶 primitives (P5-62) and `TextModelSearch` + `LineFeedCounter` (P5-63, `Model/Search/TextModelSearch*.cs`); the piece tree search is P5-64 |
+| `editor/common/model/textModel.ts` (`findMatches`, `findNextMatch`, `findPreviousMatch`, `findMatchesLineByLine`, `LIMIT_FIND_COUNT`) | `LoomEditor.Core/Model/TextModel.Search.cs` | ✅ ported (P5-64); `internal`, two `FindMatches` overloads (whole model / scopes) |
 
 ## Monaco tests ported in phases 1 and 3
 
@@ -381,7 +383,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursor.test.ts` (`Editor Controller`: electric characters and `issue #6841`, 15 tests) | 15 / 15 | `ElectricCharacterTests` (14), `AutoClosingTests.Balance.cs` (P5-46) |
 | `multicursor.test.ts` | 2 / 76 | `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); the 73 tests of `Multicursor selection` and below need Find (phase 5) |
 | `bracketMatching.test.ts` | 7 / 7 | |
-| `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
+| `pieceTreeTextBuffer.test.ts` | 87 / 87 | suite `chunk based search` (3) in `PieceTreeChunkBasedSearchTests` (P5-64) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
 | `linesTextBufferBuilder.test.ts` | 12 / 12 | |
 | `model.test.ts` (`Model`, `Model Line Separators`) | 29 / 29 | |
@@ -539,5 +541,5 @@ The step-by-step cards are in **[docs/tasks/](tasks/README.md)** (P1-01 … P1-3
 - **One sentinel node per tree** instead of Monaco's global mutable `SENTINEL` (thread safety, parallel tests).
 - `StringBuffer` is a growable `char[]`, not a `string` (appending to the change buffer must not be quadratic).
 - `PieceTreeTextBuffer` / `ITextBuffer` stay `internal`; the public API is `TextModel`, which uses `TextEdit` for edits.
-- Search in the piece tree is deferred to phase 5 (Find); decorations and injected text to phase 2+.
+- Decorations and injected text were deferred to phase 2+ (search in the piece tree: P5-64).
 - Monaco's workspace-wide `IUndoRedoService` is replaced by a per-model `UndoRedoStack`.
