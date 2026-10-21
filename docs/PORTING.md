@@ -347,6 +347,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/contrib/find/browser/findController.ts` (`getSelectionSearchString`, `SEARCH_STRING_MAX_LENGTH`) | `LoomEditor.View/Features/Find/SelectionSearchString.cs` | 🔶 P5-65; the rest of the controller is P5-70 |
 | `editor/contrib/find/browser/findModel.ts` (`FIND_IDS`, `MATCHES_LIMIT`, `RESEARCH_DELAY`), `common/config/editorOptions.ts` (`EditorFind`) | `LoomEditor.View/Features/Find/` (`FindCommands.cs`, `FindConstants.cs`, `EditorFindOptions.cs`) | 🔶 P5-65; ids, limits and options only; the model is P5-68 |
 | `editor/contrib/find/browser/replacePattern.ts` (`ReplacePattern`, `ReplacePiece`, `parseReplaceString`, `ReplacePieceBuilder`) | `LoomEditor.View/Features/Find/ReplacePattern.cs`, `ReplacePattern.Parse.cs` | ✅ ported (P5-66); `ParseReplaceString` is `ReplacePattern.Parse`; the state is readable through `StaticValue` / `Pieces` for tests |
+| `editor/contrib/find/browser/findDecorations.ts` (`FindDecorations`) | `LoomEditor.View/Features/Find/FindDecorations.cs` | 🔶 ported (P5-67) without the overview-ruler approximation and the minimap / overview options (phase 6); the find colors were added with the decoration styles in P5-08 |
 | `base/common/search.ts` (`buildReplaceStringWithCasePreserved`), `base/common/strings.ts` (`containsUppercaseCharacter`) | `LoomEditor.Core/Text/SearchStrings.cs`, `Strings.Regex.cs` | ✅ ported (P5-66) |
 
 ## Monaco tests ported in phases 1 and 3

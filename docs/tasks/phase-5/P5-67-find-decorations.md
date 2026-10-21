@@ -1,6 +1,6 @@
 # P5-67 — `FindDecorations` and the find colors
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-66
 - **Size:** M
 
@@ -66,19 +66,19 @@ their theme color defaults.
 
 No upstream test file (the class is covered by `findModel.test.ts`, P5-68/P5-69). New tests:
 
-- [ ] `Set_AddsOneFindMatchDecorationPerMatch`, `Set_MoreThan1000Matches_UsesNoOverviewOptions`,
+- [x] `Set_AddsOneFindMatchDecorationPerMatch`, `Set_MoreThan1000Matches_UsesNoOverviewOptions`,
       `Set_FindScopes_AddsWholeLineScopeDecorations`, `SetCurrentFindMatch_ReturnsOneBasedPositionAndSwapsOptions`,
       `SetCurrentFindMatch_MultilineMatchEndingAtColumn1_RangeHighlightStopsOnPreviousLine`,
       `MatchAfterPosition_AfterLastMatch_WrapsToFirst`, `MatchBeforePosition_BeforeFirstMatch_WrapsToLast`,
       `Reset_RemovesNothingAndForgetsIds`, `Dispose_RemovesAllDecorations`
-- [ ] New (Themes): `Resolve_FindColors_DarkAndLightDefaults`
+- [x] New (Themes): `Resolve_FindColors_DarkAndLightDefaults`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/find/browser/findDecorations.ts` 🔶 (no overview ruler / minimap, P5-67)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/find/browser/findDecorations.ts` 🔶 (no overview ruler / minimap, P5-67)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

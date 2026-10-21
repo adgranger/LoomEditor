@@ -13,6 +13,7 @@ have no arguments) and `editor.action.goToMatchFindAction` (it needs a quick inp
 - `FindFeature.cs` — the feature (does nothing yet); `FindCommands.cs` — command ids; `FindConstants.cs` — `MatchesLimit` (19999), `ResearchDelay` (240 ms).
 - `FindReplaceState.cs`, `NewFindReplaceState.cs`, `FindReplaceStateChangedEventArgs.cs`, `FindOptionOverride.cs` — the state every find part shares and its change event.
 - `EditorFindOptions.cs` — the `editor.find` options with VS Code's defaults (no public option in phase 5).
+- `ReplacePattern.cs`, `ReplacePattern.Parse.cs` — the parsed replace string (`$1`, `\n`, `\u`…); `FindDecorations.cs` — the model decorations of matches, current match, its line and the scope.
 - `SelectionSearchString.cs` — what Ctrl+F puts in the find box (`getSelectionSearchString`).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Find/`.
