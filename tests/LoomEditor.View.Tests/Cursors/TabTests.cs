@@ -1,10 +1,12 @@
 // Ported from microsoft/vscode: src/vs/editor/test/browser/controller/cursor.test.ts (suite 'Editor Controller', Tab and Shift+Tab tests)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Cursors;
+using LoomEditor.View.Tests.Cursors.TestHelpers;
 using LoomEditor.View.Tests.TestHelpers;
 using static LoomEditor.View.Tests.Cursors.TestHelpers.CursorTestHelpers;
 
@@ -340,12 +342,15 @@ public class TabTests
     }
 
     // Monaco: 'removeAutoWhitespace on: removes only whitespace the cursor added 2' (the test registers a language without any
-    // configuration: a plain model behaves the same)
+    // configuration: a plain text model has bracket on-enter rules, so it would indent twice)
     [Fact]
     public void RemoveAutoWhitespaceOnRemovesOnlyWhitespaceTheCursorAdded2()
     {
+        using var languages = new EditorControllerLanguages();
+        languages.Services.RegisterLanguage("testLang");
+        TextModel testModel = languages.CreateTextModel(string.Join('\n', "    if (a) {", "        ", string.Empty, string.Empty, "    }"), "testLang");
         TestCodeEditor.WithTestCodeEditor(
-            string.Join('\n', "    if (a) {", "        ", string.Empty, string.Empty, "    }"),
+            testModel,
             editor =>
             {
                 TextModel model = editor.Model;
@@ -430,6 +435,151 @@ public class TabTests
                 Assert.Equal("    ", model.GetLineContent(3));
                 Assert.Equal(string.Empty, model.GetLineContent(4));
                 Assert.Equal(string.Empty, model.GetLineContent(5));
+            });
+    }
+
+    private static void WithLanguageModel(
+        EditorControllerLanguages languages,
+        string[] lines,
+        string languageId,
+        TextModelOptions options,
+        EditorCursorOptions? cursorOptions,
+        Action<TestCodeEditor, TextModel> callback)
+    {
+        TextModel model = languages.CreateTextModel(string.Join('\n', lines), languageId, options);
+        EditorControllerLanguages.WithTestCodeEditor(
+            model, new TestCodeEditorOptions(CursorOptions: cursorOptions), (editor, _) => callback(editor, model));
+    }
+
+    // Monaco: 'bug #16543: Tab should indent to correct indentation spot immediately'
+    [Fact]
+    public void Bug16543TabShouldIndentToCorrectIndentationSpotImmediately()
+    {
+        using var languages = new EditorControllerLanguages();
+        WithLanguageModel(
+            languages,
+            ["function baz() {", "\tfunction hello() { // something here", "\t", string.Empty, "\t}", "}"],
+            EditorControllerLanguages.IndentRulesLanguageId,
+            new TextModelOptions(insertSpaces: false, indentSize: 4),
+            null,
+            (editor, model) =>
+            {
+                MoveTo(editor.ViewModel, 4, 1);
+                AssertCursor(editor.ViewModel, new Selection(4, 1, 4, 1));
+
+                Tab(editor);
+                Assert.Equal("\t\t", model.GetLineContent(4));
+            });
+    }
+
+    private static void TestBug2938(string line4, int column, string expected)
+    {
+        using var languages = new EditorControllerLanguages();
+        WithLanguageModel(
+            languages,
+            ["\tfunction baz() {", "\t\tfunction hello() { // something here", "\t\t", line4, "\t\t}", "\t}"],
+            EditorControllerLanguages.IndentRulesLanguageId,
+            new TextModelOptions(insertSpaces: false, indentSize: 4),
+            null,
+            (editor, model) =>
+            {
+                MoveTo(editor.ViewModel, 4, column);
+                AssertCursor(editor.ViewModel, new Selection(4, column, 4, column));
+
+                Tab(editor);
+                Assert.Equal(expected, model.GetLineContent(4));
+            });
+    }
+
+    // Monaco: 'bug #2938 (1): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)'
+    [Fact]
+    public void Bug2938Part1() => TestBug2938("\t", 2, "\t\t\t");
+
+    // Monaco: 'bug #2938 (2): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)'
+    [Fact]
+    public void Bug2938Part2() => TestBug2938("    ", 1, "\t\t\t");
+
+    // Monaco: 'bug #2938 (3): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)'
+    [Fact]
+    public void Bug2938Part3() => TestBug2938("\t\t\t", 3, "\t\t\t\t");
+
+    // Monaco: 'bug #2938 (4): When pressing Tab on white-space only lines, indent straight to the right spot (similar to empty lines)'
+    [Fact]
+    public void Bug2938Part4() => TestBug2938("\t\t\t\t", 4, "\t\t\t\t\t");
+
+    // Monaco: 'bug #31015: When pressing Tab on lines and Enter rules are avail, indent straight to the right spotTab'
+    [Fact]
+    public void Bug31015WhenPressingTabOnLinesAndEnterRulesAreAvailIndentStraightToTheRightSpotTab()
+    {
+        using var languages = new EditorControllerLanguages();
+        string onEnterLanguageId = languages.SetupOnEnterLanguage(IndentAction.Indent);
+        WithLanguageModel(
+            languages,
+            ["    if (a) {", "        ", string.Empty, string.Empty, "    }"],
+            onEnterLanguageId,
+            TextModelOptions.Default,
+            null,
+            (editor, model) =>
+            {
+                MoveTo(editor.ViewModel, 3, 1);
+                Tab(editor);
+                Assert.Equal("    if (a) {", model.GetLineContent(1));
+                Assert.Equal("        ", model.GetLineContent(2));
+                Assert.Equal("        ", model.GetLineContent(3));
+                Assert.Equal(string.Empty, model.GetLineContent(4));
+                Assert.Equal("    }", model.GetLineContent(5));
+            });
+    }
+
+    // Monaco: 'issue #38261: TAB key results in bizarre indentation in C++ mode ' (the name ends with a space)
+    [Fact]
+    public void Issue38261TabKeyResultsInBizarreIndentationInCppMode()
+    {
+        using var languages = new EditorControllerLanguages();
+        const string LanguageId = "indentRulesMode";
+        languages.Services.RegisterLanguage(LanguageId);
+        languages.Services.Add(languages.Services.LanguageConfigurationRegistry.Register(LanguageId, new LanguageConfiguration
+        {
+            Brackets = [new("{", "}"), new("[", "]"), new("(", ")")],
+            IndentationRules = new IndentationRule(
+                DecreaseIndentPattern: new System.Text.RegularExpressions.Regex(@"^\s*\}", System.Text.RegularExpressions.RegexOptions.CultureInvariant),
+                IncreaseIndentPattern: new System.Text.RegularExpressions.Regex(@"(^.*\{[^}]*$)", System.Text.RegularExpressions.RegexOptions.CultureInvariant)),
+        }));
+        WithLanguageModel(
+            languages,
+            [
+                "int main() {",
+                "  return 0;",
+                "}",
+                string.Empty,
+                "bool Foo::bar(const string &a,",
+                "              const string &b) {",
+                "  foo();",
+                string.Empty,
+                ")",
+            ],
+            LanguageId,
+            new TextModelOptions(tabSize: 2, indentSize: 2),
+            new EditorCursorOptions { AutoIndent = EditorAutoIndentStrategy.Advanced },
+            (editor, model) =>
+            {
+                MoveTo(editor.ViewModel, 8, 1);
+                AssertCursor(editor.ViewModel, new Selection(8, 1, 8, 1));
+
+                Tab(editor);
+                Assert.Equal(
+                    string.Join(
+                        '\n',
+                        "int main() {",
+                        "  return 0;",
+                        "}",
+                        string.Empty,
+                        "bool Foo::bar(const string &a,",
+                        "              const string &b) {",
+                        "  foo();",
+                        "  ",
+                        ")"),
+                    model.GetValue());
             });
     }
 }

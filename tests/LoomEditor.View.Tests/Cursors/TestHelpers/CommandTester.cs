@@ -5,28 +5,46 @@ using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Cursors.Commands;
+using LoomEditor.View.Tests.TestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors.TestHelpers;
 
 /// <summary>Helpers to test an <see cref="IEditCommand"/> (Monaco: <c>testCommand</c> and <c>getEditOperation</c>).</summary>
 /// <remarks>
-/// <see cref="TestCommand"/> runs the command through <see cref="CommandExecutor"/> directly. Monaco runs it through a
+/// <c>TestCommand</c> runs the command through <see cref="CommandExecutor"/> directly. Monaco runs it through a
 /// view model; with one cursor and one command the result is the same.
 /// </remarks>
 internal static class CommandTester
 {
-    /// <summary>Runs <paramref name="commandFactory"/>'s command on a model made of <paramref name="lines"/> and checks the lines and the selection.</summary>
+    /// <summary>Runs <paramref name="commandFactory"/>'s command on a model without language.</summary>
     public static void TestCommand(
         string[] lines,
         Selection selection,
         Func<Selection, IEditCommand> commandFactory,
         string[] expectedLines,
         Selection expectedSelection,
-        TextModelOptions? options = null)
-    {
-        var model = new TextModel(string.Join('\n', lines), options: options);
+        TextModelOptions? options = null) =>
+        TestCommand(lines, selection, (_, sel) => commandFactory(sel), expectedLines, expectedSelection, options);
 
-        IEditCommand command = commandFactory(selection);
+    /// <summary>
+    /// Runs <paramref name="commandFactory"/>'s command on a model made of <paramref name="lines"/> and checks the lines and the
+    /// selection (Monaco: <c>testCommand</c>; the services are its <c>accessor</c>, <paramref name="prepare"/> registers the languages).
+    /// </summary>
+    public static void TestCommand(
+        string[] lines,
+        Selection selection,
+        Func<TestEditorServices, Selection, IEditCommand> commandFactory,
+        string[] expectedLines,
+        Selection expectedSelection,
+        TextModelOptions? options = null,
+        string? languageId = null,
+        Action<TestEditorServices>? prepare = null)
+    {
+        using var services = new TestEditorServices();
+        prepare?.Invoke(services);
+        TextModel model = services.CreateTextModel(string.Join('\n', lines), languageId, options);
+
+        IEditCommand command = commandFactory(services, selection);
         IReadOnlyList<Selection>? result = CommandExecutor.ExecuteCommands(model, [selection], [command]);
 
         Assert.Equal(expectedLines, model.GetLinesContent());

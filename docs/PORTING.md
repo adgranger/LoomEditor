@@ -182,7 +182,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/editorCommon.ts` (`ICommand`, `IEditOperationBuilder`, `ICursorStateComputerData`) | `LoomEditor.View/Cursors/Commands/` | ✅ ported (P3-14): `ICommand` is `IEditCommand` |
 | `editor/common/cursor/cursor.ts` (`CommandExecutor`) | `LoomEditor.View/Cursors/CommandExecutor*.cs` | ✅ ported (P3-14); `Cursor` and `CursorCollection` are ported (P3-16), `CursorsController` is in `CursorsController*.cs` |
 | `editor/common/commands/replaceCommand.ts` | `LoomEditor.View/Cursors/Commands/ReplaceCommand.cs` | ✅ ported (P3-15); the overtype commands are not reachable in phase 3 |
-| `editor/common/commands/shiftCommand.ts` | `LoomEditor.View/Cursors/Commands/ShiftCommand.cs` | ✅ ported (P3-31) except the enter-action re-alignment (cut point, lines 144–176: phases 4–5) |
+| `editor/common/commands/shiftCommand.ts` | `LoomEditor.View/Cursors/Commands/ShiftCommand.cs` | ✅ ported (P3-31, enter-action re-alignment P5-40) |
 | `editor/common/commands/columnSelectionPasteCommand.ts` | `LoomEditor.View/Cursors/Commands/ColumnSelectionPasteCommand.cs` | ✅ ported (P3-35) |
 | `editor/contrib/multicursor/browser/multicursor.ts` | `LoomEditor.View/Features/MultiCursor/` | 🔶 without Find (P3-38): add cursor above/below, cursors at line ends, to top/bottom, focus next/previous cursor. `addSelectionToNextFindMatch`, `selectHighlights`, `changeAll`, `MultiCursorSession`, `SelectionHighlighter` are phase 5 |
 | `editor/browser/controller/editContext/native/nativeEditContext.ts` | `LoomEditor.View/Controller/EditContextState.cs`, `EditContextModel.cs` | 🔶 text, selection and type data (P3-50): `_getNewEditContextState`, `_updateEditContext`, the surrogate buffering of `textupdate`, `_emitTypeEvent`, `_onType`. Only the primary selection is exposed to the IME, as in Monaco (`CompositionType` still applies to all cursors). The WinUI side is `LoomEditor.WinUI/Input/ImeInput.cs` (P3-51): `CoreTextEditContext` text, selection, update and composition events, `Notify*` calls queued on the dispatcher; `EditContextModel.OnSelectionUpdate` answers `SelectionUpdating`. `LayoutRequested` gives the screen-pixel bounds of the primary selection (P3-52, `ScreenCoordinates`, `NativeMethods.ClientToScreen`), refreshed with `NotifyLayoutChanged` on scroll, size, DPI and window moves. `FormatUpdating` gives the underlines (P3-53): `EditContextModel.ToCompositionFormats` → `ViewModel.CompositionFormats`, drawn by `TextViewRenderer.Composition.cs` with `EditorTheme.CompositionBorder` |
@@ -340,7 +340,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursorMoveCommand.test.ts` | 47 / 55 | suite `Cursor move command - foldedLine unit` (8): needs `setHiddenAreas` (folding, phase 5) |
 | `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 73 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6). The 6 column selection tests are ported in P3-28 (`ColumnSelectionTests`). `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
 | `wordOperations.test.ts` | 53 / 56 | `cursorWordLeft - Recognize words` and `cursorWordRight - Recognize words` (2): need `Intl.Segmenter` (not available); `deleteWordLeft - issue #91855` (1): needs auto-closing pairs (phase 4–5) |
-| `shiftCommand.test.ts` | 23 / 25 | `issue #348`, `issue #1609`: need a language with doc-block on-enter rules (phases 4–5) |
+| `shiftCommand.test.ts` | 25 / 25 | `issue #348`, `issue #1609` are ported in P5-40 with `DocBlockCommentMode` |
 | `wordPartOperations.test.ts` | 15 / 15 | |
 | `cursor.test.ts` (`issue #832: word right`) | 1 / 1 | runs `CursorMoveCommands.Word` directly (the `WordSelect` mouse commands are P3-44) |
 | `cursor.test.ts` (mouse commands: `issue #33788`, `issue #12887`, `Double-click on punctuation...`, `issue #7100`, `issue #112039`, `issue #158236`) | 6 / 6 | `MouseCommandTests` (P3-44) |
@@ -355,6 +355,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursor.test.ts` (`issue #44805: Should not be able to undo in readonly editor`) | 1 / 1 | |
 | `cursor.test.ts` (`Editor Controller`: `issue #46314: ViewModel is out of sync with Model!`; setup of the five test languages and helpers in `EditorControllerLanguages`) | 1 / 1 | `EditorControllerTokensTests` (P5-37); the typing tests in these languages are P5-39 … P5-46 |
 | `cursor.test.ts` (`Editor Controller`: on-enter and indentation rules on Enter, 28 tests) | 28 / 28 | `OnEnterTests` (P5-39); `indentNextLinePattern 2` and `Type honors decreaseIndentPattern` are with the typing tests (P5-45) |
+| `cursor.test.ts` (`Editor Controller`: Tab: `bug #16543`, `bug #2938` 1-4, `bug #31015`, `issue #38261`) | 7 / 7 | `TabTests` (P5-40); `removeAutoWhitespace on ... 2` now runs in a registered language without configuration (a plain text model has bracket on-enter rules) |
 | `multicursor.test.ts` | 2 / 76 | `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); the 73 tests of `Multicursor selection` and below need Find (phase 5) |
 | `bracketMatching.test.ts` | 7 / 7 | |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
@@ -409,10 +410,8 @@ from this list (every place is marked `// Phase 4–5 cut point` in the code).
 | Where (LoomEditor) | Monaco (pinned commit) | What is missing |
 |---|---|---|
 | `Cursors/TypeOperations.cs` | `cursorTypeEditOperations.ts` 29–113, 115–152, 154–404, 421–478, 480–546; 591–656 | auto-indent on type, auto-closing overtype and open characters, surround selection, electric characters; the composition-as-surround check |
-| `Cursors/TypeEditOperations.Tab.cs` | `cursorTypeEditOperations.ts` 877–916 (`_goodIndentForLine`) | smart Tab (`getInheritIndentForLine`, `getEnterAction`) |
 | `Cursors/DeleteOperations.cs`, `DeleteWordContext.cs`, `WordOperations.Delete.cs`, `Features/WordOperations/DeleteWordCommand.cs` | `cursorDeleteOperations.ts` 167–169; `cursorWordOperations.ts` | auto-closing pair delete, `autoClosingPairs` for word deletes |
 | `Cursors/CursorConfiguration.cs`, `AutoClosedAction.cs`, `CursorsController.Edits.cs` | `cursorCommon.ts`; `cursor.ts` 682–748 | auto-closed characters (need model decorations) and the `"snippet"` source |
-| `Cursors/Commands/ShiftCommand.cs` | `shiftCommand.ts` 144–176 | enter action of the previous line (doc blocks) |
 | `Controller/ViewController.cs` | `viewController.ts` (`_trySelectBracketContent`, string content) | done (P5-36): double-click on a bracket or string selects its content |
 | `Layout/RevealCalculator.cs` | `viewLines.ts` reveal | sticky scroll lines |
 
