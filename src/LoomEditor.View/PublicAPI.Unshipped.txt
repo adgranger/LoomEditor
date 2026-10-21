@@ -3,6 +3,14 @@ const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.
 const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.RemoveCommentLine = "editor.action.removeCommentLine" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.ChangeTabDisplaySize = "editor.action.changeTabDisplaySize" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.DetectIndentation = "editor.action.detectIndentation" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.IndentationToSpaces = "editor.action.indentationToSpaces" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.IndentationToTabs = "editor.action.indentationToTabs" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingSpaces = "editor.action.indentUsingSpaces" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingTabs = "editor.action.indentUsingTabs" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentLines = "editor.action.reindentlines" -> string!
+const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentSelectedLines = "editor.action.reindentselectedlines" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToBottom = "editor.action.addCursorsToBottom" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToTop = "editor.action.addCursorsToTop" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.FocusNextCursor = "editor.action.focusNextCursor" -> string!
@@ -86,6 +94,12 @@ LoomEditor.View.Features.IEditorContext.SetSelections(System.Collections.Generic
 LoomEditor.View.Features.IEditorFeature
 LoomEditor.View.Features.IEditorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
 LoomEditor.View.Features.IEditorFeature.Id.get -> string!
+LoomEditor.View.Features.Indentation.IndentationCommands
+LoomEditor.View.Features.Indentation.IndentationFeature
+LoomEditor.View.Features.Indentation.IndentationFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.Indentation.IndentationFeature.Dispose() -> void
+LoomEditor.View.Features.Indentation.IndentationFeature.Id.get -> string!
+LoomEditor.View.Features.Indentation.IndentationFeature.IndentationFeature() -> void
 LoomEditor.View.Features.MultiCursor.MultiCursorCommands
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void

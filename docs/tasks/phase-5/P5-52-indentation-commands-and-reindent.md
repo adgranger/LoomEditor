@@ -1,6 +1,6 @@
 # P5-52 — Indentation: convert indentation commands and reindent edits
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-51
 - **Size:** M
 
@@ -60,24 +60,24 @@ language's indentation rules). The `Indentation` feature folder exists with its 
 
 ## Tests
 
-- [ ] Port `Change Indentation to Spaces - TypeScript/Javascript` › `single tabs only at start of line`, `multiple tabs at start of line`, `multiple tabs`, `empty lines`
-- [ ] Port `Change Indentation to Tabs -  TypeScript/Javascript` › `spaces only at start of line`, `multiple spaces at start of line`, `multiple spaces`, `issue #45996`
-- [ ] New (Monaco has no test for it): `GetReindentEditOperations_JavaScriptRules_IndentsTheBodyOfABlock`
+- [x] Port `Change Indentation to Spaces - TypeScript/Javascript` › `single tabs only at start of line`, `multiple tabs at start of line`, `multiple tabs`, `empty lines`
+- [x] Port `Change Indentation to Tabs -  TypeScript/Javascript` › `spaces only at start of line`, `multiple spaces at start of line`, `multiple spaces`, `issue #45996`
+- [x] New (Monaco has no test for it): `GetReindentEditOperations_JavaScriptRules_IndentsTheBodyOfABlock`
       (P5-16's `TestLanguages.RegisterLanguageConfiguration(registry, TestLanguages.TypeScript)` and
       `TestLanguages.CreateTextModel`, linked into the View tests by P5-37; `"function f() {\nfoo();\n}"` → one edit on
       line 2 to 4 spaces)
-- [ ] New: `GetReindentEditOperations_NoIndentationRules_ReturnsNoEdit`; `GetReindentEditOperations_EmptyModel_ReturnsNoEdit`
-- [ ] New: `GetReindentEditOperations_ClosingBraceLine_IsOutdented` (`"{\n    a\n    }"` → line 3 to no indentation)
-- [ ] New: `IndentUtils_GenerateIndent_NegativeCount_ReturnsEmpty`; `GetSpaceCnt_TabCountsTabSize`
+- [x] New: `GetReindentEditOperations_NoIndentationRules_ReturnsNoEdit`; `GetReindentEditOperations_EmptyModel_ReturnsNoEdit`
+- [x] New: `GetReindentEditOperations_ClosingBraceLine_IsOutdented` (`"{\n    a\n    }"` → line 3 to no indentation)
+- [x] New: `IndentUtils_GenerateIndent_NegativeCount_ReturnsEmpty`; `GetSpaceCnt_TabCountsTabSize`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `contrib/indentation/common/indentUtils.ts`, `contrib/indentation/common/indentation.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `contrib/indentation/common/indentUtils.ts`, `contrib/indentation/common/indentation.ts`
       (✅, P5-52), `contrib/indentation/browser/indentation.ts` (🔶 commands only, P5-52); tests table
       `indentation.test.ts` 8 / 85 so far
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
