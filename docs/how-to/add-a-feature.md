@@ -5,6 +5,9 @@ Each feature lives in **one folder** and is enabled by **one line** in `EditorFe
 You should not need to touch any other file.
 
 This guide builds a complete example: **Duplicate line** (`editor.action.copyLinesDownAction` in Monaco).
+This guide is an example. The real command ships in `src/LoomEditor.View/Features/LinesOperations/`
+(`editor.action.copyLinesDownAction`). If you type the example in, give it the id `loom.example.duplicateLine`:
+command ids are unique and `CommandRegistry.Register` throws on a duplicate.
 For the smallest real feature, look at `src/LoomEditor.View/Features/SelectAll/`.
 
 ## 1. Create the folder

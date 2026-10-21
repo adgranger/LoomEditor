@@ -128,6 +128,14 @@ internal static class DefaultKeybindings
             new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), "editor.action.removeCommentLine", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyU)));
         Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.KeyA, "editor.action.blockComment", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
 
+        // linesOperations.ts (Contrib): copy and move lines (the Linux override of the copy keys does not apply) and trim trailing whitespace (Ctrl+K Ctrl+X).
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.UpArrow, "editor.action.copyLinesUpAction", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.DownArrow, "editor.action.copyLinesDownAction", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Alt, KeyCode.UpArrow, "editor.action.moveLinesUpAction", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Alt, KeyCode.DownArrow, "editor.action.moveLinesDownAction", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), "editor.action.trimTrailingWhitespace", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyX)));
+
         // clipboard.ts (Contrib): no when. Windows overrides cut and copy with a secondary key; paste has Shift+Insert only on Linux.
         Add(KeyModifiers.Ctrl, KeyCode.KeyX, ClipboardCut, null, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift, KeyCode.Delete, ClipboardCut, null, KeybindingWeight.EditorContrib);

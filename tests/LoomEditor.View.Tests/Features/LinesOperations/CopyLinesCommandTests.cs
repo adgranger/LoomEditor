@@ -1,6 +1,7 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Tests.Cursors.TestHelpers;
+using LoomEditor.View.Tests.TestHelpers;
 
 namespace LoomEditor.View.Tests.Features.LinesOperations;
 
@@ -78,4 +79,30 @@ public class CopyLinesCommandTests
             new Selection(2, 1, 1, 1),
             ["first", "first", "second line", "third line", "fourth line", "fifth"],
             new Selection(2, 1, 1, 1));
+
+    // Monaco: suite 'Editor Contrib - Duplicate Selection'
+    private static void TestDuplicateSelectionAction(Selection[] selections, string[] expectedLines, Selection[] expectedSelections) =>
+        TestCodeEditor.WithTestCodeEditor(string.Join('\n', Lines), editor =>
+        {
+            editor.ViewModel.SetSelections(null, selections);
+            LinesOperationsActions.DuplicateSelection(editor.ViewModel);
+            Assert.Equal(string.Join('\n', expectedLines), editor.Model.GetValue());
+            Assert.Equal(expectedSelections, editor.ViewModel.GetSelections());
+        });
+
+    // Monaco: 'Duplicate Selection' › 'empty selection'
+    [Fact]
+    public void DuplicateSelection_EmptySelection() =>
+        TestDuplicateSelectionAction(
+            [new Selection(2, 2, 2, 2), new Selection(3, 2, 3, 2)],
+            ["first", "second line", "second line", "third line", "third line", "fourth line", "fifth"],
+            [new Selection(3, 2, 3, 2), new Selection(5, 2, 5, 2)]);
+
+    // Monaco: 'Duplicate Selection' › 'with selection'
+    [Fact]
+    public void DuplicateSelection_WithSelection() =>
+        TestDuplicateSelectionAction(
+            [new Selection(2, 1, 2, 4), new Selection(3, 1, 3, 4)],
+            ["first", "secsecond line", "thithird line", "fourth line", "fifth"],
+            [new Selection(2, 4, 2, 7), new Selection(3, 4, 3, 7)]);
 }
