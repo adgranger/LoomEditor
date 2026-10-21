@@ -38,6 +38,7 @@ public class DefaultKeybindingsTests
                 KeybindingRule a = rules[i];
                 KeybindingRule b = rules[j];
                 if (a.Keybinding == b.Keybinding
+                    && a.Chord == b.Chord
                     && a.Weight == b.Weight
                     && a.CommandId != b.CommandId
                     && contexts.Exists(c => (a.When?.Invoke(c) ?? true) && (b.When?.Invoke(c) ?? true)))

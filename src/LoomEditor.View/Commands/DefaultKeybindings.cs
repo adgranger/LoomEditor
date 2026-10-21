@@ -120,6 +120,14 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.Backslash, "editor.action.jumpToBracket", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.Backspace, "editor.action.removeBrackets", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
 
+        // comment.ts (Contrib): the chords are Ctrl+K then Ctrl+C or Ctrl+U; the block comment has a Linux override that does not apply.
+        rules.Add(new KeybindingRule(new Keybinding(KeyModifiers.Ctrl, KeyCode.Slash), "editor.action.commentLine", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib));
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), "editor.action.addCommentLine", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyC)));
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), "editor.action.removeCommentLine", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyU)));
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.KeyA, "editor.action.blockComment", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+
         // clipboard.ts (Contrib): no when. Windows overrides cut and copy with a secondary key; paste has Shift+Insert only on Linux.
         Add(KeyModifiers.Ctrl, KeyCode.KeyX, ClipboardCut, null, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift, KeyCode.Delete, ClipboardCut, null, KeybindingWeight.EditorContrib);
