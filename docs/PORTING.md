@@ -405,7 +405,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `base/test/common/scrollable.test.ts` (`SmoothScrollingOperation`) | 5 / 5 | |
 | `editor/test/common/viewLayout/lineHeights.test.ts` (`LineHeightsManager`, `LineHeightsManager (auto-commit on read)`) | 38 / 38 | |
 | `editor/contrib/comment/test/browser/blockCommentCommand.test.ts` (`Editor Contrib - Block Comment Command`) | 12 / 12 | `BlockCommentCommandTests` (P5-48) |
-| `editor/contrib/comment/test/browser/lineCommentCommand.test.ts` (`Editor Contrib - Line Comment Command`) | 24 / 39 | `LineCommentCommandTests` (P5-49); the other 15 tests are P5-50 |
+| `editor/contrib/comment/test/browser/lineCommentCommand.test.ts` (suites `Editor Contrib - Line Comment Command`, `ignoreEmptyLines false`, `Line Comment As Block Comment` 1 and 2, `Line Comment in mixed modes`) | 39 / 39 | `LineCommentCommandTests` (24, P5-49), `.BlockFallback.cs` (12) and `.MixedModes.cs` (3) (P5-50) |
 | `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 12 / 12 | |
 | `base/test/browser/ui/scrollbar/scrollableElement.test.ts` (`MouseWheelClassifier`) | 9 / 9 | |
 | `editor/test/browser/config/editorLayoutProvider.test.ts` (`Editor ViewLayout - EditorLayoutProvider`) | 10 / 20 | the 8 minimap tests (`EditorLayoutProvider 9` … `14`) and the 2 word-wrap tests (`issue #31312`, `leaves the rightmost column…`): minimap and word wrap are phase 6. The 10 ported ones are `EditorLayoutProvider 1` … `8 - rounds floats` |
