@@ -64,9 +64,9 @@ public sealed partial class LoomEditor
             return null;
         }
 
-        var selection = _viewModel.GetSelections()[0].Range;
+        var selection = _viewModel.GetViewSelections()[0].Range;
         int lineNumber = selection.StartLineNumber;
-        int endColumn = selection.EndLineNumber == lineNumber ? selection.EndColumn : _context.Model.GetLineMaxColumn(lineNumber);
+        int endColumn = selection.EndLineNumber == lineNumber ? selection.EndColumn : _viewModel.GetLineMaxColumn(lineNumber);
         if (!_renderer.TryGetHorizontalRange(_viewModel, lineNumber, selection.StartColumn, endColumn, out double left, out double width))
         {
             return null;

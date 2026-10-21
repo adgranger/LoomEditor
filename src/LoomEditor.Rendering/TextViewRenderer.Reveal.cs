@@ -23,16 +23,16 @@ internal sealed partial class TextViewRenderer
 
         left = 0;
         width = 0;
-        if (lineNumber < 1 || lineNumber > viewModel.Model.LineCount)
+        if (lineNumber < 1 || lineNumber > viewModel.GetLineCount())
         {
             return false;
         }
 
-        int lineLength = viewModel.Model.GetLineLength(lineNumber);
+        int lineLength = viewModel.GetLineLength(lineNumber);
         // Same text as `Render`, so the layout is the one in the cache. A very long line is cut: clamp to its end.
         string text = lineLength > StopRenderingLineAfter
-            ? viewModel.Model.GetValueInRange(new Range(lineNumber, 1, lineNumber, StopRenderingLineAfter + 1))
-            : viewModel.Model.GetLineContent(lineNumber);
+            ? viewModel.GetLineContent(lineNumber)[..StopRenderingLineAfter]
+            : viewModel.GetLineContent(lineNumber);
         ILineLayout layout = _cache.Get(text);
 
         left = layout.GetCharacterX(Math.Clamp(startColumn - 1, 0, text.Length));

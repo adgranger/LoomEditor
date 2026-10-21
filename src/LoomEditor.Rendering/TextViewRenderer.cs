@@ -1,4 +1,3 @@
-using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Themes;
 using LoomEditor.View.Layout;
@@ -109,7 +108,6 @@ internal sealed partial class TextViewRenderer : IDisposable
         RenderedEndLineNumber = data.EndLineNumber;
         EditorLayoutInfo layoutInfo = viewModel.LayoutInfo;
         FontInfo font = _measurer.FontInfo;
-        TextModel model = viewModel.Model;
 
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
         // Two layouts per visible line (number and text), plus the labels of very long lines.
@@ -127,17 +125,17 @@ internal sealed partial class TextViewRenderer : IDisposable
         for (int i = 0; i < lineCount; i++)
         {
             int lineNumber = data.StartLineNumber + i;
-            int lineLength = model.GetLineLength(lineNumber);
+            int lineLength = viewModel.GetLineLength(lineNumber);
             bool isOverflowing = lineLength > StopRenderingLineAfter;
             // Never read a whole very long line during a frame: only the part that is drawn.
             string text = isOverflowing
-                ? model.GetValueInRange(new Range(lineNumber, 1, lineNumber, StopRenderingLineAfter + 1))
-                : model.GetLineContent(lineNumber);
+                ? viewModel.GetLineContent(lineNumber)[..StopRenderingLineAfter]
+                : viewModel.GetLineContent(lineNumber);
 
             // The renderer only reads tokens: the model or the background worker tokenizes.
             LineStyle style = LineStyle.Create(
                 data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
-                GetStyleOverrides(data, lineNumber, model.GetLineMaxColumn(lineNumber), text.Length));
+                GetStyleOverrides(data, lineNumber, viewModel.GetLineMaxColumn(lineNumber), text.Length));
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
@@ -210,7 +208,7 @@ internal sealed partial class TextViewRenderer : IDisposable
 
         // The gutter hides the text that is scrolled under it.
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
-        DrawGutter(surface, data, layoutInfo, cursorLines, selections[0].PositionLineNumber, hasFocus, topShift, font);
+        DrawGutter(surface, viewModel, data, layoutInfo, cursorLines, selections, hasFocus, topShift, font);
 
         UpdateMaxLineWidth(viewModel, data, widestLine);
     }
@@ -221,7 +219,7 @@ internal sealed partial class TextViewRenderer : IDisposable
     // Monaco: `_updateLineWidths` (the rendered lines are always measured) and `_ensureMaxLineWidth`.
     private void UpdateMaxLineWidth(ViewModel viewModel, ViewportData data, double localMaxLineWidth)
     {
-        if (data.StartLineNumber == 1 && data.EndLineNumber == viewModel.Model.LineCount)
+        if (data.StartLineNumber == 1 && data.EndLineNumber == viewModel.GetLineCount())
         {
             // We know the max line width for all the lines.
             _maxLineWidth = 0;

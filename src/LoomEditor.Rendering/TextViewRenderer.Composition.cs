@@ -19,7 +19,7 @@ internal sealed partial class TextViewRenderer
             }
 
             float thickness = format.Underline == CompositionUnderline.Primary ? 2 : 1;
-            Range range = format.Range;
+            Range range = viewModel.CoordinatesConverter.ConvertModelRangeToViewRange(format.Range);
             int firstLine = Math.Max(range.StartLineNumber, data.StartLineNumber);
             int lastLine = Math.Min(range.EndLineNumber, data.EndLineNumber);
             for (int lineNumber = firstLine; lineNumber <= lastLine; lineNumber++)

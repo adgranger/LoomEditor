@@ -61,9 +61,12 @@ internal sealed partial class TextViewRenderer
     // Monaco: `LineNumbersOverlay.prepareRender` with `RenderLineNumbersType.On` and `renderFinalNewline = on`
     // (every line has its number, including the last empty one).
     private void DrawGutter(
-        IRenderSurface surface, ViewportData data, EditorLayoutInfo layoutInfo, HashSet<int> cursorLines, int activeLineNumber, bool hasFocus,
+        IRenderSurface surface, ViewModel viewModel, ViewportData data, EditorLayoutInfo layoutInfo, HashSet<int> cursorLines, IReadOnlyList<Selection> selections, bool hasFocus,
         int topShift, FontInfo font)
     {
+        // Monaco: `onCursorStateChanged` keeps the model line of the primary cursor.
+        int activeLineNumber = viewModel.CoordinatesConverter.ConvertViewPositionToModelPosition(
+            new Position(selections[0].PositionLineNumber, selections[0].PositionColumn)).LineNumber;
         bool highlightMargin = ShouldRenderHighlightInMargin(hasFocus);
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
         List<string>[] marginDecorations = RenderDedup(data.StartLineNumber, data.EndLineNumber, GetMarginDecorations(data));
@@ -88,10 +91,18 @@ internal sealed partial class TextViewRenderer
                 DrawDecorationBox(surface, className, layoutInfo.DecorationsLeft, top, layoutInfo.DecorationsWidth, font.LineHeight);
             }
 
-            ILineLayout number = _cache.Get(lineNumber.ToString(CultureInfo.InvariantCulture));
+            // Monaco: `_getLineRenderLineNumber`: an empty number for the continuation of a wrapped model line.
+            Position modelPosition = viewModel.CoordinatesConverter.ConvertViewPositionToModelPosition(new Position(lineNumber, 1));
+            if (modelPosition.Column != 1)
+            {
+                continue;
+            }
+
+            int modelLineNumber = modelPosition.LineNumber;
+            ILineLayout number = _cache.Get(modelLineNumber.ToString(CultureInfo.InvariantCulture));
             float x = layoutInfo.LineNumbersLeft + layoutInfo.LineNumbersWidth - (float)number.Width;
             surface.DrawLineLayout(
-                number, x, top, lineNumber == activeLineNumber ? Theme.LineNumberActiveForeground : Theme.LineNumberForeground);
+                number, x, top, modelLineNumber == activeLineNumber ? Theme.LineNumberActiveForeground : Theme.LineNumberForeground);
         }
     }
 }

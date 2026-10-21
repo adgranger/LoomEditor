@@ -173,7 +173,7 @@ internal sealed class MouseDownOperation : IDisposable
             double verticalOffset = viewLayout.GetCurrentScrollTop() + e.Y;
             int belowLineNumber = viewLayout.GetLineNumberAtVerticalOffset((int)verticalOffset);
             return MouseTarget.CreateOutsideEditor(
-                mouseColumn, new Position(belowLineNumber, _viewModel.Model.GetLineMaxColumn(belowLineNumber)), OutsidePosition.Below, outsideDistance);
+                mouseColumn, new Position(belowLineNumber, _viewModel.GetLineMaxColumn(belowLineNumber)), OutsidePosition.Below, outsideDistance);
         }
 
         int possibleLineNumber = viewLayout.GetLineNumberAtVerticalOffset((int)(viewLayout.GetCurrentScrollTop() + e.Y));
@@ -191,7 +191,7 @@ internal sealed class MouseDownOperation : IDisposable
         {
             double outsideDistance = e.X - xRightBoundary;
             return MouseTarget.CreateOutsideEditor(
-                mouseColumn, new Position(possibleLineNumber, _viewModel.Model.GetLineMaxColumn(possibleLineNumber)), OutsidePosition.Right, outsideDistance);
+                mouseColumn, new Position(possibleLineNumber, _viewModel.GetLineMaxColumn(possibleLineNumber)), OutsidePosition.Right, outsideDistance);
         }
 
         return null;
