@@ -190,6 +190,10 @@ internal sealed partial class PieceTreeTextBuffer : ITextBuffer
     public string GetLineContent(int lineNumber) => _pieceTree.GetLineContent(lineNumber);
 
     /// <inheritdoc />
+    public List<Search.FindMatch> FindMatchesLineByLine(Range searchRange, Search.SearchData searchData, bool captureMatches, int limitResultCount) =>
+        _pieceTree.FindMatchesLineByLine(searchRange, searchData, captureMatches, limitResultCount);
+
+    /// <inheritdoc />
     public char GetLineCharCode(int lineNumber, int index) => _pieceTree.GetLineCharCode(lineNumber, index);
 
     /// <inheritdoc />

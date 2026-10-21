@@ -1,6 +1,6 @@
 # P5-64 — Piece tree search and `TextModel.FindMatches / FindNextMatch / FindPreviousMatch`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-63
 - **Size:** M
 
@@ -63,23 +63,23 @@ path that searches a plain-text query directly in the pieces of the piece tree (
 
 ## Tests
 
-- [ ] Port suite `chunk based search` (3): `#45892. For some cases, the buffer is empty but we still try to search`,
+- [x] Port suite `chunk based search` (3): `#45892. For some cases, the buffer is empty but we still try to search`,
       `#45770. FindInNode should not cross node boundary.`, `search searching from the middle`. Build buffers with
       `TestTextBuffers.Create(...)` (P1-09), `new SearchData(new Regex("abc"), WordCharacterClassifierCache.Get(",./", []), "abc")`.
       `/\[/gi` → `new Regex(@"\[", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)`.
-- [ ] New: `FindMatches_OverlappingScopes_AreMergedAndSearchedOnce`, `FindMatches_UnsortedScopes_ResultsInDocumentOrder`,
+- [x] New: `FindMatches_OverlappingScopes_AreMergedAndSearchedOnce`, `FindMatches_UnsortedScopes_ResultsInDocumentOrder`,
       `FindMatches_PlainText_UsesPieceTreeAndEqualsTextModelSearch` (same ranges as `TextModelSearch.FindMatches` on a
       buffer built from 3 chunks), `FindMatches_DefaultLimit_Is999`, `FindNextMatch_PastLastMatch_WrapsToTop`,
       `FindPreviousMatch_BeforeFirstMatch_WrapsToBottom`, `TryNodeAt2_EmptyBuffer_ReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows `pieceTreeBase.ts` and `pieceTreeTextBuffer.ts` ✅ (search P5-64), `textModel.ts` (+ find);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows `pieceTreeBase.ts` and `pieceTreeTextBuffer.ts` ✅ (search P5-64), `textModel.ts` (+ find);
       `ITextBuffer` difference row without "no `findMatchesLineByLine` yet"; behavior difference of `findMatchesInNode`;
       tests table `pieceTreeTextBuffer.test.ts` 87 / 87; remove the "Search in the piece tree is deferred" sentence
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

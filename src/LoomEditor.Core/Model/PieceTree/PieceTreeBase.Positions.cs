@@ -381,12 +381,16 @@ internal sealed partial class PieceTreeBase
     /// <exception cref="ArgumentOutOfRangeException">
     /// The position is outside the document (Monaco returns <c>null</c> and fails later).
     /// </exception>
-    internal NodePosition NodeAt2(int lineNumber, int column)
+    internal NodePosition NodeAt2(int lineNumber, int column) =>
+        TryNodeAt2(lineNumber, column) ?? throw new ArgumentOutOfRangeException(
+            nameof(lineNumber),
+            $"The position ({lineNumber}, {column}) is outside the document.");
+
+    /// <summary>Like <see cref="NodeAt2"/>, but returns <c>null</c> where Monaco does (a position past the end).</summary>
+    internal NodePosition? TryNodeAt2(int lineNumber, int column)
     {
         TreeNode x = _tree.Root;
         TreeNode sentinel = _tree.Sentinel;
-        int originalLineNumber = lineNumber;
-        int originalColumn = column;
         int nodeStartOffset = 0;
 
         while (!ReferenceEquals(x, sentinel))
@@ -444,9 +448,7 @@ internal sealed partial class PieceTreeBase
             x = _tree.Next(x);
         }
 
-        throw new ArgumentOutOfRangeException(
-            nameof(lineNumber),
-            $"The position ({originalLineNumber}, {originalColumn}) is outside the document.");
+        return null;
     }
 
     /// <summary>Character at <paramref name="offset"/> in the piece of <paramref name="node"/>, or -1 if the piece has no line feed (Monaco: <c>nodeCharCodeAt</c>).</summary>
