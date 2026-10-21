@@ -21,8 +21,11 @@ internal sealed class KeyboardInput(CommandRegistry commands)
     private readonly KeybindingDispatcher _dispatcher = new(KeybindingResolver.Default);
 
     /// <summary>Runs the command bound to <paramref name="key"/> (with the current modifiers), if any.</summary>
+    /// <param name="key">The key.</param>
+    /// <param name="context">The editor state the keybindings' conditions read.</param>
+    /// <param name="filter">When given, only a command whose id it accepts runs; any other key press is left unhandled (and never starts a chord).</param>
     /// <returns>True if the key press was handled (a command ran, or a chord is in progress); the key event should then be marked as handled.</returns>
-    public bool TryHandle(VirtualKey key, KeybindingContext context)
+    public bool TryHandle(VirtualKey key, KeybindingContext context, Func<string, bool>? filter = null)
     {
         if (KeyMapping.ToKeyCode(key) is not { } keyCode)
         {
@@ -36,6 +39,24 @@ internal sealed class KeyboardInput(CommandRegistry commands)
             return false;
         }
 
+        bool handled = _dispatcher.Dispatch(new Keybinding(CurrentModifiers(), keyCode), context, out string? commandId);
+        if (filter is not null && (commandId is null ? handled : !filter(commandId)))
+        {
+            _dispatcher.LeaveChordMode();
+            return false;
+        }
+
+        if (commandId is not null)
+        {
+            commands.Execute(commandId);
+        }
+
+        return handled;
+    }
+
+    /// <summary>The modifier keys that are down now.</summary>
+    public static KeyModifiers CurrentModifiers()
+    {
         KeyModifiers modifiers = KeyModifiers.None;
         if (IsDown(VirtualKey.Control))
         {
@@ -57,13 +78,7 @@ internal sealed class KeyboardInput(CommandRegistry commands)
             modifiers |= KeyModifiers.Meta;
         }
 
-        bool handled = _dispatcher.Dispatch(new Keybinding(modifiers, keyCode), context, out string? commandId);
-        if (commandId is not null)
-        {
-            commands.Execute(commandId);
-        }
-
-        return handled;
+        return modifiers;
     }
 
     /// <summary>Forgets the first key press of a chord, e.g. when the editor loses focus.</summary>

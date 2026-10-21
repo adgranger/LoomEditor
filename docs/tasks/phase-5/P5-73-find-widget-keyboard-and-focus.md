@@ -1,6 +1,6 @@
 # P5-73 — The find widget: keyboard and focus routing
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-72
 - **Size:** M
 
@@ -81,12 +81,12 @@ No WinUI test project; the routing table is tested in P5-71. **Manual check by t
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] `docs/PORTING.md`: map row `findWidget.ts` (+ keyboard and focus, P5-73); behavior difference "Up/Down in a
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] `docs/PORTING.md`: map row `findWidget.ts` (+ keyboard and focus, P5-73); behavior difference "Up/Down in a
       multi-line find box move the caret only (no history)"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

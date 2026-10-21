@@ -3,8 +3,8 @@
 Keyboard, mouse/pointer, clipboard and IME (Input Method Editor, for Chinese/Japanese/Korean input) handling.
 Input handlers translate WinUI events into **commands** (by id) or calls on the view model; they never change the text directly.
 
-- `KeyboardInput` turns a key press and the modifiers into a `Keybinding`, resolves it with
-  `KeybindingResolver` (table: `LoomEditor.View/Commands/DefaultKeybindings.cs`) and runs the command. `KeyMapping` maps
+- `KeyboardInput` turns a key press and the modifiers (`CurrentModifiers`) into a `Keybinding`, resolves it with
+  `KeybindingResolver` (table: `LoomEditor.View/Commands/DefaultKeybindings.cs`) and runs the command; an optional `filter` limits it to some command ids (the find widget). `KeyMapping` maps
   `VirtualKey` to `KeyCode`.
 - Typed characters (`CharacterReceived`) go through `TextInputBuffer` (`LoomEditor.View/Controller/`) and then to
   `ViewModel.Type`; they do not go through commands (ADR 0006, decision 11).

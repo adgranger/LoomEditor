@@ -1,3 +1,4 @@
+using LoomEditor.WinUI.Controls.Find;
 using Microsoft.UI.Xaml;
 
 namespace LoomEditor.WinUI.Controls;
@@ -14,6 +15,7 @@ public sealed partial class LoomEditor
         }
 
         _findWidget.Connect(controller, _viewModel, () => Focus(FocusState.Programmatic));
+        _findWidget.TryHandleKey = key => _keyboard.TryHandle(key, CreateKeybindingContext(), FindWidget.RoutedCommandIds.Contains);
         _findWidget.ApplyTheme(Theme);
     }
 }

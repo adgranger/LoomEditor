@@ -26,7 +26,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerPressed(e);
 
-        if (_renderer is null || IsFromScrollBar(e.OriginalSource))
+        if (_renderer is null || IsFromScrollBar(e.OriginalSource) || IsFromFindWidget(e.OriginalSource))
         {
             return;
         }
@@ -60,6 +60,11 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerMoved(e);
 
+        if (IsFromFindWidget(e.OriginalSource))
+        {
+            return;
+        }
+
         if (_mouseDown is { IsActive: true })
         {
             _mouseDown.OnMouseDownThenMove(PointerInput.Create(e, this, 1));
@@ -75,6 +80,11 @@ public sealed partial class LoomEditor
     {
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerReleased(e);
+
+        if (IsFromFindWidget(e.OriginalSource))
+        {
+            return;
+        }
 
         if (_mouseDown is { IsActive: true })
         {
@@ -119,6 +129,23 @@ public sealed partial class LoomEditor
         bool overScrollBar = IsFromScrollBar(e.OriginalSource);
         ProtectedCursor = InputSystemCursor.Create(
             overGutter || overScrollBar ? InputSystemCursorShape.Arrow : InputSystemCursorShape.IBeam);
+    }
+
+    // The find widget is a child of the control: its pointer events must not reach the text.
+    private bool IsFromFindWidget(object? source)
+    {
+        var element = source as DependencyObject;
+        while (element is not null && !ReferenceEquals(element, this))
+        {
+            if (ReferenceEquals(element, _findWidget))
+            {
+                return true;
+            }
+
+            element = VisualTreeHelper.GetParent(element);
+        }
+
+        return false;
     }
 
     private bool IsFromScrollBar(object? source)

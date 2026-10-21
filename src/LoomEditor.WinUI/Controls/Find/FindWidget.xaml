@@ -119,6 +119,7 @@
                     <TextBox
                         x:Name="FindTextBox"
                         Padding="6,3,72,3"
+                        TabIndex="1"
                         AutomationProperties.Name="Find"
                         PlaceholderText="Find"
                         Style="{StaticResource InputBoxStyle}"
@@ -202,6 +203,7 @@
                     <TextBox
                         x:Name="ReplaceTextBox"
                         Padding="6,3,28,3"
+                        TabIndex="2"
                         AutomationProperties.Name="Replace"
                         PlaceholderText="Replace"
                         Style="{StaticResource InputBoxStyle}"
