@@ -1,6 +1,6 @@
 # P5-56 — `MoveLinesCommand` (with auto-indent)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-55
 - **Size:** M
 
@@ -56,17 +56,17 @@ re-indented with the language's on-enter and indentation rules, exactly as Monac
 
 ## Tests
 
-- [ ] Port `Editor Contrib - Move Lines Command` › `move first up / last down disabled`, `move first line down`, `move 2nd line up`, `issue #1322a: move 2nd line up`, `issue #1322b: move last line up`, `issue #1322c: move last line selected up`, `move last line up`, `move 4th line down`, `move multiple lines down`, `invisible selection is ignored`
-- [ ] Port `Editor contrib - Move Lines Command honors Indentation Rules` › `first line indentation adjust to 0`, `move lines across block`, `move line should still work as before if there is no indentation rules`
-- [ ] Port `Editor - contrib - Move Lines Command honors onEnter Rules` › `issue #54829. move block across block`
+- [x] Port `Editor Contrib - Move Lines Command` › `move first up / last down disabled`, `move first line down`, `move 2nd line up`, `issue #1322a: move 2nd line up`, `issue #1322b: move last line up`, `issue #1322c: move last line selected up`, `move last line up`, `move 4th line down`, `move multiple lines down`, `invisible selection is ignored`
+- [x] Port `Editor contrib - Move Lines Command honors Indentation Rules` › `first line indentation adjust to 0`, `move lines across block`, `move line should still work as before if there is no indentation rules`
+- [x] Port `Editor - contrib - Move Lines Command honors onEnter Rules` › `issue #54829. move block across block`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/linesOperations/browser/moveLinesCommand.ts` (✅, P5-56); tests table
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/linesOperations/browser/moveLinesCommand.ts` (✅, P5-56); tests table
       `moveLinesCommand.test.ts` 14 / 14
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
