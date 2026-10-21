@@ -1,6 +1,6 @@
 # Find
 
-**Role:** find and replace in the document: the find widget, matches, replace, and "find in selection". The shared state, the find model, the controller and the commands exist (P5-71); the widget comes with the next cards.
+**Role:** find and replace in the document: the find widget (in `LoomEditor.WinUI`), matches, replace, and "find in selection". The shared state, the find model, the controller and the commands are here; the XAML widget is in `LoomEditor.WinUI/Controls/Find`.
 shared state exists; the find model, the controller, the widget and the commands come with the next cards.
 
 **Commands:** the ids are in `FindCommands.cs` (same as Monaco). Not registered in phase 5: `editor.actions.findWithArgs` (commands
@@ -16,6 +16,7 @@ have no arguments) and `editor.action.goToMatchFindAction` (it needs a quick inp
 - `ReplacePattern.cs`, `ReplacePattern.Parse.cs` — the parsed replace string (`$1`, `\n`, `\u`…); `FindDecorations.cs` — the model decorations of matches, current match, its line and the scope.
 - `FindModelBoundToEditorModel.cs`, `FindModelBoundToEditorModel.Navigation.cs` — searches when the state changes, decorates matches, keeps "n of m", moves to the next / previous match, selects all matches; `FindModelBoundToEditorModel.Replace.cs` and `ReplaceAllCommand.cs` — replace and replace all.
 - `FindController.cs`, `FindActions.cs`, `FindStartOptions.cs`, `IFindWidget.cs` — the controller (state + find model while the widget is revealed), the find actions as static methods (Ctrl+F, Ctrl+H, F3…) and the small interface a widget implements.
+- `FindMatchesLabel.cs` — the "3 of 12" / "No results" / `19999+` text of the widget.
 - `SelectionSearchString.cs` — what Ctrl+F puts in the find box (`getSelectionSearchString`).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Find/`.

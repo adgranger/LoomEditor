@@ -18,6 +18,7 @@ public sealed partial class FindWidget : UserControl, IFindWidget
 {
     private FindController? _controller;
     private Action? _focusEditor;
+    private ViewModel? _viewModel;
     private bool _ignoreChangeEvent;
 
     /// <summary>Creates the widget.</summary>
@@ -36,8 +37,10 @@ public sealed partial class FindWidget : UserControl, IFindWidget
 
         Disconnect();
         _controller = controller;
+        _viewModel = viewModel;
         _focusEditor = focusEditor;
         controller.Widget = this;
+        controller.State.Change(new NewFindReplaceState { Loop = controller.Options.Loop }, false);
         controller.State.Changed += OnStateChanged;
         Refresh();
     }
@@ -52,6 +55,7 @@ public sealed partial class FindWidget : UserControl, IFindWidget
         _controller.State.Changed -= OnStateChanged;
         _controller.Widget = null;
         _controller = null;
+        _viewModel = null;
         _focusEditor = null;
         TryHandleKey = null;
     }
@@ -75,6 +79,12 @@ public sealed partial class FindWidget : UserControl, IFindWidget
         if (e.SearchString)
         {
             SetFindText(state.SearchString);
+            UpdateButtons();
+        }
+
+        if (e.ReplaceString)
+        {
+            SetReplaceText(state.ReplaceString);
         }
 
         if (e.IsRegex)
@@ -96,6 +106,33 @@ public sealed partial class FindWidget : UserControl, IFindWidget
         {
             Reveal(state.IsRevealed);
         }
+
+        if (e.IsReplaceRevealed)
+        {
+            UpdateReplaceRevealed(state);
+        }
+
+        if (e.PreserveCase)
+        {
+            PreserveCaseToggle.IsChecked = state.PreserveCase;
+        }
+
+        if (e.SearchScope)
+        {
+            FindInSelectionToggle.IsChecked = state.SearchScope is not null;
+            UpdateFindInSelectionToggle();
+        }
+
+        if (e.SearchString || e.MatchesCount || e.MatchesPosition)
+        {
+            UpdateMatchesCount(state);
+            UpdateButtons();
+        }
+
+        if (e.Loop || e.IsRevealed)
+        {
+            UpdateButtons();
+        }
     }
 
     // The widget may be connected while the state already holds values (e.g. after the control was reloaded).
@@ -106,7 +143,14 @@ public sealed partial class FindWidget : UserControl, IFindWidget
         RegexToggle.IsChecked = state.IsRegex;
         WholeWordToggle.IsChecked = state.WholeWord;
         MatchCaseToggle.IsChecked = state.MatchCase;
+        PreserveCaseToggle.IsChecked = state.PreserveCase;
+        FindInSelectionToggle.IsChecked = state.SearchScope is not null;
+        SetReplaceText(state.ReplaceString);
+        _isReplaceVisible = false;
+        UpdateReplaceRevealed(state);
+        UpdateMatchesCount(state);
         Visibility = state.IsRevealed ? Visibility.Visible : Visibility.Collapsed;
+        UpdateButtons();
     }
 
     // Monaco: `_reveal` and `_hide(true)`, without animation or view zone.

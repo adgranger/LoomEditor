@@ -122,7 +122,7 @@ public sealed partial class FindWidget
             return;
         }
 
-        // The replace row stays collapsed until its card: a collapsed box cannot take the focus.
+        // A collapsed replace row cannot take the focus.
         TextBox box = focus == FindStartFocusAction.FocusReplaceInput && ReplaceRow.Visibility == Visibility.Visible ? ReplaceTextBox : FindTextBox;
         box.SelectAll();
         FocusElement(box);

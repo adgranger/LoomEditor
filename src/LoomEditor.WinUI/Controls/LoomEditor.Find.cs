@@ -7,6 +7,8 @@ namespace LoomEditor.WinUI.Controls;
 // Without the part (or without the feature) find has no UI.
 public sealed partial class LoomEditor
 {
+    private void InitializeFind() => _context.SelectionChanged += (_, _) => _findWidget?.UpdateFindInSelectionToggle();
+
     private void ConnectFindWidget()
     {
         if (_findWidget is null || _context.FindController is not { } controller)
