@@ -1,6 +1,6 @@
 # P5-83 — Folding ranges (`FoldingRegions`, `sanitizeAndMerge`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-82
 - **Size:** M
 
@@ -52,21 +52,21 @@ and `sanitizeAndMerge`, which merges the ranges of the provider with the folded 
 
 ## Tests
 
-- [ ] Port: `FoldingRanges` › `sanitizeAndMerge1`, `sanitizeAndMerge2`, `sanitizeAndMerge3`, `sanitizeAndMerge4`
-- [ ] New: `GetParentIndex_NestedRegions_ReturnsTheEnclosingRegion` (and -1 for a top-level region)
-- [ ] New: `SetSource_UserDefinedThenProvider_ClearsBothFlags`
-- [ ] New: `Constructor_MoreThanMaxFoldingRegions_Throws`
-- [ ] New: `FromFoldRanges_NoTypes_HasTypesIsFalse`
+- [x] Port: `FoldingRanges` › `sanitizeAndMerge1`, `sanitizeAndMerge2`, `sanitizeAndMerge3`, `sanitizeAndMerge4`
+- [x] New: `GetParentIndex_NestedRegions_ReturnsTheEnclosingRegion` (and -1 for a top-level region)
+- [x] New: `SetSource_UserDefinedThenProvider_ClearsBothFlags`
+- [x] New: `Constructor_MoreThanMaxFoldingRegions_Throws`
+- [x] New: `FromFoldRanges_NoTypes_HasTypesIsFalse`
 
 (`test max folding regions`, `findRange` and `setCollapsed` need `computeRanges`: P5-84.)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: new row `contrib/folding/browser/foldingRanges.ts` (✅ P5-83) and `folding.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: new row `contrib/folding/browser/foldingRanges.ts` (✅ P5-83) and `folding.ts`
       (`toSelectedLines`, P5-83)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
