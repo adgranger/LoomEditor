@@ -1,5 +1,6 @@
 using LoomEditor.View.Commands;
 using LoomEditor.View.Features.Find;
+using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.WinUI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -32,6 +33,10 @@ public sealed partial class FindWidget
         FindCommands.ReplaceOneAction,
         FindCommands.ReplaceAllAction,
         FindCommands.SelectAllMatchesAction,
+        MultiCursorCommands.AddSelectionToNextFindMatch,
+        MultiCursorCommands.MoveSelectionToNextFindMatch,
+        MultiCursorCommands.SelectHighlights,
+        MultiCursorCommands.ChangeAll,
     };
 
     private bool _replaceInputLastFocused;

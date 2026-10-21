@@ -115,6 +115,11 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.UpArrow, "editor.action.insertCursorAbove", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.DownArrow, "editor.action.insertCursorBelow", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.KeyI, "editor.action.insertCursorAtEndOfEachLineSelected", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyD, "editor.action.addSelectionToNextFindMatch", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), "editor.action.moveSelectionToNextFindMatch", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyD)));
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.KeyL, "editor.action.selectHighlights", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.F2, "editor.action.changeAll", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
 
         // bracketMatching.ts (Contrib): jumpToBracket and removeBrackets (selectToBracket has no keybinding).
         Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.Backslash, "editor.action.jumpToBracket", WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
