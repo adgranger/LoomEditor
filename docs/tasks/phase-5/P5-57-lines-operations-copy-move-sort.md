@@ -1,6 +1,6 @@
 # P5-57 — LinesOperations: copy, duplicate, move, sort, remove duplicates, reverse, trim
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-56
 - **Size:** M
 
@@ -68,22 +68,22 @@ trim trailing whitespace (`Ctrl+K Ctrl+X`). Port the matching tests of `linesOpe
 
 ## Tests
 
-- [ ] Port `SortLinesAscendingAction` › `should sort selected lines in ascending order`, `should sort lines in ascending order`, `should sort multiple selections in ascending order`, `applies to whole document when selection is single line`
-- [ ] Port `SortLinesDescendingAction` › `should sort selected lines in descending order`, `should sort multiple selections in descending order`
-- [ ] Port `DeleteDuplicateLinesAction` › `should remove duplicate lines within selection`, `should remove duplicate lines`, `should remove duplicate lines in multiple selections`, `applies to whole document when selection is single line`
-- [ ] Port `ReverseLinesAction` › `reverses lines`, `excludes empty last line`, `updates cursor`, `preserves cursor on empty last line`, `preserves selected text when selections do not span lines`, `reverses lines within selection`, `reverses lines within partial selection`, `reverses lines with multiple selections`, `updates selection positions after reversal`, `applies to whole document when selection is single line` (769), `excludes end line when selection ends at column 1`, `applies to whole document when selection is single line` (805; same name twice upstream: suffix the C# method names `_1` / `_2`)
-- [ ] Port `Editor Contrib - Duplicate Selection` › `empty selection`, `with selection`
-- [ ] New: keybindings `Alt+↓` → `editor.action.moveLinesDownAction`, `Ctrl+K` then `Ctrl+X` → `editor.action.trimTrailingWhitespace`; read-only → no command
-- [ ] New: `MoveLinesDown_TwoCursors_MovesBothBlocksInOneUndoStep`
+- [x] Port `SortLinesAscendingAction` › `should sort selected lines in ascending order`, `should sort lines in ascending order`, `should sort multiple selections in ascending order`, `applies to whole document when selection is single line`
+- [x] Port `SortLinesDescendingAction` › `should sort selected lines in descending order`, `should sort multiple selections in descending order`
+- [x] Port `DeleteDuplicateLinesAction` › `should remove duplicate lines within selection`, `should remove duplicate lines`, `should remove duplicate lines in multiple selections`, `applies to whole document when selection is single line`
+- [x] Port `ReverseLinesAction` › `reverses lines`, `excludes empty last line`, `updates cursor`, `preserves cursor on empty last line`, `preserves selected text when selections do not span lines`, `reverses lines within selection`, `reverses lines within partial selection`, `reverses lines with multiple selections`, `updates selection positions after reversal`, `applies to whole document when selection is single line` (769), `excludes end line when selection ends at column 1`, `applies to whole document when selection is single line` (805; same name twice upstream: suffix the C# method names `_1` / `_2`)
+- [x] Port `Editor Contrib - Duplicate Selection` › `empty selection`, `with selection`
+- [x] New: keybindings `Alt+↓` → `editor.action.moveLinesDownAction`, `Ctrl+K` then `Ctrl+X` → `editor.action.trimTrailingWhitespace`; read-only → no command
+- [x] New: `MoveLinesDown_TwoCursors_MovesBothBlocksInOneUndoStep`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `contrib/linesOperations/browser/linesOperations.ts` (🔶 first eleven actions, P5-57);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `contrib/linesOperations/browser/linesOperations.ts` (🔶 first eleven actions, P5-57);
       tests tables `linesOperations.test.ts` 22 / 55, `copyLinesCommand.test.ts` 10 / 10; keybindings row
 - [ ] Manual check (maintainer): Gallery, `Alt+↑/↓` and `Shift+Alt+↑/↓` on a C# file with a selection
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

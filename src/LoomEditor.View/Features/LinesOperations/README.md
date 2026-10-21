@@ -8,9 +8,12 @@ and `src/vs/editor/common/commands/trimTrailingWhitespaceCommand.ts`.
 **Files:**
 - `MoveLinesCommand.cs`, `MoveLinesCommand.AutoIndent.cs` — move lines up or down with auto-indent.
 - `CopyLinesCommand.cs`, `SortLinesCommand.cs` — the edit commands (the trim command is `Cursors/Commands/TrimTrailingWhitespaceCommand.cs`).
-- `LinesOperationsFeature.cs` — the feature (it registers nothing yet: the actions come in P5-57 and later).
+- `LinesOperationsActions.CopyMove.cs`, `LinesOperationsActions.Sort.cs` — what the actions do to the selections (undo stops, whole document for a single-line selection).
+- `LinesOperationsFeature.cs` — registers the first eleven commands (copy, duplicate, move, sort, remove duplicates, reverse, trim); the others come in P5-58 to P5-60.
 - `LinesOperationsCommands.cs` — all the command ids, already.
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/LinesOperations/`.
 
-**Known limits:** no actions yet. `SortLinesCommand` compares with the invariant culture, not the locale of the user.
+**Keys (Windows):** `Shift+Alt+↑/↓` copy lines, `Alt+↑/↓` move lines, `Ctrl+K Ctrl+X` trim trailing whitespace; the others have no key.
+
+**Known limits:** no menus; delete, indent, insert, join, transpose and case commands are not registered yet. `SortLinesCommand` compares with the invariant culture, not the locale of the user.
