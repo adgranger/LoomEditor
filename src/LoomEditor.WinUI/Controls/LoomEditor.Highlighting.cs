@@ -43,7 +43,18 @@ public sealed partial class LoomEditor
         }
     }
 
-    private void InitializeHighlighting() => _viewModel.EventDispatcher.AddViewEventHandler(new TokensChangedHandler(this));
+    private void InitializeHighlighting()
+    {
+        _viewModel.EventDispatcher.AddViewEventHandler(new TokensChangedHandler(this));
+        // The hidden areas change which model lines are drawn.
+        _viewModel.EventDispatcher.OnEvent += (_, e) =>
+        {
+            if (e is HiddenAreasChangedEvent)
+            {
+                _canvas?.Invalidate();
+            }
+        };
+    }
 
     // The worker thread only exists while the control is loaded.
     private void StartHighlighting()

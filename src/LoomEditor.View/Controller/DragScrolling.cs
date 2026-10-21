@@ -168,7 +168,7 @@ internal sealed class TopBottomDragScrollingOperation(
 
         PartialViewLinesViewportData viewportData = ViewModel.ViewLayout.GetLinesViewportData();
         int edgeLineNumber = above ? viewportData.StartLineNumber : viewportData.EndLineNumber;
-        bool cannotScrollAnymore = above ? viewportData.StartLineNumber == 1 : viewportData.EndLineNumber == ViewModel.Model.LineCount;
+        bool cannotScrollAnymore = above ? viewportData.StartLineNumber == 1 : viewportData.EndLineNumber == ViewModel.GetLineCount();
 
         // First, try to find a position that matches the horizontal position of the mouse.
         EditorLayoutInfo layoutInfo = ViewModel.LayoutInfo;
@@ -179,7 +179,7 @@ internal sealed class TopBottomDragScrollingOperation(
                 ? MouseTarget.CreateOutsideEditor(Target.MouseColumn, new Position(edgeLineNumber, 1), OutsidePosition.Above, Target.OutsideDistance)
                 : MouseTarget.CreateOutsideEditor(
                     Target.MouseColumn,
-                    new Position(edgeLineNumber, ViewModel.Model.GetLineMaxColumn(edgeLineNumber)),
+                    new Position(edgeLineNumber, ViewModel.GetLineMaxColumn(edgeLineNumber)),
                     OutsidePosition.Below,
                     Target.OutsideDistance);
         }
@@ -235,7 +235,7 @@ internal sealed class LeftRightDragScrollingOperation(
         if (Target.OutsidePosition == OutsidePosition.Right)
         {
             // Move the selection to the far end of the line.
-            int lineWidth = ViewModel.Model.GetLineMaxColumn(edgeLineNumber);
+            int lineWidth = ViewModel.GetLineMaxColumn(edgeLineNumber);
             mouseTarget = MouseTarget.CreateOutsideEditor(lineWidth, new Position(edgeLineNumber, lineWidth), OutsidePosition.Right, Target.OutsideDistance);
         }
         else

@@ -104,14 +104,14 @@ internal static class MouseTargetFactory
         if (viewLayout.IsAfterLines(mouseVerticalOffset) || viewLayout.IsInBottomPadding(mouseVerticalOffset))
         {
             // This most likely indicates it happened after the last view-line.
-            int lineCount = viewModel.Model.LineCount;
-            var end = new Position(lineCount, viewModel.Model.GetLineMaxColumn(lineCount));
+            int lineCount = viewModel.GetLineCount();
+            var end = new Position(lineCount, viewModel.GetLineMaxColumn(lineCount));
             return new MouseTarget(MouseTargetType.ContentEmpty, end, GetMouseColumn(viewModel, end, mouseColumn), null, true, null);
         }
 
         int lineNumber = viewLayout.GetLineNumberAtVerticalOffset(mouseVerticalOffset);
         double lineWidth = lines.GetLineWidth(lineNumber);
-        if (viewModel.Model.GetLineLength(lineNumber) == 0)
+        if (viewModel.GetLineLength(lineNumber) == 0)
         {
             var position = new Position(lineNumber, 1);
             return ContentEmpty(viewModel, position, mouseColumn, mouseContentHorizontalOffset - lineWidth);
@@ -119,7 +119,7 @@ internal static class MouseTargetFactory
 
         if (mouseContentHorizontalOffset >= lineWidth)
         {
-            var position = new Position(lineNumber, viewModel.Model.GetLineMaxColumn(lineNumber));
+            var position = new Position(lineNumber, viewModel.GetLineMaxColumn(lineNumber));
             return ContentEmpty(viewModel, position, mouseColumn, mouseContentHorizontalOffset - lineWidth);
         }
 
@@ -149,23 +149,23 @@ internal static class MouseTargetFactory
         if (viewModel.ViewLayout.IsAfterLines(mouseVerticalOffset))
         {
             // Below the last line.
-            int lastLine = viewModel.Model.LineCount;
-            int maxLineColumn = viewModel.Model.GetLineMaxColumn(lastLine);
+            int lastLine = viewModel.GetLineCount();
+            int maxLineColumn = viewModel.GetLineMaxColumn(lastLine);
             return (new Range(lastLine, maxLineColumn, lastLine, maxLineColumn), true);
         }
 
         int lineNumber = viewModel.ViewLayout.GetLineNumberAtVerticalOffset(mouseVerticalOffset);
-        return (new Range(lineNumber, 1, lineNumber, viewModel.Model.GetLineMaxColumn(lineNumber)), false);
+        return (new Range(lineNumber, 1, lineNumber, viewModel.GetLineMaxColumn(lineNumber)), false);
     }
 
     // Monaco: HitTestRequest._getMouseColumn(position).
     private static int GetMouseColumn(ViewModel viewModel, Position position, int mouseColumn)
     {
-        if (position.Column < viewModel.Model.GetLineMaxColumn(position.LineNumber))
+        if (position.Column < viewModel.GetLineMaxColumn(position.LineNumber))
         {
             // Most likely, the line contains foreign decorations...
             return CursorColumns.VisibleColumnFromColumn(
-                viewModel.Model.GetLineContent(position.LineNumber), position.Column, viewModel.Model.Options.TabSize) + 1;
+                viewModel.GetLineContent(position.LineNumber), position.Column, viewModel.Model.Options.TabSize) + 1;
         }
 
         return mouseColumn;
@@ -174,7 +174,7 @@ internal static class MouseTargetFactory
     // Monaco: _snapToSoftTabBoundary.
     private static Position SnapToSoftTabBoundary(Position position, ViewModel viewModel)
     {
-        string lineContent = viewModel.Model.GetLineContent(position.LineNumber);
+        string lineContent = viewModel.GetLineContent(position.LineNumber);
         int newPosition = AtomicTabMoveOperations.AtomicPosition(
             lineContent, position.Column - 1, viewModel.Model.Options.TabSize, AtomicMoveDirection.Nearest);
         return newPosition != -1 ? new Position(position.LineNumber, newPosition + 1) : position;

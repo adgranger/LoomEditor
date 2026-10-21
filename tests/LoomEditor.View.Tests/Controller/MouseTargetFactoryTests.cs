@@ -1,4 +1,5 @@
 using LoomEditor.Core.Text;
+using LoomEditor.View.Commands;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Layout;
@@ -14,12 +15,12 @@ public class MouseTargetFactoryTests
     // Fixed 10-DIP characters; the nearest boundary of 12 is 10, of 16 is 20 (a .5 goes to the right).
     private sealed class FakeLineHitTester(TestCodeEditor editor) : ILineHitTester
     {
-        public double GetLineWidth(int lineNumber) => editor.Model.GetLineLength(lineNumber) * 10;
+        public double GetLineWidth(int lineNumber) => editor.ViewModel.GetLineLength(lineNumber) * 10;
 
         public Position? GetPositionAtCoordinate(int lineNumber, double mouseContentHorizontalOffset)
         {
             int index = (int)Math.Floor((mouseContentHorizontalOffset / 10) + 0.5);
-            return new Position(lineNumber, Math.Clamp(index, 0, editor.Model.GetLineLength(lineNumber)) + 1);
+            return new Position(lineNumber, Math.Clamp(index, 0, editor.ViewModel.GetLineLength(lineNumber)) + 1);
         }
     }
 
@@ -166,5 +167,39 @@ public class MouseTargetFactoryTests
         Assert.Equal(4, MouseTargetFactory.GetMouseColumn(25, 10));
         Assert.Equal(1, MouseTargetFactory.GetMouseColumn(-5, 10));
         Assert.Equal(1, MouseTargetFactory.GetMouseColumn(4, 10));
+    }
+
+    [Fact]
+    public void CreateMouseTarget_BelowAHiddenArea_ReturnsTheViewPosition()
+    {
+        WithEditor("l1\nl2\nl3\nl4\nl5\nl6", (editor, lines) =>
+        {
+            editor.ViewModel.SetHiddenAreas(new[] { new Range(3, 1, 4, 1) });
+
+            // View line 3 is the model line 5.
+            MouseTarget target = MouseTargetFactory.CreateMouseTarget(editor.ViewModel, lines, ContentX(editor, 2), (2 * LineHeight) + 3);
+
+            Assert.Equal(MouseTargetType.ContentText, target.Type);
+            Assert.Equal(new Position(3, 1), target.Position);
+
+            var controller = new ViewController(editor.ViewModel);
+            controller.DispatchMouse(new MouseDispatchData(
+                target.Position!.Value, 1, NavigationCommandRevealType.Regular, false, false, 1, false, false, false, false, true, false, false));
+            Assert.Equal(new Selection(5, 1, 5, 1), editor.ViewModel.GetSelection());
+        });
+    }
+
+    [Fact]
+    public void CreateMouseTarget_AfterLastViewLine_UsesTheLastViewLine()
+    {
+        WithEditor("l1\nl2\nl3\nl4", (editor, lines) =>
+        {
+            editor.ViewModel.SetHiddenAreas(new[] { new Range(3, 1, 4, 1) });
+
+            MouseTarget target = MouseTargetFactory.CreateMouseTarget(editor.ViewModel, lines, ContentX(editor, 5), 200);
+
+            Assert.True(target.IsAfterLines);
+            Assert.Equal(new Position(2, 3), target.Position);
+        });
     }
 }

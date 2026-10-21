@@ -1,6 +1,6 @@
 # P5-82 — The renderer, the hit testing and the control draw view lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-81
 - **Size:** M
 
@@ -57,21 +57,21 @@ drawn lines, numbers and clicks.
 
 No Monaco test covers these view parts. New:
 
-- [ ] Rendering: `Render_WithHiddenLines_DrawsOnlyVisibleLines` — model lines 1–6, hide 3–4: drawn texts are lines
+- [x] Rendering: `Render_WithHiddenLines_DrawsOnlyVisibleLines` — model lines 1–6, hide 3–4: drawn texts are lines
       1, 2, 5, 6 at consecutive tops; gutter numbers are "1", "2", "5", "6"
-- [ ] Rendering: `Render_CursorBelowHiddenLines_HighlightsItsModelLineNumber` (active number "5")
-- [ ] Rendering: `Render_SelectionAcrossHiddenLines_DrawsTheViewSelection`
-- [ ] View: `CreateMouseTarget_BelowAHiddenArea_ReturnsTheViewPosition` and, through `ViewController`, the click
+- [x] Rendering: `Render_CursorBelowHiddenLines_HighlightsItsModelLineNumber` (active number "5")
+- [x] Rendering: `Render_SelectionAcrossHiddenLines_DrawsTheViewSelection`
+- [x] View: `CreateMouseTarget_BelowAHiddenArea_ReturnsTheViewPosition` and, through `ViewController`, the click
       selects the model line 5
-- [ ] View: `CreateMouseTarget_AfterLastViewLine_UsesTheLastViewLine` (last model lines hidden)
+- [x] View: `CreateMouseTarget_AfterLastViewLine_UsesTheLastViewLine` (last model lines hidden)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `lineNumbers.ts` row (model line numbers of view lines, P5-82); `mouseTarget.ts` row (view lines)
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] No manual check here: the folding checks of P5-94 cover it
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `lineNumbers.ts` row (model line numbers of view lines, P5-82); `mouseTarget.ts` row (view lines)
+- [x] Card status and `docs/tasks/README.md` updated
+- [x] No manual check here: the folding checks of P5-94 cover it
 
 ## Out of scope
 

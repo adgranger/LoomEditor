@@ -20,7 +20,7 @@ internal sealed partial class TextViewRenderer
 
         public Position? GetPositionAtCoordinate(int lineNumber, double mouseContentHorizontalOffset)
         {
-            if (lineNumber < 1 || lineNumber > viewModel.Model.LineCount)
+            if (lineNumber < 1 || lineNumber > viewModel.GetLineCount())
             {
                 return null;
             }
@@ -33,10 +33,10 @@ internal sealed partial class TextViewRenderer
     // The layout that `Render` draws: a very long line is cut (ADR 0005).
     private ILineLayout GetLineLayout(ViewModel viewModel, int lineNumber)
     {
-        int lineLength = viewModel.Model.GetLineLength(lineNumber);
+        int lineLength = viewModel.GetLineLength(lineNumber);
         string text = lineLength > StopRenderingLineAfter
-            ? viewModel.Model.GetValueInRange(new Range(lineNumber, 1, lineNumber, StopRenderingLineAfter + 1))
-            : viewModel.Model.GetLineContent(lineNumber);
+            ? viewModel.GetLineContent(lineNumber)[..StopRenderingLineAfter]
+            : viewModel.GetLineContent(lineNumber);
         return _cache.Get(text);
     }
 }
