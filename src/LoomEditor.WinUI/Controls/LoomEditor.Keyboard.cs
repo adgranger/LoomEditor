@@ -45,7 +45,9 @@ public sealed partial class LoomEditor
             ColumnSelection: _viewModel.CursorOptions.ColumnSelection,
             Writable: !IsReadOnly,
             TabDoesNotMoveFocus: true,
-            AccessibilityModeEnabled: false);
+            AccessibilityModeEnabled: false,
+            EditorFocus: HasFocus,
+            FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

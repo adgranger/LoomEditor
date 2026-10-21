@@ -1,6 +1,6 @@
 # P5-71 — Find commands, `when` clauses and VS Code's keybindings
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-70
 - **Size:** M
 
@@ -81,20 +81,20 @@ moves to the next match of the word under the cursor.
 
 No upstream tests (keybinding tables are not unit-tested in Monaco). New:
 
-- [ ] `Attach_RegistersTheFindCommands_DisposeRemovesThemAndTheController`
-- [ ] `StartFind_ThroughCommandRegistry_RevealsTheState` (`new EditorContext()`, `Commands.Execute("actions.find")`)
-- [ ] `CloseFindWidget_WidgetHidden_CannotExecute`
-- [ ] Resolver: `Escape_FindWidgetVisible_ClosesFindWidget`, `Escape_FindWidgetHidden_CancelsSelection`,
+- [x] `Attach_RegistersTheFindCommands_DisposeRemovesThemAndTheController`
+- [x] `StartFind_ThroughCommandRegistry_RevealsTheState` (`new EditorContext()`, `Commands.Execute("actions.find")`)
+- [x] `CloseFindWidget_WidgetHidden_CannotExecute`
+- [x] Resolver: `Escape_FindWidgetVisible_ClosesFindWidget`, `Escape_FindWidgetHidden_CancelsSelection`,
       `Enter_FindInputFocused_NextMatch`, `Enter_ReplaceInputFocused_ReplaceOne`, `F3_EditorFocus_NextMatch`,
       `CtrlShift1_FindWidgetVisible_ReplaceOne`, `AltC_EditorFocus_ToggleCaseSensitive`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `findController.ts` (+ commands and keybindings, P5-71), `editorContextKeys.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `findController.ts` (+ commands and keybindings, P5-71), `editorContextKeys.ts`
       (+ `editorFocus`, find keys); the Keybindings difference row still says "no chords"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
