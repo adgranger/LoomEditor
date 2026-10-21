@@ -1,6 +1,6 @@
 # P5-79 — `ViewModelLinesFromProjectedModel`: view lines, hidden areas, model changes
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-78
 - **Size:** M
 
@@ -63,22 +63,22 @@ Tests: `test/browser/viewModel/modelLineProjection.test.ts` 274–441 (suite set
 
 `ViewModelLinesTests` builds the class directly (Monaco's `withSplitLinesCollection` with `wordWrap: 'off'`).
 
-- [ ] Port: `SplitLinesCollection` › `getViewLinesData - no wrapping` (with `FixedTokensTokenizationSupport`
+- [x] Port: `SplitLinesCollection` › `getViewLinesData - no wrapping` (with `FixedTokensTokenizationSupport`
       registered for `modelModeTest1` and `ForceTokenization(lineCount)`; `assertAllMinimapLinesRenderingData` keeps
       Monaco's `break` after the first combination)
-- [ ] New: `SetHiddenAreas_SameRangesTwice_ReturnsFalse`
-- [ ] New: `SetHiddenAreas_EverythingHidden_RevealsEverything` (Monaco: "Cannot have everything be hidden")
-- [ ] New: `OnModelLinesInserted_AfterAHiddenLine_InsertsHiddenLines` (`isInHiddenArea` uses `fromLineNumber - 2`)
-- [ ] New: `OnModelLinesDeleted_StaleVersionId_IsIgnored`
-- [ ] New: `AcceptVersionId_AllLinesHidden_ShowsTheFirstLine`
-- [ ] New: `NormalizeLineRanges_MergesOverlappingAndTouchingRanges` (columns ignored, result at column 1)
+- [x] New: `SetHiddenAreas_SameRangesTwice_ReturnsFalse`
+- [x] New: `SetHiddenAreas_EverythingHidden_RevealsEverything` (Monaco: "Cannot have everything be hidden")
+- [x] New: `OnModelLinesInserted_AfterAHiddenLine_InsertsHiddenLines` (`isInHiddenArea` uses `fromLineNumber - 2`)
+- [x] New: `OnModelLinesDeleted_StaleVersionId_IsIgnored`
+- [x] New: `AcceptVersionId_AllLinesHidden_ShowsTheFirstLine`
+- [x] New: `NormalizeLineRanges_MergesOverlappingAndTouchingRanges` (columns ignored, result at column 1)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: new row `common/viewModel/viewModelLines.ts` (🔶 no word wrap, no guides, P5-79)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: new row `common/viewModel/viewModelLines.ts` (🔶 no word wrap, no guides, P5-79)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
