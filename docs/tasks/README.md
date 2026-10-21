@@ -466,7 +466,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-58](phase-5/P5-58-delete-indent-insert-lines.md) | LinesOperations: delete lines, indent / outdent lines, insert line above / below | P5-57 | done |
 | [P5-59](phase-5/P5-59-delete-all-and-join-lines.md) | LinesOperations: delete all left / right, join lines | P5-58 | done |
 | [P5-60](phase-5/P5-60-transpose-and-case-transforms.md) | LinesOperations: transpose and case transforms | P5-59 | done |
-| [P5-61](phase-5/P5-61-auto-indent-on-type-tests.md) | Auto indent on type: the language suites of `indentation.test.ts` | P5-60 | todo |
+| [P5-61](phase-5/P5-61-auto-indent-on-type-tests.md) | Auto indent on type: the language suites of `indentation.test.ts` | P5-60 | done |
 
 ### Step F — Find, replace and Find-based multi-cursor
 
