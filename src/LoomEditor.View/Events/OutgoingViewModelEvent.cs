@@ -12,6 +12,7 @@ internal enum OutgoingViewModelEventKind
     CursorStateChanged,
     ReadOnlyEditAttempt,
     FocusChanged,
+    HiddenAreasChanged,
 }
 
 /// <summary>An event for the outside world, delivered once the view has handled its own events (Monaco: <c>OutgoingViewModelEvent</c>).</summary>
@@ -129,4 +130,16 @@ internal sealed class FocusChangedEvent(bool oldHasFocus, bool hasFocus) : Outgo
 
     public override OutgoingViewModelEvent? AttemptToMerge(OutgoingViewModelEvent other) =>
         other is FocusChangedEvent otherEvent ? new FocusChangedEvent(OldHasFocus, otherEvent.HasFocus) : null;
+}
+
+/// <summary>The hidden areas changed the line mapping (Monaco: <c>HiddenAreasChangedEvent</c>).</summary>
+/// <remarks>Threading: UI thread only.</remarks>
+internal sealed class HiddenAreasChangedEvent : OutgoingViewModelEvent
+{
+    public override OutgoingViewModelEventKind Kind => OutgoingViewModelEventKind.HiddenAreasChanged;
+
+    public override bool IsNoOp() => false;
+
+    public override OutgoingViewModelEvent? AttemptToMerge(OutgoingViewModelEvent other) =>
+        other.Kind == Kind ? this : null;
 }

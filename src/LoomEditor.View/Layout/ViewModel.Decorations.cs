@@ -14,7 +14,7 @@ internal sealed partial class ViewModel
 
     private void AttachDecorations()
     {
-        _decorations = new ViewModelDecorations(EditorId, _model, CoordinatesConverter);
+        _decorations = new ViewModelDecorations(EditorId, _model, _lines, CoordinatesConverter);
         _model.DecorationsChanged += OnModelDecorationsChanged;
     }
 

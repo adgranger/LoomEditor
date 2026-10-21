@@ -13,13 +13,12 @@ namespace LoomEditor.View.Layout;
 /// <summary>
 /// What the renderer and the control talk to: follows the <see cref="TextModel"/>, keeps <see cref="ViewLayout"/> and
 /// <see cref="EditorLayoutInfo"/> up to date and builds a <see cref="ViewportData"/> per frame. Monaco: <c>ViewModel</c>
-/// (phase 2 subset).
+/// (subset).
 /// </summary>
 /// <remarks>
 /// Threading: UI thread only; events are raised synchronously on the calling thread.
-/// Behavior difference: in phase 2 view lines are model lines (identity mapping, no word wrap, folding, injected text,
-/// decorations or view events), so only the <c>viewLayout.onFlushed</c> / <c>onLinesDeleted</c> / <c>onLinesInserted</c>
-/// calls of <c>onDidChangeContentOrInjectedText</c> are ported. Projections come in phase 6.
+/// Behavior difference: the view lines are the ones of <see cref="ViewModelLinesFromProjectedModel"/> (hidden areas, no word wrap
+/// or injected text before phase 6); custom line heights and the view events that only the control consumed are not ported.
 /// </remarks>
 internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 {
@@ -31,6 +30,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     private int _outerHeight;
     private int _lineNumbersDigitCount;
     private bool _disposed;
+    private readonly ViewModelLinesFromProjectedModel _lines;
     private readonly CursorsController _cursor;
     private EditorCursorOptions _cursorOptions = EditorCursorOptions.Default;
 
@@ -49,13 +49,14 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _layoutOptions = layoutOptions;
         _viewLayoutOptions = viewLayoutOptions;
         _lineNumbersDigitCount = CountDigits(model.LineCount);
+        _lines = new ViewModelLinesFromProjectedModel(editorId, model, model.Options.TabSize);
 
         LayoutInfo = ComputeLayoutInfo();
         ViewLayout = new ViewLayout(
-            viewLayoutOptions, LayoutInfo, fontInfo, model.LineCount, [], scheduleAtNextAnimationFrame, timeProvider);
+            viewLayoutOptions, LayoutInfo, fontInfo, _lines.GetViewLineCount(), [], scheduleAtNextAnimationFrame, timeProvider);
 
         EventDispatcher = new ViewModelEventDispatcher();
-        CoordinatesConverter = new IdentityCoordinatesConverter(model);
+        CoordinatesConverter = _lines.CreateCoordinatesConverter();
         CursorConfig = CreateCursorConfiguration();
         _cursor = new CursorsController(model, this, CoordinatesConverter, CursorConfig);
 
@@ -97,6 +98,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _model.LanguageChanged -= OnModelLanguageChanged;
         _model.LanguageConfigurationChanged -= OnModelLanguageChanged;
         _cursor.Dispose();
+        _lines.Dispose();
         ViewLayout.Dispose();
     }
 
@@ -141,34 +143,80 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             selections,
             ViewLayout.GetLinesViewportData(),
             ViewLayout.GetWhitespaceViewportData(),
-            _model,
+            this,
             _decorations);
     }
 
+    // Monaco: onDidChangeContentOrInjectedText (the model change part; custom line heights are not ported)
     private void OnModelRawContentChanged(object? sender, ModelRawContentChangedEventArgs e)
     {
-        foreach (ModelRawChange change in e.Changes)
+        EmitViewEvent(eventsCollector =>
         {
-            switch (change)
-            {
-                case ModelRawFlush:
-                    ViewLayout.OnFlushed(_model.LineCount, []);
-                    _decorations.Reset();
-                    break;
-                case ModelRawLinesDeleted deleted:
-                    ViewLayout.OnLinesDeleted(deleted.FromLineNumber, deleted.ToLineNumber);
-                    break;
-                case ModelRawLinesInserted inserted:
-                    ViewLayout.OnLinesInserted(inserted.FromLineNumber, inserted.FromLineNumber + inserted.Count - 1);
-                    break;
-                default:
-                    // ModelRawLineChanged, ModelRawEolChanged: nothing to do until there is a line mapping.
-                    break;
-            }
-        }
+            bool hadOtherModelChange = false;
+            bool hadModelLineChangeThatChangedLineMapping = false;
+            int versionId = e.VersionId;
 
-        ViewLayout.OnHeightMaybeChanged();
-        HandleVisibleLinesChanged();
+            foreach (ModelRawChange change in e.Changes)
+            {
+                switch (change)
+                {
+                    case ModelRawFlush:
+                        _lines.OnModelFlushed();
+                        _decorations.Reset();
+                        ViewLayout.OnFlushed(GetLineCount(), []);
+                        hadOtherModelChange = true;
+                        break;
+                    case ModelRawLinesDeleted deleted:
+                        if (_lines.OnModelLinesDeleted(versionId, deleted.FromLineNumber, deleted.ToLineNumber) is { } linesDeleted)
+                        {
+                            ViewLayout.OnLinesDeleted(linesDeleted.FromLineNumber, linesDeleted.ToLineNumber);
+                        }
+
+                        hadOtherModelChange = true;
+                        break;
+                    case ModelRawLinesInserted inserted:
+                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, inserted.Count) is { } linesInserted)
+                        {
+                            ViewLayout.OnLinesInserted(linesInserted.FromLineNumber, linesInserted.ToLineNumber);
+                        }
+
+                        hadOtherModelChange = true;
+                        break;
+                    case ModelRawLineChanged changed:
+                        (bool lineMappingChanged, _, ViewLineRange? insertedRange, ViewLineRange? deletedRange) =
+                            _lines.OnModelLineChanged(versionId, changed.LineNumber);
+                        hadModelLineChangeThatChangedLineMapping = lineMappingChanged;
+                        if (insertedRange is { } insertedLines)
+                        {
+                            ViewLayout.OnLinesInserted(insertedLines.FromLineNumber, insertedLines.ToLineNumber);
+                        }
+
+                        if (deletedRange is { } deletedLines)
+                        {
+                            ViewLayout.OnLinesDeleted(deletedLines.FromLineNumber, deletedLines.ToLineNumber);
+                        }
+
+                        break;
+                    default:
+                        // ModelRawEolChanged: nothing to do. The new version is accepted below.
+                        break;
+                }
+            }
+
+            if (_lines.AcceptVersionId(versionId))
+            {
+                // Every line was hidden: the lines revealed one.
+                ViewLayout.OnFlushed(GetLineCount(), []);
+            }
+
+            ViewLayout.OnHeightMaybeChanged();
+
+            if (!hadOtherModelChange && hadModelLineChangeThatChangedLineMapping)
+            {
+                _cursor.OnLineMappingChanged(eventsCollector);
+                _decorations.OnLineMappingChanged();
+            }
+        });
 
         int digitCount = CountDigits(_model.LineCount);
         if (digitCount != _lineNumbersDigitCount)
@@ -176,6 +224,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             _lineNumbersDigitCount = digitCount;
             RecomputeLayoutInfo();
         }
+
+        HandleVisibleLinesChanged();
 
         // Monaco: emitContentChangeEvent runs after the layout has been updated (onDidChangeContentOrInjectedText).
         EmitViewEvent(eventsCollector => _cursor.OnModelContentChanged(eventsCollector, e));

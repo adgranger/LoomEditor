@@ -15,7 +15,7 @@ public class InlineModelDecorationsComputerTests
         new(id, 0, range, ModelDecorationOptions.CreateDynamic(options));
 
     private static InlineModelDecorationsComputer CreateComputer(TextModel model, params ModelDecoration[] decorations) =>
-        new(_ => decorations, model, new IdentityCoordinatesConverter(model));
+        new(_ => decorations, model, new ViewModelLinesFromProjectedModel(0, model, model.Options.TabSize).CreateCoordinatesConverter());
 
     [Fact]
     public void NoDecorations()

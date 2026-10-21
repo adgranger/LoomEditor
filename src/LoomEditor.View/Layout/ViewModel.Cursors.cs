@@ -10,14 +10,13 @@ using LoomEditor.View.Events;
 
 namespace LoomEditor.View.Layout;
 
-// The cursor part of the view model: it owns the CursorsController, is its "simple model" (identity mapping: view lines
-// are model lines until phase 6) and wraps the cursor API in view event collection.
+// The cursor part of the view model: it owns the CursorsController, is its "simple model" (view lines) and wraps the cursor API in view event collection.
 internal sealed partial class ViewModel
 {
     /// <summary>Delivers the view events and the outgoing events (Monaco: <c>_eventDispatcher</c>).</summary>
     public ViewModelEventDispatcher EventDispatcher { get; }
 
-    /// <summary>Converts between model and view coordinates; the identity until phase 6.</summary>
+    /// <summary>Converts between model and view coordinates.</summary>
     public ICoordinatesConverter CoordinatesConverter { get; }
 
     /// <summary>What the cursor operations read; recreated when one of its inputs changes.</summary>
@@ -44,7 +43,21 @@ internal sealed partial class ViewModel
         new(
             _model.Tokenization.GetLanguageId(), _model.Options, _cursorOptions, _fontInfo, LayoutInfo, _model.LanguageConfigurationRegistry);
 
-    private void OnModelOptionsChanged(object? sender, ModelOptionsChangedEventArgs e) => UpdateCursorConfiguration();
+    private void OnModelOptionsChanged(object? sender, ModelOptionsChangedEventArgs e)
+    {
+        // A tab size change changes the line mapping (Monaco: onDidChangeOptions)
+        if (_lines.SetTabSize(_model.Options.TabSize))
+        {
+            EmitViewEvent(eventsCollector =>
+            {
+                _cursor.OnLineMappingChanged(eventsCollector);
+                _decorations.OnLineMappingChanged();
+                ViewLayout.OnFlushed(GetLineCount(), []);
+            });
+        }
+
+        UpdateCursorConfiguration();
+    }
 
     // Monaco: onDidChangeLanguageConfiguration and onDidChangeLanguage
     private void OnModelLanguageChanged(object? sender, EventArgs e) => UpdateCursorConfiguration();
@@ -75,25 +88,33 @@ internal sealed partial class ViewModel
     /// <summary>Raises <see cref="DidPaste"/> (Monaco: the end of <c>_paste</c>).</summary>
     internal void NotifyDidPaste(Range range) => DidPaste?.Invoke(this, range);
 
-    // ----- ICursorSimpleModel (identity mapping)
+    // ----- ICursorSimpleModel (view lines)
 
-    public int GetLineCount() => _model.LineCount;
+    public int GetLineCount() => _lines.GetViewLineCount();
 
-    public string GetLineContent(int lineNumber) => _model.GetLineContent(lineNumber);
+    public string GetLineContent(int lineNumber) => _lines.GetViewLineContent(lineNumber);
 
-    public int GetLineMinColumn(int lineNumber) => _model.GetLineMinColumn(lineNumber);
+    public int GetLineMinColumn(int lineNumber) => _lines.GetViewLineMinColumn(lineNumber);
 
-    public int GetLineMaxColumn(int lineNumber) => _model.GetLineMaxColumn(lineNumber);
+    public int GetLineMaxColumn(int lineNumber) => _lines.GetViewLineMaxColumn(lineNumber);
 
-    public int GetLineFirstNonWhitespaceColumn(int lineNumber) => _model.GetLineFirstNonWhitespaceColumn(lineNumber);
+    public int GetLineFirstNonWhitespaceColumn(int lineNumber)
+    {
+        int result = StringClassification.FirstNonWhitespaceIndex(GetLineContent(lineNumber));
+        return result == -1 ? 0 : result + 1;
+    }
 
-    public int GetLineLastNonWhitespaceColumn(int lineNumber) => _model.GetLineLastNonWhitespaceColumn(lineNumber);
+    public int GetLineLastNonWhitespaceColumn(int lineNumber)
+    {
+        int result = StringClassification.LastNonWhitespaceIndex(GetLineContent(lineNumber));
+        return result == -1 ? 0 : result + 2;
+    }
 
-    public Position NormalizePosition(Position position, PositionAffinity affinity) => TextModel.NormalizePosition(position, affinity);
+    public Position NormalizePosition(Position position, PositionAffinity affinity) => _lines.NormalizePosition(position, affinity);
 
-    public int GetLineIndentColumn(int lineNumber) => _model.GetLineIndentColumn(lineNumber);
+    public int GetLineIndentColumn(int lineNumber) => _lines.GetLineIndentColumn(lineNumber);
 
-    public int GetLineLength(int lineNumber) => _model.GetLineLength(lineNumber);
+    public int GetLineLength(int lineNumber) => _lines.GetViewLineLength(lineNumber);
 
     // ----- cursor move support (Monaco: viewModelImpl.ts)
 
@@ -138,9 +159,6 @@ internal sealed partial class ViewModel
     /// </summary>
     public static Range GetViewRangeWithCursorPadding(Range viewRange) => viewRange;
 
-    /// <summary>The hidden (folded) model ranges. Always empty before folding (phase 5).</summary>
-    public static IReadOnlyList<Range> GetHiddenAreas() => [];
-
     /// <summary>The ranges of the characters the cursor auto-closed (Monaco: <c>getCursorAutoClosedCharacters</c>).</summary>
     public IReadOnlyList<Range> GetCursorAutoClosedCharacters() => _cursor.GetAutoClosedCharacters();
 
@@ -169,6 +187,9 @@ internal sealed partial class ViewModel
     public Selection GetSelection() => _cursor.GetSelection();
 
     public List<Selection> GetSelections() => _cursor.GetSelections();
+
+    /// <summary>The selections of the cursors in view coordinates (Monaco: <c>getViewSelections</c>).</summary>
+    public List<Selection> GetViewSelections() => _cursor.GetViewSelections();
 
     public Position GetPosition() => _cursor.GetPrimaryCursorState().ModelState.Position;
 

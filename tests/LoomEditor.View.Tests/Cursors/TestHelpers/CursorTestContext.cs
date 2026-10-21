@@ -5,7 +5,7 @@ using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Tests.Cursors.TestHelpers;
 
-/// <summary>Builds a <see cref="CursorContext"/> for a text: the model, its simple model, the identity converter and a configuration.</summary>
+/// <summary>Builds a <see cref="CursorContext"/> for a text: the model, its simple model, a converter without hidden lines and a configuration.</summary>
 /// <remarks>
 /// The <c>FontInfo</c> and the <c>EditorLayoutInfo</c> are built directly with fixed values (8 px per character, 19 px
 /// per line, 800 × 600 editor) instead of through <c>FontMeasurements</c> and <c>EditorLayoutInfoComputer</c>: the
@@ -33,7 +33,7 @@ internal static class CursorTestContext
             HorizontalScrollbarHeight: 12,
             OverviewRuler: new OverviewRulerPosition(14, 600, 0, 0));
         var config = new CursorConfiguration("plaintext", model.Options, options ?? EditorCursorOptions.Default, font, layout, new LanguageConfigurationRegistry());
-        return new CursorContext(model, new TextModelCursorSimpleModel(model), new IdentityCoordinatesConverter(model), config);
+        return new CursorContext(model, new TextModelCursorSimpleModel(model), new ViewModelLinesFromProjectedModel(0, model, model.Options.TabSize).CreateCoordinatesConverter(), config);
     }
 
     public static CursorContext Create(string text, EditorCursorOptions? options = null) => Create(new TextModel(text), options);

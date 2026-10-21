@@ -324,6 +324,9 @@ internal sealed partial class CursorsController : IDisposable
 
     public List<Selection> GetSelections() => _cursors.GetSelections();
 
+    /// <summary>The selections of the cursors in view coordinates (Monaco: <c>getViewSelections</c>).</summary>
+    public List<Selection> GetViewSelections() => _cursors.GetViewSelections();
+
     public Position GetPosition() => _cursors.GetPrimaryCursor().ModelState.Position;
 
     public void SetSelections(
