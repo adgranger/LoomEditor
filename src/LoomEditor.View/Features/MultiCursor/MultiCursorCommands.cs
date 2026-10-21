@@ -23,4 +23,22 @@ public static class MultiCursorCommands
 
     /// <summary>Makes the previous cursor the primary cursor.</summary>
     public const string FocusPreviousCursor = "editor.action.focusPreviousCursor";
+
+    /// <summary>Adds the next occurrence of the selection (or of the word at the cursor) as a new cursor.</summary>
+    public const string AddSelectionToNextFindMatch = "editor.action.addSelectionToNextFindMatch";
+
+    /// <summary>Adds the previous occurrence of the selection as a new cursor.</summary>
+    public const string AddSelectionToPreviousFindMatch = "editor.action.addSelectionToPreviousFindMatch";
+
+    /// <summary>Moves the last selection to the next occurrence.</summary>
+    public const string MoveSelectionToNextFindMatch = "editor.action.moveSelectionToNextFindMatch";
+
+    /// <summary>Moves the last selection to the previous occurrence.</summary>
+    public const string MoveSelectionToPreviousFindMatch = "editor.action.moveSelectionToPreviousFindMatch";
+
+    /// <summary>Selects all the occurrences of the find match or of the selection.</summary>
+    public const string SelectHighlights = "editor.action.selectHighlights";
+
+    /// <summary>Selects all the occurrences, to change them at once (needs a writable editor).</summary>
+    public const string ChangeAll = "editor.action.changeAll";
 }

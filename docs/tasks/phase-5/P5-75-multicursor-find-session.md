@@ -1,6 +1,6 @@
 # P5-75 — Find-based multi-cursor: `MultiCursorSession` and Ctrl+D
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-74
 - **Size:** M
 
@@ -68,7 +68,7 @@ tests of `multicursor.test.ts` pass.
 
 `multicursor.test.ts`, suite `Multicursor selection` (and its nested suite `Find state disassociation`):
 
-- [ ] Port (11): `issue #8817: Cursor position changes when you cancel multicursor`,
+- [x] Port (11): `issue #8817: Cursor position changes when you cancel multicursor`,
       `issue #5400: "Select All Occurrences of Find Match" does not select all if find uses regex`,
       `AddSelectionToNextFindMatchAction can work with multiline`,
       `issue #6661: AddSelectionToNextFindMatchAction can work with touching ranges`,
@@ -79,20 +79,20 @@ tests of `multicursor.test.ts` pass.
       `AddSelectionToNextFindMatchAction starting with all collapsed selections`,
       `AddSelectionToNextFindMatchAction starting with all collapsed selections on different words`,
       `issue #20651: AddSelectionToNextFindMatchAction case insensitive`
-- [ ] Port suite `Find state disassociation` (5): `caret-started sessions temporarily override and restore Find options in every matching mode`,
+- [x] Port suite `Find state disassociation` (5): `caret-started sessions temporarily override and restore Find options in every matching mode`,
       `changing Find options ends a default caret-started session without reverting user preferences`, `enters mode`,
       `leaves mode when selection changes`, `Select Highlights respects mode ` (trailing space is in Monaco's name)
-- [ ] New: `SetHasFocus_EmitsFocusChangedEvent`, `Attach_WithoutFindFeature_RegistersOnlyThePhase3Commands`,
+- [x] New: `SetHasFocus_EmitsFocusChangedEvent`, `Attach_WithoutFindFeature_RegistersOnlyThePhase3Commands`,
       `CtrlD_Keybinding_ResolvesToAddSelectionToNextFindMatch`, `CtrlK_CtrlD_Chord_ResolvesToMoveSelectionToNextFindMatch`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only the new `MultiCursorCommands` constants
-- [ ] `docs/PORTING.md`: map rows `multicursor.ts` (+ Find-based commands, P5-75), `viewModelEventDispatcher.ts` (+ `FocusChangedEvent`);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of `LoomEditor.View`: only the new `MultiCursorCommands` constants
+- [x] `docs/PORTING.md`: map rows `multicursor.ts` (+ Find-based commands, P5-75), `viewModelEventDispatcher.ts` (+ `FocusChangedEvent`);
       tests table `multicursor.test.ts` 18 / 76
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

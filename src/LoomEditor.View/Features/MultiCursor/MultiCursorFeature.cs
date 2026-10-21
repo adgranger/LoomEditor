@@ -4,19 +4,20 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Cursors;
+using LoomEditor.View.Features.Find;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Features.MultiCursor;
 
-/// <summary>Adds the multi-cursor commands that do not need Find (add cursor above/below, at line ends, focus next/previous cursor).</summary>
+/// <summary>Adds the multi-cursor commands: add cursor above/below, at line ends, focus next/previous cursor, and, when the Find feature is attached, the occurrence commands (Ctrl+D...).</summary>
 /// <remarks>
-/// Phase 3 cut points: <c>precondition</c>, keybindings, menus and the screen reader announcements (<c>announceCursorChange</c>)
-/// are not ported. The Find-based commands are phase 5.
+/// Cut points: menus and the screen reader announcements (<c>announceCursorChange</c>) are not ported.
 /// Threading: UI thread only.
 /// </remarks>
 public sealed class MultiCursorFeature : IEditorFeature
 {
     private readonly List<IDisposable> _registrations = [];
+    private MultiCursorSelectionController? _controller;
 
     /// <inheritdoc />
     public string Id => "loom.multiCursor";
@@ -39,6 +40,22 @@ public sealed class MultiCursorFeature : IEditorFeature
         Register(context, MultiCursorCommands.AddCursorsToTop, () => AddCursorsToTop(viewModel));
         Register(context, MultiCursorCommands.FocusNextCursor, () => FocusCursor(viewModel, next: true));
         Register(context, MultiCursorCommands.FocusPreviousCursor, () => FocusCursor(viewModel, next: false));
+
+        // The Find-based commands need the find controller (Monaco: CommonFindController.get(editor)).
+        FindController? findController = context.GetFindController();
+        if (findController is null)
+        {
+            return;
+        }
+
+        var controller = new MultiCursorSelectionController(viewModel, MultiCursorOptions.Default);
+        _controller = controller;
+        Register(context, MultiCursorCommands.AddSelectionToNextFindMatch, () => controller.AddSelectionToNextFindMatch(findController));
+        Register(context, MultiCursorCommands.AddSelectionToPreviousFindMatch, () => controller.AddSelectionToPreviousFindMatch(findController));
+        Register(context, MultiCursorCommands.MoveSelectionToNextFindMatch, () => controller.MoveSelectionToNextFindMatch(findController));
+        Register(context, MultiCursorCommands.MoveSelectionToPreviousFindMatch, () => controller.MoveSelectionToPreviousFindMatch(findController));
+        Register(context, MultiCursorCommands.SelectHighlights, () => controller.SelectAll(findController));
+        Register(context, MultiCursorCommands.ChangeAll, () => controller.SelectAll(findController), () => !viewModel.CursorConfig.ReadOnly);
     }
 
     /// <inheritdoc />
@@ -50,10 +67,13 @@ public sealed class MultiCursorFeature : IEditorFeature
         }
 
         _registrations.Clear();
+
+        _controller?.Dispose();
+        _controller = null;
     }
 
-    private void Register(IEditorContext context, string id, Action run) =>
-        _registrations.Add(context.Commands.Register(new EditorCommand(id, run)));
+    private void Register(IEditorContext context, string id, Action run, Func<bool>? canExecute = null) =>
+        _registrations.Add(context.Commands.Register(new EditorCommand(id, run, canExecute)));
 
     // Monaco: InsertCursorAbove.run and InsertCursorBelow.run (logicalLine is always true: no arguments in phase 3)
     private static void InsertCursor(ViewModel viewModel, bool up)

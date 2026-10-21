@@ -11,6 +11,7 @@ internal enum OutgoingViewModelEventKind
 {
     CursorStateChanged,
     ReadOnlyEditAttempt,
+    FocusChanged,
 }
 
 /// <summary>An event for the outside world, delivered once the view has handled its own events (Monaco: <c>OutgoingViewModelEvent</c>).</summary>
@@ -112,4 +113,20 @@ internal sealed class ReadOnlyEditAttemptEvent : OutgoingViewModelEvent
 
     public override OutgoingViewModelEvent? AttemptToMerge(OutgoingViewModelEvent other) =>
         other.Kind == Kind ? this : null;
+}
+
+/// <summary>The editor gained or lost the focus (Monaco: <c>FocusChangedEvent</c>).</summary>
+/// <remarks>Threading: immutable; UI thread only.</remarks>
+internal sealed class FocusChangedEvent(bool oldHasFocus, bool hasFocus) : OutgoingViewModelEvent
+{
+    public override OutgoingViewModelEventKind Kind => OutgoingViewModelEventKind.FocusChanged;
+
+    public bool OldHasFocus { get; } = oldHasFocus;
+
+    public bool HasFocus { get; } = hasFocus;
+
+    public override bool IsNoOp() => OldHasFocus == HasFocus;
+
+    public override OutgoingViewModelEvent? AttemptToMerge(OutgoingViewModelEvent other) =>
+        other is FocusChangedEvent otherEvent ? new FocusChangedEvent(OldHasFocus, otherEvent.HasFocus) : null;
 }

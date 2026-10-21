@@ -1,16 +1,18 @@
 # MultiCursor
 
-**Role:** adds the multi-cursor commands that do not need the Find feature: add cursor above/below, cursors at the end
-of each selected line, cursors to the top/bottom, focus next/previous cursor (7 ids).
+**Role:** the multi-cursor commands: add cursor above/below, cursors at the end of each selected line, cursors to the
+top/bottom, focus next/previous cursor, and, when the Find feature is attached, the occurrence commands (Ctrl+D,
+Ctrl+K Ctrl+D, Ctrl+Shift+L, Ctrl+F2 and their "previous" siblings).
 
 **Monaco sources:** `src/vs/editor/contrib/multicursor/browser/multicursor.ts`.
 
 **Files:**
-- `MultiCursorFeature.cs` — registers the commands.
+- `MultiCursorFeature.cs` — registers the commands; creates the controller when `FindFeature` is attached.
 - `MultiCursorCommands.cs` — command ids.
+- `MultiCursorSession.cs` — what a run of Ctrl+D presses searches for and how (`MultiCursorSession`).
+- `MultiCursorSelectionController.cs` — the session life cycle and the six Find-based actions.
+- `MultiCursorOptions.cs` — `selectedTextMatchMode`.
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/MultiCursor/`.
 
-**Known limits:** the Find-based commands (`addSelectionToNextFindMatch` Ctrl+D, `moveSelectionToNextFindMatch`,
-`selectHighlights`, `changeAll`, `MultiCursorSession`, `SelectionHighlighter`) are phase 5. Keybindings are P3-39;
-screen reader announcements are not ported.
+**Known limits:** `SelectionHighlighter` is P5-77; menus and screen reader announcements are not ported.

@@ -485,7 +485,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-72](phase-5/P5-72-find-widget-layout.md) | The find widget (XAML): layout, theme colors and the find row | P5-71 | done |
 | [P5-73](phase-5/P5-73-find-widget-keyboard-and-focus.md) | The find widget: keyboard and focus routing | P5-72 | done |
 | [P5-74](phase-5/P5-74-find-widget-replace-and-count.md) | The find widget: replace row, "n of m", find in selection, manual checks | P5-73 | done |
-| [P5-75](phase-5/P5-75-multicursor-find-session.md) | Find-based multi-cursor: `MultiCursorSession` and Ctrl+D | P5-74 | todo |
+| [P5-75](phase-5/P5-75-multicursor-find-session.md) | Find-based multi-cursor: `MultiCursorSession` and Ctrl+D | P5-74 | done |
 | [P5-76](phase-5/P5-76-multicursor-selected-text-tests.md) | Port tests: multi-cursor "Selected text occurrence matching" | P5-75 | todo |
 | [P5-77](phase-5/P5-77-selection-highlighter.md) | `SelectionHighlighter`: highlight the other occurrences of the selection | P5-76 | todo |
 

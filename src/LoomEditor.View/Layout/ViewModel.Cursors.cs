@@ -58,6 +58,9 @@ internal sealed partial class ViewModel
             HasFocus = hasFocus;
             FocusChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        // Monaco emits it whenever setHasFocus is called, with the old value deduced from the new one.
+        EventDispatcher.EmitOutgoingEvent(new FocusChangedEvent(!hasFocus, hasFocus));
     }
 
     /// <summary>Whether the editor has the focus (Monaco: <c>hasWidgetFocus</c>).</summary>
