@@ -18,6 +18,7 @@ public sealed class MultiCursorFeature : IEditorFeature
 {
     private readonly List<IDisposable> _registrations = [];
     private MultiCursorSelectionController? _controller;
+    private SelectionHighlighter? _highlighter;
 
     /// <inheritdoc />
     public string Id => "loom.multiCursor";
@@ -50,12 +51,19 @@ public sealed class MultiCursorFeature : IEditorFeature
 
         var controller = new MultiCursorSelectionController(viewModel, MultiCursorOptions.Default);
         _controller = controller;
+        var editorContext = context as EditorContext;
         Register(context, MultiCursorCommands.AddSelectionToNextFindMatch, () => controller.AddSelectionToNextFindMatch(findController));
         Register(context, MultiCursorCommands.AddSelectionToPreviousFindMatch, () => controller.AddSelectionToPreviousFindMatch(findController));
         Register(context, MultiCursorCommands.MoveSelectionToNextFindMatch, () => controller.MoveSelectionToNextFindMatch(findController));
         Register(context, MultiCursorCommands.MoveSelectionToPreviousFindMatch, () => controller.MoveSelectionToPreviousFindMatch(findController));
         Register(context, MultiCursorCommands.SelectHighlights, () => controller.SelectAll(findController));
         Register(context, MultiCursorCommands.ChangeAll, () => controller.SelectAll(findController), () => !viewModel.CursorConfig.ReadOnly);
+
+        if (editorContext is not null)
+        {
+            _highlighter = new SelectionHighlighter(
+                viewModel, controller, findController, editorContext.CreateDecorationsCollection(), context.Scheduler, controller.Options);
+        }
     }
 
     /// <inheritdoc />
@@ -68,6 +76,8 @@ public sealed class MultiCursorFeature : IEditorFeature
 
         _registrations.Clear();
 
+        _highlighter?.Dispose();
+        _highlighter = null;
         _controller?.Dispose();
         _controller = null;
     }

@@ -11,8 +11,9 @@ Ctrl+K Ctrl+D, Ctrl+Shift+L, Ctrl+F2 and their "previous" siblings).
 - `MultiCursorCommands.cs` — command ids.
 - `MultiCursorSession.cs` — what a run of Ctrl+D presses searches for and how (`MultiCursorSession`).
 - `MultiCursorSelectionController.cs` — the session life cycle and the six Find-based actions.
-- `MultiCursorOptions.cs` — `selectedTextMatchMode`.
+- `MultiCursorOptions.cs` — `selectedTextMatchMode`, `selectionHighlight*`.
+- `SelectionHighlighter.cs`, `SelectionHighlightDecorations.cs` — highlight the other occurrences of the selection.
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/MultiCursor/`.
 
-**Known limits:** `SelectionHighlighter` is P5-77; menus and screen reader announcements are not ported.
+**Known limits:** menus and screen reader announcements are not ported.

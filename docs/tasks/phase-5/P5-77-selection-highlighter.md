@@ -1,6 +1,6 @@
 # P5-77 — `SelectionHighlighter`: highlight the other occurrences of the selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-76
 - **Size:** M
 
@@ -55,25 +55,25 @@ VS Code (`selectionHighlight`, on by default). The last 6 deferred tests of `mul
 Suite `Selected text occurrence matching highlights` (`highlights(editor)` reads the decorations whose class name is
 `selectionHighlight`; `sinon.useFakeTimers()` + `clock.runAll()` → `ManualEditorScheduler.RunAll()`):
 
-- [ ] Port (6): `selection highlighting uses match case false, editor focused true`,
+- [x] Port (6): `selection highlighting uses match case false, editor focused true`,
       `only suppress duplicate Find highlights with the same matching rules, match case false`,
       `selection highlighting uses match case true, editor focused true`,
       `only suppress duplicate Find highlights with the same matching rules, match case true`,
       `selection highlighting refreshes on case-only configuration changes without cursor movement`,
       `Find regex select-all discards an existing selection-driven session`
-- [ ] New: `EmptySelection_NoHighlights`, `WhitespaceOnlySelection_NoHighlights`, `SelectionLongerThan200_NoHighlights`,
+- [x] New: `EmptySelection_NoHighlights`, `WhitespaceOnlySelection_NoHighlights`, `SelectionLongerThan200_NoHighlights`,
       `MultilineSelection_OptionOff_NoHighlights`, `HighlightsDoNotOverlapSelections`, `Dispose_ClearsDecorations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `multicursor.ts` ✅ except word wrap / `setModel` (P5-75 … P5-77),
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `multicursor.ts` ✅ except word wrap / `setModel` (P5-75 … P5-77),
       `highlightDecorations.ts` 🔶 (selection highlight only); tests table `multicursor.test.ts` 74 / 76 (`issue #26393` word
       wrap: phase 6; `a selection session does not survive replacing the editor model`: no `setModel`); color difference
 - [ ] **Manual check by the maintainer** (Gallery): selecting a word highlights its other occurrences; typing removes them;
       Ctrl+D then adds them one by one
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
