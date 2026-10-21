@@ -61,6 +61,21 @@ public class EditorColorDefaultsTests
     }
 
     [Fact]
+    public void Resolve_FindColors_DarkAndLightDefaults()
+    {
+        Assert.Equal("#515C6AFF", Default("editor.findMatchBackground", ThemeType.Dark));
+        Assert.Equal("#A8AC94FF", Default("editor.findMatchBackground", ThemeType.Light));
+        Assert.Equal("#EA5C0055", Default("editor.findMatchHighlightBackground", ThemeType.Dark));
+        Assert.Equal("#EA5C0055", Default("editor.findMatchHighlightBackground", ThemeType.Light));
+        Assert.Equal("#3A3D4166", Default("editor.findRangeHighlightBackground", ThemeType.Dark));
+        Assert.Equal("#B4B4B44D", Default("editor.findRangeHighlightBackground", ThemeType.Light));
+        Assert.Equal("#FFFFFF0B", Default("editor.rangeHighlightBackground", ThemeType.Dark));
+        Assert.Equal("#FDFF0033", Default("editor.rangeHighlightBackground", ThemeType.Light));
+        Assert.Null(Default("editor.findMatchBorder", ThemeType.Dark));
+        Assert.Null(Default("editor.rangeHighlightBorder", ThemeType.Light));
+    }
+
+    [Fact]
     public void Resolve_Transparent_UsesTheThemesValueOfTheOperand()
     {
         ThemeColor? Theme(string id) => id == "editor.selectionBackground" ? ThemeColor.Parse("#FF0000") : null;
