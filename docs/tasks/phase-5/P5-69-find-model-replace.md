@@ -1,6 +1,6 @@
 # P5-69 — Find model: replace, replace all, `ReplaceAllCommand`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-68
 - **Size:** M
 
@@ -47,7 +47,7 @@ every match in one undo step, with regex groups, case operators and preserve cas
 
 `findModel.test.ts`, suite `FindModel`, as `[Theory]` plain / chunked like P5-68 (reuse its helpers):
 
-- [ ] Port (17): `replace hello`, `replace bla`, `replaceAll hello`, `replaceAll two spaces with one space`, `replaceAll bla`,
+- [x] Port (17): `replace hello`, `replace bla`, `replaceAll hello`, `replaceAll two spaces with one space`, `replaceAll bla`,
       `replaceAll bla with \t\n`, `issue #3516: "replace all" moves page/cursor/focus/scroll to the place of the last replacement`,
       `replace when search string has look ahed regex`,
       `replace when search string has look ahed regex and cursor is at the last find match`,
@@ -58,15 +58,15 @@ every match in one undo step, with regex groups, case operators and preserve cas
       `replaceAll preserving case`, `issue #18711 replaceAll with empty string`,
       `issue #32522 replaceAll with ^ on more than 1000 matches`,
       `issue #19740 Find and replace capture group/backreference inserts \`undefined\` instead of empty string`
-- [ ] New: `ReplaceAllCommand_TouchingRanges_AreMergedIntoOneEdit`, `ReplaceAll_IsOneUndoStep`,
+- [x] New: `ReplaceAllCommand_TouchingRanges_AreMergedIntoOneEdit`, `ReplaceAll_IsOneUndoStep`,
       `LargeReplaceAll_EmptyMatches_StepOverSurrogatePairs` (call the private path through a model with ≥ 19 999 matches of `^`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `findModel.ts` ✅ (P5-68, P5-69), `replaceAllCommand.ts` ✅; tests table `findModel.test.ts` 44 / 44
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `findModel.ts` ✅ (P5-68, P5-69), `replaceAllCommand.ts` ✅; tests table `findModel.test.ts` 44 / 44
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
