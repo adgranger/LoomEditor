@@ -39,4 +39,16 @@ internal static class WhenClauses
     /// Windows table, so <c>isWindows</c> is true.
     /// </summary>
     public static bool WordMove(KeybindingContext c) => c.TextInputFocus && !c.AccessibilityModeEnabled;
+
+    /// <summary><c>editorFocus</c> (kbExpr of most find keys).</summary>
+    public static bool EditorFocus(KeybindingContext c) => c.EditorFocus;
+
+    /// <summary><c>editorFocus AND findWidgetVisible</c>.</summary>
+    public static bool FindWidgetVisible(KeybindingContext c) => c.EditorFocus && c.FindWidgetVisible;
+
+    /// <summary><c>editorFocus AND findInputFocussed</c>.</summary>
+    public static bool FindInputFocused(KeybindingContext c) => c.EditorFocus && c.FindInputFocused;
+
+    /// <summary><c>editorFocus AND findWidgetVisible AND replaceInputFocussed</c>.</summary>
+    public static bool ReplaceInputFocused(KeybindingContext c) => c.EditorFocus && c.FindWidgetVisible && c.ReplaceInputFocused;
 }

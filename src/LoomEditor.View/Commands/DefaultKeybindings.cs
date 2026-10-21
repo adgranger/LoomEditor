@@ -150,6 +150,29 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl, KeyCode.Insert, ClipboardCopy, null, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.KeyV, ClipboardPaste, null, KeybindingWeight.EditorContrib);
 
+        // findController.ts (Contrib): Ctrl+F and Ctrl+H have no when (the control only gets keys when it or its widget has the focus).
+        // The commands of the widget are 5 heavier (Monaco: EditorContrib + 5).
+        const int FindWidgetWeight = KeybindingWeight.EditorContrib + 5;
+        Add(KeyModifiers.Ctrl, KeyCode.KeyF, "actions.find", null, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.F3, "editor.action.nextMatchFindAction", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.Enter, "editor.action.nextMatchFindAction", WhenClauses.FindInputFocused, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift, KeyCode.F3, "editor.action.previousMatchFindAction", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift, KeyCode.Enter, "editor.action.previousMatchFindAction", WhenClauses.FindInputFocused, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.F3, "editor.action.nextSelectionMatchFindAction", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.F3, "editor.action.previousSelectionMatchFindAction", WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyH, "editor.action.startFindReplaceAction", null, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.Escape, "closeFindWidget", WhenClauses.FindWidgetVisible, FindWidgetWeight);
+        Add(KeyModifiers.Shift, KeyCode.Escape, "closeFindWidget", WhenClauses.FindWidgetVisible, FindWidgetWeight);
+        Add(KeyModifiers.Alt, KeyCode.KeyC, "toggleFindCaseSensitive", WhenClauses.EditorFocus, FindWidgetWeight);
+        Add(KeyModifiers.Alt, KeyCode.KeyW, "toggleFindWholeWord", WhenClauses.EditorFocus, FindWidgetWeight);
+        Add(KeyModifiers.Alt, KeyCode.KeyR, "toggleFindRegex", WhenClauses.EditorFocus, FindWidgetWeight);
+        Add(KeyModifiers.Alt, KeyCode.KeyL, "toggleFindInSelection", WhenClauses.EditorFocus, FindWidgetWeight);
+        Add(KeyModifiers.Alt, KeyCode.KeyP, "togglePreserveCase", WhenClauses.EditorFocus, FindWidgetWeight);
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.Digit1, "editor.action.replaceOne", WhenClauses.FindWidgetVisible, FindWidgetWeight);
+        Add(KeyModifiers.None, KeyCode.Enter, "editor.action.replaceOne", WhenClauses.ReplaceInputFocused, FindWidgetWeight);
+        Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.Enter, "editor.action.replaceAll", WhenClauses.FindWidgetVisible, FindWidgetWeight);
+        Add(KeyModifiers.Alt, KeyCode.Enter, "editor.action.selectAllMatches", WhenClauses.FindWidgetVisible, FindWidgetWeight);
+
         return rules;
     }
 }

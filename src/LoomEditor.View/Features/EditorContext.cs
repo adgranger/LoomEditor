@@ -8,6 +8,7 @@ using LoomEditor.TextMate.Tokenization;
 using LoomEditor.Core.Tokens;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Events;
+using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Highlighting;
 using LoomEditor.View.Layout;
@@ -105,6 +106,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     internal SyntaxHighlighter Highlighter { get; }
 
     internal ViewModel ViewModel { get; }
+
+    /// <summary>The find controller, set by <c>FindFeature</c> while it is attached (Monaco: <c>CommonFindController.get(editor)</c>).</summary>
+    internal FindController? FindController { get; set; }
 
     /// <inheritdoc />
     public Selection Selection

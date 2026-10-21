@@ -31,6 +31,7 @@ internal static class KeyMapping
         (VirtualKey)221 => KeyCode.BracketRight, // VK_OEM_6
         >= VirtualKey.A and <= VirtualKey.Z => KeyCode.KeyA + (key - VirtualKey.A),
         >= VirtualKey.F1 and <= VirtualKey.F12 => KeyCode.F1 + (key - VirtualKey.F1),
+        >= VirtualKey.Number0 and <= VirtualKey.Number9 => KeyCode.Digit0 + (key - VirtualKey.Number0),
         _ => null,
     };
 }

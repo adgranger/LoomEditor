@@ -13,6 +13,10 @@ namespace LoomEditor.View.Commands;
 /// <param name="Writable"><c>!editorReadonly</c>.</param>
 /// <param name="TabDoesNotMoveFocus"><c>editorTabMovesFocus</c> is false.</param>
 /// <param name="AccessibilityModeEnabled"><c>accessibilityModeEnabled</c>.</param>
+/// <param name="EditorFocus"><c>editorFocus</c>: the editor (or its find widget) has the focus.</param>
+/// <param name="FindWidgetVisible"><c>findWidgetVisible</c>: the find widget is revealed.</param>
+/// <param name="FindInputFocused"><c>findInputFocussed</c>: the find box has the focus.</param>
+/// <param name="ReplaceInputFocused"><c>replaceInputFocussed</c>: the replace box has the focus.</param>
 internal readonly record struct KeybindingContext(
     bool TextInputFocus = false,
     bool EditorTextFocus = false,
@@ -21,4 +25,8 @@ internal readonly record struct KeybindingContext(
     bool ColumnSelection = false,
     bool Writable = false,
     bool TabDoesNotMoveFocus = false,
-    bool AccessibilityModeEnabled = false);
+    bool AccessibilityModeEnabled = false,
+    bool EditorFocus = false,
+    bool FindWidgetVisible = false,
+    bool FindInputFocused = false,
+    bool ReplaceInputFocused = false);

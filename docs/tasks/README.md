@@ -481,7 +481,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-68](phase-5/P5-68-find-model-navigation.md) | `FindModelBoundToEditorModel`: search, decorations, next / previous, select all | P5-67 | done |
 | [P5-69](phase-5/P5-69-find-model-replace.md) | Find model: replace, replace all, `ReplaceAllCommand` | P5-68 | done |
 | [P5-70](phase-5/P5-70-find-controller.md) | `FindController` and the find actions (without UI) | P5-69 | done |
-| [P5-71](phase-5/P5-71-find-commands-and-keybindings.md) | Find commands, `when` clauses and VS Code's keybindings | P5-70 | todo |
+| [P5-71](phase-5/P5-71-find-commands-and-keybindings.md) | Find commands, `when` clauses and VS Code's keybindings | P5-70 | done |
 | [P5-72](phase-5/P5-72-find-widget-layout.md) | The find widget (XAML): layout, theme colors and the find row | P5-71 | todo |
 | [P5-73](phase-5/P5-73-find-widget-keyboard-and-focus.md) | The find widget: keyboard and focus routing | P5-72 | todo |
 | [P5-74](phase-5/P5-74-find-widget-replace-and-count.md) | The find widget: replace row, "n of m", find in selection, manual checks | P5-73 | todo |
