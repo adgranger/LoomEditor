@@ -1,6 +1,6 @@
 # P5-44 — Surround the selection, and auto-close at the end of a composition
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-43
 - **Size:** M
 
@@ -55,27 +55,27 @@ overtype an auto-closed character, or auto-close. Port `surroundSelectionCommand
 
 Port from `cursor.test.ts`, suite `Editor Controller`:
 
-- [ ] `Bug #11476: Double bracket surrounding + undo is broken` (1988)
-- [ ] `issue #206774: SurroundSelectionCommand with empty charAfterSelection should not throw` (2007)
-- [ ] `autoClosingPairs - auto wrapping is configurable` (5238)
-- [ ] `issue #41825: Special handling of quotes in surrounding pairs` (6318)
-- [ ] `issue #15825: accents on mac US intl keyboard` (6055)
-- [ ] `issue #90016: allow accents on mac US intl keyboard to surround selection` (6073)
-- [ ] `issue #2773: Accents (´\`¨^, others?) are inserted in the wrong position (Mac)` (6144)
-- [ ] `issue #26820: auto close quotes when not used as accents` (6168)
-- [ ] `issue #144690: Quotes do not overtype when using US Intl PC keyboard layout` (6233)
-- [ ] `issue #144693: Typing a quote using US Intl PC keyboard layout always surrounds words` (6259)
-- [ ] `issue #82701: auto close does not execute when IME is canceled via backspace` (6280)
-- [ ] New: `Type_OpenBracketOverWhitespaceOnlySelection_DoesNotSurround`
+- [x] `Bug #11476: Double bracket surrounding + undo is broken` (1988)
+- [x] `issue #206774: SurroundSelectionCommand with empty charAfterSelection should not throw` (2007)
+- [x] `autoClosingPairs - auto wrapping is configurable` (5238)
+- [x] `issue #41825: Special handling of quotes in surrounding pairs` (6318)
+- [x] `issue #15825: accents on mac US intl keyboard` (6055)
+- [x] `issue #90016: allow accents on mac US intl keyboard to surround selection` (6073)
+- [x] `issue #2773: Accents (´\`¨^, others?) are inserted in the wrong position (Mac)` (6144)
+- [x] `issue #26820: auto close quotes when not used as accents` (6168)
+- [x] `issue #144690: Quotes do not overtype when using US Intl PC keyboard layout` (6233)
+- [x] `issue #144693: Typing a quote using US Intl PC keyboard layout always surrounds words` (6259)
+- [x] `issue #82701: auto close does not execute when IME is canceled via backspace` (6280)
+- [x] New: `Type_OpenBracketOverWhitespaceOnlySelection_DoesNotSurround`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `surroundSelectionCommand.ts` (✅), `cursorTypeOperations.ts` (✅),
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `surroundSelectionCommand.ts` (✅), `cursorTypeOperations.ts` (✅),
       `cursorTypeEditOperations.ts` (+ surround); tests table `cursor.test.ts` (`Editor Controller` +11); "Cut points"
       row `TypeOperations.cs`: only `AutoIndentOperation` (P5-45) and `InterceptorElectricCharOperation` (P5-46) left
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

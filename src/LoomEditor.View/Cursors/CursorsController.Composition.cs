@@ -27,7 +27,8 @@ internal sealed partial class CursorsController
                 if (source == "keyboard")
                 {
                     // composition finishes, let's check if we need to auto complete if necessary.
-                    EditOperationResult? edits = TypeOperations.CompositionEndWithInterceptors(Context.CursorConfig, compositionOutcome);
+                    EditOperationResult? edits = TypeOperations.CompositionEndWithInterceptors(
+                        _prevEditOperationType, Context.CursorConfig, _model, compositionOutcome, GetSelections(), GetAutoClosedCharacters());
                     if (edits is not null)
                     {
                         ExecuteEditOperation(edits);

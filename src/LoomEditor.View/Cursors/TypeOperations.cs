@@ -74,48 +74,14 @@ internal static class TypeOperations
     /// The edits to make when a composition ends: typing, but the character is already in the text buffer (Monaco:
     /// <c>compositionEndWithInterceptors</c>). <see langword="null"/> when there is nothing to do.
     /// </summary>
-    public static EditOperationResult? CompositionEndWithInterceptors(CursorConfiguration config, IReadOnlyList<CompositionOutcome>? compositions)
-    {
-        if (compositions is null)
-        {
-            // could not deduce what the composition did
-            return null;
-        }
-
-        string? insertedText = null;
-        foreach (CompositionOutcome composition in compositions)
-        {
-            if (insertedText is null)
-            {
-                insertedText = composition.InsertedText;
-            }
-            else if (insertedText != composition.InsertedText)
-            {
-                // not all selections agree on what was typed
-                return null;
-            }
-        }
-
-        if (string.IsNullOrEmpty(insertedText) || insertedText.Length != 1)
-        {
-            // we're only interested in the case where a single character was inserted
-            return CompositionEndOvertypeOperation.GetEdits(config, compositions);
-        }
-
-        foreach (CompositionOutcome composition in compositions)
-        {
-            if (composition.DeletedText.Length != 0)
-            {
-                // Phase 4–5 cut point: Monaco checks here whether the composition was a surround selection
-                // (shouldSurroundChar, config.surroundingPairs). Without a language configuration it returns null.
-                return null;
-            }
-        }
-
-        // Phase 4–5 cut point: AutoClosingOvertypeWithInterceptorsOperation and AutoClosingOpenCharTypeOperation
-        // (they return undefined without a language configuration).
-        return CompositionEndOvertypeOperation.GetEdits(config, compositions);
-    }
+    public static EditOperationResult? CompositionEndWithInterceptors(
+        EditOperationType prevEditOperationType,
+        CursorConfiguration config,
+        TextModel model,
+        IReadOnlyList<CompositionOutcome>? compositions,
+        IReadOnlyList<Selection> selections,
+        IReadOnlyList<Range> autoClosedCharacters) =>
+        CompositionEndOperation.GetEdits(prevEditOperationType, config, model, compositions, selections, autoClosedCharacters);
 
     private static ShiftCommandOptions ShiftOptions(CursorConfiguration config, bool isUnshift) =>
         new(isUnshift, config.TabSize, config.IndentSize, config.InsertSpaces, config.UseTabStops, config.AutoIndent);
@@ -157,7 +123,12 @@ internal static class TypeOperations
             return autoClosingOpenCharEdits;
         }
 
-        // Phase 4–5 cut point: SurroundSelectionOperation (421–478)
+        EditOperationResult? surroundSelectionEdits = SurroundSelectionOperation.GetEdits(config, model, selections, ch, isDoingComposition);
+        if (surroundSelectionEdits is not null)
+        {
+            return surroundSelectionEdits;
+        }
+
         // Phase 4–5 cut point: InterceptorElectricCharOperation (480–546)
         return SimpleCharacterTypeOperation.GetEdits(config, prevEditOperationType, selections, ch, isDoingComposition);
     }

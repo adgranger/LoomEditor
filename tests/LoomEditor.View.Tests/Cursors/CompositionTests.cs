@@ -9,7 +9,7 @@ using static LoomEditor.View.Tests.Cursors.TestHelpers.CursorTestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors;
 
-public class CompositionTests
+public partial class CompositionTests
 {
     // Monaco: 'issue #9675: Undo/Redo adds a stop in between CHN Characters'
     [Fact]
