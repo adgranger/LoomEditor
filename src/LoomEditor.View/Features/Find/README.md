@@ -15,6 +15,7 @@ have no arguments) and `editor.action.goToMatchFindAction` (it needs a quick inp
 - `EditorFindOptions.cs` — the `editor.find` options with VS Code's defaults (no public option in phase 5).
 - `ReplacePattern.cs`, `ReplacePattern.Parse.cs` — the parsed replace string (`$1`, `\n`, `\u`…); `FindDecorations.cs` — the model decorations of matches, current match, its line and the scope.
 - `FindModelBoundToEditorModel.cs`, `FindModelBoundToEditorModel.Navigation.cs` — searches when the state changes, decorates matches, keeps "n of m", moves to the next / previous match, selects all matches; `FindModelBoundToEditorModel.Replace.cs` and `ReplaceAllCommand.cs` — replace and replace all.
+- `FindController.cs`, `FindActions.cs`, `FindStartOptions.cs`, `IFindWidget.cs` — the controller (state + find model while the widget is revealed), the find actions as static methods (Ctrl+F, Ctrl+H, F3…) and the small interface a widget implements.
 - `SelectionSearchString.cs` — what Ctrl+F puts in the find box (`getSelectionSearchString`).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Find/`.

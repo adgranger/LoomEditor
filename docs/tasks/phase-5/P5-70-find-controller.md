@@ -1,6 +1,6 @@
 # P5-70 — `FindController` and the find actions (without UI)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-69
 - **Size:** M
 
@@ -66,7 +66,7 @@ the tests call. The widget is reached through a small interface, faked in tests 
 
 `findController.test.ts`:
 
-- [ ] Port suite `FindController` (14): `issue #1857: F3, Find Next, acts like "Find Under Cursor"`,
+- [x] Port suite `FindController` (14): `issue #1857: F3, Find Next, acts like "Find Under Cursor"`,
       `issue #3090: F3 does not loop with two matches on a single line`,
       `issue #6149: Auto-escape highlighted text for search and replace regex mode`,
       `issue #41027: Don't replace find input value on replace action if find input is active`,
@@ -78,22 +78,22 @@ the tests call. The widget is reached through a small interface, faked in tests 
       `issue #38232: Find Next Selection, regex enabled, find widget open`,
       `issue #47400, CMD+E supports feeding multiple line of text into the find widget`,
       `issue #109756, CMD+E with empty cursor should always work`
-- [ ] Port suite `FindController query options persistence` (4): `issue #27083: Update search scope once find widget becomes visible`,
+- [x] Port suite `FindController query options persistence` (4): `issue #27083: Update search scope once find widget becomes visible`,
       `issue #58604: Do not update searchScope if it is empty`, `issue #58604: Update searchScope if it is not empty`,
       `issue #27083: Find in selection when multiple lines are selected`. `searchScope` is compared as ranges.
-- [ ] **Not ported** (write the reasons in the PORTING tests table): `reads from the global clipboard buffer on next find action if buffer exists`,
+- [x] **Not ported** (write the reasons in the PORTING tests table): `reads from the global clipboard buffer on next find action if buffer exists`,
       `writes to the global clipboard buffer when text changes` (macOS find clipboard; on Windows Monaco's tests return at
       once); `matchCase`, `wholeWord`, `toggling options is saved` (no storage service: the options live as long as the editor).
-- [ ] New: `CloseFindWidget_DisposesModelAndClearsDecorations`, `SelectAllMatches_FocusesEditor`,
+- [x] New: `CloseFindWidget_DisposesModelAndClearsDecorations`, `SelectAllMatches_FocusesEditor`,
       `StartFindReplace_ReadOnly_DoesNothing`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row `findController.ts` 🔶 (P5-70: no storage, no find clipboard, no history, no
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row `findController.ts` 🔶 (P5-70: no storage, no find clipboard, no history, no
       `MoveToMatchFindAction`, no `StartFindWithArgsAction`); tests table `findController.test.ts` 18 / 23 with reasons
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
