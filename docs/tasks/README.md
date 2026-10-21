@@ -452,7 +452,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P5-47](phase-5/P5-47-keybinding-chords.md) | Two-key chords in keybindings (`Ctrl+K Ctrl+C`) | P5-46 | todo |
+| [P5-47](phase-5/P5-47-keybinding-chords.md) | Two-key chords in keybindings (`Ctrl+K Ctrl+C`) | P5-46 | done |
 | [P5-48](phase-5/P5-48-block-comment-command.md) | `BlockCommentCommand` | P5-47 | todo |
 | [P5-49](phase-5/P5-49-line-comment-command.md) | `LineCommentCommand` | P5-48 | todo |
 | [P5-50](phase-5/P5-50-line-comment-tests.md) | Line comment tests: empty lines, block fallback, mixed languages | P5-49 | todo |

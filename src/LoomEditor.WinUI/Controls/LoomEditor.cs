@@ -76,6 +76,7 @@ public sealed partial class LoomEditor : Control
         _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
         _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
         _keyboard = new KeyboardInput(_context.Commands);
+        LostFocus += (_, _) => _keyboard.LeaveChordMode();
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
         InitializeCaret();
         InitializeReveal();

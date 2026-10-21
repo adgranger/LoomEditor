@@ -79,4 +79,49 @@ public class KeybindingResolverTests
         Assert.Null(Resolve(KeyModifiers.None, KeyCode.LeftArrow, default));
         Assert.Equal("undo", Resolve(KeyModifiers.Ctrl, KeyCode.KeyZ, default));
     }
+    private static readonly Keybinding CtrlK = new(KeyModifiers.Ctrl, KeyCode.KeyK);
+    private static readonly Keybinding CtrlC = new(KeyModifiers.Ctrl, KeyCode.KeyC);
+
+    private static KeybindingResolver ChordResolver(Func<KeybindingContext, bool>? when = null) =>
+        new([new KeybindingRule(CtrlK, "comment", when, 0, Chord: CtrlC)]);
+
+    [Fact]
+    public void Resolve_FirstKeyOfAChord_ReturnsMoreChordsNeeded()
+    {
+        KeybindingResolution resolution = ChordResolver().Resolve(Focused, null, CtrlK);
+
+        Assert.Equal(KeybindingResolutionKind.MoreChordsNeeded, resolution.Kind);
+        Assert.Null(resolution.CommandId);
+    }
+
+    [Fact]
+    public void Resolve_SecondKeyOfAChord_ReturnsKbFoundWithTheCommand()
+    {
+        KeybindingResolution resolution = ChordResolver().Resolve(Focused, CtrlK, CtrlC);
+
+        Assert.Equal(new KeybindingResolution(KeybindingResolutionKind.KbFound, "comment"), resolution);
+    }
+
+    [Fact]
+    public void Resolve_SecondKeyWithoutRule_ReturnsNoMatchingKb()
+    {
+        KeybindingResolution resolution = ChordResolver().Resolve(Focused, CtrlK, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyU));
+
+        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolution.Kind);
+    }
+
+    [Fact]
+    public void Resolve_ChordWhoseWhenIsFalse_ReturnsNoMatchingKb()
+    {
+        KeybindingResolver resolver = ChordResolver(context => context.Writable);
+
+        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolver.Resolve(Focused with { Writable = false }, null, CtrlK).Kind);
+        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolver.Resolve(Focused with { Writable = false }, CtrlK, CtrlC).Kind);
+    }
+
+    [Fact]
+    public void Resolve_SingleKeyWithAChordRule_ReturnsNullCommand()
+    {
+        Assert.Null(ChordResolver().Resolve(CtrlK, Focused));
+    }
 }
