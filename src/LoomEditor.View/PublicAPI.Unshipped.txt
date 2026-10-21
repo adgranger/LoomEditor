@@ -1,4 +1,8 @@
 #nullable enable
+const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.action.addCommentLine" -> string!
+const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
+const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
+const LoomEditor.View.Features.Comment.CommentCommands.RemoveCommentLine = "editor.action.removeCommentLine" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToBottom = "editor.action.addCursorsToBottom" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToTop = "editor.action.addCursorsToTop" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.FocusNextCursor = "editor.action.focusNextCursor" -> string!
@@ -47,6 +51,12 @@ LoomEditor.View.Commands.EditorCommand.CanExecute() -> bool
 LoomEditor.View.Commands.EditorCommand.EditorCommand(string! id, System.Action! execute, System.Func<bool>? canExecute = null) -> void
 LoomEditor.View.Commands.EditorCommand.Execute() -> bool
 LoomEditor.View.Commands.EditorCommand.Id.get -> string!
+LoomEditor.View.Features.Comment.CommentCommands
+LoomEditor.View.Features.Comment.CommentFeature
+LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.Comment.CommentFeature.CommentFeature() -> void
+LoomEditor.View.Features.Comment.CommentFeature.Dispose() -> void
+LoomEditor.View.Features.Comment.CommentFeature.Id.get -> string!
 LoomEditor.View.Features.EditorContext
 LoomEditor.View.Features.EditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.View.Features.EditorContext.Dispose() -> void
