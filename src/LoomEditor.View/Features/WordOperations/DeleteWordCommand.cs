@@ -23,7 +23,6 @@ internal abstract class DeleteWordCommand(string id, bool whitespaceHeuristics, 
         var commands = new List<IEditCommand?>(selections.Count);
         foreach (Selection sel in selections)
         {
-            // Phase 4–5 cut point: Monaco also passes the auto-closing pairs of the language configuration.
             Range deleteRange = Delete(
                 new DeleteWordContext(
                     wordSeparators,
@@ -33,6 +32,7 @@ internal abstract class DeleteWordCommand(string id, bool whitespaceHeuristics, 
                     config.AutoClosingDelete,
                     config.AutoClosingBrackets,
                     config.AutoClosingQuotes,
+                    config.LanguageConfigurationService.GetLanguageConfiguration(viewModel.Model.Tokenization.GetLanguageId()).GetAutoClosingPairs(),
                     viewModel.GetCursorAutoClosedCharacters()),
                 wordNavigationType);
             commands.Add(new ReplaceCommand(deleteRange, string.Empty));

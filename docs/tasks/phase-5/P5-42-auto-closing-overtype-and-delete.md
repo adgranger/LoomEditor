@@ -1,6 +1,6 @@
 # P5-42 — Overtype auto-closed characters, delete auto-closed pairs
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-41
 - **Size:** M
 
@@ -60,23 +60,23 @@ characters: `AutoClosingOvertypeOperation`, `AutoClosingOvertypeWithInterceptors
 
 ## Tests
 
-- [ ] Port `cursor.test.ts` › `Editor Controller`: `issue #78975 - Parentheses swallowing does not work when parentheses are inserted by autocomplete` (6006)
-- [ ] Port `wordOperations.test.ts` › `WordOperations`: `deleteWordLeft - issue #91855: Matching (quote, bracket, paren) doesn't get deleted when hitting Ctrl+Backspace` (874)
-- [ ] New: `Type_CloseCharacterNotAutoClosed_DoesNotOvertype` (default `autoClosingOvertype: auto`)
-- [ ] New: `Type_AutoClosingOvertypeNever_DoesNotOvertype`
-- [ ] New: `Type_QuoteAfterBackslash_DoesNotOvertype`
-- [ ] New: `DeleteLeft_InsideSnippetAutoClosedPair_DeletesBothCharacters`
-- [ ] New: `DeleteLeft_AutoClosingDeleteNever_DeletesOneCharacter`
+- [x] Port `cursor.test.ts` › `Editor Controller`: `issue #78975 - Parentheses swallowing does not work when parentheses are inserted by autocomplete` (6006)
+- [x] Port `wordOperations.test.ts` › `WordOperations`: `deleteWordLeft - issue #91855: Matching (quote, bracket, paren) doesn't get deleted when hitting Ctrl+Backspace` (874)
+- [x] New: `Type_CloseCharacterNotAutoClosed_DoesNotOvertype` (default `autoClosingOvertype: auto`)
+- [x] New: `Type_AutoClosingOvertypeNever_DoesNotOvertype`
+- [x] New: `Type_QuoteAfterBackslash_DoesNotOvertype`
+- [x] New: `DeleteLeft_InsideSnippetAutoClosedPair_DeletesBothCharacters`
+- [x] New: `DeleteLeft_AutoClosingDeleteNever_DeletesOneCharacter`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows `cursorDeleteOperations.ts` (✅, P5-42), `cursorWordOperations.ts`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows `cursorDeleteOperations.ts` (✅, P5-42), `cursorWordOperations.ts`,
       `cursorTypeEditOperations.ts` (+ overtype); tests table `cursor.test.ts` (`Editor Controller` +1),
       `wordOperations.test.ts` (54 / 56); "Cut points" row of `DeleteOperations.cs`, `DeleteWordContext.cs`,
       `WordOperations.Delete.cs`, `DeleteWordCommand.cs` removed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

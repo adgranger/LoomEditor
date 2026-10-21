@@ -111,7 +111,8 @@ internal static class CoreEditingCommands
                 viewModel.GetPrevEditOperationType(),
                 viewModel.CursorConfig,
                 viewModel,
-                viewModel.GetSelections());
+                viewModel.GetSelections(),
+                viewModel.GetCursorAutoClosedCharacters());
             if (shouldPushStackElementBefore)
             {
                 viewModel.Model.PushStackElement();

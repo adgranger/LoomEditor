@@ -30,7 +30,7 @@ internal sealed partial class CursorsController
                         string chr = text.Substring(offset, charLength);
 
                         // Here we must interpret each typed character individually
-                        ExecuteEditOperation(TypeOperations.TypeWithInterceptors(_compositionState is not null,_prevEditOperationType, Context.CursorConfig, _model, GetSelections(), chr));
+                        ExecuteEditOperation(TypeOperations.TypeWithInterceptors(_compositionState is not null,_prevEditOperationType, Context.CursorConfig, _model, GetSelections(), GetAutoClosedCharacters(), chr));
 
                         offset += charLength;
                     }

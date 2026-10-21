@@ -1,6 +1,8 @@
 // Ported from microsoft/vscode: src/vs/editor/contrib/wordOperations/test/browser/wordOperations.test.ts (the delete tests)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Features.WordOperations;
@@ -9,8 +11,6 @@ using static LoomEditor.View.Tests.Cursors.TestHelpers.WordTestUtils;
 
 namespace LoomEditor.View.Tests.Features.WordOperations;
 
-// Not ported: 'deleteWordLeft - issue #91855: Matching (quote, bracket, paren) doesn't get deleted when hitting Ctrl+Backspace'
-// (it registers a language with auto-closing pairs: phase 4–5).
 public class WordOperationsDeleteTests
 {
     private static readonly DeleteWordLeftCommand DeleteWordLeft = new(WordOperationsCommands.DeleteWordLeft, true, WordNavigationType.WordStart);
@@ -342,6 +342,30 @@ public class WordOperationsDeleteTests
     });
 
     // Monaco: 'deleteInsideWord - onlyWord: deletes just the word (leaves double spaces)'
+    // Monaco: 'deleteWordLeft - issue #91855: Matching (quote, bracket, paren) doesn't get deleted when hitting Ctrl+Backspace'
+    [Fact]
+    public void DeleteWordLeft_Issue91855MatchingQuoteBracketParenGetsDeletedWhenHittingCtrlBackspace()
+    {
+        using var services = new TestEditorServices();
+        const string LanguageId = "myTestMode";
+        services.RegisterLanguage(LanguageId);
+        services.Add(services.LanguageConfigurationRegistry.Register(LanguageId, new LanguageConfiguration
+        {
+            AutoClosingPairs = [new AutoClosingPairConditional("\"", "\"")],
+        }));
+        TextModel model = services.CreateTextModel("a \"\"", LanguageId);
+
+        TestCodeEditor.WithTestCodeEditor(
+            model,
+            editor =>
+            {
+                SetPosition(editor, 1, 4);
+                DeleteWordLeft.RunEditorCommand(editor.ViewModel);
+                Assert.Equal("a ", model.GetLineContent(1));
+            },
+            new TestCodeEditorOptions(CursorOptions: new EditorCursorOptions { AutoClosingDelete = EditorAutoClosingEditStrategy.Always }));
+    }
+
     [Fact]
     public void DeleteInsideWord_OnlyWord_DeletesJustTheWord() => TestCodeEditor.WithTestCodeEditor(["This is interesting"], editor =>
     {

@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/cursor/cursorDeleteOperations.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors.Commands;
@@ -9,8 +10,7 @@ namespace LoomEditor.View.Cursors;
 
 /// <summary>Backspace and Delete: the commands to run for each selection (Monaco: <c>DeleteOperations</c>).</summary>
 /// <remarks>
-/// Phase 4–5 cut points: <c>isAutoClosingPairDelete</c> and <c>_runAutoClosingPairDelete</c> (auto-closing pairs need
-/// a language configuration). <c>cut</c> is ported with the clipboard commands (P3-36).
+/// <c>cut</c> is ported with the clipboard commands (P3-36).
 /// Threading: stateless; call it from the UI thread, like the model it reads.
 /// </remarks>
 internal static class DeleteOperations
@@ -46,15 +46,133 @@ internal static class DeleteOperations
         return (shouldPushStackElementBefore, commands);
     }
 
+    /// <summary>Whether Backspace deletes the auto-closing pair around every cursor (Monaco: <c>isAutoClosingPairDelete</c>).</summary>
+    public static bool IsAutoClosingPairDelete(
+        EditorAutoClosingEditStrategy autoClosingDelete,
+        EditorAutoClosingStrategy autoClosingBrackets,
+        EditorAutoClosingStrategy autoClosingQuotes,
+        IReadOnlyDictionary<string, List<StandardAutoClosingPairConditional>> autoClosingPairsOpen,
+        ICursorSimpleModel model,
+        IReadOnlyList<Selection> selections,
+        IReadOnlyList<Range> autoClosedCharacters)
+    {
+        if (autoClosingBrackets == EditorAutoClosingStrategy.Never && autoClosingQuotes == EditorAutoClosingStrategy.Never)
+        {
+            return false;
+        }
+
+        if (autoClosingDelete == EditorAutoClosingEditStrategy.Never)
+        {
+            return false;
+        }
+
+        foreach (Selection selection in selections)
+        {
+            Position position = selection.Position;
+
+            if (!selection.IsEmpty)
+            {
+                return false;
+            }
+
+            string lineText = model.GetLineContent(position.LineNumber);
+            if (position.Column < 2 || position.Column >= lineText.Length + 1)
+            {
+                return false;
+            }
+
+            string character = lineText[position.Column - 2].ToString();
+
+            if (!autoClosingPairsOpen.TryGetValue(character, out List<StandardAutoClosingPairConditional>? autoClosingPairCandidates))
+            {
+                return false;
+            }
+
+            if (CursorCommon.IsQuote(character))
+            {
+                if (autoClosingQuotes == EditorAutoClosingStrategy.Never)
+                {
+                    return false;
+                }
+            }
+            else if (autoClosingBrackets == EditorAutoClosingStrategy.Never)
+            {
+                return false;
+            }
+
+            string afterCharacter = lineText[position.Column - 1].ToString();
+
+            bool foundAutoClosingPair = false;
+            foreach (StandardAutoClosingPairConditional candidate in autoClosingPairCandidates)
+            {
+                if (candidate.Open == character && candidate.Close == afterCharacter)
+                {
+                    foundAutoClosingPair = true;
+                }
+            }
+
+            if (!foundAutoClosingPair)
+            {
+                return false;
+            }
+
+            // Must delete the pair only if it was automatically inserted by the editor
+            if (autoClosingDelete == EditorAutoClosingEditStrategy.Auto)
+            {
+                bool found = false;
+                foreach (Range autoClosedCharacter in autoClosedCharacters)
+                {
+                    if (position.LineNumber == autoClosedCharacter.StartLineNumber && position.Column == autoClosedCharacter.StartColumn)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // Monaco: _runAutoClosingPairDelete
+    private static (bool ShouldPushStackElementBefore, IReadOnlyList<IEditCommand?> Commands) RunAutoClosingPairDelete(IReadOnlyList<Selection> selections)
+    {
+        var commands = new List<IEditCommand?>(selections.Count);
+        foreach (Selection selection in selections)
+        {
+            Position position = selection.Position;
+            var deleteSelection = new Range(position.LineNumber, position.Column - 1, position.LineNumber, position.Column + 1);
+            commands.Add(new ReplaceCommand(deleteSelection, string.Empty));
+        }
+
+        return (true, commands);
+    }
+
     /// <summary>The commands that delete to the left (Backspace), one per selection; <see langword="null"/> when there is nothing to delete.</summary>
     public static (bool ShouldPushStackElementBefore, IReadOnlyList<IEditCommand?> Commands) DeleteLeft(
         EditOperationType prevEditOperationType,
         CursorConfiguration config,
         ICursorSimpleModel model,
-        IReadOnlyList<Selection> selections)
+        IReadOnlyList<Selection> selections,
+        IReadOnlyList<Range> autoClosedCharacters)
     {
-        // Phase 4–5 cut point: cursorDeleteOperations.ts 167–169 (isAutoClosingPairDelete): without a language,
-        // autoClosingPairsOpenByEnd is empty and Monaco never takes this branch.
+        if (IsAutoClosingPairDelete(
+                config.AutoClosingDelete,
+                config.AutoClosingBrackets,
+                config.AutoClosingQuotes,
+                config.AutoClosingPairs.AutoClosingPairsOpenByEnd,
+                model,
+                selections,
+                autoClosedCharacters))
+        {
+            return RunAutoClosingPairDelete(selections);
+        }
+
         var commands = new List<IEditCommand?>(selections.Count);
         bool shouldPushStackElementBefore = prevEditOperationType != EditOperationType.DeletingLeft;
         foreach (Selection selection in selections)

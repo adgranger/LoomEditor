@@ -32,9 +32,19 @@ internal static partial class WordOperations
             return selection.Range;
         }
 
-        // Phase 4–5 cut point: Monaco returns (line, column - 1) -> (line, column + 1) here when
-        // DeleteOperations.isAutoClosingPairDelete(...) is true (it needs the auto-closing pairs of the language).
         var position = new Position(selection.PositionLineNumber, selection.PositionColumn);
+
+        if (DeleteOperations.IsAutoClosingPairDelete(
+                ctx.AutoClosingDelete,
+                ctx.AutoClosingBrackets,
+                ctx.AutoClosingQuotes,
+                ctx.AutoClosingPairs.AutoClosingPairsOpenByEnd,
+                model,
+                [selection],
+                ctx.AutoClosedCharacters))
+        {
+            return new Range(position.LineNumber, position.Column - 1, position.LineNumber, position.Column + 1);
+        }
 
         int lineNumber = position.LineNumber;
         int column = position.Column;
