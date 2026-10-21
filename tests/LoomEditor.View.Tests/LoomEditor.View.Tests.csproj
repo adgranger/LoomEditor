@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\LoomEditor.Core.Tests\Languages\TestHelpers\**\*.cs" Link="Languages\TestHelpers\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
   </ItemGroup>

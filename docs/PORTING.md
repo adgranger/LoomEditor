@@ -352,6 +352,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `columnSelectionPaste.test.ts` (`Column selection paste`) | 44 / 57 | `uses successive model lines when word wrap is enabled` (phase 6); `reports pasted ranges for cursors and multiline destination selections` (needs the `onDidPaste` editor event); `respects overtype and pads short rows` (overtype mode); the 10 tests of the nested suite `clipboard metadata` (browser clipboard events: P3-47 has its own). `responds to spread, full, and spread configuration transitions` does not check `EditorOptions.multiCursorPaste.validate` |
 | `cursor.test.ts` (cut: `bug #16740`, `issue #128602`) | 2 / 2 | |
 | `cursor.test.ts` (`issue #44805: Should not be able to undo in readonly editor`) | 1 / 1 | |
+| `cursor.test.ts` (`Editor Controller`: `issue #46314: ViewModel is out of sync with Model!`; setup of the five test languages and helpers in `EditorControllerLanguages`) | 1 / 1 | `EditorControllerTokensTests` (P5-37); the typing tests in these languages are P5-39 … P5-46 |
 | `multicursor.test.ts` | 2 / 76 | `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); the 73 tests of `Multicursor selection` and below need Find (phase 5) |
 | `bracketMatching.test.ts` | 7 / 7 | |
 | `pieceTreeTextBuffer.test.ts` | 84 / 87 | suite `chunk based search` (3): search is deferred to phase 5 (Find) |
