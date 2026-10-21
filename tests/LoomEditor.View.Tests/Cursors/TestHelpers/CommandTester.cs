@@ -38,11 +38,17 @@ internal static class CommandTester
         Selection expectedSelection,
         TextModelOptions? options = null,
         string? languageId = null,
-        Action<TestEditorServices>? prepare = null)
+        Action<TestEditorServices>? prepare = null,
+        bool forceTokenization = false)
     {
         using var services = new TestEditorServices();
         prepare?.Invoke(services);
         TextModel model = services.CreateTextModel(string.Join('\n', lines), languageId, options);
+        if (forceTokenization)
+        {
+            model.Tokenization.ForceTokenization(model.LineCount);
+        }
+
 
         IEditCommand command = commandFactory(services, selection);
         IReadOnlyList<Selection>? result = CommandExecutor.ExecuteCommands(model, [selection], [command]);

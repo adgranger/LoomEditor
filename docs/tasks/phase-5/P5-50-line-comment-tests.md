@@ -1,6 +1,6 @@
 # P5-50 — Line comment tests: empty lines, block fallback, mixed languages
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-49
 - **Size:** S (tests only)
 
@@ -52,17 +52,17 @@ to a block comment when the language has no line comment, and toggling in a docu
 
 Port:
 
-- [ ] `ignoreEmptyLines false` › `does not ignore whitespace lines`, `removes its own`, `works in only whitespace`, `comments single line`, `detects indentation`
-- [ ] `Editor Contrib - Line Comment As Block Comment` › `fall back to block comment command`, `fall back to block comment command - toggle`, `bug 9513 - expand single line to uncomment auto block`, `bug 9691 - always expand selection to line boundaries`
-- [ ] `Editor Contrib - Line Comment As Block Comment 2` › `no selection => uses indentation`, `can remove`, `issue #993: Remove comment does not work consistently in HTML`
-- [ ] `Editor Contrib - Line Comment in mixed modes` › `issue #24047 (part 1): Commenting code in JSX files`, `issue #24047 (part 2): Commenting code in JSX files`, `issue #36173: Commenting code in JSX tag body`
+- [x] `ignoreEmptyLines false` › `does not ignore whitespace lines`, `removes its own`, `works in only whitespace`, `comments single line`, `detects indentation`
+- [x] `Editor Contrib - Line Comment As Block Comment` › `fall back to block comment command`, `fall back to block comment command - toggle`, `bug 9513 - expand single line to uncomment auto block`, `bug 9691 - always expand selection to line boundaries`
+- [x] `Editor Contrib - Line Comment As Block Comment 2` › `no selection => uses indentation`, `can remove`, `issue #993: Remove comment does not work consistently in HTML`
+- [x] `Editor Contrib - Line Comment in mixed modes` › `issue #24047 (part 1): Commenting code in JSX files`, `issue #24047 (part 2): Commenting code in JSX files`, `issue #36173: Commenting code in JSX tag body`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: tests table `lineCommentCommand.test.ts` 39 / 39
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: tests table `lineCommentCommand.test.ts` 39 / 39
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

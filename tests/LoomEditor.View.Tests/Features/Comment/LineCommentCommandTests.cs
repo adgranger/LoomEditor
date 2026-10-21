@@ -8,7 +8,7 @@ using LoomEditor.View.Tests.Cursors.TestHelpers;
 
 namespace LoomEditor.View.Tests.Features.Comment;
 
-public class LineCommentCommandTests
+public partial class LineCommentCommandTests
 {
     private const string CommentModeId = "commentMode";
 
@@ -22,11 +22,12 @@ public class LineCommentCommandTests
         string[] lines,
         Selection selection,
         string[] expectedLines,
-        Selection expectedSelection) =>
+        Selection expectedSelection,
+        bool ignoreEmptyLines = true) =>
         CommandTester.TestCommand(
             lines,
             selection,
-            (services, sel) => new LineCommentCommand(services.LanguageConfigurationRegistry, sel, 4, type, insertSpace, true),
+            (services, sel) => new LineCommentCommand(services.LanguageConfigurationRegistry, sel, 4, type, insertSpace, ignoreEmptyLines),
             expectedLines,
             expectedSelection,
             languageId: CommentModeId,
