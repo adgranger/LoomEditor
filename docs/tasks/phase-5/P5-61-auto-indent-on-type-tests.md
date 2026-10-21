@@ -1,6 +1,6 @@
 # P5-61 — Auto indent on type: the language suites of `indentation.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-60
 - **Size:** M (tests only)
 
@@ -45,30 +45,30 @@ live in this file upstream, so they are ported here, after both. No production c
 
 Port, `Auto Indent On Type - TypeScript/JavaScript` (11):
 
-- [ ] `issue #208215: indent after arrow function`, `issue #208215: indent after arrow function 2`, `issue #116843: indent after arrow function`
-- [ ] `issue #29755: do not add indentation on enter if indentation is already valid`, `issue #36090`, `issue #115304: indent block comment onEnter`
-- [ ] `issue #43244: indent when lambda arrow function is detected, outdent when end is reached`, `issue #43244: incorrect indentation after if/for/while without braces`
-- [ ] `issue #208232: incorrect indentation inside of comments`, `issue #209802: allman style braces in JavaScript`, `issue #225916: surrounding with brackets works after arrow function`
+- [x] `issue #208215: indent after arrow function`, `issue #208215: indent after arrow function 2`, `issue #116843: indent after arrow function`
+- [x] `issue #29755: do not add indentation on enter if indentation is already valid`, `issue #36090`, `issue #115304: indent block comment onEnter`
+- [x] `issue #43244: indent when lambda arrow function is detected, outdent when end is reached`, `issue #43244: incorrect indentation after if/for/while without braces`
+- [x] `issue #208232: incorrect indentation inside of comments`, `issue #209802: allman style braces in JavaScript`, `issue #225916: surrounding with brackets works after arrow function`
 
 Port, `Auto Indent On Type - Ruby` (1) and `- PHP` (1):
 
-- [ ] `issue #198350: in or when incorrectly match non keywords for Ruby`
-- [ ] `issue #199050: should not indent after { detected in a string`
+- [x] `issue #198350: in or when incorrectly match non keywords for Ruby`
+- [x] `issue #199050: should not indent after { detected in a string`
 
 Port, `Auto Indent On Type - Visual Basic` (25), every name prefixed by `issue #118932: `:
 
-- [ ] `no indentation in visual basic files`, `indent after Module declaration`, `indent after Sub declaration`, `dedent on End Sub`, `dedent on End Module`
-- [ ] `indent after Function declaration`, `dedent on End Function`, `indent after If Then`, `indent after ElseIf Then`, `dedent and indent on Else`
-- [ ] `indent after While`, `dedent on End While`, `indent after For`, `dedent on Next`, `indent after Do`, `dedent on Loop`
-- [ ] `indent after Select Case`, `dedent on End Select`, `indent after Try`, `dedent and indent on Catch`, `dedent and indent on Finally`, `dedent on End Try`
-- [ ] `indent after Class`, `dedent on End Class`, `full program indentation flow`
+- [x] `no indentation in visual basic files`, `indent after Module declaration`, `indent after Sub declaration`, `dedent on End Sub`, `dedent on End Module`
+- [x] `indent after Function declaration`, `dedent on End Function`, `indent after If Then`, `indent after ElseIf Then`, `dedent and indent on Else`
+- [x] `indent after While`, `dedent on End While`, `indent after For`, `dedent on Next`, `indent after Do`, `dedent on Loop`
+- [x] `indent after Select Case`, `dedent on End Select`, `indent after Try`, `dedent and indent on Catch`, `dedent and indent on Finally`, `dedent on End Try`
+- [x] `indent after Class`, `dedent on End Class`, `full program indentation flow`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: tests table `indentation.test.ts` 52 / 85 (not ported: 26 `test.skip`, 7 placeholders)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: tests table `indentation.test.ts` 52 / 85 (not ported: 26 `test.skip`, 7 placeholders)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
