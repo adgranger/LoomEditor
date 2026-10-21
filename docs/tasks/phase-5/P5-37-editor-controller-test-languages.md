@@ -1,6 +1,6 @@
 # P5-37 — Test editor with a language (`createCodeEditorServices`, the `Editor Controller` languages)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-36
 - **Size:** S (test code only)
 
@@ -76,18 +76,18 @@ only port tests.
 
 ## Tests
 
-- [ ] Port: `cursor.test.ts` › `Editor Controller` › `issue #46314: ViewModel is out of sync with Model!` (2822)
-- [ ] New: `ExtractAutoClosingSpecialColumns_AnnotatedLine_MarksColumns` (`'a|b!c'` → columns 2 and 3)
-- [ ] New: `AutoClosingLanguageTokenizationSupport_StringAndComment_GivesStandardTokenTypes` (`var a = 'x'; // c` →
+- [x] Port: `cursor.test.ts` › `Editor Controller` › `issue #46314: ViewModel is out of sync with Model!` (2822)
+- [x] New: `ExtractAutoClosingSpecialColumns_AnnotatedLine_MarksColumns` (`'a|b!c'` → columns 2 and 3)
+- [x] New: `AutoClosingLanguageTokenizationSupport_StringAndComment_GivesStandardTokenTypes` (`var a = 'x'; // c` →
       other, string, other, comment)
-- [ ] New: `CreateTextModel_WithLanguageId_SetsLanguageOfModel`
+- [x] New: `CreateTextModel_WithLanguageId_SetsLanguageOfModel`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: tests table `cursor.test.ts` (`Editor Controller` +1)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: tests table `cursor.test.ts` (`Editor Controller` +1)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
