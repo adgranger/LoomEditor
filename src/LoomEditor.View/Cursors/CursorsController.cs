@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/common/cursor/cursor.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
@@ -12,11 +13,24 @@ namespace LoomEditor.View.Cursors;
 /// <summary>The cursor of one editor: its <see cref="CursorCollection"/>, how it follows the model, and its events (Monaco: <c>CursorsController</c>).</summary>
 /// <remarks>
 /// <para>This part holds the state, the reaction to model changes, reveal requests and events; the editing part comes with P3-19.</para>
-/// <para>Auto-closed actions are not tracked in phase 3: the list stays empty (see <see cref="AutoClosedAction"/>).</para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
 internal sealed partial class CursorsController : IDisposable
 {
+    // Monaco builds equal dynamic options each time; no DecorationStyles entry: the CSS rule of auto-closed-character is commented out upstream.
+    private static readonly ModelDecorationOptions AutoClosedCharacterOptions = ModelDecorationOptions.Register(new ModelDecorationOptionsData
+    {
+        Description = "auto-closed-character",
+        InlineClassName = "auto-closed-character",
+        Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
+    });
+
+    private static readonly ModelDecorationOptions AutoClosedEnclosingOptions = ModelDecorationOptions.Register(new ModelDecorationOptionsData
+    {
+        Description = "auto-closed-enclosing",
+        Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
+    });
+
     private readonly TextModel _model;
     private int _knownModelVersionId;
     private readonly ICursorSimpleModel _viewModel;
@@ -54,6 +68,11 @@ internal sealed partial class CursorsController : IDisposable
     public void Dispose()
     {
         _cursors.Dispose();
+        foreach (AutoClosedAction autoClosedAction in _autoClosedActions)
+        {
+            autoClosedAction.Dispose();
+        }
+
         _autoClosedActions = [];
     }
 
@@ -83,8 +102,40 @@ internal sealed partial class CursorsController : IDisposable
         if (_autoClosedActions.Count > 0)
         {
             List<Selection> selections = _cursors.GetSelections();
-            _autoClosedActions = _autoClosedActions.Where(_ => AutoClosedAction.IsValid(selections)).ToList();
+            var validActions = new List<AutoClosedAction>();
+            var invalidActions = new List<AutoClosedAction>();
+            foreach (AutoClosedAction autoClosedAction in _autoClosedActions)
+            {
+                (autoClosedAction.IsValid(selections) ? validActions : invalidActions).Add(autoClosedAction);
+            }
+
+            // Disposal fires decoration events whose listeners may re-enter the cursor.
+            _autoClosedActions = validActions;
+            foreach (AutoClosedAction invalidAction in invalidActions)
+            {
+                invalidAction.Dispose();
+            }
         }
+    }
+
+    /// <summary>The ranges of the characters the cursor auto-closed (Monaco: <c>getAutoClosedCharacters</c>).</summary>
+    public List<Range> GetAutoClosedCharacters() => AutoClosedAction.GetAllAutoClosedCharacters(_autoClosedActions);
+
+    // Monaco: _pushAutoClosedAction
+    private void PushAutoClosedAction(List<Range> autoClosedCharactersRanges, List<Range> autoClosedEnclosingRanges)
+    {
+        var autoClosedCharactersDeltaDecorations = new List<ModelDeltaDecoration>();
+        var autoClosedEnclosingDeltaDecorations = new List<ModelDeltaDecoration>();
+
+        for (int i = 0; i < autoClosedCharactersRanges.Count; i++)
+        {
+            autoClosedCharactersDeltaDecorations.Add(new ModelDeltaDecoration(autoClosedCharactersRanges[i], AutoClosedCharacterOptions));
+            autoClosedEnclosingDeltaDecorations.Add(new ModelDeltaDecoration(autoClosedEnclosingRanges[i], AutoClosedEnclosingOptions));
+        }
+
+        IReadOnlyList<string> autoClosedCharactersDecorations = _model.DeltaDecorations(0, [], autoClosedCharactersDeltaDecorations);
+        IReadOnlyList<string> autoClosedEnclosingDecorations = _model.DeltaDecorations(0, [], autoClosedEnclosingDeltaDecorations);
+        _autoClosedActions.Add(new AutoClosedAction(_model, [.. autoClosedCharactersDecorations], [.. autoClosedEnclosingDecorations]));
     }
 
     // ------ some getters/setters

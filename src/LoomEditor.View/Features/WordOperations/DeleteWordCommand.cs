@@ -33,7 +33,7 @@ internal abstract class DeleteWordCommand(string id, bool whitespaceHeuristics, 
                     config.AutoClosingDelete,
                     config.AutoClosingBrackets,
                     config.AutoClosingQuotes,
-                    ViewModel.GetCursorAutoClosedCharacters()),
+                    viewModel.GetCursorAutoClosedCharacters()),
                 wordNavigationType);
             commands.Add(new ReplaceCommand(deleteRange, string.Empty));
         }
