@@ -342,6 +342,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/contrib/bracketMatching/browser/bracketMatching.ts` (P5-35) ✅, `bracketMatching.css`, `matchBrackets` option | `LoomEditor.View/Features/BracketMatching/` | 🔶 P5-35: internal; no overview ruler marker, no Go menu entry, `onDidChangeModel` dropped; `MatchBrackets` is a feature property, not a control option |
 | `editor/common/model/textModelSearch.ts` (`TextModelSearch`, `SearchParams`, `isMultilineRegexSource`, `createFindMatch`, `Searcher`, `isValidMatch`), `model.ts` (`FindMatch`, `SearchData`), `strings.ts` (`escapeRegExpCharacters`, `createRegExp`) | `LoomEditor.Core/Model/Search/`, `LoomEditor.Core/Text/Strings.Regex.cs` | 🔶 primitives (P5-62) and `TextModelSearch` + `LineFeedCounter` (P5-63, `Model/Search/TextModelSearch*.cs`); the piece tree search is P5-64 |
 | `editor/common/model/textModel.ts` (`findMatches`, `findNextMatch`, `findPreviousMatch`, `findMatchesLineByLine`, `LIMIT_FIND_COUNT`) | `LoomEditor.Core/Model/TextModel.Search.cs` | ✅ ported (P5-64); `internal`, two `FindMatches` overloads (whole model / scopes) |
+| `editor/contrib/find/browser/findState.ts` (`FindReplaceState`, `FindReplaceStateChangedEvent`, `FindOptionOverride`, `INewFindReplaceState`) | `LoomEditor.View/Features/Find/` (`FindReplaceState.cs`, `FindReplaceStateChangedEventArgs.cs`, `NewFindReplaceState.cs`, `FindOptionOverride.cs`) | ✅ ported (P5-65); not generic, without `filters`; `internal` |
+| `editor/contrib/find/browser/findController.ts` (`getSelectionSearchString`, `SEARCH_STRING_MAX_LENGTH`) | `LoomEditor.View/Features/Find/SelectionSearchString.cs` | 🔶 P5-65; the rest of the controller is P5-70 |
+| `editor/contrib/find/browser/findModel.ts` (`FIND_IDS`, `MATCHES_LIMIT`, `RESEARCH_DELAY`), `common/config/editorOptions.ts` (`EditorFind`) | `LoomEditor.View/Features/Find/` (`FindCommands.cs`, `FindConstants.cs`, `EditorFindOptions.cs`) | 🔶 P5-65; ids, limits and options only; the model is P5-68 |
 
 ## Monaco tests ported in phases 1 and 3
 
@@ -430,6 +433,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `editor/contrib/linesOperations/test/browser/moveLinesCommand.test.ts` | 14 / 14 | `MoveLinesCommandTests` (P5-56) |
 | `editor/contrib/linesOperations/test/browser/linesOperations.test.ts` | 55 / 55 | `LinesOperationsTests` (P5-60: transpose, toggle case; P5-57: sort ascending 4, sort descending 2, delete duplicate lines 4, reverse lines 12; P5-58: insert line before / after 2, indent 3, delete lines 11; P5-59: delete all left 5, join lines 4, delete all right 6) |
 | `editor/test/common/model/textModelSearch.test.ts` | 41 / 42 | `TextModelSearchTests` in `Model/Search/` (P5-62: parseSearchRequest ×3, isMultilineRegexSource ×2; P5-63: the 36 find, next and previous tests). Not ported: `Simple find using unicode escape sequences` (`\u{0066}` is JavaScript-only syntax, .NET rejects it; ADR 0009 decision 6) |
+| `editor/contrib/find/test/browser/find.test.ts` | 3 / 3 | `SelectionSearchStringTests` (P5-65) |
 | `editor/test/browser/commands/trimTrailingWhitespaceCommand.test.ts` | 2 / 2 | `TrimTrailingWhitespaceCommandTests` (P5-55) |
 | `editor/test/common/viewLayout/linesLayout.test.ts` (`Editor ViewLayout - LinesLayout`) | 12 / 12 | |
 | `base/test/browser/ui/scrollbar/scrollableElement.test.ts` (`MouseWheelClassifier`) | 9 / 9 | |
