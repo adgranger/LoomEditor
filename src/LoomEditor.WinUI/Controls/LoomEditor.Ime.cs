@@ -45,7 +45,13 @@ public sealed partial class LoomEditor
         _ime = null;
     }
 
-    private void OnImeGotFocus(object sender, RoutedEventArgs e) => _ime?.NotifyFocusEnter();
+    private void OnImeGotFocus(object sender, RoutedEventArgs e)
+    {
+        if (HasFocus)
+        {
+            _ime?.NotifyFocusEnter();
+        }
+    }
 
     private void OnImeLostFocus(object sender, RoutedEventArgs e) => _ime?.NotifyFocusLeave();
 

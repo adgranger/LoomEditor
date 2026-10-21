@@ -8,3 +8,7 @@ stays collapsed until P5-74; keyboard and focus routing is P5-73.
 `FindWidget.Theme.cs` (`ApplyTheme(EditorTheme)`). The editor template has an optional `PART_FindWidget`; `LoomEditor.Find.cs` connects it.
 
 **Rules:** no `{Binding}` (event attributes + code-behind, AOT-safe); the type is public only for the XAML compiler.
+
+**Keyboard and focus (P5-73):** `FindWidget.Keyboard.cs`. `PreviewKeyDown` on the widget handles Ctrl+Enter (line break) and Ctrl+Down (focus the text), then resolves the key
+with the editor's keybindings and runs it only if the id is in `RoutedCommandIds` (the find commands); everything else stays with the `TextBox`. The control ignores
+keys, characters, IME focus and pointer events that come from the widget (`!HasFocus`, `IsFromFindWidget`).

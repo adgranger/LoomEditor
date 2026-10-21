@@ -162,6 +162,13 @@ public sealed partial class LoomEditor : Control
             return;
         }
 
+        // A key that bubbles up from the find widget: the widget already routed what belongs to the editor.
+        if (!HasFocus)
+        {
+            base.OnKeyDown(e);
+            return;
+        }
+
         if (_keyboard.TryHandle(e.Key, CreateKeybindingContext()))
         {
             e.Handled = true;

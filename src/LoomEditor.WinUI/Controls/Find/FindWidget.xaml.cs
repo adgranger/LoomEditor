@@ -21,13 +21,11 @@ public sealed partial class FindWidget : UserControl, IFindWidget
     private bool _ignoreChangeEvent;
 
     /// <summary>Creates the widget.</summary>
-    public FindWidget() => InitializeComponent();
-
-    /// <inheritdoc />
-    bool IFindWidget.IsFindInputFocused => FindTextBox.FocusState != FocusState.Unfocused;
-
-    /// <inheritdoc />
-    bool IFindWidget.WasReplaceInputLastFocused => false;
+    public FindWidget()
+    {
+        InitializeComponent();
+        InitializeKeyboard();
+    }
 
     // Monaco: `_onStateChanged` and `_buildDomNode` subscribe the widget to the state.
     internal void Connect(FindController controller, ViewModel viewModel, Action focusEditor)
@@ -55,21 +53,8 @@ public sealed partial class FindWidget : UserControl, IFindWidget
         _controller.Widget = null;
         _controller = null;
         _focusEditor = null;
+        TryHandleKey = null;
     }
-
-    void IFindWidget.ApplyStartFocus(FindStartFocusAction focus)
-    {
-        if (focus == FindStartFocusAction.NoFocusChange)
-        {
-            return;
-        }
-
-        TextBox box = focus == FindStartFocusAction.FocusReplaceInput && ReplaceRow.Visibility == Visibility.Visible ? ReplaceTextBox : FindTextBox;
-        box.Focus(FocusState.Programmatic);
-        box.SelectAll();
-    }
-
-    void IFindWidget.FocusLastElement() => FindTextBox.Focus(FocusState.Programmatic);
 
     void IFindWidget.FocusEditor() => _focusEditor?.Invoke();
 

@@ -46,13 +46,15 @@ public sealed partial class LoomEditor
             Writable: !IsReadOnly,
             TabDoesNotMoveFocus: true,
             AccessibilityModeEnabled: false,
-            EditorFocus: HasFocus,
-            FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false);
+            EditorFocus: HasFocus || (_findWidget?.IsFocusWithin ?? false),
+            FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false,
+            FindInputFocused: _findWidget?.IsFindInputFocused ?? false,
+            ReplaceInputFocused: _findWidget?.IsReplaceInputFocused ?? false);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)
     {
-        if (IsComposing)
+        if (IsComposing || !HasFocus)
         {
             return;
         }
