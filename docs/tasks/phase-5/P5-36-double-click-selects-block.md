@@ -1,6 +1,6 @@
 # P5-36 — Double-click inside brackets or quotes selects their content
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-35
 - **Size:** S
 
@@ -49,21 +49,21 @@ No upstream test covers these two methods (checked: no `*.test.ts` of the pinned
 
 ## Tests
 
-- [ ] New: `DispatchMouse_DoubleClickAfterOpeningBracket_SelectsPairContent` (`"f(abc)"`, double-click at column 3 →
+- [x] New: `DispatchMouse_DoubleClickAfterOpeningBracket_SelectsPairContent` (`"f(abc)"`, double-click at column 3 →
       selection `(1, 3) → (1, 6)`)
-- [ ] New: `DispatchMouse_DoubleClickBeforeClosingBracket_SelectsPairContent`
-- [ ] New: `DispatchMouse_DoubleClickInsideWordBetweenBrackets_SelectsTheWord`
-- [ ] New: `DispatchMouse_DoubleClickAfterOpeningQuote_SelectsStringContent` (a tokenizer support that returns a string
+- [x] New: `DispatchMouse_DoubleClickBeforeClosingBracket_SelectsPairContent`
+- [x] New: `DispatchMouse_DoubleClickInsideWordBetweenBrackets_SelectsTheWord`
+- [x] New: `DispatchMouse_DoubleClickAfterOpeningQuote_SelectsStringContent` (a tokenizer support that returns a string
       token for `"hello"`)
-- [ ] New: `DispatchMouse_DoubleClickInStringWithRtlText_SelectsTheWord`
-- [ ] New: `DispatchMouse_DoubleClickSelectsBlockOff_SelectsTheWord`
+- [x] New: `DispatchMouse_DoubleClickInStringWithRtlText_SelectsTheWord`
+- [x] New: `DispatchMouse_DoubleClickSelectsBlockOff_SelectsTheWord`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewController.ts` row updated; the `ViewController` cut point done (P5-36)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewController.ts` row updated; the `ViewController` cut point done (P5-36)
+- [x] Card status and `docs/tasks/README.md` updated
 - [ ] Manual check in the Gallery: double-click just inside `(…)` and inside `"…"` of the C# sample
 
 ## Out of scope
