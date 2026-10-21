@@ -1,6 +1,6 @@
 # P5-55 — `CopyLinesCommand`, `SortLinesCommand`, `TrimTrailingWhitespaceCommand`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-54
 - **Size:** M
 
@@ -64,19 +64,19 @@ skeleton.
 
 ## Tests
 
-- [ ] Port `Editor Contrib - Copy Lines Command` › `copy first line down`, `copy first line up`, `copy last line down`, `copy last line up`, `issue #1322: copy line up`, `issue #1322: copy last line up`, `copy many lines up`, `ignore empty selection`
-- [ ] Port `Editor Contrib - Sort Lines Command` › `no op unless at least two lines selected 1`, `no op unless at least two lines selected 2`, `sorting two lines ascending`, `sorting first 4 lines ascending`, `sorting all lines ascending`, `sorting first 4 lines descending`, `sorting all lines descending`
-- [ ] Port `Editor Commands - Trim Trailing Whitespace Command` › `remove trailing whitespace`, `skips strings and regex if configured`
-- [ ] New: `TrimTrailingWhitespace_DoesNotSortTheCallersList`
+- [x] Port `Editor Contrib - Copy Lines Command` › `copy first line down`, `copy first line up`, `copy last line down`, `copy last line up`, `issue #1322: copy line up`, `issue #1322: copy last line up`, `copy many lines up`, `ignore empty selection`
+- [x] Port `Editor Contrib - Sort Lines Command` › `no op unless at least two lines selected 1`, `no op unless at least two lines selected 2`, `sorting two lines ascending`, `sorting first 4 lines ascending`, `sorting all lines ascending`, `sorting first 4 lines descending`, `sorting all lines descending`
+- [x] Port `Editor Commands - Trim Trailing Whitespace Command` › `remove trailing whitespace`, `skips strings and regex if configured`
+- [x] New: `TrimTrailingWhitespace_DoesNotSortTheCallersList`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map rows for the three files (✅, P5-55); behavior difference "sort uses the invariant
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map rows for the three files (✅, P5-55); behavior difference "sort uses the invariant
       culture"; tests tables `copyLinesCommand.test.ts` 8 / 10 (Duplicate Selection in P5-57), `sortLinesCommand.test.ts`
       7 / 7, `trimTrailingWhitespaceCommand.test.ts` 2 / 2
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -11,6 +11,32 @@ const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingSpaces
 const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingTabs = "editor.action.indentUsingTabs" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentLines = "editor.action.reindentlines" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentSelectedLines = "editor.action.reindentselectedlines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.CopyLinesDown = "editor.action.copyLinesDownAction" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.CopyLinesUp = "editor.action.copyLinesUpAction" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.DeleteAllLeft = "deleteAllLeft" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.DeleteAllRight = "deleteAllRight" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.DeleteLines = "editor.action.deleteLines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.DuplicateSelection = "editor.action.duplicateSelection" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.IndentLines = "editor.action.indentLines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.InsertLineAfter = "editor.action.insertLineAfter" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.InsertLineBefore = "editor.action.insertLineBefore" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.JoinLines = "editor.action.joinLines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.MoveLinesDown = "editor.action.moveLinesDownAction" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.MoveLinesUp = "editor.action.moveLinesUpAction" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.OutdentLines = "editor.action.outdentLines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.RemoveDuplicateLines = "editor.action.removeDuplicateLines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.ReverseLines = "editor.action.reverseLines" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.SortLinesAscending = "editor.action.sortLinesAscending" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.SortLinesDescending = "editor.action.sortLinesDescending" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToCamelcase = "editor.action.transformToCamelcase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToKebabcase = "editor.action.transformToKebabcase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToLowercase = "editor.action.transformToLowercase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToPascalcase = "editor.action.transformToPascalcase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToSnakecase = "editor.action.transformToSnakecase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToTitlecase = "editor.action.transformToTitlecase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TransformToUppercase = "editor.action.transformToUppercase" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.Transpose = "editor.action.transpose" -> string!
+const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.TrimTrailingWhitespace = "editor.action.trimTrailingWhitespace" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToBottom = "editor.action.addCursorsToBottom" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.AddCursorsToTop = "editor.action.addCursorsToTop" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.FocusNextCursor = "editor.action.focusNextCursor" -> string!
@@ -100,6 +126,12 @@ LoomEditor.View.Features.Indentation.IndentationFeature.Attach(LoomEditor.View.F
 LoomEditor.View.Features.Indentation.IndentationFeature.Dispose() -> void
 LoomEditor.View.Features.Indentation.IndentationFeature.Id.get -> string!
 LoomEditor.View.Features.Indentation.IndentationFeature.IndentationFeature() -> void
+LoomEditor.View.Features.LinesOperations.LinesOperationsCommands
+LoomEditor.View.Features.LinesOperations.LinesOperationsFeature
+LoomEditor.View.Features.LinesOperations.LinesOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.LinesOperations.LinesOperationsFeature.Dispose() -> void
+LoomEditor.View.Features.LinesOperations.LinesOperationsFeature.Id.get -> string!
+LoomEditor.View.Features.LinesOperations.LinesOperationsFeature.LinesOperationsFeature() -> void
 LoomEditor.View.Features.MultiCursor.MultiCursorCommands
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
