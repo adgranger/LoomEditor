@@ -1,7 +1,7 @@
 # Indentation
 
-**Role:** converts the indentation of the document to spaces or tabs, re-indents lines with the indentation rules of the
-language, and (later) detects the indentation and re-indents pasted text.
+**Role:** converts the indentation of the document to spaces or tabs, changes the tab size, detects the indentation,
+re-indents lines with the indentation rules of the language, and (later) re-indents pasted text.
 
 **Monaco sources:** `src/vs/editor/contrib/indentation/` (`common/indentUtils.ts`, `common/indentation.ts`, `browser/indentation.ts`).
 
@@ -9,8 +9,11 @@ language, and (later) detects the indentation and re-indents pasted text.
 - `IndentUtils.cs` — `GetSpaceCnt`, `GenerateIndent`.
 - `ReindentOperations.cs` — `GetReindentEditOperations`: the edits that re-indent lines.
 - `IndentationToSpacesCommand.cs`, `IndentationToTabsCommand.cs` — the conversion commands.
-- `IndentationFeature.cs`, `IndentationCommands.cs` — the feature (it registers nothing yet: the actions come in P5-53, paste in P5-54) and the command ids.
+- `IndentationActions.cs` — what the eight commands do to a `ViewModel`.
+- `IndentationFeature.cs`, `IndentationCommands.cs` — the feature (registers the eight commands; paste comes in P5-54) and the command ids.
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Indentation/`.
 
-**Known limits:** no actions yet.
+**Known limits:** no quick pick. `IndentUsingTabs`, `IndentUsingSpaces` and `ChangeTabDisplaySize` take no argument and apply
+the item the quick pick pre-selects, `min(tabSize - 1, 7) + 1`; `IndentationActions.ChangeIndentationSize` takes the size.
+The `detectIndentation` editor option is not wired: only the command exists.
