@@ -34,3 +34,11 @@ and fill the **Result** column (`pass` / `fail` + a note).
 | 2.5 | Fold a block, then unfold it | The guides follow folding and stay aligned with the text | |
 | 2.6 | Turn **Word wrap** on with an indented, long line | The guides follow the wrapped lines and none is drawn past the wrapping column | |
 | 2.7 | Scroll horizontally | The guides scroll with the text | |
+
+## 3. Minimap font sampling (scales above 2)
+
+The Win2D font sampler needs a real `CanvasDevice`, which the Rendering tests never create.
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 3.1 | Call `Win2DMinimapFontSampler.CreateSampleData(device, "Consolas")` (the minimap at `scale: 3`, P6-52) | The array has `16 * 10 * 4 * 96` bytes and the cell of `M` has non-zero alpha pixels | |

@@ -1,6 +1,6 @@
 # P6-45 — Minimap font sample data with Win2D (scales above 2)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-44
 - **Size:** S
 
@@ -35,18 +35,18 @@ For minimap scales above 2 (high DPI or `scale: 3`), LoomEditor samples the edit
 
 ## Tests
 
-- [ ] New (`tests/LoomEditor.Rendering.Tests`): `CreateSampleData_HasTheExpectedLength` and `…_LetterCellIsNotEmpty` — only if the
+- [x] New (`tests/LoomEditor.Rendering.Tests`): `CreateSampleData_HasTheExpectedLength` and `…_LetterCellIsNotEmpty` — only if the
       Rendering tests can create a `CanvasDevice` (look for an existing test that does); otherwise **no automated test**: add a manual
       check to `docs/testing/phase-6-manual-tests.md` (create it as P6-26 describes if it does not exist yet) and say so in the card when closing it
-- [ ] New (View, pure): `ConvertBgraPremultipliedToRgba_Unpremultiplies` — put the conversion in a small pure `static` helper in
+- [x] New (View, pure): `ConvertBgraPremultipliedToRgba_Unpremultiplies` — put the conversion in a small pure `static` helper in
       `LoomEditor.View/Minimap/` so it is testable without Win2D
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimapCharRendererFactory.ts` row ✅ with the Win2D note
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimapCharRendererFactory.ts` row ✅ with the Win2D note
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

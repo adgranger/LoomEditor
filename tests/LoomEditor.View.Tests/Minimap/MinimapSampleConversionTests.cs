@@ -1,0 +1,17 @@
+using LoomEditor.View.Minimap;
+
+namespace LoomEditor.View.Tests.Minimap;
+
+public class MinimapSampleConversionTests
+{
+    [Fact]
+    public void ConvertBgraPremultipliedToRgba_Unpremultiplies()
+    {
+        // B, G, R, A: opaque, half transparent (premultiplied 64 of 128), fully transparent.
+        byte[] bgra = [10, 20, 30, 255, 64, 32, 128, 128, 7, 7, 7, 0];
+
+        byte[] rgba = MinimapSampleConversion.ConvertBgraPremultipliedToRgba(bgra);
+
+        Assert.Equal(new byte[] { 30, 20, 10, 255, 255, 64, 128, 128, 0, 0, 0, 0 }, rgba);
+    }
+}
