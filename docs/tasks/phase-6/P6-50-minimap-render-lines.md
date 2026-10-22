@@ -1,6 +1,6 @@
 # P6-50 — Rendering minimap lines into a pixel buffer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-49
 - **Size:** M
 
@@ -47,18 +47,18 @@ File: `src/vs/editor/browser/viewParts/minimap/minimap.ts`.
 
 No upstream unit tests. New, with a fake `IMinimapModel` and the scale-1 pre-baked renderer:
 
-- [ ] `RenderLines_OneLine_PaintsItsCharacters` (non-background pixels where the characters are)
-- [ ] `RenderLines_SameLayoutTwice_ReusesTheBuffer`
-- [ ] `RenderLines_AfterFlush_RepaintsEverything`
-- [ ] `RenderLines_ScrolledByOneLine_CopiesUntouchedLines` (check the copied rows equal the previous ones)
-- [ ] `RenderLines_Blocks_UsesBlockRendering`
+- [x] `RenderLines_OneLine_PaintsItsCharacters` (non-background pixels where the characters are)
+- [x] `RenderLines_SameLayoutTwice_ReusesTheBuffer`
+- [x] `RenderLines_AfterFlush_RepaintsEverything`
+- [x] `RenderLines_ScrolledByOneLine_CopiesUntouchedLines` (check the copied rows equal the previous ones)
+- [x] `RenderLines_Blocks_UsesBlockRendering`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row (+ line rendering)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row (+ line rendering)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
