@@ -1,6 +1,6 @@
 # P6-16 — Wrapped projection: `GetViewLinesData` with tokens and injected text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-15
 - **Size:** S
 
@@ -48,22 +48,22 @@ the wrapped indent, the start visible column and the inline decorations of the i
 
 ## Tests
 
-- [ ] New (Core): `GetLineTokensWithInjections_NoInjections_ReturnsTheSameTokens`; `…_InsertsDefaultTokens`
-- [ ] New (View): `GetViewLinesData_WrappedLine_SlicesTokensAndAddsIndent` (a TextModel line of 3 tokens, breaks inside the
+- [x] New (Core): `GetLineTokensWithInjections_NoInjections_ReturnsTheSameTokens`; `…_InsertsDefaultTokens`
+- [x] New (View): `GetViewLinesData_WrappedLine_SlicesTokensAndAddsIndent` (a TextModel line of 3 tokens, breaks inside the
       second token, indent 2: check content, `MinColumn`, `MaxColumn`, `ContinuesWithWrappedLine`, `StartVisibleColumn` and the
       token end offsets / metadata of each view line)
-- [ ] New (View): `GetViewLinesData_WithInjectedText_HasInlineDecorations` (an injection with `InlineClassName`)
-- [ ] New (View): `GetViewLinesData_NotNeeded_IsNull`
+- [x] New (View): `GetViewLinesData_WithInjectedText_HasInlineDecorations` (an injection with `InlineClassName`)
+- [x] New (View): `GetViewLinesData_NotNeeded_IsNull`
 
 The upstream tests that exercise this (`getViewLinesData - with wrapping`, `… and injected text`) are ported in P6-19.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `modelLineProjection.ts` row ✅ (all three projections); new row for `getLineTokensWithInjections`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `modelLineProjection.ts` row ✅ (all three projections); new row for `getLineTokensWithInjections`
       (in the `textModel.ts` row or a new one) noting that `tokens` of injected text is not ported
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

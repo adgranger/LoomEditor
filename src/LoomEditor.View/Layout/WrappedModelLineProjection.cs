@@ -85,10 +85,6 @@ internal sealed partial class WrappedModelLineProjection(ModelLineProjectionData
 
     public bool GetViewLineContinuesWithWrappedLine(int outputLineIndex) => outputLineIndex + 1 < GetViewLineCount();
 
-    public ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex) => throw new NotImplementedException("P6-16");
-
-    public void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int globalStartIndex, bool[] needed, ViewLineData?[] result) =>
-        throw new NotImplementedException("P6-16");
 
     public int GetModelColumnOfViewPosition(int outputLineIndex, int outputColumn)
     {

@@ -9,8 +9,7 @@ namespace LoomEditor.View.Layout;
 
 /// <summary>How one model line is shown as view lines (Monaco: <c>IModelLineProjection</c>).</summary>
 /// <remarks>
-/// Phase 6 cut point: <c>baseViewLineNumber</c> is dropped from <c>getViewLineData</c> and <c>getViewLinesData</c>
-/// (it only feeds the inline decorations of injected text). <c>model</c> is the <see cref="TextModel"/>: there is no <c>ISimpleModel</c>.
+/// <c>model</c> is the <see cref="TextModel"/>: there is no <c>ISimpleModel</c>.
 /// Threading: implementations are stateless singletons; UI thread only.
 /// </remarks>
 internal interface IModelLineProjection
@@ -35,10 +34,10 @@ internal interface IModelLineProjection
 
     bool GetViewLineContinuesWithWrappedLine(int outputLineIndex);
 
-    ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex);
+    ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex, int baseViewLineNumber);
 
     /// <summary>Fills <paramref name="result"/> at <paramref name="globalStartIndex"/> (and the following indexes) with the view lines that are <paramref name="needed"/>; the others get <c>null</c>.</summary>
-    void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int globalStartIndex, bool[] needed, ViewLineData?[] result);
+    void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int baseViewLineNumber, int globalStartIndex, bool[] needed, ViewLineData?[] result);
 
     int GetModelColumnOfViewPosition(int outputLineIndex, int outputColumn);
 
@@ -93,16 +92,16 @@ internal sealed class IdentityModelLineProjection : IModelLineProjection
 
     public bool GetViewLineContinuesWithWrappedLine(int outputLineIndex) => false;
 
-    public ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex)
+    public ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex, int baseViewLineNumber)
     {
         LineTokens lineTokens = model.Tokenization.GetLineTokens(modelLineNumber);
         string lineContent = lineTokens.GetLineContent();
         return new ViewLineData(lineContent, false, 1, lineContent.Length + 1, 0, lineTokens.Inflate());
     }
 
-    public void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int globalStartIndex, bool[] needed, ViewLineData?[] result)
+    public void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int baseViewLineNumber, int globalStartIndex, bool[] needed, ViewLineData?[] result)
     {
-        result[globalStartIndex] = needed[globalStartIndex] ? GetViewLineData(model, modelLineNumber, 0) : null;
+        result[globalStartIndex] = needed[globalStartIndex] ? GetViewLineData(model, modelLineNumber, 0, baseViewLineNumber) : null;
     }
 
     public int GetModelColumnOfViewPosition(int outputLineIndex, int outputColumn) => outputColumn;
@@ -147,9 +146,9 @@ internal sealed class HiddenModelLineProjection : IModelLineProjection
 
     public bool GetViewLineContinuesWithWrappedLine(int outputLineIndex) => throw NotSupported();
 
-    public ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex) => throw NotSupported();
+    public ViewLineData GetViewLineData(TextModel model, int modelLineNumber, int outputLineIndex, int baseViewLineNumber) => throw NotSupported();
 
-    public void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int globalStartIndex, bool[] needed, ViewLineData?[] result) =>
+    public void GetViewLinesData(TextModel model, int modelLineNumber, int outputLineIdx, int lineCount, int baseViewLineNumber, int globalStartIndex, bool[] needed, ViewLineData?[] result) =>
         throw NotSupported();
 
     public int GetModelColumnOfViewPosition(int outputLineIndex, int outputColumn) => throw NotSupported();

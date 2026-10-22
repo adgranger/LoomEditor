@@ -568,7 +568,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P6-14](phase-6/P6-14-injected-text-inline-decorations.md) | `InjectedTextInlineDecorationsComputer` and `ViewLineData.InlineDecorations` | P6-08 | done |
 | [P6-15](phase-6/P6-15-wrapped-model-line-projection.md) | `ModelLineProjection` for wrapped lines and injected text (content and positions) | P6-14 | done |
-| [P6-16](phase-6/P6-16-wrapped-projection-view-lines-data.md) | Wrapped projection: `GetViewLinesData` with tokens and injected text | P6-15 | todo |
+| [P6-16](phase-6/P6-16-wrapped-projection-view-lines-data.md) | Wrapped projection: `GetViewLinesData` with tokens and injected text | P6-15 | done |
 
 ### Step E — Word wrap in the view model, the renderer and the control
 

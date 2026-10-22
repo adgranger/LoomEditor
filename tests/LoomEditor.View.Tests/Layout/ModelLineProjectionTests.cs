@@ -4,7 +4,10 @@
 using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
+using LoomEditor.Core.Tokens;
 using LoomEditor.View.Layout;
+using LoomEditor.View.Tests.Layout.TestHelpers;
+using LoomEditor.View.Tests.TestHelpers;
 using static LoomEditor.View.Tests.Layout.TestHelpers.ProjectionTestHelpers;
 
 namespace LoomEditor.View.Tests.Layout;
@@ -27,7 +30,7 @@ public class ModelLineProjectionTests
         Assert.Equal(8, projection.GetViewLineMaxColumn(model, 2, 0));
         Assert.False(projection.GetViewLineContinuesWithWrappedLine(0));
 
-        ViewLineData data = projection.GetViewLineData(model, 2, 0);
+        ViewLineData data = projection.GetViewLineData(model, 2, 0, 2);
 
         Assert.Equal("\tsecond", data.Content);
         Assert.False(data.ContinuesWithWrappedLine);
@@ -43,8 +46,8 @@ public class ModelLineProjectionTests
         TextModel model = CreateModel();
         ViewLineData?[] result = new ViewLineData?[3];
 
-        ModelLineProjection.Create(true).GetViewLinesData(model, 1, 0, 1, 0, [false, true, false], result);
-        ModelLineProjection.Create(true).GetViewLinesData(model, 2, 0, 1, 1, [false, true, false], result);
+        ModelLineProjection.Create(true).GetViewLinesData(model, 1, 0, 1, 1, 0, [false, true, false], result);
+        ModelLineProjection.Create(true).GetViewLinesData(model, 2, 0, 1, 2, 1, [false, true, false], result);
 
         Assert.Null(result[0]);
         Assert.Equal("\tsecond", result[1]!.Content);
@@ -245,5 +248,88 @@ public class ModelLineProjectionTests
 
         Assert.Same(options, projection.GetInjectedTextAt(0, 5)!.Options);
         Assert.Null(projection.GetInjectedTextAt(0, 2));
+    }
+
+    private static TextModel CreateTokenizedModel(string text, (int StartIndex, int Value)[] tokens, out TestEditorServices services)
+    {
+        services = new TestEditorServices();
+        services.RegisterLanguage("projectionTest");
+        services.Add(services.TokenizationRegistry.Register("projectionTest", new FixedTokensTokenizationSupport([tokens])));
+        TextModel model = services.CreateTextModel(text, "projectionTest");
+        model.Tokenization.ForceTokenization(model.LineCount);
+        return model;
+    }
+
+    private static void AssertTokens(IViewLineTokens actual, (int EndIndex, int Value)[] expected)
+    {
+        var tokens = new List<(int EndIndex, int Value)>();
+        for (int i = 0; i < actual.GetCount(); i++)
+        {
+            tokens.Add((actual.GetEndOffset(i), actual.GetForeground(i)));
+        }
+
+        Assert.Equal(expected, tokens);
+    }
+
+    [Fact]
+    public void GetViewLinesData_WrappedLine_SlicesTokensAndAddsIndent()
+    {
+        TextModel model = CreateTokenizedModel("abcdefghij", [(0, 1), (4, 2), (7, 3)], out TestEditorServices services);
+        using (services)
+        {
+            IModelLineProjection projection = CreateSplitLine([6, 4], [6, 10], 2);
+            var result = new ViewLineData?[2];
+
+            projection.GetViewLinesData(model, 1, 0, 2, 1, 0, [true, true], result);
+
+            ViewLineData first = result[0]!;
+            Assert.Equal("abcdef", first.Content);
+            Assert.Equal(1, first.MinColumn);
+            Assert.Equal(7, first.MaxColumn);
+            Assert.True(first.ContinuesWithWrappedLine);
+            Assert.Equal(0, first.StartVisibleColumn);
+            AssertTokens(first.Tokens, [(4, 1), (6, 2)]);
+
+            ViewLineData second = result[1]!;
+            Assert.Equal("  ghij", second.Content);
+            Assert.Equal(3, second.MinColumn);
+            Assert.Equal(7, second.MaxColumn);
+            Assert.False(second.ContinuesWithWrappedLine);
+            Assert.Equal(6, second.StartVisibleColumn);
+            AssertTokens(second.Tokens, [(3, 2), (6, 3)]);
+        }
+    }
+
+    [Fact]
+    public void GetViewLinesData_WithInjectedText_HasInlineDecorations()
+    {
+        TextModel model = CreateTokenizedModel("abcdef", [(0, 1), (3, 2)], out TestEditorServices services);
+        using (services)
+        {
+            var options = ModelDecorationInjectedTextOptions.From(new InjectedTextOptions { Content = "XY", InlineClassName = "inj" });
+            IModelLineProjection projection = ModelLineProjection.Create(new ModelLineProjectionData([3], [options], [8], [8], 0), true);
+
+            ViewLineData data = projection.GetViewLineData(model, 1, 0, 5);
+
+            Assert.Equal("abcXYdef", data.Content);
+            Assert.Equal([new InlineDecoration(new Range(5, 4, 5, 6), "inj", InlineDecorationType.Regular)], data.InlineDecorations);
+            AssertTokens(data.Tokens, [(3, 1), (5, (int)ColorId.DefaultForeground), (8, 2)]);
+        }
+    }
+
+    [Fact]
+    public void GetViewLinesData_NotNeeded_IsNull()
+    {
+        TextModel model = CreateTokenizedModel("abcdefghij", [(0, 1)], out TestEditorServices services);
+        using (services)
+        {
+            IModelLineProjection projection = CreateSplitLine([6, 4], [6, 10], 0);
+            var result = new ViewLineData?[2];
+
+            projection.GetViewLinesData(model, 1, 0, 2, 1, 0, [false, true], result);
+
+            Assert.Null(result[0]);
+            Assert.Equal("ghij", result[1]!.Content);
+        }
     }
 }

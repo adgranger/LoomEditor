@@ -424,7 +424,8 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     public ViewLineData GetViewLineData(int viewLineNumber)
     {
         ViewLineInfo info = GetViewLineInfo(viewLineNumber);
-        return _modelLineProjections[info.ModelLineNumber - 1].GetViewLineData(_model, info.ModelLineNumber, info.ModelLineWrappedLineIdx);
+        int baseViewLineNumber = _projectedModelLineLineCounts.GetPrefixSum(info.ModelLineNumber - 1) + 1;
+        return _modelLineProjections[info.ModelLineNumber - 1].GetViewLineData(_model, info.ModelLineNumber, info.ModelLineWrappedLineIdx, baseViewLineNumber);
     }
 
     /// <summary>The data of the view lines from <paramref name="viewStartLineNumber"/> to <paramref name="viewEndLineNumber"/>; only the <paramref name="needed"/> ones are filled.</summary>
@@ -457,7 +458,8 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
                 remainingViewLineCount = viewEndLineNumber - viewLineNumber + 1;
             }
 
-            line.GetViewLinesData(_model, modelLineIndex + 1, fromViewLineIndex, remainingViewLineCount, viewLineNumber - viewStartLineNumber, needed, result);
+            int baseViewLineNumber = _projectedModelLineLineCounts.GetPrefixSum(modelLineIndex) + 1;
+            line.GetViewLinesData(_model, modelLineIndex + 1, fromViewLineIndex, remainingViewLineCount, baseViewLineNumber, viewLineNumber - viewStartLineNumber, needed, result);
 
             viewLineNumber += remainingViewLineCount;
 
