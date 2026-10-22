@@ -82,8 +82,53 @@ internal static class EditorColorDefaults
         // editorColorRegistry.ts:22
         ["editorCursor.foreground"] = ("#AEAFAD", "#000000", "#FFFFFF", "#0F4A85"),
 
+        // editorColorRegistry.ts:28 (the default of the deprecated indent guide colors)
+        ["editorWhitespace.foreground"] = ("#e3e4e229", "#33333333", "#e3e4e229", "#CCCCCC"),
+
         // editorColorRegistry.ts:30
         ["editorLineNumber.foreground"] = ("#858585", "#237893", "#FFFFFF", "#292929"),
+
+        // editorColorRegistry.ts:32 (deprecated id)
+        ["editorIndentGuide.background"] = ("editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground"),
+
+        // editorColorRegistry.ts:33 (deprecated id)
+        ["editorIndentGuide.activeBackground"] = ("editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground"),
+
+        // editorColorRegistry.ts:35
+        ["editorIndentGuide.background1"] = ("editorIndentGuide.background", "editorIndentGuide.background", "editorIndentGuide.background", "editorIndentGuide.background"),
+
+        // editorColorRegistry.ts:36
+        ["editorIndentGuide.background2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:37
+        ["editorIndentGuide.background3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:38
+        ["editorIndentGuide.background4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:39
+        ["editorIndentGuide.background5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:40
+        ["editorIndentGuide.background6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:42
+        ["editorIndentGuide.activeBackground1"] = ("editorIndentGuide.activeBackground", "editorIndentGuide.activeBackground", "editorIndentGuide.activeBackground", "editorIndentGuide.activeBackground"),
+
+        // editorColorRegistry.ts:43
+        ["editorIndentGuide.activeBackground2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:44
+        ["editorIndentGuide.activeBackground3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:45
+        ["editorIndentGuide.activeBackground4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:46
+        ["editorIndentGuide.activeBackground5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:47
+        ["editorIndentGuide.activeBackground6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
 
         // editorColorRegistry.ts:49 (deprecated id)
         ["editorActiveLineNumber.foreground"] = ("#c6c6c6", "#0B216F", "contrastActiveBorder", "contrastActiveBorder"),
@@ -120,6 +165,42 @@ internal static class EditorColorDefaults
 
         // editorColorRegistry.ts:86 (new Color(new RGBA(255, 18, 18, 0.8)) is #FF1212CC; RGBA(255, 50, 50, 1) is #FF3232)
         ["editorBracketHighlight.unexpectedBracket.foreground"] = ("#FF1212CC", "#FF1212CC", "#FF3232", "#B5200D"),
+
+        // editorColorRegistry.ts:88
+        ["editorBracketPairGuide.background1"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:89
+        ["editorBracketPairGuide.background2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:90
+        ["editorBracketPairGuide.background3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:91
+        ["editorBracketPairGuide.background4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:92
+        ["editorBracketPairGuide.background5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:93
+        ["editorBracketPairGuide.background6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:95
+        ["editorBracketPairGuide.activeBackground1"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:96
+        ["editorBracketPairGuide.activeBackground2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:97
+        ["editorBracketPairGuide.activeBackground3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:98
+        ["editorBracketPairGuide.activeBackground4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:99
+        ["editorBracketPairGuide.activeBackground5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:100
+        ["editorBracketPairGuide.activeBackground6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
 
         // highlightDecorations.ts:14
         ["editor.wordHighlightBackground"] = ("#575757B8", "#57575740", null, null),

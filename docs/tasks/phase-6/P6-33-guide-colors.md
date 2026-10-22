@@ -1,6 +1,6 @@
 # P6-33 — The colors of indent and bracket pair guides
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-27
 - **Size:** S
 
@@ -41,17 +41,17 @@ level and of a bracket guide level (active or not), with Monaco's fallbacks.
 
 ## Tests
 
-- [ ] New: `IndentGuideColor_DarkTheme_UsesTheDefaults` (level 0 and 5, active and not)
-- [ ] New: `BracketGuideColor_NoGuideColor_FallsBackToTheBracketColorAt30Percent`
-- [ ] New: `BracketGuideColor_TransparentLevelsAreSkipped`
-- [ ] New: `IndentGuideColor_LevelCyclesOverTheEffectiveColors`
+- [x] New: `IndentGuideColor_DarkTheme_UsesTheDefaults` (level 0 and 5, active and not)
+- [x] New: `BracketGuideColor_NoGuideColor_FallsBackToTheBracketColorAt30Percent`
+- [x] New: `BracketGuideColor_TransparentLevelsAreSkipped`
+- [x] New: `IndentGuideColor_LevelCyclesOverTheEffectiveColors`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `editorColorRegistry.ts` row lists the guide colors; new row `indentGuides.ts` (🔶 colors only)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `editorColorRegistry.ts` row lists the guide colors; new row `indentGuides.ts` (🔶 colors only)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

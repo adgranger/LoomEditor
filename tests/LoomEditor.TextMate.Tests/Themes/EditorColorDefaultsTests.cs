@@ -43,6 +43,23 @@ public class EditorColorDefaultsTests
         Assert.Equal(expected, Default(id, type));
     }
 
+    [Theory]
+    [InlineData(ThemeType.Dark, "editorWhitespace.foreground", "#E3E4E229")]
+    [InlineData(ThemeType.Light, "editorIndentGuide.background1", "#33333333")] // deprecated id -> whitespace color
+    [InlineData(ThemeType.HighContrastLight, "editorIndentGuide.activeBackground1", "#CCCCCCFF")]
+    [InlineData(ThemeType.Dark, "editorIndentGuide.background2", "#00000000")]
+    [InlineData(ThemeType.Dark, "editorBracketPairGuide.activeBackground6", "#00000000")]
+    public void Defaults_GuideColors_MatchVsCode(ThemeType type, string id, string expected)
+    {
+        Assert.Equal(expected, Default(id, type));
+    }
+
+    [Fact]
+    public void WithAlphaFactor_MultipliesAlpha()
+    {
+        Assert.Equal(ThemeColor.Parse("#FFD7004D"), ThemeColor.Parse("#FFD700").WithAlphaFactor(0.3));
+    }
+
     [Fact]
     public void Defaults_ReferenceToAnotherColor_UsesTheThemeValueFirst()
     {
