@@ -17,8 +17,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// Threading: UI thread only; events are raised synchronously on the calling thread.
-/// Behavior difference: the view lines are the ones of <see cref="ViewModelLinesFromProjectedModel"/> (hidden areas, no word wrap
-/// or injected text before phase 6); custom line heights and the view events that only the control consumed are not ported.
+/// Behavior difference: the view lines are the ones of <see cref="ViewModelLinesFromProjectedModel"/> (hidden areas, word wrap); custom line heights and the view events that only the control consumed are not ported.
 /// </remarks>
 internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 {
@@ -30,6 +29,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     private int _outerHeight;
     private int _lineNumbersDigitCount;
     private bool _disposed;
+    private string _breakBeforeCharacters;
+    private string _breakAfterCharacters;
     private readonly ViewModelLinesFromProjectedModel _lines;
     private readonly CursorsController _cursor;
     private EditorCursorOptions _cursorOptions = EditorCursorOptions.Default;
@@ -49,9 +50,21 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _layoutOptions = layoutOptions;
         _viewLayoutOptions = viewLayoutOptions;
         _lineNumbersDigitCount = CountDigits(model.LineCount);
-        _lines = new ViewModelLinesFromProjectedModel(editorId, model, model.Options.TabSize);
-
         LayoutInfo = ComputeLayoutInfo();
+        EditorWrappingOptions wrapping = layoutOptions.Wrapping;
+        _breakBeforeCharacters = wrapping.WordWrapBreakBeforeCharacters;
+        _breakAfterCharacters = wrapping.WordWrapBreakAfterCharacters;
+        _lines = new ViewModelLinesFromProjectedModel(
+            editorId,
+            model,
+            MonospaceLineBreaksComputerFactory.Create(wrapping),
+            fontInfo,
+            model.Options.TabSize,
+            LayoutInfo.WrappingColumn,
+            wrapping.WrappingIndent,
+            wrapping.WordBreak,
+            wrapping.WrapOnEscapedLineFeeds,
+            wrapping.UseTwoCellFullwidthCharacters);
         ViewLayout = new ViewLayout(
             viewLayoutOptions, LayoutInfo, fontInfo, _lines.GetViewLineCount(), [], scheduleAtNextAnimationFrame, timeProvider);
 
@@ -108,6 +121,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _outerWidth = outerWidth;
         _outerHeight = outerHeight;
         RecomputeLayoutInfo();
+        UpdateWrappingSettings();
         UpdateCursorConfiguration();
     }
 
@@ -124,6 +138,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         }
 
         RecomputeLayoutInfo();
+        UpdateWrappingSettings();
         UpdateCursorConfiguration();
     }
 
@@ -140,6 +155,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _viewLayoutOptions = viewLayoutOptions;
         ViewLayout.OnOptionsChanged(viewLayoutOptions);
         RecomputeLayoutInfo();
+        UpdateWrappingSettings();
     }
 
     /// <summary>Builds the data to render the current viewport.</summary>
@@ -162,6 +178,9 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             bool hadModelLineChangeThatChangedLineMapping = false;
             int versionId = e.VersionId;
 
+            // Do a first pass to compute line mappings, and a second pass to actually interpret them
+            Queue<ModelLineProjectionData?> lineBreakQueue = ComputeLineBreaks(e.Changes);
+
             foreach (ModelRawChange change in e.Changes)
             {
                 switch (change)
@@ -181,7 +200,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                         hadOtherModelChange = true;
                         break;
                     case ModelRawLinesInserted inserted:
-                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, new ModelLineProjectionData?[inserted.Count]) is { } linesInserted)
+                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, TakeCount(lineBreakQueue, inserted.Count)) is { } linesInserted)
                         {
                             ViewLayout.OnLinesInserted(linesInserted.FromLineNumber, linesInserted.ToLineNumber);
                         }
@@ -190,7 +209,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                         break;
                     case ModelRawLineChanged changed:
                         (bool lineMappingChanged, _, ViewLineRange? insertedRange, ViewLineRange? deletedRange) =
-                            _lines.OnModelLineChanged(versionId, changed.LineNumber, null);
+                            _lines.OnModelLineChanged(versionId, changed.LineNumber, lineBreakQueue.Dequeue());
                         hadModelLineChangeThatChangedLineMapping = lineMappingChanged;
                         if (insertedRange is { } insertedLines)
                         {

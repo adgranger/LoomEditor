@@ -35,7 +35,7 @@ internal sealed record EditorWrappingOptions
     /// <summary>Monaco: <c>wordWrapBreakAfterCharacters</c>.</summary>
     public string WordWrapBreakAfterCharacters { get; init; } = DefaultBreakAfterCharacters;
 
-    /// <summary>Monaco: <c>wrapOnEscapedLineFeeds</c>.</summary>
+    /// <summary>Monaco: <c>wrapOnEscapedLineFeeds</c>. Read only when the view model is created (identical to Monaco): changing it later has no effect until the model is flushed.</summary>
     public bool WrapOnEscapedLineFeeds { get; init; }
 
     /// <summary>

@@ -1,6 +1,6 @@
 # P6-20 — The view model wraps lines: settings, model changes, content width
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-19, P6-02
 - **Size:** M
 
@@ -52,21 +52,21 @@ lines in two passes like Monaco, and `ViewLayout` computes the content width of 
 
 ## Tests
 
-- [ ] New: `WordWrapOn_LongLine_HasSeveralViewLines` (`SetViewportSize` small enough, `GetLineCount()` > model line count)
-- [ ] New: `Resize_ChangesTheWrappingColumn_RebuildsTheViewLines`
-- [ ] New: `WordWrapOff_ToOn_KeepsTheFirstVisibleModelLine` (scroll to a model line, turn wrap on, the viewport start model line
+- [x] New: `WordWrapOn_LongLine_HasSeveralViewLines` (`SetViewportSize` small enough, `GetLineCount()` > model line count)
+- [x] New: `Resize_ChangesTheWrappingColumn_RebuildsTheViewLines`
+- [x] New: `WordWrapOff_ToOn_KeepsTheFirstVisibleModelLine` (scroll to a model line, turn wrap on, the viewport start model line
       is the same)
-- [ ] New: `TypingInAWrappedLine_UpdatesItsViewLines` (insert text so the line gains a view line: the view line count grows)
-- [ ] New: `PastingSeveralLines_EachGetsItsLineBreaks` (multi-line insert with long lines)
-- [ ] New: `ComputeContentWidth_ViewportWrapping_IsTheMaxLineWidth` (on `ViewLayout` directly)
+- [x] New: `TypingInAWrappedLine_UpdatesItsViewLines` (insert text so the line gains a view line: the view line count grows)
+- [x] New: `PastingSeveralLines_EachGetsItsLineBreaks` (multi-line insert with long lines)
+- [x] New: `ComputeContentWidth_ViewportWrapping_IsTheMaxLineWidth` (on `ViewLayout` directly)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewModelImpl.ts` row (wrapping), `viewLayout.ts` row (wrapped content width); update the remark of
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewModelImpl.ts` row (wrapping), `viewLayout.ts` row (wrapped content width); update the remark of
       `ViewModel` ("no word wrap … before phase 6")
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

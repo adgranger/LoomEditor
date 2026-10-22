@@ -218,7 +218,19 @@ internal sealed partial class ViewLayout : IDisposable
 
     private int ComputeContentWidth()
     {
-        // Word wrap is never on in phase 2. The viewport-wrapping branch of `_computeContentWidth` comes back in phase 6.
+        if (_layoutInfo.IsViewportWrapping)
+        {
+            // Minimap: P6-41
+            const bool MinimapOnTheRight = false;
+            if (_maxLineWidth > _layoutInfo.ContentWidth + _fontInfo.TypicalHalfwidthCharacterWidth && MinimapOnTheRight)
+            {
+                // This is a case where viewport wrapping is on, but the line extends above the viewport
+                return _maxLineWidth + _layoutInfo.VerticalScrollbarWidth;
+            }
+
+            return _maxLineWidth;
+        }
+
         int extraHorizontalSpace = (int)(_options.ScrollBeyondLastColumn * _fontInfo.TypicalHalfwidthCharacterWidth);
         int whitespaceMinWidth = _linesLayout.GetWhitespaceMinWidth();
         return Math.Max(

@@ -29,7 +29,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     private readonly int _editorId;
     private readonly TextModel _model;
     private int _validModelVersionId = -1;
-    private readonly ILineBreaksComputerFactory _monospaceLineBreaksComputerFactory;
+    private ILineBreaksComputerFactory _monospaceLineBreaksComputerFactory;
     private FontInfo _fontInfo;
     private int _tabSize;
     private int _wrappingColumn;

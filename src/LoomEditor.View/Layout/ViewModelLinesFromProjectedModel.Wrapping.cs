@@ -7,6 +7,13 @@ namespace LoomEditor.View.Layout;
 
 internal sealed partial class ViewModelLinesFromProjectedModel
 {
+    /// <summary>
+    /// Replaces the factory used for the next breaks. The lines are not rebuilt: the new factory applies at the next
+    /// <see cref="SetWrappingSettings"/> that changes something, or the next model change (Monaco never changes it).
+    /// </summary>
+    public void SetLineBreaksComputerFactory(ILineBreaksComputerFactory factory) =>
+        _monospaceLineBreaksComputerFactory = factory ?? throw new ArgumentNullException(nameof(factory));
+
     /// <summary>Returns whether a setting changed (the lines are built again, reusing the previous breaks when only the column changed).</summary>
     public bool SetWrappingSettings(FontInfo fontInfo, int wrappingColumn, WrappingIndent wrappingIndent, WordBreak wordBreak, bool useTwoCellFullwidthCharacters)
     {
