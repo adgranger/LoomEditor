@@ -1,6 +1,6 @@
 # P6-41 — `ComputeMinimapLayout` and the minimap in the editor layout
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-40
 - **Size:** M
 
@@ -52,20 +52,20 @@ like Monaco; the 8 minimap tests and the 2 word wrap tests of `editorLayoutProvi
 
 ## Tests
 
-- [ ] Port: `Editor ViewLayout - EditorLayoutProvider` › `EditorLayoutProvider 9 - render minimap`, `… with pixelRatio = 2`,
+- [x] Port: `Editor ViewLayout - EditorLayoutProvider` › `EditorLayoutProvider 9 - render minimap`, `… with pixelRatio = 2`,
       `… with pixelRatio = 4`, `EditorLayoutProvider 10 - render minimap to left`, `11 - minimap mode cover without sampling`,
       `12 - minimap mode cover with sampling`, `13 - minimap mode contain without sampling`, `14 - minimap mode contain with sampling`
-- [ ] Port: `issue #31312: When wrapping, leave 2px for the cursor`;
+- [x] Port: `issue #31312: When wrapping, leave 2px for the cursor`;
       `leaves the rightmost column for the word wrap indicator when wrapping to the viewport`
-- [ ] New: `ComputeLayout_MinimapEnabledChangesContentWidth`
+- [x] New: `ComputeLayout_MinimapEnabledChangesContentWidth`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `editorLayoutProvider.test.ts` is 20 / 20; the `editorOptions.ts` row lists the minimap layout
-- [ ] No `// Minimap: P6-41` placeholder is left in the code of the cards that are done (`grep -rn "Minimap: P6-41" src`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `editorLayoutProvider.test.ts` is 20 / 20; the `editorOptions.ts` row lists the minimap layout
+- [x] No `// Minimap: P6-41` placeholder is left in the code of the cards that are done (`grep -rn "Minimap: P6-41" src`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

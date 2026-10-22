@@ -5,8 +5,9 @@ namespace LoomEditor.View.Layout;
 
 /// <summary>Measurements the layout depends on. Monaco: <c>EditorLayoutInfoComputerEnv</c>.</summary>
 /// <remarks>
-/// Threading: immutable, safe from any thread. Not ported: <c>memory</c>, <c>isDominatedByLongLines</c>,
-/// <c>viewLineCount</c> (minimap and accessibility only).
+/// Threading: immutable, safe from any thread, except that <c>Memory</c> is mutated by the layout computation.
+/// Not ported: <c>isDominatedByLongLines</c> (accessibility). <c>scrollBeyondLastLine</c> and the padding are read from the
+/// environment because <see cref="EditorLayoutOptions"/> has neither.
 /// </remarks>
 internal sealed record EditorLayoutInfoComputerEnv(
     int OuterWidth,
@@ -16,14 +17,19 @@ internal sealed record EditorLayoutInfoComputerEnv(
     double TypicalHalfwidthCharacterWidth,
     double MaxDigitWidth,
     double PixelRatio,
-    int GlyphMarginDecorationLaneCount);
+    int GlyphMarginDecorationLaneCount,
+    int ViewLineCount = 1,
+    ComputeOptionsMemory? Memory = null,
+    bool ScrollBeyondLastLine = false,
+    int PaddingTop = 0,
+    int PaddingBottom = 0);
 
 /// <summary>Monaco: <c>EditorLayoutInfoComputer.computeLayout</c>.</summary>
 /// <remarks>
-/// Threading: stateless, safe from any thread. Behavior differences: the minimap is treated as disabled (P6-41) and accessibility
+/// Threading: stateless, safe from any thread. Behavior differences: accessibility
 /// ("dominated by long lines", <c>isWordWrapMinified</c>) is not ported (phase 7).
 /// </remarks>
-internal static class EditorLayoutInfoComputer
+internal static partial class EditorLayoutInfoComputer
 {
     private const int FoldingDecorationWidth = 16;
 
@@ -63,16 +69,43 @@ internal static class EditorLayoutInfoComputer
         int decorationsLeft = lineNumbersLeft + lineNumbersWidth;
         int contentLeft = decorationsLeft + lineDecorationsWidth;
 
-        int contentWidth = outerWidth - glyphMarginWidth - lineNumbersWidth - lineDecorationsWidth;
+        int remainingWidth = outerWidth - glyphMarginWidth - lineNumbersWidth - lineDecorationsWidth;
+
+        bool isViewportWrapping = options.Wrapping.WordWrap is WordWrap.On or WordWrap.Bounded;
+        int wrappingColumn = options.Wrapping.WordWrap == WordWrap.WordWrapColumn ? options.Wrapping.WordWrapColumn : -1;
+
+        EditorMinimapLayoutInfo minimapLayout = ComputeMinimapLayout(
+            new MinimapLayoutInput(
+                outerWidth,
+                outerHeight,
+                lineHeight,
+                typicalHalfwidthCharacterWidth,
+                env.PixelRatio,
+                env.ScrollBeyondLastLine,
+                env.PaddingTop,
+                env.PaddingBottom,
+                options.Minimap,
+                verticalScrollbarWidth,
+                env.ViewLineCount,
+                remainingWidth,
+                isViewportWrapping),
+            env.Memory ?? new ComputeOptionsMemory());
+
+        if (minimapLayout.RenderMinimap != RenderMinimap.None && minimapLayout.MinimapLeft == 0)
+        {
+            // the minimap is rendered to the left, so move everything to the right
+            glyphMarginLeft += minimapLayout.MinimapWidth;
+            lineNumbersLeft += minimapLayout.MinimapWidth;
+            decorationsLeft += minimapLayout.MinimapWidth;
+            contentLeft += minimapLayout.MinimapWidth;
+        }
+
+        int contentWidth = remainingWidth - minimapLayout.MinimapWidth;
 
         // (leaving 2px for the cursor to have space after the last character)
         int viewportColumn = Math.Max(
             1, (int)Math.Floor((contentWidth - verticalScrollbarWidth - 2) / typicalHalfwidthCharacterWidth));
 
-        // Minimap: P6-41
-
-        bool isViewportWrapping = options.Wrapping.WordWrap is WordWrap.On or WordWrap.Bounded;
-        int wrappingColumn = options.Wrapping.WordWrap == WordWrap.WordWrapColumn ? options.Wrapping.WordWrapColumn : -1;
         if (isViewportWrapping)
         {
             wrappingColumn = Math.Max(1, viewportColumn - (options.Wrapping.WordWrapIndicator ? 1 : 0));
@@ -96,6 +129,7 @@ internal static class EditorLayoutInfoComputer
             DecorationsWidth: lineDecorationsWidth,
             ContentLeft: contentLeft,
             ContentWidth: contentWidth,
+            Minimap: minimapLayout,
             ViewportColumn: viewportColumn,
             IsViewportWrapping: isViewportWrapping,
             WrappingColumn: wrappingColumn,

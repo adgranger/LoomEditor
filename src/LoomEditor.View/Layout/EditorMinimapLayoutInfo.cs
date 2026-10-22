@@ -25,11 +25,11 @@ internal sealed record EditorMinimapLayoutInfo(
     bool MinimapHeightIsEditorHeight,
     bool MinimapIsSampling,
     double MinimapScale,
-    int MinimapLineHeight,
+    double MinimapLineHeight,
     int MinimapCanvasInnerWidth,
     int MinimapCanvasInnerHeight,
-    int MinimapCanvasOuterWidth,
-    int MinimapCanvasOuterHeight);
+    double MinimapCanvasOuterWidth,
+    double MinimapCanvasOuterHeight);
 
 /// <summary>The input of the minimap layout computation. Monaco: <c>IMinimapLayoutInput</c>.</summary>
 /// <remarks>Threading: immutable, safe from any thread.</remarks>

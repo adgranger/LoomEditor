@@ -41,6 +41,7 @@ internal sealed partial class ViewModel
 
         if (lineMappingChanged)
         {
+            UpdateLayoutViewLineCount();
             HandleVisibleLinesChanged();
         }
     }

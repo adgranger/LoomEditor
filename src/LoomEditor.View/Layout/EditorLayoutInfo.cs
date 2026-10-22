@@ -12,7 +12,7 @@ internal sealed record OverviewRulerPosition(int Width, int Height, int Top, int
 /// Monaco: <c>EditorLayoutInfo</c>.
 /// </summary>
 /// <remarks>
-/// Threading: immutable, safe from any thread. Not ported: <c>isWordWrapMinified</c> (accessibility, phase 7); <c>minimap</c> arrives with P6-41.
+/// Threading: immutable, safe from any thread. Not ported: <c>isWordWrapMinified</c> (accessibility, phase 7).
 /// </remarks>
 internal sealed record EditorLayoutInfo(
     int Width,
@@ -26,6 +26,7 @@ internal sealed record EditorLayoutInfo(
     int DecorationsWidth,
     int ContentLeft,
     int ContentWidth,
+    EditorMinimapLayoutInfo Minimap,
     int ViewportColumn,
     bool IsViewportWrapping,
     int WrappingColumn,

@@ -32,6 +32,7 @@ public class CursorConfigurationTests
             DecorationsWidth: 10,
             ContentLeft: 52,
             ContentWidth: 600,
+            Minimap: new EditorMinimapLayoutInfo(RenderMinimap.None, 0, 0, false, false, 1, 1, 0, 0, 0, 0),
             ViewportColumn: 70,
             IsViewportWrapping: false,
             WrappingColumn: -1,

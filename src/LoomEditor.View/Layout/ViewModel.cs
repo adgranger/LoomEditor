@@ -28,6 +28,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     private int _outerWidth;
     private int _outerHeight;
     private int _lineNumbersDigitCount;
+    private int _layoutViewLineCount;
+    private readonly ComputeOptionsMemory _layoutMemory = new();
     private bool _disposed;
     private string _breakBeforeCharacters;
     private string _breakAfterCharacters;
@@ -50,6 +52,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _layoutOptions = layoutOptions;
         _viewLayoutOptions = viewLayoutOptions;
         _lineNumbersDigitCount = CountDigits(model.LineCount);
+        _layoutViewLineCount = model.LineCount;
         LayoutInfo = ComputeLayoutInfo();
         EditorWrappingOptions wrapping = layoutOptions.Wrapping;
         _breakBeforeCharacters = wrapping.WordWrapBreakBeforeCharacters;
@@ -81,6 +84,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _model.LanguageChanged += OnModelLanguageChanged;
         _model.LanguageConfigurationChanged += OnModelLanguageChanged;
         AttachToModelTokens(scheduleAtNextAnimationFrame);
+        UpdateLayoutViewLineCount();
     }
 
     /// <summary>Raised after <see cref="LayoutInfo"/> changed.</summary>
@@ -266,6 +270,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             RecomputeLayoutInfo();
         }
 
+        UpdateLayoutViewLineCount();
         HandleVisibleLinesChanged();
     }
 
@@ -282,7 +287,29 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                 _fontInfo.TypicalHalfwidthCharacterWidth,
                 _fontInfo.MaxDigitWidth,
                 _fontInfo.PixelRatio,
-                GlyphMarginDecorationLaneCount: 1));
+                GlyphMarginDecorationLaneCount: 1,
+                ViewLineCount: _layoutViewLineCount,
+                Memory: _layoutMemory,
+                ScrollBeyondLastLine: _viewLayoutOptions.ScrollBeyondLastLine,
+                PaddingTop: _viewLayoutOptions.PaddingTop,
+                PaddingBottom: _viewLayoutOptions.PaddingBottom));
+    }
+
+    // Monaco: _updateConfigurationViewLineCount (the minimap layout depends on the view line count)
+    private void UpdateLayoutViewLineCount()
+    {
+        int viewLineCount = GetLineCount();
+        if (viewLineCount == _layoutViewLineCount)
+        {
+            return;
+        }
+
+        _layoutViewLineCount = viewLineCount;
+        if (_layoutOptions.Minimap.Enabled)
+        {
+            RecomputeLayoutInfo();
+            UpdateWrappingSettings();
+        }
     }
 
     private void RecomputeLayoutInfo()

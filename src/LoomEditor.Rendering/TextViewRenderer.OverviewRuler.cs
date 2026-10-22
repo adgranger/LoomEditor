@@ -18,7 +18,11 @@ internal sealed partial class TextViewRenderer
     // Monaco: `DecorationsOverviewRuler._render` (and `onCursorStateChanged` for the cursor marks).
     private void DrawOverviewRuler(IRenderSurface surface, ViewModel viewModel, IReadOnlyList<Selection> selections, EditorLayoutInfo layoutInfo, FontInfo font)
     {
-        var settings = new OverviewRulerSettings(viewModel.LayoutOptions.OverviewRuler, Theme, layoutInfo.OverviewRuler);
+        var settings = new OverviewRulerSettings(
+            viewModel.LayoutOptions.OverviewRuler,
+            Theme,
+            layoutInfo.OverviewRuler,
+            layoutInfo.Minimap.RenderMinimap != RenderMinimap.None && viewModel.LayoutOptions.Minimap.Side == MinimapSide.Right);
         if (settings.Lanes == 0)
         {
             return;

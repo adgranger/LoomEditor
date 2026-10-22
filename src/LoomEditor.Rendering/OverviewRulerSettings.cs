@@ -15,7 +15,7 @@ internal sealed class OverviewRulerSettings
 {
     private const double CursorAlpha = 0.7;
 
-    public OverviewRulerSettings(EditorOverviewRulerOptions options, EditorTheme theme, OverviewRulerPosition position)
+    public OverviewRulerSettings(EditorOverviewRulerOptions options, EditorTheme theme, OverviewRulerPosition position, bool minimapOnTheRight)
     {
         Lanes = Math.Clamp(options.Lanes, 0, 3);
         RenderBorder = options.Border;
@@ -25,8 +25,7 @@ internal sealed class OverviewRulerSettings
         CursorColorPrimary = theme.GetColor("editorMultiCursor.primary.foreground")?.WithAlphaFactor(CursorAlpha);
         CursorColorSecondary = theme.GetColor("editorMultiCursor.secondary.foreground")?.WithAlphaFactor(CursorAlpha);
 
-        // Minimap: P6-41 (the editor background when the minimap is on the right).
-        const bool minimapOnTheRight = false;
+        // The editor background when the minimap is on the right.
         BackgroundColor = theme.GetColor("editorOverviewRuler.background") ?? (minimapOnTheRight ? theme.Background : null);
 
         Top = position.Top;

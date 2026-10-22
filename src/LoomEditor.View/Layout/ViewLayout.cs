@@ -220,9 +220,9 @@ internal sealed partial class ViewLayout : IDisposable
     {
         if (_layoutInfo.IsViewportWrapping)
         {
-            // Minimap: P6-41
-            const bool MinimapOnTheRight = false;
-            if (_maxLineWidth > _layoutInfo.ContentWidth + _fontInfo.TypicalHalfwidthCharacterWidth && MinimapOnTheRight)
+            // Monaco: minimap.enabled && minimap.side === 'right' (a minimap on the left starts at 0).
+            bool minimapOnTheRight = _layoutInfo.Minimap.RenderMinimap != RenderMinimap.None && _layoutInfo.Minimap.MinimapLeft != 0;
+            if (_maxLineWidth > _layoutInfo.ContentWidth + _fontInfo.TypicalHalfwidthCharacterWidth && minimapOnTheRight)
             {
                 // This is a case where viewport wrapping is on, but the line extends above the viewport
                 return _maxLineWidth + _layoutInfo.VerticalScrollbarWidth;

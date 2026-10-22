@@ -28,6 +28,7 @@ internal static class CursorTestContext
             DecorationsWidth: 10,
             ContentLeft: 52,
             ContentWidth: 734,
+            Minimap: new EditorMinimapLayoutInfo(RenderMinimap.None, 0, 0, false, false, 1, 1, 0, 0, 0, 0),
             ViewportColumn: 90,
             IsViewportWrapping: false,
             WrappingColumn: -1,
