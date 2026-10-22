@@ -1,6 +1,6 @@
 # P6-22 — Port the word wrap and injected text tests of the view model and the cursors
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-21
 - **Size:** S
 
@@ -44,20 +44,20 @@ only to fix what a test reveals.
 
 ## Tests
 
-- [ ] Port: `ViewModel` › `normalizePosition with multiple touching injected text`
-- [ ] Port: `ViewModel` › `issue #193262: Incorrect implementation of modifyPosition`
-- [ ] Port: `Editor Controller - Cursor` › `issue #144041: Cursor up/down works`
-- [ ] Port: `Editor Controller - Cursor` › `issue #140195: Cursor up/down makes progress`
-- [ ] Port: `Multicursor` › `issue #26393: Multiple cursors + Word wrap`
-- [ ] Port: `Column selection paste` › `uses successive model lines when word wrap is enabled`
+- [x] Port: `ViewModel` › `normalizePosition with multiple touching injected text`
+- [x] Port: `ViewModel` › `issue #193262: Incorrect implementation of modifyPosition`
+- [x] Port: `Editor Controller - Cursor` › `issue #144041: Cursor up/down works`
+- [x] Port: `Editor Controller - Cursor` › `issue #140195: Cursor up/down makes progress`
+- [x] Port: `Multicursor` › `issue #26393: Multiple cursors + Word wrap`
+- [x] Port: `Column selection paste` › `uses successive model lines when word wrap is enabled`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: update the rows of `viewModelImpl.test.ts` (14 / 29), `cursor.test.ts` (75 / 75), `multicursor.test.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: update the rows of `viewModelImpl.test.ts` (14 / 29), `cursor.test.ts` (75 / 75), `multicursor.test.ts`
       (75 / 76), `columnSelectionPaste.test.ts` (45 / 57)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

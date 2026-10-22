@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/test/browser/viewModel/viewModelImpl.test.ts (suite 'ViewModel': the hidden areas tests)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.Tokens;
@@ -35,6 +36,44 @@ public class ViewModelHiddenAreasTests
 
     private static void AssertAtLeastOneViewLine(ViewModel viewModel) =>
         Assert.True(viewModel.GetLineCount() >= 1, $"expected at least 1 view line but got {viewModel.GetLineCount()}");
+
+    private static void TestWrapped(string[] text, EditorWrappingOptions wrapping, Action<ViewModel, TextModel> callback) =>
+        TestCodeEditor.WithTestCodeEditor(text, editor => callback(editor.ViewModel, editor.Model), new TestCodeEditorOptions(Wrapping: wrapping, EditorId: 1));
+
+    private static ModelDeltaDecoration InjectedBefore(string content) => new(
+        new Range(1, 8, 1, 8),
+        ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+        {
+            Description = "test",
+            Before = new InjectedTextOptions { Content = content },
+            ShowIfCollapsed = true,
+        }));
+
+    // Monaco: 'normalizePosition with multiple touching injected text'
+    [Fact]
+    public void NormalizePosition_WithMultipleTouchingInjectedText() => Test(["just some text"], (viewModel, model) =>
+    {
+        model.DeltaDecorations(0, [], [InjectedBefore("bar"), InjectedBefore("bz")]);
+
+        // just sobarbzme text
+        (int Column, PositionAffinity Affinity, int Expected)[] cases =
+        [
+            (8, PositionAffinity.None, 8), (9, PositionAffinity.None, 8), (11, PositionAffinity.None, 11), (12, PositionAffinity.None, 11), (13, PositionAffinity.None, 13),
+            (8, PositionAffinity.Left, 8), (9, PositionAffinity.Left, 8), (11, PositionAffinity.Left, 8), (12, PositionAffinity.Left, 8), (13, PositionAffinity.Left, 8),
+            (8, PositionAffinity.Right, 13), (9, PositionAffinity.Right, 13), (11, PositionAffinity.Right, 13), (12, PositionAffinity.Right, 13), (13, PositionAffinity.Right, 13),
+        ];
+        foreach ((int column, PositionAffinity affinity, int expected) in cases)
+        {
+            Assert.Equal(new Position(1, expected), viewModel.NormalizePosition(new Position(1, column), affinity));
+        }
+    });
+
+    // Monaco: 'issue #193262: Incorrect implementation of modifyPosition'
+    [Fact]
+    public void Issue193262IncorrectImplementationOfModifyPosition() => TestWrapped(
+        ["just some text"],
+        new EditorWrappingOptions { WordWrap = WordWrap.WordWrapColumn, WordWrapColumn = 5 },
+        (viewModel, _) => Assert.Equal(new Position(3, 1), viewModel.ModifyPosition(new Position(3, 2), -1)));
 
     // Monaco: 'issue #21073: SplitLinesCollection: attempt to access a \'newer\' model'
     [Fact]

@@ -4,10 +4,11 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Features;
 using LoomEditor.View.Features.MultiCursor;
+using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Tests.Features.MultiCursor;
 
-// Not ported: 'issue #26393: Multiple cursors + Word wrap' (word wrap: phase 6) and the suites 'Multicursor selection' and
+// Not ported: the suites 'Multicursor selection' and
 // below (73 tests: they need the Find feature, phase 5).
 public class MultiCursorTests
 {
@@ -16,6 +17,30 @@ public class MultiCursorTests
         var context = new EditorContext();
         context.SetText(text);
         return context;
+    }
+
+    // Monaco: 'issue #26393: Multiple cursors + Word wrap'
+    [Fact]
+    public void Issue26393MultipleCursorsAndWordWrap()
+    {
+        EditorContext context = CreateContext(new string('a', 20) + "\n" + new string('a', 20));
+        context.ViewModel.SetOptions(
+            new EditorLayoutOptions { Wrapping = new EditorWrappingOptions { WordWrap = WordWrap.WordWrapColumn, WordWrapColumn = 10 } },
+            context.ViewModel.ViewLayoutOptions);
+        using var host = new EditorFeatureHost(context, [() => new MultiCursorFeature()]);
+
+        context.Commands.Execute(MultiCursorCommands.InsertCursorBelow);
+
+        Assert.Equal(2, context.ViewModel.GetCursorStates().Count);
+        Assert.Equal(1, context.ViewModel.GetCursorStates()[0].ViewState.Position.LineNumber);
+        Assert.Equal(3, context.ViewModel.GetCursorStates()[1].ViewState.Position.LineNumber);
+
+        // Monaco: editor.setPosition({ lineNumber: 4, column: 1 }): a model position, validated to the end of model line 2 (view line 4)
+        context.Selection = new Selection(2, 21, 2, 21);
+        context.Commands.Execute(MultiCursorCommands.InsertCursorAbove);
+        Assert.Equal(2, context.ViewModel.GetCursorStates().Count);
+        Assert.Equal(4, context.ViewModel.GetCursorStates()[0].ViewState.Position.LineNumber);
+        Assert.Equal(2, context.ViewModel.GetCursorStates()[1].ViewState.Position.LineNumber);
     }
 
     // Monaco: 'issue #2205: Multi-cursor pastes in reverse order'

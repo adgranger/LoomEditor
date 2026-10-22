@@ -395,8 +395,8 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `model/intervalTree.test.ts` (`IntervalTree 1`, `IntervalTree 2`) | 25 / 25 | P3-06, P3-07 |
 | `cursorAtomicMoveOperations.test.ts` | 2 / 2 | P3-22 |
 | `cursorMoveCommand.test.ts` | 55 / 55 | suite `Cursor move command - foldedLine unit` (8) ported in P5-81 |
-| `viewModelImpl.test.ts` | 12 / 29 | P5-81: `issue #21073`, `issue #44805` (2: no visible lines), `issue #40926`, suite `hidden areas must always leave at least one visible line` (8). Not ported: `getPlainTextToCopy` x12 and `issue #22688` (clipboard, P3-36), `issue #44805: …'newer' model` (counts Monaco view events), `view models react first to model changes` (two editors with Monaco's listener order), `normalizePosition with multiple touching injected text` and `issue #193262` (injected text, word wrap: phase 6) |
-| `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 73 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (phase 6). The 6 column selection tests are ported in P3-28 (`ColumnSelectionTests`). `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
+| `viewModelImpl.test.ts` | 14 / 29 | P5-81, P6-22: `issue #21073`, `issue #44805` (2: no visible lines), `issue #40926`, `normalizePosition with multiple touching injected text`, `issue #193262`, suite `hidden areas must always leave at least one visible line` (8). Not ported: `getPlainTextToCopy` x12 and `issue #22688` (clipboard, P3-36), `issue #44805: …'newer' model` (counts Monaco view events), `view models react first to model changes` (two editors with Monaco's listener order) |
+| `cursor.test.ts` (suite `Editor Controller - Cursor`, movement and state) | 75 / 75 | `issue #144041`, `issue #140195`: word wrap and injected text (P6-22). The 6 column selection tests are ported in P3-28 (`ColumnSelectionTests`). `select all` runs `CursorMoveCommands.SelectAll` (`editor.action.selectAll` is owned by `SelectAllFeature`); `setSelection / setPosition with source` checks the `CursorStateChangedEvent` source (no editor API, no tokenization registration) |
 | `wordOperations.test.ts` | 54 / 56 | `cursorWordLeft - Recognize words` and `cursorWordRight - Recognize words` (2): need `Intl.Segmenter` (not available) |
 | `shiftCommand.test.ts` | 25 / 25 | `issue #348`, `issue #1609` are ported in P5-40 with `DocBlockCommentMode` |
 | `wordPartOperations.test.ts` | 15 / 15 | |
@@ -409,7 +409,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursor.test.ts` (suite `Undo stops`) | 11 / 11 | Undo goes through `TextModel.Undo` (core command: P3-37) |
 | `cursor.test.ts` (Tab and Shift+Tab: `monaco-editor#443`, `Bug 9121`, `Bug #18293`, `issue #95591`, `Bug #16657`, `issue #3071`, `issue #3463`, `issue #4312`, `Cursor honors insertSpaces configuration on tab`, `PR #5423`) | 10 / 10 | Undo goes through `TextModel.Undo` (core command: P3-37) |
 | `cursor.test.ts` (paste: `issue #10212`, `#74722`, `#4996`, `#16155`, `#43722`, two `#46440`, `#256039`, `#85712`, `#15118`, `#40695`) | 11 / 11 | |
-| `columnSelectionPaste.test.ts` (`Column selection paste`) | 44 / 57 | `uses successive model lines when word wrap is enabled` (phase 6); `reports pasted ranges for cursors and multiline destination selections` (needs the `onDidPaste` editor event); `respects overtype and pads short rows` (overtype mode); the 10 tests of the nested suite `clipboard metadata` (browser clipboard events: P3-47 has its own). `responds to spread, full, and spread configuration transitions` does not check `EditorOptions.multiCursorPaste.validate` |
+| `columnSelectionPaste.test.ts` (`Column selection paste`) | 45 / 57 | `reports pasted ranges for cursors and multiline destination selections` (needs the `onDidPaste` editor event); `respects overtype and pads short rows` (overtype mode); the 10 tests of the nested suite `clipboard metadata` (browser clipboard events: P3-47 has its own). `responds to spread, full, and spread configuration transitions` does not check `EditorOptions.multiCursorPaste.validate` |
 | `cursor.test.ts` (cut: `bug #16740`, `issue #128602`) | 2 / 2 | |
 | `cursor.test.ts` (`issue #44805: Should not be able to undo in readonly editor`) | 1 / 1 | |
 | `cursor.test.ts` (`Editor Controller`: `issue #46314: ViewModel is out of sync with Model!`; setup of the five test languages and helpers in `EditorControllerLanguages`) | 1 / 1 | `EditorControllerTokensTests` (P5-37); the typing tests in these languages are P5-39 … P5-46 |
@@ -420,7 +420,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `cursor.test.ts` (`Editor Controller`: surround selection and composition end in the auto-closing language, 11 tests) | 11 / 11 | `SurroundSelectionTests` (4 ported + 1 new), `CompositionTests.Languages.cs` (7 ported) (P5-44) |
 | `cursor.test.ts` (`Editor Controller`: auto-indent on type, 8 tests) | 8 / 8 | `AutoIndentOnTypeTests` (P5-45); the `Auto Indent On Type` suites of `indentation.test.ts` are step E |
 | `cursor.test.ts` (`Editor Controller`: electric characters and `issue #6841`, 15 tests) | 15 / 15 | `ElectricCharacterTests` (14), `AutoClosingTests.Balance.cs` (P5-46) |
-| `multicursor.test.ts` | 74 / 76 | `issue #26393: Multiple cursors + Word wrap` (word wrap, phase 6); `a selection session does not survive replacing the editor model` (`editor.setModel`: one model per editor) |
+| `multicursor.test.ts` | 75 / 76 | `a selection session does not survive replacing the editor model` (`editor.setModel`: one model per editor) |
 | `bracketMatching.test.ts` | 7 / 7 | |
 | `pieceTreeTextBuffer.test.ts` | 87 / 87 | suite `chunk based search` (3) in `PieceTreeChunkBasedSearchTests` (P5-64) |
 | `linesTextBuffer.test.ts` | 29 / 29 | |
@@ -552,7 +552,7 @@ file; counts come from the `// Monaco:` comments and the rows of those tables.
 | lines operations (`copyLines` 10, `sortLines` 7, `moveLines` 14, `linesOperations` 55) and `trimTrailingWhitespaceCommand` 2 | all | |
 | `textModelSearch.test.ts` | 41 / 42 | `\u{0066}`: JavaScript-only syntax |
 | `find`, `replacePattern`, `findModel`, `findController` | 3 / 3; 8 / 8; 44 / 44; 18 / 23 | macOS find clipboard, no storage service |
-| `multicursor.test.ts` | 74 / 76 | word wrap (phase 6), `setModel` |
+| `multicursor.test.ts` | 75 / 76 | `setModel` |
 | `foldingRanges`, `indentRangeProvider`, `indentFold`, `foldingModel`, `hiddenRangeModel` | 7, 26, 1, 22, 1 (all) | listed in "Tests ported in phase 4" |
 | `modelLineProjection.test.ts`, `viewModelImpl.test.ts` | 6 / 6 (the guide assertions of `Invalid line numbers` stay open until P6-31); the hidden-area tests | wrapping (phase 6) |
 | `wordHighlighter.test.ts` | 0 / 18 | provider registry (phase 8); new tests cover the textual path |
