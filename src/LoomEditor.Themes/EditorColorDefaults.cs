@@ -319,6 +319,9 @@ internal static class EditorColorDefaults
         ["editorInfo.foreground"] = ("#59a4f9", "#0063d3", "#59a4f9", "#0063d3"),
         ["editorInfo.border"] = (null, null, ColorValue.Transparent("#59a4f9", 0.8), "#292929"),
 
+        // colorRegistry.ts: scrollbarShadow (the minimap shadow)
+        ["scrollbar.shadow"] = ("#000000", "#DDDDDD", null, null),
+
         // miscColors.ts:56, :60, :64
         ["scrollbarSlider.background"] = (
             ColorValue.Transparent("#797979", 0.4), ColorValue.Transparent("#646464", 0.4),

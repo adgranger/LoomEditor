@@ -117,6 +117,8 @@ internal sealed class MinimapLinesRenderer(IMinimapModel model)
             dy += minimapLineHeight;
         }
 
+        imageData.Version++;
+
         // Save rendered data for reuse on next frame if possible
         _lastRenderData = new MinimapRenderData(layout, imageData, renderedLines);
         return imageData;

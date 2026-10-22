@@ -93,6 +93,7 @@ internal sealed class MinimapDecorationsRenderer(IMinimapModel model, EditorThem
         RenderDecorationsHighlights(decorations, lineOffsetMap, layout, minimapLineHeight, tabSize, minimapCharWidth);
 
         // Monaco calls _renderSectionHeaders(layout) here: section headers are not ported.
+        _imageData.Version++;
         return _imageData;
     }
 

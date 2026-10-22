@@ -67,6 +67,7 @@ public sealed partial class LoomEditor : Control
     private readonly IDisposable _clipboardCommands;
     private CanvasControl? _canvas;
     private Win2DTextMeasurer? _measurer;
+    private readonly Win2DBitmapCache _bitmapCache = new();
     private FindWidget? _findWidget;
 
     /// <summary>Creates the control.</summary>
@@ -231,7 +232,7 @@ public sealed partial class LoomEditor : Control
             CreateResources(sender);
         }
 
-        var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!);
+        var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!, _bitmapCache);
         _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
         ApplyPendingHorizontalReveal();
     }
@@ -275,7 +276,8 @@ public sealed partial class LoomEditor : Control
         _renderer?.Dispose();
         _measurer?.Dispose();
         _measurer = CreateTextMeasurer(canvas);
-        _renderer = new TextViewRenderer(_measurer);
+        _renderer = new TextViewRenderer(_measurer, _context.Scheduler, () => _canvas?.Invalidate());
+        _renderer.MinimapSampleDataProvider = fontFamily => Win2DMinimapFontSampler.CreateSampleData(canvas.Device, fontFamily);
         _renderer.Theme = Theme;
 
         _viewModel.SetFontInfo(_measurer.FontInfo);

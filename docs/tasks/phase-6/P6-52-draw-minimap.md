@@ -1,6 +1,6 @@
 # P6-52 — Drawing the minimap with Win2D: canvas, slider, shadow, auto-hide
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-51, P6-45
 - **Size:** M
 
@@ -51,18 +51,18 @@ scrolled horizontally, and Monaco's auto-hide modes.
 
 ## Tests
 
-- [ ] New: `Minimap_Disabled_DrawsNothing`
-- [ ] New: `Minimap_Enabled_DrawsTwoImagesAtTheLayoutPosition`
-- [ ] New: `Slider_AlwaysMode_IsDrawn`; `Slider_MouseOverMode_HiddenUntilHovered`
-- [ ] New: `Shadow_DrawnOnlyWhenHorizontallyScrollable`
-- [ ] New (View): `Premultiply_Converts`
+- [x] New: `Minimap_Disabled_DrawsNothing`
+- [x] New: `Minimap_Enabled_DrawsTwoImagesAtTheLayoutPosition`
+- [x] New: `Slider_AlwaysMode_IsDrawn`; `Slider_MouseOverMode_HiddenUntilHovered`
+- [x] New: `Shadow_DrawnOnlyWhenHorizontallyScrollable`
+- [x] New (View): `Premultiply_Converts`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row (drawing), `minimap.css` behavior differences (no animations, solid shadow)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row (drawing), `minimap.css` behavior differences (no animations, solid shadow)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

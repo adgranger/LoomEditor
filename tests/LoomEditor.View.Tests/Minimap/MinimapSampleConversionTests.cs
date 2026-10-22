@@ -14,4 +14,15 @@ public class MinimapSampleConversionTests
 
         Assert.Equal(new byte[] { 30, 20, 10, 255, 255, 64, 128, 128, 0, 0, 0, 0 }, rgba);
     }
+
+    [Fact]
+    public void Premultiply_Converts()
+    {
+        // R, G, B, A: opaque, half transparent, fully transparent.
+        byte[] rgba = [30, 20, 10, 255, 255, 64, 128, 128, 7, 7, 7, 0];
+
+        byte[] premultiplied = MinimapSampleConversion.PremultiplyRgba(rgba);
+
+        Assert.Equal(new byte[] { 30, 20, 10, 255, 128, 32, 64, 128, 0, 0, 0, 0 }, premultiplied);
+    }
 }
