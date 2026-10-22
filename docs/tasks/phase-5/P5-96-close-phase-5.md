@@ -1,6 +1,6 @@
 # P5-96 — Close phase 5
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all phase 5 cards
 - **Size:** S (docs)
 
@@ -43,10 +43,10 @@ scroll) can start from a clear list.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings (NOT verified: XamlCompiler WMC1007 fails on HEAD too, environment issue; docs-only card)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

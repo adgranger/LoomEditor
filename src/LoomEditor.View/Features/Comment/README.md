@@ -16,7 +16,7 @@ All of them need a writable editor with the text focus.
 **Monaco sources:** `src/vs/editor/contrib/comment/browser/` (`blockCommentCommand.ts`, `lineCommentCommand.ts`, `comment.ts`).
 
 **Files:**
-- `BlockCommentCommand.cs`, `LineCommentCommand*.cs`, `LineCommentType.cs` — the edit commands.
+- `BlockCommentCommand.cs`, `LineCommentCommand*.cs` (`.Preflight.cs` holds the preflight analysis), `LineCommentType.cs` — the edit commands.
 - `CommentActions.cs` — what the commands do to the selections (sort, `ignoreFirstLine`, undo stops).
 - `CommentFeature.cs` — registers the four commands; `EditorCommentsOptions.cs` — `insertSpace` and `ignoreEmptyLines` (VS Code's defaults, no public option in phase 5).
 - `CommentCommands.cs` — command ids; `JsStrings.cs` — JavaScript string searches.
