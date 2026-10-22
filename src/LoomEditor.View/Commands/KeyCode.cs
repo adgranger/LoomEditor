@@ -72,4 +72,8 @@ internal enum KeyCode
     Digit7,
     Digit8,
     Digit9,
+    Minus,
+    Equal,
+    Comma,
+    Period,
 }

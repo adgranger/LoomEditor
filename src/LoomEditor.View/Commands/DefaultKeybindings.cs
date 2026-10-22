@@ -1,6 +1,8 @@
 // Ported from microsoft/vscode: src/vs/editor/browser/coreCommands.ts (kbOpts of the commands)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.View.Features.Folding;
+
 namespace LoomEditor.View.Commands;
 
 /// <summary>
@@ -177,6 +179,32 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.None, KeyCode.Enter, "editor.action.replaceOne", WhenClauses.ReplaceInputFocused, FindWidgetWeight);
         Add(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.Enter, "editor.action.replaceAll", WhenClauses.FindWidgetVisible, FindWidgetWeight);
         Add(KeyModifiers.Alt, KeyCode.Enter, "editor.action.selectAllMatches", WhenClauses.FindWidgetVisible, FindWidgetWeight);
+
+        // folding.ts (Contrib): unfold and fold have a Mac override that does not apply; the others are Ctrl+K chords. editor.toggleImportFold is not ported.
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.BracketRight, FoldingCommands.Unfold, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.BracketLeft, FoldingCommands.Fold, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+
+        void FoldChord(KeyModifiers modifiers, KeyCode key, string id) =>
+            rules.Add(new KeybindingRule(
+                new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), id, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(modifiers, key)));
+
+        FoldChord(KeyModifiers.Ctrl, KeyCode.BracketRight, FoldingCommands.UnfoldRecursively);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.KeyL, FoldingCommands.ToggleFold);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.BracketLeft, FoldingCommands.FoldRecursively);
+        FoldChord(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.KeyL, FoldingCommands.ToggleFoldRecursively);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Slash, FoldingCommands.FoldAllBlockComments);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Digit8, FoldingCommands.FoldAllMarkerRegions);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Digit9, FoldingCommands.UnfoldAllMarkerRegions);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Minus, FoldingCommands.FoldAllExcept);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Equal, FoldingCommands.UnfoldAllExcept);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Digit0, FoldingCommands.FoldAll);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.KeyJ, FoldingCommands.UnfoldAll);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Comma, FoldingCommands.CreateFoldingRangeFromSelection);
+        FoldChord(KeyModifiers.Ctrl, KeyCode.Period, FoldingCommands.RemoveManualFoldingRanges);
+        for (int level = 1; level <= 7; level++)
+        {
+            FoldChord(KeyModifiers.Ctrl, KeyCode.Digit0 + level, FoldingCommands.FoldLevel(level));
+        }
 
         return rules;
     }

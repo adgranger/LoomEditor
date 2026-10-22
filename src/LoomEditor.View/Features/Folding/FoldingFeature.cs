@@ -21,7 +21,7 @@ namespace LoomEditor.View.Features.Folding;
 /// strategy exists (no syntax providers, no imports folding, no view-state memento). The commands, the gutter and the
 /// mouse come with later cards. Threading: UI thread only.
 /// </remarks>
-internal sealed class FoldingFeature : IEditorFeature
+internal sealed partial class FoldingFeature : IEditorFeature
 {
     private static readonly TimeSpan FirstUpdateDelay = TimeSpan.FromMilliseconds(300);
     private static readonly TimeSpan UpdateDelay = TimeSpan.FromMilliseconds(200);
@@ -74,6 +74,7 @@ internal sealed class FoldingFeature : IEditorFeature
             ShowFoldingControls = _options.ShowFoldingControls,
             ShowFoldingHighlights = _options.FoldingHighlight,
         };
+        RegisterCommands(context);
         OnModelChanged();
     }
 
@@ -134,6 +135,12 @@ internal sealed class FoldingFeature : IEditorFeature
     /// <inheritdoc />
     public void Dispose()
     {
+        foreach (IDisposable registration in _registrations)
+        {
+            registration.Dispose();
+        }
+
+        _registrations.Clear();
         ClearModelBinding();
         _decorationProvider = null;
         _viewModel = null;

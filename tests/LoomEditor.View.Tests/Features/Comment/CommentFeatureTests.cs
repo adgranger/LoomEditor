@@ -155,6 +155,8 @@ public class CommentFeatureTests
         var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: false);
 
         Assert.Null(KeybindingResolver.Default.Resolve(new Keybinding(KeyModifiers.Ctrl, KeyCode.Slash), readOnly));
-        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, KeybindingResolver.Default.Resolve(readOnly, null, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK)).Kind);
+        // Ctrl+K starts the folding chords, which do not need a writable editor; the comment chord itself resolves to nothing.
+        var ctrlK = new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK);
+        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, KeybindingResolver.Default.Resolve(readOnly, ctrlK, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyC)).Kind);
     }
 }
