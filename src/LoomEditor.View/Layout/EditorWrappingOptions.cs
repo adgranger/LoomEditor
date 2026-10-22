@@ -20,7 +20,7 @@ internal sealed record EditorWrappingOptions
     /// <summary>Monaco: <c>wordWrapColumn</c> (minimum 1, see <see cref="Validated"/>).</summary>
     public int WordWrapColumn { get; init; } = 80;
 
-    /// <summary>Monaco: <c>wordWrapIndicator</c>.</summary>
+    /// <summary>Monaco: <c>wordWrapIndicator</c>. Only reserved in the layout; drawing the indicator is not ported.</summary>
     public bool WordWrapIndicator { get; init; }
 
     /// <summary>Monaco: <c>wrappingIndent</c>.</summary>

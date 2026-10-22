@@ -1,6 +1,6 @@
 # P6-24 — Drawing, hit testing and folding on wrapped lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-23
 - **Size:** S
 
@@ -36,21 +36,21 @@ lines since P5-82); the few gaps are fixed and the accepted differences are docu
 
 ## Tests
 
-- [ ] New: `WrappedLine_DrawsEveryViewLine` (a model line wrapping in 3 view lines: 3 text draws with the expected texts,
+- [x] New: `WrappedLine_DrawsEveryViewLine` (a model line wrapping in 3 view lines: 3 text draws with the expected texts,
       continuation lines start with the wrapped indent spaces)
-- [ ] New: `WrappedLine_LineNumberOnlyOnTheFirstViewLine`
-- [ ] New: `WrappedLine_FoldingChevronOnlyOnTheFirstViewLine` (a foldable region whose first line wraps)
-- [ ] New: `FoldingAWrappedRegion_HidesAllItsViewLines`
-- [ ] New: `HitTest_OnAContinuationLine_ReturnsItsViewPosition` (through `CreateLineHitTester`)
-- [ ] New: `SelectionAcrossAWrapSeam_HighlightsBothViewLines`
+- [x] New: `WrappedLine_LineNumberOnlyOnTheFirstViewLine`
+- [x] New: `WrappedLine_FoldingChevronOnlyOnTheFirstViewLine` (a foldable region whose first line wraps)
+- [x] New: `FoldingAWrappedRegion_HidesAllItsViewLines`
+- [x] New: `HitTest_OnAContinuationLine_ReturnsItsViewPosition` (through `CreateLineHitTester`)
+- [x] New: `SelectionAcrossAWrapSeam_HighlightsBothViewLines`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` behavior differences updated; the `Features/Folding/` row of "Cut points for phase 6" removed (folding
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` behavior differences updated; the `Features/Folding/` row of "Cut points for phase 6" removed (folding
       with wrapped lines is covered)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

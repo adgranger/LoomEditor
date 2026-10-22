@@ -66,6 +66,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | Indentation size actions (`IndentUsingTabs`, `IndentUsingSpaces`, `ChangeTabDisplaySize`, P5-53) | Size actions without a quick pick: the registered commands have no argument and apply the item the quick pick pre-selects, `min(tabSize - 1, 7) + 1`; `IndentationActions.ChangeIndentationSize` takes the size. The 50 ms `setTimeout` is not ported | No picker UI and no command arguments in phase 5 |
 | `SortLinesCommand` (P5-55) | Compares with the invariant culture (`CompareInfo.Compare`, stable `OrderBy`), not `Intl.Collator()` (the locale of the user) | .NET has no per-user collator that matches `Intl`; the invariant culture is deterministic |
 | Case transforms (`CaseTransforms`, P5-60) | `ToUpperInvariant` / `ToLowerInvariant` instead of `toLocaleUpperCase` / `toLocaleLowerCase` (the user's locale): the Turkish dotted i differs. The `m` flag of the JavaScript regexes is `RegexOptions.Multiline` (`^` and `$` also stop at 
+| Tabs in the continuation of a wrapped line (P6-24) | A tab may render narrower or wider than in Monaco: DirectWrite tab stops are measured from the start of each drawn view line, Monaco expands from the visible column in the model line. | Rewriting tabs per line would break the column ↔ character mapping of the hit testing. |
  only, not at 
  or U+2028) | Deterministic casing; .NET has no per-user casing that matches `Intl` |
 | `WordCharacterClassifier` | `wordSegmenterLocales` is ignored: `FindPrevIntlWordBeforeOrAtOffset` / `FindNextIntlWordAtOrAfterOffset` always return `null` | No Native AOT-friendly equivalent of `Intl.Segmenter` |
@@ -491,7 +492,6 @@ What phase 5 leaves for word wrap, guides, the minimap and sticky scroll. Phase 
 | `Layout/InlineModelDecorationsComputer`, `LineDecoration.cs`, `ModelDecorationOptions` | `inlineDecorations.test.ts` (`InjectedTextInlineDecorationsComputer`, 21 tests), `lineDecorations.test.ts` | injected text (`ModelDecorationInjectedTextOptions`) and its width |
 | `ModelDecorationOptions` (no overview ruler, no minimap) | `overviewRuler.ts`, `minimap.ts` | the overview ruler and the minimap parts of decorations; the 8 minimap tests of `editorLayoutProvider.test.ts` |
 | `Layout/RevealCalculator.cs` | `viewLines.ts` reveal, `stickyScroll/` | sticky scroll: it can use `FoldingModel` and `FoldingRanges` |
-| `Features/Folding/` | `foldingModel.ts` with wrapped lines, `syntaxRangeProvider.ts` | folding with wrapped lines; syntax range providers come with the language features (phase 8) |
 
 ## Done in phase 5 (features)
 
