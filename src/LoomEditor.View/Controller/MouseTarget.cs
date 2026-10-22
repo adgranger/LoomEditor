@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.Core.Text;
+using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Controller;
 
@@ -43,6 +44,7 @@ internal enum MouseTargetType
 /// <param name="HorizontalDistanceToText">For empty content inside a line: the distance from the end of the text.</param>
 /// <param name="OutsidePosition">For <see cref="MouseTargetType.OutsideEditor"/>: on which side of the editor the mouse is.</param>
 /// <param name="OutsideDistance">For <see cref="MouseTargetType.OutsideEditor"/>: the distance to the editor, in DIPs.</param>
+/// <param name="InjectedText">For text: the injected text under the mouse, if any.</param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record MouseTarget(
     MouseTargetType Type,
@@ -52,7 +54,8 @@ internal sealed record MouseTarget(
     bool IsAfterLines,
     double? HorizontalDistanceToText,
     OutsidePosition? OutsidePosition = null,
-    double OutsideDistance = 0)
+    double OutsideDistance = 0,
+    InjectedText? InjectedText = null)
 {
     /// <summary>Monaco: <c>MouseTarget.createOutsideEditor</c>.</summary>
     public static MouseTarget CreateOutsideEditor(int mouseColumn, Position position, OutsidePosition outsidePosition, double outsideDistance) =>

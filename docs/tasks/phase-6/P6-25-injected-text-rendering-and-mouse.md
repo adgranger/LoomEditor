@@ -1,6 +1,6 @@
 # P6-25 — Injected text: its inline decorations in the viewport and the mouse
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-24
 - **Size:** S
 
@@ -46,20 +46,20 @@ fall inside injected text and reports `OnInjectedText`, so a double-click on inj
 
 ## Tests
 
-- [ ] New (View): `HitTest_InsideInjectedText_NormalizesAndReportsIt`
-- [ ] New (View): `HitTest_OnModelText_HasNoInjectedText`
-- [ ] New (View): `DoubleClickOnInjectedText_DoesNotSelectAWord` (through `ViewController` with `OnInjectedText = true`)
-- [ ] New (View): `ViewportInlineDecorations_IncludeTheInjectedTextOnes`
-- [ ] New (Rendering): `InjectedText_IsDrawnWithItsInlineClassForeground` (a `DecorationStyles` entry with a foreground for the class)
-- [ ] New (Rendering): `InjectedText_ShiftsTheFollowingText` (the text after an `After` injection starts after it)
+- [x] New (View): `HitTest_InsideInjectedText_NormalizesAndReportsIt`
+- [x] New (View): `HitTest_OnModelText_HasNoInjectedText`
+- [x] New (View): `DoubleClickOnInjectedText_DoesNotSelectAWord` (through `ViewController` with `OnInjectedText = true`)
+- [x] New (View): `ViewportInlineDecorations_IncludeTheInjectedTextOnes`
+- [x] New (Rendering): `InjectedText_IsDrawnWithItsInlineClassForeground` (a `DecorationStyles` entry with a foreground for the class)
+- [x] New (Rendering): `InjectedText_ShiftsTheFollowingText` (the text after an `After` injection starts after it)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `mouseTarget.ts` row (injected text normalization); remove the injected text row of "Cut points for
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `mouseTarget.ts` row (injected text normalization); remove the injected text row of "Cut points for
       phase 6"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

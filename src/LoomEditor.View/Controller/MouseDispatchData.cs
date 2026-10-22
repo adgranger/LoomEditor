@@ -19,7 +19,7 @@ namespace LoomEditor.View.Controller;
 /// <param name="ShiftKey">Shift is down.</param>
 /// <param name="LeftButton">The left button is down.</param>
 /// <param name="MiddleButton">The middle button is down.</param>
-/// <param name="OnInjectedText">Always <c>false</c>: there is no injected text.</param>
+/// <param name="OnInjectedText">The mouse is over injected text (a double click then selects nothing).</param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record MouseDispatchData(
     Position Position,

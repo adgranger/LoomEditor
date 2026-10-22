@@ -19,7 +19,7 @@ internal sealed record InjectedTextOptions
     /// <summary>If there is an <see cref="InlineClassName"/> which affects letter spacing.</summary>
     public bool InlineClassNameAffectsLetterSpacing { get; init; }
 
-    /// <summary>The width used to wrap this injected text, in editor-font em units.</summary>
+    /// <summary>The width used to wrap this injected text, in editor-font em units (used for wrapping only: it is not drawn).</summary>
     public double? WidthInEm { get; init; }
 
     /// <summary>Data attached to this injected text, readable when injected texts at a position are queried.</summary>

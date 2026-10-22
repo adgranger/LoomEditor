@@ -175,6 +175,7 @@ internal sealed partial class TextViewRenderer
         List<StyleOverride>? important = null;
         foreach (LineDecoration d in LineDecoration.Filter(data.GetInlineDecorations(lineNumber), lineNumber, 1, maxColumn))
         {
+            // `WidthOnly` (injected text with no content) is intentionally not drawn: DirectWrite has no inline-block element.
             if (d.Type is not (InlineDecorationType.Regular or InlineDecorationType.RegularAffectingLetterSpacing)
                 || DecorationStyles.Get(d.ClassName) is not { } style
                 || GetDecorationForeground(style) is not { } color)

@@ -32,7 +32,15 @@ internal sealed partial class ViewModel
     public IReadOnlyList<InlineDecoration> GetViewportInlineDecorations(Range visibleRange, int lineNumber)
     {
         ViewDecorationsCollection collection = _decorations.GetDecorationsViewportData(visibleRange);
-        return collection.InlineDecorations[lineNumber - visibleRange.StartLineNumber];
+        IReadOnlyList<InlineDecoration> modelDecorations = collection.InlineDecorations[lineNumber - visibleRange.StartLineNumber];
+
+        // Monaco: the view line's own inline decorations (injected text) come after the model ones.
+        if (_lines.GetViewLineData(lineNumber).InlineDecorations is { Count: > 0 } injected)
+        {
+            return [.. modelDecorations, .. injected];
+        }
+
+        return modelDecorations;
     }
 
     private void OnModelDecorationsChanged(object? sender, ModelDecorationsChangedEventArgs e)

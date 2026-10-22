@@ -582,7 +582,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-22](phase-6/P6-22-word-wrap-cursor-tests.md) | Port the word wrap and injected text tests of the view model and the cursors | P6-21 | done |
 | [P6-23](phase-6/P6-23-view-model-decorations-wrap-tests.md) | Port the word wrap tests of `viewModelDecorations.test.ts` | P6-22 | done |
 | [P6-24](phase-6/P6-24-render-wrapped-lines.md) | Drawing, hit testing and folding on wrapped lines | P6-23 | done |
-| [P6-25](phase-6/P6-25-injected-text-rendering-and-mouse.md) | Injected text: its inline decorations in the viewport and the mouse | P6-24 | todo |
+| [P6-25](phase-6/P6-25-injected-text-rendering-and-mouse.md) | Injected text: its inline decorations in the viewport and the mouse | P6-24 | done |
 | [P6-26](phase-6/P6-26-control-word-wrap-properties.md) | The control's word wrap properties and a gallery switch | P6-25 | todo |
 
 ### Step F — Indent and bracket pair guides

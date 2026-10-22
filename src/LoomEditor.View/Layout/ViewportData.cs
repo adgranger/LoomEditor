@@ -50,7 +50,7 @@ internal sealed class ViewportData
 
     /// <summary>The inline decorations of a visible line (Monaco: the <c>inlineDecorations</c> of the line rendering data).</summary>
     public IReadOnlyList<InlineDecoration> GetInlineDecorations(int lineNumber) =>
-        _decorations.GetDecorationsViewportData(VisibleRange).InlineDecorations[lineNumber - VisibleRange.StartLineNumber];
+        _viewModel.GetViewportInlineDecorations(VisibleRange, lineNumber);
 
     /// <summary>The selections (one for now).</summary>
     public IReadOnlyList<Selection> Selections { get; }
