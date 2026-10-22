@@ -1,6 +1,6 @@
 # P6-29 — `GuidesTextModelPart.GetActiveIndentGuide` and the indent guide tests
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-28
 - **Size:** M
 
@@ -36,7 +36,7 @@ the bounds given, and the 18 upstream `getLineIndentGuide` tests pass.
 
 ## Tests
 
-- [ ] Port: `TextModel.getLineIndentGuide` › all 18 tests: `getLineIndentGuide one level 2`, `two levels`, `three levels`,
+- [x] Port: `TextModel.getLineIndentGuide` › all 18 tests: `getLineIndentGuide one level 2`, `two levels`, `three levels`,
       `decreasing indent`, `Java`, `Javadoc`, `Whitespace`, `Tabs`, `checker.ts`, `issue #8425 - Missing indentation lines for first level indentation`,
       `issue #8952 - Indentation guide lines going through text on .yml file`, `issue #11892 - Indent guides look funny`,
       `issue #12398 - Problem in indent guidelines`, `issue #49173`, `tweaks - no active`, `tweaks - inside scope`,
@@ -44,10 +44,10 @@ the bounds given, and the 18 upstream `getLineIndentGuide` tests pass.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `textModelWithTokens.test.ts` is 29 / 29 (phase 5 row and phase 6 table); `guidesTextModelPart.ts` row updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `textModelWithTokens.test.ts` is 29 / 29 (phase 5 row and phase 6 table); `guidesTextModelPart.ts` row updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

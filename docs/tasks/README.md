@@ -591,7 +591,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P6-27](phase-6/P6-27-guide-types.md) | Guide types: `IndentGuide`, `BracketGuideOptions`, `ActiveIndentGuideInfo` | P5-96 | done |
 | [P6-28](phase-6/P6-28-lines-indent-guides.md) | `GuidesTextModelPart`: `GetLinesIndentGuides` | P6-27 | done |
-| [P6-29](phase-6/P6-29-active-indent-guide.md) | `GetActiveIndentGuide` and the 18 indent guide tests | P6-28 | todo |
+| [P6-29](phase-6/P6-29-active-indent-guide.md) | `GetActiveIndentGuide` and the 18 indent guide tests | P6-28 | done |
 | [P6-30](phase-6/P6-30-lines-bracket-guides.md) | `GuidesTextModelPart.GetLinesBracketGuides` | P6-29 | todo |
 | [P6-31](phase-6/P6-31-view-lines-indent-guides.md) | View lines: indent guides and the active indent guide | P6-30, P6-20 | todo |
 | [P6-32](phase-6/P6-32-view-lines-bracket-guides.md) | View lines and view model: bracket guides, guide options | P6-31 | todo |
