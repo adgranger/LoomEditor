@@ -1,6 +1,6 @@
 # P6-53 — Minimap pointer input: click to reveal, slider drag, hover
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-52
 - **Size:** S
 
@@ -45,18 +45,18 @@ File: `src/vs/editor/browser/viewParts/minimap/minimap.ts`.
 
 ## Tests
 
-- [ ] New: `Click_Proportional_RevealsTheLineUnderThePointer`
-- [ ] New: `Click_FitSize_StartsDraggingFromTheSliderCenter`
-- [ ] New: `DragSlider_ScrollsByTheSliderRatio`
-- [ ] New: `DragSlider_PointerFarAway_ResetsTheScroll`
-- [ ] New: `RightClick_Mouse_DoesNothing`; `Touch_ScrollsToTheTouchLocation`
+- [x] New: `Click_Proportional_RevealsTheLineUnderThePointer`
+- [x] New: `Click_FitSize_StartsDraggingFromTheSliderCenter`
+- [x] New: `DragSlider_ScrollsByTheSliderRatio`
+- [x] New: `DragSlider_PointerFarAway_ResetsTheScroll`
+- [x] New: `RightClick_Mouse_DoesNothing`; `Touch_ScrollsToTheTouchLocation`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row ✅ except section headers
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row ✅ except section headers
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -1,4 +1,5 @@
 using LoomEditor.View.Features.Scheduling;
+using LoomEditor.View.Minimap;
 
 namespace LoomEditor.Rendering;
 
@@ -13,7 +14,7 @@ namespace LoomEditor.Rendering;
 /// </para>
 /// Threading: UI thread only. The timer is an <see cref="IEditorScheduler"/> (none: the minimap then stays visible after a scroll).
 /// </remarks>
-internal sealed class MinimapPresentationState : IDisposable
+internal sealed class MinimapPresentationState : IMinimapPresentation, IDisposable
 {
     private static readonly TimeSpan HideDelay = TimeSpan.FromMilliseconds(500);
 

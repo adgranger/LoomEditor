@@ -34,6 +34,22 @@ internal sealed partial class TextViewRenderer
     /// <summary>Hover, drag and auto-hide state of the minimap.</summary>
     public MinimapPresentationState MinimapPresentation { get; }
 
+    /// <summary>Pointer input of the minimap; <c>null</c> until the minimap was drawn once or while it is not rendered.</summary>
+    public MinimapPointerController? MinimapPointer { get; private set; }
+
+    /// <summary>The minimap rectangle in editor DIPs, or <c>false</c> when there is no minimap to hit.</summary>
+    public bool TryGetMinimapRectangle(out double left, out double top, out double width, out double height)
+    {
+        if (_minimapModel?.Options is { RenderMinimap: not RenderMinimap.None } options && MinimapPointer is not null)
+        {
+            (left, top, width, height) = (options.MinimapLeft, 0, options.MinimapWidth, options.MinimapHeight);
+            return true;
+        }
+
+        (left, top, width, height) = (0, 0, 0, 0);
+        return false;
+    }
+
     // Monaco: `InnerMinimap.render`.
     private void DrawMinimap(IRenderSurface surface, ViewModel viewModel, ViewportData data, EditorLayoutInfo layoutInfo)
     {
@@ -134,6 +150,7 @@ internal sealed partial class TextViewRenderer
             (scale, fontFamily) => MinimapCharRendererFactory.Create(scale, fontFamily, MinimapSampleDataProvider));
         _minimapLines = new MinimapLinesRenderer(_minimapModel);
         _minimapDecorations = new MinimapDecorationsRenderer(_minimapModel, Theme);
+        MinimapPointer = new MinimapPointerController(_minimapModel, () => _lastMinimapLayout, MinimapPresentation);
         return _minimapModel;
     }
 
@@ -144,6 +161,7 @@ internal sealed partial class TextViewRenderer
         _minimapViewModel = null;
         _minimapLines = null;
         _minimapDecorations = null;
+        MinimapPointer = null;
         _lastMinimapLayout = null;
         _lastMinimapScrollTop = double.NaN;
         _lastMinimapScrollHeight = double.NaN;

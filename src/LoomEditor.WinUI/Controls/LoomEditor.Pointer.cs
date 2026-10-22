@@ -32,6 +32,16 @@ public sealed partial class LoomEditor
         }
 
         EditorMouseEvent mouseEvent = PointerInput.Create(e, this, PointerInput.PressDetail);
+        if (TryGetMinimapPoint(mouseEvent.X, mouseEvent.Y, out double minimapX, out double minimapY)
+            && _renderer.MinimapPointer!.PointerDown(
+                minimapX, minimapY, mouseEvent.LeftButton, e.Pointer.PointerDeviceType == PointerDeviceType.Mouse))
+        {
+            Focus(FocusState.Pointer);
+            CapturePointer(e.Pointer);
+            e.Handled = true;
+            return;
+        }
+
         MouseTarget target = CreateMouseTarget(mouseEvent.X, mouseEvent.Y);
 
         // Monaco: `_onMouseDown`.
@@ -68,6 +78,27 @@ public sealed partial class LoomEditor
             return;
         }
 
+        if (_renderer?.MinimapPointer is { } minimap)
+        {
+            EditorMouseEvent move = PointerInput.Create(e, this, 1);
+            if (minimap.IsActive)
+            {
+                minimap.PointerMove(move.X - MinimapLeft(), move.Y);
+                e.Handled = true;
+                return;
+            }
+
+            if (TryGetMinimapPoint(move.X, move.Y, out double x, out double y))
+            {
+                minimap.PointerEntered();
+                minimap.PointerMove(x, y);
+                ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+                return;
+            }
+
+            minimap.PointerExited();
+        }
+
         if (_mouseDown is { IsActive: true })
         {
             _mouseDown.OnMouseDownThenMove(PointerInput.Create(e, this, 1));
@@ -101,6 +132,14 @@ public sealed partial class LoomEditor
             _context.UserInputEvents.EmitMouseUp(new EditorMouseEventArgs(mouseEvent, CreateMouseTarget(mouseEvent.X, mouseEvent.Y)));
         }
 
+        if (_renderer?.MinimapPointer is { IsActive: true } minimapDrag)
+        {
+            minimapDrag.PointerUp();
+            ReleasePointerCapture(e.Pointer);
+            e.Handled = true;
+            return;
+        }
+
         if (_mouseDown is { IsActive: true })
         {
             _mouseDown.OnPointerUp();
@@ -115,6 +154,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerCaptureLost(e);
 
+        _renderer?.MinimapPointer?.PointerUp();
         _mouseDown?.OnPointerUp();
     }
 
@@ -125,11 +165,33 @@ public sealed partial class LoomEditor
         base.OnPointerExited(e);
 
         SetMarginHovered(false);
+        if (_renderer?.MinimapPointer is { IsActive: false } minimapPointer)
+        {
+            minimapPointer.PointerExited();
+        }
+
         if (_mouseDown is not { IsActive: true })
         {
             ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
         }
     }
+
+    // The minimap rectangle is the one of the last frame; the point is made relative to its top-left corner.
+    private bool TryGetMinimapPoint(double x, double y, out double minimapX, out double minimapY)
+    {
+        minimapX = minimapY = 0;
+        if (_renderer is { } renderer && renderer.TryGetMinimapRectangle(out double left, out double top, out double width, out double height)
+            && x >= left && x < left + width && y >= top && y < top + height)
+        {
+            (minimapX, minimapY) = (x - left, y - top);
+            return true;
+        }
+
+        return false;
+    }
+
+    private double MinimapLeft() =>
+        _renderer is { } renderer && renderer.TryGetMinimapRectangle(out double left, out _, out _, out _) ? left : 0;
 
     // The hit test of P3-43 on the layouts that are drawn; before the first draw there is nothing to hit.
     private MouseTarget CreateMouseTarget(double x, double y) =>
