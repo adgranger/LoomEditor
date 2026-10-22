@@ -52,6 +52,9 @@ public sealed partial class LoomEditor
             // Do not steal focus.
             e.Handled = true;
         }
+
+        // Monaco (`mouseHandler.ts`): features hear the mouse-down after the operation started.
+        _context.UserInputEvents.EmitMouseDown(new EditorMouseEventArgs(mouseEvent, target));
     }
 
     /// <inheritdoc />
@@ -84,6 +87,18 @@ public sealed partial class LoomEditor
         if (IsFromFindWidget(e.OriginalSource))
         {
             return;
+        }
+
+        if (_renderer is not null && !IsFromScrollBar(e.OriginalSource))
+        {
+            // The buttons are already up in a release: the released one is the button of the event.
+            PointerUpdateKind kind = e.GetCurrentPoint(this).Properties.PointerUpdateKind;
+            EditorMouseEvent mouseEvent = PointerInput.Create(e, this, 1) with
+            {
+                LeftButton = kind == PointerUpdateKind.LeftButtonReleased,
+                MiddleButton = kind == PointerUpdateKind.MiddleButtonReleased,
+            };
+            _context.UserInputEvents.EmitMouseUp(new EditorMouseEventArgs(mouseEvent, CreateMouseTarget(mouseEvent.X, mouseEvent.Y)));
         }
 
         if (_mouseDown is { IsActive: true })

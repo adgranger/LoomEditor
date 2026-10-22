@@ -7,6 +7,7 @@ using LoomEditor.TextMate.Grammars;
 using LoomEditor.TextMate.Tokenization;
 using LoomEditor.Core.Tokens;
 using LoomEditor.View.Commands;
+using LoomEditor.View.Controller;
 using LoomEditor.View.Events;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Scheduling;
@@ -76,6 +77,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
             scheduleAtNextAnimationFrame,
             timeProvider,
             Id);
+        UserInputEvents = new ViewUserInputEvents(ViewModel.CoordinatesConverter);
         ViewModel.TokenColorMap = tokenizationRegistry.GetColorMap();
         tokenizationRegistry.Changed += (_, e) =>
         {
@@ -106,6 +108,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     internal SyntaxHighlighter Highlighter { get; }
 
     internal ViewModel ViewModel { get; }
+
+    /// <summary>The mouse events of the view, in model coordinates (Monaco: <c>ViewUserInputEvents</c>).</summary>
+    internal ViewUserInputEvents UserInputEvents { get; }
 
     /// <summary>The find controller, set by <c>FindFeature</c> while it is attached (Monaco: <c>CommonFindController.get(editor)</c>).</summary>
     internal FindController? FindController { get; set; }
