@@ -99,6 +99,14 @@ internal sealed partial class FoldingFeature : IEditorFeature
             OnModelChanged();
         }
 
+        if (options.Folding != old.Folding || options.ShowFoldingControls != old.ShowFoldingControls)
+        {
+            // The gutter has room for the controls only when they can be shown.
+            _viewModel!.SetOptions(
+                _viewModel.LayoutOptions with { Folding = options.Folding, ShowFoldingDecoration = options.ShowFoldingControls != ShowFoldingControls.Never },
+                _viewModel.ViewLayoutOptions);
+        }
+
         if (options.ShowFoldingControls != old.ShowFoldingControls || options.FoldingHighlight != old.FoldingHighlight)
         {
             _decorationProvider.ShowFoldingControls = options.ShowFoldingControls;

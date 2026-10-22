@@ -22,6 +22,9 @@ internal interface IRenderSurface
     /// <summary>Fills a rectangle.</summary>
     void FillRectangle(float x, float y, float width, float height, ThemeColor color);
 
+    /// <summary>Draws a straight line segment.</summary>
+    void DrawLine(float x1, float y1, float x2, float y2, ThemeColor color, float strokeWidth);
+
     /// <summary>Draws the outline of a rectangle.</summary>
     void DrawRectangle(float x, float y, float width, float height, ThemeColor color, float strokeWidth);
 
