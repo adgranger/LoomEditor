@@ -455,7 +455,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `textModelWithTokens.test.ts` (`bracket matching 1–4`, `issue #95843`, `issue #88075`, `monaco-editor#133`, `issue #11856`) | 29 / 29 | P5-32 (`TextModelWithTokensBracketMatchingTests`), P5-33 (`brackets1`, `TextModelWithTokensBracketsTests`), each run on the tree and the legacy path; the 18 `getLineIndentGuide` tests: P6-29 (`TextModelGetLineIndentGuideTests`) |
 | `model.line.test.ts` | see "Tests ported in phase 4" | `ModelLine` tokens: ported in P4-31 and P4-32; `getIndentLevel` is not about tokens |
 | `viewModel/prefixSumComputer.test.ts` (`Editor ViewModel - PrefixSumComputer`) | 48 / 48 | P4-36, P5-78: every test runs on both `PrefixSumComputer` and `ConstantTimePrefixSumComputer` (96 runs, like Monaco's `forBoth`) |
-| `modelLineProjection.test.ts` (`Editor ViewModel - SplitLinesCollection`) | 6 / 6 | P6-15: `SplitLine`; P5-79: `getViewLinesData - no wrapping`; P5-80: `Invalid line numbers` (without the indent guide assertions, phase 6), `issue #3662`; P6-19: the two wrapping tests |
+| `modelLineProjection.test.ts` (`Editor ViewModel - SplitLinesCollection`) | 6 / 6 | P6-15: `SplitLine`; P5-79: `getViewLinesData - no wrapping`; P5-80: `Invalid line numbers` (the indent guide assertions: P6-31), `issue #3662`; P6-19: the two wrapping tests |
 | `textMate/test/browser/arrayOperation.test.ts` | 1 / 1 | P4-36 |
 | `textChange.test.ts` | 0 / 10 | **gap**: card P1-26 wrongly said Monaco has no test file for `textChange.ts`. LoomEditor has its own `TextChange*Tests` instead; porting these 10 tests (9 `TextChangeCompressor`, 1 `issue #118041`) is a follow-up |
 | `editStack.test.ts` | 0 / 1 | tests binary serialization, which is not ported |
@@ -555,7 +555,7 @@ file; counts come from the `// Monaco:` comments and the rows of those tables.
 | `find`, `replacePattern`, `findModel`, `findController` | 3 / 3; 8 / 8; 44 / 44; 18 / 23 | macOS find clipboard, no storage service |
 | `multicursor.test.ts` | 75 / 76 | `setModel` |
 | `foldingRanges`, `indentRangeProvider`, `indentFold`, `foldingModel`, `hiddenRangeModel` | 7, 26, 1, 22, 1 (all) | listed in "Tests ported in phase 4" |
-| `modelLineProjection.test.ts`, `viewModelImpl.test.ts` | 6 / 6 (the guide assertions of `Invalid line numbers` stay open until P6-31); the hidden-area tests | wrapping (phase 6) |
+| `modelLineProjection.test.ts`, `viewModelImpl.test.ts` | 6 / 6 the hidden-area tests | wrapping (phase 6) |
 | `wordHighlighter.test.ts` | 0 / 18 | provider registry (phase 8); new tests cover the textual path |
 
 ## Cut points for phases 4–5

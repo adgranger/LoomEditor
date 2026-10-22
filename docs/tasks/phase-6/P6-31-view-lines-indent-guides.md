@@ -1,6 +1,6 @@
 # P6-31 — View lines: indent guides and the active indent guide
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-30, P6-20
 - **Size:** S
 
@@ -45,17 +45,17 @@ Test: `src/vs/editor/test/browser/viewModel/modelLineProjection.test.ts` 150–1
 
 ## Tests
 
-- [ ] Port: `Editor ViewModel - SplitLinesCollection` › `Invalid line numbers` — the 11 `getViewLinesIndentGuides` assertions
-- [ ] New: `GetViewLinesIndentGuides_WrappedLine_RepeatsTheGuidesOnContinuations` (an indented line that wraps)
-- [ ] New: `GetViewLinesIndentGuides_HiddenLines_AreSkipped`
-- [ ] New: `GetActiveIndentGuide_ReturnsViewLineNumbers` (a wrapped line above the block shifts the view line numbers)
+- [x] Port: `Editor ViewModel - SplitLinesCollection` › `Invalid line numbers` — the 11 `getViewLinesIndentGuides` assertions
+- [x] New: `GetViewLinesIndentGuides_WrappedLine_RepeatsTheGuidesOnContinuations` (an indented line that wraps)
+- [x] New: `GetViewLinesIndentGuides_HiddenLines_AreSkipped`
+- [x] New: `GetActiveIndentGuide_ReturnsViewLineNumbers` (a wrapped line above the block shifts the view line numbers)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the `modelLineProjection.test.ts` gap ("without the indent guide assertions") is closed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the `modelLineProjection.test.ts` gap ("without the indent guide assertions") is closed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
