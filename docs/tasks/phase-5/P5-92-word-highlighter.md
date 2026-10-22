@@ -1,6 +1,6 @@
 # P5-92 — Word highlighter: textual occurrences and their decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-91
 - **Size:** M
 
@@ -74,24 +74,24 @@ of several providers through `LanguageFeatureRegistry` and `getOccurrencesAtPosi
 `WordHighlighterContribution` (3) needs provider registries, `occurrencesHighlightFromAllProviders`, `setModel` and
 the instantiation service. Their textual expectations are reused in new tests:
 
-- [ ] New: `TextualProvider_WordWordWord_ReturnsFourTextHighlights` (model `"word word word\nword"`, position (1, 2):
+- [x] New: `TextualProvider_WordWordWord_ReturnsFourTextHighlights` (model `"word word word\nword"`, position (1, 2):
       (1,1–5), (1,6–10), (1,11–15), (2,1–5), kind `Text`; Monaco's `'uses textual fallback only when no other provider matches'`)
-- [ ] New: `TextualProvider_NotOnAWord_ReturnsEmpty`
-- [ ] New: `CursorOnWord_After50Ms_HighlightsOccurrences` (`ManualEditorScheduler`: nothing at 49 ms)
-- [ ] New: `Typing_RemovesHighlights`; `CursorLeavesWord_RemovesHighlights`; `MultiLineSelection_RemovesHighlights`
-- [ ] New: `CursorMovesToAnotherOccurrence_KeepsHighlights` (`isValid` / "contained in a stored decoration" path)
-- [ ] New: `FocusLost_RemovesHighlights`
-- [ ] New: `OccurrencesHighlightOff_NeverHighlights`
-- [ ] New: `Restore250_RendersAfter250Ms`
+- [x] New: `TextualProvider_NotOnAWord_ReturnsEmpty`
+- [x] New: `CursorOnWord_After50Ms_HighlightsOccurrences` (`ManualEditorScheduler`: nothing at 49 ms)
+- [x] New: `Typing_RemovesHighlights`; `CursorLeavesWord_RemovesHighlights`; `MultiLineSelection_RemovesHighlights`
+- [x] New: `CursorMovesToAnotherOccurrence_KeepsHighlights` (`isValid` / "contained in a stored decoration" path)
+- [x] New: `FocusLost_RemovesHighlights`
+- [x] New: `OccurrencesHighlightOff_NeverHighlights`
+- [x] New: `Restore250_RendersAfter250Ms`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows `contrib/wordHighlighter/browser/wordHighlighter.ts` (🔶 single model, textual only, P5-92),
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows `contrib/wordHighlighter/browser/wordHighlighter.ts` (🔶 single model, textual only, P5-92),
       `textualHighlightProvider.ts`, `highlightDecorations.ts` (+ `.css`); "Tests ported": `wordHighlighter.test.ts`
       0 / 18 with the reason above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
