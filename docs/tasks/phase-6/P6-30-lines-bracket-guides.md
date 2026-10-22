@@ -1,6 +1,6 @@
 # P6-30 — `GuidesTextModelPart.GetLinesBracketGuides`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-29
 - **Size:** S
 
@@ -43,21 +43,21 @@ File: `src/vs/editor/common/model/guidesTextModelPart.ts`.
 
 No upstream unit tests (Monaco tests this through the browser). New, with the TypeScript test language of P5 (brackets `{}`, `()`):
 
-- [ ] `GetLinesBracketGuides_MultiLinePair_HasVerticalGuidesInside`
-- [ ] `GetLinesBracketGuides_IncludeInactiveFalse_OnlyTheActivePair`
-- [ ] `GetLinesBracketGuides_HorizontalEnabledForActive_AddsHorizontalLinesForTheActivePairOnly`
-- [ ] `GetLinesBracketGuides_TextBeforeClosingBracket_RendersTheEndLineAtTheBottom`
-- [ ] `GetLinesBracketGuides_SingleLinePair_OnlyAHorizontalGuide`
-- [ ] `GetLinesBracketGuides_ActiveClassName_WhenHighlightActive`
-- [ ] `GetLinesBracketGuides_ActivePositionOutsideTheRange_QueriesItsPairs`
+- [x] `GetLinesBracketGuides_MultiLinePair_HasVerticalGuidesInside`
+- [x] `GetLinesBracketGuides_IncludeInactiveFalse_OnlyTheActivePair`
+- [x] `GetLinesBracketGuides_HorizontalEnabledForActive_AddsHorizontalLinesForTheActivePairOnly`
+- [x] `GetLinesBracketGuides_TextBeforeClosingBracket_RendersTheEndLineAtTheBottom`
+- [x] `GetLinesBracketGuides_SingleLinePair_OnlyAHorizontalGuide`
+- [x] `GetLinesBracketGuides_ActiveClassName_WhenHighlightActive`
+- [x] `GetLinesBracketGuides_ActivePositionOutsideTheRange_QueriesItsPairs`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `guidesTextModelPart.ts` row ✅; the `Core/Model/TextModel*` row of "Cut points for phase 6" is resolved
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `guidesTextModelPart.ts` row ✅; the `Core/Model/TextModel*` row of "Cut points for phase 6" is resolved
       except the view part (keep it until P6-32)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
