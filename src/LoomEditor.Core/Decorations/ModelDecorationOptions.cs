@@ -35,6 +35,8 @@ internal sealed class ModelDecorationOptions
         AfterContentClassName = CleanOrNull(data.AfterContentClassName);
         HideInCommentTokens = data.HideInCommentTokens ?? false;
         HideInStringTokens = data.HideInStringTokens ?? false;
+        After = data.After is null ? null : ModelDecorationInjectedTextOptions.From(data.After);
+        Before = data.Before is null ? null : ModelDecorationInjectedTextOptions.From(data.Before);
     }
 
     /// <summary>Monaco: <c>ModelDecorationOptions.EMPTY</c>.</summary>
@@ -75,6 +77,10 @@ internal sealed class ModelDecorationOptions
     public bool HideInCommentTokens { get; }
 
     public bool HideInStringTokens { get; }
+
+    public ModelDecorationInjectedTextOptions? After { get; }
+
+    public ModelDecorationInjectedTextOptions? Before { get; }
 
     /// <summary>Always <c>false</c>: the font options of Monaco are not ported.</summary>
     public bool AffectsFont { get; }

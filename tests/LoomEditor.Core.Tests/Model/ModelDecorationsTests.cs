@@ -65,6 +65,26 @@ public class ModelDecorationsTests
         LineHasNoDecorations(_model, 5);
     }
 
+    [Theory]
+    [InlineData(double.NaN, null)]
+    [InlineData(double.PositiveInfinity, null)]
+    [InlineData(double.NegativeInfinity, null)]
+    [InlineData(-1.0, null)]
+    [InlineData(0.0, 0.0)]
+    [InlineData(1.0, 1.0)]
+    public void InjectedTextWidthMustBeFiniteAndNonNegative(double widthInEm, double? expected)
+    {
+        // Monaco: 'injected text width must be finite and non-negative'
+        var options = ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+        {
+            Description = "test",
+            After = new InjectedTextOptions { Content = "x", WidthInEm = widthInEm },
+        });
+        string id = _model.DeltaDecorations(0, [], [new ModelDeltaDecoration(new Range(1, 1, 1, 1), options)])[0];
+
+        Assert.Equal(expected, _model.GetDecorationOptions(id)?.After?.WidthInEm);
+    }
+
     [Fact]
     public void LineDecoration()
     {

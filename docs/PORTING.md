@@ -516,6 +516,15 @@ The step-by-step cards are in **[docs/tasks/phase-5/](tasks/phase-5/)** (P5-01 �
 - The "done when" criterion (each feature is one documented folder) is met, 2026-10-22. The manual checks of P5-72 … P5-74,
   P5-90, P5-91 and P5-95 are for the maintainer.
 
+## Tests ported in phase 6
+
+The tests that phases 3-5 left because they need word wrap or injected text, and the new phase 6 tests. One row per upstream
+test file; every phase 6 card adds or updates its rows.
+
+| Upstream test file | Ported / total | Not ported, and why |
+|---|---|---|
+| `modelDecorations.test.ts` | 1 / 1 (`injected text width must be finite and non-negative`) | P6-03 |
+
 ## Tests ported in phase 5
 
 The details and the reason of every gap are in the rows of "Monaco tests ported in phases 1 and 3" and "… phase 2"
@@ -525,7 +534,7 @@ file; counts come from the `// Monaco:` comments and the rows of those tables.
 | Upstream test file | Ported / total | Not ported, and why |
 |---|---|---|
 | `cursor.test.ts` (languages, Enter, Tab, auto-closing, surround, electric, auto-indent on type) | 1, 28, 7, 1, 30, 11, 8, 15 (all) | P5-37 … P5-46 |
-| `modelDecorations.test.ts` | 24 + 5 / 28; 7 / 10; 62 / 62 | injected text width, dispose, `hoverMessage` (P5-03, P5-04) |
+| `modelDecorations.test.ts` | 24 + 5 / 28; 7 / 10; 62 / 62 | dispose, `hoverMessage`; injected text width is in "Tests ported in phase 6" (P5-03, P5-04) |
 | `inlineDecorations.test.ts`, `viewModelDecorations.test.ts` | 11 / 12; 1 / 3 | font decorations, injected text, word wrap |
 | `lineDecorations.test.ts` | 1 / 8 | normalizer, injected text |
 | `languageConfiguration`, `richEditBrackets`, `electricCharacter`, `characterPair`, `onEnter` | 11, 10, 2, 13, 4 (all) | |

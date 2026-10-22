@@ -1,6 +1,6 @@
 # P6-03 — `InjectedTextOptions` and the `before` / `after` decoration options
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-96
 - **Size:** S
 
@@ -50,19 +50,19 @@ yet (P6-04 …).
 
 ## Tests
 
-- [ ] Port: `Editor Model - Decorations` › `injected text width must be finite and non-negative` (`[Theory]` over the inputs; read
+- [x] Port: `Editor Model - Decorations` › `injected text width must be finite and non-negative` (`[Theory]` over the inputs; read
       the expected array at lines 126–132)
-- [ ] New: `From_NullContent_BecomesEmpty`, `From_EmptyInlineClassName_BecomesNull`, `From_KeepsAttachedDataAndCursorStops`
-- [ ] New: `Register_WithBeforeAndAfter_ExposesNormalizedOptions`, `Register_WithoutInjectedText_HasNullBeforeAndAfter`
+- [x] New: `From_NullContent_BecomesEmpty`, `From_EmptyInlineClassName_BecomesNull`, `From_KeepsAttachedDataAndCursorStops`
+- [x] New: `Register_WithBeforeAndAfter_ExposesNormalizedOptions`, `Register_WithoutInjectedText_HasNullBeforeAndAfter`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: create the section **"Tests ported in phase 6"** (same table format as "Tests ported in phase 5",
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: create the section **"Tests ported in phase 6"** (same table format as "Tests ported in phase 5",
       placed above it; every later phase 6 card adds or updates its rows there) with the row `modelDecorations.test.ts`
       (the "injected text width" gap is closed); update the phase 5 row of `modelDecorations.test.ts` to point to it
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
