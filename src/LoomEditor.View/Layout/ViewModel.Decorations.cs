@@ -1,7 +1,9 @@
 // Ported from microsoft/vscode: src/vs/editor/common/viewModel/viewModelImpl.ts (_decorations, onDidChangeDecorations handler, getDecorationsInViewport, getViewportViewLineRenderingData)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model.Events;
+using LoomEditor.Themes;
 using LoomEditor.View.Events;
 
 namespace LoomEditor.View.Layout;
@@ -41,6 +43,32 @@ internal sealed partial class ViewModel
         }
 
         return modelDecorations;
+    }
+
+    /// <summary>The overview ruler decorations in view line numbers, grouped by color (Monaco: <c>getAllOverviewRulerDecorations</c>).</summary>
+    public List<OverviewRulerDecorationsGroup> GetAllOverviewRulerDecorations(EditorTheme theme)
+    {
+        var result = new OverviewRulerDecorations();
+        foreach (ModelDecoration decoration in _model.GetOverviewRulerDecorations(EditorId))
+        {
+            ModelDecorationOverviewRulerOptions? opts = decoration.Options.OverviewRuler;
+            if (opts is null)
+            {
+                continue;
+            }
+
+            if (DecorationColorResolver.Resolve(opts.Color, opts.DarkColor, theme) is not { } color)
+            {
+                continue;
+            }
+
+            Range range = decoration.Range;
+            int viewStart = CoordinatesConverter.GetViewLineNumberOfModelPosition(range.StartLineNumber, range.StartColumn);
+            int viewEnd = CoordinatesConverter.GetViewLineNumberOfModelPosition(range.EndLineNumber, range.EndColumn);
+            result.Accept(color, decoration.Options.ZIndex, viewStart, viewEnd, (int)opts.Position);
+        }
+
+        return result.AsArray;
     }
 
     private void OnModelDecorationsChanged(object? sender, ModelDecorationsChangedEventArgs e)

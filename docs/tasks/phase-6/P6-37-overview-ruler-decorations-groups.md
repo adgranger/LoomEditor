@@ -1,6 +1,6 @@
 # P6-37 — `ViewModel.GetAllOverviewRulerDecorations`: groups per color
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-36
 - **Size:** S
 
@@ -49,18 +49,18 @@ adjacent ranges of the same lane), ready to be drawn, with colors resolved again
 
 ## Tests
 
-- [ ] New: `GetAllOverviewRulerDecorations_GroupsByColor`
-- [ ] New: `GetAllOverviewRulerDecorations_MergesAdjacentRangesOfTheSameLane`; `…_DoesNotMergeDifferentLanes`
-- [ ] New: `GetAllOverviewRulerDecorations_UsesViewLineNumbers` (a hidden area above shifts them)
-- [ ] New: `DecorationColorResolver_DarkTheme_PrefersDarkColor`; `…_ThemeColorId_IsResolved`
-- [ ] New: `CompareByRenderingProps_OrdersByZIndexThenColor`
+- [x] New: `GetAllOverviewRulerDecorations_GroupsByColor`
+- [x] New: `GetAllOverviewRulerDecorations_MergesAdjacentRangesOfTheSameLane`; `…_DoesNotMergeDifferentLanes`
+- [x] New: `GetAllOverviewRulerDecorations_UsesViewLineNumbers` (a hidden area above shifts them)
+- [x] New: `DecorationColorResolver_DarkTheme_PrefersDarkColor`; `…_ThemeColorId_IsResolved`
+- [x] New: `CompareByRenderingProps_OrdersByZIndexThenColor`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewModelImpl.ts`, `viewModel.ts` rows; behavior differences (color cache)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewModelImpl.ts`, `viewModel.ts` rows; behavior differences (color cache)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
