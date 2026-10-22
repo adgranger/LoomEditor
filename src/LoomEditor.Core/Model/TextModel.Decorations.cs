@@ -4,6 +4,7 @@
 using System.Globalization;
 using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Diagnostics;
+using LoomEditor.Core.Model.Events;
 using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Core.Model;
@@ -149,6 +150,24 @@ public sealed partial class TextModel
     /// <summary>The current range of a decoration, or <see langword="null"/> when the id is unknown.</summary>
     internal Range? GetDecorationRange(string id) =>
         _decorations.TryGetValue(id, out IntervalNode? node) ? _decorationsTree.GetNodeRange(this, node) : null;
+
+    /// <summary>Every decoration that injects text (Monaco: <c>getInjectedTextDecorations</c>).</summary>
+    /// <remarks>Monaco searches its injected-text tree; LoomEditor filters the single tree.</remarks>
+    internal IReadOnlyList<ModelDecoration> GetInjectedTextDecorations(int ownerId = 0) =>
+        _decorationsTree.GetAllInjectedText(this, ownerId);
+
+    /// <summary>The text injected on a line, sorted by column (Monaco: <c>getLineInjectedText</c>).</summary>
+    /// <remarks>Monaco searches its injected-text tree; LoomEditor filters the single tree.</remarks>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="lineNumber"/> is not a line of the model.</exception>
+    internal IReadOnlyList<LineInjectedText> GetLineInjectedText(int lineNumber, int ownerId = 0)
+    {
+        AssertLineNumber(lineNumber);
+        int startOffset = _buffer.GetOffsetAt(lineNumber, 1);
+        int endOffset = startOffset + _buffer.GetLineLength(lineNumber);
+
+        List<ModelDecoration> decorations = _decorationsTree.GetInjectedTextInInterval(this, startOffset, endOffset, ownerId);
+        return LineInjectedText.FromDecorations(decorations).FindAll(t => t.LineNumber == lineNumber);
+    }
 
     /// <summary>The decorations that touch a line; an out-of-range line gives an empty list.</summary>
     internal IReadOnlyList<ModelDecoration> GetLineDecorations(int lineNumber, int ownerId = 0, bool filterOutValidation = false, bool filterFontDecorations = false)

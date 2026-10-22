@@ -56,6 +56,9 @@ internal sealed class ModelDecorationOptions
 
     public bool ShowIfCollapsed { get; }
 
+    /// <summary>Whether the decoration injects text before or after its range (Monaco: <c>isOptionsInjectedText</c>).</summary>
+    public bool HasInjectedText => Before is not null || After is not null;
+
     public bool CollapseOnReplaceEdit { get; }
 
     public string? GlyphMarginClassName { get; }

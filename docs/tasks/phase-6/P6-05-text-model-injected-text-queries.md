@@ -1,6 +1,6 @@
 # P6-05 — `TextModel.GetLineInjectedText` and `GetInjectedTextDecorations`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-04
 - **Size:** S
 
@@ -48,20 +48,20 @@ File: `src/vs/editor/common/model/textModel.ts`.
 
 No upstream test calls these directly. New:
 
-- [ ] `GetLineInjectedText_NoDecorations_IsEmpty`
-- [ ] `GetLineInjectedText_AfterDecoration_IsAtTheEndColumn`
-- [ ] `GetLineInjectedText_EmptyRangeWithoutShowIfCollapsed_IsIgnored`; `…WithShowIfCollapsed_IsKept`
-- [ ] `GetLineInjectedText_FiltersByOwner` (owner 0 sees all, owner 1 sees its own)
-- [ ] `GetLineInjectedText_MultiLineDecoration_ReportsBeforeAndAfterOnTheirLines`
-- [ ] `GetLineInjectedText_IgnoresDecorationsWithoutInjectedText`
-- [ ] `GetInjectedTextDecorations_ReturnsOnlyInjectedText`
+- [x] `GetLineInjectedText_NoDecorations_IsEmpty`
+- [x] `GetLineInjectedText_AfterDecoration_IsAtTheEndColumn`
+- [x] `GetLineInjectedText_EmptyRangeWithoutShowIfCollapsed_IsIgnored`; `…WithShowIfCollapsed_IsKept`
+- [x] `GetLineInjectedText_FiltersByOwner` (owner 0 sees all, owner 1 sees its own)
+- [x] `GetLineInjectedText_MultiLineDecoration_ReportsBeforeAndAfterOnTheirLines`
+- [x] `GetLineInjectedText_IgnoresDecorationsWithoutInjectedText`
+- [x] `GetInjectedTextDecorations_ReturnsOnlyInjectedText`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the `TextModel` decorations rows mention the injected-text queries on the single tree
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the `TextModel` decorations rows mention the injected-text queries on the single tree
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
