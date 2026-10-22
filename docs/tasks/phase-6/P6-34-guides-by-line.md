@@ -1,6 +1,6 @@
 # P6-34 — The guides of each visible line (`IndentGuidesOverlay.getGuidesByLine`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-32, P6-33
 - **Size:** S
 
@@ -42,19 +42,19 @@ File: `src/vs/editor/browser/viewParts/indentGuides/indentGuides.ts`.
 
 ## Tests
 
-- [ ] New: `GetGuidesByLine_BothDisabled_ReturnsNull`
-- [ ] New: `GetGuidesByLine_IndentOnly_OneGuidePerLevel` (columns 1, 1 + indentSize, …)
-- [ ] New: `GetGuidesByLine_ActiveIndent_IsMarkedOnlyInTheActiveBlock`
-- [ ] New: `GetGuidesByLine_BracketGuideAtTheSameColumn_ReplacesTheIndentGuide`
-- [ ] New: `GetGuidesByLine_BracketGuidesPresent_ActiveIndentNotHighlighted_UnlessAlways`
-- [ ] New: `GetGuidesByLine_BracketGuidesAfterTheIndents_AreAppended`
+- [x] New: `GetGuidesByLine_BothDisabled_ReturnsNull`
+- [x] New: `GetGuidesByLine_IndentOnly_OneGuidePerLevel` (columns 1, 1 + indentSize, …)
+- [x] New: `GetGuidesByLine_ActiveIndent_IsMarkedOnlyInTheActiveBlock`
+- [x] New: `GetGuidesByLine_BracketGuideAtTheSameColumn_ReplacesTheIndentGuide`
+- [x] New: `GetGuidesByLine_BracketGuidesPresent_ActiveIndentNotHighlighted_UnlessAlways`
+- [x] New: `GetGuidesByLine_BracketGuidesAfterTheIndents_AreAppended`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `indentGuides.ts` row updated (`getGuidesByLine`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `indentGuides.ts` row updated (`getGuidesByLine`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
