@@ -1,6 +1,6 @@
 # P6-11 — Line breaks with fixed-width and width-only injected text (tests)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-10
 - **Size:** S
 
@@ -48,14 +48,14 @@ File: `src/vs/editor/test/common/viewModel/monospaceLineBreaksComputer.test.ts`.
 
 ## Tests
 
-- [ ] Port: the 13 tests listed above (`Editor ViewModel - MonospaceLineBreaksComputer` suite)
+- [x] Port: the 13 tests listed above (`Editor ViewModel - MonospaceLineBreaksComputer` suite)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` "Tests ported in phase 6": the `monospaceLineBreaksComputer.test.ts` count is updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` "Tests ported in phase 6": the `monospaceLineBreaksComputer.test.ts` count is updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

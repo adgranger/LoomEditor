@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using System.Text;
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.View.Layout;
 
@@ -15,6 +16,9 @@ internal static class LineBreaksTestHelpers
 
         public IReadOnlyList<LineInjectedText>? GetLineInjectedText(int lineNumber) => injectedText;
     }
+
+    public static LineInjectedText Injected(int column, string content, double? widthInEm = null, int order = 0) =>
+        new(0, 1, column, ModelDecorationInjectedTextOptions.From(new InjectedTextOptions { Content = content, WidthInEm = widthInEm }), order);
 
     public static (string Text, List<int> Indices) ParseAnnotatedText(string annotatedText)
     {
