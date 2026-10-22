@@ -1,6 +1,6 @@
 # P5-87 — Hidden range model and the folding decoration provider
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-86
 - **Size:** M
 
@@ -59,21 +59,21 @@ first-line class names), according to `showFoldingControls` and `foldingHighligh
 
 ## Tests
 
-- [ ] Port: `Hidden Range Model` › `hasRanges`
-- [ ] New: `AdjustSelections_SelectionInHiddenRange_MovesToTheEndOfTheHeaderLine`
-- [ ] New: `AdjustSelections_HiddenRangeFromLineOne_LeavesTheSelection` (the truthiness case)
-- [ ] New: `NotifyChangeModelContent_LineInserted_RaisesChangedAgain`
-- [ ] New: `GetDecorationOption_Matrix` (Theory over `isCollapsed` × `isHidden` × `isManual` × `ShowFoldingControls` ×
+- [x] Port: `Hidden Range Model` › `hasRanges`
+- [x] New: `AdjustSelections_SelectionInHiddenRange_MovesToTheEndOfTheHeaderLine`
+- [x] New: `AdjustSelections_HiddenRangeFromLineOne_LeavesTheSelection` (the truthiness case) — not written: no folding region can start at line 0, so a hidden range from line 1 cannot be built; the `!= 0` guard is kept as in Monaco
+- [x] New: `NotifyChangeModelContent_LineInserted_RaisesChangedAgain`
+- [x] New: `GetDecorationOption_Matrix` (Theory over `isCollapsed` × `isHidden` × `isManual` × `ShowFoldingControls` ×
       `ShowFoldingHighlights`: the expected option field, as Monaco 141–164)
-- [ ] New (Themes): `FoldBackground_IsTheSelectionBackgroundWithThirtyPercentAlpha` (Dark Modern)
+- [x] New (Themes): `FoldBackground_IsTheSelectionBackgroundWithThirtyPercentAlpha` (Dark Modern) — already covered by `EditorColorDefaultsTests` (`#264F784D`); the three colors were already in `EditorColorDefaults`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows `contrib/folding/browser/hiddenRangeModel.ts` (✅ P5-87), `foldingDecorations.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows `contrib/folding/browser/hiddenRangeModel.ts` (✅ P5-87), `foldingDecorations.ts`
       (🔶 no tooltips, no minimap, P5-87); "Tests ported": `hiddenRangeModel.test.ts` 1 / 1
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

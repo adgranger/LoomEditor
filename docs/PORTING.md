@@ -200,6 +200,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/model/utils.ts` | `LoomEditor.Core/Model/TextModelUtils.cs` | 🔶 P5-84: `computeIndentLevel` only |
 | `editor/contrib/folding/browser/foldingRanges.ts` | `LoomEditor.View/Features/Folding/` (`FoldingRanges.cs`, `FoldingRegions.SanitizeAndMerge.cs`, `FoldingRegion.cs`) | ✅ P5-83: `FoldingRegions` (packed `uint[]`), `FoldRange`, `FoldingRegion`, `sanitizeAndMerge` |
 | `editor/contrib/folding/browser/foldingModel.ts` | `LoomEditor.View/Features/Folding/` (`FoldingModel.cs`, `IDecorationProvider.cs`) | 🔶 P5-85, P5-86: the class and the free functions (`FoldingModelFunctions.cs`); `getNextFoldLine` stops at the last region instead of reading past the end (Monaco can return line 0 there); no memento (`getMemento`, `applyMemento`, `CollapseMemento`: no view-state persistence); `GetRegionsInside` has two overloads (filter arity) |
+| `editor/contrib/folding/browser/hiddenRangeModel.ts` | `LoomEditor.View/Features/Folding/HiddenRangeModel.cs` | ✅ P5-87 |
+| `editor/contrib/folding/browser/foldingDecorations.ts` | `LoomEditor.View/Features/Folding/` (`FoldingDecorationProvider.cs`, `ShowFoldingControls.cs`) | 🔶 P5-87: no tooltips (`linesDecorationsTooltip`), no minimap; the three colors were already in `EditorColorDefaults` (P5-08) |
 | `editor/contrib/folding/browser/folding.ts` | `LoomEditor.View/Features/Folding/SelectedLines.cs` | 🔶 P5-83: `toSelectedLines` only |
 | `editor/contrib/multicursor/browser/multicursor.ts` | `LoomEditor.View/Features/MultiCursor/` | ✅ P3-38, P5-75, P5-77: all the commands, `MultiCursorSession`, `MultiCursorSelectionController`, `SelectionHighlighter`; no menus, no `announceCursorChange`, no `onDidChangeModel` (one model per editor); `hasSemanticHighlights` is always false (no document highlight provider before phase 8) |
 | `editor/contrib/wordHighlighter/browser/highlightDecorations.ts` | `LoomEditor.View/Features/MultiCursor/SelectionHighlightDecorations.cs` | 🔶 P5-77: the selection highlight options only (no overview ruler, no minimap); the word highlight options come with the word highlighter |
@@ -528,6 +530,7 @@ design decisions:
 | `prefixSumComputer.test.ts`, `arrayOperation.test.ts` | 48 / 48, 1 / 1 | |
 | `indentRangeProvider.test.ts`, `indentFold.test.ts`, `foldingRanges.test.ts` | 26 / 26, 1 / 1, 7 / 7 | JavaScript regex flags: `g` dropped, `i` is `RegexOptions.IgnoreCase` (P5-84) |
 | `foldingModel.test.ts` | 22 / 22 | `delete` deletes up to column 1 (Monaco: column 0, validated to 1); the test provider ignores `isManual` (P5-85) |
+| `hiddenRangeModel.test.ts` | 1 / 1 | |
 | `json.test.ts` of vscode-textmate | 0 | JSON is read with `System.Text.Json` |
 | Golden tests (no upstream test file) | 30 | |
 
