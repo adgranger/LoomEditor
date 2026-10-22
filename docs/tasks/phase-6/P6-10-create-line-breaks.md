@@ -1,6 +1,6 @@
 # P6-10 — `MonospaceLineBreaksComputerFactory` and `CreateLineBreaks`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-09
 - **Size:** M
 
@@ -52,23 +52,23 @@ factory batches requests like Monaco's.
 
 ## Tests
 
-- [ ] Port: `Editor ViewModel - MonospaceLineBreaksComputer` › `MonospaceLineBreaksComputer`
-- [ ] Port: `MonospaceLineBreaksComputer - CJK and Kinsoku Shori`
-- [ ] Port: `MonospaceLineBreaksComputer - WrappingIndent.Same`, `issue #16332: Scroll bar overlaying on top of text`,
+- [x] Port: `Editor ViewModel - MonospaceLineBreaksComputer` › `MonospaceLineBreaksComputer`
+- [x] Port: `MonospaceLineBreaksComputer - CJK and Kinsoku Shori`
+- [x] Port: `MonospaceLineBreaksComputer - WrappingIndent.Same`, `issue #16332: Scroll bar overlaying on top of text`,
       `issue #35162: wrappingIndent not consistently working`, `issue #75494: surrogate pairs`, `… overrun 1`, `… overrun 2`,
       `MonospaceLineBreaksComputer - WrappingIndent.DeepIndent`, `issue #33366: …punctuation`, `issue #152773: …bracket followed by comma`,
       `issue #112382: …control characters`, `Word break work well with … CJK … normal`, `… keepAll`
-- [ ] Port: `issue #258022: wrapOnEscapedLineFeeds: should work correctly after editor resize` — it passes
+- [x] Port: `issue #258022: wrapOnEscapedLineFeeds: should work correctly after editor resize` — it passes
       `previousLineBreakData`, but the factory skips the fast path for lines with escaped line feeds (Monaco line 46), so it
       runs `CreateLineBreaks` both times and passes with this card's factory.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: new row `editor/common/viewModel/monospaceLineBreaksComputer.ts` (🔶 P6-10, no previous-breaks fast path)
-- [ ] `docs/PORTING.md` "Tests ported in phase 6": row `monospaceLineBreaksComputer.test.ts` with the count so far
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: new row `editor/common/viewModel/monospaceLineBreaksComputer.ts` (🔶 P6-10, no previous-breaks fast path)
+- [x] `docs/PORTING.md` "Tests ported in phase 6": row `monospaceLineBreaksComputer.test.ts` with the count so far
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
