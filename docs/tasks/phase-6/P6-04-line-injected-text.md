@@ -1,6 +1,6 @@
 # P6-04 — `LineInjectedText`: applying injected text and fixed-width ranges
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-03
 - **Size:** S
 
@@ -46,23 +46,23 @@ File: `src/vs/editor/common/textModelEvents.ts`.
 No upstream unit test calls these directly (they run through `modelInjectedText.test.ts`, P6-06, and the projection tests).
 All new:
 
-- [ ] `ApplyInjectedText_NullOrEmpty_ReturnsTheLine`
-- [ ] `ApplyInjectedText_TwoInjections_InsertsAtColumns` (`"abcdef"`, injections at column 3 and 5)
-- [ ] `ApplyInjectedText_TwoInjectionsAtTheSameColumn_KeepsTheOrder`
-- [ ] `FromDecorations_BeforeAndAfter_UseStartAndEndOfTheRange` (a range 1,2 → 1,4 with both: columns 2 and 4, orders 0 and 1)
-- [ ] `FromDecorations_EmptyContentWithoutWidth_IsIgnored`; `…_EmptyContentWithWidth_IsKept`
-- [ ] `FromDecorations_IsSortedByLineColumnThenOrder`
-- [ ] `GetFixedWidthInjectedTextRanges_ComputesOffsetsInTheInjectedLine` (two injections, one with `WidthInEm`; the second
+- [x] `ApplyInjectedText_NullOrEmpty_ReturnsTheLine`
+- [x] `ApplyInjectedText_TwoInjections_InsertsAtColumns` (`"abcdef"`, injections at column 3 and 5)
+- [x] `ApplyInjectedText_TwoInjectionsAtTheSameColumn_KeepsTheOrder`
+- [x] `FromDecorations_BeforeAndAfter_UseStartAndEndOfTheRange` (a range 1,2 → 1,4 with both: columns 2 and 4, orders 0 and 1)
+- [x] `FromDecorations_EmptyContentWithoutWidth_IsIgnored`; `…_EmptyContentWithWidth_IsKept`
+- [x] `FromDecorations_IsSortedByLineColumnThenOrder`
+- [x] `GetFixedWidthInjectedTextRanges_ComputesOffsetsInTheInjectedLine` (two injections, one with `WidthInEm`; the second
       range starts after the first one's content)
-- [ ] `GetFixedWidthInjectedTextRanges_WidthOnly_IsAnEmptyRange`
-- [ ] `WithText_ReplacesTheContentOnly`
+- [x] `GetFixedWidthInjectedTextRanges_WidthOnly_IsAnEmptyRange`
+- [x] `WithText_ReplacesTheContentOnly`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map row of `textModelEvents.ts` mentions `LineInjectedText`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map row of `textModelEvents.ts` mentions `LineInjectedText`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -17,6 +17,16 @@ internal sealed class ModelDecorationInjectedTextOptions
         WidthInEm = options.WidthInEm is { } w && double.IsFinite(w) && w >= 0 ? w : null;
     }
 
+    private ModelDecorationInjectedTextOptions(ModelDecorationInjectedTextOptions other, string content)
+    {
+        Content = content;
+        InlineClassName = other.InlineClassName;
+        InlineClassNameAffectsLetterSpacing = other.InlineClassNameAffectsLetterSpacing;
+        AttachedData = other.AttachedData;
+        CursorStops = other.CursorStops;
+        WidthInEm = other.WidthInEm;
+    }
+
     public string Content { get; }
 
     public string? InlineClassName { get; }
@@ -28,6 +38,9 @@ internal sealed class ModelDecorationInjectedTextOptions
     public object? AttachedData { get; }
 
     public InjectedTextCursorStops? CursorStops { get; }
+
+    /// <summary>A copy with another <see cref="Content"/> (Monaco: <c>{ ...options, content }</c>).</summary>
+    public ModelDecorationInjectedTextOptions WithContent(string content) => new(this, content);
 
     public static ModelDecorationInjectedTextOptions From(InjectedTextOptions options)
     {
