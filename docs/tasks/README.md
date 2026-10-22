@@ -554,7 +554,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P6-07](phase-6/P6-07-model-line-projection-data.md) | `ModelLineProjectionData`: break offsets and offset translation | P6-04 | todo |
+| [P6-07](phase-6/P6-07-model-line-projection-data.md) | `ModelLineProjectionData`: break offsets and offset translation | P6-04 | done |
 | [P6-08](phase-6/P6-08-projection-data-normalization.md) | `ModelLineProjectionData`: normalizing positions around injected text | P6-07 | todo |
 | [P6-09](phase-6/P6-09-line-breaks-computer-primitives.md) | Line-break computer interfaces, the wrapping character classifier and width helpers | P6-08 | todo |
 | [P6-10](phase-6/P6-10-create-line-breaks.md) | `MonospaceLineBreaksComputerFactory` and `CreateLineBreaks` | P6-09 | todo |

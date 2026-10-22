@@ -1,6 +1,6 @@
 # P6-07 — `ModelLineProjectionData`: break offsets and offset translation
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-04
 - **Size:** S
 
@@ -54,7 +54,7 @@ and in the suites `Injected Text 1` (50–149), `Injected Text 2` (189–209), `
 
 ## Tests
 
-- [ ] Port (`tests/LoomEditor.View.Tests/Layout/LineBreakDataTests.cs`, create): `Basic`;
+- [x] Port (`tests/LoomEditor.View.Tests/Layout/LineBreakDataTests.cs`, create): `Basic`;
       `Injected Text 1` › `getInputOffsetOfOutputPosition`, `getOutputPositionOfInputOffset`,
       `getInputOffsetOfOutputPosition is inverse of getOutputPositionOfInputOffset`; `Injected Text 2` › the 2 tests;
       `Injected Text 3` › the 2 tests (nested suites become nested classes or a name prefix; `// Monaco:` comments name the
@@ -62,22 +62,22 @@ and in the suites `Injected Text 1` (50–149), `Injected Text 2` (189–209), `
 
 New, with hand-built data:
 
-- [ ] `GetOutputLineCount_IsTheNumberOfBreakOffsets`
-- [ ] `GetLineLength_WrappedLine_AddsTheIndent` (breaks `[5, 9]`, indent 2 → lengths 5 and 6)
-- [ ] `GetMinOutputOffset_FirstLineIsZero_OthersAreTheIndent`
-- [ ] `TranslateToInputOffset_InsideTheIndent_ClampsToTheLineStart`
-- [ ] `TranslateToInputOffset_InsideInjectedText_ReturnsTheInjectionOffset`; `…AfterInjectedText_SubtractsItsLength`
-- [ ] `TranslateToOutputPosition_AtABreak_LeftStaysRightMoves` (affinity `Left` vs `None`/`Right` at offset 5 with breaks `[5, 9]`)
-- [ ] `TranslateToOutputPosition_AtAnInjection_RightSkipsTheInjectedText`
-- [ ] `OutputPosition_ToPositionAndToString`
+- [x] `GetOutputLineCount_IsTheNumberOfBreakOffsets`
+- [x] `GetLineLength_WrappedLine_AddsTheIndent` (breaks `[5, 9]`, indent 2 → lengths 5 and 6)
+- [x] `GetMinOutputOffset_FirstLineIsZero_OthersAreTheIndent`
+- [x] `TranslateToInputOffset_InsideTheIndent_ClampsToTheLineStart`
+- [x] `TranslateToInputOffset_InsideInjectedText_ReturnsTheInjectionOffset`; `…AfterInjectedText_SubtractsItsLength`
+- [x] `TranslateToOutputPosition_AtABreak_LeftStaysRightMoves` (affinity `Left` vs `None`/`Right` at offset 5 with breaks `[5, 9]`)
+- [x] `TranslateToOutputPosition_AtAnInjection_RightSkipsTheInjectedText`
+- [x] `OutputPosition_ToPositionAndToString`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: new row `editor/common/modelLineProjectionData.ts` (partial: P6-07)
-- [ ] `docs/PORTING.md` "Tests ported in phase 6" (created by P6-03): row `lineBreakData.test.ts` (7 / 8)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: new row `editor/common/modelLineProjectionData.ts` (partial: P6-07)
+- [x] `docs/PORTING.md` "Tests ported in phase 6" (created by P6-03): row `lineBreakData.test.ts` (7 / 8)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
