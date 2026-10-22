@@ -76,6 +76,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         AttachDecorations();
 
         _model.RawContentChanged += OnModelRawContentChanged;
+        _model.InjectedTextChanged += OnModelInjectedTextChanged;
         _model.OptionsChanged += OnModelOptionsChanged;
         _model.LanguageChanged += OnModelLanguageChanged;
         _model.LanguageConfigurationChanged += OnModelLanguageChanged;
@@ -107,6 +108,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         DetachFromModelTokens();
         DetachDecorations();
         _model.RawContentChanged -= OnModelRawContentChanged;
+        _model.InjectedTextChanged -= OnModelInjectedTextChanged;
         _model.OptionsChanged -= OnModelOptionsChanged;
         _model.LanguageChanged -= OnModelLanguageChanged;
         _model.LanguageConfigurationChanged -= OnModelLanguageChanged;
@@ -172,16 +174,30 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     // Monaco: onDidChangeContentOrInjectedText (the model change part; custom line heights are not ported)
     private void OnModelRawContentChanged(object? sender, ModelRawContentChangedEventArgs e)
     {
+        OnDidChangeContentOrInjectedText(e.Changes, e.VersionId);
+
+        // Monaco: emitContentChangeEvent runs after the layout has been updated (onDidChangeContentOrInjectedText).
+        EmitViewEvent(eventsCollector => _cursor.OnModelContentChanged(eventsCollector, e));
+    }
+
+    // Monaco: an injected text change has no version id (versionId = null).
+    private void OnModelInjectedTextChanged(object? sender, ModelInjectedTextChangedEventArgs e)
+    {
+        OnDidChangeContentOrInjectedText(e.Changes, null);
+        EmitViewEvent(_cursor.OnModelInjectedTextChanged);
+    }
+
+    private void OnDidChangeContentOrInjectedText(IReadOnlyList<ModelRawChange> changes, int? versionId)
+    {
         EmitViewEvent(eventsCollector =>
         {
             bool hadOtherModelChange = false;
             bool hadModelLineChangeThatChangedLineMapping = false;
-            int versionId = e.VersionId;
 
             // Do a first pass to compute line mappings, and a second pass to actually interpret them
-            Queue<ModelLineProjectionData?> lineBreakQueue = ComputeLineBreaks(e.Changes);
+            Queue<ModelLineProjectionData?> lineBreakQueue = ComputeLineBreaks(changes);
 
-            foreach (ModelRawChange change in e.Changes)
+            foreach (ModelRawChange change in changes)
             {
                 switch (change)
                 {
@@ -228,7 +244,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                 }
             }
 
-            if (_lines.AcceptVersionId(versionId))
+            if (versionId is { } acceptedVersionId && _lines.AcceptVersionId(acceptedVersionId))
             {
                 // Every line was hidden: the lines revealed one.
                 ViewLayout.OnFlushed(GetLineCount(), []);
@@ -251,9 +267,6 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         }
 
         HandleVisibleLinesChanged();
-
-        // Monaco: emitContentChangeEvent runs after the layout has been updated (onDidChangeContentOrInjectedText).
-        EmitViewEvent(eventsCollector => _cursor.OnModelContentChanged(eventsCollector, e));
     }
 
     private EditorLayoutInfo ComputeLayoutInfo()

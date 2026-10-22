@@ -251,10 +251,28 @@ internal sealed partial class CursorsController : IDisposable
 
     private static int? Truthy(int? value) => value is null or 0 ? null : value;
 
+    /// <summary>Lets the cursors follow a change of injected text (Monaco: the <c>ModelInjectedTextChangedEvent</c> branch of <c>onModelContentChanged</c>).</summary>
+    public void OnModelInjectedTextChanged(ViewModelEventsCollector eventsCollector)
+    {
+        if (_isHandling)
+        {
+            return;
+        }
+
+        _isHandling = true;
+        try
+        {
+            SetStates(eventsCollector, "modelChange", CursorChangeReason.NotSet, GetCursorStates());
+        }
+        finally
+        {
+            _isHandling = false;
+        }
+    }
+
     /// <summary>Lets the cursors follow a change of the model.</summary>
     /// <remarks>
-    /// Monaco's <c>ModelInjectedTextChangedEvent</c> branch is not ported: there is no injected text. An undo or a
-    /// redo restores the selections of the undo stack only when the editor has the focus; otherwise the cursors read
+    /// An undo or a redo restores the selections of the undo stack only when the editor has the focus; otherwise the cursors read
     /// their tracked ranges.
     /// </remarks>
     public void OnModelContentChanged(ViewModelEventsCollector eventsCollector, ModelRawContentChangedEventArgs e)

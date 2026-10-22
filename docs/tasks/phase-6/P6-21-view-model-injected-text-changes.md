@@ -1,6 +1,6 @@
 # P6-21 — The view model and the cursors follow injected text changes
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-20, P6-06
 - **Size:** S
 
@@ -42,18 +42,18 @@ and the cursors recompute their view positions, like Monaco's `ModelInjectedText
 
 ## Tests
 
-- [ ] New: `AddingInjectedText_ThatWraps_AddsViewLines` (word wrap on, an `After` long enough to wrap the line)
-- [ ] New: `RemovingInjectedText_RemovesTheViewLines`
-- [ ] New: `InjectedTextBeforeTheCursor_MovesItsViewColumn` (cursor at model (1, 5); `Before` of 3 chars at column 3 → view column 8)
-- [ ] New: `InjectedTextOfAnotherEditor_DoesNotChangeTheViewLines`
-- [ ] New: `GetInjectedTextAt_ReturnsTheOptions`
+- [x] New: `AddingInjectedText_ThatWraps_AddsViewLines` (word wrap on, an `After` long enough to wrap the line)
+- [x] New: `RemovingInjectedText_RemovesTheViewLines`
+- [x] New: `InjectedTextBeforeTheCursor_MovesItsViewColumn` (cursor at model (1, 5); `Before` of 3 chars at column 3 → view column 8)
+- [x] New: `InjectedTextOfAnotherEditor_DoesNotChangeTheViewLines`
+- [x] New: `GetInjectedTextAt_ReturnsTheOptions`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `cursor.ts` row (the injected-text branch is ported); `viewModelImpl.ts` row
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `cursor.ts` row (the injected-text branch is ported); `viewModelImpl.ts` row
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
