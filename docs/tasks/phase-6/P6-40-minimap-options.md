@@ -1,6 +1,6 @@
 # P6-40 — Minimap option and layout types
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-02
 - **Size:** S
 
@@ -49,15 +49,15 @@ File: `src/vs/editor/common/config/editorOptions.ts`.
 
 ## Tests
 
-- [ ] New: `Defaults_MatchMonaco`
-- [ ] New: `Validated_ClampsMaxColumnAndScale`
-- [ ] New: `EditorLayoutOptions_MinimapDisabledUntilDrawn` (documents the temporary default)
+- [x] New: `Defaults_MatchMonaco`
+- [x] New: `Validated_ClampsMaxColumnAndScale`
+- [x] New: `EditorLayoutOptions_MinimapDisabledUntilDrawn` (documents the temporary default)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

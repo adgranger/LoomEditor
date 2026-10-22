@@ -48,4 +48,10 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>The decorations overview ruler (Monaco: <c>overviewRulerLanes</c> and co.); read by the renderer, it does not change the layout.</summary>
     public EditorOverviewRulerOptions OverviewRuler { get; init; } = new();
+
+    /// <summary>
+    /// The minimap (Monaco: <c>minimap</c>). Disabled by default (Monaco: enabled) until the minimap is drawn (P6-52);
+    /// P6-54 turns the default back to Monaco's.
+    /// </summary>
+    public EditorMinimapOptions Minimap { get; init; } = new() { Enabled = false };
 }
