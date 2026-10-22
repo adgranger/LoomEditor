@@ -4,6 +4,16 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(string fullName) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type type) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
+LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.Bounded = 3 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.Off = 0 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.On = 1 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.WordWrapColumn = 2 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.DeepIndent = 3 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.Indent = 2 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.None = 0 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
 LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
@@ -32,6 +42,12 @@ LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.Text.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.WinUI.Controls.LoomEditor.Theme.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.WordWrap.get -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.LoomEditor.WordWrap.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumn.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumn.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
@@ -39,3 +55,6 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Micro
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!

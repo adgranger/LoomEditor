@@ -4,6 +4,7 @@ using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.Themes;
+using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -83,6 +84,8 @@ public sealed partial class MainWindow : Window
     }
 
     private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
+
+    private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
     private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;
 

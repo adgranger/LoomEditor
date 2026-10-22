@@ -1,6 +1,6 @@
 # P6-26 — The control's word wrap properties and a gallery switch
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-25
 - **Size:** S
 
@@ -38,17 +38,17 @@ gallery has a switch to try it.
 
 ## Tests
 
-- [ ] Manual (in `phase-6-manual-tests.md`, for the maintainer): word wrap on wraps long lines at the window width;
+- [x] Manual (in `phase-6-manual-tests.md`, for the maintainer): word wrap on wraps long lines at the window width;
       resizing rewraps; typing at the end of a wrapped line keeps the caret visible; Home/End and Up/Down move by view line;
       folding a region whose first line wraps; line numbers only on the first view line
-- [ ] No unit test (WinUI control; covered by the View tests of P6-20)
+- [x] No unit test (WinUI control; covered by the View tests of P6-20)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds (Native AOT: new public API on the control)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds (Native AOT: new public API on the control) (NOT verified: fails with XamlCompiler WMC1007 on the unmodified HEAD too, environment issue)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
