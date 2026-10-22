@@ -87,6 +87,12 @@ public sealed partial class MainWindow : Window
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
+    private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Editor.RenderIndentGuides = GuidesBox.SelectedIndex != 2;
+        Editor.BracketPairGuides = GuidesBox.SelectedIndex == 1 ? EditorBracketPairGuides.On : EditorBracketPairGuides.Off;
+    }
+
     private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;
 
     // Three cursors on three lines: type, delete, indent and paste show the multi-cursor behavior.

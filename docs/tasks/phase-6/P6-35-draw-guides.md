@@ -1,6 +1,6 @@
 # P6-35 — Drawing the indent and bracket pair guides, and the control's guide options
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-34
 - **Size:** M
 
@@ -50,21 +50,21 @@ the top or bottom of the line), with the colors of P6-33 and the active guide hi
 
 ## Tests
 
-- [ ] New: `IndentGuides_DrawnAtEachLevel` (recording surface: one 1-wide rectangle per level at the expected x)
-- [ ] New: `ActiveIndentGuide_UsesTheActiveColor`
-- [ ] New: `RenderIndentGuidesOff_DrawsNothing`
-- [ ] New: `BracketPairGuides_On_DrawsVerticalAndHorizontalGuides`
-- [ ] New: `Guides_PastTheWrappingColumn_AreNotDrawn`
-- [ ] Manual (`phase-6-manual-tests.md`): guides follow folding and wrapping; the active guide follows the cursor
+- [x] New: `IndentGuides_DrawnAtEachLevel` (recording surface: one 1-wide rectangle per level at the expected x)
+- [x] New: `ActiveIndentGuide_UsesTheActiveColor`
+- [x] New: `RenderIndentGuidesOff_DrawsNothing`
+- [x] New: `BracketPairGuides_On_DrawsVerticalAndHorizontalGuides`
+- [x] New: `Guides_PastTheWrappingColumn_AreNotDrawn`
+- [x] Manual (`phase-6-manual-tests.md`): guides follow folding and wrapping; the active guide follows the cursor
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds (new public API)
-- [ ] `docs/PORTING.md`: `indentGuides.ts` row ✅ (Win2D drawing instead of CSS: behavior difference row); roadmap
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds (new public API)
+- [x] `docs/PORTING.md`: `indentGuides.ts` row ✅ (Win2D drawing instead of CSS: behavior difference row); roadmap
       `phase-6-view-extras.md`: tick "indentation guides, bracket pair guides"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

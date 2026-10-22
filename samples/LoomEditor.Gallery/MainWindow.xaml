@@ -26,6 +26,11 @@
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
             <NumberBox x:Name="FontSizeBox" Header="Font size" Minimum="8" Maximum="40" SpinButtonPlacementMode="Inline" Value="14" ValueChanged="OnFontSizeChanged" />
+            <ComboBox x:Name="GuidesBox" Header="Guides" SelectedIndex="0" SelectionChanged="OnGuidesChanged">
+                <ComboBoxItem Content="Indent only" />
+                <ComboBoxItem Content="Indent + bracket pairs" />
+                <ComboBoxItem Content="None" />
+            </ComboBox>
             <ComboBox x:Name="FontFamilyBox" Header="Font family" SelectedIndex="0" SelectionChanged="OnFontFamilyChanged">
                 <ComboBoxItem Content="Cascadia Mono" />
                 <ComboBoxItem Content="Consolas" />

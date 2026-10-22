@@ -176,6 +176,7 @@ internal sealed partial class TextViewRenderer : IDisposable
 
         // Monaco: the decorations overlay is after the selections overlay, under the text.
         DrawDecorations(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
+        DrawGuides(surface, viewModel, data, selections, layouts, layoutInfo, scrollLeft, topShift, font);
 
         for (int i = 0; i < lineCount; i++)
         {

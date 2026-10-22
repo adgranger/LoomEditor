@@ -4,6 +4,10 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(string fullName) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type type) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
+LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorBracketPairGuides.Active = 2 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorBracketPairGuides.Off = 0 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorBracketPairGuides.On = 1 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.EditorWordWrap
 LoomEditor.WinUI.Controls.EditorWordWrap.Bounded = 3 -> LoomEditor.WinUI.Controls.EditorWordWrap
 LoomEditor.WinUI.Controls.EditorWordWrap.Off = 0 -> LoomEditor.WinUI.Controls.EditorWordWrap
@@ -18,6 +22,8 @@ LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomEditor
+LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.WinUI.Controls.LoomEditor.Features.set -> void
@@ -27,6 +33,8 @@ LoomEditor.WinUI.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
 LoomEditor.WinUI.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
+LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.get -> double
@@ -50,8 +58,10 @@ LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.WinUI.Cont
 LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
