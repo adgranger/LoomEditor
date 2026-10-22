@@ -180,6 +180,24 @@ dotnet test --solution LoomEditor.slnx -c Release
 
 The architecture tests check that your folder has the three standard files and is listed in `EditorFeatures.cs`.
 
+## What the phase 5 features use
+
+Beyond commands and events, the features of phase 5 rely on these pieces (copy a real feature: `Folding`,
+`WordHighlighter`, `Find`):
+
+- **Delayed work:** `context.Scheduler` (`IEditorScheduler`), wrapped in `RunOnceScheduler` or `Delayer`
+  (`Features/Scheduling/`). Never create a timer; tests use `ManualEditorScheduler` and advance time by hand.
+- **Decorations:** create an `EditorDecorationsCollection` on the model (`Features/EditorDecorationsCollection.cs`) and
+  call `Set` / `Clear`; the options carry a class name that `Layout/DecorationStyles.cs` maps to colors, borders or
+  gutter icons. Add a row there for a new class name.
+- **Language configuration:** read it through the model (`LanguageConfigurationRegistry`, brackets, comments, on-enter
+  rules); never hard-code a language.
+- **Keyboard shortcuts and chords:** commands get their keys in `View/Commands/DefaultKeybindings.cs` (a chord is two
+  key presses, e.g. `Ctrl+K Ctrl+L` for folding); a `when` clause is a C# predicate on `KeybindingContext`.
+- **View model:** `context.GetViewModel()` (internal) when a feature needs view lines, hidden areas or the mouse.
+- **A `README.md` per feature folder:** role, Monaco sources, files, tests, known limits; keep it in sync with the code
+  (the architecture tests only check that it exists).
+
 ## Optional: let users opt out
 
 Users choose features with the control's `Features` property (set it before the control is loaded).

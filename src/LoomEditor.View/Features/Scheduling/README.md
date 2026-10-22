@@ -8,3 +8,6 @@ a `DispatcherQueueTimer`, tests with `ManualEditorScheduler`.
 
 **Cuts:** `Delayer` has no promises (a cancelled task never runs); `MicrotaskDelay`, `ThrottledDelayer`,
 `IntervalTimer` and `createCancelablePromise` are not ported. `TimeoutTimer` has no runner constructor.
+
+**Files:** `IEditorScheduler.cs` (the interface), `RunOnceScheduler.cs`, `Delayer.cs`, `TimeoutTimer.cs` (ported from `async.ts`),
+`NullEditorScheduler.cs` (runs nothing: the context of a control without a dispatcher).

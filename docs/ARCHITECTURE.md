@@ -132,6 +132,35 @@ public interface IEditorFeature : IDisposable
 `Features` property), attaches them, and disposes them when the control is unloaded.
 Step-by-step guide: [how-to/add-a-feature.md](how-to/add-a-feature.md).
 
+## How a feature reacts to the editor (phase 5)
+
+```
+TextModel events (ContentChanged, DecorationsChanged, tokens)   ViewModel events (cursor, hidden areas, focus)
+  → the feature                  subscribes in Attach, owns its state; pure logic stays in a model class
+  → IEditorScheduler             RunOnceScheduler / Delayer delay the work (a DispatcherQueueTimer in the control,
+                                 ManualEditorScheduler in tests); a feature never owns a timer
+  → model decorations            TextModel.DeltaDecorations / EditorDecorationsCollection (interval tree, ranges follow edits)
+  → view-model decorations       the ViewModel maps them to view lines (InlineModelDecorationsComputer)
+  → DecorationStyles             decoration class name → colors, borders, gutter icons, after-content text
+  → TextViewRenderer             draws backgrounds, inline styles, gutter icons, after-content
+```
+
+Folding is the longest example:
+
+```
+text change / language          FoldingFeature (debounced: 300 ms, then 200 ms)
+  → IndentRangeProvider         ranges from the indentation (and #region markers) → FoldingRanges.SanitizeAndMerge
+  → FoldingModel                regions + collapse state, decorations from FoldingDecorationProvider (chevrons, "⋯")
+  → HiddenRangeModel            the ranges of the collapsed regions, merged
+  → ViewModel.SetHiddenAreas    the model lines to hide
+  → ViewModelLinesFromProjectedModel   view lines (hidden model lines are not view lines); CoordinatesConverter
+  → LinesLayout / TextViewRenderer     only view lines have a height and are drawn; the cursor moves out of folded code
+```
+
+The same view lines will carry word wrap in phase 6 (cut points: [PORTING.md](PORTING.md#cut-points-for-phase-6)).
+Clicks on the chevrons and on the `⋯` come back through the mouse hit test (`MouseTargetFactory`) to `FoldingFeature.Mouse.cs`.
+Design: [ADR 0009](adr/0009-editor-features.md).
+
 ## Where do I find…?
 
 | I want to… | Go to |
@@ -165,5 +194,16 @@ Step-by-step guide: [how-to/add-a-feature.md](how-to/add-a-feature.md).
 | change font measurement, tab size or DPI handling | `src/LoomEditor.View/Layout/FontMeasurements.cs`, `src/LoomEditor.Rendering/Win2D/Win2DTextMeasurer.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Font.cs` |
 | change the control's XAML template | `src/LoomEditor.WinUI/Themes/Generic.xaml` |
 | add syntax highlighting for a language | `src/LoomEditor.TextMate/` (phase 4), see [how-to/add-a-language.md](how-to/add-a-language.md) |
+| change decorations (model side: ranges, options, change events) | `src/LoomEditor.Core/Decorations/`, `TextModel.Decorations*.cs`; the per-feature handle is `src/LoomEditor.View/Features/EditorDecorationsCollection.cs` |
+| change how a decoration looks (class name → colors, gutter icon, after-content) | `src/LoomEditor.View/Layout/DecorationStyles.cs`, drawing in `src/LoomEditor.Rendering/TextViewRenderer.Decorations.cs`, `.GutterDecorations.cs` |
+| change the language configuration (brackets, comments, auto-closing, on-enter and indent rules) | `src/LoomEditor.Core/Languages/` (`LanguageConfigurationRegistry`, `AutoIndent*.cs`), the JSON files in `src/LoomEditor.TextMate/Grammars/<language>/` |
+| change bracket pairs (matching, colorization, the bracket tree) | `src/LoomEditor.Core/Model/BracketPairs/` (`Tree/` is the parser), `src/LoomEditor.View/Features/BracketMatching/` |
+| change find / replace (logic) | `src/LoomEditor.Core/Model/Search/` (`TextModelSearch`), `src/LoomEditor.View/Features/Find/` (`FindModel`, `FindController`, `ReplacePattern`) |
+| change the find widget | `src/LoomEditor.WinUI/Controls/Find/` (`FindWidget*.cs`), `LoomEditor.Find.cs` |
+| change folding | `src/LoomEditor.View/Features/Folding/` ([README](../src/LoomEditor.View/Features/Folding/README.md)) |
+| change hidden areas / view lines (what is a drawn line) | `src/LoomEditor.View/Layout/` (`ViewModel`, `ViewModelLinesFromProjectedModel*.cs`) |
+| change word highlight (F7) | `src/LoomEditor.View/Features/WordHighlighter/` |
+| delay work in a feature | `IEditorContext.Scheduler`, `src/LoomEditor.View/Features/Scheduling/` |
+| add a shortcut or a chord (Ctrl+K Ctrl+…) | `src/LoomEditor.View/Commands/DefaultKeybindings.cs`, `KeybindingResolver`, `KeybindingDispatcher` |
 | understand a word | [GLOSSARY.md](GLOSSARY.md) |
 | know why something is the way it is | [adr/](adr/) |

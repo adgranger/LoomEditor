@@ -158,6 +158,8 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/core/characterClassifier.ts` | `LoomEditor.Core/Text/CharacterClassifier.cs`, `CharacterSet.cs` | ✅ ported (P3-04) |
 | `editor/common/core/wordCharacterClassifier.ts` | `LoomEditor.Core/Text/WordCharacterClassifier.cs` | ✅ ported (P3-04); Intl segmentation is a stub |
 | `editor/common/core/wordHelper.ts` | `LoomEditor.Core/Text/WordHelper.cs` | ✅ complete: constants (`USUAL_WORD_SEPARATORS`, `IWordAtPosition`) (P3-04), word regexes (P5-14), `getWordAtText` + `IGetWordAtTextConfig` (P5-15, no `setDefaultGetWordAtTextConfig`; see "Behavior differences") |
+| `platform/keybinding/common/abstractKeybindingService.ts` (`_doDispatch`, chords), `keybindingsRegistry.ts` (`KeybindingWeight`) | `LoomEditor.View/Commands/KeybindingDispatcher.cs`, `KeybindingWeight.cs` | 🔶 chords (P5-89) and weights only |
+| `editor/browser/editorDom.ts` (`EditorMouseEvent`), `editorBrowser.ts` (`MouseTargetType`) | `LoomEditor.View/Controller/EditorMouseEvent.cs`, `MouseTarget.cs` | 🔶 the fields the mouse handler reads |
 | `editor/common/model/intervalTree.ts` | `LoomEditor.Core/Decorations/` | ✅ ported (P3-05 … P3-07) |
 | `editor/test/common/core/range.test.ts` | `tests/LoomEditor.Core.Tests/Text/RangeTests.cs` | ✅ all tests ported |
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
@@ -473,6 +475,73 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `base/test/browser/ui/scrollbar/scrollableElement.test.ts` (`MouseWheelClassifier`) | 9 / 9 | |
 | `editor/test/browser/config/editorLayoutProvider.test.ts` (`Editor ViewLayout - EditorLayoutProvider`) | 10 / 20 | the 8 minimap tests (`EditorLayoutProvider 9` … `14`) and the 2 word-wrap tests (`issue #31312`, `leaves the rightmost column…`): minimap and word wrap are phase 6. The 10 ported ones are `EditorLayoutProvider 1` … `8 - rounds floats` |
 
+## Cut points for phase 6
+
+What phase 5 leaves for word wrap, guides, the minimap and sticky scroll. Phase 5 changed the view model to **view lines**
+(P5-79 … P5-82): today a view line is a model line (minus the hidden areas of folding), so wrapping plugs in here.
+
+| Where (LoomEditor) | Monaco (pinned commit) | What is missing |
+|---|---|---|
+| `Layout/ViewModelLinesFromProjectedModel*.cs` (wrapping members), `ModelLineProjection` | `viewModelLines.ts`, `modelLineProjection.ts`, `modelLineProjectionData.ts`, `monospaceLineBreaksComputer.ts` | the line-break projection and word wrap; `modelLineProjection.test.ts`: 3 tests (`SplitLine`, the two wrapping tests) |
+| `Layout/ViewModel*.cs` | `viewModelImpl.test.ts`, `multicursor.test.ts` (`issue #26393`), `columnSelectionPaste.test.ts`, `viewModelDecorations.test.ts` (`issue #17208`, `getDecorationsViewportData`) | the tests that need word wrap or injected text |
+| `Core/Model/TextModel*` (no `getLineIndentGuide`, `getActiveIndentGuide`) | `guidesTextModelPart.ts`, `textModelWithTokens.test.ts` (18 `getLineIndentGuide` tests), `modelLineProjection.test.ts` (`Invalid line numbers`: the guide assertions) | indent and bracket guides |
+| `Layout/InlineModelDecorationsComputer`, `LineDecoration.cs`, `ModelDecorationOptions` | `inlineDecorations.test.ts` (`InjectedTextInlineDecorationsComputer`, 21 tests), `lineDecorations.test.ts` | injected text (`ModelDecorationInjectedTextOptions`) and its width |
+| `ModelDecorationOptions` (no overview ruler, no minimap) | `overviewRuler.ts`, `minimap.ts` | the overview ruler and the minimap parts of decorations; the 8 minimap tests of `editorLayoutProvider.test.ts` |
+| `Layout/RevealCalculator.cs` | `viewLines.ts` reveal, `stickyScroll/` | sticky scroll: it can use `FoldingModel` and `FoldingRanges` |
+| `Features/Folding/` | `foldingModel.ts` with wrapped lines, `syntaxRangeProvider.ts` | folding with wrapped lines; syntax range providers come with the language features (phase 8) |
+
+## Done in phase 5 (features)
+
+The step-by-step cards are in **[docs/tasks/phase-5/](tasks/phase-5/)** (P5-01 … P5-96); the design is
+[ADR 0009](adr/0009-editor-features.md). Main design decisions:
+
+- A **feature** is one folder in `LoomEditor.View/Features/<Name>/` with a README, listed once in `EditorFeatures.cs`
+  (Find, Folding, BracketMatching, Comment, Indentation, LinesOperations, WordHighlighter, MultiCursor, and the phase 3
+  ones). `Scheduling` is infrastructure (`IEditorContext.Scheduler`), not a feature.
+- Features delay work with `IEditorScheduler` (`RunOnceScheduler`, `Delayer`), never with timers of their own.
+- **Model decorations** are ported (`DeltaDecorations`, `EditorDecorationsCollection`, change events, on the interval
+  tree of phase 3); `DecorationStyles` replaces the CSS of Monaco and the renderer draws backgrounds, borders, inline
+  styles, gutter icons and after-content text.
+- The **language configuration** of Monaco is ported with the ten bundled `language-configuration.json` files; it drives
+  auto-closing, surround, electric characters, on-enter rules, auto-indentation, comments and brackets.
+- **Bracket pairs**: the bracket pair tree (parser, tokenizers, edit mapping) and the legacy matcher, behind one text
+  model part used by matching and colorization.
+- **Find / replace**: `TextModelSearch`, `FindModel`, `FindController`, `ReplacePattern` and a XAML find widget;
+  Find-based multi-cursor.
+- **Folding** and **hidden areas**: the view model has view lines (`ViewModelLinesFromProjectedModel`, the real
+  `CoordinatesConverter`); the renderer, the hit testing and the control draw view lines. This is the base of word wrap.
+- **Word highlight** with the textual provider only (semantic highlights are phase 8).
+- JavaScript-only regex syntax is not supported (ADR 0009, decision 6).
+- Every deliberate difference of phase 5 is a row of "Behavior differences we accept" (search for `(P5-`).
+- The "done when" criterion (each feature is one documented folder) is met, 2026-10-22. The manual checks of P5-72 … P5-74,
+  P5-90, P5-91 and P5-95 are for the maintainer.
+
+## Tests ported in phase 5
+
+The details and the reason of every gap are in the rows of "Monaco tests ported in phases 1 and 3" and "… phase 2"
+(which hold the phase 5 rows too) and "Tests ported in phase 4" (folding). This is the index, one row per upstream test
+file; counts come from the `// Monaco:` comments and the rows of those tables.
+
+| Upstream test file | Ported / total | Not ported, and why |
+|---|---|---|
+| `cursor.test.ts` (languages, Enter, Tab, auto-closing, surround, electric, auto-indent on type) | 1, 28, 7, 1, 30, 11, 8, 15 (all) | P5-37 … P5-46 |
+| `modelDecorations.test.ts` | 24 + 5 / 28; 7 / 10; 62 / 62 | injected text width, dispose, `hoverMessage` (P5-03, P5-04) |
+| `inlineDecorations.test.ts`, `viewModelDecorations.test.ts` | 11 / 12; 1 / 3 | font decorations, injected text, word wrap |
+| `lineDecorations.test.ts` | 1 / 8 | normalizer, injected text |
+| `languageConfiguration`, `richEditBrackets`, `electricCharacter`, `characterPair`, `onEnter` | 11, 10, 2, 13, 4 (all) | |
+| `indentationLineProcessor.test.ts`, `indentation.test.ts` | 6 / 6; 52 / 85 | 26 `test.skip` (fail upstream) and 7 placeholders |
+| bracket pair colorizer tests | `length` 2, `smallImmutableSet` 2, `concat23Trees` 6, `beforeEditPositionMapper` 9, `combineTextEditInfos` 50, `brackets` 1, `tokenizer` 1, `getBracketPairsInRange` 10 (all) | |
+| `textModelWithTokens.test.ts` | 11 / 29 | 18 `getLineIndentGuide` tests (phase 6) |
+| `bracketMatching.test.ts` | 7 / 7 | |
+| `blockCommentCommand`, `lineCommentCommand` | 12 / 12; 39 / 39 | |
+| lines operations (`copyLines` 10, `sortLines` 7, `moveLines` 14, `linesOperations` 55) and `trimTrailingWhitespaceCommand` 2 | all | |
+| `textModelSearch.test.ts` | 41 / 42 | `\u{0066}`: JavaScript-only syntax |
+| `find`, `replacePattern`, `findModel`, `findController` | 3 / 3; 8 / 8; 44 / 44; 18 / 23 | macOS find clipboard, no storage service |
+| `multicursor.test.ts` | 74 / 76 | word wrap (phase 6), `setModel` |
+| `foldingRanges`, `indentRangeProvider`, `indentFold`, `foldingModel`, `hiddenRangeModel` | 7, 26, 1, 22, 1 (all) | listed in "Tests ported in phase 4" |
+| `modelLineProjection.test.ts`, `viewModelImpl.test.ts` | 3 / 6; the hidden-area tests | wrapping (phase 6) |
+| `wordHighlighter.test.ts` | 0 / 18 | provider registry (phase 8); new tests cover the textual path |
+
 ## Cut points for phases 4–5
 
 Where phase 3 stops because Monaco needs a language configuration, tokens or bracket matching. Without a language
@@ -482,7 +551,7 @@ from this list (every place is marked `// Phase 4–5 cut point` in the code).
 | Where (LoomEditor) | Monaco (pinned commit) | What is missing |
 |---|---|---|
 | `Controller/ViewController.cs` | `viewController.ts` (`_trySelectBracketContent`, string content) | done (P5-36): double-click on a bracket or string selects its content |
-| `Layout/RevealCalculator.cs` | `viewLines.ts` reveal | sticky scroll lines |
+| `Layout/RevealCalculator.cs` | `viewLines.ts` reveal | moved to phase 6: sticky scroll lines (see "Cut points for phase 6") |
 
 ### After phase 4
 
@@ -494,11 +563,11 @@ bundled configurations of the ten built-in languages, but the editing code does 
 
 | Cut point | Can read tokens now? | Still missing for phase 5 |
 |---|---|---|
-| Auto-closing, overtype, surround, electric characters (`TypeOperations*`, `CursorConfiguration`) | yes: the token type tells whether the caret is in a string or a comment | language configuration; auto-closed characters need model decorations |
-| Enter, smart Tab, `ShiftCommand` (on-enter rules, indent) | partly (comment / string at the caret) | language configuration (on-enter and indentation rules) |
-| Double-click on a bracket or a string (`ViewController`) | done (P5-36) | |
-| Auto-closing pair delete, `autoClosingPairs` for word deletes | no | language configuration |
-| Sticky scroll (`RevealCalculator`) | no | outline / folding model |
+| Auto-closing, overtype, surround, electric characters (`TypeOperations*`, `CursorConfiguration`) | yes: the token type tells whether the caret is in a string or a comment | **resolved** (P5-37 … P5-46): language configuration; auto-closed characters are tracked with model decorations |
+| Enter, smart Tab, `ShiftCommand` (on-enter rules, indent) | partly (comment / string at the caret) | **resolved** (P5-39, P5-40, P5-45): on-enter and indentation rules, smart Tab |
+| Double-click on a bracket or a string (`ViewController`) | done (P5-36) | **resolved** |
+| Auto-closing pair delete, `autoClosingPairs` for word deletes | no | **resolved** (P5-43; `WordOperations.Delete` reads the auto-closing pairs) |
+| Sticky scroll (`RevealCalculator`) | no | **moved to phase 6**: the folding model exists now (P5-85), the sticky scroll model does not |
 
 ## Done in phase 4 (TextMate grammars and themes)
 

@@ -27,7 +27,7 @@
 - `FoldingRanges.cs`, `FoldingRegions.SanitizeAndMerge.cs`, `FoldingRegion.cs`, `SelectedLines.cs` — the packed region storage and its merge.
 - `HiddenRangeModel.cs` — the hidden ranges of the collapsed regions. `FoldingDecorationProvider.cs`, `ShowFoldingControls.cs` — the decoration options.
 - `IndentRangeProvider.cs`, `IndentRanges.cs`, `IRangeProvider.cs` — the indentation range provider.
-- `FoldingCommands.cs` — command ids. `FoldingFeature.Commands.cs` — the command bodies (no arguments; `editor.toggleImportFold` is not ported).
+- `FoldingCommands.cs` — command ids. `FoldingFeature.Mouse.cs` — the clicks on the folding controls and on the `⋯`. `FoldingFeature.Commands.cs` — the command bodies (no arguments; `editor.toggleImportFold` is not ported).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Folding/`.
 
