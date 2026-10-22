@@ -500,7 +500,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-82](phase-5/P5-82-view-lines-in-renderer-and-mouse.md) | The renderer, the hit testing and the control draw view lines | P5-81 | done |
 | [P5-83](phase-5/P5-83-folding-ranges.md) | Folding ranges (`FoldingRegions`, `sanitizeAndMerge`) | P5-82 | done |
 | [P5-84](phase-5/P5-84-indent-range-provider.md) | Indentation folding ranges with `#region` markers and off-side rule | P5-83 | done |
-| [P5-85](phase-5/P5-85-folding-model.md) | `FoldingModel`: regions, collapse state and their decorations | P5-84 | todo |
+| [P5-85](phase-5/P5-85-folding-model.md) | `FoldingModel`: regions, collapse state and their decorations | P5-84 | done |
 | [P5-86](phase-5/P5-86-folding-model-functions.md) | Folding model functions: fold levels, recursive folding, fold jumping | P5-85 | todo |
 | [P5-87](phase-5/P5-87-hidden-range-model-and-folding-decorations.md) | Hidden range model and the folding decoration provider | P5-86 | todo |
 | [P5-88](phase-5/P5-88-folding-controller.md) | The `Folding` feature: the folding controller | P5-87 | todo |
