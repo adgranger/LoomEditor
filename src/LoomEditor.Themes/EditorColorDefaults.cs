@@ -88,6 +88,26 @@ internal static class EditorColorDefaults
         // editorColorRegistry.ts:26
         ["editorMultiCursor.secondary.foreground"] = ("editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground"),
 
+        // editorColors.ts:436
+        ["editorOverviewRuler.findMatchForeground"] = ("#d186167e", "#d186167e", "#AB5A00", "#AB5A00"),
+
+        // editorColors.ts:440
+        ["editorOverviewRuler.selectionHighlightForeground"] = ("#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC"),
+
+        // highlightDecorations.ts:20
+        ["editorOverviewRuler.wordHighlightForeground"] = ("#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC"),
+
+        // highlightDecorations.ts:21
+        ["editorOverviewRuler.wordHighlightStrongForeground"] = ("#C0A0C0CC", "#C0A0C0CC", "#C0A0C0CC", "#C0A0C0CC"),
+
+        // highlightDecorations.ts:22
+        ["editorOverviewRuler.wordHighlightTextForeground"] = (
+            "editorOverviewRuler.selectionHighlightForeground", "editorOverviewRuler.selectionHighlightForeground",
+            "editorOverviewRuler.selectionHighlightForeground", "editorOverviewRuler.selectionHighlightForeground"),
+
+        // bracketMatching.ts:27
+        ["editorOverviewRuler.bracketMatchForeground"] = ("#A0A0A0", "#A0A0A0", "#A0A0A0", "#A0A0A0"),
+
         // editorColorRegistry.ts:61
         ["editorOverviewRuler.border"] = ("#7f7f7f4d", "#7f7f7f4d", "#7f7f7f4d", "#666666"),
 

@@ -11,9 +11,8 @@ namespace LoomEditor.View.Features.Find;
 
 /// <summary>The model decorations of the find matches, the current match, its line and the find scope (Monaco: <c>FindDecorations</c>).</summary>
 /// <remarks>
-/// Behavior difference: no overview ruler and no minimap parts, so a result of more than 1000 matches only switches to the
-/// options without z-index and inline class (phase 6 brings the ruler). Decorations belong to owner 0 (any owner), like
-/// the other decorations of the editor.
+/// Behavior difference: no minimap parts (P6-54). Decorations belong to owner 0 (any owner), like the other decorations
+/// of the editor.
 /// Threading: UI thread only.
 /// </remarks>
 internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
@@ -28,6 +27,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
         ClassName = "currentFindMatch",
         InlineClassName = "currentFindMatchInline",
         ShowIfCollapsed = true,
+        OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), OverviewRulerLane.Center),
     });
 
     private static readonly ModelDecorationOptions FindMatchDecoration = ModelDecorationOptions.Register(new ModelDecorationOptionsData
@@ -38,6 +38,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
         ClassName = "findMatch",
         InlineClassName = "findMatchInline",
         ShowIfCollapsed = true,
+        OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), OverviewRulerLane.Center),
     });
 
     private static readonly ModelDecorationOptions FindMatchNoOverviewDecoration = ModelDecorationOptions.Register(new ModelDecorationOptionsData
@@ -46,6 +47,13 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
         Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
         ClassName = "findMatch",
         ShowIfCollapsed = true,
+    });
+
+    private static readonly ModelDecorationOptions FindMatchOnlyOverviewDecoration = ModelDecorationOptions.Register(new ModelDecorationOptionsData
+    {
+        Description = "find-match-only-overview",
+        Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
+        OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), OverviewRulerLane.Center),
     });
 
     private static readonly ModelDecorationOptions RangeHighlightDecoration = ModelDecorationOptions.Register(new ModelDecorationOptionsData
@@ -65,6 +73,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
 
     private readonly TextModel _model = viewModel.Model;
     private string[] _decorations = [];
+    private string[] _overviewRulerApproximateDecorations = [];
     private string[] _findScopeDecorationIds = [];
     private string? _rangeHighlightDecorationId;
     private string? _highlightedDecorationId;
@@ -81,6 +90,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
     public void Reset()
     {
         _decorations = [];
+        _overviewRulerApproximateDecorations = [];
         _findScopeDecorationIds = [];
         _rangeHighlightDecorationId = null;
         _highlightedDecorationId = null;
@@ -203,11 +213,50 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
     {
         _model.ChangeDecorations(OwnerId, accessor =>
         {
-            // above 1000 matches: no z-index and no inline class (Monaco also feeds the overview ruler, phase 6)
-            ModelDecorationOptions findMatchesOptions = findMatches.Count > 1000 ? FindMatchNoOverviewDecoration : FindMatchDecoration;
+            ModelDecorationOptions findMatchesOptions = FindMatchDecoration;
+            List<ModelDeltaDecoration> newOverviewRulerApproximateDecorations = [];
+
+            if (findMatches.Count > 1000)
+            {
+                // we go into a mode where the overview ruler gets "approximate" decorations
+                // the reason is that the overview ruler paints all the decorations in the file and we don't want to cause freezes
+                findMatchesOptions = FindMatchNoOverviewDecoration;
+
+                // approximate a distance in lines where matches should be merged
+                var lineCount = _model.LineCount;
+                var height = viewModel.LayoutInfo.Height;
+                var approxPixelsPerLine = (double)height / lineCount;
+                var mergeLinesDelta = Math.Max(2, (int)Math.Ceiling(3 / approxPixelsPerLine));
+
+                // merge decorations as much as possible
+                var prevStartLineNumber = findMatches[0].Range.StartLineNumber;
+                var prevEndLineNumber = findMatches[0].Range.EndLineNumber;
+                for (var i = 1; i < findMatches.Count; i++)
+                {
+                    Range range = findMatches[i].Range;
+                    if (prevEndLineNumber + mergeLinesDelta >= range.StartLineNumber)
+                    {
+                        if (range.EndLineNumber > prevEndLineNumber)
+                        {
+                            prevEndLineNumber = range.EndLineNumber;
+                        }
+                    }
+                    else
+                    {
+                        newOverviewRulerApproximateDecorations.Add(new ModelDeltaDecoration(new Range(prevStartLineNumber, 1, prevEndLineNumber, 1), FindMatchOnlyOverviewDecoration));
+                        prevStartLineNumber = range.StartLineNumber;
+                        prevEndLineNumber = range.EndLineNumber;
+                    }
+                }
+
+                newOverviewRulerApproximateDecorations.Add(new ModelDeltaDecoration(new Range(prevStartLineNumber, 1, prevEndLineNumber, 1), FindMatchOnlyOverviewDecoration));
+            }
 
             // Find matches
             _decorations = accessor.DeltaDecorations(_decorations, [.. findMatches.Select(m => new ModelDeltaDecoration(m.Range, findMatchesOptions))]);
+
+            // Overview ruler approximate decorations
+            _overviewRulerApproximateDecorations = accessor.DeltaDecorations(_overviewRulerApproximateDecorations, [.. newOverviewRulerApproximateDecorations]);
 
             // Range highlight
             if (_rangeHighlightDecorationId is not null)
@@ -284,7 +333,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
 
     private string[] AllDecorations()
     {
-        List<string> result = [.. _decorations, .. _findScopeDecorationIds];
+        List<string> result = [.. _decorations, .. _overviewRulerApproximateDecorations, .. _findScopeDecorationIds];
         if (_rangeHighlightDecorationId is not null)
         {
             result.Add(_rangeHighlightDecorationId);

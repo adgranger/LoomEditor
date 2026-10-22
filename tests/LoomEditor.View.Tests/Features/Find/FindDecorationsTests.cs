@@ -133,4 +133,29 @@ public class FindDecorationsTests
         // the editor's own tracked ranges (the cursors) stay
         Assert.DoesNotContain(All(editor.Model), d => d.Options.ClassName is "findMatch" or "currentFindMatch" or "findScope" or "rangeHighlight");
     });
+
+    [Fact]
+    public void FindDecorations_Matches_HaveTheRulerColor() => WithDecorations("foo foo", (model, decorations) =>
+    {
+        decorations.Set(Matches(new Range(1, 1, 1, 4), new Range(1, 5, 1, 8)), null);
+        decorations.SetCurrentFindMatch(new Range(1, 1, 1, 4));
+
+        Assert.Equal(2, All(model).Count(d => d.Options.OverviewRuler?.Color?.ThemeColorId == "editorOverviewRuler.findMatchForeground"));
+        Assert.All(All(model).Where(d => d.Options.ClassName is "findMatch" or "currentFindMatch"), d =>
+            Assert.Equal(OverviewRulerLane.Center, d.Options.OverviewRuler!.Position));
+    });
+
+    [Fact]
+    public void FindDecorations_MoreThan1000Matches_AddsApproximateRulerDecorations() => WithDecorations(string.Join(Lf, Enumerable.Repeat("a", 3000)), (model, decorations) =>
+    {
+        // lines 1 and 2 merge into one decoration, line 2000 is far enough to get its own
+        decorations.Set(Matches([.. Enumerable.Range(0, 1001).Select(_ => new Range(1, 1, 1, 2)), new Range(2, 1, 2, 2), new Range(2000, 1, 2000, 2)]), null);
+
+        List<ModelDecoration> approximate = [.. All(model).Where(d => d.Options.Description == "find-match-only-overview").OrderBy(d => d.Range.StartLineNumber)];
+        Assert.Equal([new Range(1, 1, 2, 1), new Range(2000, 1, 2000, 1)], approximate.Select(d => d.Range));
+        Assert.All(approximate, d => Assert.Equal("editorOverviewRuler.findMatchForeground", d.Options.OverviewRuler!.Color!.ThemeColorId));
+
+        decorations.Set([], null);
+        Assert.DoesNotContain(All(model), d => d.Options.Description == "find-match-only-overview");
+    });
 }

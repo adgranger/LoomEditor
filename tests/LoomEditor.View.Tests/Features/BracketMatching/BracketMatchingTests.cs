@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/contrib/bracketMatching/test/browser/bracketMatching.test.ts (suite 'bracket matching')
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Features.BracketMatching;
@@ -311,5 +312,22 @@ public class BracketMatchingTests
             r.CommandId == BracketMatchingCommands.RemoveBrackets
             && r.Keybinding == new Keybinding(KeyModifiers.Ctrl | KeyModifiers.Alt, KeyCode.Backspace)
             && r.Weight == KeybindingWeight.EditorContrib);
+    }
+
+    [Fact]
+    public void BracketMatching_Options_HaveTheRulerColor()
+    {
+        using var editor = new BracketEditor("a (b c) d");
+
+        SetPosition(editor, 1, 3);
+        editor.Scheduler.AdvanceBy(Delay);
+
+        var decorations = editor.Context.GetDecorationsInRange(new Range(1, 1, 1, 10)).Where(d => d.Options.ClassName == "bracket-match").ToList();
+        Assert.Equal(2, decorations.Count);
+        Assert.All(decorations, d =>
+        {
+            Assert.Equal("editorOverviewRuler.bracketMatchForeground", d.Options.OverviewRuler!.Color!.ThemeColorId);
+            Assert.Equal(OverviewRulerLane.Center, d.Options.OverviewRuler.Position);
+        });
     }
 }

@@ -1,6 +1,6 @@
 # P6-39 — Find, highlights and bracket matching mark the overview ruler
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-38
 - **Size:** S
 
@@ -40,19 +40,19 @@ above 1000 matches), the current find match, word and selection highlights, and 
 
 ## Tests
 
-- [ ] New: `FindDecorations_Matches_HaveTheRulerColor`
-- [ ] New: `FindDecorations_MoreThan1000Matches_AddsApproximateRulerDecorations` (merged line ranges; `GetAllDecorations` lists them)
-- [ ] New: `WordHighlight_Options_HaveTheRulerColor`; `SelectionHighlight_Options_HaveTheRulerColor`
-- [ ] New: `BracketMatching_Options_HaveTheRulerColor`
+- [x] New: `FindDecorations_Matches_HaveTheRulerColor`
+- [x] New: `FindDecorations_MoreThan1000Matches_AddsApproximateRulerDecorations` (merged line ranges; `GetAllDecorations` lists them)
+- [x] New: `WordHighlight_Options_HaveTheRulerColor`; `SelectionHighlight_Options_HaveTheRulerColor`
+- [x] New: `BracketMatching_Options_HaveTheRulerColor`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the rows of `findDecorations.ts`, `highlightDecorations.ts`, `bracketMatching.ts` no longer say "no overview ruler";
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the rows of `findDecorations.ts`, `highlightDecorations.ts`, `bracketMatching.ts` no longer say "no overview ruler";
       roadmap: nothing to tick (the overview ruler is not a roadmap line; add "Overview ruler" as a ticked line to
       `docs/roadmap/phase-6-view-extras.md`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

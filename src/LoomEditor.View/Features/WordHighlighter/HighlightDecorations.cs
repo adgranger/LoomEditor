@@ -8,14 +8,14 @@ namespace LoomEditor.View.Features.WordHighlighter;
 
 /// <summary>The decoration options of the word highlights, by kind.</summary>
 /// <remarks>
-/// Not ported: the overview ruler and minimap options (phase 6) and the selection highlight options (find-based, step F).
+/// Not ported: the minimap options (P6-54); the selection highlight options are in <c>SelectionHighlightDecorations</c>.
 /// Threading: immutable, safe from any thread.
 /// </remarks>
 internal static class HighlightDecorations
 {
-    private static readonly ModelDecorationOptions WriteOptions = Create("word-highlight-strong", "wordHighlightStrong");
-    private static readonly ModelDecorationOptions TextOptions = Create("word-highlight-text", "wordHighlightText");
-    private static readonly ModelDecorationOptions RegularOptions = Create("word-highlight", "wordHighlight");
+    private static readonly ModelDecorationOptions WriteOptions = Create("word-highlight-strong", "wordHighlightStrong", "editorOverviewRuler.wordHighlightStrongForeground");
+    private static readonly ModelDecorationOptions TextOptions = Create("word-highlight-text", "wordHighlightText", "editorOverviewRuler.wordHighlightTextForeground");
+    private static readonly ModelDecorationOptions RegularOptions = Create("word-highlight", "wordHighlight", "editorOverviewRuler.wordHighlightForeground");
 
     /// <summary>Monaco: <c>getHighlightDecorationOptions</c>.</summary>
     public static ModelDecorationOptions GetHighlightDecorationOptions(DocumentHighlightKind? kind) => kind switch
@@ -25,11 +25,12 @@ internal static class HighlightDecorations
         _ => RegularOptions,
     };
 
-    private static ModelDecorationOptions Create(string description, string className) =>
+    private static ModelDecorationOptions Create(string description, string className, string rulerColorId) =>
         ModelDecorationOptions.Register(new ModelDecorationOptionsData
         {
             Description = description,
             Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
             ClassName = className,
+            OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor(rulerColorId), DecorationColor.FromThemeColor(rulerColorId), OverviewRulerLane.Center),
         });
 }

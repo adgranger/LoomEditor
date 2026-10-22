@@ -8,8 +8,7 @@ namespace LoomEditor.View.Features.MultiCursor;
 
 /// <summary>The decoration options of the selection highlight (the rest of <c>highlightDecorations.ts</c> comes with the word highlighter).</summary>
 /// <remarks>
-/// Behavior difference: the <c>overviewRuler</c> and <c>minimap</c> members are dropped (phase 6), so both Monaco options
-/// are the same here apart from their description. Threading: immutable; thread-safe.
+/// Behavior difference: the <c>minimap</c> member is dropped (P6-54). Threading: immutable; thread-safe.
 /// </remarks>
 internal static class SelectionHighlightDecorations
 {
@@ -18,6 +17,7 @@ internal static class SelectionHighlightDecorations
         Description = "selection-highlight-overview",
         Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
         ClassName = "selectionHighlight",
+        OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.selectionHighlightForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.selectionHighlightForeground"), OverviewRulerLane.Center),
     });
 
     private static readonly ModelDecorationOptions SelectionHighlightNoOverviewOptions = ModelDecorationOptions.Register(new ModelDecorationOptionsData
