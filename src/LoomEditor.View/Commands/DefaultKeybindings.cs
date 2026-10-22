@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.WordHighlighter;
 
 namespace LoomEditor.View.Commands;
 
@@ -58,6 +59,10 @@ internal static class DefaultKeybindings
         Pair(KeyCode.End, "cursorBottom", "cursorBottomSelect", KeyModifiers.Ctrl);
 
         // Monaco: cursorUpSelect and cursorDownSelect also have Ctrl+Shift+Up/Down as a secondary key (not on Linux or macOS).
+        // wordHighlighter.ts (Contrib): F7 and Shift+F7 go through the highlights.
+        Add(KeyModifiers.None, KeyCode.F7, WordHighlighterCommands.Next, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift, KeyCode.F7, WordHighlighterCommands.Prev, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+
         Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.UpArrow, "cursorUpSelect", WhenClauses.TextInputFocus);
         Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.DownArrow, "cursorDownSelect", WhenClauses.TextInputFocus);
 

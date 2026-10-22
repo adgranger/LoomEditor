@@ -7,6 +7,7 @@ using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.WordOperations;
+using LoomEditor.View.Features.WordHighlighter;
 using LoomEditor.View.Features.WordPartOperations;
 
 namespace LoomEditor.View.Features;
@@ -34,5 +35,6 @@ public static class EditorFeatures
         () => new IndentationFeature(),
         () => new LinesOperationsFeature(),
         () => new FoldingFeature(),
+        () => new WordHighlighterFeature(),
     ];
 }
