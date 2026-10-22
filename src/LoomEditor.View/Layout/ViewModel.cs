@@ -181,7 +181,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                         hadOtherModelChange = true;
                         break;
                     case ModelRawLinesInserted inserted:
-                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, inserted.Count) is { } linesInserted)
+                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, new ModelLineProjectionData?[inserted.Count]) is { } linesInserted)
                         {
                             ViewLayout.OnLinesInserted(linesInserted.FromLineNumber, linesInserted.ToLineNumber);
                         }
@@ -190,7 +190,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                         break;
                     case ModelRawLineChanged changed:
                         (bool lineMappingChanged, _, ViewLineRange? insertedRange, ViewLineRange? deletedRange) =
-                            _lines.OnModelLineChanged(versionId, changed.LineNumber);
+                            _lines.OnModelLineChanged(versionId, changed.LineNumber, null);
                         hadModelLineChangeThatChangedLineMapping = lineMappingChanged;
                         if (insertedRange is { } insertedLines)
                         {

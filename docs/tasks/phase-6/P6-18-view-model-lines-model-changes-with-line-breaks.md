@@ -1,6 +1,6 @@
 # P6-18 — `ViewModelLinesFromProjectedModel`: model changes with line breaks, `GetInjectedTextAt`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-17
 - **Size:** S
 
@@ -41,17 +41,17 @@ File: `src/vs/editor/common/viewModel/viewModelLines.ts`.
 
 ## Tests
 
-- [ ] New: `OnModelLinesInserted_WithLineBreaks_InsertsTheWrappedViewLines` (insert a long line with data from the real factory;
+- [x] New: `OnModelLinesInserted_WithLineBreaks_InsertsTheWrappedViewLines` (insert a long line with data from the real factory;
       the returned view range covers all its view lines)
-- [ ] New: `OnModelLineChanged_LineNowWraps_ReportsInsertedViewLines`; `…_LineNoLongerWraps_ReportsDeletedViewLines`;
+- [x] New: `OnModelLineChanged_LineNowWraps_ReportsInsertedViewLines`; `…_LineNoLongerWraps_ReportsDeletedViewLines`;
       `…_SameCount_ReportsChangedOnly`
-- [ ] New: `GetInjectedTextAt_OnInjectedText_ReturnsIt`; `…_OnText_ReturnsNull`
+- [x] New: `GetInjectedTextAt_OnInjectedText_ReturnsIt`; `…_OnText_ReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

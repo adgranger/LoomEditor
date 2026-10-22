@@ -240,6 +240,13 @@ internal sealed partial class ViewModelLinesFromProjectedModel
         return _modelLineProjections[info.ModelLineNumber - 1].NormalizePosition(info.ModelLineWrappedLineIdx, position, affinity);
     }
 
+    /// <summary>The injected text at a view position, if any.</summary>
+    public InjectedText? GetInjectedTextAt(Position viewPosition)
+    {
+        ViewLineInfo info = GetViewLineInfo(viewPosition.LineNumber);
+        return _modelLineProjections[info.ModelLineNumber - 1].GetInjectedTextAt(info.ModelLineWrappedLineIdx, viewPosition.Column);
+    }
+
     public int GetLineIndentColumn(int lineNumber)
     {
         ViewLineInfo info = GetViewLineInfo(lineNumber);

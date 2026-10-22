@@ -181,7 +181,7 @@ public class ViewModelLinesTests
     {
         lines.SetHiddenAreas([new Range(2, 1, 4, 1)]);
 
-        ViewLineRange? inserted = lines.OnModelLinesInserted(100, 5, 6, 2);
+        ViewLineRange? inserted = lines.OnModelLinesInserted(100, 5, 6, new ModelLineProjectionData?[2]);
 
         Assert.Equal(new ViewLineRange(2, 1), inserted);
         Assert.Equal(5, lines.GetViewLineCount());

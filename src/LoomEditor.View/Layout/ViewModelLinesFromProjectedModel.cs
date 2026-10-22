@@ -304,10 +304,10 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
         return new ViewLineRange(outputFromLineNumber, outputToLineNumber);
     }
 
-    /// <summary>Adds the projections of <paramref name="count"/> inserted model lines; returns the view lines that appeared.</summary>
-    public ViewLineRange? OnModelLinesInserted(int? versionId, int fromLineNumber, int toLineNumber, int count)
+    /// <summary>Adds the projections of the inserted model lines, built from <paramref name="lineBreaks"/>; returns the view lines that appeared.</summary>
+    public ViewLineRange? OnModelLinesInserted(int? versionId, int fromLineNumber, int toLineNumber, IReadOnlyList<ModelLineProjectionData?> lineBreaks)
     {
-        Guard.Assert(count == toLineNumber - fromLineNumber + 1, "count must match the inserted line range");
+        Guard.Assert(lineBreaks.Count == toLineNumber - fromLineNumber + 1, "lineBreaks must match the inserted line range");
         if (IsStale(versionId))
         {
             // Here we check for versionId in case the lines were reconstructed in the meantime.
@@ -324,9 +324,9 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
         List<IModelLineProjection> insertLines = [];
         List<int> insertPrefixSumValues = [];
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < lineBreaks.Count; i++)
         {
-            IModelLineProjection line = ModelLineProjection.Create(!isInHiddenArea);
+            IModelLineProjection line = ModelLineProjection.Create(lineBreaks[i], !isInHiddenArea);
             insertLines.Add(line);
 
             int outputLineCount = line.GetViewLineCount();
@@ -344,7 +344,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     /// A model line changed: recreates its projection and returns whether the line mapping changed with the view line ranges to
     /// report as changed, inserted and deleted.
     /// </summary>
-    public (bool LineMappingChanged, ViewLineRange? Changed, ViewLineRange? Inserted, ViewLineRange? Deleted) OnModelLineChanged(int? versionId, int lineNumber)
+    public (bool LineMappingChanged, ViewLineRange? Changed, ViewLineRange? Inserted, ViewLineRange? Deleted) OnModelLineChanged(int? versionId, int lineNumber, ModelLineProjectionData? lineBreakData)
     {
         if (versionId is not null && versionId <= _validModelVersionId)
         {
@@ -357,7 +357,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
 
         int oldOutputLineCount = _modelLineProjections[lineIndex].GetViewLineCount();
         bool isVisible = _modelLineProjections[lineIndex].IsVisible;
-        _modelLineProjections[lineIndex] = ModelLineProjection.Create(isVisible);
+        _modelLineProjections[lineIndex] = ModelLineProjection.Create(lineBreakData, isVisible);
         int newOutputLineCount = _modelLineProjections[lineIndex].GetViewLineCount();
 
         bool lineMappingChanged = false;

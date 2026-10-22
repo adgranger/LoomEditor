@@ -3,6 +3,8 @@
 
 using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
+using LoomEditor.Core.Text;
+using LoomEditor.View.Events;
 using LoomEditor.View.Layout;
 using LoomEditor.View.Tests.Layout.TestHelpers;
 
@@ -125,5 +127,103 @@ public class ViewModelLinesWrappingTests
 
         Assert.Equal(["abcd", "ef"], Contents(editor1));
         Assert.Equal(["abXY", "cdef"], Contents(editor2));
+    }
+
+    private sealed class TextContext(string text) : ILineBreaksComputerContext
+    {
+        public string GetLineContent(int lineNumber) => text;
+
+        public IReadOnlyList<LoomEditor.Core.Model.Events.LineInjectedText>? GetLineInjectedText(int lineNumber) => null;
+    }
+
+    private static ModelLineProjectionData? BreakData(string text)
+    {
+        ILineBreaksComputer computer = Monospace.CreateLineBreaksComputer(
+            new TextContext(text), FontInfo.Default, 4, 10, WrappingIndent.None, WordBreak.Normal, false, false);
+        computer.AddRequest(1, null);
+        return computer.Finalize()[0];
+    }
+
+    [Fact]
+    public void OnModelLinesInserted_WithLineBreaks_InsertsTheWrappedViewLines()
+    {
+        TextModel model = new("a\nb", options: null);
+        using ViewModelLinesFromProjectedModel lines = Create(model);
+
+        ViewLineRange? range = lines.OnModelLinesInserted(100, 2, 2, [BreakData(Long)]);
+
+        Assert.Equal(new ViewLineRange(2, 4), range);
+        Assert.Equal(5, lines.GetViewLineCount());
+    }
+
+    [Fact]
+    public void OnModelLineChanged_LineNowWraps_ReportsInsertedViewLines()
+    {
+        TextModel model = new("x\ny", options: null);
+        using ViewModelLinesFromProjectedModel lines = Create(model);
+
+        var (mappingChanged, changed, inserted, deleted) = lines.OnModelLineChanged(100, 1, BreakData(Long));
+
+        Assert.True(mappingChanged);
+        Assert.Equal(new ViewLineRange(1, 1), changed);
+        Assert.Equal(new ViewLineRange(2, 3), inserted);
+        Assert.Null(deleted);
+    }
+
+    [Fact]
+    public void OnModelLineChanged_LineNoLongerWraps_ReportsDeletedViewLines()
+    {
+        TextModel model = new(Long, options: null);
+        using ViewModelLinesFromProjectedModel lines = Create(model);
+
+        var (mappingChanged, changed, inserted, deleted) = lines.OnModelLineChanged(100, 1, null);
+
+        Assert.True(mappingChanged);
+        Assert.Equal(new ViewLineRange(1, 1), changed);
+        Assert.Null(inserted);
+        Assert.Equal(new ViewLineRange(2, 3), deleted);
+    }
+
+    [Fact]
+    public void OnModelLineChanged_SameCount_ReportsChangedOnly()
+    {
+        TextModel model = new(Long, options: null);
+        using ViewModelLinesFromProjectedModel lines = Create(model);
+
+        var (mappingChanged, changed, inserted, deleted) = lines.OnModelLineChanged(100, 1, BreakData(Long));
+
+        Assert.False(mappingChanged);
+        Assert.Equal(new ViewLineRange(1, 3), changed);
+        Assert.Null(inserted);
+        Assert.Null(deleted);
+    }
+
+    private static ViewModelLinesFromProjectedModel CreateWithInjectedText()
+    {
+        TextModel model = new("abcdef", options: null);
+        var options = ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+        {
+            Description = "test",
+            After = new InjectedTextOptions { Content = "XY" },
+        });
+        model.DeltaDecorations(1, [], [new ModelDeltaDecoration(new Range(1, 1, 1, 3), options)]);
+        return Create(model, wrappingColumn: 4);
+    }
+
+    [Fact]
+    public void GetInjectedTextAt_OnInjectedText_ReturnsIt()
+    {
+        using ViewModelLinesFromProjectedModel lines = CreateWithInjectedText();
+
+        Assert.Equal("XY", lines.GetInjectedTextAt(new Position(1, 4))!.Options.Content);
+    }
+
+    [Fact]
+    public void GetInjectedTextAt_OnText_ReturnsNull()
+    {
+        using ViewModelLinesFromProjectedModel lines = CreateWithInjectedText();
+
+        Assert.Null(lines.GetInjectedTextAt(new Position(1, 1)));
+        Assert.Null(lines.GetInjectedTextAt(new Position(2, 2)));
     }
 }
