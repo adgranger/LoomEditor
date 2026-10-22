@@ -1,6 +1,6 @@
 # P6-48 — `MinimapSamplingState`: which view lines a sampled minimap shows
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-46
 - **Size:** S
 
@@ -38,18 +38,18 @@ File: `src/vs/editor/browser/viewParts/minimap/minimap.ts`.
 
 No upstream unit tests. New:
 
-- [ ] `Compute_NotSampling_ReturnsNullState`
-- [ ] `Compute_Sampling_TakesEvenlySpacedLines`
-- [ ] `Compute_FromOldState_KeepsCommonSamplesAndEmitsEvents`
-- [ ] `ModelLineToMinimapLine_FindsTheClosestSample`
-- [ ] `OnLinesInserted_ShiftsTheSamplesAfter`; `OnLinesDeleted_RemovesAndShifts`
+- [x] `Compute_NotSampling_ReturnsNullState`
+- [x] `Compute_Sampling_TakesEvenlySpacedLines`
+- [x] `Compute_FromOldState_KeepsCommonSamplesAndEmitsEvents`
+- [x] `ModelLineToMinimapLine_FindsTheClosestSample`
+- [x] `OnLinesInserted_ShiftsTheSamplesAfter`; `OnLinesDeleted_RemovesAndShifts`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row (+ `MinimapSamplingState`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row (+ `MinimapSamplingState`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
