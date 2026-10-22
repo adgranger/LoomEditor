@@ -12,7 +12,7 @@ namespace LoomEditor.View.Features.Folding;
 /// <see cref="ShowFoldingHighlights"/> (Monaco: <c>FoldingDecorationProvider</c>).
 /// </summary>
 /// <remarks>
-/// Not ported: <c>linesDecorationsTooltip</c> (no hover) and <c>minimap</c> (no minimap decorations yet).
+/// Not ported: <c>linesDecorationsTooltip</c> (no hover).
 /// Threading: UI thread only.
 /// </remarks>
 internal sealed class FoldingDecorationProvider(ViewModel viewModel) : IDecorationProvider
@@ -21,6 +21,9 @@ internal sealed class FoldingDecorationProvider(ViewModel viewModel) : IDecorati
     private const string ManualCollapsedIcon = "codicon codicon-folding-manual-collapsed";
     private const string ExpandedIcon = "codicon codicon-folding-expanded";
     private const string ManualExpandedIcon = "codicon codicon-folding-manual-expanded";
+
+    private static readonly ModelDecorationMinimapOptions FoldedBackgroundMinimap =
+        new(DecorationColor.FromThemeColor("editor.foldBackground"), null, MinimapPosition.Inline);
 
     private static readonly ModelDecorationOptions CollapsedVisualDecoration = Collapsed(
         "folding-collapsed-visual-decoration", highlighted: false, CollapsedIcon);
@@ -111,6 +114,7 @@ internal sealed class FoldingDecorationProvider(ViewModel viewModel) : IDecorati
             Stickiness = TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges,
             AfterContentClassName = "inline-folded",
             ClassName = highlighted ? "folded-background" : null,
+            Minimap = highlighted ? FoldedBackgroundMinimap : null,
             IsWholeLine = true,
             FirstLineDecorationClassName = icon,
         });

@@ -42,3 +42,16 @@ The Win2D font sampler needs a real `CanvasDevice`, which the Rendering tests ne
 | # | Steps | Expected | Result |
 |---|---|---|---|
 | 3.1 | Call `Win2DMinimapFontSampler.CreateSampleData(device, "Consolas")` (the minimap at `scale: 3`, P6-52) | The array has `16 * 10 * 4 * 96` bytes and the cell of `M` has non-zero alpha pixels | |
+
+## 4. Minimap (Gallery: the **Minimap** toggle)
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 4.1 | Open a long code sample | The minimap is visible on the right, with the characters of the text | |
+| 4.2 | Click in the minimap, then drag the slider | The editor reveals the clicked line; dragging the slider scrolls the editor | |
+| 4.3 | Hover the minimap | The slider appears and goes away when the mouse leaves | |
+| 4.4 | Set `MinimapSide` to `Left` (code) | The minimap and the slider move to the left; the gutter moves right | |
+| 4.5 | Set `MinimapRenderCharacters` to `false` | The minimap shows color blocks | |
+| 4.6 | Open find (Ctrl+F) and search a word that occurs often | The matches are marked in the minimap | |
+| 4.7 | Select a word, then fold a region | The other occurrences and the folded region are marked in the minimap | |
+| 4.8 | Turn the **Minimap** toggle off, then on | The minimap disappears and the text uses the freed width; it comes back | |

@@ -19,4 +19,16 @@ public class HighlightDecorationsTests
         Assert.Equal(colorId, ruler.DarkColor!.ThemeColorId);
         Assert.Equal(OverviewRulerLane.Center, ruler.Position);
     }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData((int)DocumentHighlightKind.Text)]
+    [InlineData((int)DocumentHighlightKind.Write)]
+    public void Highlights_HaveTheMinimapColor(int kind)
+    {
+        ModelDecorationMinimapOptions minimap = HighlightDecorations.GetHighlightDecorationOptions(kind < 0 ? null : (DocumentHighlightKind)kind).Minimap!;
+
+        Assert.Equal("minimap.selectionOccurrenceHighlight", minimap.Color!.ThemeColorId);
+        Assert.Equal(MinimapPosition.Inline, minimap.Position);
+    }
 }

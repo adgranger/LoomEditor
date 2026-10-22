@@ -24,6 +24,7 @@ public class EditorLayoutInfoComputerTests
             LineNumbersMinChars = lineNumbersMinChars,
             LineDecorationsWidth = 10,
             Folding = false,
+            Minimap = new() { Enabled = false },
             VerticalScrollbarSize = verticalScrollbarWidth,
             HorizontalScrollbarSize = horizontalScrollbarHeight,
             VerticalHasArrows = verticalHasArrows,
@@ -175,6 +176,7 @@ public class EditorLayoutInfoComputerTests
         var options = new EditorLayoutOptions
         {
             Folding = false,
+            Minimap = new() { Enabled = false },
             Wrapping = new EditorWrappingOptions { WordWrap = wordWrap, WordWrapColumn = wordWrapColumn, WordWrapIndicator = indicator },
         };
         var env = new EditorLayoutInfoComputerEnv(outerWidth, 600, 19, 1, 8, 8, 1, 1);
@@ -392,6 +394,7 @@ public class EditorLayoutInfoComputerTests
                 LineNumbersMinChars = 0,
                 VerticalScrollbarSize = 0,
                 HorizontalScrollbarSize = 0,
+                Minimap = new() { Enabled = false },
                 Wrapping = new EditorWrappingOptions { WordWrap = wordWrap, WordWrapColumn = wordWrapColumn, WordWrapIndicator = indicator },
             };
             EditorLayoutInfo info = EditorLayoutInfoComputer.ComputeLayout(options, new EditorLayoutInfoComputerEnv(1000, 800, 16, 1, 10, 10, 1, 1, 9));

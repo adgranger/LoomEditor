@@ -34,8 +34,8 @@ public class EditorMinimapOptionsTests
     }
 
     [Fact]
-    public void EditorLayoutOptions_MinimapDisabledUntilDrawn()
+    public void EditorLayoutOptions_MinimapEnabledByDefault()
     {
-        Assert.False(new EditorLayoutOptions().Minimap.Enabled);
+        Assert.True(new EditorLayoutOptions().Minimap.Enabled);
     }
 }

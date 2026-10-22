@@ -158,4 +158,17 @@ public class FindDecorationsTests
         decorations.Set([], null);
         Assert.DoesNotContain(All(model), d => d.Options.Description == "find-match-only-overview");
     });
+
+    [Fact]
+    public void FindDecorations_Matches_HaveTheMinimapColor() => WithDecorations("foo foo", (model, decorations) =>
+    {
+        decorations.Set(Matches(new Range(1, 1, 1, 4), new Range(1, 5, 1, 8)), null);
+
+        Assert.All(WithClass(model, "findMatch").Concat(WithClass(model, "currentFindMatch")), d =>
+        {
+            Assert.Equal("minimap.findMatchHighlight", d.Options.Minimap!.Color!.ThemeColorId);
+            Assert.Equal(MinimapPosition.Inline, d.Options.Minimap.Position);
+        });
+        Assert.Equal(2, WithClass(model, "findMatch").Count() + WithClass(model, "currentFindMatch").Count());
+    });
 }

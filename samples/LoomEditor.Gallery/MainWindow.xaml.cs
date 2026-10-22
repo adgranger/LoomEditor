@@ -85,6 +85,8 @@ public sealed partial class MainWindow : Window
 
     private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
 
+    private void OnMinimapToggled(object sender, RoutedEventArgs e) => Editor.MinimapEnabled = MinimapSwitch.IsOn;
+
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
     private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)

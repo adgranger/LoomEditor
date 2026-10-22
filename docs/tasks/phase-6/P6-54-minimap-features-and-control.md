@@ -1,6 +1,6 @@
 # P6-54 — Features mark the minimap; the control's minimap properties
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-53, P6-39
 - **Size:** S
 
@@ -40,17 +40,17 @@ toggle it.
 
 ## Tests
 
-- [ ] New: `FindDecorations_Matches_HaveTheMinimapColor`; `Highlights_HaveTheMinimapColor`; `CollapsedRegion_HasTheMinimapColor`
-- [ ] New: `EditorLayoutOptions_MinimapEnabledByDefault`
-- [ ] Manual (`phase-6-manual-tests.md`): minimap visible, click / drag, slider on hover, side left, blocks mode, find matches in the minimap
+- [x] New: `FindDecorations_Matches_HaveTheMinimapColor`; `Highlights_HaveTheMinimapColor`; `CollapsedRegion_HasTheMinimapColor`
+- [x] New: `EditorLayoutOptions_MinimapEnabledByDefault`
+- [x] Manual (`phase-6-manual-tests.md`): minimap visible, click / drag, slider on hover, side left, blocks mode, find matches in the minimap
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds
-- [ ] `docs/roadmap/phase-6-view-extras.md`: tick "Minimap"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds
+- [x] `docs/roadmap/phase-6-view-extras.md`: tick "Minimap"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

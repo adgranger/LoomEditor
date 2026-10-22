@@ -8,7 +8,7 @@ namespace LoomEditor.View.Features.WordHighlighter;
 
 /// <summary>The decoration options of the word highlights, by kind.</summary>
 /// <remarks>
-/// Not ported: the minimap options (P6-54); the selection highlight options are in <c>SelectionHighlightDecorations</c>.
+/// The selection highlight options are in <c>SelectionHighlightDecorations</c>.
 /// Threading: immutable, safe from any thread.
 /// </remarks>
 internal static class HighlightDecorations
@@ -32,5 +32,6 @@ internal static class HighlightDecorations
             Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
             ClassName = className,
             OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor(rulerColorId), DecorationColor.FromThemeColor(rulerColorId), OverviewRulerLane.Center),
+            Minimap = new ModelDecorationMinimapOptions(DecorationColor.FromThemeColor("minimap.selectionOccurrenceHighlight"), null, MinimapPosition.Inline),
         });
 }

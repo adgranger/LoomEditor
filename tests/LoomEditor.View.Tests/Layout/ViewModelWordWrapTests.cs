@@ -19,6 +19,7 @@ public class ViewModelWordWrapTests
     {
         var layoutOptions = new EditorLayoutOptions
         {
+            Minimap = new() { Enabled = false },
             Wrapping = new EditorWrappingOptions { WordWrap = wordWrap ? WordWrap.On : WordWrap.Off },
         };
         var viewModel = new ViewModel(new TextModel(text), Font, layoutOptions, new ViewLayoutOptions(LineHeight, ScrollBeyondLastLine: false), _frames.Schedule, _clock);

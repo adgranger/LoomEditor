@@ -11,7 +11,7 @@ namespace LoomEditor.View.Features.Find;
 
 /// <summary>The model decorations of the find matches, the current match, its line and the find scope (Monaco: <c>FindDecorations</c>).</summary>
 /// <remarks>
-/// Behavior difference: no minimap parts (P6-54). Decorations belong to owner 0 (any owner), like the other decorations
+/// Behavior difference: decorations belong to owner 0 (any owner), like the other decorations
 /// of the editor.
 /// Threading: UI thread only.
 /// </remarks>
@@ -27,6 +27,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
         ClassName = "currentFindMatch",
         InlineClassName = "currentFindMatchInline",
         ShowIfCollapsed = true,
+        Minimap = new ModelDecorationMinimapOptions(DecorationColor.FromThemeColor("minimap.findMatchHighlight"), null, MinimapPosition.Inline),
         OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), OverviewRulerLane.Center),
     });
 
@@ -38,6 +39,7 @@ internal sealed class FindDecorations(ViewModel viewModel) : IDisposable
         ClassName = "findMatch",
         InlineClassName = "findMatchInline",
         ShowIfCollapsed = true,
+        Minimap = new ModelDecorationMinimapOptions(DecorationColor.FromThemeColor("minimap.findMatchHighlight"), null, MinimapPosition.Inline),
         OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.findMatchForeground"), OverviewRulerLane.Center),
     });
 

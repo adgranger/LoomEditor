@@ -8,7 +8,7 @@ namespace LoomEditor.View.Features.MultiCursor;
 
 /// <summary>The decoration options of the selection highlight (the rest of <c>highlightDecorations.ts</c> comes with the word highlighter).</summary>
 /// <remarks>
-/// Behavior difference: the <c>minimap</c> member is dropped (P6-54). Threading: immutable; thread-safe.
+/// Threading: immutable; thread-safe.
 /// </remarks>
 internal static class SelectionHighlightDecorations
 {
@@ -17,6 +17,7 @@ internal static class SelectionHighlightDecorations
         Description = "selection-highlight-overview",
         Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
         ClassName = "selectionHighlight",
+        Minimap = new ModelDecorationMinimapOptions(DecorationColor.FromThemeColor("minimap.selectionOccurrenceHighlight"), null, MinimapPosition.Inline),
         OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.selectionHighlightForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.selectionHighlightForeground"), OverviewRulerLane.Center),
     });
 

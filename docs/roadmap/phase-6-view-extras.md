@@ -4,5 +4,5 @@
 - [ ] Render whitespace
 - [x] Indentation guides, bracket pair guides
 - [x] Overview ruler
-- [ ] Minimap
+- [x] Minimap
 - [ ] Sticky scroll

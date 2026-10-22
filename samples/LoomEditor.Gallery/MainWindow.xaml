@@ -22,6 +22,7 @@
             <Button Click="OnReset" Content="Reset" />
             <ToggleSwitch x:Name="SmoothScrollingSwitch" Toggled="OnSmoothScrollingToggled" OffContent="Smooth scrolling" OnContent="Smooth scrolling" />
             <ToggleSwitch x:Name="WordWrapSwitch" Toggled="OnWordWrapToggled" OffContent="Word wrap" OnContent="Word wrap" />
+            <ToggleSwitch x:Name="MinimapSwitch" IsOn="True" Toggled="OnMinimapToggled" OffContent="Minimap" OnContent="Minimap" />
             <ToggleSwitch x:Name="ReadOnlySwitch" Toggled="OnReadOnlyToggled" OffContent="Read-only" OnContent="Read-only" />
         </StackPanel>
         <StackPanel Grid.Row="2" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
