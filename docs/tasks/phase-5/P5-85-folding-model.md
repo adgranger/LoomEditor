@@ -1,6 +1,6 @@
 # P5-85 — `FoldingModel`: regions, collapse state and their decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-84
 - **Size:** M
 
@@ -53,23 +53,23 @@ that the hidden range model (P5-87) listens to.
 
 ## Tests
 
-- [ ] Port: `Folding Model` › `getRegionAtLine`, `collapse`, `update`, `delete`, `getRegionsInside`,
+- [x] Port: `Folding Model` › `getRegionAtLine`, `collapse`, `update`, `delete`, `getRegionsInside`,
       `getRegionsInsideWithLevel`, `getRegionAtLine2`, `folding decoration`,
       `removeManualRanges - cursor on manual range removes innermost only`,
       `removeManualRanges - cursor skips provider ranges to remove nearest manual range`,
       `removeManualRanges - cursor not on manual range removes all manual ranges`,
       `removeManualRanges - single-line selection removes all intersecting manual ranges`,
       `removeManualRanges - selection range removes intersecting manual ranges`
-- [ ] New: `ToggleCollapseState_RaisesChangedWithTheToggledRegions`
-- [ ] New: `Dispose_RemovesTheDecorations`
+- [x] New: `ToggleCollapseState_RaisesChangedWithTheToggledRegions`
+- [x] New: `Dispose_RemovesTheDecorations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: new row `contrib/folding/browser/foldingModel.ts` (🔶 class, no memento, P5-85);
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: new row `contrib/folding/browser/foldingModel.ts` (🔶 class, no memento, P5-85);
       "Tests ported": `foldingModel.test.ts` 13 / 22 so far
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -5,7 +5,7 @@ namespace LoomEditor.View.Features.Folding;
 
 /// <summary>A folding region seen through its <see cref="FoldingRegions"/> (Monaco: <c>FoldingRegion</c>).</summary>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class FoldingRegion(FoldingRegions ranges, int index)
+internal sealed class FoldingRegion(FoldingRegions ranges, int index) : ILineRange
 {
     public int StartLineNumber => ranges.GetStartLineNumber(index);
 
