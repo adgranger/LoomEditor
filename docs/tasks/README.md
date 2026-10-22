@@ -503,7 +503,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | [P5-85](phase-5/P5-85-folding-model.md) | `FoldingModel`: regions, collapse state and their decorations | P5-84 | done |
 | [P5-86](phase-5/P5-86-folding-model-functions.md) | Folding model functions: fold levels, recursive folding, fold jumping | P5-85 | done |
 | [P5-87](phase-5/P5-87-hidden-range-model-and-folding-decorations.md) | Hidden range model and the folding decoration provider | P5-86 | done |
-| [P5-88](phase-5/P5-88-folding-controller.md) | The `Folding` feature: the folding controller | P5-87 | todo |
+| [P5-88](phase-5/P5-88-folding-controller.md) | The `Folding` feature: the folding controller | P5-87 | done |
 | [P5-89](phase-5/P5-89-folding-commands-and-keybindings.md) | Folding commands and their keyboard shortcuts | P5-88 | todo |
 | [P5-90](phase-5/P5-90-gutter-folding-controls.md) | Folding controls in the gutter: room, chevrons, mouse-over | P5-89 | todo |
 | [P5-91](phase-5/P5-91-folding-mouse.md) | Clicking the folding controls and the `⋯` | P5-90 | todo |

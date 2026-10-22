@@ -1,6 +1,6 @@
 # P5-88 — The `Folding` feature: the folding controller
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-87
 - **Size:** M
 
@@ -71,28 +71,29 @@ File: `contrib/folding/browser/folding.ts`.
 No Monaco test file covers `folding.ts`. New, with `TestCodeEditor` + `ManualEditorScheduler` (step A) and the feature
 attached through an `EditorContext`-like helper (reuse whatever step A tests use to attach a feature):
 
-- [ ] `Attach_ComputesRangesAfterTheFirstDelay` (nothing at 299 ms, regions at 300 ms)
-- [ ] `Edit_RecomputesRangesAfter200Ms`
-- [ ] `FoldRegion_HidesItsLinesInTheViewModel` (toggle the region at line 1 → `ViewModel.GetLineCount()` drops,
+- [x] `Attach_ComputesRangesAfterTheFirstDelay` (nothing at 299 ms, regions at 300 ms)
+- [x] `Edit_RecomputesRangesAfter200Ms`
+- [x] `FoldRegion_HidesItsLinesInTheViewModel` (toggle the region at line 1 → `ViewModel.GetLineCount()` drops,
       `GetHiddenAreas()` is the region minus its first line)
-- [ ] `FoldRegion_CursorInside_MovesToTheHeaderLine` (`AdjustSelections` path)
-- [ ] `CursorMovedIntoHiddenLines_UnfoldsAfter200Ms` (`SetSelections` into a folded region: still folded at 199 ms,
+- [x] `FoldRegion_CursorInside_MovesToTheHeaderLine` (`AdjustSelections` path)
+- [x] `CursorMovedIntoHiddenLines_UnfoldsAfter200Ms` (`SetSelections` into a folded region: still folded at 199 ms,
       unfolded at 200 ms)
-- [ ] `TypingAboveAFold_KeepsItFolded` (the decorations move with the edit)
-- [ ] `FoldingDisabled_NoRangesNoHiddenAreas` (`SetOptions(Folding = false)` clears everything)
-- [ ] `MoreRangesThanTheLimit_ReportsTheLimit` (`FoldingMaximumRegions = 10`)
-- [ ] `Dispose_RemovesHiddenAreasAndDecorations`
+- [x] `TypingAboveAFold_KeepsItFolded` (the decorations move with the edit)
+- [x] `FoldingDisabled_NoRangesNoHiddenAreas` (`SetOptions(Folding = false)` clears everything)
+- [x] `MoreRangesThanTheLimit_ReportsTheLimit` (`FoldingMaximumRegions = 10`)
+- [x] `Dispose_RemovesHiddenAreasAndDecorations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: row `contrib/folding/browser/folding.ts` (🔶 controller, P5-88); behavior difference
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: row `contrib/folding/browser/folding.ts` (🔶 controller, P5-88); behavior difference
       "folding update delay is fixed (300 ms, then 200 ms)"
-- [ ] `Features/Folding/README.md` lists the Monaco sources and the known limits (indentation only, no view-state
+- [x] `Features/Folding/README.md` lists the Monaco sources and the known limits (indentation only, no view-state
       memento, no import folding, fixed delays)
-- [ ] `ConventionTests.FeatureFolders`: remove the temporary `Folding` exemption added in P5-83 (the feature class, `FoldingCommands.cs` and `README.md` now exist)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `ConventionTests.FeatureFolders`: remove the temporary `Folding` exemption added in P5-83 (the feature class, `FoldingCommands.cs` and `README.md` now exist)
+      (`FoldingCommands.cs` is a stub with no command ids yet: P5-89 fills it; `FoldingFeature` is `internal`, so no public API change)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

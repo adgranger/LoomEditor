@@ -8,8 +8,7 @@ public class ConventionTests
 
     public static TheoryData<string> FeatureFolders =>
         // Scheduling is infrastructure, not a feature (ADR 0009, decision 2).
-        // Folding only has its ranges until P5-88 adds the feature class: P5-88 removes this exemption.
-        new(FeaturesFolder.EnumerateDirectories().Select(directory => directory.Name).Where(name => name is not ("Scheduling" or "Folding")));
+        new(FeaturesFolder.EnumerateDirectories().Select(directory => directory.Name).Where(name => name is not "Scheduling"));
 
     [Theory]
     [MemberData(nameof(FeatureFolders))]
