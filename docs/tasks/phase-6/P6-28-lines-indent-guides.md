@@ -1,6 +1,6 @@
 # P6-28 — `GuidesTextModelPart`: `GetLinesIndentGuides`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-27
 - **Size:** S
 
@@ -45,20 +45,20 @@ Also `src/vs/editor/common/model/textModel.ts`: search `this._guidesTextModelPar
 
 The upstream tests (`TextModel.getLineIndentGuide`, 18) need `getActiveIndentGuide` too: they are ported in P6-29. New:
 
-- [ ] `GetLinesIndentGuides_IndentedLines_CountsLevels` (`"a"`, `"  b"`, `"    c"`, indent size 2 → 0, 1, 2)
-- [ ] `GetLinesIndentGuides_BlankLineInsideABlock_TakesTheBlockLevel`
-- [ ] `GetLinesIndentGuides_BlankLineAtTheEnd_IsZero`
-- [ ] `GetLinesIndentGuides_OffSideLanguage_BlankLineBeforeDedent_UsesTheLevelBelow` (use a language whose folding rules have
+- [x] `GetLinesIndentGuides_IndentedLines_CountsLevels` (`"a"`, `"  b"`, `"    c"`, indent size 2 → 0, 1, 2)
+- [x] `GetLinesIndentGuides_BlankLineInsideABlock_TakesTheBlockLevel`
+- [x] `GetLinesIndentGuides_BlankLineAtTheEnd_IsZero`
+- [x] `GetLinesIndentGuides_OffSideLanguage_BlankLineBeforeDedent_UsesTheLevelBelow` (use a language whose folding rules have
       `OffSide = true`; P5 tests have a test language for it — reuse it)
-- [ ] `GetLinesIndentGuides_IndentNotAMultiple_RoundsUp` (3 spaces, indent size 2 → 2)
-- [ ] `GetLinesIndentGuides_InvalidRange_Throws`
+- [x] `GetLinesIndentGuides_IndentNotAMultiple_RoundsUp` (3 spaces, indent size 2 → 2)
+- [x] `GetLinesIndentGuides_InvalidRange_Throws`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: new row `editor/common/model/guidesTextModelPart.ts` (🔶 P6-28: indent guides)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: new row `editor/common/model/guidesTextModelPart.ts` (🔶 P6-28: indent guides)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
