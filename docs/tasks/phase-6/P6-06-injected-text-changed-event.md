@@ -1,6 +1,6 @@
 # P6-06 — The injected text changed event of the text model
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-05
 - **Size:** S
 
@@ -50,16 +50,16 @@ When a decoration with injected text is added, moved, changed or removed, the te
 
 ## Tests
 
-- [ ] Port: `Editor Model - Injected Text Events` › `Basic`
+- [x] Port: `Editor Model - Injected Text Events` › `Basic`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: map row of `textModelEvents.ts` (`ModelInjectedTextChangedEvent`), a new row in the phase 6 test table for
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: map row of `textModelEvents.ts` (`ModelInjectedTextChangedEvent`), a new row in the phase 6 test table for
       `modelInjectedText.test.ts` (1 / 1); update the remark of `ModelRawChange.cs` ("Injected text … is left out") to say
       that the injected text changes come through `TextModel.InjectedTextChanged`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -227,6 +227,8 @@ public sealed partial class TextModel
             return;
         }
 
+        RecordLinesAffectedByInjectedText(node, _decorationsTree.GetNodeRange(this, node));
+
         Range range = ValidateRangeRelaxed(newRange);
         int startOffset = _buffer.GetOffsetAt(range.StartLineNumber, range.StartColumn);
         int endOffset = _buffer.GetOffsetAt(range.EndLineNumber, range.EndColumn);
@@ -235,7 +237,26 @@ public sealed partial class TextModel
         node.Reset(_versionId, startOffset, endOffset, range);
         _decorationsTree.Insert(node);
         CheckAffectedAndFireDecorations(node.Options);
+
+        RecordLinesAffectedByInjectedText(node, range);
     }
+
+    // The `after` text sits on the end line of the range, the `before` text on its start line.
+    private void RecordLinesAffectedByInjectedText(ModelDecorationOptions options, Range range)
+    {
+        if (options.After is not null)
+        {
+            RecordLineAffectedByInjectedText(range.EndLineNumber);
+        }
+
+        if (options.Before is not null)
+        {
+            RecordLineAffectedByInjectedText(range.StartLineNumber);
+        }
+    }
+
+    private void RecordLinesAffectedByInjectedText(IntervalNode node, Range range) =>
+        RecordLinesAffectedByInjectedText(node.Options, range);
 
     // Monaco: _changeDecorationOptionsImpl. Monaco moves the node between its trees when it enters or leaves the
     // overview ruler or injected text, which cannot happen with one tree: the options are always set in place.
@@ -245,6 +266,21 @@ public sealed partial class TextModel
         {
             CheckAffectedAndFireDecorations(node.Options);
             CheckAffectedAndFireDecorations(options);
+
+            if (node.Options.HasInjectedText || options.HasInjectedText)
+            {
+                Range nodeRange = _decorationsTree.GetNodeRange(this, node);
+                if (node.Options.After is not null || options.After is not null)
+                {
+                    RecordLineAffectedByInjectedText(nodeRange.EndLineNumber);
+                }
+
+                if (node.Options.Before is not null || options.Before is not null)
+                {
+                    RecordLineAffectedByInjectedText(nodeRange.StartLineNumber);
+                }
+            }
+
             node.SetOptions(options);
         }
     }
@@ -290,6 +326,7 @@ public sealed partial class TextModel
                 // (2) remove the node from the tree (if it exists)
                 if (node is not null)
                 {
+                    RecordLinesAffectedByInjectedText(node, _decorationsTree.GetNodeRange(this, node));
                     _decorationsTree.Delete(node);
 
                     if (!suppressEvents)
@@ -318,6 +355,7 @@ public sealed partial class TextModel
                 node.OwnerId = ownerId;
                 node.Reset(versionId, startOffset, endOffset, range);
                 node.SetOptions(newDecoration.Options);
+                RecordLinesAffectedByInjectedText(node, range);
                 if (!suppressEvents)
                 {
                     CheckAffectedAndFireDecorations(newDecoration.Options);

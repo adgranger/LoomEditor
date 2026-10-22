@@ -548,7 +548,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-03](phase-6/P6-03-injected-text-options.md) | `InjectedTextOptions` and the `before` / `after` decoration options | P5-96 | done |
 | [P6-04](phase-6/P6-04-line-injected-text.md) | `LineInjectedText`: applying injected text and fixed-width ranges | P6-03 | done |
 | [P6-05](phase-6/P6-05-text-model-injected-text-queries.md) | `TextModel.GetLineInjectedText` and `GetInjectedTextDecorations` | P6-04 | done |
-| [P6-06](phase-6/P6-06-injected-text-changed-event.md) | The injected text changed event of the text model | P6-05 | todo |
+| [P6-06](phase-6/P6-06-injected-text-changed-event.md) | The injected text changed event of the text model | P6-05 | done |
 
 ### Step C — Line-break data and the monospace line-break computer
 
