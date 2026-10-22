@@ -1,6 +1,6 @@
 # P6-17 — `ViewModelLinesFromProjectedModel`: wrapping settings and wrapped construction
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-16, P6-13, P6-05
 - **Size:** M
 
@@ -56,22 +56,22 @@ File: `src/vs/editor/common/viewModel/viewModelLines.ts`.
 
 New (the upstream wrapping tests come in P6-19):
 
-- [ ] `Constructor_WrappingColumn_WrapsLongLines` (column 10, a 25-char line → 3 view lines; `GetViewLineContent` of each)
-- [ ] `Constructor_NoWrapping_HasOneViewLinePerModelLine`
-- [ ] `SetWrappingSettings_SameSettings_ReturnsFalse`
-- [ ] `SetWrappingSettings_OnlyColumnChanged_PassesThePreviousBreaks` (with the recording factory: it records what
+- [x] `Constructor_WrappingColumn_WrapsLongLines` (column 10, a 25-char line → 3 view lines; `GetViewLineContent` of each)
+- [x] `Constructor_NoWrapping_HasOneViewLinePerModelLine`
+- [x] `SetWrappingSettings_SameSettings_ReturnsFalse`
+- [x] `SetWrappingSettings_OnlyColumnChanged_PassesThePreviousBreaks` (with the recording factory: it records what
       `AddRequest` receives)
-- [ ] `SetWrappingSettings_IndentChanged_DoesNotPassPreviousBreaks`
-- [ ] `SetWrappingSettings_KeepsHiddenAreas`
-- [ ] `SetTabSize_RebuildsWithoutPreviousBreaks`
-- [ ] `Constructor_InjectedTextOfAnotherEditor_IsIgnored` (a decoration with `After` owned by editor 2, lines of editor 1)
+- [x] `SetWrappingSettings_IndentChanged_DoesNotPassPreviousBreaks`
+- [x] `SetWrappingSettings_KeepsHiddenAreas`
+- [x] `SetTabSize_RebuildsWithoutPreviousBreaks`
+- [x] `Constructor_InjectedTextOfAnotherEditor_IsIgnored` (a decoration with `After` owned by editor 2, lines of editor 1)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (the existing `ViewModelLines*` tests keep passing)
-- [ ] `docs/PORTING.md`: `viewModelLines.ts` map row mentions the wrapping settings
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (the existing `ViewModelLines*` tests keep passing)
+- [x] `docs/PORTING.md`: `viewModelLines.ts` map row mentions the wrapping settings
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

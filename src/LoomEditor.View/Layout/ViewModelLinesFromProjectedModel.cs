@@ -14,8 +14,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Phase 6 cut points: word wrapping (<c>createLineBreaksComputer</c>, the line break factories, <c>setWrappingSettings</c> and the
-/// wrapping fields), injected text (<c>getInjectedTextAt</c>) and the indent and bracket guides (<c>getViewLinesIndentGuides</c>,
+/// Phase 6 cut points: the model changes with line breaks (P6-18), injected text (<c>getInjectedTextAt</c>) and the indent and bracket guides (<c>getViewLinesIndentGuides</c>,
 /// <c>getActiveIndentGuide</c>, <c>getViewLinesBracketGuides</c>). <c>IViewModelLines</c> and <c>ViewModelLinesFromModelAsIs</c> are
 /// not ported (one implementation).
 /// </para>
@@ -30,7 +29,14 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     private readonly int _editorId;
     private readonly TextModel _model;
     private int _validModelVersionId = -1;
+    private readonly ILineBreaksComputerFactory _monospaceLineBreaksComputerFactory;
+    private FontInfo _fontInfo;
     private int _tabSize;
+    private int _wrappingColumn;
+    private WrappingIndent _wrappingIndent;
+    private WordBreak _wordBreak;
+    private readonly bool _wrapOnEscapedLineFeeds;
+    private bool _useTwoCellFullwidthCharacters;
     private List<IModelLineProjection> _modelLineProjections = [];
 
     // Reflects the sum of the line counts of all projected model lines.
@@ -38,15 +44,50 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
 
     private string[] _hiddenAreasDecorationIds = [];
 
+    /// <summary>Builds the lines without wrapping.</summary>
     public ViewModelLinesFromProjectedModel(int editorId, TextModel model, int tabSize)
+        : this(
+            editorId,
+            model,
+            MonospaceLineBreaksComputerFactory.Create(new EditorWrappingOptions()),
+            FontInfo.Default,
+            tabSize,
+            wrappingColumn: -1,
+            WrappingIndent.None,
+            WordBreak.Normal,
+            wrapOnEscapedLineFeeds: false,
+            useTwoCellFullwidthCharacters: false)
+    {
+    }
+
+    public ViewModelLinesFromProjectedModel(
+        int editorId,
+        TextModel model,
+        ILineBreaksComputerFactory monospaceLineBreaksComputerFactory,
+        FontInfo fontInfo,
+        int tabSize,
+        int wrappingColumn,
+        WrappingIndent wrappingIndent,
+        WordBreak wordBreak,
+        bool wrapOnEscapedLineFeeds,
+        bool useTwoCellFullwidthCharacters)
     {
         ArgumentNullException.ThrowIfNull(model);
+        ArgumentNullException.ThrowIfNull(monospaceLineBreaksComputerFactory);
+        ArgumentNullException.ThrowIfNull(fontInfo);
 
         _editorId = editorId;
         _model = model;
+        _monospaceLineBreaksComputerFactory = monospaceLineBreaksComputerFactory;
+        _fontInfo = fontInfo;
         _tabSize = tabSize;
+        _wrappingColumn = wrappingColumn;
+        _wrappingIndent = wrappingIndent;
+        _wordBreak = wordBreak;
+        _wrapOnEscapedLineFeeds = wrapOnEscapedLineFeeds;
+        _useTwoCellFullwidthCharacters = useTwoCellFullwidthCharacters;
 
-        ConstructLines(resetHiddenAreas: true);
+        ConstructLines(resetHiddenAreas: true, previousLineBreaks: null);
     }
 
     public void Dispose() => _hiddenAreasDecorationIds = _model.DeltaDecorations(_editorId, _hiddenAreasDecorationIds, []);
@@ -56,7 +97,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
             .Select(areaId => _model.GetDecorationRange(areaId)!.Value)
             .OrderBy(r => r, Comparer<Range>.Create(Range.CompareUsingStarts))];
 
-    private void ConstructLines(bool resetHiddenAreas)
+    private void ConstructLines(bool resetHiddenAreas, ModelLineProjectionData?[]? previousLineBreaks)
     {
         _modelLineProjections = [];
 
@@ -66,6 +107,14 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
         }
 
         int lineCount = _model.LineCount;
+        ILineBreaksComputer lineBreaksComputer = CreateLineBreaksComputer();
+        for (int i = 0; i < lineCount; i++)
+        {
+            lineBreaksComputer.AddRequest(i + 1, previousLineBreaks?[i]);
+        }
+
+        ModelLineProjectionData?[] linesBreaks = lineBreaksComputer.Finalize();
+
         List<int> values = [];
 
         List<Range> hiddenAreas = GetSortedHiddenAreaDecorationRanges();
@@ -87,7 +136,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
             }
 
             bool isInHiddenArea = lineNumber >= hiddenAreaStart && lineNumber <= hiddenAreaEnd;
-            IModelLineProjection line = ModelLineProjection.Create(!isInHiddenArea);
+            IModelLineProjection line = ModelLineProjection.Create(linesBreaks[i], !isInHiddenArea);
             values.Add(line.GetViewLineCount());
             _modelLineProjections.Add(line);
         }
@@ -223,7 +272,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
 
         _tabSize = newTabSize;
 
-        ConstructLines(resetHiddenAreas: false);
+        ConstructLines(resetHiddenAreas: false, previousLineBreaks: null);
 
         return true;
     }
@@ -231,7 +280,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     // ----- model changes
 
     /// <summary>The model was replaced entirely.</summary>
-    public void OnModelFlushed() => ConstructLines(resetHiddenAreas: true);
+    public void OnModelFlushed() => ConstructLines(resetHiddenAreas: true, previousLineBreaks: null);
 
     // Monaco: `!versionId` is true for null and for 0.
     private bool IsStale(int? versionId) => versionId is null or 0 || versionId <= _validModelVersionId;
