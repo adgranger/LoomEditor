@@ -29,6 +29,10 @@ internal static class KeyMapping
         (VirtualKey)191 => KeyCode.Slash, // VK_OEM_2
         (VirtualKey)219 => KeyCode.BracketLeft, // VK_OEM_4
         (VirtualKey)221 => KeyCode.BracketRight, // VK_OEM_6
+        (VirtualKey)189 => KeyCode.Minus, // VK_OEM_MINUS
+        (VirtualKey)187 => KeyCode.Equal, // VK_OEM_PLUS (the = key on a US layout)
+        (VirtualKey)188 => KeyCode.Comma, // VK_OEM_COMMA
+        (VirtualKey)190 => KeyCode.Period, // VK_OEM_PERIOD
         >= VirtualKey.A and <= VirtualKey.Z => KeyCode.KeyA + (key - VirtualKey.A),
         >= VirtualKey.F1 and <= VirtualKey.F12 => KeyCode.F1 + (key - VirtualKey.F1),
         >= VirtualKey.Number0 and <= VirtualKey.Number9 => KeyCode.Digit0 + (key - VirtualKey.Number0),

@@ -62,4 +62,19 @@ public class DefaultKeybindingsTests
         Assert.Equal(select.Keybinding, column.Keybinding);
         Assert.Equal(select.Weight + 1, column.Weight);
     }
+
+    [Fact]
+    public void Windows_FoldingRules()
+    {
+        KeybindingRule fold = DefaultKeybindings.Windows.Single(r => r.CommandId == "editor.fold");
+        Assert.Equal(new Keybinding(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.BracketLeft), fold.Keybinding);
+        Assert.Null(fold.Chord);
+
+        KeybindingRule foldAll = DefaultKeybindings.Windows.Single(r => r.CommandId == "editor.foldAll");
+        Assert.Equal(new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), foldAll.Keybinding);
+        Assert.Equal(new Keybinding(KeyModifiers.Ctrl, KeyCode.Digit0), foldAll.Chord);
+
+        KeybindingRule foldLevel7 = DefaultKeybindings.Windows.Single(r => r.CommandId == "editor.foldLevel7");
+        Assert.Equal(new Keybinding(KeyModifiers.Ctrl, KeyCode.Digit7), foldLevel7.Chord);
+    }
 }

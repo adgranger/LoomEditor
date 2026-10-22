@@ -2,7 +2,22 @@
 
 **Role:** folds regions of the text. The ranges come from the indentation (and the `#region` markers of the language); the folded lines are hidden in the view model, and a region unfolds when a cursor ends up inside it.
 
-**Commands and keys:** none yet (P5-89 adds them, P5-90 the gutter, P5-91 the mouse).
+**Commands and keys (Windows):** all need the editor text focus; they do nothing when folding is off.
+
+| Command | Keys |
+|---|---|
+| `editor.fold` (fold the region at the cursor, or its first unfolded parent) | `Ctrl+Shift+[` |
+| `editor.unfold` | `Ctrl+Shift+]` |
+| `editor.toggleFold` | `Ctrl+K Ctrl+L` |
+| `editor.foldRecursively` / `editor.unfoldRecursively` | `Ctrl+K Ctrl+[` / `Ctrl+K Ctrl+]` |
+| `editor.toggleFoldRecursively` | `Ctrl+K Ctrl+Shift+L` |
+| `editor.foldAll` / `editor.unfoldAll` | `Ctrl+K Ctrl+0` / `Ctrl+K Ctrl+J` |
+| `editor.foldLevel1` … `editor.foldLevel7` | `Ctrl+K Ctrl+1` … `Ctrl+K Ctrl+7` |
+| `editor.foldAllExcept` / `editor.unfoldAllExcept` | `Ctrl+K Ctrl+-` / `Ctrl+K Ctrl+=` |
+| `editor.foldAllMarkerRegions` / `editor.unfoldAllMarkerRegions` | `Ctrl+K Ctrl+8` / `Ctrl+K Ctrl+9` |
+| `editor.foldAllBlockComments` | `Ctrl+K Ctrl+/` |
+| `editor.createFoldingRangeFromSelection` / `editor.removeManualFoldingRanges` | `Ctrl+K Ctrl+,` / `Ctrl+K Ctrl+.` |
+| `editor.gotoParentFold`, `editor.gotoPreviousFold`, `editor.gotoNextFold` | none |
 
 **Monaco sources:** `src/vs/editor/contrib/folding/browser/` (`folding.ts`, `foldingModel.ts`, `foldingRanges.ts`, `hiddenRangeModel.ts`, `foldingDecorations.ts`, `indentRangeProvider.ts`, `syntaxRangeProvider.ts` not ported).
 
@@ -12,7 +27,7 @@
 - `FoldingRanges.cs`, `FoldingRegions.SanitizeAndMerge.cs`, `FoldingRegion.cs`, `SelectedLines.cs` — the packed region storage and its merge.
 - `HiddenRangeModel.cs` — the hidden ranges of the collapsed regions. `FoldingDecorationProvider.cs`, `ShowFoldingControls.cs` — the decoration options.
 - `IndentRangeProvider.cs`, `IndentRanges.cs`, `IRangeProvider.cs` — the indentation range provider.
-- `FoldingCommands.cs` — command ids.
+- `FoldingCommands.cs` — command ids. `FoldingFeature.Commands.cs` — the command bodies (no arguments; `editor.toggleImportFold` is not ported).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Folding/`.
 

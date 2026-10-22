@@ -1,6 +1,6 @@
 # P5-89 — Folding commands and their keyboard shortcuts
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-88
 - **Size:** M
 
@@ -70,25 +70,25 @@ File: `contrib/folding/browser/folding.ts`.
 
 No Monaco test covers the actions. New, with the feature attached to a `TestCodeEditor` and the scheduler flushed:
 
-- [ ] `Fold_FoldsTheRegionAtTheCursor`, `Unfold_UnfoldsIt`, `ToggleFold_Twice_RestoresTheState`
-- [ ] `FoldRecursively_FoldsTheRegionAndItsChildren`, `UnfoldRecursively_UnfoldsAll`
-- [ ] `FoldAll_ThenUnfoldAll`
-- [ ] `FoldLevel2_FoldsOnlySecondLevelRegions`
-- [ ] `FoldAllExcept_KeepsTheCursorRegionsOpen`
-- [ ] `FoldAllMarkerRegions_FoldsRegionMarkers` (C# `#region`)
-- [ ] `FoldAllBlockComments_FoldsBlockComments` (C# `/* … */`, `/**` doc block)
-- [ ] `GotoParentFold`, `GotoNextFold`, `GotoPreviousFold` move the cursor to the expected line
-- [ ] `CreateFoldingRangeFromSelection_FoldsTheSelectedLines`, `RemoveManualFoldingRanges_RemovesIt`
-- [ ] `FoldingDisabled_CommandsDoNothing`
-- [ ] Keybindings: `Ctrl+Shift+[` → `editor.fold`; `Ctrl+K Ctrl+0` → `editor.foldAll`; `Ctrl+K Ctrl+7` → `editor.foldLevel7`
+- [x] `Fold_FoldsTheRegionAtTheCursor`, `Unfold_UnfoldsIt`, `ToggleFold_Twice_RestoresTheState`
+- [x] `FoldRecursively_FoldsTheRegionAndItsChildren`, `UnfoldRecursively_UnfoldsAll`
+- [x] `FoldAll_ThenUnfoldAll`
+- [x] `FoldLevel2_FoldsOnlySecondLevelRegions`
+- [x] `FoldAllExcept_KeepsTheCursorRegionsOpen`
+- [x] `FoldAllMarkerRegions_FoldsRegionMarkers` (C# `#region`)
+- [x] `FoldAllBlockComments_FoldsBlockComments` (C# `/* … */`, `/**` doc block)
+- [x] `GotoParentFold`, `GotoNextFold`, `GotoPreviousFold` move the cursor to the expected line
+- [x] `CreateFoldingRangeFromSelection_FoldsTheSelectedLines`, `RemoveManualFoldingRanges_RemovesIt`
+- [x] `FoldingDisabled_CommandsDoNothing`
+- [x] Keybindings: `Ctrl+Shift+[` → `editor.fold`; `Ctrl+K Ctrl+0` → `editor.foldAll`; `Ctrl+K Ctrl+7` → `editor.foldLevel7`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `folding.ts` row (actions, P5-89; `toggleImportFold` not ported)
-- [ ] Card status and `docs/tasks/README.md` updated
-- [ ] Manual check (maintainer, Gallery): `Ctrl+K Ctrl+0` folds everything, `Ctrl+K Ctrl+J` unfolds; `Ctrl+Shift+[` on a
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `folding.ts` row (actions, P5-89; `toggleImportFold` not ported)
+- [x] Card status and `docs/tasks/README.md` updated
+- [ ] Manual check (maintainer, Gallery) — left to the maintainer: `Ctrl+K Ctrl+0` folds everything, `Ctrl+K Ctrl+J` unfolds; `Ctrl+Shift+[` on a
       `{` line folds it and the lines below disappear
 
 ## Out of scope
