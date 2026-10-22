@@ -20,8 +20,8 @@ internal sealed record EditorLayoutInfoComputerEnv(
 
 /// <summary>Monaco: <c>EditorLayoutInfoComputer.computeLayout</c>.</summary>
 /// <remarks>
-/// Threading: stateless, safe from any thread. Behavior differences: the minimap is treated as disabled, word wrap
-/// as <c>off</c>, and accessibility "dominated by long lines" is not ported (phase 6).
+/// Threading: stateless, safe from any thread. Behavior differences: the minimap is treated as disabled (P6-41) and accessibility
+/// ("dominated by long lines", <c>isWordWrapMinified</c>) is not ported (phase 7).
 /// </remarks>
 internal static class EditorLayoutInfoComputer
 {
@@ -69,6 +69,19 @@ internal static class EditorLayoutInfoComputer
         int viewportColumn = Math.Max(
             1, (int)Math.Floor((contentWidth - verticalScrollbarWidth - 2) / typicalHalfwidthCharacterWidth));
 
+        // Minimap: P6-41
+
+        bool isViewportWrapping = options.Wrapping.WordWrap is WordWrap.On or WordWrap.Bounded;
+        int wrappingColumn = options.Wrapping.WordWrap == WordWrap.WordWrapColumn ? options.Wrapping.WordWrapColumn : -1;
+        if (isViewportWrapping)
+        {
+            wrappingColumn = Math.Max(1, viewportColumn - (options.Wrapping.WordWrapIndicator ? 1 : 0));
+            if (options.Wrapping.WordWrap == WordWrap.Bounded)
+            {
+                wrappingColumn = Math.Min(wrappingColumn, options.Wrapping.WordWrapColumn);
+            }
+        }
+
         int verticalArrowSize = options.VerticalHasArrows ? options.ArrowSize : 0;
 
         return new EditorLayoutInfo(
@@ -84,6 +97,8 @@ internal static class EditorLayoutInfoComputer
             ContentLeft: contentLeft,
             ContentWidth: contentWidth,
             ViewportColumn: viewportColumn,
+            IsViewportWrapping: isViewportWrapping,
+            WrappingColumn: wrappingColumn,
             VerticalScrollbarWidth: verticalScrollbarWidth,
             HorizontalScrollbarHeight: horizontalScrollbarHeight,
             OverviewRuler: new OverviewRulerPosition(

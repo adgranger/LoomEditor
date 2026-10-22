@@ -27,6 +27,8 @@ public class ViewLayoutTests
             ContentLeft: 52,
             ContentWidth: contentWidth,
             ViewportColumn: 70,
+            IsViewportWrapping: false,
+            WrappingColumn: -1,
             VerticalScrollbarWidth: 14,
             HorizontalScrollbarHeight: 12,
             OverviewRuler: new OverviewRulerPosition(14, height, 0, 0));

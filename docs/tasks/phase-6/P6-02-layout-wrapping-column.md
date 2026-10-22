@@ -1,6 +1,6 @@
 # P6-02 — Layout: `IsViewportWrapping` and `WrappingColumn`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-01
 - **Size:** S
 
@@ -45,19 +45,19 @@ File: `src/vs/editor/common/config/editorOptions.ts`.
 
 ## Tests
 
-- [ ] New: `ComputeLayout_WordWrapOff_HasNoWrappingColumn` (`IsViewportWrapping` false, `WrappingColumn` -1)
-- [ ] New: `ComputeLayout_WordWrapColumn_UsesTheColumn`
-- [ ] New: `ComputeLayout_WordWrapOn_WrapsAtTheViewportColumn` (check `WrappingColumn == ViewportColumn`)
-- [ ] New: `ComputeLayout_WordWrapOnWithIndicator_LeavesTheRightmostColumn`
-- [ ] New: `ComputeLayout_Bounded_UsesTheMinimumOfViewportAndColumn` (both orders)
-- [ ] New: `ComputeLayout_WordWrapOn_NeverBelowOne` (tiny `OuterWidth`)
+- [x] New: `ComputeLayout_WordWrapOff_HasNoWrappingColumn` (`IsViewportWrapping` false, `WrappingColumn` -1)
+- [x] New: `ComputeLayout_WordWrapColumn_UsesTheColumn`
+- [x] New: `ComputeLayout_WordWrapOn_WrapsAtTheViewportColumn` (check `WrappingColumn == ViewportColumn`)
+- [x] New: `ComputeLayout_WordWrapOnWithIndicator_LeavesTheRightmostColumn`
+- [x] New: `ComputeLayout_Bounded_UsesTheMinimumOfViewportAndColumn` (both orders)
+- [x] New: `ComputeLayout_WordWrapOn_NeverBelowOne` (tiny `OuterWidth`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map row of `editorOptions.ts` mentions the wrapping fields
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map row of `editorOptions.ts` mentions the wrapping fields
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -33,6 +33,8 @@ public class CursorConfigurationTests
             ContentLeft: 52,
             ContentWidth: 600,
             ViewportColumn: 70,
+            IsViewportWrapping: false,
+            WrappingColumn: -1,
             VerticalScrollbarWidth: 14,
             HorizontalScrollbarHeight: 12,
             OverviewRuler: new OverviewRulerPosition(14, height, 0, 0));

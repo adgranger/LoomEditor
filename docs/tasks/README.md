@@ -539,7 +539,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P6-01](phase-6/P6-01-wrapping-options.md) | Wrapping option types: `WrappingIndent`, `WordWrap`, `WordBreak`, `EditorWrappingOptions` | P5-96 | done |
-| [P6-02](phase-6/P6-02-layout-wrapping-column.md) | Layout: `IsViewportWrapping` and `WrappingColumn` | P6-01 | todo |
+| [P6-02](phase-6/P6-02-layout-wrapping-column.md) | Layout: `IsViewportWrapping` and `WrappingColumn` | P6-01 | done |
 
 ### Step B — Injected text in the text model
 

@@ -59,6 +59,8 @@ public class EditorLayoutInfoComputerTests
             ContentLeft: contentLeft,
             ContentWidth: contentWidth,
             ViewportColumn: viewportColumn,
+            IsViewportWrapping: false,
+            WrappingColumn: -1,
             VerticalScrollbarWidth: verticalScrollbarWidth,
             HorizontalScrollbarHeight: horizontalScrollbarHeight,
             OverviewRuler: overviewRuler);
@@ -165,5 +167,70 @@ public class EditorLayoutInfoComputerTests
         Assert.Equal(38, info.GlyphMarginWidth);
         Assert.Equal(38, info.LineNumbersLeft);
         Assert.Equal(26, info.DecorationsWidth);
+    }
+
+    private static EditorLayoutInfo ComputeWrapped(WordWrap wordWrap, int wordWrapColumn = 80, bool indicator = false, int outerWidth = 800)
+    {
+        var options = new EditorLayoutOptions
+        {
+            Folding = false,
+            Wrapping = new EditorWrappingOptions { WordWrap = wordWrap, WordWrapColumn = wordWrapColumn, WordWrapIndicator = indicator },
+        };
+        var env = new EditorLayoutInfoComputerEnv(outerWidth, 600, 19, 1, 8, 8, 1, 1);
+        return EditorLayoutInfoComputer.ComputeLayout(options, env);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOff_HasNoWrappingColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.Off);
+
+        Assert.False(info.IsViewportWrapping);
+        Assert.Equal(-1, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapColumn_UsesTheColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.WordWrapColumn, wordWrapColumn: 40);
+
+        Assert.False(info.IsViewportWrapping);
+        Assert.Equal(40, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOn_WrapsAtTheViewportColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.On);
+
+        Assert.True(info.IsViewportWrapping);
+        Assert.Equal(info.ViewportColumn, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOnWithIndicator_LeavesTheRightmostColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.On, indicator: true);
+
+        Assert.Equal(info.ViewportColumn - 1, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_Bounded_UsesTheMinimumOfViewportAndColumn()
+    {
+        EditorLayoutInfo small = ComputeWrapped(WordWrap.Bounded, wordWrapColumn: 20);
+        EditorLayoutInfo large = ComputeWrapped(WordWrap.Bounded, wordWrapColumn: 1000);
+
+        Assert.True(small.IsViewportWrapping);
+        Assert.Equal(20, small.WrappingColumn);
+        Assert.Equal(large.ViewportColumn, large.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOn_NeverBelowOne()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.On, indicator: true, outerWidth: 10);
+
+        Assert.Equal(1, info.WrappingColumn);
     }
 }

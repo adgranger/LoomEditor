@@ -29,6 +29,8 @@ internal static class CursorTestContext
             ContentLeft: 52,
             ContentWidth: 734,
             ViewportColumn: 90,
+            IsViewportWrapping: false,
+            WrappingColumn: -1,
             VerticalScrollbarWidth: 14,
             HorizontalScrollbarHeight: 12,
             OverviewRuler: new OverviewRulerPosition(14, 600, 0, 0));

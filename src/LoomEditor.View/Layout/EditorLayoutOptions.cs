@@ -39,4 +39,7 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>Monaco: <c>scrollbar.arrowSize</c>.</summary>
     public int ArrowSize { get; init; } = 11;
+
+    /// <summary>The word-wrap settings (Monaco: <c>wordWrap</c>, <c>wordWrapColumn</c>, <c>wordWrapIndicator</c>).</summary>
+    public EditorWrappingOptions Wrapping { get; init; } = new();
 }
