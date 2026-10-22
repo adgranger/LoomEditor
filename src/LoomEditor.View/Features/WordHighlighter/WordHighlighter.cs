@@ -41,6 +41,9 @@ internal sealed class WordHighlighter : IDisposable
     private Selection? _query;
     private bool _disposed;
 
+    // Monaco: _ignorePositionChangeEvent, true while the navigation moves the cursor.
+    private bool _ignorePositionChangeEvent;
+
     public WordHighlighter(ViewModel viewModel, IEditorScheduler scheduler, EditorWordHighlightOptions options)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
@@ -107,6 +110,12 @@ internal sealed class WordHighlighter : IDisposable
         StopAll();
     }
 
+    /// <summary>Monaco: <c>moveNext</c>: goes to the occurrence after the one at the cursor, wrapping around.</summary>
+    public void MoveNext() => MoveBy(1);
+
+    /// <summary>Monaco: <c>moveBack</c>: goes to the occurrence before the one at the cursor, wrapping around.</summary>
+    public void MoveBack() => MoveBy(-1);
+
     /// <inheritdoc />
     public void Dispose()
     {
@@ -123,11 +132,48 @@ internal sealed class WordHighlighter : IDisposable
         StopRequest();
     }
 
+    // Monaco: moveNext and moveBack; the screen reader alert is not ported.
+    private void MoveBy(int step)
+    {
+        List<Range> highlights = [.. _decorations.GetRanges()];
+        highlights.Sort(Range.CompareUsingStarts);
+        if (highlights.Count == 0)
+        {
+            return;
+        }
+
+        Position position = _viewModel.GetSelection().Position;
+        int index = highlights.FindIndex(range => range.Contains(position));
+        int newIndex = (((index + step) % highlights.Count) + highlights.Count) % highlights.Count;
+        Range dest = highlights[newIndex];
+        try
+        {
+            _ignorePositionChangeEvent = true;
+            _viewModel.SetSelections("api", [Selection.Collapsed(dest.Start)]);
+            _viewModel.RevealRange(
+                "api",
+                true,
+                _viewModel.CoordinatesConverter.ConvertModelRangeToViewRange(dest),
+                VerticalRevealType.CenterIfOutsideViewport,
+                ScrollType.Smooth);
+        }
+        finally
+        {
+            _ignorePositionChangeEvent = false;
+        }
+    }
+
     private void OnViewModelEvent(object? sender, OutgoingViewModelEvent e)
     {
         switch (e)
         {
             case CursorStateChangedEvent cursorEvent:
+                if (_ignorePositionChangeEvent)
+                {
+                    // We are changing the position => ignore this event
+                    return;
+                }
+
                 // Monaco: onDidChangeCursorPosition fires when the position of the primary cursor changes.
                 if (IsOff
                     || (cursorEvent.OldSelections is { Count: > 0 } old && old[0].Position == cursorEvent.Selections[0].Position))

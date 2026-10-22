@@ -1,6 +1,6 @@
 # P5-93 — The `WordHighlighter` feature and its commands (F7 / Shift+F7)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-92
 - **Size:** S
 
@@ -44,19 +44,19 @@ Word highlight is on in every editor: the `WordHighlighterFeature` (Monaco's `Wo
 
 No Monaco test is ported (see P5-92). New:
 
-- [ ] `Next_MovesToTheNextOccurrence_AndWraps`; `Prev_MovesToThePreviousOccurrence_AndWraps`
-- [ ] `Next_WithoutHighlights_DoesNothing`
-- [ ] `Trigger_AfterTyping_HighlightsAfter250Ms`
-- [ ] `Next_DoesNotClearTheHighlights` (the position change is ignored)
-- [ ] Keybindings: `F7` → `editor.action.wordHighlight.next`, `Shift+F7` → `…prev`
-- [ ] `EditorFeatures_Default_ContainsWordHighlighter`
+- [x] `Next_MovesToTheNextOccurrence_AndWraps`; `Prev_MovesToThePreviousOccurrence_AndWraps`
+- [x] `Next_WithoutHighlights_DoesNothing`
+- [x] `Trigger_AfterTyping_HighlightsAfter250Ms`
+- [x] `Next_DoesNotClearTheHighlights` (the position change is ignored)
+- [x] Keybindings: `F7` → `editor.action.wordHighlight.next`, `Shift+F7` → `…prev`
+- [x] `EditorFeatures_Default_ContainsWordHighlighter`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `wordHighlighter.ts` row (contribution and actions, P5-93)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `wordHighlighter.ts` row (contribution and actions, P5-93)
+- [x] Card status and `docs/tasks/README.md` updated
 - [ ] Manual check (maintainer, Gallery, C# sample): the cursor on an identifier highlights its other occurrences
       after a short delay; F7 / Shift+F7 cycle through them; typing removes the highlights
 

@@ -513,7 +513,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P5-92](phase-5/P5-92-word-highlighter.md) | Word highlighter: textual occurrences and their decorations | P5-91 | done |
-| [P5-93](phase-5/P5-93-word-highlighter-feature.md) | The `WordHighlighter` feature and its commands (F7 / Shift+F7) | P5-92 | todo |
+| [P5-93](phase-5/P5-93-word-highlighter-feature.md) | The `WordHighlighter` feature and its commands (F7 / Shift+F7) | P5-92 | done |
 
 ### Step I — Prove it and close the phase
 
