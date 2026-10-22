@@ -1,6 +1,6 @@
 # P6-47 — `MinimapLayout`: rendered line range and slider position
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-46
 - **Size:** S
 
@@ -36,19 +36,19 @@ File: `src/vs/editor/browser/viewParts/minimap/minimap.ts`.
 
 No upstream unit tests. New, with a `MinimapOptions` built by a test helper (P6-46 constructor, fake layout values):
 
-- [ ] `Create_EditorHeightMode_SliderCoversTheViewportRatio`
-- [ ] `Create_Proportional_DocumentShorterThanMinimap_NoSampling_SliderAtScrollTop`
-- [ ] `Create_Proportional_LongDocument_StartLineFollowsTheScroll`
-- [ ] `Create_WithPreviousLayout_KeepsTheStartLineWhenPossible` (the stabilization branch)
-- [ ] `GetDesiredScrollTopFromDelta_InvertsTheSliderRatio`
-- [ ] `IntersectWithViewport_OutsideReturnsNull`
+- [x] `Create_EditorHeightMode_SliderCoversTheViewportRatio`
+- [x] `Create_Proportional_DocumentShorterThanMinimap_NoSampling_SliderAtScrollTop`
+- [x] `Create_Proportional_LongDocument_StartLineFollowsTheScroll`
+- [x] `Create_WithPreviousLayout_KeepsTheStartLineWhenPossible` (the stabilization branch)
+- [x] `GetDesiredScrollTopFromDelta_InvertsTheSliderRatio`
+- [x] `IntersectWithViewport_OutsideReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row (+ `MinimapLayout`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row (+ `MinimapLayout`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
