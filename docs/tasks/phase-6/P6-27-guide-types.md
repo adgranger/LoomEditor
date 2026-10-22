@@ -1,6 +1,6 @@
 # P6-27 — Guide types: `IndentGuide`, `BracketGuideOptions`, `ActiveIndentGuideInfo`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-96
 - **Size:** S
 
@@ -46,16 +46,16 @@ The value types that the indent and bracket guides use exist in Core, with the c
 
 ## Tests
 
-- [ ] New: `IndentGuide_BothColumnsSet_Throws`; `IndentGuide_NeitherColumnSet_Throws`; `IndentGuide_OneColumnSet_IsCreated`
-- [ ] New: `GetInlineClassNameOfLevel_WrapsAt30`
-- [ ] New: `GetInlineClassName_IndependentPool_UsesTheEqualTypeLevel`
+- [x] New: `IndentGuide_BothColumnsSet_Throws`; `IndentGuide_NeitherColumnSet_Throws`; `IndentGuide_OneColumnSet_IsCreated`
+- [x] New: `GetInlineClassNameOfLevel_WrapsAt30`
+- [x] New: `GetInlineClassName_IndependentPool_UsesTheEqualTypeLevel`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: new row `editor/common/textModelGuides.ts`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: new row `editor/common/textModelGuides.ts`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
