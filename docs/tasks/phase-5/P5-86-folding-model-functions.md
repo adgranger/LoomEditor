@@ -1,6 +1,6 @@
 # P5-86 — Folding model functions: fold levels, recursive folding, fold jumping
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-85
 - **Size:** M
 
@@ -39,18 +39,18 @@ P5-89 are thin wrappers around them.
 
 ## Tests
 
-- [ ] Port: `Folding Model` › `setCollapseStateRecursivly`, `setCollapseStateAtLevel`, `setCollapseStateLevelsDown`,
+- [x] Port: `Folding Model` › `setCollapseStateRecursivly`, `setCollapseStateAtLevel`, `setCollapseStateLevelsDown`,
       `setCollapseStateLevelsUp`, `setCollapseStateUp`, `setCollapseStateForMatchingLines`, `setCollapseStateForRest`,
       `fold jumping`, `fold jumping issue #129503`
-- [ ] New: `SetCollapseStateForType_CollapsesOnlyThatType` (regions built with `FoldingRegions.FromFoldRanges` with types)
-- [ ] New: `ToggleCollapseState_LevelsOne_OnlyTheRegionAtTheLine`
+- [x] New: `SetCollapseStateForType_CollapsesOnlyThatType` (regions built with `FoldingRegions.FromFoldRanges` with types)
+- [x] New: `ToggleCollapseState_LevelsOne_OnlyTheRegionAtTheLine`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `foldingModel.ts` row (functions, P5-86); "Tests ported": `foldingModel.test.ts` 22 / 22
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `foldingModel.ts` row (functions, P5-86); "Tests ported": `foldingModel.test.ts` 22 / 22
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
