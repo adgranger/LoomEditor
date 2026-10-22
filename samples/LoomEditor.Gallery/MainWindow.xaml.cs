@@ -47,6 +47,8 @@ public sealed partial class MainWindow : Window
         LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
         Editor.Text = SampleText.HelloWorld;
         Editor.Model.ContentChanged += (_, _) => RefreshStatus();
+        // A load detects the indentation: show the tab size it chose.
+        Editor.Model.OptionsChanged += (_, _) => TabSizeBox.Value = Editor.Model.Options.TabSize;
         Editor.SelectionChanged += (_, _) => RefreshStatus();
         RefreshStatus();
     }
