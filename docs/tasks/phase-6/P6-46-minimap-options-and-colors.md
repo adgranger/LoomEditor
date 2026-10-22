@@ -1,6 +1,6 @@
 # P6-46 — `MinimapOptions`, the token color tracker and the minimap colors
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-44, P6-43
 - **Size:** S
 
@@ -39,17 +39,17 @@ alpha), with the token colors as `Rgba8` and the minimap theme colors with Monac
 
 ## Tests
 
-- [ ] New: `MinimapOptions_NoMinimapBackground_UsesTheDefaultBackground`
-- [ ] New: `MinimapOptions_ForegroundOpacity_FromTheTheme`
-- [ ] New: `MinimapOptions_EqualsOptions_DetectsAChange`
-- [ ] New: `TokensColorTracker_BackgroundIsLight_ForTheLightTheme`
+- [x] New: `MinimapOptions_NoMinimapBackground_UsesTheDefaultBackground`
+- [x] New: `MinimapOptions_ForegroundOpacity_FromTheTheme`
+- [x] New: `MinimapOptions_EqualsOptions_DetectsAChange`
+- [x] New: `TokensColorTracker_BackgroundIsLight_ForTheLightTheme`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `minimap.ts` (🔶 options), `minimapTokensColorTracker.ts`, `minimapColors.ts` rows
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `minimap.ts` (🔶 options), `minimapTokensColorTracker.ts`, `minimapColors.ts` rows
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

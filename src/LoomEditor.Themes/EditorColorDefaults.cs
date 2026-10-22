@@ -311,6 +311,48 @@ internal static class EditorColorDefaults
 
         // inputColors.ts:44
         ["inputOption.activeForeground"] = ("#FFFFFF", "#000000", "foreground", "foreground"),
+
+        // editorColors.ts:74 (editorError.foreground), :83 (editorWarning.foreground), :87, :96 (editorInfo.foreground), :100
+        ["editorError.foreground"] = ("#F14C4C", "#E51400", "#F48771", "#B5200D"),
+        ["editorWarning.foreground"] = ("#CCA700", "#BF8803", "#FFD370", "#895503"),
+        ["editorWarning.border"] = (null, null, ColorValue.Transparent("#FFCC00", 0.8), ColorValue.Transparent("#FFCC00", 0.8)),
+        ["editorInfo.foreground"] = ("#59a4f9", "#0063d3", "#59a4f9", "#0063d3"),
+        ["editorInfo.border"] = (null, null, ColorValue.Transparent("#59a4f9", 0.8), "#292929"),
+
+        // miscColors.ts:56, :60, :64
+        ["scrollbarSlider.background"] = (
+            ColorValue.Transparent("#797979", 0.4), ColorValue.Transparent("#646464", 0.4),
+            ColorValue.Transparent("contrastBorder", 0.6), ColorValue.Transparent("contrastBorder", 0.4)),
+        ["scrollbarSlider.hoverBackground"] = (
+            ColorValue.Transparent("#646464", 0.7), ColorValue.Transparent("#646464", 0.7),
+            ColorValue.Transparent("contrastBorder", 0.8), ColorValue.Transparent("contrastBorder", 0.8)),
+        ["scrollbarSlider.activeBackground"] = (
+            ColorValue.Transparent("#BFBFBF", 0.4), ColorValue.Transparent("#000000", 0.6), "contrastBorder", "contrastBorder"),
+
+        // minimapColors.ts:17-60 (editorFindMatchHighlight = editor.findMatchHighlightBackground,
+        // editorSelectionHighlight = editor.selectionHighlightBackground)
+        ["minimap.findMatchHighlight"] = (
+            "editor.findMatchHighlightBackground", "editor.findMatchHighlightBackground",
+            "editor.findMatchHighlightBackground", "editor.findMatchHighlightBackground"),
+        ["minimap.selectionOccurrenceHighlight"] = (
+            "editor.selectionHighlightBackground", "editor.selectionHighlightBackground",
+            "editor.selectionHighlightBackground", "editor.selectionHighlightBackground"),
+        ["minimap.selectionHighlight"] = (
+            "editor.selectionBackground", "editor.selectionBackground", "editor.selectionBackground", "editor.selectionBackground"),
+        ["minimap.infoHighlight"] = ("editorInfo.foreground", "editorInfo.foreground", "editorInfo.border", "editorInfo.border"),
+        ["minimap.warningHighlight"] = ("editorWarning.foreground", "editorWarning.foreground", "editorWarning.border", "editorWarning.border"),
+        ["minimap.errorHighlight"] = ("#FF1212B3", "#FF1212B3", "#FF3232", "#B5200D"),
+        ["minimap.background"] = (null, null, null, null),
+        ["minimap.foregroundOpacity"] = ("#000000FF", "#000000FF", "#000000FF", "#000000FF"),
+        ["minimapSlider.background"] = (
+            ColorValue.Transparent("scrollbarSlider.background", 0.5), ColorValue.Transparent("scrollbarSlider.background", 0.5),
+            ColorValue.Transparent("scrollbarSlider.background", 0.5), ColorValue.Transparent("scrollbarSlider.background", 0.5)),
+        ["minimapSlider.hoverBackground"] = (
+            ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5), ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5),
+            ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5), ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5)),
+        ["minimapSlider.activeBackground"] = (
+            ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5), ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5),
+            ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5), ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5)),
     };
 
     /// <summary>Whether <paramref name="id"/> has a default (even a <see langword="null"/> one).</summary>
