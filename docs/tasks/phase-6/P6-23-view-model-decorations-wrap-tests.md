@@ -1,6 +1,6 @@
 # P6-23 — Port the word wrap tests of `viewModelDecorations.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-22
 - **Size:** S
 
@@ -35,16 +35,16 @@ view line correctly. Test card: production code changes only to fix what a test 
 
 ## Tests
 
-- [ ] Port: `ViewModelDecorations` › `getDecorationsViewportData`
-- [ ] Port: `ViewModelDecorations` › `issue #17208: Problem scrolling in 1.8.0`
+- [x] Port: `ViewModelDecorations` › `getDecorationsViewportData`
+- [x] Port: `ViewModelDecorations` › `issue #17208: Problem scrolling in 1.8.0`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewModelDecorations.test.ts` is 3 / 3; remove the `Layout/ViewModel*.cs` row of "Cut points for
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewModelDecorations.test.ts` is 3 / 3; remove the `Layout/ViewModel*.cs` row of "Cut points for
       phase 6" (its tests are all ported after P6-22 and this card)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

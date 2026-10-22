@@ -433,7 +433,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `textModel.test.ts` (`Editor Model - TextModel`) | 25 / 26 | `does not use events internally` (1) left. Indentation guessing and `normalizeIndentation` (P5-19, `TextModelIndentationTests`) create the model with the defaults and call `DetectIndentation`; `issue #168836` is in `TextModelOptionsTests`. The 3 NaN / float `validatePosition` / `validateRange` tests are adapted to `int` inside the validation tests |
 | `modelDecorations.test.ts` (`Editor Model - Model Decorations`, `deltaDecorations`, `Decorations and editing`) | 24 + 5 / 28; 7 / 10; 62 / 62 | P5-03 and P5-04. Not ported: `injected text width must be finite and non-negative` (injected text), `removeAllDecorationsWithOwnerId can be called after model dispose` (no `Dispose`), `issue #4317` (`hoverMessage`). The card counts 59 tests in `Decorations and editing`; the file has 62 (insert 8, delete 18, replace short 18, replace long 18) and all are ported |
 | `color.test.ts` (`Color`, `HSLA`) | 5 + 16 luminance cases / 12 tests of the file | P5-05: `isLighterColor`, `getLighterColor`, `isDarkerColor`, `getDarkerColor`, `luminance`, `HSLA.toRGBA`, `HSLA.fromRGBA`. Not ported: `blending`, `toString`, `toNumber32Bit`, `HSVA`, `Format`, `ensureContrastRatio` (the code they test is not ported) |
-| `inlineDecorations.test.ts` (`InlineModelDecorationsComputer`), `viewModelDecorations.test.ts` (`issue #37401`) | 32 / 33; 1 / 3 | P5-07, P6-14 (`InjectedTextInlineDecorationsComputer`, 21). Not ported: `decoration with affectsFont sets hasVariableFonts` (font decorations), `getDecorationsViewportData` and `issue #17208` (word wrap: phase 6) |
+| `inlineDecorations.test.ts` (`InlineModelDecorationsComputer`), `viewModelDecorations.test.ts` (`issue #37401`) | 32 / 33; 3 / 3 | P5-07, P6-14, P6-23 (`InjectedTextInlineDecorationsComputer`, 21). Not ported: `decoration with affectsFont sets hasVariableFonts` (font decorations) |
 | `lineDecorations.test.ts` (`LineDecoration.filter`) | 1 / 8 | P5-09: `issue #3661`. Not ported: the normalizer, width-only and injected text tests, `issue #37401` (a range with column 0 cannot be built in C#) |
 | `languageConfiguration.test.ts` (`StandardAutoClosingPairConditional`) | 11 / 11 | P5-10; `language configurations priorities` in P5-14 (`LanguageConfigurationRegistryTests`, no `TestLanguageConfigurationService`) |
 | `richEditBrackets.test.ts`, `electricCharacter.test.ts` | 10 / 10; 2 / 2 | P5-11 |
@@ -487,7 +487,6 @@ What phase 5 leaves for word wrap, guides, the minimap and sticky scroll. Phase 
 | Where (LoomEditor) | Monaco (pinned commit) | What is missing |
 |---|---|---|
 | `Layout/ViewModelLinesFromProjectedModel*.cs` (wrapping members), `ModelLineProjection` | `viewModelLines.ts`, `modelLineProjection.ts`, `modelLineProjectionData.ts`, `monospaceLineBreaksComputer.ts` | the line-break projection and word wrap |
-| `Layout/ViewModel*.cs` | `viewModelImpl.test.ts`, `multicursor.test.ts` (`issue #26393`), `columnSelectionPaste.test.ts`, `viewModelDecorations.test.ts` (`issue #17208`, `getDecorationsViewportData`) | the tests that need word wrap or injected text |
 | `Core/Model/TextModel*` (no `getLineIndentGuide`, `getActiveIndentGuide`) | `guidesTextModelPart.ts`, `textModelWithTokens.test.ts` (18 `getLineIndentGuide` tests), `modelLineProjection.test.ts` (`Invalid line numbers`: the guide assertions) | indent and bracket guides |
 | `Layout/InlineModelDecorationsComputer`, `LineDecoration.cs`, `ModelDecorationOptions` | `inlineDecorations.test.ts` (`InjectedTextInlineDecorationsComputer`, 21 tests), `lineDecorations.test.ts` | injected text (`ModelDecorationInjectedTextOptions`) and its width |
 | `ModelDecorationOptions` (no overview ruler, no minimap) | `overviewRuler.ts`, `minimap.ts` | the overview ruler and the minimap parts of decorations; the 8 minimap tests of `editorLayoutProvider.test.ts` |
@@ -541,7 +540,7 @@ file; counts come from the `// Monaco:` comments and the rows of those tables.
 |---|---|---|
 | `cursor.test.ts` (languages, Enter, Tab, auto-closing, surround, electric, auto-indent on type) | 1, 28, 7, 1, 30, 11, 8, 15 (all) | P5-37 … P5-46 |
 | `modelDecorations.test.ts` | 24 + 5 / 28; 7 / 10; 62 / 62 | dispose, `hoverMessage`; injected text width is in "Tests ported in phase 6" (P5-03, P5-04) |
-| `inlineDecorations.test.ts`, `viewModelDecorations.test.ts` | 32 / 33; 1 / 3 | font decorations, word wrap |
+| `inlineDecorations.test.ts`, `viewModelDecorations.test.ts` | 32 / 33; 3 / 3 | font decorations |
 | `lineDecorations.test.ts` | 1 / 8 | normalizer, injected text |
 | `languageConfiguration`, `richEditBrackets`, `electricCharacter`, `characterPair`, `onEnter` | 11, 10, 2, 13, 4 (all) | |
 | `indentationLineProcessor.test.ts`, `indentation.test.ts` | 6 / 6; 52 / 85 | 26 `test.skip` (fail upstream) and 7 placeholders |

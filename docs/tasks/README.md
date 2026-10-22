@@ -580,7 +580,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-20](phase-6/P6-20-view-model-word-wrap.md) | The view model wraps lines: settings, model changes, content width | P6-19, P6-02 | done |
 | [P6-21](phase-6/P6-21-view-model-injected-text-changes.md) | The view model and the cursors follow injected text changes | P6-20, P6-06 | done |
 | [P6-22](phase-6/P6-22-word-wrap-cursor-tests.md) | Port the word wrap and injected text tests of the view model and the cursors | P6-21 | done |
-| [P6-23](phase-6/P6-23-view-model-decorations-wrap-tests.md) | Port the word wrap tests of `viewModelDecorations.test.ts` | P6-22 | todo |
+| [P6-23](phase-6/P6-23-view-model-decorations-wrap-tests.md) | Port the word wrap tests of `viewModelDecorations.test.ts` | P6-22 | done |
 | [P6-24](phase-6/P6-24-render-wrapped-lines.md) | Drawing, hit testing and folding on wrapped lines | P6-23 | todo |
 | [P6-25](phase-6/P6-25-injected-text-rendering-and-mouse.md) | Injected text: its inline decorations in the viewport and the mouse | P6-24 | todo |
 | [P6-26](phase-6/P6-26-control-word-wrap-properties.md) | The control's word wrap properties and a gallery switch | P6-25 | todo |
