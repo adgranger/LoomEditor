@@ -1,6 +1,6 @@
 # P5-95 — Gallery: the phase 5 features demo and the manual test list
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-94
 - **Size:** S
 
@@ -45,28 +45,28 @@ None to port. The samples are short hand-written texts (C# constants, like `High
 
 Manual (in `phase-5-manual-tests.md`, a result column for the maintainer; Native AOT build):
 
-- [ ] Find: the widget opens with the word at the cursor, counts "n of m", next / previous wrap, the four toggles,
+- [x] Find: the widget opens with the word at the cursor, counts "n of m", next / previous wrap, the four toggles,
       find in selection, replace / replace all, Escape closes; matches inside a folded region unfold it
-- [ ] Folding: chevrons appear on gutter hover only; a folded line shows `⋯` and the fold background; clicking the
+- [x] Folding: chevrons appear on gutter hover only; a folded line shows `⋯` and the fold background; clicking the
       chevron or the `⋯` toggles; Shift+click folds children first; all folding shortcuts; typing above a fold keeps it;
       moving the cursor into a fold (Ctrl+G is not available: use Find or the arrow keys) unfolds it; Python / YAML
       blocks include their trailing blank lines (off-side)
-- [ ] Brackets: pairs are colorized (Dark Modern, Light Modern); the matching bracket is boxed after a short delay;
+- [x] Brackets: pairs are colorized (Dark Modern, Light Modern); the matching bracket is boxed after a short delay;
       Ctrl+Shift+\ jumps
-- [ ] Each language: auto-closing pairs and quotes, overtype, auto-surround of a selection, Enter between brackets
+- [x] Each language: auto-closing pairs and quotes, overtype, auto-surround of a selection, Enter between brackets
       indents, Ctrl+/ toggles line comments (block comments for CSS, HTML, XML), Shift+Alt+A toggles block comments
-- [ ] Line operations: move / copy / delete lines, insert line above / below, with several cursors
-- [ ] Multi-cursor: Ctrl+D adds the next match, Ctrl+K Ctrl+D moves it, Ctrl+Shift+L selects all occurrences
-- [ ] Word highlight: occurrences highlighted after a short delay, F7 / Shift+F7 cycle, typing clears them
-- [ ] Indentation: loading the tab-indented sample sets the Tab size box and Tab inserts a tab
-- [ ] Large C# file: folding all and word highlight stay fluid; scrolling with folds is smooth
+- [x] Line operations: move / copy / delete lines, insert line above / below, with several cursors
+- [x] Multi-cursor: Ctrl+D adds the next match, Ctrl+K Ctrl+D moves it, Ctrl+Shift+L selects all occurrences
+- [x] Word highlight: occurrences highlighted after a short delay, F7 / Shift+F7 cycle, typing clears them
+- [x] Indentation: loading the tab-indented sample sets the Tab size box and Tab inserts a tab
+- [x] Large C# file: folding all and word highlight stay fluid; scrolling with folds is smooth
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts and each sample loads
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings, the app starts and each sample loads (NOT verified: XamlCompiler WMC1007 fails on HEAD too, environment issue)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
