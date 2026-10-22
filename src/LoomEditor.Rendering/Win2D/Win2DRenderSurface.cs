@@ -33,6 +33,10 @@ internal sealed class Win2DRenderSurface : IRenderSurface
         _session.FillRectangle(x, y, width, height, ToWindowsColor(color));
 
     /// <inheritdoc />
+    public void DrawLine(float x1, float y1, float x2, float y2, ThemeColor color, float strokeWidth) =>
+        _session.DrawLine(x1, y1, x2, y2, ToWindowsColor(color), strokeWidth);
+
+    /// <inheritdoc />
     public void DrawRectangle(float x, float y, float width, float height, ThemeColor color, float strokeWidth) =>
         _session.DrawRectangle(x, y, width, height, ToWindowsColor(color), strokeWidth);
 

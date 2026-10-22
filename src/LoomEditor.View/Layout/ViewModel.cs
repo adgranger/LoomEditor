@@ -127,6 +127,12 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         UpdateCursorConfiguration();
     }
 
+    /// <summary>The layout options in use.</summary>
+    public EditorLayoutOptions LayoutOptions => _layoutOptions;
+
+    /// <summary>The scrolling options in use.</summary>
+    public ViewLayoutOptions ViewLayoutOptions => _viewLayoutOptions;
+
     /// <summary>Sets the layout and scrolling options.</summary>
     public void SetOptions(EditorLayoutOptions layoutOptions, ViewLayoutOptions viewLayoutOptions)
     {

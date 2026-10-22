@@ -41,6 +41,12 @@ internal static class DecorationStyles
         // colorizedBracketPairsDecorationProvider.ts 106–128: the only computed rows (see BracketPairColorizationColors)
         ["unexpected-closing-bracket"] = new(ForegroundResolver: BracketPairColorizationColors.GetUnexpectedBracketColor),
 
+        // folding.css 5–30, foldingDecorations.ts 33–60: collapsed icons are always visible; `alwaysShowFoldIcons` is handled by `Get`.
+        ["codicon-folding-expanded"] = new(GutterIcon: GutterIcon.ChevronDown),
+        ["codicon-folding-manual-expanded"] = new(GutterIcon: GutterIcon.ChevronDown),
+        ["codicon-folding-collapsed"] = new(GutterIcon: GutterIcon.ChevronRight, AlwaysVisible: true),
+        ["codicon-folding-manual-collapsed"] = new(GutterIcon: GutterIcon.ChevronRight, AlwaysVisible: true),
+
         ["inline-folded"] = new(AfterContentText: "⋯", AfterContentColorId: "editor.foldPlaceholderForeground"),
     };
 
@@ -71,11 +77,15 @@ internal static class DecorationStyles
             return null;
         }
 
-        foreach (string name in className.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+        string[] names = className.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        foreach (string name in names)
         {
             if (Table.TryGetValue(name, out DecorationStyle? style))
             {
-                return style;
+                // `.alwaysShowFoldIcons` (folding.css) makes the icon of the same list visible without hover.
+                return style.GutterIcon != GutterIcon.None && Array.IndexOf(names, "alwaysShowFoldIcons") >= 0
+                    ? style with { AlwaysVisible = true }
+                    : style;
             }
         }
 

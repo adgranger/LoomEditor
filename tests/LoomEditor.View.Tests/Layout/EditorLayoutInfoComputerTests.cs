@@ -148,7 +148,7 @@ public class EditorLayoutInfoComputerTests
     {
         var env = new EditorLayoutInfoComputerEnv(800, 600, 19, 4, 8.4, 8.4, 1, 1);
 
-        EditorLayoutInfo info = EditorLayoutInfoComputer.ComputeLayout(new EditorLayoutOptions(), env);
+        EditorLayoutInfo info = EditorLayoutInfoComputer.ComputeLayout(new EditorLayoutOptions { Folding = false }, env); // the numbers below leave out the 16 DIPs of folding
 
         Assert.Equal(42, info.LineNumbersWidth);
         Assert.Equal(52, info.ContentLeft);

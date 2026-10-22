@@ -1,6 +1,6 @@
 # P5-90 — Folding controls in the gutter: room, chevrons, mouse-over
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-89
 - **Size:** M
 
@@ -57,20 +57,20 @@ chevron. The folded line shows `⋯` and the fold background (P5-08 rows, nothin
 
 New (renderer with `RecordingRenderSurface` and `FakeTextMeasurer`):
 
-- [ ] `Layout_FoldingOn_AddsSixteenDipsToTheDecorationsWidth` (View: default options → `DecorationsWidth == 26`)
-- [ ] `ExpandedRegion_MarginNotHovered_DrawsNoChevron`; `…_MarginHovered_DrawsADownChevron` at the expected points
-- [ ] `CollapsedRegion_AlwaysDrawsARightChevron`
-- [ ] `ShowFoldingControlsAlways_ExpandedRegion_DrawsWithoutHover`
-- [ ] `ShowFoldingControlsNever_DrawsNothingAndNoRoom`
-- [ ] `RegionOnHiddenLine_DrawsNothing` (hidden lines are not drawn)
+- [x] `Layout_FoldingOn_AddsSixteenDipsToTheDecorationsWidth` (View: default options → `DecorationsWidth == 26`)
+- [x] `ExpandedRegion_MarginNotHovered_DrawsNoChevron`; `…_MarginHovered_DrawsADownChevron` at the expected points
+- [x] `CollapsedRegion_AlwaysDrawsARightChevron`
+- [x] `ShowFoldingControlsAlways_ExpandedRegion_DrawsWithoutHover`
+- [x] `ShowFoldingControlsNever_DrawsNothingAndNoRoom`
+- [x] `RegionOnHiddenLine_DrawsNothing` (hidden lines are not drawn)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: row `contrib/folding/browser/folding.css` (drawn by `TextViewRenderer.GutterDecorations.cs`,
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: row `contrib/folding/browser/folding.css` (drawn by `TextViewRenderer.GutterDecorations.cs`,
       P5-90); behavior differences "chevrons are strokes, not codicons; no fade"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 - [ ] Manual check (maintainer, Gallery, C# sample): chevrons appear when the mouse enters the gutter and disappear
       when it leaves; a folded line keeps its right chevron, shows `⋯` and the fold background, in Dark and Light Modern
 

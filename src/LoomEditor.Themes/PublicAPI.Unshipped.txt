@@ -79,3 +79,5 @@ static LoomEditor.Themes.ThemeColor.operator ==(LoomEditor.Themes.ThemeColor lef
 static LoomEditor.Themes.ThemeColor.Parse(string! hex) -> LoomEditor.Themes.ThemeColor
 static LoomEditor.Themes.TokenColorRule.operator !=(LoomEditor.Themes.TokenColorRule? left, LoomEditor.Themes.TokenColorRule? right) -> bool
 static LoomEditor.Themes.TokenColorRule.operator ==(LoomEditor.Themes.TokenColorRule? left, LoomEditor.Themes.TokenColorRule? right) -> bool
+LoomEditor.Themes.EditorTheme.FoldingControlForeground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.EditorTheme.FoldingControlForeground.init -> void

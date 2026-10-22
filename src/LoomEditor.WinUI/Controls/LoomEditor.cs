@@ -191,7 +191,7 @@ public sealed partial class LoomEditor : Control
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         var editor = (LoomEditor)sender;
-        editor._viewModel.SetOptions(new EditorLayoutOptions(), editor.CreateViewLayoutOptions(editor._viewModel.FontInfo.LineHeight));
+        editor._viewModel.SetOptions(editor._viewModel.LayoutOptions, editor.CreateViewLayoutOptions(editor._viewModel.FontInfo.LineHeight));
     }
 
     private ViewLayoutOptions CreateViewLayoutOptions(int lineHeight) => new(lineHeight, SmoothScrolling: SmoothScrolling);

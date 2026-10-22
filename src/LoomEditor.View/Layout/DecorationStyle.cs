@@ -14,6 +14,8 @@ namespace LoomEditor.View.Layout;
 /// <param name="AfterContentText">Text drawn after the decorated range (CSS <c>::after</c> content).</param>
 /// <param name="AfterContentColorId">The color of <paramref name="AfterContentText"/>.</param>
 /// <param name="Important">The foreground wins over the other inline foregrounds (CSS <c>!important</c>).</param>
+/// <param name="GutterIcon">The icon drawn in the line-decorations area (the codicon of the CSS class).</param>
+/// <param name="AlwaysVisible">The icon is drawn even when the margin is not hovered (<c>alwaysShowFoldIcons</c>, collapsed regions).</param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record DecorationStyle(
     string? BackgroundColorId = null,
@@ -23,4 +25,14 @@ internal sealed record DecorationStyle(
     string? AfterContentText = null,
     string? AfterContentColorId = null,
     Func<EditorTheme, ThemeColor?>? ForegroundResolver = null,
-    bool Important = false);
+    bool Important = false,
+    GutterIcon GutterIcon = GutterIcon.None,
+    bool AlwaysVisible = false);
+
+/// <summary>The icons of the gutter that have no codicon font: drawn as strokes.</summary>
+internal enum GutterIcon
+{
+    None,
+    ChevronDown,
+    ChevronRight,
+}

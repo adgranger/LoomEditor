@@ -9,6 +9,14 @@ namespace LoomEditor.Rendering;
 // Tooltips are not ported. Phase 6 cut point: glyph margin decorations (`GlyphMarginClassName` is not drawn).
 internal sealed partial class TextViewRenderer
 {
+    private const float ChevronStrokeWidth = 1.5f;
+
+    /// <summary>
+    /// Whether the mouse is over the gutter: the expanded folding controls are drawn only then (folding.css: the
+    /// <c>:hover</c> of the margin). The 0.5 s opacity transition is not ported.
+    /// </summary>
+    public bool IsMarginHovered { get; set; }
+
     // Monaco: `DecorationToRender`, without the tooltip.
     private sealed record DecorationToRender(int StartLineNumber, int EndLineNumber, string ClassName, int ZIndex);
 
@@ -45,6 +53,32 @@ internal sealed partial class TextViewRenderer
         }
 
         return r;
+    }
+
+    // folding.css 5–30: the codicon is centered in the line-decorations box (`margin-left: 2px`); here two strokes of
+    // an 8-DIP chevron replace the glyph. Hidden unless the margin is hovered, the region is collapsed or `alwaysShowFoldIcons`.
+    private void DrawGutterIcon(IRenderSurface surface, string className, EditorLayoutInfo layoutInfo, float top, int lineHeight)
+    {
+        if (DecorationStyles.Get(className) is not { GutterIcon: not GutterIcon.None } style
+            || !(style.AlwaysVisible || IsMarginHovered)
+            || Theme.FoldingControlForeground is not { } color)
+        {
+            return;
+        }
+
+        float left = layoutInfo.DecorationsLeft + 2;
+        float cx = (left + layoutInfo.DecorationsLeft + layoutInfo.DecorationsWidth) / 2;
+        float cy = top + lineHeight / 2f;
+        if (style.GutterIcon == GutterIcon.ChevronDown)
+        {
+            surface.DrawLine(cx - 4, cy - 2, cx, cy + 2, color, ChevronStrokeWidth);
+            surface.DrawLine(cx, cy + 2, cx + 4, cy - 2, color, ChevronStrokeWidth);
+        }
+        else
+        {
+            surface.DrawLine(cx - 2, cy - 4, cx + 2, cy, color, ChevronStrokeWidth);
+            surface.DrawLine(cx + 2, cy, cx - 2, cy + 4, color, ChevronStrokeWidth);
+        }
     }
 
     // Monaco: `DedupOverlay._render`: the class names to draw on each visible line. `zIndex` is carried but, as in

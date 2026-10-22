@@ -109,6 +109,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerExited(e);
 
+        SetMarginHovered(false);
         if (_mouseDown is not { IsActive: true })
         {
             ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
@@ -127,8 +128,19 @@ public sealed partial class LoomEditor
         EditorMouseEvent mouseEvent = PointerInput.Create(e, this, 1);
         bool overGutter = mouseEvent.X < _viewModel.LayoutInfo.ContentLeft;
         bool overScrollBar = IsFromScrollBar(e.OriginalSource);
+        SetMarginHovered(overGutter);
         ProtectedCursor = InputSystemCursor.Create(
             overGutter || overScrollBar ? InputSystemCursorShape.Arrow : InputSystemCursorShape.IBeam);
+    }
+
+    // The folding chevrons of the gutter show while the mouse is over it.
+    private void SetMarginHovered(bool hovered)
+    {
+        if (_renderer is { } renderer && renderer.IsMarginHovered != hovered)
+        {
+            renderer.IsMarginHovered = hovered;
+            _canvas?.Invalidate();
+        }
     }
 
     // The find widget is a child of the control: its pointer events must not reach the text.

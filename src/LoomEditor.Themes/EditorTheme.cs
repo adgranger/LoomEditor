@@ -65,6 +65,7 @@ public sealed record EditorTheme
             LineNumberActiveForeground = Color("editorLineNumber.activeForeground"),
             LineHighlightBackground = theme.GetColor("editor.lineHighlightBackground"),
             LineHighlightBorder = theme.GetColor("editor.lineHighlightBorder"),
+            FoldingControlForeground = theme.GetColor("editorGutter.foldingControlForeground"),
             CursorForeground = Color("editorCursor.foreground"),
             SelectionBackground = Color("editor.selectionBackground"),
             CompositionBorder = Color("editor.compositionBorder"),
@@ -116,6 +117,9 @@ public sealed record EditorTheme
 
     /// <summary>Border of the cursor line (<c>editor.lineHighlightBorder</c>), used when there is no background.</summary>
     public ThemeColor? LineHighlightBorder { get; init; }
+
+    /// <summary>The folding chevrons of the gutter (<c>editorGutter.foldingControlForeground</c>).</summary>
+    public ThemeColor? FoldingControlForeground { get; init; }
 
     /// <summary>Color of the text cursor (<c>editorCursor.foreground</c>).</summary>
     public ThemeColor CursorForeground { get; init; }

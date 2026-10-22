@@ -5,8 +5,8 @@ namespace LoomEditor.View.Layout;
 /// <c>IComputedEditorOptions</c>; there is no options system yet.
 /// </summary>
 /// <remarks>
-/// Threading: immutable, safe from any thread. <see cref="GlyphMargin"/> and <see cref="Folding"/> default to
-/// <c>false</c> (Monaco: <c>true</c>) because no feature draws in them yet.
+/// Threading: immutable, safe from any thread. <see cref="GlyphMargin"/> defaults to <c>false</c>
+/// (Monaco: <c>true</c>) because no feature draws in it yet.
 /// </remarks>
 internal sealed record EditorLayoutOptions
 {
@@ -23,7 +23,7 @@ internal sealed record EditorLayoutOptions
     public int LineDecorationsWidth { get; init; } = 10;
 
     /// <summary>Monaco: <c>folding</c>.</summary>
-    public bool Folding { get; init; }
+    public bool Folding { get; init; } = true;
 
     /// <summary>Monaco: <c>showFoldingControls !== 'never'</c>.</summary>
     public bool ShowFoldingDecoration { get; init; } = true;
