@@ -1,6 +1,6 @@
 # P6-15 — `ModelLineProjection` for wrapped lines and injected text (content and positions)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-14
 - **Size:** M
 
@@ -57,19 +57,19 @@ position mapping come from `ModelLineProjectionData`. `GetViewLinesData` (tokens
 
 ## Tests
 
-- [ ] Port: `Editor ViewModel - SplitLinesCollection` › `SplitLine`
-- [ ] New: `Create_WithData_ReturnsTheWrappedProjection`; `Create_WithNullData_ReturnsIdentityOrHidden`
-- [ ] New: `WrappedProjection_Hidden_ThrowsOnContent` and `…_HasZeroViewLines`
-- [ ] New: `WrappedProjection_WithInjectedText_ContentIncludesIt` (one injection, no wrapping: breaks `[len + injected]`)
-- [ ] New: `WrappedProjection_GetInjectedTextAt_ReturnsTheOptions`
+- [x] Port: `Editor ViewModel - SplitLinesCollection` › `SplitLine`
+- [x] New: `Create_WithData_ReturnsTheWrappedProjection`; `Create_WithNullData_ReturnsIdentityOrHidden`
+- [x] New: `WrappedProjection_Hidden_ThrowsOnContent` and `…_HasZeroViewLines`
+- [x] New: `WrappedProjection_WithInjectedText_ContentIncludesIt` (one injection, no wrapping: breaks `[len + injected]`)
+- [x] New: `WrappedProjection_GetInjectedTextAt_ReturnsTheOptions`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the `modelLineProjection.ts` map row lists `WrappedModelLineProjection` (rename noted); the
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the `modelLineProjection.ts` map row lists `WrappedModelLineProjection` (rename noted); the
       `modelLineProjection.test.ts` count is 4 / 6
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
