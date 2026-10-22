@@ -43,11 +43,11 @@ internal sealed record ViewDecorationsCollection(
 /// <c>InlineModelDecorationsComputer</c>; the injected text computer is <see cref="InjectedTextInlineDecorationsComputer"/>).
 /// </summary>
 /// <remarks>
-/// The context interface of Monaco is a delegate here, without the minimap and margin arguments (minimap: phase 6;
-/// margin-only queries: glyph margin lanes, not ported). Threading: UI thread only.
+/// The context interface of Monaco is a delegate here, without the margin argument (margin-only queries: glyph
+/// margin lanes, not ported). Threading: UI thread only.
 /// </remarks>
 internal sealed class InlineModelDecorationsComputer(
-    Func<Range, IReadOnlyList<ModelDecoration>> getModelDecorations,
+    Func<Range, bool, IReadOnlyList<ModelDecoration>> getModelDecorations,
     TextModel model,
     ICoordinatesConverter coordinatesConverter)
 {
@@ -61,9 +61,9 @@ internal sealed class InlineModelDecorationsComputer(
         return GetDecorations(viewRange).InlineDecorations;
     }
 
-    public ViewDecorationsCollection GetDecorations(Range viewRange)
+    public ViewDecorationsCollection GetDecorations(Range viewRange, bool onlyMinimapDecorations = false)
     {
-        IReadOnlyList<ModelDecoration> modelDecorations = getModelDecorations(viewRange);
+        IReadOnlyList<ModelDecoration> modelDecorations = getModelDecorations(viewRange, onlyMinimapDecorations);
         int startLineNumber = viewRange.StartLineNumber;
         int endLineNumber = viewRange.EndLineNumber;
 

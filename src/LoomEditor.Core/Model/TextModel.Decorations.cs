@@ -194,12 +194,12 @@ public sealed partial class TextModel
     }
 
     /// <summary>The decorations that intersect <paramref name="range"/> (validated first).</summary>
-    internal IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId = 0, bool filterOutValidation = false, bool filterFontDecorations = false)
+    internal IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId = 0, bool filterOutValidation = false, bool filterFontDecorations = false, bool onlyMinimapDecorations = false)
     {
         Range validated = ValidateRange(range);
 
         List<ModelDecoration> decorations = GetDecorationsInRangeCore(validated, ownerId, filterOutValidation, filterFontDecorations);
-        decorations.AddRange(_decorationProvider.GetDecorationsInRange(validated, ownerId, filterOutValidation));
+        decorations.AddRange(_decorationProvider.GetDecorationsInRange(validated, ownerId, filterOutValidation, onlyMinimapDecorations));
         return decorations;
     }
 

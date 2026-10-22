@@ -45,6 +45,14 @@ internal sealed partial class ViewModel
         return modelDecorations;
     }
 
+    /// <summary>The decorations of a view range that may be drawn in the minimap (Monaco: <c>getMinimapDecorationsInRange</c>).</summary>
+    public IReadOnlyList<ViewModelDecoration> GetMinimapDecorationsInRange(Range range) =>
+        _decorations.GetMinimapDecorationsInRange(range);
+
+    /// <summary>The rendering data of the view lines the minimap draws (Monaco: <c>getMinimapLinesRenderingData</c>).</summary>
+    public MinimapLinesRenderingData GetMinimapLinesRenderingData(int startLineNumber, int endLineNumber, bool[] needed) =>
+        new(_model.Options.TabSize, _lines.GetViewLinesData(startLineNumber, endLineNumber, needed));
+
     /// <summary>The overview ruler decorations in view line numbers, grouped by color (Monaco: <c>getAllOverviewRulerDecorations</c>).</summary>
     public List<OverviewRulerDecorationsGroup> GetAllOverviewRulerDecorations(EditorTheme theme)
     {

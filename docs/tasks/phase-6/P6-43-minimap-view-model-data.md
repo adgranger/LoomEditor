@@ -1,6 +1,6 @@
 # P6-43 — The view model feeds the minimap: lines data and minimap decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-42, P6-41, P6-37
 - **Size:** S
 
@@ -46,17 +46,17 @@ decoration color against the theme.
 
 ## Tests
 
-- [ ] New: `GetMinimapDecorationsInRange_DoesNotReturnBracketColors`
-- [ ] New: `GetMinimapDecorationsInRange_ReturnsDecorationsWithMinimapOptions`
-- [ ] New: `GetMinimapLinesRenderingData_HasTheTabSizeAndTheNeededLines`
+- [x] New: `GetMinimapDecorationsInRange_DoesNotReturnBracketColors`
+- [x] New: `GetMinimapDecorationsInRange_ReturnsDecorationsWithMinimapOptions`
+- [x] New: `GetMinimapLinesRenderingData_HasTheTabSizeAndTheNeededLines`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewModelDecorations.ts` row (no longer "not `getMinimapDecorationsInRange`"); remove the
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewModelDecorations.ts` row (no longer "not `getMinimapDecorationsInRange`"); remove the
       `ViewModelDecorations.cs` minimap remark
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -8,7 +8,7 @@ using LoomEditor.Themes;
 namespace LoomEditor.View.Layout;
 
 /// <summary>
-/// Resolves the color of a decoration against a theme (Monaco: <c>ModelDecorationOverviewRulerOptions.getColor</c>).
+/// Resolves the color of a decoration against a theme (Monaco: <c>ModelDecorationOverviewRulerOptions.getColor</c> and <c>ModelDecorationMinimapOptions.getColor</c>, the same rule).
 /// </summary>
 /// <remarks>
 /// Behavior difference: Monaco caches the resolved color on the options and invalidates it on a theme change; here the

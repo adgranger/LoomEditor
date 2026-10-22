@@ -46,8 +46,14 @@ internal sealed class ColorizedBracketPairsDecorationProvider : IDecorationProvi
     public void HandleDidChangeOptions() => _colorizationOptions = _textModel.BracketPairColorizationOptions;
 
     /// <inheritdoc />
-    public IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId, bool filterOutValidation)
+    public IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId, bool filterOutValidation, bool onlyMinimapDecorations = false)
     {
+        // Bracket pair colorization decorations are not rendered in the minimap.
+        if (onlyMinimapDecorations)
+        {
+            return [];
+        }
+
         // Monaco returns nothing when `ownerId === undefined`: the model always passes one.
         if (!_colorizationOptions.Enabled)
         {

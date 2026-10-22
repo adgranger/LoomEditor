@@ -8,7 +8,7 @@ namespace LoomEditor.Core.Decorations;
 /// <c>ModelDecorationMinimapOptions</c>).
 /// </summary>
 /// <remarks>
-/// Not ported: <c>getColor</c> and <c>invalidateCachedColor</c>; the view resolves the colors (P6-43). The section header
+/// Not ported: <c>getColor</c> and <c>invalidateCachedColor</c>; the view resolves the colors with <c>DecorationColorResolver</c>. The section header
 /// members are plain data: section headers are not drawn. Threading: immutable; thread-safe.
 /// </remarks>
 /// <param name="Color">The color, in light themes.</param>
