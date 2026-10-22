@@ -529,7 +529,7 @@ test file; every phase 6 card adds or updates its rows.
 |---|---|---|
 | `modelDecorations.test.ts` | 1 / 1 (`injected text width must be finite and non-negative`) | P6-03 |
 | `lineBreakData.test.ts` | 8 / 8 | |
-| `monospaceLineBreaksComputer.test.ts` | 31 / ? | P6-10, P6-11, P6-12; two-cell (P6-13) |
+| `monospaceLineBreaksComputer.test.ts` | 37 / 37 | P6-10 to P6-13 (complete) |
 
 ## Tests ported in phase 5
 

@@ -1,6 +1,6 @@
 # P6-13 — Line breaks with two-cell full-width characters (tests)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-12
 - **Size:** S
 
@@ -40,14 +40,14 @@ File: `src/vs/editor/test/common/viewModel/monospaceLineBreaksComputer.test.ts`.
 
 ## Tests
 
-- [ ] Port: the 6 tests listed above
+- [x] Port: the 6 tests listed above
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` "Tests ported in phase 6": `monospaceLineBreaksComputer.test.ts` is complete (all upstream tests ported)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` "Tests ported in phase 6": `monospaceLineBreaksComputer.test.ts` is complete (all upstream tests ported)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
