@@ -1,6 +1,6 @@
 # P6-49 — The minimap model: `IMinimapModel` over the view model
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-47, P6-48
 - **Size:** M
 
@@ -49,18 +49,18 @@ File: `src/vs/editor/browser/viewParts/minimap/minimap.ts`.
 
 ## Tests
 
-- [ ] New: `GetLineCount_Sampling_IsTheSampleCount`; `…_NotSampling_IsTheViewLineCount`
-- [ ] New: `GetMinimapLinesRenderingData_Sampling_ReadsTheSampledLines`
-- [ ] New: `GetMinimapDecorationsInViewport_Sampling_MapsToMinimapLines`
-- [ ] New: `ContentChange_FlushesTheRenderTarget` (a fake `IMinimapRenderTarget` records the calls)
-- [ ] New: `UpdateOptions_SameOptions_ReturnsFalse`
+- [x] New: `GetLineCount_Sampling_IsTheSampleCount`; `…_NotSampling_IsTheViewLineCount`
+- [x] New: `GetMinimapLinesRenderingData_Sampling_ReadsTheSampledLines`
+- [x] New: `GetMinimapDecorationsInViewport_Sampling_MapsToMinimapLines`
+- [x] New: `ContentChange_FlushesTheRenderTarget` (a fake `IMinimapRenderTarget` records the calls)
+- [x] New: `UpdateOptions_SameOptions_ReturnsFalse`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row (+ the model part); behavior difference (flush on edits)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row (+ the model part); behavior difference (flush on edits)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

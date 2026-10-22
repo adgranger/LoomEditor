@@ -621,7 +621,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-46](phase-6/P6-46-minimap-options-and-colors.md) | `MinimapOptions`, the token color tracker and the minimap colors | P6-44, P6-43 | done |
 | [P6-47](phase-6/P6-47-minimap-layout-slider.md) | `MinimapLayout`: rendered line range and slider position | P6-46 | done |
 | [P6-48](phase-6/P6-48-minimap-sampling-state.md) | `MinimapSamplingState`: which view lines a sampled minimap shows | P6-46 | done |
-| [P6-49](phase-6/P6-49-minimap-model.md) | The minimap model: `IMinimapModel` over the view model | P6-47, P6-48 | todo |
+| [P6-49](phase-6/P6-49-minimap-model.md) | The minimap model: `IMinimapModel` over the view model | P6-47, P6-48 | done |
 | [P6-50](phase-6/P6-50-minimap-render-lines.md) | Rendering minimap lines into a pixel buffer | P6-49 | todo |
 | [P6-51](phase-6/P6-51-minimap-render-decorations.md) | Rendering minimap selections and decorations | P6-50 | todo |
 | [P6-52](phase-6/P6-52-draw-minimap.md) | Drawing the minimap with Win2D: canvas, slider, shadow, auto-hide | P6-51, P6-45 | todo |
