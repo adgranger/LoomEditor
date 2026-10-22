@@ -1,6 +1,6 @@
 # P6-09 — Line-break computer interfaces, the wrapping character classifier and width helpers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-08
 - **Size:** S
 
@@ -56,20 +56,20 @@ The building blocks of Monaco's monospace line-break computer exist: the `ILineB
 
 No upstream test calls these helpers directly. New:
 
-- [ ] `Classifier_BreakBeforeAndAfterCharacters_AreClassified`
-- [ ] `Classifier_CjkRanges_AreIdeographic` (`0x3040`, `0x4E00`, `0x9FFF`; `0xA000` is `None`)
-- [ ] `CanBreak_KinsokuShori_Cases` (theory: after `BreakAfter`, before `BreakBefore`, ideographic with and without keep-all, never before a space)
-- [ ] `ComputeCharWidth_Tab_FullWidth_Control_Normal`
-- [ ] `ComputeCharPixelWidth_TwoCells_UsesTwoHalfwidths`
-- [ ] `IsEscapedLineBreakAtPosition_OddBackslashes_True_EvenFalse`
-- [ ] `ComputeWrappedTextIndentLength_None_Same_Indent_DeepIndent` (theory with `"\t  x"`, tab size 4)
-- [ ] `ComputeWrappedTextIndentLength_IndentTooWide_FallsBackToZero`
+- [x] `Classifier_BreakBeforeAndAfterCharacters_AreClassified`
+- [x] `Classifier_CjkRanges_AreIdeographic` (`0x3040`, `0x4E00`, `0x9FFF`; `0xA000` is `None`)
+- [x] `CanBreak_KinsokuShori_Cases` (theory: after `BreakAfter`, before `BreakBefore`, ideographic with and without keep-all, never before a space)
+- [x] `ComputeCharWidth_Tab_FullWidth_Control_Normal`
+- [x] `ComputeCharPixelWidth_TwoCells_UsesTwoHalfwidths`
+- [x] `IsEscapedLineBreakAtPosition_OddBackslashes_True_EvenFalse`
+- [x] `ComputeWrappedTextIndentLength_None_Same_Indent_DeepIndent` (theory with `"\t  x"`, tab size 4)
+- [x] `ComputeWrappedTextIndentLength_IndentTooWide_FallsBackToZero`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
