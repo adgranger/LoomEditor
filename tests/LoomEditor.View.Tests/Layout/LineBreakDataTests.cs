@@ -76,6 +76,18 @@ public class LineBreakDataTests
                 GetOutputOffsets(Data, PositionAffinity.Right));
         }
 
+        // Monaco: 'Injected Text 1' > 'normalization'
+        [Fact]
+        public void Normalization()
+        {
+            Assert.Equal(
+                [
+                    "1:0", "1:1", "1:2", "1:3", "1:4", "1:5", "1:6", "1:7", "1:8", "1:9", "1:10", "1:11", "1:12",
+                    "1:16", "1:16", "1:16", "1:16", "1:17", "1:18", "1:19", "1:20", "1:21", "1:22", "1:23", "1:24",
+                ],
+                Sequence(25).Select(v => Data.NormalizeOutputPosition(1, v, PositionAffinity.Right).ToString()));
+        }
+
         // Monaco: 'Injected Text 1' > 'getInputOffsetOfOutputPosition is inverse of getOutputPositionOfInputOffset'
         [Fact]
         public void GetInputOffsetOfOutputPosition_IsInverseOfGetOutputPositionOfInputOffset() => TestInverse(Data);

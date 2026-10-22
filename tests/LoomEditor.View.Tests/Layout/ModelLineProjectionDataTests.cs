@@ -65,6 +65,48 @@ public class ModelLineProjectionDataTests
         Assert.Equal(5, data.TranslateToOutputPosition(2, PositionAffinity.Right).OutputOffset);
     }
 
+    private static ModelLineProjectionData Touching(InjectedTextCursorStops? stops = null) =>
+        new([2, 2], [Injected("A", stops), Injected("BB", stops)], [20], [], 0);
+
+    private static ModelDecorationInjectedTextOptions Injected(string content, InjectedTextCursorStops? stops) =>
+        ModelDecorationInjectedTextOptions.From(new InjectedTextOptions { Content = content, CursorStops = stops });
+
+    [Fact]
+    public void NormalizeOutputPosition_NoInjections_LeftAffinityAtWrapSeam_GoesToThePreviousLineEnd() =>
+        Assert.Equal(new OutputPosition(0, 5), Wrapped(2).NormalizeOutputPosition(1, 2, PositionAffinity.Left));
+
+    [Fact]
+    public void NormalizeOutputPosition_NoInjections_RightAffinityAtLineEnd_GoesToTheNextLineStart() =>
+        Assert.Equal(new OutputPosition(1, 2), Wrapped(2).NormalizeOutputPosition(0, 5, PositionAffinity.Right));
+
+    [Fact]
+    public void NormalizeOutputPosition_InsideInjectedText_NoneAffinity_GoesLeft() =>
+        Assert.Equal(new OutputPosition(0, 2), WithInjection().NormalizeOutputPosition(0, 3, PositionAffinity.None));
+
+    [Fact]
+    public void NormalizeOutputPosition_AtInjectedTextEnd_WithRightStop_StaysRight() =>
+        Assert.Equal(new OutputPosition(0, 5), WithInjection().NormalizeOutputPosition(0, 5, PositionAffinity.None));
+
+    [Fact]
+    public void NormalizeOutputPosition_TouchingInjections_RightAffinity_SkipsAll() =>
+        Assert.Equal(new OutputPosition(0, 5), Touching().NormalizeOutputPosition(0, 3, PositionAffinity.Right));
+
+    [Fact]
+    public void NormalizeOutputPosition_TouchingInjections_LeftAffinity_SkipsAll() =>
+        Assert.Equal(new OutputPosition(0, 2), Touching().NormalizeOutputPosition(0, 4, PositionAffinity.Left));
+
+    [Fact]
+    public void NormalizeOutputPosition_CursorStopsNone_NoneAffinity_WalksBackOverTouchingInjections() =>
+        Assert.Equal(new OutputPosition(0, 2), Touching(InjectedTextCursorStops.None).NormalizeOutputPosition(0, 4, PositionAffinity.None));
+
+    [Fact]
+    public void GetInjectedText_OnInjectedText_ReturnsItsOptions() =>
+        Assert.Equal("XYZ", WithInjection().GetInjectedText(0, 3)!.Options.Content);
+
+    [Fact]
+    public void GetInjectedText_OnModelText_ReturnsNull() =>
+        Assert.Null(WithInjection().GetInjectedText(0, 1));
+
     [Fact]
     public void OutputPosition_ToPositionAndToString()
     {

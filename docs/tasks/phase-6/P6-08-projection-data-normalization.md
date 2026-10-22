@@ -1,6 +1,6 @@
 # P6-08 — `ModelLineProjectionData`: normalizing positions around injected text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-07
 - **Size:** S
 
@@ -39,25 +39,25 @@ File: `src/vs/editor/common/modelLineProjectionData.ts`.
 
 ## Tests
 
-- [ ] Port: `Editor ViewModel - LineBreakData` › `Injected Text 1` › `normalization`
+- [x] Port: `Editor ViewModel - LineBreakData` › `Injected Text 1` › `normalization`
       (`src/vs/editor/test/common/viewModel/lineBreakData.test.ts` 151–187, into `LineBreakDataTests.cs`)
 
 New (upstream also covers this through `viewModelImpl.test.ts` › `normalizePosition with multiple touching injected text`, P6-22):
 
-- [ ] `NormalizeOutputPosition_NoInjections_LeftAffinityAtWrapSeam_GoesToThePreviousLineEnd`
-- [ ] `NormalizeOutputPosition_NoInjections_RightAffinityAtLineEnd_GoesToTheNextLineStart`
-- [ ] `NormalizeOutputPosition_InsideInjectedText_NoneAffinity_GoesLeft` (cursor stops `Both`)
-- [ ] `NormalizeOutputPosition_AtInjectedTextEnd_WithRightStop_StaysRight`
-- [ ] `NormalizeOutputPosition_TouchingInjections_RightAffinity_SkipsAll` / `…LeftAffinity_SkipsAll`
-- [ ] `NormalizeOutputPosition_CursorStopsNone_NoneAffinity_WalksBackOverTouchingInjections`
-- [ ] `GetInjectedText_OnInjectedText_ReturnsItsOptions`; `GetInjectedText_OnModelText_ReturnsNull`
+- [x] `NormalizeOutputPosition_NoInjections_LeftAffinityAtWrapSeam_GoesToThePreviousLineEnd`
+- [x] `NormalizeOutputPosition_NoInjections_RightAffinityAtLineEnd_GoesToTheNextLineStart`
+- [x] `NormalizeOutputPosition_InsideInjectedText_NoneAffinity_GoesLeft` (cursor stops `Both`)
+- [x] `NormalizeOutputPosition_AtInjectedTextEnd_WithRightStop_StaysRight`
+- [x] `NormalizeOutputPosition_TouchingInjections_RightAffinity_SkipsAll` / `…LeftAffinity_SkipsAll`
+- [x] `NormalizeOutputPosition_CursorStopsNone_NoneAffinity_WalksBackOverTouchingInjections`
+- [x] `GetInjectedText_OnInjectedText_ReturnsItsOptions`; `GetInjectedText_OnModelText_ReturnsNull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map row of `modelLineProjectionData.ts` updated (all of the class); `lineBreakData.test.ts` 8 / 8
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map row of `modelLineProjectionData.ts` updated (all of the class); `lineBreakData.test.ts` 8 / 8
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
