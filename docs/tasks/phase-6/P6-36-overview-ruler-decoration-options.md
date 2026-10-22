@@ -1,6 +1,6 @@
 # P6-36 — Overview ruler options of decorations and `GetOverviewRulerDecorations`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-96
 - **Size:** S
 
@@ -50,18 +50,18 @@ lists those decorations, and the decorations-changed event reports `AffectsOverv
 
 ## Tests
 
-- [ ] New: `OverviewRulerOptions_DefaultPosition_IsCenter`
-- [ ] New: `GetOverviewRulerDecorations_OnlyDecorationsWithARulerColor`
-- [ ] New: `GetOverviewRulerDecorations_FiltersByOwner`
-- [ ] New: `DeltaDecorations_WithRulerColor_SetsAffectsOverviewRuler`; `…_WithoutRulerColor_DoesNotSetIt`
+- [x] New: `OverviewRulerOptions_DefaultPosition_IsCenter`
+- [x] New: `GetOverviewRulerDecorations_OnlyDecorationsWithARulerColor`
+- [x] New: `GetOverviewRulerDecorations_FiltersByOwner`
+- [x] New: `DeltaDecorations_WithRulerColor_SetsAffectsOverviewRuler`; `…_WithoutRulerColor_DoesNotSetIt`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: decorations rows (overview ruler options); the `ModelDecorationOptions` row of "Cut points for phase 6"
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: decorations rows (overview ruler options); the `ModelDecorationOptions` row of "Cut points for phase 6"
       keeps only the minimap part
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

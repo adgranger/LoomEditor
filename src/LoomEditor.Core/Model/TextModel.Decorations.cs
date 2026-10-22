@@ -211,6 +211,10 @@ public sealed partial class TextModel
         return result;
     }
 
+    /// <summary>The decorations marked in the overview ruler (Monaco: <c>getOverviewRulerDecorations</c>).</summary>
+    internal IReadOnlyList<ModelDecoration> GetOverviewRulerDecorations(int ownerId = 0, bool filterOutValidation = false, bool filterFontDecorations = false) =>
+        _decorationsTree.GetOverviewRulerDecorations(this, ownerId, filterOutValidation, filterFontDecorations);
+
     // Monaco: _getDecorationsInRange
     private List<ModelDecoration> GetDecorationsInRangeCore(Range filterRange, int ownerId, bool filterOutValidation, bool filterFontDecorations)
     {

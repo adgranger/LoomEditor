@@ -603,7 +603,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P6-36](phase-6/P6-36-overview-ruler-decoration-options.md) | Overview ruler options of decorations and `GetOverviewRulerDecorations` | P5-96 | todo |
+| [P6-36](phase-6/P6-36-overview-ruler-decoration-options.md) | Overview ruler options of decorations and `GetOverviewRulerDecorations` | P5-96 | done |
 | [P6-37](phase-6/P6-37-overview-ruler-decorations-groups.md) | `ViewModel.GetAllOverviewRulerDecorations`: groups per color | P6-36 | todo |
 | [P6-38](phase-6/P6-38-draw-overview-ruler.md) | Drawing the decorations overview ruler | P6-37, P6-33 | todo |
 | [P6-39](phase-6/P6-39-features-overview-ruler-marks.md) | Find, highlights and bracket matching mark the overview ruler | P6-38 | todo |

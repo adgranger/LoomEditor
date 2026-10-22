@@ -37,6 +37,7 @@ internal sealed class ModelDecorationOptions
         HideInStringTokens = data.HideInStringTokens ?? false;
         After = data.After is null ? null : ModelDecorationInjectedTextOptions.From(data.After);
         Before = data.Before is null ? null : ModelDecorationInjectedTextOptions.From(data.Before);
+        OverviewRuler = data.OverviewRuler;
     }
 
     /// <summary>Monaco: <c>ModelDecorationOptions.EMPTY</c>.</summary>
@@ -84,6 +85,9 @@ internal sealed class ModelDecorationOptions
     public ModelDecorationInjectedTextOptions? After { get; }
 
     public ModelDecorationInjectedTextOptions? Before { get; }
+
+    /// <summary>The overview ruler mark of the decoration, if any.</summary>
+    public ModelDecorationOverviewRulerOptions? OverviewRuler { get; }
 
     /// <summary>Always <c>false</c>: the font options of Monaco are not ported.</summary>
     public bool AffectsFont { get; }
