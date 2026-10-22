@@ -1,6 +1,6 @@
 # P6-14 — `InjectedTextInlineDecorationsComputer` and `ViewLineData.InlineDecorations`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-08
 - **Size:** S
 
@@ -45,7 +45,7 @@ line, including width-only injections, and `ViewLineData` can carry them.
 
 ## Tests
 
-- [ ] Port: `InjectedTextInlineDecorationsComputer` › all 21 tests (lines 270–642): `no injections returns empty`,
+- [x] Port: `InjectedTextInlineDecorationsComputer` › all 21 tests (lines 270–642): `no injections returns empty`,
       `single injection with inlineClassName on a single output line`, `injection without inlineClassName produces no inline decorations`,
       `fixed width injection uses its regular inline decoration`, `injection with inlineClassNameAffectsLetterSpacing`,
       `multiple injections on a single output line`, `injection spanning across wrapped lines`,
@@ -55,11 +55,11 @@ line, including width-only injections, and `ViewLineData` can carry them.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the `inlineDecorations.ts` map row includes the injected text computer; the
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the `inlineDecorations.ts` map row includes the injected text computer; the
       `inlineDecorations.test.ts` row counts 32 / 33 (only `affectsFont` left)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -7,13 +7,21 @@ using LoomEditor.Core.Text;
 
 namespace LoomEditor.View.Layout;
 
-/// <summary>How an inline decoration is drawn (Monaco: <c>InlineDecorationType</c>; <c>WidthOnly</c> is for injected text, not ported).</summary>
+/// <summary>How an inline decoration is drawn (Monaco: <c>InlineDecorationType</c>).</summary>
 internal enum InlineDecorationType
 {
     Regular = 0,
     Before = 1,
     After = 2,
     RegularAffectingLetterSpacing = 3,
+
+    /// <summary>
+    /// A decoration that covers no character, yet is rendered as an element of its own. Used for injected text that only
+    /// reserves horizontal space (e.g. <c>{ content: '', widthInEm: 1 }</c>): there is no character to decorate, so the
+    /// width comes from the decoration's class instead. Unlike <see cref="Before"/>/<see cref="After"/>, this is not a
+    /// pseudo element attached to a surrounding decoration, but the injected content itself.
+    /// </summary>
+    WidthOnly = 4,
 }
 
 /// <summary>A class name applied to a range of a line (Monaco: <c>InlineDecoration</c>).</summary>
@@ -32,7 +40,7 @@ internal sealed record ViewDecorationsCollection(
 
 /// <summary>
 /// Turns the model decorations of a view range into view decorations and inline decorations (Monaco:
-/// <c>InlineModelDecorationsComputer</c>; the injected text computer is not ported).
+/// <c>InlineModelDecorationsComputer</c>; the injected text computer is <see cref="InjectedTextInlineDecorationsComputer"/>).
 /// </summary>
 /// <remarks>
 /// The context interface of Monaco is a delegate here, without the minimap and margin arguments (minimap: phase 6;

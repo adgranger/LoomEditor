@@ -12,14 +12,13 @@ namespace LoomEditor.View.Layout;
 /// <param name="MaxColumn">The maximum allowed column at this view line.</param>
 /// <param name="StartVisibleColumn">The visible column at the start of the line (after the fauxIndent).</param>
 /// <param name="Tokens">The tokens at this view line.</param>
-/// <remarks>
-/// Behavior difference: no <c>inlineDecorations</c> member (they come with the projection with line breaks, phase 6).
-/// Threading: immutable.
-/// </remarks>
+/// <param name="InlineDecorations">The inline decorations at this view line (injected text), or <c>null</c> when there are none.</param>
+/// <remarks>Threading: immutable.</remarks>
 internal sealed record ViewLineData(
     string Content,
     bool ContinuesWithWrappedLine,
     int MinColumn,
     int MaxColumn,
     int StartVisibleColumn,
-    IViewLineTokens Tokens);
+    IViewLineTokens Tokens,
+    IReadOnlyList<InlineDecoration>? InlineDecorations = null);
