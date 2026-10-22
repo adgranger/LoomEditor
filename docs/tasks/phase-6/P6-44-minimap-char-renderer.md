@@ -1,6 +1,6 @@
 # P6-44 — Minimap character renderer, char sheet and pre-baked font data
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-96
 - **Size:** M
 
@@ -52,18 +52,18 @@ font data, or from 16-px sample data at any scale, bit-identical to Monaco.
 
 ## Tests
 
-- [ ] Port: `MinimapCharRenderer` › `letter d @ 2x`, `letter d @ 1x`
-- [ ] New: `PreBaked_Scale1And2_HaveTheExpectedLength` (`CHAR_COUNT * charWidth * charHeight` bytes for each scale)
-- [ ] New: `GetCharIndex_OutOfRange_SmallScaleWrapsLargeScaleUsesUnknown`
-- [ ] New: `ClampToByte_RoundsHalfToEvenAndClamps` (0.5 → 0, 1.5 → 2, 300 → 255, -3 → 0)
-- [ ] New: `BlockRenderChar_FillsTheCell`
+- [x] Port: `MinimapCharRenderer` › `letter d @ 2x`, `letter d @ 1x`
+- [x] New: `PreBaked_Scale1And2_HaveTheExpectedLength` (`CHAR_COUNT * charWidth * charHeight` bytes for each scale)
+- [x] New: `GetCharIndex_OutOfRange_SmallScaleWrapsLargeScaleUsesUnknown`
+- [x] New: `ClampToByte_RoundsHalfToEvenAndClamps` (0.5 → 0, 1.5 → 2, 300 → 255, -3 → 0)
+- [x] New: `BlockRenderChar_FillsTheCell`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: rows for the four minimap files and `rgba.ts`; tests table: `minimapCharRenderer.test.ts` 2 / 2
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: rows for the four minimap files and `rgba.ts`; tests table: `minimapCharRenderer.test.ts` 2 / 2
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
