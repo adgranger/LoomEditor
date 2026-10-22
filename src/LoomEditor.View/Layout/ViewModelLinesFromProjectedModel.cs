@@ -14,8 +14,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Phase 6 cut points: the model changes with line breaks (P6-18), injected text (<c>getInjectedTextAt</c>) and the indent and bracket guides (<c>getViewLinesIndentGuides</c>,
-/// <c>getActiveIndentGuide</c>, <c>getViewLinesBracketGuides</c>). <c>IViewModelLines</c> and <c>ViewModelLinesFromModelAsIs</c> are
+/// <c>IViewModelLines</c> and <c>ViewModelLinesFromModelAsIs</c> are
 /// not ported (one implementation).
 /// </para>
 /// <para>

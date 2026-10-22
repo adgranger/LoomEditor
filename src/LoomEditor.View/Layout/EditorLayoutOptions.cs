@@ -42,4 +42,7 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>The word-wrap settings (Monaco: <c>wordWrap</c>, <c>wordWrapColumn</c>, <c>wordWrapIndicator</c>).</summary>
     public EditorWrappingOptions Wrapping { get; init; } = new();
+
+    /// <summary>The indent and bracket pair guides (Monaco: <c>guides</c>); read by the renderer, it does not change the layout.</summary>
+    public EditorGuidesOptions Guides { get; init; } = new();
 }

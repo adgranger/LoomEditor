@@ -594,7 +594,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-29](phase-6/P6-29-active-indent-guide.md) | `GetActiveIndentGuide` and the 18 indent guide tests | P6-28 | done |
 | [P6-30](phase-6/P6-30-lines-bracket-guides.md) | `GuidesTextModelPart.GetLinesBracketGuides` | P6-29 | done |
 | [P6-31](phase-6/P6-31-view-lines-indent-guides.md) | View lines: indent guides and the active indent guide | P6-30, P6-20 | done |
-| [P6-32](phase-6/P6-32-view-lines-bracket-guides.md) | View lines and view model: bracket guides, guide options | P6-31 | todo |
+| [P6-32](phase-6/P6-32-view-lines-bracket-guides.md) | View lines and view model: bracket guides, guide options | P6-31 | done |
 | [P6-33](phase-6/P6-33-guide-colors.md) | The colors of indent and bracket pair guides | P6-27 | todo |
 | [P6-34](phase-6/P6-34-guides-by-line.md) | The guides of each visible line (`getGuidesByLine`) | P6-32, P6-33 | todo |
 | [P6-35](phase-6/P6-35-draw-guides.md) | Drawing the guides, and the control's guide options | P6-34 | todo |

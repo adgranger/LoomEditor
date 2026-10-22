@@ -1,6 +1,6 @@
 # P6-32 — View lines and view model: bracket guides, guide options
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-31
 - **Size:** S
 
@@ -40,18 +40,18 @@ apply to them), and the view model exposes the three guide queries plus the guid
 
 ## Tests
 
-- [ ] New: `GetViewLinesBracketGuides_WrappedLine_KeepsTheGuidesOfTheRightSegment` (a pair opening mid-line on a wrapped line:
+- [x] New: `GetViewLinesBracketGuides_WrappedLine_KeepsTheGuidesOfTheRightSegment` (a pair opening mid-line on a wrapped line:
       the guide appears only on the continuation lines after the opening column)
-- [ ] New: `GetViewLinesBracketGuides_ColumnGuide_IsTranslatedToTheViewColumn`
-- [ ] New: `ViewModel_GuideQueries_DelegateToTheLines`
-- [ ] New: `EditorGuidesOptions_Defaults_MatchMonaco`
+- [x] New: `GetViewLinesBracketGuides_ColumnGuide_IsTranslatedToTheViewColumn`
+- [x] New: `ViewModel_GuideQueries_DelegateToTheLines`
+- [x] New: `EditorGuidesOptions_Defaults_MatchMonaco`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewModelLines.ts` and `viewModelImpl.ts` rows (guides); remove the guides row of "Cut points for phase 6"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewModelLines.ts` and `viewModelImpl.ts` rows (guides); remove the guides row of "Cut points for phase 6"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

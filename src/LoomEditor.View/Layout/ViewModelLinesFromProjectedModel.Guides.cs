@@ -49,7 +49,6 @@ internal sealed partial class ViewModelLinesFromProjectedModel
         return new Position(viewLineInfo.ModelLineNumber, column);
     }
 
-    // Shared with the bracket guides (P6-32).
     private List<ViewLineInfoGroupedByModelRange> GetViewLineInfosGroupedByModelRanges(int viewStartLineNumber, int viewEndLineNumber)
     {
         ViewLineInfo startViewLine = GetViewLineInfo(viewStartLineNumber);
@@ -95,6 +94,102 @@ internal sealed partial class ViewModelLinesFromProjectedModel
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// The bracket guides of each view line of a range, in view columns (Monaco: <c>getViewLinesBracketGuides</c>). Guides with a
+    /// visible column stay as they are (like Monaco, wrapped lines do not shift them).
+    /// </summary>
+    public List<IndentGuide>[] GetViewLinesBracketGuides(int viewStartLineNumber, int viewEndLineNumber, Position? activeViewPosition, BracketGuideOptions options)
+    {
+        Position? modelActivePosition = activeViewPosition is { } active ? ConvertViewPositionToModelPosition(active.LineNumber, active.Column) : null;
+        List<List<IndentGuide>> resultPerViewLine = [];
+
+        foreach (ViewLineInfoGroupedByModelRange group in GetViewLineInfosGroupedByModelRanges(viewStartLineNumber, viewEndLineNumber))
+        {
+            int modelRangeStartLineNumber = group.ModelRange.StartLineNumber;
+            List<IndentGuide>[] bracketGuidesPerModelLine = _model.Guides.GetLinesBracketGuides(
+                modelRangeStartLineNumber, group.ModelRange.EndLineNumber, modelActivePosition, options);
+
+            foreach (ViewLineInfo viewLineInfo in group.ViewLines)
+            {
+                List<IndentGuide> bracketGuides = bracketGuidesPerModelLine[viewLineInfo.ModelLineNumber - modelRangeStartLineNumber];
+                IModelLineProjection projection = _modelLineProjections[viewLineInfo.ModelLineNumber - 1];
+                List<IndentGuide> result = [];
+                foreach (IndentGuide g in bracketGuides)
+                {
+                    IndentGuide? mapped = MapBracketGuide(g, viewLineInfo, projection);
+                    if (mapped is not null)
+                    {
+                        result.Add(mapped);
+                    }
+                }
+
+                resultPerViewLine.Add(result);
+            }
+        }
+
+        return [.. resultPerViewLine];
+    }
+
+    private IndentGuide? MapBracketGuide(IndentGuide g, ViewLineInfo viewLineInfo, IModelLineProjection projection)
+    {
+        // Monaco passes a delta of 0 and compares 0-based indexes; a Position cannot hold line 0, so use a delta of 1 and 1-based lines.
+        int wrappedIdx = viewLineInfo.ModelLineWrappedLineIdx + 1;
+        if (g.ForWrappedLinesAfterColumn != -1
+            && projection.GetViewPositionOfModelPosition(1, g.ForWrappedLinesAfterColumn).LineNumber >= wrappedIdx)
+        {
+            return null;
+        }
+
+        if (g.ForWrappedLinesBeforeOrAtColumn != -1
+            && projection.GetViewPositionOfModelPosition(1, g.ForWrappedLinesBeforeOrAtColumn).LineNumber < wrappedIdx)
+        {
+            return null;
+        }
+
+        if (g.HorizontalLine is not { } horizontalLine)
+        {
+            return g;
+        }
+
+        int column = -1;
+        if (g.Column != -1)
+        {
+            Position p = projection.GetViewPositionOfModelPosition(1, g.Column);
+            if (p.LineNumber == wrappedIdx)
+            {
+                column = p.Column;
+            }
+            else if (p.LineNumber < wrappedIdx)
+            {
+                column = GetMinColumnOfViewLine(viewLineInfo);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        Position viewPosition = ConvertModelPositionToViewPosition(viewLineInfo.ModelLineNumber, horizontalLine.EndColumn);
+        Position end = projection.GetViewPositionOfModelPosition(1, horizontalLine.EndColumn);
+        if (end.LineNumber == wrappedIdx)
+        {
+            return new IndentGuide(g.VisibleColumn, column, g.ClassName, new IndentGuideHorizontalLine(horizontalLine.Top, viewPosition.Column), -1, -1);
+        }
+
+        if (end.LineNumber < wrappedIdx)
+        {
+            return null;
+        }
+
+        if (g.VisibleColumn != -1)
+        {
+            // Don't repeat horizontal lines that use visibleColumn for unrelated lines.
+            return null;
+        }
+
+        return new IndentGuide(g.VisibleColumn, column, g.ClassName, new IndentGuideHorizontalLine(horizontalLine.Top, GetMaxColumnOfViewLine(viewLineInfo)), -1, -1);
     }
 
     /// <summary>The indent guide of each view line of a range; wrapped continuations repeat the guide of their model line, hidden lines are skipped (Monaco: <c>getViewLinesIndentGuides</c>).</summary>
