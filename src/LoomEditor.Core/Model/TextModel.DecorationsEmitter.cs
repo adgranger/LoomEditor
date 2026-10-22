@@ -58,9 +58,10 @@ public sealed partial class TextModel
         }
     }
 
-    // Monaco: DidChangeDecorationsEmitter.checkAffectedAndFire (the overview ruler and the glyph margin of the four flags can be set)
+    // Monaco: DidChangeDecorationsEmitter.checkAffectedAndFire (the line number flag cannot be set)
     private void CheckAffectedAndFireDecorations(ModelDecorationOptions options)
     {
+        _decorationsAffectsMinimap |= options.Minimap is not null;
         _decorationsAffectsOverviewRuler |= options.OverviewRuler?.Color is not null;
         _decorationsAffectsGlyphMargin |= options.GlyphMarginClassName is not null;
         TryFireDecorationsChanged();

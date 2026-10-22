@@ -1,6 +1,6 @@
 # P6-42 — Minimap options of decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-36
 - **Size:** S
 
@@ -38,15 +38,15 @@ event reports `AffectsMinimap` precisely.
 
 ## Tests
 
-- [ ] New: `MinimapOptions_KeepTheirValues`
-- [ ] New: `DeltaDecorations_WithMinimapPosition_SetsAffectsMinimap`; `…_WithoutMinimap_DoesNotSetIt`
+- [x] New: `MinimapOptions_KeepTheirValues`
+- [x] New: `DeltaDecorations_WithMinimapPosition_SetsAffectsMinimap`; `…_WithoutMinimap_DoesNotSetIt`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: decorations rows; remove the `ModelDecorationOptions` row of "Cut points for phase 6"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: decorations rows; remove the `ModelDecorationOptions` row of "Cut points for phase 6"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

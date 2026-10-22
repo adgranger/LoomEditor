@@ -614,7 +614,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P6-40](phase-6/P6-40-minimap-options.md) | Minimap option and layout types | P6-02 | done |
 | [P6-41](phase-6/P6-41-minimap-layout.md) | `ComputeMinimapLayout` and the minimap in the editor layout | P6-40 | done |
-| [P6-42](phase-6/P6-42-minimap-decoration-options.md) | Minimap options of decorations | P6-36 | todo |
+| [P6-42](phase-6/P6-42-minimap-decoration-options.md) | Minimap options of decorations | P6-36 | done |
 | [P6-43](phase-6/P6-43-minimap-view-model-data.md) | The view model feeds the minimap: lines data and minimap decorations | P6-42, P6-41, P6-37 | todo |
 | [P6-44](phase-6/P6-44-minimap-char-renderer.md) | Minimap character renderer, char sheet and pre-baked font data | P5-96 | todo |
 | [P6-45](phase-6/P6-45-minimap-font-sample-data.md) | Minimap font sample data with Win2D (scales above 2) | P6-44 | todo |

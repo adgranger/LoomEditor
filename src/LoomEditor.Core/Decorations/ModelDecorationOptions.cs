@@ -38,6 +38,7 @@ internal sealed class ModelDecorationOptions
         After = data.After is null ? null : ModelDecorationInjectedTextOptions.From(data.After);
         Before = data.Before is null ? null : ModelDecorationInjectedTextOptions.From(data.Before);
         OverviewRuler = data.OverviewRuler;
+        Minimap = data.Minimap;
     }
 
     /// <summary>Monaco: <c>ModelDecorationOptions.EMPTY</c>.</summary>
@@ -88,6 +89,9 @@ internal sealed class ModelDecorationOptions
 
     /// <summary>The overview ruler mark of the decoration, if any.</summary>
     public ModelDecorationOverviewRulerOptions? OverviewRuler { get; }
+
+    /// <summary>The minimap mark of the decoration, if any.</summary>
+    public ModelDecorationMinimapOptions? Minimap { get; }
 
     /// <summary>Always <c>false</c>: the font options of Monaco are not ported.</summary>
     public bool AffectsFont { get; }
