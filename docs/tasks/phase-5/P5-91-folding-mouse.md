@@ -1,6 +1,6 @@
 # P5-91 — Clicking the folding controls and the `⋯`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-90
 - **Size:** M
 
@@ -52,22 +52,22 @@ mouse-up events in **model** coordinates (Monaco's `ViewUserInputEvents`).
 No Monaco test covers the mouse handlers. New (the events are raised with hand-made `EditorMouseEvent`s and targets from
 `MouseTargetFactory` on a `TestCodeEditor`):
 
-- [ ] `EmitMouseDown_ConvertsTheTargetToModelCoordinates` (a click below a hidden area reports the model line)
-- [ ] `ClickOnExpandedChevron_FoldsTheRegion`; `ClickOnCollapsedChevron_UnfoldsIt`
-- [ ] `ClickInTheFirstFourDipsOfTheDecorationsArea_DoesNothing`
-- [ ] `ShiftClickOnChevron_FoldsChildrenFirst_ThenTheRegion` (Monaco's "first only collapse all children")
-- [ ] `AltClickOnChevron_TogglesTheSurroundingRegions`
-- [ ] `ClickOnEllipsis_UnfoldsTheRegion`; `ClickAfterTheEllipsis_DoesNothing` (`unfoldOnClickAfterEndOfLine` false)
-- [ ] `MouseUpOnAnotherLine_DoesNothing`
-- [ ] Rendering: `HitTest_InsideAfterContent_ReturnsMaxColumn`
+- [x] `EmitMouseDown_ConvertsTheTargetToModelCoordinates` (a click below a hidden area reports the model line)
+- [x] `ClickOnExpandedChevron_FoldsTheRegion`; `ClickOnCollapsedChevron_UnfoldsIt`
+- [x] `ClickInTheFirstFourDipsOfTheDecorationsArea_DoesNothing`
+- [x] `ShiftClickOnChevron_FoldsChildrenFirst_ThenTheRegion` (Monaco's "first only collapse all children")
+- [x] `AltClickOnChevron_TogglesTheSurroundingRegions`
+- [x] `ClickOnEllipsis_UnfoldsTheRegion`; `ClickAfterTheEllipsis_DoesNothing` (`unfoldOnClickAfterEndOfLine` false)
+- [x] `MouseUpOnAnotherLine_DoesNothing`
+- [x] Rendering: `HitTest_InsideAfterContent_ReturnsMaxColumn`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows `browser/view/viewUserInputEvents.ts` (🔶 mouse down / up, P5-91), `folding.ts`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows `browser/view/viewUserInputEvents.ts` (🔶 mouse down / up, P5-91), `folding.ts`
       (mouse, P5-91); behavior difference "after-content is hit-tested as part of the line"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 - [ ] Manual check (maintainer, Gallery): click a chevron → the region folds; click the `⋯` → it unfolds;
       Shift+click folds the children first; the caret does not move on a chevron click
 

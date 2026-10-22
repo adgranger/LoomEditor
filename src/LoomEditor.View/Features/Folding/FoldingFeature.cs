@@ -75,6 +75,7 @@ internal sealed partial class FoldingFeature : IEditorFeature
             ShowFoldingHighlights = _options.FoldingHighlight,
         };
         RegisterCommands(context);
+        AttachMouse(context);
         OnModelChanged();
     }
 
@@ -148,6 +149,7 @@ internal sealed partial class FoldingFeature : IEditorFeature
             registration.Dispose();
         }
 
+        DetachMouse();
         _registrations.Clear();
         ClearModelBinding();
         _decorationProvider = null;
