@@ -1,6 +1,6 @@
 # P6-01 — Wrapping option types: `WrappingIndent`, `WordWrap`, `WordBreak`, `EditorWrappingOptions`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-96
 - **Size:** S
 
@@ -56,17 +56,17 @@ File: `src/vs/editor/common/config/editorOptions.ts`.
 
 ## Tests
 
-- [ ] New: `Defaults_MatchMonaco` (every default listed above, including both break character strings being non-empty and
+- [x] New: `Defaults_MatchMonaco` (every default listed above, including both break character strings being non-empty and
       containing `'('` / `')'` respectively)
-- [ ] New: `FromString_KnownValues_ParseAndUnknownFallsBack` (theory over the three `FromString` helpers, `null` and
+- [x] New: `FromString_KnownValues_ParseAndUnknownFallsBack` (theory over the three `FromString` helpers, `null` and
       `"INDENT"` fall back)
-- [ ] New: `Validated_WordWrapColumnBelowOne_IsClampedToOne`
+- [x] New: `Validated_WordWrapColumnBelowOne_IsClampedToOne`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
