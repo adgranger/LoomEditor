@@ -84,7 +84,6 @@ internal sealed class MinimapRenderData
 /// <summary>A value per line number of a range, with a default outside of it. Monaco: <c>ContiguousLineMap</c>.</summary>
 /// <remarks>Threading: not thread-safe.</remarks>
 internal sealed class ContiguousLineMap<T>
-    where T : IEquatable<T>
 {
     private readonly int _startLineNumber;
     private readonly int _endLineNumber;
@@ -102,7 +101,7 @@ internal sealed class ContiguousLineMap<T>
     }
 
     /// <summary>Monaco: <c>has</c>.</summary>
-    public bool Has(int lineNumber) => !Get(lineNumber).Equals(_defaultValue);
+    public bool Has(int lineNumber) => !EqualityComparer<T>.Default.Equals(Get(lineNumber), _defaultValue);
 
     /// <summary>Monaco: <c>set</c>.</summary>
     public void Set(int lineNumber, T value)

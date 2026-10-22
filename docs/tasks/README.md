@@ -623,7 +623,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-48](phase-6/P6-48-minimap-sampling-state.md) | `MinimapSamplingState`: which view lines a sampled minimap shows | P6-46 | done |
 | [P6-49](phase-6/P6-49-minimap-model.md) | The minimap model: `IMinimapModel` over the view model | P6-47, P6-48 | done |
 | [P6-50](phase-6/P6-50-minimap-render-lines.md) | Rendering minimap lines into a pixel buffer | P6-49 | done |
-| [P6-51](phase-6/P6-51-minimap-render-decorations.md) | Rendering minimap selections and decorations | P6-50 | todo |
+| [P6-51](phase-6/P6-51-minimap-render-decorations.md) | Rendering minimap selections and decorations | P6-50 | done |
 | [P6-52](phase-6/P6-52-draw-minimap.md) | Drawing the minimap with Win2D: canvas, slider, shadow, auto-hide | P6-51, P6-45 | todo |
 | [P6-53](phase-6/P6-53-minimap-mouse.md) | Minimap pointer input: click to reveal, slider drag, hover | P6-52 | todo |
 | [P6-54](phase-6/P6-54-minimap-features-and-control.md) | Features mark the minimap; the control's minimap properties | P6-53, P6-39 | todo |

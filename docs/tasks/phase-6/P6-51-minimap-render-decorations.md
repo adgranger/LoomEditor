@@ -1,6 +1,6 @@
 # P6-51 — Rendering minimap selections and decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-50
 - **Size:** M
 
@@ -48,18 +48,18 @@ Colors: `minimap.selectionHighlight` and the decoration's minimap color (resolve
 
 No upstream unit tests. New, with a fake `IMinimapModel`:
 
-- [ ] `Selection_PaintsALineHighlightAndAColumnHighlight`
-- [ ] `InlineDecoration_PaintsItsColumns`; `GutterDecoration_PaintsTheGutterStrip`
-- [ ] `HigherZIndexDecoration_WinsTheLineHighlight`; `Selection_HasPriorityOverDecorations`
-- [ ] `GetXOffsetForPosition_TabsAndFullWidthCharacters`
-- [ ] `NoChange_DoesNotRepaint`
+- [x] `Selection_PaintsALineHighlightAndAColumnHighlight`
+- [x] `InlineDecoration_PaintsItsColumns`; `GutterDecoration_PaintsTheGutterStrip`
+- [x] `HigherZIndexDecoration_WinsTheLineHighlight`; `Selection_HasPriorityOverDecorations`
+- [x] `GetXOffsetForPosition_TabsAndFullWidthCharacters`
+- [x] `NoChange_DoesNotRepaint`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `minimap.ts` row (+ decorations; section headers not ported)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `minimap.ts` row (+ decorations; section headers not ported)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
