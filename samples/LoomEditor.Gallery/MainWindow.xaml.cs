@@ -34,6 +34,11 @@ public sealed partial class MainWindow : Window
             ThemeBox.Items.Add(new ComboBoxItem { Content = name });
         }
 
+        foreach (FeatureSample sample in FeatureSamples.All)
+        {
+            FeatureSampleBox.Items.Add(new ComboBoxItem { Content = sample.Name });
+        }
+
         LanguageBox.SelectedIndex = 0;
         ThemeBox.SelectedIndex = 0;
     }
@@ -186,6 +191,7 @@ public sealed partial class MainWindow : Window
         ScrollTestButton.IsEnabled = isEnabled;
         MultiCursorButton.IsEnabled = isEnabled;
         LargeCSharpButton.IsEnabled = isEnabled;
+        FeatureSampleBox.IsEnabled = isEnabled;
     }
 
     private void OnFontSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
@@ -219,6 +225,25 @@ public sealed partial class MainWindow : Window
             Editor.Text = string.Empty;
             Editor.Text = HighlightingSamples.For(LanguageIds[index]);
         }
+    }
+
+    // SelectedIndex, not SelectedItem: see FontFamilies.
+    private void OnFeatureSampleChanged(object sender, SelectionChangedEventArgs e)
+    {
+        int index = FeatureSampleBox.SelectedIndex;
+        if (Editor is null || index < 0 || index >= FeatureSamples.All.Count)
+        {
+            return;
+        }
+
+        FeatureSample sample = FeatureSamples.All[index];
+        Editor.LanguageId = sample.LanguageId;
+        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, sample.LanguageId);
+        Editor.Text = string.Empty;
+        Editor.Text = sample.Text;
+        Editor.SetSelections(new[] { Selection.Collapsed(new Position(sample.Line, sample.Column)) });
+        FeatureHintText.Text = sample.Hint;
+        Editor.Focus(FocusState.Programmatic);
     }
 
     private void OnThemeChanged(object sender, SelectionChangedEventArgs e)

@@ -520,7 +520,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P5-94](phase-5/P5-94-detect-indentation-on-set-text.md) | Detect the indentation when the text is set (`detectIndentation`) | P5-93 | done |
-| [P5-95](phase-5/P5-95-gallery-features-demo.md) | Gallery: the phase 5 features demo and the manual test list | P5-94 | todo |
+| [P5-95](phase-5/P5-95-gallery-features-demo.md) | Gallery: the phase 5 features demo and the manual test list | P5-94 | done |
 | [P5-96](phase-5/P5-96-close-phase-5.md) | Close phase 5 | all | todo |
 
 Phase 5 cards form a single chain, in table order (P5-46 also needs P5-31 and P5-32). P5-72 … P5-74, P5-90, P5-91 and P5-95 have manual checks for the maintainer.
