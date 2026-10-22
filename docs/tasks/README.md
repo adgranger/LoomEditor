@@ -519,7 +519,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P5-94](phase-5/P5-94-detect-indentation-on-set-text.md) | Detect the indentation when the text is set (`detectIndentation`) | P5-93 | todo |
+| [P5-94](phase-5/P5-94-detect-indentation-on-set-text.md) | Detect the indentation when the text is set (`detectIndentation`) | P5-93 | done |
 | [P5-95](phase-5/P5-95-gallery-features-demo.md) | Gallery: the phase 5 features demo and the manual test list | P5-94 | todo |
 | [P5-96](phase-5/P5-96-close-phase-5.md) | Close phase 5 | all | todo |
 

@@ -1,6 +1,6 @@
 # P5-94 — Detect the indentation when the text is set (`detectIndentation`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-93
 - **Size:** S
 
@@ -35,17 +35,17 @@ file: the `detectIndentation` editor option (default `true`) is wired to `TextMo
 
 ## Tests
 
-- [ ] New: `SetText_TabIndentedText_UsesTabs` (`InsertSpaces == false`)
-- [ ] New: `SetText_TwoSpaceIndentedText_TabSizeTwo`
-- [ ] New: `SetText_DetectIndentationOff_KeepsTheOptions`
-- [ ] New: `SetText_NoIndentation_KeepsTheDefaults` (tab size 4, spaces)
+- [x] New: `SetText_TabIndentedText_UsesTabs` (`InsertSpaces == false`)
+- [x] New: `SetText_TwoSpaceIndentedText_TabSizeTwo`
+- [x] New: `SetText_DetectIndentationOff_KeepsTheOptions`
+- [x] New: `SetText_NoIndentation_KeepsTheDefaults` (tab size 4, spaces)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: row `common/services/modelService.ts` (`detectIndentation` on `SetText` only, P5-94)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: row `common/services/modelService.ts` (`detectIndentation` on `SetText` only, P5-94)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

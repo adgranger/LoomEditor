@@ -149,7 +149,15 @@ public sealed class EditorContext : IEditorContext, IDisposable
         ArgumentNullException.ThrowIfNull(text);
 
         Model.SetValue(text);
+        if (DetectIndentation)
+        {
+            // Monaco: EDITOR_MODEL_DEFAULTS, not the current options, so a previous detection does not leak
+            Model.DetectIndentation(defaultInsertSpaces: true, defaultTabSize: 4);
+        }
     }
+
+    /// <summary>Whether <see cref="SetText"/> guesses the indentation (Monaco: the <c>detectIndentation</c> option).</summary>
+    internal bool DetectIndentation { get; set; } = true;
 
     /// <summary>Creates a decorations collection owned by this editor (Monaco: <c>createDecorationsCollection</c>).</summary>
     internal EditorDecorationsCollection CreateDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>

@@ -95,4 +95,48 @@ public class EditorContextTests
 
         Assert.Throws<ArgumentException>(() => context.SetSelections([]));
     }
+
+    [Fact]
+    public void SetText_TabIndentedText_UsesTabs()
+    {
+        var context = new EditorContext();
+
+        context.SetText("a {\n\tb;\n\tc;\n\td;\n}\n");
+
+        Assert.False(context.Model.Options.InsertSpaces);
+    }
+
+    [Fact]
+    public void SetText_TwoSpaceIndentedText_TabSizeTwo()
+    {
+        var context = new EditorContext();
+
+        context.SetText("a {\n  b;\n  c;\n  d;\n}\n");
+
+        Assert.True(context.Model.Options.InsertSpaces);
+        Assert.Equal(2, context.Model.Options.TabSize);
+    }
+
+    [Fact]
+    public void SetText_DetectIndentationOff_KeepsTheOptions()
+    {
+        var context = new EditorContext { DetectIndentation = false };
+
+        context.SetText("a {\n\tb;\n\tc;\n\td;\n}\n");
+
+        Assert.True(context.Model.Options.InsertSpaces);
+        Assert.Equal(4, context.Model.Options.TabSize);
+    }
+
+    [Fact]
+    public void SetText_NoIndentation_KeepsTheDefaults()
+    {
+        var context = new EditorContext();
+        context.SetText("a {\n  b;\n  c;\n  d;\n}\n");
+
+        context.SetText("no\nindentation\n");
+
+        Assert.True(context.Model.Options.InsertSpaces);
+        Assert.Equal(4, context.Model.Options.TabSize);
+    }
 }
