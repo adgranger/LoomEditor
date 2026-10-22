@@ -211,6 +211,9 @@ internal sealed partial class TextViewRenderer : IDisposable
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
         DrawGutter(surface, viewModel, data, layoutInfo, cursorLines, selections, hasFocus, topShift, font);
 
+        // Monaco: the overview ruler sits on top of the text, under the scrollbar.
+        DrawOverviewRuler(surface, viewModel, selections, layoutInfo, font);
+
         UpdateMaxLineWidth(viewModel, data, widestLine);
     }
 

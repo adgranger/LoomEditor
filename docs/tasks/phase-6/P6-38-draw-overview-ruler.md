@@ -1,6 +1,6 @@
 # P6-38 — Drawing the decorations overview ruler
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-37, P6-33
 - **Size:** M
 
@@ -56,19 +56,19 @@ Options and colors: `src/vs/editor/common/config/editorOptions.ts` 233–238, 31
 
 ## Tests
 
-- [ ] New (`OverviewRulerSettingsTests`): `InitLanes_ThreeLanes_SplitsInThirds`; `…_TwoLanes`; `…_OneLane`
-- [ ] New: `DrawOverviewRuler_DecorationMark_HasTheMinimumHeight`
-- [ ] New: `DrawOverviewRuler_CloseMarksOfTheSameLane_AreMerged`
-- [ ] New: `DrawOverviewRuler_Cursor_DrawnInTheFullLane`; `…_HideCursor_NotDrawn`
-- [ ] New: `DrawOverviewRuler_Border_DrawnWhenEnabled`
-- [ ] New: `DrawOverviewRuler_LanesZero_DrawsNothing`
+- [x] New (`OverviewRulerSettingsTests`): `InitLanes_ThreeLanes_SplitsInThirds`; `…_TwoLanes`; `…_OneLane`
+- [x] New: `DrawOverviewRuler_DecorationMark_HasTheMinimumHeight`
+- [x] New: `DrawOverviewRuler_CloseMarksOfTheSameLane_AreMerged`
+- [x] New: `DrawOverviewRuler_Cursor_DrawnInTheFullLane`; `…_HideCursor_NotDrawn`
+- [x] New: `DrawOverviewRuler_Border_DrawnWhenEnabled`
+- [x] New: `DrawOverviewRuler_LanesZero_DrawsNothing`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: new row `browser/viewParts/overviewRuler/decorationsOverviewRuler.ts`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: new row `browser/viewParts/overviewRuler/decorationsOverviewRuler.ts`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

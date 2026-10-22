@@ -82,6 +82,18 @@ internal static class EditorColorDefaults
         // editorColorRegistry.ts:22
         ["editorCursor.foreground"] = ("#AEAFAD", "#000000", "#FFFFFF", "#0F4A85"),
 
+        // editorColorRegistry.ts:24
+        ["editorMultiCursor.primary.foreground"] = ("editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground"),
+
+        // editorColorRegistry.ts:26
+        ["editorMultiCursor.secondary.foreground"] = ("editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground"),
+
+        // editorColorRegistry.ts:61
+        ["editorOverviewRuler.border"] = ("#7f7f7f4d", "#7f7f7f4d", "#7f7f7f4d", "#666666"),
+
+        // editorColorRegistry.ts:62
+        ["editorOverviewRuler.background"] = (null, null, null, null),
+
         // editorColorRegistry.ts:28 (the default of the deprecated indent guide colors)
         ["editorWhitespace.foreground"] = ("#e3e4e229", "#33333333", "#e3e4e229", "#CCCCCC"),
 

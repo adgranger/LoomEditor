@@ -45,4 +45,7 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>The indent and bracket pair guides (Monaco: <c>guides</c>); read by the renderer, it does not change the layout.</summary>
     public EditorGuidesOptions Guides { get; init; } = new();
+
+    /// <summary>The decorations overview ruler (Monaco: <c>overviewRulerLanes</c> and co.); read by the renderer, it does not change the layout.</summary>
+    public EditorOverviewRulerOptions OverviewRuler { get; init; } = new();
 }
