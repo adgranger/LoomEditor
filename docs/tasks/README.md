@@ -576,7 +576,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P6-17](phase-6/P6-17-view-model-lines-wrapping-settings.md) | `ViewModelLinesFromProjectedModel`: wrapping settings and wrapped construction | P6-16, P6-13, P6-05 | done |
 | [P6-18](phase-6/P6-18-view-model-lines-model-changes-with-line-breaks.md) | `ViewModelLinesFromProjectedModel`: model changes with line breaks, `GetInjectedTextAt` | P6-17 | done |
-| [P6-19](phase-6/P6-19-view-lines-wrapping-tests.md) | Port the wrapping tests of `modelLineProjection.test.ts` | P6-18 | todo |
+| [P6-19](phase-6/P6-19-view-lines-wrapping-tests.md) | Port the wrapping tests of `modelLineProjection.test.ts` | P6-18 | done |
 | [P6-20](phase-6/P6-20-view-model-word-wrap.md) | The view model wraps lines: settings, model changes, content width | P6-19, P6-02 | todo |
 | [P6-21](phase-6/P6-21-view-model-injected-text-changes.md) | The view model and the cursors follow injected text changes | P6-20, P6-06 | todo |
 | [P6-22](phase-6/P6-22-word-wrap-cursor-tests.md) | Port the word wrap and injected text tests of the view model and the cursors | P6-21 | todo |

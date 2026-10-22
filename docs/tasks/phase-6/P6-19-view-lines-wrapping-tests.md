@@ -1,6 +1,6 @@
 # P6-19 — Port the wrapping tests of `modelLineProjection.test.ts`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-18
 - **Size:** S
 
@@ -42,16 +42,16 @@ File: `src/vs/editor/test/browser/viewModel/modelLineProjection.test.ts`.
 
 ## Tests
 
-- [ ] Port: `SplitLinesCollection` › `getViewLinesData - with wrapping`
-- [ ] Port: `SplitLinesCollection` › `getViewLinesData - with wrapping and injected text`
+- [x] Port: `SplitLinesCollection` › `getViewLinesData - with wrapping`
+- [x] Port: `SplitLinesCollection` › `getViewLinesData - with wrapping and injected text`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `modelLineProjection.test.ts` is 6 / 6 (the guide assertions of `Invalid line numbers` stay open
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `modelLineProjection.test.ts` is 6 / 6 (the guide assertions of `Invalid line numbers` stay open
       until P6-31); remove its row from "Cut points for phase 6" when P6-31 is done, not now
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
