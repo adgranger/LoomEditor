@@ -1,6 +1,6 @@
 # P6-12 — `CreateLineBreaksFromPreviousLineBreaks` (the resize fast path)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-11
 - **Size:** M
 
@@ -45,20 +45,20 @@ ones, like Monaco, and the incremental tests prove both paths give the same resu
 
 ## Tests
 
-- [ ] Port: `MonospaceLineBreaksComputer incremental 1`
-- [ ] Port: `issue #95686: CRITICAL: loop forever on the monospaceLineBreaksComputer` (give the test a 10 s timeout through
+- [x] Port: `MonospaceLineBreaksComputer incremental 1`
+- [x] Port: `issue #95686: CRITICAL: loop forever on the monospaceLineBreaksComputer` (give the test a 10 s timeout through
       xUnit v3 `[Fact(Timeout = 10000)]` with an `async Task` body, so an infinite loop fails instead of hanging)
-- [ ] Port: `issue #110392: Occasional crash when resize with panel on the right` (`columnsForFullWidthChar = 1.6605405405405405`)
-- [ ] New: `Finalize_WithPreviousDataAndInjectedText_UsesTheFullComputation` (pass previous data **and** injected text: the
+- [x] Port: `issue #110392: Occasional crash when resize with panel on the right` (`columnsForFullWidthChar = 1.6605405405405405`)
+- [x] New: `Finalize_WithPreviousDataAndInjectedText_UsesTheFullComputation` (pass previous data **and** injected text: the
       result must equal `CreateLineBreaks`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the `monospaceLineBreaksComputer.ts` map row is ✅ (fast path ported, pools replaced by locals —
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the `monospaceLineBreaksComputer.ts` map row is ✅ (fast path ported, pools replaced by locals —
       add that to "Behavior differences"); the test count is updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

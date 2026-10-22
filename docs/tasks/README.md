@@ -559,7 +559,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-09](phase-6/P6-09-line-breaks-computer-primitives.md) | Line-break computer interfaces, the wrapping character classifier and width helpers | P6-08 | done |
 | [P6-10](phase-6/P6-10-create-line-breaks.md) | `MonospaceLineBreaksComputerFactory` and `CreateLineBreaks` | P6-09 | done |
 | [P6-11](phase-6/P6-11-fixed-width-injected-text-wrapping-tests.md) | Line breaks with fixed-width and width-only injected text (tests) | P6-10 | done |
-| [P6-12](phase-6/P6-12-line-breaks-from-previous-line-breaks.md) | `CreateLineBreaksFromPreviousLineBreaks` (the resize fast path) | P6-11 | todo |
+| [P6-12](phase-6/P6-12-line-breaks-from-previous-line-breaks.md) | `CreateLineBreaksFromPreviousLineBreaks` (the resize fast path) | P6-11 | done |
 | [P6-13](phase-6/P6-13-two-cell-fullwidth-tests.md) | Line breaks with two-cell full-width characters (tests) | P6-12 | todo |
 
 ### Step D — Wrapped model line projections

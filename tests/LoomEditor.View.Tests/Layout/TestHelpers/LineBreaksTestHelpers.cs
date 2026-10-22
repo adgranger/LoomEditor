@@ -126,4 +126,56 @@ internal static class LineBreaksTestHelpers
 
         return lineBreakData;
     }
+
+    public static void AssertLineBreakDataEqual(ModelLineProjectionData? a, ModelLineProjectionData? b)
+    {
+        if (a is null || b is null)
+        {
+            Assert.Equal(a is null, b is null);
+            return;
+        }
+
+        Assert.Equal(a.BreakOffsets, b.BreakOffsets);
+        Assert.Equal(a.WrappedTextIndentLength, b.WrappedTextIndentLength);
+        for (int i = 0; i < a.BreakOffsetsVisibleColumn.Length; i++)
+        {
+            double diff = Math.Abs(a.BreakOffsetsVisibleColumn[i] - b.BreakOffsetsVisibleColumn[i]);
+            Assert.True(diff < 0.001);
+        }
+    }
+
+    public static void AssertIncrementalLineBreaks(
+        ILineBreaksComputerFactory factory,
+        string text,
+        int tabSize,
+        int breakAfter1,
+        string annotatedText1,
+        int breakAfter2,
+        string annotatedText2,
+        WrappingIndent wrappingIndent = WrappingIndent.None,
+        double columnsForFullWidthChar = 2,
+        bool useTwoCellFullwidthCharacters = false)
+    {
+        // sanity check the test
+        Assert.Equal(text, ParseAnnotatedText(annotatedText1).Text);
+        Assert.Equal(text, ParseAnnotatedText(annotatedText2).Text);
+
+        // check that the direct mapping is ok for 1
+        ModelLineProjectionData? directLineBreakData1 = GetLineBreakData(factory, tabSize, breakAfter1, columnsForFullWidthChar, wrappingIndent, WordBreak.Normal, false, text, null, null, useTwoCellFullwidthCharacters);
+        Assert.Equal(annotatedText1, ToAnnotatedText(text, directLineBreakData1));
+
+        // check that the direct mapping is ok for 2
+        ModelLineProjectionData? directLineBreakData2 = GetLineBreakData(factory, tabSize, breakAfter2, columnsForFullWidthChar, wrappingIndent, WordBreak.Normal, false, text, null, null, useTwoCellFullwidthCharacters);
+        Assert.Equal(annotatedText2, ToAnnotatedText(text, directLineBreakData2));
+
+        // check that going from 1 to 2 is ok
+        ModelLineProjectionData? lineBreakData2From1 = GetLineBreakData(factory, tabSize, breakAfter2, columnsForFullWidthChar, wrappingIndent, WordBreak.Normal, false, text, directLineBreakData1, null, useTwoCellFullwidthCharacters);
+        Assert.Equal(annotatedText2, ToAnnotatedText(text, lineBreakData2From1));
+        AssertLineBreakDataEqual(lineBreakData2From1, directLineBreakData2);
+
+        // check that going from 2 to 1 is ok
+        ModelLineProjectionData? lineBreakData1From2 = GetLineBreakData(factory, tabSize, breakAfter1, columnsForFullWidthChar, wrappingIndent, WordBreak.Normal, false, text, directLineBreakData2, null, useTwoCellFullwidthCharacters);
+        Assert.Equal(annotatedText1, ToAnnotatedText(text, lineBreakData1From2));
+        AssertLineBreakDataEqual(lineBreakData1From2, directLineBreakData1);
+    }
 }

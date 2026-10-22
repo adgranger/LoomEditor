@@ -62,8 +62,17 @@ internal sealed class MonospaceLineBreaksComputerFactory : ILineBreaksComputerFa
                 string lineText = context.GetLineContent(lineNumber);
                 bool isLineFeedWrappingEnabled = wrapOnEscapedLineFeeds && lineText.Contains('"') && lineText.Contains("\\n", StringComparison.Ordinal);
 
-                // P6-12: createLineBreaksFromPreviousLineBreaks
-                result[i] = MonospaceLineBreaksComputer.CreateLineBreaks(classifier, lineText, injectedText, tabSize, wrappingColumn, columnsForFullWidthChar, fontInfo, wrappingIndent, wordBreak, isLineFeedWrappingEnabled, useTwoCellFullwidthCharacters);
+                var previousLineBreakData = _previousBreakingData[i];
+
+                // Monaco: !injectedText (an empty list is not null)
+                if (previousLineBreakData is not null && previousLineBreakData.InjectionOptions is null && injectedText is null && !isLineFeedWrappingEnabled)
+                {
+                    result[i] = MonospaceLineBreaksComputer.CreateLineBreaksFromPreviousLineBreaks(classifier, previousLineBreakData, lineText, tabSize, wrappingColumn, columnsForFullWidthChar, wrappingIndent, wordBreak, useTwoCellFullwidthCharacters);
+                }
+                else
+                {
+                    result[i] = MonospaceLineBreaksComputer.CreateLineBreaks(classifier, lineText, injectedText, tabSize, wrappingColumn, columnsForFullWidthChar, fontInfo, wrappingIndent, wordBreak, isLineFeedWrappingEnabled, useTwoCellFullwidthCharacters);
+                }
             }
 
             return result;
