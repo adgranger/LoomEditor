@@ -711,7 +711,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P7-24](phase-7/P7-24-gallery-accessibility-demo.md) | Gallery: accessibility switches and the in-process UIA self-check | P7-23 | todo |
+| [P7-24](phase-7/P7-24-gallery-accessibility-demo.md) | Gallery: accessibility switches and the in-process UIA self-check | P7-23 | done |
 | [P7-25](phase-7/P7-25-manual-test-plan.md) | The manual test plan: Narrator, NVDA, Accessibility Insights | P7-24 | todo |
 | [P7-26](phase-7/P7-26-close-phase-7.md) | Close phase 7 | all | todo |
 

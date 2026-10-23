@@ -94,3 +94,15 @@ Windows 11: Settings → Accessibility → Contrast themes; `Left Alt + Left Shi
 | 6.6 | Look at scrollbars, minimap, sticky scroll lines and folding chevrons in each scheme | All visible (note any that vanish) | |
 | 6.7 | `Theme = EditorTheme.BuiltIn[8]` ("Dark High Contrast") with system high contrast **off** | Black background, white text, black text on the white selection | |
 | 6.8 | Native AOT build: repeat 6.1 and 6.3 | Same results | |
+
+## 7. Gallery self-check
+
+The Gallery runs the 19 UI Automation checks in its own process (**UIA self-check** button, `UiaSelfCheck.cs`).
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 7.1 | Click **UIA self-check** with the editor visible | "19 of 19 passed" | 19 of 19 passed (Release build) |
+| 7.2 | Same on the Native AOT published build (README §6) | "19 of 19 passed" | 19 of 19 passed (`dotnet publish -r win-x64 -p:PublishAot=true -warnaserror`) |
+| 7.3 | **Long-line sample** + **Screen reader mode = On** | The 12 000-character line wraps; **Off**: it does not; **Auto** with Narrator running: it wraps | |
+| 7.4 | Toggle **Tab moves focus**, and press `Ctrl+M` in the editor | The switch follows `Ctrl+M` | |
+| 7.5 | **Follow system high contrast** off with a contrast theme on | The editor keeps its theme | |

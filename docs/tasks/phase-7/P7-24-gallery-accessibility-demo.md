@@ -1,6 +1,6 @@
 # P7-24 — Gallery: accessibility samples and the in-process UIA self-check
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-23
 - **Size:** M
 - **Recommended model:** Sonnet; Opus to diagnose any failing self-check (bug in the providers vs. error in the README §4 spec)
@@ -58,18 +58,18 @@ None to port. WinUI API: `FrameworkElementAutomationPeer.CreatePeerForElement`, 
 
 Manual (`docs/testing/phase-7-manual-tests.md` section 7 "Gallery self-check", result column; Native AOT build, README §6):
 
-- [ ] 7.1 Click **UIA self-check** with the editor visible → every check passes ("19 of 19 passed")
-- [ ] 7.2 Same on the Native AOT published build → "19 of 19 passed"; any failure is copied into the commit body and the card stays `in progress`
+- [x] 7.1 Click **UIA self-check** with the editor visible → every check passes ("19 of 19 passed")
+- [x] 7.2 Same on the Native AOT published build → "19 of 19 passed"; any failure is copied into the commit body and the card stays `in progress`
 - [ ] 7.3 **Long-line sample** + **Screen reader mode = On** → the 12 000-character line wraps; **Off** → it does not; **Auto** with Narrator running → wraps
 - [ ] 7.4 **Tab moves focus** switch follows `Ctrl+M`
 - [ ] 7.5 **Follow system high contrast** off with a contrast theme on → the editor keeps its theme
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body, with the self-check result
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body, with the self-check result
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
