@@ -1,6 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using LoomEditor.Core.Diagnostics;
+using LoomEditor.Core.Text;
+using Range = LoomEditor.Core.Text.Range;
 using LoomEditor.View.Accessibility;
+using LoomEditor.View.Events;
+using LoomEditor.View.Layout;
 using LoomEditor.WinUI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation.Provider;
@@ -14,8 +18,6 @@ namespace LoomEditor.WinUI.Accessibility;
 /// <remarks>Threading: UI thread only (UI Automation calls XAML peers there).</remarks>
 internal sealed partial class LoomEditorTextRangeProvider(LoomEditorControl owner, IRawElementProviderSimple element, AutomationTextRange range) : ITextRangeProvider
 {
-    private const string NotYet = "Added by P7-18.";
-
     private readonly AutomationTextRange _range = range;
 
     // UIAutomationClient.h text attribute ids.
@@ -97,24 +99,62 @@ internal sealed partial class LoomEditorTextRangeProvider(LoomEditorControl owne
         return TryGetAttribute(attributeId, out object? actual) && actual.Equals(value) ? Clone() : null;
     }
 
-    public void ExpandToEnclosingUnit(TextUnit unit) => throw new NotImplementedException(NotYet);
+    public void ExpandToEnclosingUnit(TextUnit unit)
+    {
+        AssertThread();
+        _range.ExpandToEnclosingUnit((AutomationTextUnit)(int)unit);
+    }
 
-    public ITextRangeProvider FindText(string text, bool backward, bool ignoreCase) => throw new NotImplementedException(NotYet);
+    public ITextRangeProvider? FindText(string text, bool backward, bool ignoreCase)
+    {
+        AssertThread();
+        return _range.FindText(text, backward, ignoreCase) is { } found ? new LoomEditorTextRangeProvider(owner, element, found) : null;
+    }
 
-    public int Move(TextUnit unit, int count) => throw new NotImplementedException(NotYet);
+    public int Move(TextUnit unit, int count)
+    {
+        AssertThread();
+        return _range.Move((AutomationTextUnit)(int)unit, count);
+    }
 
-    public int MoveEndpointByUnit(TextPatternRangeEndpoint endpoint, TextUnit unit, int count) => throw new NotImplementedException(NotYet);
+    public int MoveEndpointByUnit(TextPatternRangeEndpoint endpoint, TextUnit unit, int count)
+    {
+        AssertThread();
+        return _range.MoveEndpointByUnit((AutomationTextEndpoint)(int)endpoint, (AutomationTextUnit)(int)unit, count);
+    }
 
-    public void MoveEndpointByRange(TextPatternRangeEndpoint endpoint, ITextRangeProvider targetRange, TextPatternRangeEndpoint targetEndpoint) =>
-        throw new NotImplementedException(NotYet);
+    public void MoveEndpointByRange(TextPatternRangeEndpoint endpoint, ITextRangeProvider targetRange, TextPatternRangeEndpoint targetEndpoint)
+    {
+        AssertThread();
+        if (targetRange is not LoomEditorTextRangeProvider p)
+        {
+            throw new ArgumentException("The range was not created by this editor.", nameof(targetRange));
+        }
 
-    public void Select() => throw new NotImplementedException(NotYet);
+        _range.MoveEndpointByRange((AutomationTextEndpoint)(int)endpoint, p._range, (AutomationTextEndpoint)(int)targetEndpoint);
+    }
 
-    public void AddToSelection() => throw new NotImplementedException(NotYet);
+    // Selecting never moves the keyboard focus.
+    public void Select() => ApplySelection(AutomationTextSelection.Select);
 
-    public void RemoveFromSelection() => throw new NotImplementedException(NotYet);
+    public void AddToSelection() => ApplySelection(AutomationTextSelection.Add);
 
-    public void ScrollIntoView(bool alignToTop) => throw new NotImplementedException(NotYet);
+    public void RemoveFromSelection() => ApplySelection(AutomationTextSelection.Remove);
+
+    public void ScrollIntoView(bool alignToTop)
+    {
+        AssertThread();
+        ViewModel viewModel = _range.Document.ViewModel;
+        Range viewRange = viewModel.CoordinatesConverter.ConvertModelRangeToViewRange(_range.Range);
+        viewModel.RevealRange("automation", true, viewRange, alignToTop ? VerticalRevealType.Top : VerticalRevealType.Bottom, ScrollType.Immediate);
+    }
+
+    private void ApplySelection(Func<IReadOnlyList<Selection>, Range, IReadOnlyList<Selection>> change)
+    {
+        AssertThread();
+        ViewModel viewModel = _range.Document.ViewModel;
+        viewModel.SetSelections("automation", change(viewModel.GetSelections(), _range.Range));
+    }
 
     // The attributes are uniform over the document (ADR 0010 "Not in phase 7").
     private bool TryGetAttribute(int attributeId, [NotNullWhen(true)] out object? value)

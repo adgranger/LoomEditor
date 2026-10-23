@@ -695,7 +695,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P7-17](phase-7/P7-17-peer-text-provider.md) | The UIA peer: text and value patterns, read members of the range provider (tracer bullet) | P7-16 | done |
-| [P7-18](phase-7/P7-18-range-provider-navigation.md) | The range provider: navigation, find, selection and scrolling | P7-17 | todo |
+| [P7-18](phase-7/P7-18-range-provider-navigation.md) | The range provider: navigation, find, selection and scrolling | P7-17 | done |
 | [P7-19](phase-7/P7-19-uia-events-and-notifications.md) | UIA events, notifications and `ITextProvider2` | P7-18 | todo |
 
 ### Step E — High contrast

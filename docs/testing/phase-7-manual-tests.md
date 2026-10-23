@@ -48,3 +48,19 @@ Tools: Accessibility Insights for Windows (Live inspect) or `inspect.exe` from t
 | 3.6 | `GetBoundingRectangles` of a selection, at 100 % and 200 % display scale | Rectangles that sit on the highlighted text | |
 | 3.7 | `IsReadOnly = true`, then `false` | Value pattern `IsReadOnly` is `true` and `SetValue` fails; then `SetValue("abc")` replaces the text | |
 | 3.8 | `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64`, repeat 3.1 – 3.3 | Same result under Native AOT (no crash) | |
+
+## 4. UIA text pattern (navigate)
+
+Tools: Accessibility Insights text pattern explorer, or the Gallery self-check of P7-24 once it exists.
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 4.1 | Degenerate range at a word, `ExpandToEnclosingUnit(Word)`, `GetText` | The word and its trailing spaces | |
+| 4.2 | `Move(Word, 1)` and `Move(Word, -1)` | They walk the words | |
+| 4.3 | `Move(Line, 1)` on a wrapped line (word wrap on) | The next **view** line | |
+| 4.4 | `Move(Paragraph, 1)` | The next model line | |
+| 4.5 | `FindText("foo", false, true)`, then `Select` it | The range is returned and the selection appears | |
+| 4.6 | `Select` on a range | The caret moves and the editor does not lose the focus | |
+| 4.7 | `AddToSelection` on a range, then `RemoveFromSelection` on it | A second cursor appears, then goes away | |
+| 4.8 | `ScrollIntoView(true)` on a range far below | It becomes the first visible line | |
+| 4.9 | `MoveEndpointByUnit(End, Word, 1)` on a selection | The selection grows by a word | |

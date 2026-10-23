@@ -1,6 +1,6 @@
 # P7-18 — The range provider: navigation, find, selection and scrolling
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-17
 - **Size:** M
 
@@ -40,20 +40,20 @@ View model members used: `ViewModel.SetSelections(string? source, IReadOnlyList<
 
 ## Tests
 
-- [ ] New (`AutomationTextSelectionTests`): `Select_ReplacesEverything`, `Select_UsesTheStartAsAnchor` (the selection's start is `range.Start`, its position `range.End`), `Add_AppendsTheRange`, `Remove_AnEqualRange_RemovesIt`, `Remove_NoEqualRange_ReturnsTheSameSelections`,
+- [x] New (`AutomationTextSelectionTests`): `Select_ReplacesEverything`, `Select_UsesTheStartAsAnchor` (the selection's start is `range.Start`, its position `range.End`), `Add_AppendsTheRange`, `Remove_AnEqualRange_RemovesIt`, `Remove_NoEqualRange_ReturnsTheSameSelections`,
       `Remove_TheOnlySelection_CollapsesIt` (to the `Position` of the selection), `Remove_FirstOfTwoEqual_RemovesOnlyOne`, `Remove_ASelectionWithTheOppositeDirection_StillMatches` (selection stored right-to-left, same range)
-- [ ] New: `Add_ThroughTheViewModel_MergesOverlappingSelections` (apply `Add` with `viewModel.SetSelections` in a `TestCodeEditor`: two overlapping ranges end as one selection — documents the merge the decision relies on)
-- [ ] Manual, section 4 "UIA text pattern (navigate)" (Accessibility Insights text pattern explorer, or the Gallery self-check of P7-24 once it exists):
+- [x] New: `Add_ThroughTheViewModel_MergesOverlappingSelections` (apply `Add` with `viewModel.SetSelections` in a `TestCodeEditor`: two overlapping ranges end as one selection — documents the merge the decision relies on)
+- [x] Manual, section 4 "UIA text pattern (navigate)" (Accessibility Insights text pattern explorer, or the Gallery self-check of P7-24 once it exists):
       4.1 degenerate range at a word → `ExpandToEnclosingUnit(Word)` → `GetText` = the word and its trailing spaces; 4.2 `Move(Word, 1)` / `Move(Word, -1)` walk the words; 4.3 `Move(Line, 1)` on a wrapped line (word wrap on) → the next **view** line;
       4.4 `Move(Paragraph, 1)` → the next model line; 4.5 `FindText("foo", false, true)` returns the range (`Select` it: the selection appears); 4.6 `Select` on a range moves the caret and the editor does not lose the focus;
       4.7 `AddToSelection` adds a second cursor; `RemoveFromSelection` on it removes it; 4.8 `ScrollIntoView(true)` on a range far below → it becomes the first visible line; 4.9 `MoveEndpointByUnit(End, Word, 1)` grows a selection by a word
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No `NotImplementedException` left in `src/LoomEditor.WinUI/Accessibility/` (`grep -rn NotImplementedException src/LoomEditor.WinUI/Accessibility` is empty)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No `NotImplementedException` left in `src/LoomEditor.WinUI/Accessibility/` (`grep -rn NotImplementedException src/LoomEditor.WinUI/Accessibility` is empty)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
