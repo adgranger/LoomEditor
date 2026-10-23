@@ -1,6 +1,6 @@
 # P7-13 — Find announces its results
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-12
 - **Size:** S
 
@@ -37,20 +37,20 @@ an explicit F3 with no result repeats "No results found for 'foo'".
 
 ## Tests
 
-- [ ] New: `Announces_WhenTheMatchesCountChanges` (reveal the find with a search string over `"foo bar foo"`: the recorder's last message is `"foo bar foo, 1 of 2 found for 'foo', at 1:1"` — adapt the position/label to what the state gives; assert by building the expected string with `AccessibilityMessages` from the same state)
-- [ ] New: `Announces_WhenTheCurrentMatchMoves` (`MoveToNextMatch` → the message mentions the new position)
-- [ ] New: `Announces_NoResults_ForASearchWithoutMatch` (`"No results found for 'zzz'"`)
-- [ ] New: `Announces_NoResultsFound_ForAnEmptySearchString` (widget revealed with an empty search string: the message is `"No results found"`; if the state never announces for an empty string because `SearchString` did not change, set it to `"x"` then to `""` in the test)
-- [ ] New: `DoesNotAnnounce_WhenTheWidgetIsNotRevealed` (change the search string with `IsRevealed` false → no message)
-- [ ] New: `NextMatchWithoutResult_RepeatsNoResults` (widget revealed, search `"zzz"`, `FindActions.NextMatch` → the last message is `FindNoResultsAgain("zzz")`)
-- [ ] New: `UsesTheAnnouncerAssignedLater` (the feature attached first, `EditorContext.Announcer` assigned afterwards → messages reach the recorder)
-- [ ] Existing find tests still pass
+- [x] New: `Announces_WhenTheMatchesCountChanges` (reveal the find with a search string over `"foo bar foo"`: the recorder's last message is `"foo bar foo, 1 of 2 found for 'foo', at 1:1"` — adapt the position/label to what the state gives; assert by building the expected string with `AccessibilityMessages` from the same state)
+- [x] New: `Announces_WhenTheCurrentMatchMoves` (`MoveToNextMatch` → the message mentions the new position)
+- [x] New: `Announces_NoResults_ForASearchWithoutMatch` (`"No results found for 'zzz'"`)
+- [x] New: `Announces_NoResultsFound_ForAnEmptySearchString` (widget revealed with an empty search string: the message is `"No results found"`; if the state never announces for an empty string because `SearchString` did not change, set it to `"x"` then to `""` in the test)
+- [x] New: `DoesNotAnnounce_WhenTheWidgetIsNotRevealed` (change the search string with `IsRevealed` false → no message)
+- [x] New: `NextMatchWithoutResult_RepeatsNoResults` (widget revealed, search `"zzz"`, `FindActions.NextMatch` → the last message is `FindNoResultsAgain("zzz")`)
+- [x] New: `UsesTheAnnouncerAssignedLater` (the feature attached first, `EditorContext.Announcer` assigned afterwards → messages reach the recorder)
+- [x] Existing find tests still pass
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

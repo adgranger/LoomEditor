@@ -2,12 +2,13 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.Core.Text;
+using LoomEditor.View.Accessibility;
 
 namespace LoomEditor.View.Features.Find;
 
 /// <summary>What the find commands do (Monaco: <c>StartFindAction</c>, <c>NextMatchFindAction</c>…), as plain methods.</summary>
 /// <remarks>
-/// Behavior differences: synchronous; no screen reader alert when a navigation finds nothing; no find clipboard.
+/// Behavior differences: synchronous; no find clipboard.
 /// Threading: UI thread only.
 /// </remarks>
 internal static class FindActions
@@ -77,7 +78,10 @@ internal static class FindActions
                 ShouldAnimate: true,
                 UpdateSearchScope: false,
                 Loop: controller.Options.Loop));
-            RunMatch();
+            if (!RunMatch() && wasFindWidgetVisible && controller.State.MatchesCount == 0 && controller.State.SearchString.Length > 0)
+            {
+                controller.Announcer.Announce(AccessibilityMessages.FindNoResultsAgain(controller.State.SearchString));
+            }
         }
     }
 
