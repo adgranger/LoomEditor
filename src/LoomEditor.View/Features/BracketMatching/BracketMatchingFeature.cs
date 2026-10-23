@@ -14,7 +14,7 @@ namespace LoomEditor.View.Features.BracketMatching;
 
 /// <summary>Highlights the brackets around the cursors and adds the jump, select and remove bracket commands.</summary>
 /// <remarks>
-/// Not ported: the overview ruler (both decoration options differ only by their description), the Go menu entry and
+/// Not ported: the Go menu entry and
 /// <c>onDidChangeModel</c> (the model of an editor never changes).
 /// Threading: UI thread only.
 /// </remarks>
@@ -28,6 +28,7 @@ internal sealed class BracketMatchingFeature : IEditorFeature
         Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
         ClassName = "bracket-match",
         InlineClassName = "bracket-match-inline",
+        OverviewRuler = new ModelDecorationOverviewRulerOptions(DecorationColor.FromThemeColor("editorOverviewRuler.bracketMatchForeground"), DecorationColor.FromThemeColor("editorOverviewRuler.bracketMatchForeground"), OverviewRulerLane.Center),
     });
 
     private static readonly ModelDecorationOptions DecorationOptionsWithoutOverviewRuler = ModelDecorationOptions.Register(new ModelDecorationOptionsData

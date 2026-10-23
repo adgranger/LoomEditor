@@ -6,9 +6,7 @@ using LoomEditor.Core.Model;
 namespace LoomEditor.View.Layout;
 
 /// <summary>The decorations of one editor, in view coordinates, with a cache for the last viewport (Monaco: <c>ViewModelDecorations</c>).</summary>
-/// <remarks>
-/// Not ported: <c>getMinimapDecorationsInRange</c> (minimap: phase 6). Threading: UI thread only.
-/// </remarks>
+/// <remarks>Threading: UI thread only.</remarks>
 internal sealed class ViewModelDecorations
 {
     private readonly int _editorId;
@@ -48,6 +46,10 @@ internal sealed class ViewModelDecorations
         ClearCachedModelDecorationsResolver();
     }
 
+    /// <summary>The decorations of a view range that may be drawn in the minimap (bracket colors excluded).</summary>
+    public IReadOnlyList<ViewModelDecoration> GetMinimapDecorationsInRange(Range range) =>
+        _inlineDecorationsComputer.GetDecorations(range, onlyMinimapDecorations: true).Decorations;
+
     /// <summary>The decorations of a view range, cached for the last range.</summary>
     public ViewDecorationsCollection GetDecorationsViewportData(Range viewRange)
     {
@@ -70,8 +72,8 @@ internal sealed class ViewModelDecorations
 
     // Monaco: _linesCollection.getDecorationsInRange(viewRange, editorId, filterValidationDecorations, filterFontDecorations, ...).
     // filterValidationDecorations is false: the renderValidationDecorations option is not ported.
-    private IReadOnlyList<LoomEditor.Core.Decorations.ModelDecoration> GetModelDecorations(Range viewRange) =>
-        _lines.GetDecorationsInRange(viewRange, _editorId, filterOutValidation: false, filterFontDecorations: false);
+    private IReadOnlyList<LoomEditor.Core.Decorations.ModelDecoration> GetModelDecorations(Range viewRange, bool onlyMinimapDecorations) =>
+        _lines.GetDecorationsInRange(viewRange, _editorId, filterOutValidation: false, filterFontDecorations: false, onlyMinimapDecorations);
 
     private void ClearCachedModelDecorationsResolver()
     {

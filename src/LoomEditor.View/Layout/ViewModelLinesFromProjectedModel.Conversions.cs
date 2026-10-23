@@ -166,10 +166,10 @@ internal sealed partial class ViewModelLinesFromProjectedModel
     }
 
     /// <summary>
-    /// The decorations of a view range. Behavior difference: Monaco's <c>onlyMinimapDecorations</c> and <c>onlyMarginDecorations</c>
-    /// are not ported (the minimap and the margin are phase 6).
+    /// The decorations of a view range. Behavior difference: Monaco's <c>onlyMarginDecorations</c> is not ported
+    /// (glyph margin lanes).
     /// </summary>
-    public IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId, bool filterOutValidation, bool filterFontDecorations)
+    public IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId, bool filterOutValidation, bool filterFontDecorations, bool onlyMinimapDecorations = false)
     {
         Position modelStart = ConvertViewPositionToModelPosition(range.StartLineNumber, range.StartColumn);
         Position modelEnd = ConvertViewPositionToModelPosition(range.EndLineNumber, range.EndColumn);
@@ -178,7 +178,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel
         {
             // most likely there are no hidden lines => fast path
             // fetch decorations from column 1 to cover the case of wrapped lines that have whole line decorations at column 1
-            return _model.GetDecorationsInRange(new Range(modelStart.LineNumber, 1, modelEnd.LineNumber, modelEnd.Column), ownerId, filterOutValidation, filterFontDecorations);
+            return _model.GetDecorationsInRange(new Range(modelStart.LineNumber, 1, modelEnd.LineNumber, modelEnd.Column), ownerId, filterOutValidation, filterFontDecorations, onlyMinimapDecorations);
         }
 
         List<ModelDecoration> result = [];
@@ -198,14 +198,14 @@ internal sealed partial class ViewModelLinesFromProjectedModel
             {
                 // hit invisible line => flush request
                 int maxLineColumn = _model.GetLineMaxColumn(modelLineIndex);
-                result.AddRange(_model.GetDecorationsInRange(new Range(start.LineNumber, start.Column, modelLineIndex, maxLineColumn), ownerId, filterOutValidation, filterFontDecorations));
+                result.AddRange(_model.GetDecorationsInRange(new Range(start.LineNumber, start.Column, modelLineIndex, maxLineColumn), ownerId, filterOutValidation, filterFontDecorations, onlyMinimapDecorations));
                 reqStart = null;
             }
         }
 
         if (reqStart is { } lastStart)
         {
-            result.AddRange(_model.GetDecorationsInRange(new Range(lastStart.LineNumber, lastStart.Column, modelEnd.LineNumber, modelEnd.Column), ownerId, filterOutValidation, filterFontDecorations));
+            result.AddRange(_model.GetDecorationsInRange(new Range(lastStart.LineNumber, lastStart.Column, modelEnd.LineNumber, modelEnd.Column), ownerId, filterOutValidation, filterFontDecorations, onlyMinimapDecorations));
         }
 
         // OrderBy is stable, like Array.prototype.sort
@@ -238,6 +238,13 @@ internal sealed partial class ViewModelLinesFromProjectedModel
     {
         ViewLineInfo info = GetViewLineInfo(position.LineNumber);
         return _modelLineProjections[info.ModelLineNumber - 1].NormalizePosition(info.ModelLineWrappedLineIdx, position, affinity);
+    }
+
+    /// <summary>The injected text at a view position, if any.</summary>
+    public InjectedText? GetInjectedTextAt(Position viewPosition)
+    {
+        ViewLineInfo info = GetViewLineInfo(viewPosition.LineNumber);
+        return _modelLineProjections[info.ModelLineNumber - 1].GetInjectedTextAt(info.ModelLineWrappedLineIdx, viewPosition.Column);
     }
 
     public int GetLineIndentColumn(int lineNumber)

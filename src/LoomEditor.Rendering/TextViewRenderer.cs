@@ -1,5 +1,6 @@
 using LoomEditor.Core.Text;
 using LoomEditor.Themes;
+using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.Rendering;
@@ -41,11 +42,15 @@ internal sealed partial class TextViewRenderer : IDisposable
 
     /// <summary>Creates a renderer that lays out lines with <paramref name="measurer"/>.</summary>
     /// <remarks>Create a new renderer when the measurer changes (new font or new graphics device).</remarks>
-    public TextViewRenderer(ITextMeasurer measurer)
+    /// <param name="measurer">Lays out the lines.</param>
+    /// <param name="scheduler">Runs the minimap auto-hide timer; <see langword="null"/> keeps the minimap shown after a scroll.</param>
+    /// <param name="requestRedraw">Asks the host to draw again (the auto-hide timer fired).</param>
+    public TextViewRenderer(ITextMeasurer measurer, IEditorScheduler? scheduler = null, Action? requestRedraw = null)
     {
         ArgumentNullException.ThrowIfNull(measurer);
 
         _measurer = measurer;
+        MinimapPresentation = new MinimapPresentationState(scheduler, requestRedraw);
         _cache = new LineLayoutCache(measurer, MinimumCacheCapacity);
     }
 
@@ -110,8 +115,8 @@ internal sealed partial class TextViewRenderer : IDisposable
         FontInfo font = _measurer.FontInfo;
 
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
-        // Two layouts per visible line (number and text), plus the labels of very long lines.
-        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, 4 * lineCount));
+        // Two layouts per visible line (number and text), plus the labels of very long lines and up to 20 sticky lines.
+        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, (4 * lineCount) + 40));
 
         // Integer arithmetic first: scrollTop is of the order of the document height, the offsets are small.
         int scrollTop = (int)viewModel.ViewLayout.GetCurrentScrollTop();
@@ -135,7 +140,7 @@ internal sealed partial class TextViewRenderer : IDisposable
             // The renderer only reads tokens: the model or the background worker tokenizes.
             LineStyle style = LineStyle.Create(
                 data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
-                GetStyleOverrides(data, lineNumber, viewModel.GetLineMaxColumn(lineNumber), text.Length));
+                GetStyleOverrides(data.GetInlineDecorations(lineNumber), lineNumber, viewModel.GetLineMaxColumn(lineNumber), text.Length));
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
@@ -176,6 +181,7 @@ internal sealed partial class TextViewRenderer : IDisposable
 
         // Monaco: the decorations overlay is after the selections overlay, under the text.
         DrawDecorations(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
+        DrawGuides(surface, viewModel, data, selections, layouts, layoutInfo, scrollLeft, topShift, font);
 
         for (int i = 0; i < lineCount; i++)
         {
@@ -210,11 +216,25 @@ internal sealed partial class TextViewRenderer : IDisposable
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
         DrawGutter(surface, viewModel, data, layoutInfo, cursorLines, selections, hasFocus, topShift, font);
 
+        // Monaco: the sticky scroll widget is an overlay widget above the text and the gutter.
+        DrawStickyScroll(surface, viewModel, layoutInfo, scrollLeft);
+
+        // Monaco: the minimap is a view part of its own, beside the text.
+        DrawMinimap(surface, viewModel, data, layoutInfo);
+
+        // Monaco: the overview ruler sits on top of the text, under the scrollbar.
+        DrawOverviewRuler(surface, viewModel, selections, layoutInfo, font);
+
         UpdateMaxLineWidth(viewModel, data, widestLine);
     }
 
     /// <summary>Releases the layout cache.</summary>
-    public void Dispose() => _cache.Dispose();
+    public void Dispose()
+    {
+        _cache.Dispose();
+        DisposeMinimap();
+        MinimapPresentation.Dispose();
+    }
 
     // Monaco: `_updateLineWidths` (the rendered lines are always measured) and `_ensureMaxLineWidth`.
     private void UpdateMaxLineWidth(ViewModel viewModel, ViewportData data, double localMaxLineWidth)

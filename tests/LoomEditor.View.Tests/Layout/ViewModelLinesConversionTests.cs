@@ -37,7 +37,14 @@ public class ViewModelLinesConversionTests
     {
         Assert.Equal(6, linesCollection.GetViewLineCount());
 
-        // Phase 6 cut point: the getViewLinesIndentGuides assertions are not ported (indent guides).
+        // getOutputIndentGuide
+        int[] expectedGuides = [0, 0, 0, 1, 0, 0, 1, 0, 0];
+        for (int i = 0; i < expectedGuides.Length; i++)
+        {
+            Assert.Equal([expectedGuides[i]], linesCollection.GetViewLinesIndentGuides(i - 1, i - 1));
+        }
+
+        Assert.Equal([0, 1, 0, 0, 1, 0], linesCollection.GetViewLinesIndentGuides(0, 7));
 
         // getOutputLineContent
         string[] expectedContent = [SixLines[0], SixLines[0], SixLines[0], SixLines[1], SixLines[2], SixLines[3], SixLines[4], SixLines[5], SixLines[5]];

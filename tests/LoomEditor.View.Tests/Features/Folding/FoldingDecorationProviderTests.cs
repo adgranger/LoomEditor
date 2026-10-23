@@ -95,4 +95,18 @@ public class FoldingDecorationProviderTests
 
         Assert.DoesNotContain(model.GetAllDecorations(), d => d.OwnerId == 7);
     }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void CollapsedRegion_HasTheMinimapColor(bool highlights)
+    {
+        using ViewModel viewModel = CreateViewModel(new TextModel("a"));
+        var provider = new FoldingDecorationProvider(viewModel) { ShowFoldingHighlights = highlights };
+
+        ModelDecorationMinimapOptions? minimap = provider.GetDecorationOption(true, false, false).Minimap;
+
+        Assert.Equal(highlights, minimap is not null);
+        Assert.Equal(highlights ? "editor.foldBackground" : null, minimap?.Color!.ThemeColorId);
+    }
 }

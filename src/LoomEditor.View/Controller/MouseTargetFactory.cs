@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/browser/controller/mouseTarget.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Layout;
@@ -14,7 +15,7 @@ namespace LoomEditor.View.Controller;
 /// <para>
 /// Monaco's <c>MouseTargetFactory</c> asks the DOM first. There is no DOM here: the target is found from the geometry
 /// (<c>x &lt; contentLeft</c> is the gutter), as in Monaco's GPU path (<c>viewLinesGpu</c>). Not ported: widgets, view
-/// zones, the minimap, scrollbars, injected text and right-to-left lines (<c>isRtl</c> is always <c>false</c>).
+/// zones, the minimap, scrollbars and right-to-left lines (<c>isRtl</c> is always <c>false</c>).
 /// </para>
 /// <para>Threading: UI thread only (it reads the view model).</para>
 /// </remarks>
@@ -125,6 +126,9 @@ internal static class MouseTargetFactory
 
         if (lines.GetPositionAtCoordinate(lineNumber, mouseContentHorizontalOffset) is { } hit)
         {
+            // Monaco: doHitTest.
+            InjectedText? injectedText = viewModel.GetInjectedTextAt(hit);
+            hit = viewModel.NormalizePosition(hit, PositionAffinity.None);
             Range range = Range.Collapsed(hit);
             if (viewModel.CursorConfig.StickyTabStops)
             {
@@ -133,7 +137,7 @@ internal static class MouseTargetFactory
                 range = Range.Collapsed(hit).Plus(range);
             }
 
-            return new MouseTarget(MouseTargetType.ContentText, hit, GetMouseColumn(viewModel, hit, mouseColumn), range, false, null);
+            return new MouseTarget(MouseTargetType.ContentText, hit, GetMouseColumn(viewModel, hit, mouseColumn), range, false, null, InjectedText: injectedText);
         }
 
         // We have tried everything...

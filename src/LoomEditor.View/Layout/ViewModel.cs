@@ -17,8 +17,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// Threading: UI thread only; events are raised synchronously on the calling thread.
-/// Behavior difference: the view lines are the ones of <see cref="ViewModelLinesFromProjectedModel"/> (hidden areas, no word wrap
-/// or injected text before phase 6); custom line heights and the view events that only the control consumed are not ported.
+/// Behavior difference: the view lines are the ones of <see cref="ViewModelLinesFromProjectedModel"/> (hidden areas, word wrap); custom line heights and the view events that only the control consumed are not ported.
 /// </remarks>
 internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 {
@@ -29,7 +28,11 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     private int _outerWidth;
     private int _outerHeight;
     private int _lineNumbersDigitCount;
+    private int _layoutViewLineCount;
+    private readonly ComputeOptionsMemory _layoutMemory = new();
     private bool _disposed;
+    private string _breakBeforeCharacters;
+    private string _breakAfterCharacters;
     private readonly ViewModelLinesFromProjectedModel _lines;
     private readonly CursorsController _cursor;
     private EditorCursorOptions _cursorOptions = EditorCursorOptions.Default;
@@ -49,9 +52,22 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _layoutOptions = layoutOptions;
         _viewLayoutOptions = viewLayoutOptions;
         _lineNumbersDigitCount = CountDigits(model.LineCount);
-        _lines = new ViewModelLinesFromProjectedModel(editorId, model, model.Options.TabSize);
-
+        _layoutViewLineCount = model.LineCount;
         LayoutInfo = ComputeLayoutInfo();
+        EditorWrappingOptions wrapping = layoutOptions.Wrapping;
+        _breakBeforeCharacters = wrapping.WordWrapBreakBeforeCharacters;
+        _breakAfterCharacters = wrapping.WordWrapBreakAfterCharacters;
+        _lines = new ViewModelLinesFromProjectedModel(
+            editorId,
+            model,
+            MonospaceLineBreaksComputerFactory.Create(wrapping),
+            fontInfo,
+            model.Options.TabSize,
+            LayoutInfo.WrappingColumn,
+            wrapping.WrappingIndent,
+            wrapping.WordBreak,
+            wrapping.WrapOnEscapedLineFeeds,
+            wrapping.UseTwoCellFullwidthCharacters);
         ViewLayout = new ViewLayout(
             viewLayoutOptions, LayoutInfo, fontInfo, _lines.GetViewLineCount(), [], scheduleAtNextAnimationFrame, timeProvider);
 
@@ -63,11 +79,16 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         AttachDecorations();
 
         _model.RawContentChanged += OnModelRawContentChanged;
+        _model.InjectedTextChanged += OnModelInjectedTextChanged;
         _model.OptionsChanged += OnModelOptionsChanged;
         _model.LanguageChanged += OnModelLanguageChanged;
         _model.LanguageConfigurationChanged += OnModelLanguageChanged;
         AttachToModelTokens(scheduleAtNextAnimationFrame);
+        UpdateLayoutViewLineCount();
     }
+
+    /// <summary>Raised after <see cref="SetOptions"/>, even when the layout did not change.</summary>
+    public event EventHandler? OptionsChanged;
 
     /// <summary>Raised after <see cref="LayoutInfo"/> changed.</summary>
     public event EventHandler? LayoutInfoChanged;
@@ -94,6 +115,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         DetachFromModelTokens();
         DetachDecorations();
         _model.RawContentChanged -= OnModelRawContentChanged;
+        _model.InjectedTextChanged -= OnModelInjectedTextChanged;
         _model.OptionsChanged -= OnModelOptionsChanged;
         _model.LanguageChanged -= OnModelLanguageChanged;
         _model.LanguageConfigurationChanged -= OnModelLanguageChanged;
@@ -108,6 +130,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _outerWidth = outerWidth;
         _outerHeight = outerHeight;
         RecomputeLayoutInfo();
+        UpdateWrappingSettings();
         UpdateCursorConfiguration();
     }
 
@@ -124,6 +147,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         }
 
         RecomputeLayoutInfo();
+        UpdateWrappingSettings();
         UpdateCursorConfiguration();
     }
 
@@ -140,6 +164,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _viewLayoutOptions = viewLayoutOptions;
         ViewLayout.OnOptionsChanged(viewLayoutOptions);
         RecomputeLayoutInfo();
+        UpdateWrappingSettings();
+        OptionsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Builds the data to render the current viewport.</summary>
@@ -156,13 +182,30 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     // Monaco: onDidChangeContentOrInjectedText (the model change part; custom line heights are not ported)
     private void OnModelRawContentChanged(object? sender, ModelRawContentChangedEventArgs e)
     {
+        OnDidChangeContentOrInjectedText(e.Changes, e.VersionId);
+
+        // Monaco: emitContentChangeEvent runs after the layout has been updated (onDidChangeContentOrInjectedText).
+        EmitViewEvent(eventsCollector => _cursor.OnModelContentChanged(eventsCollector, e));
+    }
+
+    // Monaco: an injected text change has no version id (versionId = null).
+    private void OnModelInjectedTextChanged(object? sender, ModelInjectedTextChangedEventArgs e)
+    {
+        OnDidChangeContentOrInjectedText(e.Changes, null);
+        EmitViewEvent(_cursor.OnModelInjectedTextChanged);
+    }
+
+    private void OnDidChangeContentOrInjectedText(IReadOnlyList<ModelRawChange> changes, int? versionId)
+    {
         EmitViewEvent(eventsCollector =>
         {
             bool hadOtherModelChange = false;
             bool hadModelLineChangeThatChangedLineMapping = false;
-            int versionId = e.VersionId;
 
-            foreach (ModelRawChange change in e.Changes)
+            // Do a first pass to compute line mappings, and a second pass to actually interpret them
+            Queue<ModelLineProjectionData?> lineBreakQueue = ComputeLineBreaks(changes);
+
+            foreach (ModelRawChange change in changes)
             {
                 switch (change)
                 {
@@ -181,7 +224,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                         hadOtherModelChange = true;
                         break;
                     case ModelRawLinesInserted inserted:
-                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, inserted.Count) is { } linesInserted)
+                        if (_lines.OnModelLinesInserted(versionId, inserted.FromLineNumber, inserted.ToLineNumber, TakeCount(lineBreakQueue, inserted.Count)) is { } linesInserted)
                         {
                             ViewLayout.OnLinesInserted(linesInserted.FromLineNumber, linesInserted.ToLineNumber);
                         }
@@ -190,7 +233,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                         break;
                     case ModelRawLineChanged changed:
                         (bool lineMappingChanged, _, ViewLineRange? insertedRange, ViewLineRange? deletedRange) =
-                            _lines.OnModelLineChanged(versionId, changed.LineNumber);
+                            _lines.OnModelLineChanged(versionId, changed.LineNumber, lineBreakQueue.Dequeue());
                         hadModelLineChangeThatChangedLineMapping = lineMappingChanged;
                         if (insertedRange is { } insertedLines)
                         {
@@ -209,7 +252,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                 }
             }
 
-            if (_lines.AcceptVersionId(versionId))
+            if (versionId is { } acceptedVersionId && _lines.AcceptVersionId(acceptedVersionId))
             {
                 // Every line was hidden: the lines revealed one.
                 ViewLayout.OnFlushed(GetLineCount(), []);
@@ -231,10 +274,8 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             RecomputeLayoutInfo();
         }
 
+        UpdateLayoutViewLineCount();
         HandleVisibleLinesChanged();
-
-        // Monaco: emitContentChangeEvent runs after the layout has been updated (onDidChangeContentOrInjectedText).
-        EmitViewEvent(eventsCollector => _cursor.OnModelContentChanged(eventsCollector, e));
     }
 
     private EditorLayoutInfo ComputeLayoutInfo()
@@ -250,7 +291,29 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                 _fontInfo.TypicalHalfwidthCharacterWidth,
                 _fontInfo.MaxDigitWidth,
                 _fontInfo.PixelRatio,
-                GlyphMarginDecorationLaneCount: 1));
+                GlyphMarginDecorationLaneCount: 1,
+                ViewLineCount: _layoutViewLineCount,
+                Memory: _layoutMemory,
+                ScrollBeyondLastLine: _viewLayoutOptions.ScrollBeyondLastLine,
+                PaddingTop: _viewLayoutOptions.PaddingTop,
+                PaddingBottom: _viewLayoutOptions.PaddingBottom));
+    }
+
+    // Monaco: _updateConfigurationViewLineCount (the minimap layout depends on the view line count)
+    private void UpdateLayoutViewLineCount()
+    {
+        int viewLineCount = GetLineCount();
+        if (viewLineCount == _layoutViewLineCount)
+        {
+            return;
+        }
+
+        _layoutViewLineCount = viewLineCount;
+        if (_layoutOptions.Minimap.Enabled)
+        {
+            RecomputeLayoutInfo();
+            UpdateWrappingSettings();
+        }
     }
 
     private void RecomputeLayoutInfo()

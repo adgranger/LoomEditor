@@ -4,6 +4,7 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Events;
+using LoomEditor.View.Features.StickyScroll;
 
 namespace LoomEditor.View.Layout;
 
@@ -17,8 +18,7 @@ namespace LoomEditor.View.Layout;
 /// (<see cref="TryApplyPendingHorizontalReveal"/>, Monaco: step 2 of <c>renderText</c>).
 /// </para>
 /// <para>
-/// Phase 4–5 cut point: Monaco's <c>_stickyScrollEnabled</c> is always <c>false</c> (no sticky scroll), and
-/// <c>hasRTL</c> is always <c>false</c> (no right-to-left lines, no word wrap).
+/// Cut point: <c>hasRTL</c> is always <c>false</c> (no right-to-left lines, no word wrap).
 /// </para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
@@ -194,8 +194,8 @@ internal sealed class RevealCalculator(ViewModel viewModel)
         if (!shouldIgnoreScrollOff)
         {
             double maxLinesInViewport = viewportHeight / lineHeight;
-            // Phase 4–5 cut point: Monaco also takes the number of sticky scroll lines here (sticky scroll is off).
-            int surroundingLines = options.CursorSurroundingLines;
+            EditorStickyScrollOptions sticky = viewModel.LayoutOptions.StickyScroll;
+            int surroundingLines = Math.Max(options.CursorSurroundingLines, sticky.Enabled ? sticky.MaxLineCount : 0);
             double context = Math.Min(maxLinesInViewport / 2, surroundingLines);
             paddingTop = context * lineHeight;
             paddingBottom = Math.Max(0, context - 1) * lineHeight;

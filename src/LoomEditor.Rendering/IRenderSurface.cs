@@ -33,4 +33,18 @@ internal interface IRenderSurface
     /// the glyphs are centered in it, half of the extra space above and half below.
     /// </summary>
     void DrawLineLayout(ILineLayout layout, float x, float lineTop, ThemeColor color);
+
+    /// <summary>
+    /// Draws a straight-alpha RGBA pixel buffer (4 bytes per pixel, row-major) stretched into a rectangle.
+    /// </summary>
+    /// <param name="rgba">The pixels. The surface may keep a copy of them keyed by this array.</param>
+    /// <param name="pixelWidth">The width of the buffer in pixels.</param>
+    /// <param name="pixelHeight">The height of the buffer in pixels.</param>
+    /// <param name="x">Left of the target rectangle.</param>
+    /// <param name="y">Top of the target rectangle.</param>
+    /// <param name="width">Width of the target rectangle.</param>
+    /// <param name="height">Height of the target rectangle.</param>
+    /// <param name="opacity">0 to 1.</param>
+    /// <param name="version">Changes whenever the content of <paramref name="rgba"/> changed, so a surface can reuse what it uploaded.</param>
+    void DrawRgbaImage(byte[] rgba, int pixelWidth, int pixelHeight, float x, float y, float width, float height, float opacity, int version);
 }

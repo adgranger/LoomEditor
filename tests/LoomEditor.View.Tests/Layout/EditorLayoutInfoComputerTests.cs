@@ -24,6 +24,7 @@ public class EditorLayoutInfoComputerTests
             LineNumbersMinChars = lineNumbersMinChars,
             LineDecorationsWidth = 10,
             Folding = false,
+            Minimap = new() { Enabled = false },
             VerticalScrollbarSize = verticalScrollbarWidth,
             HorizontalScrollbarSize = horizontalScrollbarHeight,
             VerticalHasArrows = verticalHasArrows,
@@ -58,7 +59,10 @@ public class EditorLayoutInfoComputerTests
             DecorationsWidth: 10,
             ContentLeft: contentLeft,
             ContentWidth: contentWidth,
+            Minimap: new EditorMinimapLayoutInfo(RenderMinimap.None, 0, 0, false, false, 1, 1, 0, height, 0, height),
             ViewportColumn: viewportColumn,
+            IsViewportWrapping: false,
+            WrappingColumn: -1,
             VerticalScrollbarWidth: verticalScrollbarWidth,
             HorizontalScrollbarHeight: horizontalScrollbarHeight,
             OverviewRuler: overviewRuler);
@@ -165,5 +169,255 @@ public class EditorLayoutInfoComputerTests
         Assert.Equal(38, info.GlyphMarginWidth);
         Assert.Equal(38, info.LineNumbersLeft);
         Assert.Equal(26, info.DecorationsWidth);
+    }
+
+    private static EditorLayoutInfo ComputeWrapped(WordWrap wordWrap, int wordWrapColumn = 80, bool indicator = false, int outerWidth = 800)
+    {
+        var options = new EditorLayoutOptions
+        {
+            Folding = false,
+            Minimap = new() { Enabled = false },
+            Wrapping = new EditorWrappingOptions { WordWrap = wordWrap, WordWrapColumn = wordWrapColumn, WordWrapIndicator = indicator },
+        };
+        var env = new EditorLayoutInfoComputerEnv(outerWidth, 600, 19, 1, 8, 8, 1, 1);
+        return EditorLayoutInfoComputer.ComputeLayout(options, env);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOff_HasNoWrappingColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.Off);
+
+        Assert.False(info.IsViewportWrapping);
+        Assert.Equal(-1, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapColumn_UsesTheColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.WordWrapColumn, wordWrapColumn: 40);
+
+        Assert.False(info.IsViewportWrapping);
+        Assert.Equal(40, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOn_WrapsAtTheViewportColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.On);
+
+        Assert.True(info.IsViewportWrapping);
+        Assert.Equal(info.ViewportColumn, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOnWithIndicator_LeavesTheRightmostColumn()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.On, indicator: true);
+
+        Assert.Equal(info.ViewportColumn - 1, info.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_Bounded_UsesTheMinimumOfViewportAndColumn()
+    {
+        EditorLayoutInfo small = ComputeWrapped(WordWrap.Bounded, wordWrapColumn: 20);
+        EditorLayoutInfo large = ComputeWrapped(WordWrap.Bounded, wordWrapColumn: 1000);
+
+        Assert.True(small.IsViewportWrapping);
+        Assert.Equal(20, small.WrappingColumn);
+        Assert.Equal(large.ViewportColumn, large.WrappingColumn);
+    }
+
+    [Fact]
+    public void ComputeLayout_WordWrapOn_NeverBelowOne()
+    {
+        EditorLayoutInfo info = ComputeWrapped(WordWrap.On, indicator: true, outerWidth: 10);
+
+        Assert.Equal(1, info.WrappingColumn);
+    }
+
+    private static EditorLayoutInfo ComputeMinimap(
+        int outerWidth,
+        int outerHeight,
+        EditorMinimapOptions minimap,
+        double pixelRatio,
+        int viewLineCount,
+        int lineNumbersDigitCount = 1,
+        int verticalScrollbarWidth = 0,
+        bool glyphMargin = false,
+        bool lineNumbers = false,
+        int lineHeight = 16,
+        int lineNumbersMinChars = 0,
+        int lineDecorationsWidth = 10,
+        double charWidth = 10)
+    {
+        var options = new EditorLayoutOptions
+        {
+            GlyphMargin = glyphMargin,
+            LineNumbers = lineNumbers,
+            LineNumbersMinChars = lineNumbersMinChars,
+            LineDecorationsWidth = lineDecorationsWidth,
+            Folding = false,
+            VerticalScrollbarSize = verticalScrollbarWidth,
+            HorizontalScrollbarSize = 0,
+            Minimap = minimap,
+        };
+        var env = new EditorLayoutInfoComputerEnv(
+            outerWidth, outerHeight, lineHeight, lineNumbersDigitCount, charWidth, charWidth, pixelRatio, 1, ViewLineCount: viewLineCount);
+        return EditorLayoutInfoComputer.ComputeLayout(options, env);
+    }
+
+    private static EditorMinimapOptions Minimap(MinimapSide side = MinimapSide.Right, MinimapSize size = MinimapSize.Proportional, int maxColumn = 150)
+        => new() { Enabled = true, Side = side, Size = size, MaxColumn = maxColumn, RenderCharacters = true };
+
+    private static void AssertMinimap(
+        EditorLayoutInfo info,
+        int left,
+        int width,
+        bool heightIsEditorHeight,
+        bool isSampling,
+        double scale,
+        double lineHeight,
+        int innerWidth,
+        int innerHeight,
+        int outerWidth,
+        int contentLeft,
+        int contentWidth,
+        int viewportColumn,
+        int gutterLeft = 0)
+    {
+        var expected = new EditorMinimapLayoutInfo(
+            RenderMinimap.Text, left, width, heightIsEditorHeight, isSampling, scale, lineHeight, innerWidth, innerHeight, outerWidth, 800);
+        Assert.Equal(expected, info.Minimap);
+        Assert.Equal(contentLeft, info.ContentLeft);
+        Assert.Equal(contentWidth, info.ContentWidth);
+        Assert.Equal(viewportColumn, info.ViewportColumn);
+        Assert.Equal(gutterLeft, info.GlyphMarginLeft);
+        Assert.Equal(gutterLeft, info.LineNumbersLeft);
+        Assert.Equal(gutterLeft, info.DecorationsLeft);
+    }
+
+    // Monaco: 'EditorLayoutProvider 9 - render minimap'
+    [Fact]
+    public void ComputeLayout_Provider9_RenderMinimap()
+    {
+        AssertMinimap(ComputeMinimap(1000, 800, Minimap(), 1, 9), 903, 97, false, false, 1, 2, 97, 800, 97, 10, 893, 89);
+    }
+
+    // Monaco: 'EditorLayoutProvider 9 - render minimap with pixelRatio = 2'
+    [Fact]
+    public void ComputeLayout_Provider9_RenderMinimapPixelRatio2()
+    {
+        AssertMinimap(ComputeMinimap(1000, 800, Minimap(), 2, 9), 903, 97, false, false, 2, 4, 194, 1600, 97, 10, 893, 89);
+    }
+
+    // Monaco: 'EditorLayoutProvider 9 - render minimap with pixelRatio = 4'
+    [Fact]
+    public void ComputeLayout_Provider9_RenderMinimapPixelRatio4()
+    {
+        AssertMinimap(ComputeMinimap(1000, 800, Minimap(), 4, 9), 945, 55, false, false, 2, 4, 220, 3200, 55, 10, 935, 93);
+    }
+
+    // Monaco: 'EditorLayoutProvider 10 - render minimap to left'
+    [Fact]
+    public void ComputeLayout_Provider10_RenderMinimapToLeft()
+    {
+        AssertMinimap(
+            ComputeMinimap(1000, 800, Minimap(MinimapSide.Left), 4, 9), 0, 55, false, false, 2, 4, 220, 3200, 55, 65, 935, 93, gutterLeft: 55);
+    }
+
+    // Monaco: 'EditorLayoutProvider 11 - minimap mode cover without sampling'
+    [Fact]
+    public void ComputeLayout_Provider11_MinimapFillWithoutSampling()
+    {
+        AssertMinimap(
+            ComputeMinimap(1000, 800, Minimap(size: MinimapSize.Fill), 2, 120, lineNumbersDigitCount: 3),
+            903, 97, true, false, 3, 13, 291, 1560, 97, 10, 893, 89);
+    }
+
+    // Monaco: 'EditorLayoutProvider 12 - minimap mode cover with sampling'
+    [Fact]
+    public void ComputeLayout_Provider12_MinimapFillWithSampling()
+    {
+        AssertMinimap(
+            ComputeMinimap(1000, 800, Minimap(size: MinimapSize.Fill), 2, 2500, lineNumbersDigitCount: 4),
+            945, 55, true, true, 1, 1, 110, 1600, 55, 10, 935, 93);
+    }
+
+    // Monaco: 'EditorLayoutProvider 13 - minimap mode contain without sampling'
+    [Fact]
+    public void ComputeLayout_Provider13_MinimapFitWithoutSampling()
+    {
+        AssertMinimap(
+            ComputeMinimap(1000, 800, Minimap(size: MinimapSize.Fit), 2, 120, lineNumbersDigitCount: 3),
+            903, 97, false, false, 2, 4, 194, 1600, 97, 10, 893, 89);
+    }
+
+    // Monaco: 'EditorLayoutProvider 14 - minimap mode contain with sampling'
+    [Fact]
+    public void ComputeLayout_Provider14_MinimapFitWithSampling()
+    {
+        AssertMinimap(
+            ComputeMinimap(1000, 800, Minimap(size: MinimapSize.Fit), 2, 2500, lineNumbersDigitCount: 4),
+            945, 55, true, true, 1, 1, 110, 1600, 55, 10, 935, 93);
+    }
+
+    // Monaco: 'issue #31312: When wrapping, leave 2px for the cursor'
+    [Fact]
+    public void ComputeLayout_Issue31312_LeavesTwoPixelsForTheCursor()
+    {
+        EditorLayoutInfo info = ComputeMinimap(
+            1201, 422, Minimap(maxColumn: 120), 2, 999, verticalScrollbarWidth: 14, glyphMargin: true, lineNumbers: true,
+            lineHeight: 30, lineNumbersMinChars: 3, lineDecorationsWidth: 26, charWidth: 12.04296875);
+
+        Assert.Equal(new EditorMinimapLayoutInfo(RenderMinimap.Text, 1096, 91, false, false, 2, 4, 182, 844, 91, 422), info.Minimap);
+        Assert.Equal(30, info.GlyphMarginWidth);
+        Assert.Equal(36, info.LineNumbersWidth);
+        Assert.Equal(66, info.DecorationsLeft);
+        Assert.Equal(92, info.ContentLeft);
+        Assert.Equal(1018, info.ContentWidth);
+        Assert.Equal(83, info.ViewportColumn);
+        Assert.Equal(new OverviewRulerPosition(Width: 14, Height: 422, Top: 0, Right: 0), info.OverviewRuler);
+    }
+
+    // Monaco: 'leaves the rightmost column for the word wrap indicator when wrapping to the viewport'
+    [Fact]
+    public void ComputeLayout_WordWrapIndicator_LeavesTheRightmostColumn()
+    {
+        static (int ViewportColumn, int WrappingColumn) WrappingOf(WordWrap wordWrap, bool indicator, int wordWrapColumn = 40)
+        {
+            var options = new EditorLayoutOptions
+            {
+                Folding = false,
+                LineNumbers = false,
+                LineNumbersMinChars = 0,
+                VerticalScrollbarSize = 0,
+                HorizontalScrollbarSize = 0,
+                Minimap = new() { Enabled = false },
+                Wrapping = new EditorWrappingOptions { WordWrap = wordWrap, WordWrapColumn = wordWrapColumn, WordWrapIndicator = indicator },
+            };
+            EditorLayoutInfo info = EditorLayoutInfoComputer.ComputeLayout(options, new EditorLayoutInfoComputerEnv(1000, 800, 16, 1, 10, 10, 1, 1, 9));
+            return (info.ViewportColumn, info.WrappingColumn);
+        }
+
+        Assert.Equal((98, -1), WrappingOf(WordWrap.Off, true));
+        Assert.Equal((98, 98), WrappingOf(WordWrap.On, false));
+        Assert.Equal((98, 97), WrappingOf(WordWrap.On, true));
+        Assert.Equal((98, 40), WrappingOf(WordWrap.Bounded, false));
+        Assert.Equal((98, 40), WrappingOf(WordWrap.Bounded, true));
+        Assert.Equal((98, 40), WrappingOf(WordWrap.WordWrapColumn, true));
+        Assert.Equal((98, 120), WrappingOf(WordWrap.WordWrapColumn, true, 120));
+    }
+
+    [Fact]
+    public void ComputeLayout_MinimapEnabledChangesContentWidth()
+    {
+        EditorLayoutInfo off = ComputeMinimap(1000, 800, new EditorMinimapOptions { Enabled = false }, 1, 9);
+        EditorLayoutInfo on = ComputeMinimap(1000, 800, Minimap(), 1, 9);
+
+        Assert.Equal(RenderMinimap.None, off.Minimap.RenderMinimap);
+        Assert.Equal(990, off.ContentWidth);
+        Assert.Equal(990 - on.Minimap.MinimapWidth, on.ContentWidth);
     }
 }

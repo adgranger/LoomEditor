@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/test/browser/viewModel/modelLineProjection.test.ts (suite 'SplitLinesCollection', no wrapping)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.View.Events;
 using LoomEditor.View.Layout;
@@ -54,19 +55,50 @@ public class ViewModelLinesTests
         new("}", 1, 2, [(1, 31)]),
     ];
 
-    // Monaco: the suite's setup (the fixed-token tokenizer, forceTokenization) and withSplitLinesCollection with wordWrap 'off'
-    private static void WithSplitLinesCollection(Action<TextModel, ViewModelLinesFromProjectedModel> callback)
+    // Monaco: the suite's setup (the fixed-token tokenizer, forceTokenization)
+    private static TextModel CreateModel(TestEditorServices services)
     {
-        using var services = new TestEditorServices();
         services.RegisterLanguage(LanguageId);
         services.Add(services.TokenizationRegistry.Register(LanguageId, new FixedTokensTokenizationSupport(Tokens)));
         TextModel model = services.CreateTextModel(string.Join('\n', Lines), LanguageId);
 
         // force tokenization
         model.Tokenization.ForceTokenization(model.LineCount);
+        return model;
+    }
 
+    private static void WithSplitLinesCollection(Action<TextModel, ViewModelLinesFromProjectedModel> callback)
+    {
+        using var services = new TestEditorServices();
+        TextModel model = CreateModel(services);
         using var linesCollection = new ViewModelLinesFromProjectedModel(1, model, model.Options.TabSize);
         callback(model, linesCollection);
+    }
+
+    // Monaco: withSplitLinesCollection(model, wordWrap, wordWrapColumn, wrapOnEscapedLineFeeds, callback)
+    private static void WithSplitLinesCollection(
+        Action<TextModel> prepareModel,
+        WordWrap wordWrap,
+        int wordWrapColumn,
+        bool wrapOnEscapedLineFeeds,
+        Action<ViewModelLinesFromProjectedModel> callback)
+    {
+        using var services = new TestEditorServices();
+        TextModel model = CreateModel(services);
+        prepareModel(model);
+
+        // No options service: only 'off' and 'wordWrapColumn' are needed by the ported tests.
+        int wrappingColumn = wordWrap switch
+        {
+            WordWrap.Off => -1,
+            WordWrap.WordWrapColumn => wordWrapColumn,
+            _ => throw new NotSupportedException(),
+        };
+        ILineBreaksComputerFactory factory = MonospaceLineBreaksComputerFactory.Create(new EditorWrappingOptions());
+        using var linesCollection = new ViewModelLinesFromProjectedModel(
+            1, model, factory, FontInfo.Default, model.Options.TabSize, wrappingColumn, WrappingIndent.Indent,
+            WordBreak.Normal, wrapOnEscapedLineFeeds, useTwoCellFullwidthCharacters: false);
+        callback(linesCollection);
     }
 
     private static void AssertViewLineTokens(LoomEditor.Core.Tokens.IViewLineTokens actual, (int EndIndex, int Value)[] expected)
@@ -158,6 +190,92 @@ public class ViewModelLinesTests
         AssertAllMinimapLinesRenderingData(splitLinesCollection, [Expected[0], Expected[4], Expected[5], Expected[6], Expected[7]]);
     });
 
+    private static readonly ExpectedLine[] ExpectedWrapped =
+    [
+        new("class Nice {", 1, 13, [(5, 1), (6, 2), (10, 3), (12, 4)]),
+        new("	function hi() {", 1, 17, [(1, 5), (9, 6), (10, 7), (12, 8), (16, 9)]),
+        new("		console.log(\"Hello ", 1, 22, [(2, 10), (9, 11), (10, 12), (13, 13), (14, 14), (21, 15)]),
+        new("            world\");", 13, 21, [(18, 15), (20, 16)]),
+        new("	}", 1, 3, [(2, 17)]),
+        new("	function hello() {", 1, 20, [(1, 18), (9, 19), (10, 20), (15, 21), (19, 22)]),
+        new("		console.log(\"Hello ", 1, 22, [(2, 23), (9, 24), (10, 25), (13, 26), (14, 27), (21, 28)]),
+        new("            world, this is a ", 13, 30, [(29, 28)]),
+        new("            somewhat longer ", 13, 29, [(28, 28)]),
+        new("            line\");", 13, 20, [(17, 28), (19, 29)]),
+        new("	}", 1, 3, [(2, 30)]),
+        new("}", 1, 2, [(1, 31)]),
+    ];
+
+    private static readonly ExpectedLine[] ExpectedWrappedInjected =
+    [
+        new("class Nivery very long ", 1, 24, [(5, 1), (6, 2), (8, 3), (23, 1)]),
+        new("    injected text that causes ", 5, 31, [(30, 1)]),
+        new("    a line breakce {", 5, 21, [(16, 1), (18, 3), (20, 4)]),
+        new("	function hi() {", 1, 17, [(1, 5), (9, 6), (10, 7), (12, 8), (16, 9)]),
+        new("		console.log(\"Hello ", 1, 22, [(2, 10), (9, 11), (10, 12), (13, 13), (14, 14), (21, 15)]),
+        new("            world\");", 13, 21, [(18, 15), (20, 16)]),
+        new("	}", 1, 3, [(2, 17)]),
+        new("	function hello() {", 1, 20, [(1, 18), (9, 19), (10, 20), (15, 21), (19, 22)]),
+        new("		console.log(\"Hello ", 1, 22, [(2, 23), (9, 24), (10, 25), (13, 26), (14, 27), (21, 28)]),
+        new("            world, this is a ", 13, 30, [(29, 28)]),
+        new("            somewhat longer ", 13, 29, [(28, 28)]),
+        new("            line\");", 13, 20, [(17, 28), (19, 29)]),
+        new("	}", 1, 3, [(2, 30)]),
+        new("}", 1, 2, [(1, 31)]),
+    ];
+
+    private static void AssertModelPositionsVisible(ViewModelLinesFromProjectedModel lines, bool[] visible)
+    {
+        for (int line = 1; line <= visible.Length; line++)
+        {
+            Assert.Equal(visible[line - 1], lines.ModelPositionIsVisible(line, 1));
+        }
+    }
+
+    // Monaco: 'getViewLinesData - with wrapping'
+    [Fact]
+    public void GetViewLinesData_WithWrapping() => WithSplitLinesCollection(_ => { }, WordWrap.WordWrapColumn, 30, false, splitLinesCollection =>
+    {
+        Assert.Equal(12, splitLinesCollection.GetViewLineCount());
+        AssertModelPositionsVisible(splitLinesCollection, [true, true, true, true, true, true, true, true]);
+
+        AssertAllMinimapLinesRenderingData(splitLinesCollection, ExpectedWrapped);
+
+        splitLinesCollection.SetHiddenAreas([new Range(2, 1, 4, 1)]);
+        Assert.Equal(8, splitLinesCollection.GetViewLineCount());
+        AssertModelPositionsVisible(splitLinesCollection, [true, false, false, false, true, true, true, true]);
+
+        AssertAllMinimapLinesRenderingData(splitLinesCollection, [.. ExpectedWrapped[0..1], .. ExpectedWrapped[5..]]);
+    });
+
+    // Monaco: 'getViewLinesData - with wrapping and injected text'
+    [Fact]
+    public void GetViewLinesData_WithWrappingAndInjectedText() => WithSplitLinesCollection(
+        model =>
+        {
+            var options = ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+            {
+                Description = "example",
+                After = new InjectedTextOptions { Content = "very very long injected text that causes a line break", InlineClassName = "myClassName" },
+                ShowIfCollapsed = true,
+            });
+            model.DeltaDecorations(1, [], [new ModelDeltaDecoration(new Range(1, 9, 1, 9), options)]);
+        },
+        WordWrap.WordWrapColumn, 30, false,
+        splitLinesCollection =>
+        {
+            Assert.Equal(14, splitLinesCollection.GetViewLineCount());
+            Assert.Equal(24, splitLinesCollection.GetViewLineMaxColumn(1));
+
+            AssertAllMinimapLinesRenderingData(splitLinesCollection, ExpectedWrappedInjected);
+
+            ViewLineData?[] data = splitLinesCollection.GetViewLinesData(1, 14, [.. Enumerable.Repeat(true, 14)]);
+            (int, int)[]?[] actual = [.. data.Select(d => d!.InlineDecorations?.Select(x => (x.Range.StartColumn - 1, x.Range.EndColumn - 1)).ToArray())];
+            Assert.Equal(
+                [[(8, 23)], [(4, 30)], [(4, 16)], null, null, null, null, null, null, null, null, null, null, null],
+                actual);
+        });
+
     [Fact]
     public void SetHiddenAreas_SameRangesTwice_ReturnsFalse() => WithSplitLinesCollection((_, lines) =>
     {
@@ -181,7 +299,7 @@ public class ViewModelLinesTests
     {
         lines.SetHiddenAreas([new Range(2, 1, 4, 1)]);
 
-        ViewLineRange? inserted = lines.OnModelLinesInserted(100, 5, 6, 2);
+        ViewLineRange? inserted = lines.OnModelLinesInserted(100, 5, 6, new ModelLineProjectionData?[2]);
 
         Assert.Equal(new ViewLineRange(2, 1), inserted);
         Assert.Equal(5, lines.GetViewLineCount());

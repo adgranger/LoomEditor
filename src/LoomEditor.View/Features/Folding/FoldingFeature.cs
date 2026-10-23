@@ -39,6 +39,7 @@ internal sealed partial class FoldingFeature : IEditorFeature
     private Delayer? _updateScheduler;
     private RunOnceScheduler? _cursorChangedScheduler;
     private bool _isModelBound;
+    private EditorContext? _editorContext;
 
     /// <summary>Creates the feature.</summary>
     public FoldingFeature() => _limitReporter = new RangesLimitReporter(() => _options.FoldingMaximumRegions);
@@ -67,6 +68,12 @@ internal sealed partial class FoldingFeature : IEditorFeature
         }
 
         _viewModel = viewModel;
+        _editorContext = context as EditorContext;
+        if (_editorContext is not null)
+        {
+            _editorContext.FoldingFeature = this;
+        }
+
         _model = context.Model;
         _scheduler = context.Scheduler;
         _decorationProvider = new FoldingDecorationProvider(viewModel)
@@ -152,6 +159,12 @@ internal sealed partial class FoldingFeature : IEditorFeature
         DetachMouse();
         _registrations.Clear();
         ClearModelBinding();
+        if (_editorContext is not null)
+        {
+            _editorContext.FoldingFeature = null;
+            _editorContext = null;
+        }
+
         _decorationProvider = null;
         _viewModel = null;
         _model = null;

@@ -4,10 +4,29 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(string fullName) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type type) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
+LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorBracketPairGuides.Active = 2 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorBracketPairGuides.Off = 0 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorBracketPairGuides.On = 1 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.EditorMinimapSide
+LoomEditor.WinUI.Controls.EditorMinimapSide.Left = 1 -> LoomEditor.WinUI.Controls.EditorMinimapSide
+LoomEditor.WinUI.Controls.EditorMinimapSide.Right = 0 -> LoomEditor.WinUI.Controls.EditorMinimapSide
+LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.Bounded = 3 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.Off = 0 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.On = 1 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWordWrap.WordWrapColumn = 2 -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.DeepIndent = 3 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.Indent = 2 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.None = 0 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.WinUI.Controls.EditorWrappingIndent
 LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomEditor
+LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
+LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.WinUI.Controls.LoomEditor.Features.set -> void
@@ -16,7 +35,15 @@ LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
+LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabled.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.MinimapRenderCharacters.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.MinimapRenderCharacters.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.MinimapSide.get -> LoomEditor.WinUI.Controls.EditorMinimapSide
+LoomEditor.WinUI.Controls.LoomEditor.MinimapSide.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
+LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.get -> double
@@ -26,16 +53,36 @@ LoomEditor.WinUI.Controls.LoomEditor.Selections.get -> System.Collections.Generi
 LoomEditor.WinUI.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCount.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCount.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.TabSize.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.TabSize.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.Text.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.WinUI.Controls.LoomEditor.Theme.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.WordWrap.get -> LoomEditor.WinUI.Controls.EditorWordWrap
+LoomEditor.WinUI.Controls.LoomEditor.WordWrap.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumn.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumn.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.WinUI.Controls.EditorWrappingIndent
+LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapRenderCharactersProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapSideProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!

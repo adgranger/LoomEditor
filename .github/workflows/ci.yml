@@ -7,6 +7,7 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -127,44 +128,15 @@ jobs:
           $exe = 'samples/LoomEditor.Gallery/bin/Release/net11.0-windows10.0.26100.0/win-x64/publish/LoomEditor.Gallery.exe'
           $process = Start-Process $exe -PassThru
           Start-Sleep -Seconds 10
-          if ($process.HasExited) { throw "The AOT app exited at startup with code $($process.ExitCode)." }
+          if ($process.HasExited) {
+            # Exit code -1073741189 (0xC000027B) is a stowed exception: the Application log names the faulting module and exception.
+            Get-WinEvent -FilterHashtable @{ LogName = 'Application'; StartTime = (Get-Date).AddMinutes(-5) } -ErrorAction SilentlyContinue |
+              Where-Object { $_.Message -like '*LoomEditor.Gallery*' } | Select-Object -First 5 | ForEach-Object { $_.Message }
+            throw "The AOT app exited at startup with code $($process.ExitCode)."
+          }
           Stop-Process $process
 
       - uses: actions/upload-artifact@v7
         with:
           name: gallery-${{ matrix.rid }}
           path: samples/LoomEditor.Gallery/bin/Release/net11.0-windows10.0.26100.0/${{ matrix.rid }}/publish
-
-  pack:
-    name: Pack NuGet packages
-    runs-on: windows-latest
-    needs: [build-and-test, native]
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-dotnet@v6
-        with:
-          global-json-file: global.json
-
-      # Both architectures, so that the TextMate package carries runtimes/win-x64 and runtimes/win-arm64.
-      - name: Download onig.dll
-        uses: actions/download-artifact@v7
-        with:
-          pattern: oniguruma-*
-          path: artifacts/native
-          merge-multiple: true
-
-      # Packages are built but NOT published: publishing is a manual, reviewed step.
-      - name: Pack
-        run: |
-          dotnet pack src/LoomEditor.Core -c Release -o artifacts/packages
-          dotnet pack src/LoomEditor.TextMate -c Release -o artifacts/packages
-          dotnet pack src/LoomEditor.Themes -c Release -o artifacts/packages
-          dotnet pack src/LoomEditor.View -c Release -o artifacts/packages
-          dotnet pack src/LoomEditor.Rendering -c Release -o artifacts/packages
-          dotnet pack src/LoomEditor.WinUI -c Release -o artifacts/packages
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: nuget-packages
-          path: artifacts/packages

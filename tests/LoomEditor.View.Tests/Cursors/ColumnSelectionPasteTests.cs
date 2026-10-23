@@ -4,12 +4,13 @@
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
+using LoomEditor.View.Layout;
 using LoomEditor.View.Tests.TestHelpers;
 using static LoomEditor.View.Tests.Cursors.TestHelpers.CursorTestHelpers;
 
 namespace LoomEditor.View.Tests.Cursors;
 
-// Not ported: 'uses successive model lines when word wrap is enabled' (word wrap: phase 6), 'reports pasted ranges for
+// Not ported: 'reports pasted ranges for
 // cursors and multiline destination selections' (needs the onDidPaste editor event, P3-47), 'respects overtype and pads
 // short rows' (overtype mode) and the nested suite 'clipboard metadata' (browser clipboard events; P3-47 has its own tests).
 // 'responds to spread, full, and spread configuration transitions' leaves out the check of EditorOptions.multiCursorPaste.validate.
@@ -33,7 +34,8 @@ public class ColumnSelectionPasteTests
         string? pastedText = null,
         int tabSize = 4,
         EditorCursorOptions? options = null,
-        PasteOverrides? payload = null)
+        PasteOverrides? payload = null,
+        EditorWrappingOptions? wrapping = null)
     {
         TestCodeEditor.WithTestCodeEditor(
             text,
@@ -44,7 +46,7 @@ public class ColumnSelectionPasteTests
                 Paste(editor, pastedText ?? Block, payload);
                 Assert.Equal(expected, editor.Model.GetLinesContent());
             },
-            new TestCodeEditorOptions(CursorOptions: options ?? EditorCursorOptions.Default));
+            new TestCodeEditorOptions(CursorOptions: options ?? EditorCursorOptions.Default, Wrapping: wrapping));
     }
 
     private static (string[] Text, List<Selection> Selections) Snapshot(TestCodeEditor editor) =>
@@ -230,6 +232,15 @@ public class ColumnSelectionPasteTests
             selections: [new Selection(1, 5, 1, 5)],
             pastedText: "\tX\n\u4E2D\n\U0001F600\ne\u0301",
             expected: ["left\tX--right", "left\u4E2D   --right", "left\U0001F600   --right", "lefte\u0301    --right"]);
+
+    // Monaco: 'uses successive model lines when word wrap is enabled'
+    [Fact]
+    public void UsesSuccessiveModelLinesWhenWordWrapIsEnabled() =>
+        AssertPaste(
+            text: ["left--right", "left--right", "left--right"],
+            selections: [new Selection(1, 5, 1, 5)],
+            wrapping: new EditorWrappingOptions { WordWrap = WordWrap.WordWrapColumn, WordWrapColumn = 6 },
+            expected: ["leftA --right", "leftBC--right", "leftD --right"]);
 
     // Monaco: 'does not create cursors or truncate at the multi-cursor limit'
     [Fact]

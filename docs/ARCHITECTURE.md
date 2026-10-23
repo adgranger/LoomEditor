@@ -157,9 +157,38 @@ text change / language          FoldingFeature (debounced: 300 ms, then 200 ms)
   → LinesLayout / TextViewRenderer     only view lines have a height and are drawn; the cursor moves out of folded code
 ```
 
-The same view lines will carry word wrap in phase 6 (cut points: [PORTING.md](PORTING.md#cut-points-for-phase-6)).
+Word wrap uses the same view lines (next section).
 Clicks on the chevrons and on the `⋯` come back through the mouse hit test (`MouseTargetFactory`) to `FoldingFeature.Mouse.cs`.
 Design: [ADR 0009](adr/0009-editor-features.md).
+
+## View lines with word wrap and injected text (phase 6)
+
+```
+model line + injected text      TextModel.GetLineInjectedText → LineInjectedText (from decorations with `after` / `before` options)
+  → ILineBreaksComputer         MonospaceLineBreaksComputer: break offsets from a fixed-width approximation (wrap column,
+                                wrapping indent, injected text widths); incremental when only a few characters changed
+  → ModelLineProjectionData     break offsets, injection offsets and the offset ↔ view position math
+  → WrappedModelLineProjection  one model line as N view lines (indent, content, injected text → inline decorations)
+  → ViewModelLinesFromProjectedModel   all projections + hidden areas; the CoordinatesConverter (model ↔ view positions)
+  → ViewModel                   word wrap settings, view events, cursor movement over view lines
+  → LinesLayout / TextViewRenderer     view lines are drawn; mouse hit tests and reveal use view positions
+```
+
+The wrapping column comes from `EditorLayoutInfoComputer` (viewport width, minimap, scrollbars) and the control's `WordWrap*`
+properties. The renderer measures wrapped lines with the text measurer, so the drawn width can differ slightly from the
+fixed-width approximation (see "Behavior differences" in [PORTING.md](PORTING.md)).
+
+The other view extras sit on the same view model:
+
+- **Guides:** the model computes them (`GuidesTextModelPart`: indent and bracket pair guides, active guide); `ViewModelLinesFromProjectedModel.Guides.cs`
+  maps them to view lines, `IndentGuidesComputer` and `GuideColors` give the data, `TextViewRenderer.Guides.cs` draws them.
+- **Overview ruler:** decoration options (`overviewRuler`) → `ViewModel.GetAllOverviewRulerDecorations` (groups per color,
+  `OverviewRulerDecorations*.cs`) → `TextViewRenderer.OverviewRuler.cs`. Find, highlights and bracket matching add their marks.
+- **Minimap:** `LoomEditor.View/Minimap/` is the logic (`MinimapModel` over the view model, `MinimapLayout`,
+  `MinimapSamplingState`, char renderer and sheet, `MinimapLinesRenderer`, `MinimapDecorationsRenderer`, `MinimapPointerController`);
+  `TextViewRenderer.Minimap.cs` draws it with Win2D (pixel buffer, slider, shadow) and `LoomEditor.Minimap.cs` holds the control properties.
+- **Sticky scroll:** the `StickyScroll` feature (indentation-based model → candidates → widget state, publishes `ViewModel.StickyScroll`);
+  `TextViewRenderer.StickyScroll.cs` draws the lines, `StickyScrollFeature.Mouse.cs` handles clicks.
 
 ## Where do I find…?
 
@@ -203,6 +232,12 @@ Design: [ADR 0009](adr/0009-editor-features.md).
 | change folding | `src/LoomEditor.View/Features/Folding/` ([README](../src/LoomEditor.View/Features/Folding/README.md)) |
 | change hidden areas / view lines (what is a drawn line) | `src/LoomEditor.View/Layout/` (`ViewModel`, `ViewModelLinesFromProjectedModel*.cs`) |
 | change word highlight (F7) | `src/LoomEditor.View/Features/WordHighlighter/` |
+| change word wrap (line breaks, wrapped view lines, wrapping indent) | `src/LoomEditor.View/Layout/` (`MonospaceLineBreaksComputer*.cs`, `ModelLineProjection*.cs`, `WrappedModelLineProjection*.cs`, `ViewModelLinesFromProjectedModel.Wrapping.cs`, `ViewModel.Wrapping.cs`), control properties in `src/LoomEditor.WinUI/Controls/LoomEditor.WordWrap.cs` |
+| change injected text (`after` / `before` decoration text) | `src/LoomEditor.Core/Model/Events/LineInjectedText.cs`, `src/LoomEditor.View/Layout/InjectedTextInlineDecorationsComputer.cs`, drawing in `TextViewRenderer.Decorations.cs` |
+| change indent or bracket pair guides | `src/LoomEditor.Core/Model/Guides/` (model), `src/LoomEditor.View/Layout/` (`IndentGuidesComputer`, `GuideColors`), `src/LoomEditor.Rendering/TextViewRenderer.Guides.cs` |
+| change the overview ruler | `src/LoomEditor.View/Layout/OverviewRulerDecorations*.cs`, `src/LoomEditor.Rendering/TextViewRenderer.OverviewRuler.cs`, `OverviewRulerSettings.cs` |
+| change the minimap | `src/LoomEditor.View/Minimap/` (logic), `src/LoomEditor.Rendering/TextViewRenderer.Minimap.cs` (drawing), `src/LoomEditor.WinUI/Controls/LoomEditor.Minimap.cs` |
+| change sticky scroll | `src/LoomEditor.View/Features/StickyScroll/` ([README](../src/LoomEditor.View/Features/StickyScroll/README.md)), `src/LoomEditor.Rendering/TextViewRenderer.StickyScroll.cs` |
 | delay work in a feature | `IEditorContext.Scheduler`, `src/LoomEditor.View/Features/Scheduling/` |
 | add a shortcut or a chord (Ctrl+K Ctrl+…) | `src/LoomEditor.View/Commands/DefaultKeybindings.cs`, `KeybindingResolver`, `KeybindingDispatcher` |
 | understand a word | [GLOSSARY.md](GLOSSARY.md) |

@@ -92,6 +92,9 @@ internal sealed partial class ViewModel
 
     public int GetLineCount() => _lines.GetViewLineCount();
 
+    /// <summary>The injected text at a view position, if any (Monaco: <c>getInjectedTextAt</c>).</summary>
+    public InjectedText? GetInjectedTextAt(Position viewPosition) => _lines.GetInjectedTextAt(viewPosition);
+
     public string GetLineContent(int lineNumber) => _lines.GetViewLineContent(lineNumber);
 
     public int GetLineMinColumn(int lineNumber) => _lines.GetViewLineMinColumn(lineNumber);
@@ -190,6 +193,13 @@ internal sealed partial class ViewModel
 
     /// <summary>The selections of the cursors in view coordinates (Monaco: <c>getViewSelections</c>).</summary>
     public List<Selection> GetViewSelections() => _cursor.GetViewSelections();
+
+    /// <summary>Moves a view position by an offset, in model characters (Monaco: <c>modifyPosition</c>).</summary>
+    public Position ModifyPosition(Position position, int offset)
+    {
+        Position modelPosition = CoordinatesConverter.ConvertViewPositionToModelPosition(position);
+        return CoordinatesConverter.ConvertModelPositionToViewPosition(_model.ModifyPosition(modelPosition, offset));
+    }
 
     public Position GetPosition() => _cursor.GetPrimaryCursorState().ModelState.Position;
 

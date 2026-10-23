@@ -4,6 +4,7 @@ using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.Themes;
+using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -14,6 +15,7 @@ namespace LoomEditor.Gallery;
 public sealed partial class MainWindow : Window
 {
     private bool _isBusy;
+    private readonly List<string> _injectedTextIds = [];
 
     /// <summary>The ids of the built-in languages (the items of the language picker).</summary>
     public string[] LanguageIds { get; } = [.. BuiltInLanguages.Ids];
@@ -83,6 +85,50 @@ public sealed partial class MainWindow : Window
     }
 
     private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
+
+    // IsOn / SelectedIndex set in XAML raise these handlers during InitializeComponent, before Editor exists: the control's defaults match.
+    private void OnMinimapToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.MinimapEnabled = MinimapSwitch.IsOn;
+        }
+    }
+
+    private void OnStickyScrollToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.StickyScrollEnabled = StickyScrollSwitch.IsOn;
+        }
+    }
+
+    private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
+
+    private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is null)
+        {
+            return;
+        }
+
+        Editor.RenderIndentGuides = GuidesBox.SelectedIndex != 2;
+        Editor.BracketPairGuides = GuidesBox.SelectedIndex == 1 ? EditorBracketPairGuides.On : EditorBracketPairGuides.Off;
+    }
+
+    // Decorations of the old text are gone once a new text is loaded, so the ids are only valid for the current model state.
+    private void OnInjectText(object sender, RoutedEventArgs e)
+    {
+        Selection primary = Editor.Selections[0];
+        _injectedTextIds.Add(ModelDemoActions.InjectText(Editor.Model, new Position(primary.PositionLineNumber, primary.PositionColumn)));
+        Editor.Focus(FocusState.Programmatic);
+    }
+
+    private void OnClearInjectedText(object sender, RoutedEventArgs e)
+    {
+        ModelDemoActions.ClearInjectedText(Editor.Model, _injectedTextIds);
+        _injectedTextIds.Clear();
+    }
 
     private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;
 

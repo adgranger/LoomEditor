@@ -34,7 +34,7 @@ internal class CharacterClassifier<T>
     }
 
     /// <summary>Gets the classification of a UTF-16 code unit; a negative code (Monaco: <c>NaN</c>) returns the default value.</summary>
-    public T Get(int charCode)
+    public virtual T Get(int charCode)
     {
         if (charCode >= 0 && charCode < 256)
         {

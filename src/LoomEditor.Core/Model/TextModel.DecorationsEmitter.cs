@@ -7,11 +7,14 @@ using LoomEditor.Core.Model.Events;
 namespace LoomEditor.Core.Model;
 
 // The decorations emitter: its state lives in the model, apart from the content emitter (TextModel.DeferredEmit.cs),
-// like the two emitters of Monaco. Not ported: the lines affected by injected text, line heights and fonts, and
-// handleBeforeFire (none of these exist here). Monaco never resets _affectsLineNumber and nothing sets it here
+// like the two emitters of Monaco. handleBeforeFire raises InjectedTextChanged for the lines affected by injected
+// text; line heights and fonts are not ported. Monaco never resets _affectsLineNumber and nothing sets it here
 // (lineNumberClassName is not ported), so it is always false.
 public sealed partial class TextModel
 {
+    // Insertion-ordered set (Monaco: a Set<number>), null when no line is affected.
+    private List<int>? _affectedInjectedTextLines;
+    private HashSet<int>? _affectedInjectedTextLinesSet;
     private int _decorationsDeferredCount;
     private bool _decorationsShouldFireDeferred;
     private bool _decorationsAffectsMinimap;
@@ -22,6 +25,20 @@ public sealed partial class TextModel
     /// <remarks>Raised once per operation: the events of a deferred operation are merged. <c>SetValue</c> and <c>SetEol</c> alone do not raise it.</remarks>
     internal event EventHandler<ModelDecorationsChangedEventArgs>? DecorationsChanged;
 
+    /// <summary>Raised, before <see cref="DecorationsChanged"/>, with the lines whose injected text changed (Monaco: <c>ModelInjectedTextChangedEvent</c> sent to the view models).</summary>
+    internal event EventHandler<ModelInjectedTextChangedEventArgs>? InjectedTextChanged;
+
+    // Monaco: DidChangeDecorationsEmitter.recordLineAffectedByInjectedText
+    private void RecordLineAffectedByInjectedText(int lineNumber)
+    {
+        _affectedInjectedTextLines ??= [];
+        _affectedInjectedTextLinesSet ??= [];
+        if (_affectedInjectedTextLinesSet.Add(lineNumber))
+        {
+            _affectedInjectedTextLines.Add(lineNumber);
+        }
+    }
+
     // Monaco: DidChangeDecorationsEmitter.beginDeferredEmit
     private void BeginDecorationsDeferredEmit() => _decorationsDeferredCount++;
 
@@ -29,15 +46,23 @@ public sealed partial class TextModel
     private void EndDecorationsDeferredEmit()
     {
         _decorationsDeferredCount--;
-        if (_decorationsDeferredCount == 0 && _decorationsShouldFireDeferred)
+        if (_decorationsDeferredCount == 0)
         {
-            DoFireDecorationsChanged();
+            if (_decorationsShouldFireDeferred)
+            {
+                DoFireDecorationsChanged();
+            }
+
+            _affectedInjectedTextLines = null;
+            _affectedInjectedTextLinesSet = null;
         }
     }
 
-    // Monaco: DidChangeDecorationsEmitter.checkAffectedAndFire (only the glyph margin of the four flags can be set)
+    // Monaco: DidChangeDecorationsEmitter.checkAffectedAndFire (the line number flag cannot be set)
     private void CheckAffectedAndFireDecorations(ModelDecorationOptions options)
     {
+        _decorationsAffectsMinimap |= options.Minimap is not null;
+        _decorationsAffectsOverviewRuler |= options.OverviewRuler?.Color is not null;
         _decorationsAffectsGlyphMargin |= options.GlyphMarginClassName is not null;
         TryFireDecorationsChanged();
     }
@@ -65,6 +90,12 @@ public sealed partial class TextModel
 
     private void DoFireDecorationsChanged()
     {
+        // Monaco: handleBeforeFireDecorationsChangedEvent
+        if (_affectedInjectedTextLines is { Count: > 0 })
+        {
+            InjectedTextChanged?.Invoke(this, new ModelInjectedTextChangedEventArgs([.. _affectedInjectedTextLines.Select(l => new ModelRawLineChanged(l, l))]));
+        }
+
         var args = new ModelDecorationsChangedEventArgs(
             _decorationsAffectsMinimap, _decorationsAffectsOverviewRuler, _decorationsAffectsGlyphMargin, affectsLineNumber: false);
         _decorationsShouldFireDeferred = false;

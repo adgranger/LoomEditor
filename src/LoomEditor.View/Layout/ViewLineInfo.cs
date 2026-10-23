@@ -52,3 +52,7 @@ internal static class LineRanges
         return result;
     }
 }
+
+/// <summary>A list of view lines that have a contiguous span in the model (Monaco: <c>ViewLineInfoGroupedByModelRange</c>).</summary>
+/// <remarks>Threading: immutable.</remarks>
+internal sealed record ViewLineInfoGroupedByModelRange(Range ModelRange, IReadOnlyList<ViewLineInfo> ViewLines);

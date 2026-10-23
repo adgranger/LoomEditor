@@ -21,6 +21,9 @@ internal sealed class RecordingRenderSurface : IRenderSurface
 
     public void DrawLineLayout(ILineLayout layout, float x, float lineTop, ThemeColor color) =>
         Calls.Add(new DrawLineLayoutCall(layout.Text, x, lineTop, color));
+
+    public void DrawRgbaImage(byte[] rgba, int pixelWidth, int pixelHeight, float x, float y, float width, float height, float opacity, int version) =>
+        Calls.Add(new DrawImageCall(pixelWidth, pixelHeight, x, y, width, height, opacity, version));
 }
 
 internal abstract record DrawCall;
@@ -36,3 +39,7 @@ internal sealed record DrawLineCall(float X1, float Y1, float X2, float Y2, Them
 
 /// <summary>A <c>DrawLineLayout</c> call; the layout is recorded by its text.</summary>
 internal sealed record DrawLineLayoutCall(string Text, float X, float LineTop, ThemeColor Color) : DrawCall;
+
+/// <summary>A <c>DrawRgbaImage</c> call; the pixels are not recorded.</summary>
+internal sealed record DrawImageCall(int PixelWidth, int PixelHeight, float X, float Y, float Width, float Height, float Opacity, int Version)
+    : DrawCall;

@@ -1,3 +1,4 @@
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using Range = LoomEditor.Core.Text.Range;
@@ -67,6 +68,26 @@ internal static class ModelDemoActions
     {
         model.PushStackElement();
         model.PushEol(eol);
+    }
+
+    private static readonly ModelDecorationOptions InjectedHint = ModelDecorationOptions.Register(new ModelDecorationOptionsData
+    {
+        Description = "gallery-injected-hint",
+        After = new InjectedTextOptions { Content = ": int", InlineClassName = "gallery-injected-hint" },
+    });
+
+    /// <summary>Injects a dim ": int" after <paramref name="position"/> (a decoration, not text: the model is unchanged).</summary>
+    /// <returns>The id of the decoration, for <see cref="ClearInjectedText"/>.</returns>
+    public static string InjectText(TextModel model, Position position)
+    {
+        var range = new Range(position.LineNumber, position.Column, position.LineNumber, position.Column);
+        return model.ChangeDecorations(0, accessor => accessor.AddDecoration(range, InjectedHint));
+    }
+
+    /// <summary>Removes the decorations <see cref="InjectText"/> added.</summary>
+    public static void ClearInjectedText(TextModel model, IReadOnlyList<string> decorationIds)
+    {
+        model.ChangeDecorations(0, accessor => accessor.DeltaDecorations(decorationIds, []));
     }
 
     /// <summary>Formats the state of the model for the status line.</summary>

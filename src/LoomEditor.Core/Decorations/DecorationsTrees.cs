@@ -59,6 +59,27 @@ internal sealed class DecorationsTrees
         return ToDecorations(host, nodes);
     }
 
+    /// <summary>
+    /// The decorations marked in the overview ruler (Monaco: <c>getAll</c> with <c>overviewRulerOnly</c>). Monaco keeps them in
+    /// a separate tree; LoomEditor filters the single tree on <c>Options.OverviewRuler?.Color is not null</c>.
+    /// </summary>
+    public List<ModelDecoration> GetOverviewRulerDecorations(TextModel host, int filterOwnerId, bool filterOutValidation, bool filterFontDecorations) =>
+        GetAll(host, filterOwnerId, filterOutValidation, filterFontDecorations, false).FindAll(static d => d.Options.OverviewRuler?.Color is not null);
+
+    /// <summary>
+    /// The injected-text decorations that intersect [<paramref name="start"/>, <paramref name="end"/>] (Monaco: <c>getInjectedTextInInterval</c>).
+    /// Monaco searches its injected-text tree; LoomEditor filters the single tree.
+    /// </summary>
+    public List<ModelDecoration> GetInjectedTextInInterval(TextModel host, long start, long end, int filterOwnerId) =>
+        KeepVisibleInjectedText(GetAllInInterval(host, start, end, filterOwnerId, false, false, false));
+
+    /// <summary>All the injected-text decorations (Monaco: <c>getAllInjectedText</c>); filters the single tree.</summary>
+    public List<ModelDecoration> GetAllInjectedText(TextModel host, int filterOwnerId) =>
+        KeepVisibleInjectedText(GetAll(host, filterOwnerId, false, false, false));
+
+    private static List<ModelDecoration> KeepVisibleInjectedText(List<ModelDecoration> decorations) =>
+        decorations.FindAll(static d => d.Options.HasInjectedText && (d.Options.ShowIfCollapsed || !d.Range.IsEmpty));
+
     /// <summary>The nodes of an owner (all nodes for owner 0); the cached offsets are not set.</summary>
     public List<IntervalNode> CollectNodesFromOwner(int ownerId) => _tree.CollectNodesFromOwner(ownerId);
 

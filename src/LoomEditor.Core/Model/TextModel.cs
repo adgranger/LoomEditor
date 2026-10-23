@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Languages;
 using LoomEditor.Core.Model.BracketPairs;
+using LoomEditor.Core.Model.Guides;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Model.PieceTree;
 using LoomEditor.Core.Model.Tokens;
@@ -69,6 +70,7 @@ public sealed partial class TextModel
 
         // Monaco's order (textModel.ts 357-365): the bracket pairs part exists before the tokenization part.
         BracketPairs = new BracketPairsTextModelPart(this, LanguageConfigurationRegistry);
+        Guides = new GuidesTextModelPart(this);
         _decorationProvider = new ColorizedBracketPairsDecorationProvider(this);
         _decorationProvider.Changed += (_, _) => FireDecorationsChangedDeferred();
         CreateTokenization(registry, languageIdCodec, scheduler);

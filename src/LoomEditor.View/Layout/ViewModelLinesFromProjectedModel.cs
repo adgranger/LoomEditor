@@ -14,9 +14,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// <para>
-/// Phase 6 cut points: word wrapping (<c>createLineBreaksComputer</c>, the line break factories, <c>setWrappingSettings</c> and the
-/// wrapping fields), injected text (<c>getInjectedTextAt</c>) and the indent and bracket guides (<c>getViewLinesIndentGuides</c>,
-/// <c>getActiveIndentGuide</c>, <c>getViewLinesBracketGuides</c>). <c>IViewModelLines</c> and <c>ViewModelLinesFromModelAsIs</c> are
+/// <c>IViewModelLines</c> and <c>ViewModelLinesFromModelAsIs</c> are
 /// not ported (one implementation).
 /// </para>
 /// <para>
@@ -30,7 +28,14 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     private readonly int _editorId;
     private readonly TextModel _model;
     private int _validModelVersionId = -1;
+    private ILineBreaksComputerFactory _monospaceLineBreaksComputerFactory;
+    private FontInfo _fontInfo;
     private int _tabSize;
+    private int _wrappingColumn;
+    private WrappingIndent _wrappingIndent;
+    private WordBreak _wordBreak;
+    private readonly bool _wrapOnEscapedLineFeeds;
+    private bool _useTwoCellFullwidthCharacters;
     private List<IModelLineProjection> _modelLineProjections = [];
 
     // Reflects the sum of the line counts of all projected model lines.
@@ -38,15 +43,50 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
 
     private string[] _hiddenAreasDecorationIds = [];
 
+    /// <summary>Builds the lines without wrapping.</summary>
     public ViewModelLinesFromProjectedModel(int editorId, TextModel model, int tabSize)
+        : this(
+            editorId,
+            model,
+            MonospaceLineBreaksComputerFactory.Create(new EditorWrappingOptions()),
+            FontInfo.Default,
+            tabSize,
+            wrappingColumn: -1,
+            WrappingIndent.None,
+            WordBreak.Normal,
+            wrapOnEscapedLineFeeds: false,
+            useTwoCellFullwidthCharacters: false)
+    {
+    }
+
+    public ViewModelLinesFromProjectedModel(
+        int editorId,
+        TextModel model,
+        ILineBreaksComputerFactory monospaceLineBreaksComputerFactory,
+        FontInfo fontInfo,
+        int tabSize,
+        int wrappingColumn,
+        WrappingIndent wrappingIndent,
+        WordBreak wordBreak,
+        bool wrapOnEscapedLineFeeds,
+        bool useTwoCellFullwidthCharacters)
     {
         ArgumentNullException.ThrowIfNull(model);
+        ArgumentNullException.ThrowIfNull(monospaceLineBreaksComputerFactory);
+        ArgumentNullException.ThrowIfNull(fontInfo);
 
         _editorId = editorId;
         _model = model;
+        _monospaceLineBreaksComputerFactory = monospaceLineBreaksComputerFactory;
+        _fontInfo = fontInfo;
         _tabSize = tabSize;
+        _wrappingColumn = wrappingColumn;
+        _wrappingIndent = wrappingIndent;
+        _wordBreak = wordBreak;
+        _wrapOnEscapedLineFeeds = wrapOnEscapedLineFeeds;
+        _useTwoCellFullwidthCharacters = useTwoCellFullwidthCharacters;
 
-        ConstructLines(resetHiddenAreas: true);
+        ConstructLines(resetHiddenAreas: true, previousLineBreaks: null);
     }
 
     public void Dispose() => _hiddenAreasDecorationIds = _model.DeltaDecorations(_editorId, _hiddenAreasDecorationIds, []);
@@ -56,7 +96,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
             .Select(areaId => _model.GetDecorationRange(areaId)!.Value)
             .OrderBy(r => r, Comparer<Range>.Create(Range.CompareUsingStarts))];
 
-    private void ConstructLines(bool resetHiddenAreas)
+    private void ConstructLines(bool resetHiddenAreas, ModelLineProjectionData?[]? previousLineBreaks)
     {
         _modelLineProjections = [];
 
@@ -66,6 +106,14 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
         }
 
         int lineCount = _model.LineCount;
+        ILineBreaksComputer lineBreaksComputer = CreateLineBreaksComputer();
+        for (int i = 0; i < lineCount; i++)
+        {
+            lineBreaksComputer.AddRequest(i + 1, previousLineBreaks?[i]);
+        }
+
+        ModelLineProjectionData?[] linesBreaks = lineBreaksComputer.Finalize();
+
         List<int> values = [];
 
         List<Range> hiddenAreas = GetSortedHiddenAreaDecorationRanges();
@@ -87,7 +135,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
             }
 
             bool isInHiddenArea = lineNumber >= hiddenAreaStart && lineNumber <= hiddenAreaEnd;
-            IModelLineProjection line = ModelLineProjection.Create(!isInHiddenArea);
+            IModelLineProjection line = ModelLineProjection.Create(linesBreaks[i], !isInHiddenArea);
             values.Add(line.GetViewLineCount());
             _modelLineProjections.Add(line);
         }
@@ -223,7 +271,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
 
         _tabSize = newTabSize;
 
-        ConstructLines(resetHiddenAreas: false);
+        ConstructLines(resetHiddenAreas: false, previousLineBreaks: null);
 
         return true;
     }
@@ -231,7 +279,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     // ----- model changes
 
     /// <summary>The model was replaced entirely.</summary>
-    public void OnModelFlushed() => ConstructLines(resetHiddenAreas: true);
+    public void OnModelFlushed() => ConstructLines(resetHiddenAreas: true, previousLineBreaks: null);
 
     // Monaco: `!versionId` is true for null and for 0.
     private bool IsStale(int? versionId) => versionId is null or 0 || versionId <= _validModelVersionId;
@@ -255,10 +303,10 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
         return new ViewLineRange(outputFromLineNumber, outputToLineNumber);
     }
 
-    /// <summary>Adds the projections of <paramref name="count"/> inserted model lines; returns the view lines that appeared.</summary>
-    public ViewLineRange? OnModelLinesInserted(int? versionId, int fromLineNumber, int toLineNumber, int count)
+    /// <summary>Adds the projections of the inserted model lines, built from <paramref name="lineBreaks"/>; returns the view lines that appeared.</summary>
+    public ViewLineRange? OnModelLinesInserted(int? versionId, int fromLineNumber, int toLineNumber, IReadOnlyList<ModelLineProjectionData?> lineBreaks)
     {
-        Guard.Assert(count == toLineNumber - fromLineNumber + 1, "count must match the inserted line range");
+        Guard.Assert(lineBreaks.Count == toLineNumber - fromLineNumber + 1, "lineBreaks must match the inserted line range");
         if (IsStale(versionId))
         {
             // Here we check for versionId in case the lines were reconstructed in the meantime.
@@ -275,9 +323,9 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
         List<IModelLineProjection> insertLines = [];
         List<int> insertPrefixSumValues = [];
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < lineBreaks.Count; i++)
         {
-            IModelLineProjection line = ModelLineProjection.Create(!isInHiddenArea);
+            IModelLineProjection line = ModelLineProjection.Create(lineBreaks[i], !isInHiddenArea);
             insertLines.Add(line);
 
             int outputLineCount = line.GetViewLineCount();
@@ -295,7 +343,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     /// A model line changed: recreates its projection and returns whether the line mapping changed with the view line ranges to
     /// report as changed, inserted and deleted.
     /// </summary>
-    public (bool LineMappingChanged, ViewLineRange? Changed, ViewLineRange? Inserted, ViewLineRange? Deleted) OnModelLineChanged(int? versionId, int lineNumber)
+    public (bool LineMappingChanged, ViewLineRange? Changed, ViewLineRange? Inserted, ViewLineRange? Deleted) OnModelLineChanged(int? versionId, int lineNumber, ModelLineProjectionData? lineBreakData)
     {
         if (versionId is not null && versionId <= _validModelVersionId)
         {
@@ -308,7 +356,7 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
 
         int oldOutputLineCount = _modelLineProjections[lineIndex].GetViewLineCount();
         bool isVisible = _modelLineProjections[lineIndex].IsVisible;
-        _modelLineProjections[lineIndex] = ModelLineProjection.Create(isVisible);
+        _modelLineProjections[lineIndex] = ModelLineProjection.Create(lineBreakData, isVisible);
         int newOutputLineCount = _modelLineProjections[lineIndex].GetViewLineCount();
 
         bool lineMappingChanged = false;
@@ -424,7 +472,8 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
     public ViewLineData GetViewLineData(int viewLineNumber)
     {
         ViewLineInfo info = GetViewLineInfo(viewLineNumber);
-        return _modelLineProjections[info.ModelLineNumber - 1].GetViewLineData(_model, info.ModelLineNumber, info.ModelLineWrappedLineIdx);
+        int baseViewLineNumber = _projectedModelLineLineCounts.GetPrefixSum(info.ModelLineNumber - 1) + 1;
+        return _modelLineProjections[info.ModelLineNumber - 1].GetViewLineData(_model, info.ModelLineNumber, info.ModelLineWrappedLineIdx, baseViewLineNumber);
     }
 
     /// <summary>The data of the view lines from <paramref name="viewStartLineNumber"/> to <paramref name="viewEndLineNumber"/>; only the <paramref name="needed"/> ones are filled.</summary>
@@ -457,7 +506,8 @@ internal sealed partial class ViewModelLinesFromProjectedModel : IDisposable
                 remainingViewLineCount = viewEndLineNumber - viewLineNumber + 1;
             }
 
-            line.GetViewLinesData(_model, modelLineIndex + 1, fromViewLineIndex, remainingViewLineCount, viewLineNumber - viewStartLineNumber, needed, result);
+            int baseViewLineNumber = _projectedModelLineLineCounts.GetPrefixSum(modelLineIndex) + 1;
+            line.GetViewLinesData(_model, modelLineIndex + 1, fromViewLineIndex, remainingViewLineCount, baseViewLineNumber, viewLineNumber - viewStartLineNumber, needed, result);
 
             viewLineNumber += remainingViewLineCount;
 

@@ -5,7 +5,7 @@ namespace LoomEditor.Core.Model.Events;
 
 /// <summary>A change of the model described per line (Monaco: <c>ModelRawChange</c>).</summary>
 /// <remarks>
-/// <para>Injected text (the <c>injectedText</c> fields of Monaco) is left out: decorations do not exist yet.</para>
+/// <para>The <c>injectedText</c> fields of Monaco are left out: injected text changes come through <c>TextModel.InjectedTextChanged</c>.</para>
 /// <para>Threading: immutable.</para>
 /// </remarks>
 public abstract record ModelRawChange

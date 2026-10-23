@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/test/browser/controller/cursor.test.ts (suite 'Editor Controller - Cursor', part 2)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
@@ -13,6 +14,55 @@ namespace LoomEditor.View.Tests.Cursors;
 
 public partial class CursorMovementTests
 {
+    private static readonly EditorWrappingOptions IndentWrap20 = new() { WrappingIndent = WrappingIndent.Indent, WordWrap = WordWrap.WordWrapColumn, WordWrapColumn = 20 };
+
+    private static void AssertDownUpPositions(ViewModel vm, string[] expected)
+    {
+        vm.SetSelections("test", [new Selection(1, 1, 1, 1)]);
+        var positions = new List<string>();
+        void Report() => positions.Add(vm.GetCursorStates()[0].ViewState.Position.ToString());
+
+        Report();
+        for (int i = 0; i < 4; i++)
+        {
+            MoveDown(vm);
+            Report();
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            MoveUp(vm);
+            Report();
+        }
+
+        Assert.Equal(expected, positions);
+    }
+
+    // Monaco: 'issue #144041: Cursor up/down works'
+    [Fact]
+    public void Issue144041CursorUpDownWorks() => TestCodeEditor.WithTestCodeEditor(
+        "Word1 Word2 Word3 Word4\nWord5 Word6 Word7 Word8",
+        editor => AssertDownUpPositions(editor.ViewModel, ["(1,1)", "(2,5)", "(3,1)", "(4,5)", "(4,10)", "(3,1)", "(2,5)", "(1,1)", "(1,1)"]),
+        new TestCodeEditorOptions(Wrapping: IndentWrap20));
+
+    // Monaco: 'issue #140195: Cursor up/down makes progress'
+    [Fact]
+    public void Issue140195CursorUpDownMakesProgress() => TestCodeEditor.WithTestCodeEditor(
+        "Word1 Word2 Word3 Word4\nWord5 Word6 Word7 Word8",
+        editor =>
+        {
+            editor.Model.ChangeDecorations(1, accessor => accessor.AddDecoration(
+                new Range(1, 22, 1, 22),
+                ModelDecorationOptions.CreateDynamic(new ModelDecorationOptionsData
+                {
+                    ShowIfCollapsed = true,
+                    Description = "test",
+                    After = new InjectedTextOptions { Content = "some very very very very very very very very long text" },
+                })));
+            AssertDownUpPositions(editor.ViewModel, ["(1,1)", "(2,5)", "(5,19)", "(6,1)", "(7,5)", "(6,1)", "(2,8)", "(1,1)", "(1,1)"]);
+        },
+        new TestCodeEditorOptions(Wrapping: IndentWrap20, EditorId: 1));
+
     // --------- move to beginning of line
 
     // Monaco: 'move to beginning of line'

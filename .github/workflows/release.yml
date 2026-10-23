@@ -1,0 +1,61 @@
+# Release: runs when a version tag is pushed (v1.2.3, v1.2.3-beta.1). It runs the whole CI first, then packs the
+# NuGet packages and creates the GitHub release. A tag with a hyphen (v1.2.3-beta.1) makes a pre-release.
+# Packages are attached to the release but NOT pushed to nuget.org: publishing stays a manual, reviewed step.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_CLI_UI_LANGUAGE: en
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    name: Pack and release
+    needs: [ci]
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      # Both architectures, so that the TextMate package carries runtimes/win-x64 and runtimes/win-arm64.
+      - name: Download onig.dll
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
+
+      - name: Pack
+        shell: pwsh
+        run: |
+          $version = '${{ github.ref_name }}'.TrimStart('v')
+          foreach ($project in 'Core', 'TextMate', 'Themes', 'View', 'Rendering', 'WinUI') {
+            dotnet pack "src/LoomEditor.$project" -c Release -o artifacts/packages -p:Version=$version
+            if ($LASTEXITCODE -ne 0) { throw "Packing $project failed." }
+          }
+
+      - name: Create the GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = '${{ github.ref_name }}'
+          $flags = @()
+          if ($tag.Contains('-')) { $flags += '--prerelease' }
+          gh release create $tag artifacts/packages/* --title $tag --generate-notes @flags

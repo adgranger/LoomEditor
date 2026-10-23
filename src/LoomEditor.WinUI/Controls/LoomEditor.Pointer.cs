@@ -1,4 +1,6 @@
 using LoomEditor.View.Controller;
+using LoomEditor.View.Features.StickyScroll;
+using LoomEditor.View.Layout;
 using LoomEditor.WinUI.Input;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -32,6 +34,24 @@ public sealed partial class LoomEditor
         }
 
         EditorMouseEvent mouseEvent = PointerInput.Create(e, this, PointerInput.PressDetail);
+        if (TryGetMinimapPoint(mouseEvent.X, mouseEvent.Y, out double minimapX, out double minimapY)
+            && _renderer.MinimapPointer!.PointerDown(
+                minimapX, minimapY, mouseEvent.LeftButton, e.Pointer.PointerDeviceType == PointerDeviceType.Mouse))
+        {
+            Focus(FocusState.Pointer);
+            CapturePointer(e.Pointer);
+            e.Handled = true;
+            return;
+        }
+
+        if (_renderer.IsInStickyScroll(mouseEvent.Y))
+        {
+            // The sticky lines are over the text: the click acts on them and never reaches the text below.
+            HandleStickyPress(mouseEvent, e);
+            e.Handled = true;
+            return;
+        }
+
         MouseTarget target = CreateMouseTarget(mouseEvent.X, mouseEvent.Y);
 
         // Monaco: `_onMouseDown`.
@@ -68,6 +88,29 @@ public sealed partial class LoomEditor
             return;
         }
 
+        if (_renderer?.MinimapPointer is { } minimap)
+        {
+            EditorMouseEvent move = PointerInput.Create(e, this, 1);
+            if (minimap.IsActive)
+            {
+                minimap.PointerMove(move.X - MinimapLeft(), move.Y);
+                e.Handled = true;
+                return;
+            }
+
+            if (TryGetMinimapPoint(move.X, move.Y, out double x, out double y))
+            {
+                minimap.PointerEntered();
+                minimap.PointerMove(x, y);
+                ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+                return;
+            }
+
+            minimap.PointerExited();
+        }
+
+        UpdateStickyHover(PointerInput.Create(e, this, 1));
+
         if (_mouseDown is { IsActive: true })
         {
             _mouseDown.OnMouseDownThenMove(PointerInput.Create(e, this, 1));
@@ -101,6 +144,14 @@ public sealed partial class LoomEditor
             _context.UserInputEvents.EmitMouseUp(new EditorMouseEventArgs(mouseEvent, CreateMouseTarget(mouseEvent.X, mouseEvent.Y)));
         }
 
+        if (_renderer?.MinimapPointer is { IsActive: true } minimapDrag)
+        {
+            minimapDrag.PointerUp();
+            ReleasePointerCapture(e.Pointer);
+            e.Handled = true;
+            return;
+        }
+
         if (_mouseDown is { IsActive: true })
         {
             _mouseDown.OnPointerUp();
@@ -115,6 +166,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerCaptureLost(e);
 
+        _renderer?.MinimapPointer?.PointerUp();
         _mouseDown?.OnPointerUp();
     }
 
@@ -125,11 +177,75 @@ public sealed partial class LoomEditor
         base.OnPointerExited(e);
 
         SetMarginHovered(false);
+        SetHoveredStickyLine(-1);
+        if (_renderer?.MinimapPointer is { IsActive: false } minimapPointer)
+        {
+            minimapPointer.PointerExited();
+        }
+
         if (_mouseDown is not { IsActive: true })
         {
             ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
         }
     }
+
+    // Monaco: the click listener of `StickyScrollController`; the hit parts come from the gutter geometry.
+    private void HandleStickyPress(EditorMouseEvent mouseEvent, PointerRoutedEventArgs e)
+    {
+        Focus(FocusState.Pointer);
+        if (!mouseEvent.LeftButton || _context.StickyScrollFeature is not { } feature || _renderer is not { } renderer)
+        {
+            return;
+        }
+
+        int index = renderer.GetStickyLineAt(mouseEvent.Y);
+        if (index < 0)
+        {
+            return;
+        }
+
+        EditorLayoutInfo layout = _viewModel.LayoutInfo;
+        StickyScrollHitPart part = mouseEvent.X < layout.DecorationsLeft ? StickyScrollHitPart.LineNumberGutter
+            : mouseEvent.X < layout.ContentLeft ? StickyScrollHitPart.FoldingIcon
+            : StickyScrollHitPart.Content;
+        int? column = null;
+        if (part == StickyScrollHitPart.Content && renderer.GetStickyPositionAt(index, mouseEvent.X, layout) is { } viewPosition)
+        {
+            column = _viewModel.CoordinatesConverter.ConvertViewPositionToModelPosition(viewPosition).Column;
+        }
+
+        feature.HandleClick(index, part, column, mouseEvent.ShiftKey, mouseEvent.CtrlKey || mouseEvent.AltKey || mouseEvent.MetaKey);
+        _canvas?.Invalidate();
+    }
+
+    private void UpdateStickyHover(EditorMouseEvent move) =>
+        SetHoveredStickyLine(_renderer is { } renderer && renderer.IsInStickyScroll(move.Y) ? renderer.GetStickyLineAt(move.Y) : -1);
+
+    private void SetHoveredStickyLine(int index)
+    {
+        if (_renderer is { } renderer && renderer.HoveredStickyLineIndex != index)
+        {
+            renderer.HoveredStickyLineIndex = index;
+            _canvas?.Invalidate();
+        }
+    }
+
+    // The minimap rectangle is the one of the last frame; the point is made relative to its top-left corner.
+    private bool TryGetMinimapPoint(double x, double y, out double minimapX, out double minimapY)
+    {
+        minimapX = minimapY = 0;
+        if (_renderer is { } renderer && renderer.TryGetMinimapRectangle(out double left, out double top, out double width, out double height)
+            && x >= left && x < left + width && y >= top && y < top + height)
+        {
+            (minimapX, minimapY) = (x - left, y - top);
+            return true;
+        }
+
+        return false;
+    }
+
+    private double MinimapLeft() =>
+        _renderer is { } renderer && renderer.TryGetMinimapRectangle(out double left, out _, out _, out _) ? left : 0;
 
     // The hit test of P3-43 on the layouts that are drawn; before the first draw there is nothing to hit.
     private MouseTarget CreateMouseTarget(double x, double y) =>

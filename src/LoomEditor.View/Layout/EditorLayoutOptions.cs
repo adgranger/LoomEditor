@@ -1,3 +1,5 @@
+using LoomEditor.View.Features.StickyScroll;
+
 namespace LoomEditor.View.Layout;
 
 /// <summary>
@@ -39,4 +41,19 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>Monaco: <c>scrollbar.arrowSize</c>.</summary>
     public int ArrowSize { get; init; } = 11;
+
+    /// <summary>The word-wrap settings (Monaco: <c>wordWrap</c>, <c>wordWrapColumn</c>, <c>wordWrapIndicator</c>).</summary>
+    public EditorWrappingOptions Wrapping { get; init; } = new();
+
+    /// <summary>The indent and bracket pair guides (Monaco: <c>guides</c>); read by the renderer, it does not change the layout.</summary>
+    public EditorGuidesOptions Guides { get; init; } = new();
+
+    /// <summary>The decorations overview ruler (Monaco: <c>overviewRulerLanes</c> and co.); read by the renderer, it does not change the layout.</summary>
+    public EditorOverviewRulerOptions OverviewRuler { get; init; } = new();
+
+    /// <summary>The minimap (Monaco: <c>minimap</c>); enabled by default, like Monaco.</summary>
+    public EditorMinimapOptions Minimap { get; init; } = new();
+
+    /// <summary>The sticky scroll (Monaco: <c>stickyScroll</c>); read by the sticky scroll feature and the reveal.</summary>
+    public EditorStickyScrollOptions StickyScroll { get; init; } = new();
 }

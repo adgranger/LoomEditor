@@ -19,6 +19,8 @@
     <InternalsVisibleTo Include="LoomEditor.WinUI" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
+    <!-- The Gallery demo registers its own decoration class name in DecorationStyles. -->
+    <InternalsVisibleTo Include="LoomEditor.Gallery" />
   </ItemGroup>
 
   <ItemGroup>

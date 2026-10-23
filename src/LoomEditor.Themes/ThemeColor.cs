@@ -39,6 +39,9 @@ public readonly record struct ThemeColor(byte A, byte R, byte G, byte B)
         };
     }
 
+    /// <summary>Multiplies the alpha by <paramref name="factor"/> (Monaco: <c>Color.transparent</c>).</summary>
+    internal ThemeColor WithAlphaFactor(double factor) => Color.FromThemeColor(this).Transparent(factor).ToThemeColor();
+
     /// <summary>Formats the color as <c>#RRGGBBAA</c>.</summary>
     public override string ToString() => $"#{R:X2}{G:X2}{B:X2}{A:X2}";
 

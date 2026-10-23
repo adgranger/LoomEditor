@@ -82,8 +82,85 @@ internal static class EditorColorDefaults
         // editorColorRegistry.ts:22
         ["editorCursor.foreground"] = ("#AEAFAD", "#000000", "#FFFFFF", "#0F4A85"),
 
+        // editorColorRegistry.ts:24
+        ["editorMultiCursor.primary.foreground"] = ("editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground"),
+
+        // editorColorRegistry.ts:26
+        ["editorMultiCursor.secondary.foreground"] = ("editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground", "editorCursor.foreground"),
+
+        // editorColors.ts:436
+        ["editorOverviewRuler.findMatchForeground"] = ("#d186167e", "#d186167e", "#AB5A00", "#AB5A00"),
+
+        // editorColors.ts:440
+        ["editorOverviewRuler.selectionHighlightForeground"] = ("#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC"),
+
+        // highlightDecorations.ts:20
+        ["editorOverviewRuler.wordHighlightForeground"] = ("#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC", "#A0A0A0CC"),
+
+        // highlightDecorations.ts:21
+        ["editorOverviewRuler.wordHighlightStrongForeground"] = ("#C0A0C0CC", "#C0A0C0CC", "#C0A0C0CC", "#C0A0C0CC"),
+
+        // highlightDecorations.ts:22
+        ["editorOverviewRuler.wordHighlightTextForeground"] = (
+            "editorOverviewRuler.selectionHighlightForeground", "editorOverviewRuler.selectionHighlightForeground",
+            "editorOverviewRuler.selectionHighlightForeground", "editorOverviewRuler.selectionHighlightForeground"),
+
+        // bracketMatching.ts:27
+        ["editorOverviewRuler.bracketMatchForeground"] = ("#A0A0A0", "#A0A0A0", "#A0A0A0", "#A0A0A0"),
+
+        // editorColorRegistry.ts:61
+        ["editorOverviewRuler.border"] = ("#7f7f7f4d", "#7f7f7f4d", "#7f7f7f4d", "#666666"),
+
+        // editorColorRegistry.ts:62
+        ["editorOverviewRuler.background"] = (null, null, null, null),
+
+        // editorColorRegistry.ts:28 (the default of the deprecated indent guide colors)
+        ["editorWhitespace.foreground"] = ("#e3e4e229", "#33333333", "#e3e4e229", "#CCCCCC"),
+
         // editorColorRegistry.ts:30
         ["editorLineNumber.foreground"] = ("#858585", "#237893", "#FFFFFF", "#292929"),
+
+        // editorColorRegistry.ts:32 (deprecated id)
+        ["editorIndentGuide.background"] = ("editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground"),
+
+        // editorColorRegistry.ts:33 (deprecated id)
+        ["editorIndentGuide.activeBackground"] = ("editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground", "editorWhitespace.foreground"),
+
+        // editorColorRegistry.ts:35
+        ["editorIndentGuide.background1"] = ("editorIndentGuide.background", "editorIndentGuide.background", "editorIndentGuide.background", "editorIndentGuide.background"),
+
+        // editorColorRegistry.ts:36
+        ["editorIndentGuide.background2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:37
+        ["editorIndentGuide.background3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:38
+        ["editorIndentGuide.background4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:39
+        ["editorIndentGuide.background5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:40
+        ["editorIndentGuide.background6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:42
+        ["editorIndentGuide.activeBackground1"] = ("editorIndentGuide.activeBackground", "editorIndentGuide.activeBackground", "editorIndentGuide.activeBackground", "editorIndentGuide.activeBackground"),
+
+        // editorColorRegistry.ts:43
+        ["editorIndentGuide.activeBackground2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:44
+        ["editorIndentGuide.activeBackground3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:45
+        ["editorIndentGuide.activeBackground4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:46
+        ["editorIndentGuide.activeBackground5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:47
+        ["editorIndentGuide.activeBackground6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
 
         // editorColorRegistry.ts:49 (deprecated id)
         ["editorActiveLineNumber.foreground"] = ("#c6c6c6", "#0B216F", "contrastActiveBorder", "contrastActiveBorder"),
@@ -120,6 +197,42 @@ internal static class EditorColorDefaults
 
         // editorColorRegistry.ts:86 (new Color(new RGBA(255, 18, 18, 0.8)) is #FF1212CC; RGBA(255, 50, 50, 1) is #FF3232)
         ["editorBracketHighlight.unexpectedBracket.foreground"] = ("#FF1212CC", "#FF1212CC", "#FF3232", "#B5200D"),
+
+        // editorColorRegistry.ts:88
+        ["editorBracketPairGuide.background1"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:89
+        ["editorBracketPairGuide.background2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:90
+        ["editorBracketPairGuide.background3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:91
+        ["editorBracketPairGuide.background4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:92
+        ["editorBracketPairGuide.background5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:93
+        ["editorBracketPairGuide.background6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:95
+        ["editorBracketPairGuide.activeBackground1"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:96
+        ["editorBracketPairGuide.activeBackground2"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:97
+        ["editorBracketPairGuide.activeBackground3"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:98
+        ["editorBracketPairGuide.activeBackground4"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:99
+        ["editorBracketPairGuide.activeBackground5"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
+
+        // editorColorRegistry.ts:100
+        ["editorBracketPairGuide.activeBackground6"] = ("#00000000", "#00000000", "#00000000", "#00000000"),
 
         // highlightDecorations.ts:14
         ["editor.wordHighlightBackground"] = ("#575757B8", "#57575740", null, null),
@@ -198,6 +311,58 @@ internal static class EditorColorDefaults
 
         // inputColors.ts:44
         ["inputOption.activeForeground"] = ("#FFFFFF", "#000000", "foreground", "foreground"),
+
+        // editorColors.ts:74 (editorError.foreground), :83 (editorWarning.foreground), :87, :96 (editorInfo.foreground), :100
+        ["editorError.foreground"] = ("#F14C4C", "#E51400", "#F48771", "#B5200D"),
+        ["editorWarning.foreground"] = ("#CCA700", "#BF8803", "#FFD370", "#895503"),
+        ["editorWarning.border"] = (null, null, ColorValue.Transparent("#FFCC00", 0.8), ColorValue.Transparent("#FFCC00", 0.8)),
+        ["editorInfo.foreground"] = ("#59a4f9", "#0063d3", "#59a4f9", "#0063d3"),
+        ["editorInfo.border"] = (null, null, ColorValue.Transparent("#59a4f9", 0.8), "#292929"),
+
+        // colorRegistry.ts: scrollbarShadow (the minimap shadow)
+        ["scrollbar.shadow"] = ("#000000", "#DDDDDD", null, null),
+
+        // editorColors.ts:28-46 (hcLight hover: #0F4A85 at 0.1)
+        ["editorStickyScroll.background"] = ("editor.background", "editor.background", "editor.background", "editor.background"),
+        ["editorStickyScrollGutter.background"] = ("editor.background", "editor.background", "editor.background", "editor.background"),
+        ["editorStickyScrollHover.background"] = ("#2A2D2E", "#F0F0F0", null, ColorValue.Transparent("#0F4A85", 0.1)),
+        ["editorStickyScroll.border"] = (null, null, "contrastBorder", "contrastBorder"),
+        ["editorStickyScroll.shadow"] = ("scrollbar.shadow", "scrollbar.shadow", "scrollbar.shadow", "scrollbar.shadow"),
+
+        // miscColors.ts:56, :60, :64
+        ["scrollbarSlider.background"] = (
+            ColorValue.Transparent("#797979", 0.4), ColorValue.Transparent("#646464", 0.4),
+            ColorValue.Transparent("contrastBorder", 0.6), ColorValue.Transparent("contrastBorder", 0.4)),
+        ["scrollbarSlider.hoverBackground"] = (
+            ColorValue.Transparent("#646464", 0.7), ColorValue.Transparent("#646464", 0.7),
+            ColorValue.Transparent("contrastBorder", 0.8), ColorValue.Transparent("contrastBorder", 0.8)),
+        ["scrollbarSlider.activeBackground"] = (
+            ColorValue.Transparent("#BFBFBF", 0.4), ColorValue.Transparent("#000000", 0.6), "contrastBorder", "contrastBorder"),
+
+        // minimapColors.ts:17-60 (editorFindMatchHighlight = editor.findMatchHighlightBackground,
+        // editorSelectionHighlight = editor.selectionHighlightBackground)
+        ["minimap.findMatchHighlight"] = (
+            "editor.findMatchHighlightBackground", "editor.findMatchHighlightBackground",
+            "editor.findMatchHighlightBackground", "editor.findMatchHighlightBackground"),
+        ["minimap.selectionOccurrenceHighlight"] = (
+            "editor.selectionHighlightBackground", "editor.selectionHighlightBackground",
+            "editor.selectionHighlightBackground", "editor.selectionHighlightBackground"),
+        ["minimap.selectionHighlight"] = (
+            "editor.selectionBackground", "editor.selectionBackground", "editor.selectionBackground", "editor.selectionBackground"),
+        ["minimap.infoHighlight"] = ("editorInfo.foreground", "editorInfo.foreground", "editorInfo.border", "editorInfo.border"),
+        ["minimap.warningHighlight"] = ("editorWarning.foreground", "editorWarning.foreground", "editorWarning.border", "editorWarning.border"),
+        ["minimap.errorHighlight"] = ("#FF1212B3", "#FF1212B3", "#FF3232", "#B5200D"),
+        ["minimap.background"] = (null, null, null, null),
+        ["minimap.foregroundOpacity"] = ("#000000FF", "#000000FF", "#000000FF", "#000000FF"),
+        ["minimapSlider.background"] = (
+            ColorValue.Transparent("scrollbarSlider.background", 0.5), ColorValue.Transparent("scrollbarSlider.background", 0.5),
+            ColorValue.Transparent("scrollbarSlider.background", 0.5), ColorValue.Transparent("scrollbarSlider.background", 0.5)),
+        ["minimapSlider.hoverBackground"] = (
+            ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5), ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5),
+            ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5), ColorValue.Transparent("scrollbarSlider.hoverBackground", 0.5)),
+        ["minimapSlider.activeBackground"] = (
+            ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5), ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5),
+            ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5), ColorValue.Transparent("scrollbarSlider.activeBackground", 0.5)),
     };
 
     /// <summary>Whether <paramref name="id"/> has a default (even a <see langword="null"/> one).</summary>

@@ -89,7 +89,7 @@ internal sealed partial class TextViewRenderer
             foreach (string className in linesDecorations[i])
             {
                 DrawDecorationBox(surface, className, layoutInfo.DecorationsLeft, top, layoutInfo.DecorationsWidth, font.LineHeight);
-                DrawGutterIcon(surface, className, layoutInfo, top, font.LineHeight);
+                DrawGutterIcon(surface, className, layoutInfo, top, font.LineHeight, IsMarginHovered);
             }
 
             // Monaco: `_getLineRenderLineNumber`: an empty number for the continuation of a wrapped model line.

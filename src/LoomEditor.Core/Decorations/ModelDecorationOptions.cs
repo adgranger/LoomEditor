@@ -35,6 +35,10 @@ internal sealed class ModelDecorationOptions
         AfterContentClassName = CleanOrNull(data.AfterContentClassName);
         HideInCommentTokens = data.HideInCommentTokens ?? false;
         HideInStringTokens = data.HideInStringTokens ?? false;
+        After = data.After is null ? null : ModelDecorationInjectedTextOptions.From(data.After);
+        Before = data.Before is null ? null : ModelDecorationInjectedTextOptions.From(data.Before);
+        OverviewRuler = data.OverviewRuler;
+        Minimap = data.Minimap;
     }
 
     /// <summary>Monaco: <c>ModelDecorationOptions.EMPTY</c>.</summary>
@@ -53,6 +57,9 @@ internal sealed class ModelDecorationOptions
     public bool IsWholeLine { get; }
 
     public bool ShowIfCollapsed { get; }
+
+    /// <summary>Whether the decoration injects text before or after its range (Monaco: <c>isOptionsInjectedText</c>).</summary>
+    public bool HasInjectedText => Before is not null || After is not null;
 
     public bool CollapseOnReplaceEdit { get; }
 
@@ -75,6 +82,16 @@ internal sealed class ModelDecorationOptions
     public bool HideInCommentTokens { get; }
 
     public bool HideInStringTokens { get; }
+
+    public ModelDecorationInjectedTextOptions? After { get; }
+
+    public ModelDecorationInjectedTextOptions? Before { get; }
+
+    /// <summary>The overview ruler mark of the decoration, if any.</summary>
+    public ModelDecorationOverviewRulerOptions? OverviewRuler { get; }
+
+    /// <summary>The minimap mark of the decoration, if any.</summary>
+    public ModelDecorationMinimapOptions? Minimap { get; }
 
     /// <summary>Always <c>false</c>: the font options of Monaco are not ported.</summary>
     public bool AffectsFont { get; }

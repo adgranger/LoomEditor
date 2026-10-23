@@ -6,14 +6,17 @@ using Range = LoomEditor.Core.Text.Range;
 namespace LoomEditor.Core.Decorations;
 
 /// <summary>
-/// A source of decorations that the model adds to its own (Monaco: <c>DecorationProvider</c>). The font and minimap
-/// filters of Monaco are not ported; the owner id is never <c>undefined</c>, so that check is not ported either.
+/// A source of decorations that the model adds to its own (Monaco: <c>DecorationProvider</c>). The font filter
+/// of Monaco is not ported; the owner id is never <c>undefined</c>, so that check is not ported either.
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
 internal interface IDecorationProvider
 {
-    /// <summary>The decorations that intersect <paramref name="range"/>.</summary>
-    IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId, bool filterOutValidation);
+    /// <summary>
+    /// The decorations that intersect <paramref name="range"/>. With <paramref name="onlyMinimapDecorations"/> a provider
+    /// returns only the decorations that may be drawn in the minimap.
+    /// </summary>
+    IReadOnlyList<ModelDecoration> GetDecorationsInRange(Range range, int ownerId, bool filterOutValidation, bool onlyMinimapDecorations = false);
 
     /// <summary>All the decorations of the provider.</summary>
     IReadOnlyList<ModelDecoration> GetAllDecorations(int ownerId, bool filterOutValidation);

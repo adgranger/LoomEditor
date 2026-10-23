@@ -14,15 +14,20 @@ internal sealed class Win2DRenderSurface : IRenderSurface
 {
     private readonly CanvasDrawingSession _session;
     private readonly Win2DTextMeasurer _measurer;
+    private readonly Win2DBitmapCache _bitmaps;
 
     /// <summary>Wraps a drawing session.</summary>
-    public Win2DRenderSurface(CanvasDrawingSession session, Win2DTextMeasurer measurer)
+    /// <param name="session">The session of the current draw call.</param>
+    /// <param name="measurer">The measurer that made the layouts.</param>
+    /// <param name="bitmaps">Keeps the uploaded images between frames; without it every image is uploaded again each frame.</param>
+    public Win2DRenderSurface(CanvasDrawingSession session, Win2DTextMeasurer measurer, Win2DBitmapCache? bitmaps = null)
     {
         ArgumentNullException.ThrowIfNull(session);
         ArgumentNullException.ThrowIfNull(measurer);
 
         _session = session;
         _measurer = measurer;
+        _bitmaps = bitmaps ?? new Win2DBitmapCache();
     }
 
     /// <inheritdoc />
@@ -51,6 +56,15 @@ internal sealed class Win2DRenderSurface : IRenderSurface
         }
 
         _session.DrawTextLayout(win2DLayout.TextLayout, x, lineTop + _measurer.GlyphTopOffset, ToWindowsColor(color));
+    }
+
+    /// <inheritdoc />
+    public void DrawRgbaImage(byte[] rgba, int pixelWidth, int pixelHeight, float x, float y, float width, float height, float opacity, int version)
+    {
+        ArgumentNullException.ThrowIfNull(rgba);
+
+        CanvasBitmap bitmap = _bitmaps.Get(_session.Device, rgba, pixelWidth, pixelHeight, version);
+        _session.DrawImage(bitmap, new Windows.Foundation.Rect(x, y, width, height), bitmap.Bounds, opacity, CanvasImageInterpolation.Linear);
     }
 
     private static Windows.UI.Color ToWindowsColor(ThemeColor color) =>

@@ -231,6 +231,6 @@ internal sealed class MouseDownOperation : IDisposable
             _mouseState.ShiftKey,
             _mouseState.LeftButton,
             _mouseState.MiddleButton,
-            OnInjectedText: false));
+            OnInjectedText: target.Type == MouseTargetType.ContentText && target.InjectedText is not null));
     }
 }

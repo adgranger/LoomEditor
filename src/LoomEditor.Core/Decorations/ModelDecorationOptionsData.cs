@@ -12,9 +12,9 @@ namespace LoomEditor.Core.Decorations;
 /// <remarks>
 /// Not ported: <c>blockClassName</c>, <c>blockIsAfterEnd</c>, <c>blockDoesNotCollapse</c>, <c>blockPadding</c>;
 /// <c>hoverMessage</c>, <c>glyphMarginHoverMessage</c>, <c>lineNumberHoverMessage</c>; <c>lineHeight</c>,
-/// <c>fontFamily</c>, <c>fontSize</c>, <c>fontWeight</c>, <c>fontStyle</c>; <c>overviewRuler</c>, <c>minimap</c>;
-/// <c>glyphMargin</c> lanes; <c>lineNumberClassName</c>; <c>linesDecorationsTooltip</c>; <c>before</c> and
-/// <c>after</c> injected text; <c>textDirection</c>. Threading: immutable; thread-safe.
+/// <c>fontFamily</c>, <c>fontSize</c>, <c>fontWeight</c>, <c>fontStyle</c>;
+/// <c>glyphMargin</c> lanes; <c>lineNumberClassName</c>; <c>linesDecorationsTooltip</c>;
+/// <c>textDirection</c>. Threading: immutable; thread-safe.
 /// </remarks>
 internal sealed record ModelDecorationOptionsData
 {
@@ -53,4 +53,14 @@ internal sealed record ModelDecorationOptionsData
     public bool? HideInCommentTokens { get; init; }
 
     public bool? HideInStringTokens { get; init; }
+
+    public InjectedTextOptions? Before { get; init; }
+
+    public InjectedTextOptions? After { get; init; }
+
+    /// <summary>If set, the decoration is marked in the overview ruler.</summary>
+    public ModelDecorationOverviewRulerOptions? OverviewRuler { get; init; }
+
+    /// <summary>If set, the decoration is marked in the minimap.</summary>
+    public ModelDecorationMinimapOptions? Minimap { get; init; }
 }

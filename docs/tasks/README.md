@@ -529,6 +529,131 @@ Phase 5 cards form a single chain, in table order (P5-46 also needs P5-31 and P5
 word wrap, bracket pair guides, minimap, sticky scroll (phase 6); overtype mode; find history, overview ruler marks,
 the global find clipboard; injected text; the `editor.language.brackets` / `colorizedBracketPairs` settings.
 
+## Phase 6 — View extras: word wrap, injected text, guides, overview ruler, minimap, sticky scroll
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [phase-6-view-extras.md](../roadmap/phase-6-view-extras.md).
+**Read [phase-6/README.md](phase-6/README.md) before any phase 6 card.**
+
+### Step A — Word wrap options and layout
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-01](phase-6/P6-01-wrapping-options.md) | Wrapping option types: `WrappingIndent`, `WordWrap`, `WordBreak`, `EditorWrappingOptions` | P5-96 | done |
+| [P6-02](phase-6/P6-02-layout-wrapping-column.md) | Layout: `IsViewportWrapping` and `WrappingColumn` | P6-01 | done |
+
+### Step B — Injected text in the text model
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-03](phase-6/P6-03-injected-text-options.md) | `InjectedTextOptions` and the `before` / `after` decoration options | P5-96 | done |
+| [P6-04](phase-6/P6-04-line-injected-text.md) | `LineInjectedText`: applying injected text and fixed-width ranges | P6-03 | done |
+| [P6-05](phase-6/P6-05-text-model-injected-text-queries.md) | `TextModel.GetLineInjectedText` and `GetInjectedTextDecorations` | P6-04 | done |
+| [P6-06](phase-6/P6-06-injected-text-changed-event.md) | The injected text changed event of the text model | P6-05 | done |
+
+### Step C — Line-break data and the monospace line-break computer
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-07](phase-6/P6-07-model-line-projection-data.md) | `ModelLineProjectionData`: break offsets and offset translation | P6-04 | done |
+| [P6-08](phase-6/P6-08-projection-data-normalization.md) | `ModelLineProjectionData`: normalizing positions around injected text | P6-07 | done |
+| [P6-09](phase-6/P6-09-line-breaks-computer-primitives.md) | Line-break computer interfaces, the wrapping character classifier and width helpers | P6-08 | done |
+| [P6-10](phase-6/P6-10-create-line-breaks.md) | `MonospaceLineBreaksComputerFactory` and `CreateLineBreaks` | P6-09 | done |
+| [P6-11](phase-6/P6-11-fixed-width-injected-text-wrapping-tests.md) | Line breaks with fixed-width and width-only injected text (tests) | P6-10 | done |
+| [P6-12](phase-6/P6-12-line-breaks-from-previous-line-breaks.md) | `CreateLineBreaksFromPreviousLineBreaks` (the resize fast path) | P6-11 | done |
+| [P6-13](phase-6/P6-13-two-cell-fullwidth-tests.md) | Line breaks with two-cell full-width characters (tests) | P6-12 | done |
+
+### Step D — Wrapped model line projections
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-14](phase-6/P6-14-injected-text-inline-decorations.md) | `InjectedTextInlineDecorationsComputer` and `ViewLineData.InlineDecorations` | P6-08 | done |
+| [P6-15](phase-6/P6-15-wrapped-model-line-projection.md) | `ModelLineProjection` for wrapped lines and injected text (content and positions) | P6-14 | done |
+| [P6-16](phase-6/P6-16-wrapped-projection-view-lines-data.md) | Wrapped projection: `GetViewLinesData` with tokens and injected text | P6-15 | done |
+
+### Step E — Word wrap in the view model, the renderer and the control
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-17](phase-6/P6-17-view-model-lines-wrapping-settings.md) | `ViewModelLinesFromProjectedModel`: wrapping settings and wrapped construction | P6-16, P6-13, P6-05 | done |
+| [P6-18](phase-6/P6-18-view-model-lines-model-changes-with-line-breaks.md) | `ViewModelLinesFromProjectedModel`: model changes with line breaks, `GetInjectedTextAt` | P6-17 | done |
+| [P6-19](phase-6/P6-19-view-lines-wrapping-tests.md) | Port the wrapping tests of `modelLineProjection.test.ts` | P6-18 | done |
+| [P6-20](phase-6/P6-20-view-model-word-wrap.md) | The view model wraps lines: settings, model changes, content width | P6-19, P6-02 | done |
+| [P6-21](phase-6/P6-21-view-model-injected-text-changes.md) | The view model and the cursors follow injected text changes | P6-20, P6-06 | done |
+| [P6-22](phase-6/P6-22-word-wrap-cursor-tests.md) | Port the word wrap and injected text tests of the view model and the cursors | P6-21 | done |
+| [P6-23](phase-6/P6-23-view-model-decorations-wrap-tests.md) | Port the word wrap tests of `viewModelDecorations.test.ts` | P6-22 | done |
+| [P6-24](phase-6/P6-24-render-wrapped-lines.md) | Drawing, hit testing and folding on wrapped lines | P6-23 | done |
+| [P6-25](phase-6/P6-25-injected-text-rendering-and-mouse.md) | Injected text: its inline decorations in the viewport and the mouse | P6-24 | done |
+| [P6-26](phase-6/P6-26-control-word-wrap-properties.md) | The control's word wrap properties and a gallery switch | P6-25 | done |
+
+### Step F — Indent and bracket pair guides
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-27](phase-6/P6-27-guide-types.md) | Guide types: `IndentGuide`, `BracketGuideOptions`, `ActiveIndentGuideInfo` | P5-96 | done |
+| [P6-28](phase-6/P6-28-lines-indent-guides.md) | `GuidesTextModelPart`: `GetLinesIndentGuides` | P6-27 | done |
+| [P6-29](phase-6/P6-29-active-indent-guide.md) | `GetActiveIndentGuide` and the 18 indent guide tests | P6-28 | done |
+| [P6-30](phase-6/P6-30-lines-bracket-guides.md) | `GuidesTextModelPart.GetLinesBracketGuides` | P6-29 | done |
+| [P6-31](phase-6/P6-31-view-lines-indent-guides.md) | View lines: indent guides and the active indent guide | P6-30, P6-20 | done |
+| [P6-32](phase-6/P6-32-view-lines-bracket-guides.md) | View lines and view model: bracket guides, guide options | P6-31 | done |
+| [P6-33](phase-6/P6-33-guide-colors.md) | The colors of indent and bracket pair guides | P6-27 | done |
+| [P6-34](phase-6/P6-34-guides-by-line.md) | The guides of each visible line (`getGuidesByLine`) | P6-32, P6-33 | done |
+| [P6-35](phase-6/P6-35-draw-guides.md) | Drawing the guides, and the control's guide options | P6-34 | done |
+
+### Step G — The decorations overview ruler
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-36](phase-6/P6-36-overview-ruler-decoration-options.md) | Overview ruler options of decorations and `GetOverviewRulerDecorations` | P5-96 | done |
+| [P6-37](phase-6/P6-37-overview-ruler-decorations-groups.md) | `ViewModel.GetAllOverviewRulerDecorations`: groups per color | P6-36 | done |
+| [P6-38](phase-6/P6-38-draw-overview-ruler.md) | Drawing the decorations overview ruler | P6-37, P6-33 | done |
+| [P6-39](phase-6/P6-39-features-overview-ruler-marks.md) | Find, highlights and bracket matching mark the overview ruler | P6-38 | done |
+
+### Step H — The minimap
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-40](phase-6/P6-40-minimap-options.md) | Minimap option and layout types | P6-02 | done |
+| [P6-41](phase-6/P6-41-minimap-layout.md) | `ComputeMinimapLayout` and the minimap in the editor layout | P6-40 | done |
+| [P6-42](phase-6/P6-42-minimap-decoration-options.md) | Minimap options of decorations | P6-36 | done |
+| [P6-43](phase-6/P6-43-minimap-view-model-data.md) | The view model feeds the minimap: lines data and minimap decorations | P6-42, P6-41, P6-37 | done |
+| [P6-44](phase-6/P6-44-minimap-char-renderer.md) | Minimap character renderer, char sheet and pre-baked font data | P5-96 | done |
+| [P6-45](phase-6/P6-45-minimap-font-sample-data.md) | Minimap font sample data with Win2D (scales above 2) | P6-44 | done |
+| [P6-46](phase-6/P6-46-minimap-options-and-colors.md) | `MinimapOptions`, the token color tracker and the minimap colors | P6-44, P6-43 | done |
+| [P6-47](phase-6/P6-47-minimap-layout-slider.md) | `MinimapLayout`: rendered line range and slider position | P6-46 | done |
+| [P6-48](phase-6/P6-48-minimap-sampling-state.md) | `MinimapSamplingState`: which view lines a sampled minimap shows | P6-46 | done |
+| [P6-49](phase-6/P6-49-minimap-model.md) | The minimap model: `IMinimapModel` over the view model | P6-47, P6-48 | done |
+| [P6-50](phase-6/P6-50-minimap-render-lines.md) | Rendering minimap lines into a pixel buffer | P6-49 | done |
+| [P6-51](phase-6/P6-51-minimap-render-decorations.md) | Rendering minimap selections and decorations | P6-50 | done |
+| [P6-52](phase-6/P6-52-draw-minimap.md) | Drawing the minimap with Win2D: canvas, slider, shadow, auto-hide | P6-51, P6-45 | done |
+| [P6-53](phase-6/P6-53-minimap-mouse.md) | Minimap pointer input: click to reveal, slider drag, hover | P6-52 | done |
+| [P6-54](phase-6/P6-54-minimap-features-and-control.md) | Features mark the minimap; the control's minimap properties | P6-53, P6-39 | done |
+
+### Step I — Sticky scroll
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-55](phase-6/P6-55-sticky-scroll-model-types.md) | Sticky scroll options and model types | P5-96 | done |
+| [P6-56](phase-6/P6-56-sticky-model-from-folding-regions.md) | The sticky model from indentation folding regions | P6-55 | done |
+| [P6-57](phase-6/P6-57-sticky-line-candidate-provider.md) | `StickyLineCandidateProvider` | P6-56 | done |
+| [P6-58](phase-6/P6-58-sticky-scroll-feature.md) | The `StickyScroll` feature: widget state and re-render triggers | P6-57 | done |
+| [P6-59](phase-6/P6-59-draw-sticky-scroll.md) | Drawing the sticky lines | P6-58 | done |
+| [P6-60](phase-6/P6-60-sticky-scroll-mouse.md) | Sticky scroll pointer input: reveal, shift-click, folding chevron, hover | P6-59 | done |
+| [P6-61](phase-6/P6-61-sticky-scroll-command-and-control.md) | Toggle sticky scroll: command, control property, gallery | P6-60 | done |
+
+### Step J — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P6-62](phase-6/P6-62-gallery-view-extras-demo.md) | Gallery: the phase 6 samples and the manual test list | P6-61, P6-54, P6-35, P6-26 | done |
+| [P6-63](phase-6/P6-63-close-phase-6.md) | Close phase 6 | all | done |
+
+Take phase 6 cards in table order (each card's "Depends on" is satisfied by the cards above it). P6-26, P6-35, P6-45,
+P6-52 … P6-54, P6-59 … P6-62 have manual checks for the maintainer.
+
+**Deferred on purpose:** `renderWhitespace`; the word wrap indicator drawing; minimap section headers; the outline model of
+sticky scroll, its click-link gesture and its keyboard navigation (phase 8 / follow-up); the DOM line-break strategy
+(`wrappingStrategy: advanced`); accessibility-driven wrapping (phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
