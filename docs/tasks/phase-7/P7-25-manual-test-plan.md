@@ -1,6 +1,6 @@
 # P7-25 — The manual test plan: Narrator, NVDA, Accessibility Insights
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-24
 - **Size:** M (docs only)
 
@@ -52,10 +52,10 @@ None (docs). The review is: every row of the roadmap's checklist is covered (tex
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (nothing changed but docs)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The file has sections 1–11, "Known limits" and "Findings"; no row without steps or expected result
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (nothing changed but docs)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The file has sections 1–11, "Known limits" and "Findings"; no row without steps or expected result
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

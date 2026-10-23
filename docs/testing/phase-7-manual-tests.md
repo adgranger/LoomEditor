@@ -1,21 +1,33 @@
 # Phase 7 — manual test list
 
-What unit tests cannot check: screen reader behavior under a real UI (Narrator, NVDA), and the Native AOT build.
-Run it on the **Native AOT** build of the Gallery, on Windows 11:
-
-```powershell
-dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64
-```
-
-and fill the **Result** column (`pass` / `fail` + a note).
+What unit tests cannot check: screen reader behavior under a real UI (Narrator, NVDA, Accessibility Insights), and the Native AOT build.
+Fill the **Result** column (`pass` / `fail` + a note) and the **Findings** table at the end.
 
 - Windows build:
+- Narrator version:
+- NVDA version:
+- Accessibility Insights for Windows version:
+- Display scale:
 - Date and tester:
+
+## Setup
+
+- Run the **Native AOT** build of the Gallery (README §6), on Windows 11, with a C# sample loaded:
+
+  ```powershell
+  dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64
+  ```
+
+- Narrator: `Win + Ctrl + Enter` toggles it (Settings → Accessibility → Narrator). The Narrator key is `Caps Lock` (or `Insert`).
+- NVDA (free, <https://www.nvaccess.org/>): start it; `NVDA menu → Tools → Speech viewer` shows what is spoken.
+- Accessibility Insights for Windows: <https://accessibilityinsights.io/> (FastPass, Live inspect, Events).
+- Run section 8 with **Narrator only** and section 9 with **NVDA only** (never both at once). Speech is compared with the
+  *Expected speech* column: the wording may differ slightly, judge by content and order.
+- Unless a row says otherwise the editor holds `class Foo {\n    void Bar() {}\n}`.
 
 ## 1. Screen reader mode
 
-Until the Gallery's "Long-line sample" button exists (P7-24), set `Editor.Text` from code to one line of 12 000 characters
-of `"lorem "` repeated, plus a few short lines.
+Use the Gallery's **Long-line sample** button (one line of 12 000 characters plus a few short lines).
 
 | # | Steps | Expected | Result |
 |---|---|---|---|
@@ -106,3 +118,88 @@ The Gallery runs the 19 UI Automation checks in its own process (**UIA self-chec
 | 7.3 | **Long-line sample** + **Screen reader mode = On** | The 12 000-character line wraps; **Off**: it does not; **Auto** with Narrator running: it wraps | |
 | 7.4 | Toggle **Tab moves focus**, and press `Ctrl+M` in the editor | The switch follows `Ctrl+M` | |
 | 7.5 | **Follow system high contrast** off with a contrast theme on | The editor keeps its theme | |
+
+## 8. Narrator
+
+Narrator on, Gallery focused. Rows about wrapping use **Word wrap** on.
+
+| # | Steps | Expected speech | Result |
+|---|---|---|---|
+| 8.1 | Press `Tab` until the focus enters the editor | "Code editor, edit" (name and control type) | |
+| 8.2 | Caret at the start, press `Right` | The next character ("l") | |
+| 8.3 | Press `Down` | The next line, in full ("    void Bar() {}") | |
+| 8.4 | Press `Ctrl+Right` | The next word | |
+| 8.5 | Press `Home`, then `End` | The character at the new caret each time | |
+| 8.6 | Press `Shift+Right` three times | "selected" followed by the selected text | |
+| 8.7 | Type `x` | "x" | |
+| 8.8 | Press `Backspace` | The deleted character | |
+| 8.9 | Move onto an empty line (add one if needed) | "blank" | |
+| 8.10 | Narrator "read current line" (`Caps+L`), then "read current word" (`Caps+K`) | The line, then the word at the caret | |
+| 8.11 | Word wrap on, a long line (Gallery **Long-line sample**), press `Down` | The **visual** (wrapped) line, not the whole model line | |
+| 8.12 | Press `Ctrl+F` | The find widget is announced; its controls are named ("Find", "Match Case", "Previous Match", "Next Match", …) | |
+| 8.13 | In the find widget, type a word present, then an absent word, then press `F3` | "N of M found for 'word'" (line text before it); "No results found for 'word'"; the message is repeated (P7-13) | |
+| 8.14 | Caret on a word that occurs twice, press `F7` | "line text, 2 of 2 for 'word'" (P7-14) | |
+| 8.15 | Press `Ctrl+M` twice | "Pressing Tab will now move focus to the next focusable element", then "Pressing Tab will now insert the tab character" (P7-16) | |
+| 8.16 | Press `Ctrl+Alt+Down` (second cursor) | Narrator does not crash and keeps reading the primary caret | |
+| 8.17 | Type a word, press `Ctrl+Z` | The restored text is read | |
+| 8.18 | Toggle scan mode (`Caps+Space`) on and off, then type | The editor receives the typing after leaving scan mode (the keyboard is not trapped) | |
+| 8.19 | Narrator's caret browsing | Not required: note what happens, no pass/fail | |
+| 8.20 | Fold `{ … }` of `Foo`, press `Down` over the folded line | Check and record: the folded lines are skipped by `Down`, but exist in the document text; hidden text is not read until expanded | |
+
+## 9. NVDA
+
+NVDA on, Narrator off, Gallery focused. Keep the speech viewer open.
+
+| # | Steps | Expected speech | Result |
+|---|---|---|---|
+| 9.1 | `Tab` into the editor | "edit, multi line, Code editor" | |
+| 9.2 | `Right` / `Left` | The character | |
+| 9.3 | `Down` / `Up` | The line | |
+| 9.4 | `Ctrl+Right` / `Ctrl+Left` | The word | |
+| 9.5 | `NVDA+Up` (say line), then `NVDA+Down` (say all) | The current line; then everything from the caret to the end | |
+| 9.6 | `Shift+Arrow` | Selection changes are announced ("selected", "unselected") | |
+| 9.7 | Type a few words | Characters / words are echoed per NVDA's typing echo settings | |
+| 9.8 | Review cursor (numpad 7/8/9, or the laptop layout): lines, words, characters | It reads the document text without moving the caret; it can reach all the text | |
+| 9.9 | Find widget: present word, absent word, `F3` | As 8.13 (P7-13) | |
+| 9.10 | `F7` on a repeated word | As 8.14 (P7-14) | |
+| 9.11 | `Ctrl+M` twice | As 8.15 (P7-16) | |
+| 9.12 | Word wrap on, long line, `Down` | The visual line | |
+| 9.13 | Focus the editor | NVDA stays in focus mode: browse mode is not entered (it is an edit control) | |
+| 9.14 | Hold `Right` for 3 seconds with the speech viewer open | No repeated or empty announcements (the coalescer, P7-15) | |
+| 9.15 | `NVDA+F1` (developer info) | The Text pattern is listed as supported (or the UIA class is `LoomEditor`) | |
+
+## 10. Accessibility Insights for Windows
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 10.1 | FastPass on the Gallery window | No failure on the editor (expected issues: see "Known limits") | |
+| 10.2 | Live inspect on the editor | Text, Value and TextPattern2 patterns present; `IsKeyboardFocusable` is true | |
+| 10.3 | Events recorder, type in the editor and move the caret | Text changed and text selection changed events arrive (P7-19) | |
+| 10.4 | Tab through the Gallery | Order: Gallery controls → editor → status | |
+| 10.5 | Color contrast tool on the editor in Dark Modern, Light Modern and the two bundled high contrast themes | Record the foreground / background ratio of each; compare with the P7-20 test floors | |
+| 10.6 | Keyboard only: reach and operate every Gallery control and the find widget; leave the editor with `Ctrl+M` then `Tab` | Everything is reachable and usable without a mouse | |
+
+## 11. Regression
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 11.1 | Screen reader **off**: re-run the phase 3 – 6 lists for typing, IME composition (Microsoft Japanese IME), the find widget and the minimap; on "Large C# (20 000 lines)" hold `Right` and scroll | Nothing slowed down; record the observed frame rate / lag | |
+| 11.2 | Narrator **on**, "Large C# (20 000 lines)": scroll and type | No freeze; record the observed frame rate / lag | |
+
+## Known limits
+
+- Colors and font styles are reported as uniform, and there are no annotations (ADR 0010, "Not in phase 7").
+- The screen reader mode (`AccessibilitySupport = Auto`) is detected when the editor gets the focus, not while it stays focused (P7-09).
+- `Intl.Segmenter` words (CJK) are runs of characters, not dictionary words (P7-17).
+- Hidden folded text belongs to the line before it in the UIA text (P7-17); row 8.20 records the real behavior — to verify.
+- Injected text (inlay hints, ghost text) is not in the UIA text (P7-17).
+- The standard `Ctrl+Arrow` word moves are used in screen reader mode; Monaco's `cursorWordAccessibility*` commands are not bound (P7-16).
+- There is no accessibility help dialog and no verbosity settings (ADR 0010, "Not in phase 7").
+- There is no reduced motion support: smooth scrolling and caret blinking ignore the Windows animation setting (ADR 0010, "Not in phase 7").
+- There is no UIA text edit pattern (`ITextEditProvider`) (ADR 0010, "Not in phase 7").
+
+## Findings
+
+| # | Row | What happened | Severity | Follow-up card |
+|---|---|---|---|---|
+| | | | | |

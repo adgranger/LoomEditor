@@ -12,3 +12,5 @@ Files:
 - `ScreenReaderDetector.cs`: detects a running screen reader (`SPI_GETSCREENREADER`), used by `LoomEditor.AccessibilitySupport`.
 - `LoomEditorTextRangeProvider.cs`: `ITextRangeProvider` over `AutomationTextRange` (read members; moving and selecting come in P7-18).
 - `RendererLineMetrics.cs`: line measures for UI Automation, taken from the renderer.
+
+Manual test plan (Narrator, NVDA, Accessibility Insights): [docs/testing/phase-7-manual-tests.md](../../../docs/testing/phase-7-manual-tests.md).
