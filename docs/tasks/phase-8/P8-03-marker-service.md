@@ -1,6 +1,6 @@
 # P8-03 — `MarkerService`: markers per owner (public API of Core)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-02
 - **Size:** S
 
@@ -46,17 +46,17 @@ told when they change. Nothing is drawn yet (P8-04 turns markers into decoration
 
 ## Tests
 
-- [ ] Port (each carries `// Monaco: 'query'` …; Monaco's `changeAll` / resource arguments become `Change(owner, …)`; `randomMarkerData` becomes a helper in the test file creating an `Error` marker at random but valid positions with `new Random(seed)`): `query`, `changeOne override`, `changeOne/All clears`, `invalid marker data`, `Error code of zero in markers get removed, #31275`, `modelVersionId is preserved on IMarker when present in IMarkerData`
-- [ ] New: `Change_SanitizesPositions` (`0, 0, -1, 0` → `1, 1, 1, 1`), `Read_ReturnsTheSameInstancesUntilTheOwnerChanges` (owner A changes: B's markers are the same objects, A's are new), `Change_Empty_RaisesOnlyWhenOwnerHadMarkers`, `Change_RaisesEvenWhenEqual`, `Read_Take_Limits`,
+- [x] Port (each carries `// Monaco: 'query'` …; Monaco's `changeAll` / resource arguments become `Change(owner, …)`; `randomMarkerData` becomes a helper in the test file creating an `Error` marker at random but valid positions with `new Random(seed)`): `query`, `changeOne override`, `changeOne/All clears`, `invalid marker data`, `Error code of zero in markers get removed, #31275`, `modelVersionId is preserved on IMarker when present in IMarkerData`
+- [x] New: `Change_SanitizesPositions` (`0, 0, -1, 0` → `1, 1, 1, 1`), `Read_ReturnsTheSameInstancesUntilTheOwnerChanges` (owner A changes: B's markers are the same objects, A's are new), `Change_Empty_RaisesOnlyWhenOwnerHadMarkers`, `Change_RaisesEvenWhenEqual`, `Read_Take_Limits`,
       `GetStatistics_CountsBySeverity`, `Remove_Unknown_NoEvent`, `Change_NullOwner_Throws`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.Core` run, diff checked
-- [ ] `docs/PORTING.md` map: `markers.ts`, `markerService.ts` (single resource, no filters, no `changeAll`, no related information), the six ported tests
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.Core` run, diff checked
+- [x] `docs/PORTING.md` map: `markers.ts`, `markerService.ts` (single resource, no filters, no `changeAll`, no related information), the six ported tests
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

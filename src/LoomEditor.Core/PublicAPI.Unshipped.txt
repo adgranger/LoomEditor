@@ -5,6 +5,8 @@
 ~override LoomEditor.Core.Languages.Features.CompletionRange.ToString() -> string
 ~override LoomEditor.Core.Languages.Features.Location.Equals(object obj) -> bool
 ~override LoomEditor.Core.Languages.Features.Location.ToString() -> string
+~override LoomEditor.Core.Markers.MarkerStatistics.Equals(object obj) -> bool
+~override LoomEditor.Core.Markers.MarkerStatistics.ToString() -> string
 ~override LoomEditor.Core.Model.TextModelUpdateOptions.Equals(object obj) -> bool
 ~override LoomEditor.Core.Model.TextModelUpdateOptions.ToString() -> string
 ~override LoomEditor.Core.Text.Position.Equals(object obj) -> bool
@@ -169,6 +171,72 @@ LoomEditor.Core.Languages.Features.MarkdownString.IsTrusted.init -> void
 LoomEditor.Core.Languages.Features.MarkdownString.MarkdownString(string! Value, bool IsTrusted = false) -> void
 LoomEditor.Core.Languages.Features.MarkdownString.Value.get -> string!
 LoomEditor.Core.Languages.Features.MarkdownString.Value.init -> void
+LoomEditor.Core.Markers.Marker
+LoomEditor.Core.Markers.Marker.Code.get -> string?
+LoomEditor.Core.Markers.Marker.EndColumn.get -> int
+LoomEditor.Core.Markers.Marker.EndLineNumber.get -> int
+LoomEditor.Core.Markers.Marker.Message.get -> string!
+LoomEditor.Core.Markers.Marker.ModelVersionId.get -> int?
+LoomEditor.Core.Markers.Marker.Owner.get -> string!
+LoomEditor.Core.Markers.Marker.Severity.get -> LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.Marker.Source.get -> string?
+LoomEditor.Core.Markers.Marker.StartColumn.get -> int
+LoomEditor.Core.Markers.Marker.StartLineNumber.get -> int
+LoomEditor.Core.Markers.Marker.Tags.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Markers.MarkerTag>?
+LoomEditor.Core.Markers.MarkerData
+LoomEditor.Core.Markers.MarkerData.<Clone>$() -> LoomEditor.Core.Markers.MarkerData!
+LoomEditor.Core.Markers.MarkerData.Code.get -> string?
+LoomEditor.Core.Markers.MarkerData.Code.init -> void
+LoomEditor.Core.Markers.MarkerData.Deconstruct(out LoomEditor.Core.Markers.MarkerSeverity Severity, out string! Message, out int StartLineNumber, out int StartColumn, out int EndLineNumber, out int EndColumn, out string? Code, out string? Source, out int? ModelVersionId, out System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Markers.MarkerTag>? Tags) -> void
+LoomEditor.Core.Markers.MarkerData.EndColumn.get -> int
+LoomEditor.Core.Markers.MarkerData.EndColumn.init -> void
+LoomEditor.Core.Markers.MarkerData.EndLineNumber.get -> int
+LoomEditor.Core.Markers.MarkerData.EndLineNumber.init -> void
+LoomEditor.Core.Markers.MarkerData.Equals(LoomEditor.Core.Markers.MarkerData? other) -> bool
+LoomEditor.Core.Markers.MarkerData.MarkerData(LoomEditor.Core.Markers.MarkerSeverity Severity, string! Message, int StartLineNumber, int StartColumn, int EndLineNumber, int EndColumn, string? Code = null, string? Source = null, int? ModelVersionId = null, System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Markers.MarkerTag>? Tags = null) -> void
+LoomEditor.Core.Markers.MarkerData.Message.get -> string!
+LoomEditor.Core.Markers.MarkerData.Message.init -> void
+LoomEditor.Core.Markers.MarkerData.ModelVersionId.get -> int?
+LoomEditor.Core.Markers.MarkerData.ModelVersionId.init -> void
+LoomEditor.Core.Markers.MarkerData.Severity.get -> LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.MarkerData.Severity.init -> void
+LoomEditor.Core.Markers.MarkerData.Source.get -> string?
+LoomEditor.Core.Markers.MarkerData.Source.init -> void
+LoomEditor.Core.Markers.MarkerData.StartColumn.get -> int
+LoomEditor.Core.Markers.MarkerData.StartColumn.init -> void
+LoomEditor.Core.Markers.MarkerData.StartLineNumber.get -> int
+LoomEditor.Core.Markers.MarkerData.StartLineNumber.init -> void
+LoomEditor.Core.Markers.MarkerData.Tags.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Markers.MarkerTag>?
+LoomEditor.Core.Markers.MarkerData.Tags.init -> void
+LoomEditor.Core.Markers.MarkerService
+LoomEditor.Core.Markers.MarkerService.Change(string! owner, System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Markers.MarkerData!>? markers) -> void
+LoomEditor.Core.Markers.MarkerService.GetStatistics() -> LoomEditor.Core.Markers.MarkerStatistics
+LoomEditor.Core.Markers.MarkerService.MarkersChanged -> System.EventHandler?
+LoomEditor.Core.Markers.MarkerService.MarkerService() -> void
+LoomEditor.Core.Markers.MarkerService.Read(string? owner = null, int? severities = null, int take = -1) -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Markers.Marker!>!
+LoomEditor.Core.Markers.MarkerService.Remove(string! owner) -> void
+LoomEditor.Core.Markers.MarkerSeverities
+LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.MarkerSeverity.Error = 8 -> LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.MarkerSeverity.Hint = 1 -> LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.MarkerSeverity.Info = 2 -> LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.MarkerSeverity.Warning = 4 -> LoomEditor.Core.Markers.MarkerSeverity
+LoomEditor.Core.Markers.MarkerStatistics
+LoomEditor.Core.Markers.MarkerStatistics.Deconstruct(out int Errors, out int Warnings, out int Infos, out int Unknowns) -> void
+LoomEditor.Core.Markers.MarkerStatistics.Equals(LoomEditor.Core.Markers.MarkerStatistics other) -> bool
+LoomEditor.Core.Markers.MarkerStatistics.Errors.get -> int
+LoomEditor.Core.Markers.MarkerStatistics.Errors.init -> void
+LoomEditor.Core.Markers.MarkerStatistics.Infos.get -> int
+LoomEditor.Core.Markers.MarkerStatistics.Infos.init -> void
+LoomEditor.Core.Markers.MarkerStatistics.MarkerStatistics() -> void
+LoomEditor.Core.Markers.MarkerStatistics.MarkerStatistics(int Errors, int Warnings, int Infos, int Unknowns) -> void
+LoomEditor.Core.Markers.MarkerStatistics.Unknowns.get -> int
+LoomEditor.Core.Markers.MarkerStatistics.Unknowns.init -> void
+LoomEditor.Core.Markers.MarkerStatistics.Warnings.get -> int
+LoomEditor.Core.Markers.MarkerStatistics.Warnings.init -> void
+LoomEditor.Core.Markers.MarkerTag
+LoomEditor.Core.Markers.MarkerTag.Deprecated = 2 -> LoomEditor.Core.Markers.MarkerTag
+LoomEditor.Core.Markers.MarkerTag.Unnecessary = 1 -> LoomEditor.Core.Markers.MarkerTag
 LoomEditor.Core.Model.DefaultEndOfLine
 LoomEditor.Core.Model.DefaultEndOfLine.CRLF = 2 -> LoomEditor.Core.Model.DefaultEndOfLine
 LoomEditor.Core.Model.DefaultEndOfLine.LF = 1 -> LoomEditor.Core.Model.DefaultEndOfLine
@@ -408,6 +476,10 @@ override LoomEditor.Core.Languages.Features.LocationLink.ToString() -> string!
 override LoomEditor.Core.Languages.Features.MarkdownString.Equals(object? obj) -> bool
 override LoomEditor.Core.Languages.Features.MarkdownString.GetHashCode() -> int
 override LoomEditor.Core.Languages.Features.MarkdownString.ToString() -> string!
+override LoomEditor.Core.Markers.MarkerData.Equals(object? obj) -> bool
+override LoomEditor.Core.Markers.MarkerData.GetHashCode() -> int
+override LoomEditor.Core.Markers.MarkerData.ToString() -> string!
+override LoomEditor.Core.Markers.MarkerStatistics.GetHashCode() -> int
 override LoomEditor.Core.Model.Events.ModelRawChange.Equals(object? obj) -> bool
 override LoomEditor.Core.Model.Events.ModelRawChange.GetHashCode() -> int
 override LoomEditor.Core.Model.Events.ModelRawChange.ToString() -> string!
@@ -471,6 +543,11 @@ static LoomEditor.Core.Languages.Features.MarkdownString.IsNullOrEmpty(LoomEdito
 static LoomEditor.Core.Languages.Features.MarkdownString.IsNullOrEmpty(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.MarkdownString!>? values) -> bool
 static LoomEditor.Core.Languages.Features.MarkdownString.operator !=(LoomEditor.Core.Languages.Features.MarkdownString? left, LoomEditor.Core.Languages.Features.MarkdownString? right) -> bool
 static LoomEditor.Core.Languages.Features.MarkdownString.operator ==(LoomEditor.Core.Languages.Features.MarkdownString? left, LoomEditor.Core.Languages.Features.MarkdownString? right) -> bool
+static LoomEditor.Core.Markers.MarkerData.operator !=(LoomEditor.Core.Markers.MarkerData? left, LoomEditor.Core.Markers.MarkerData? right) -> bool
+static LoomEditor.Core.Markers.MarkerData.operator ==(LoomEditor.Core.Markers.MarkerData? left, LoomEditor.Core.Markers.MarkerData? right) -> bool
+static LoomEditor.Core.Markers.MarkerSeverities.Compare(LoomEditor.Core.Markers.MarkerSeverity a, LoomEditor.Core.Markers.MarkerSeverity b) -> int
+static LoomEditor.Core.Markers.MarkerStatistics.operator !=(LoomEditor.Core.Markers.MarkerStatistics left, LoomEditor.Core.Markers.MarkerStatistics right) -> bool
+static LoomEditor.Core.Markers.MarkerStatistics.operator ==(LoomEditor.Core.Markers.MarkerStatistics left, LoomEditor.Core.Markers.MarkerStatistics right) -> bool
 static LoomEditor.Core.Model.Events.ModelRawChange.operator !=(LoomEditor.Core.Model.Events.ModelRawChange? left, LoomEditor.Core.Model.Events.ModelRawChange? right) -> bool
 static LoomEditor.Core.Model.Events.ModelRawChange.operator ==(LoomEditor.Core.Model.Events.ModelRawChange? left, LoomEditor.Core.Model.Events.ModelRawChange? right) -> bool
 static LoomEditor.Core.Model.Events.ModelRawEolChanged.operator !=(LoomEditor.Core.Model.Events.ModelRawEolChanged? left, LoomEditor.Core.Model.Events.ModelRawEolChanged? right) -> bool
