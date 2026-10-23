@@ -1,6 +1,6 @@
 # P8-04 — `MarkerDecorations`: markers become model decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-03
 - **Size:** M
 
@@ -47,7 +47,7 @@ Not ported: suppressed ranges (`addMarkerSuppression`), the per-resource maps, `
 
 ## Tests
 
-- [ ] New (comments `// Monaco: MarkerDecorations.update` …): `Constructor_CreatesOneDecorationPerMarker` (two markers → `GetDecorationsInRange` finds two decorations with owner = ownerId and descriptions `marker-decoration`), `ClassNames_BySeverity` (Error → `squiggly-error`, Warning → `squiggly-warning`, Info → `squiggly-info`, Hint → `squiggly-hint`),
+- [x] New (comments `// Monaco: MarkerDecorations.update` …): `Constructor_CreatesOneDecorationPerMarker` (two markers → `GetDecorationsInRange` finds two decorations with owner = ownerId and descriptions `marker-decoration`), `ClassNames_BySeverity` (Error → `squiggly-error`, Warning → `squiggly-warning`, Info → `squiggly-info`, Hint → `squiggly-hint`),
       `ZIndex_BySeverity`, `Hint_IsTwoColumnsWide`, `Hint_Unnecessary_KeepsTheRange_AndGetsTheUnnecessaryClass`, `Hint_Deprecated_HasNoClassButDeprecatedInlineClass`, `EmptyRange_UsesTheWord` (`"let value = 1"`, empty range at column 6 → covers `value`),
       `EmptyRange_AtEndOfLine_StaysEmpty`, `WholeLineMarker_StartsAtFirstNonWhitespace` (`startColumn = 1`, `endColumn = int.MaxValue` on `"    x"` → starts at column 5), `Update_OnlyChangesWhatChanged` (the decoration id of an unchanged marker is the same after another owner changes),
       `Update_RemovedMarker_RemovesDecoration`, `Update_Take500` (600 markers → 500 decorations), `RangesFollowEdits` (insert text before a marker: `GetLiveMarkers` gives the shifted range), `GetMarker_ByDecorationId`, `Dispose_RemovesAllDecorations_AndUnsubscribes`,
@@ -55,10 +55,10 @@ Not ported: suppressed ranges (`addMarkerSuppression`), the per-resource maps, `
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `markerDecorationsService.ts` (`MarkerDecorations`; not ported: suppression, per-resource maps, `onDidChangeMarker`) and the `ClassName` constants
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `markerDecorationsService.ts` (`MarkerDecorations`; not ported: suppression, per-resource maps, `onDidChangeMarker`) and the `ClassName` constants
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
