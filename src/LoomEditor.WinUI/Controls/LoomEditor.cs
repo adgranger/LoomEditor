@@ -39,6 +39,7 @@ namespace LoomEditor.WinUI.Controls;
 [TemplatePart(Name = VerticalScrollBarPartName, Type = typeof(ScrollBar))]
 [TemplatePart(Name = HorizontalScrollBarPartName, Type = typeof(ScrollBar))]
 [TemplatePart(Name = FindWidgetPartName, Type = typeof(FindWidget))]
+[TemplatePart(Name = OverlayCanvasPartName, Type = typeof(Canvas))]
 #pragma warning disable CA1724 // Type name matches the root namespace on purpose: see remarks above.
 #pragma warning disable CA1001 // WinUI controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomEditor : Control
@@ -47,6 +48,7 @@ public sealed partial class LoomEditor : Control
 {
     private const string CanvasPartName = "PART_Canvas";
     private const string FindWidgetPartName = "PART_FindWidget";
+    private const string OverlayCanvasPartName = "PART_OverlayCanvas";
 
     /// <summary>Identifies the <see cref="Text"/> dependency property.</summary>
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -153,6 +155,7 @@ public sealed partial class LoomEditor : Control
         _canvas.SizeChanged += OnCanvasSizeChanged;
         AttachScrollBars();
         _findWidget = GetTemplateChild(FindWidgetPartName) as FindWidget;
+        InitializeHover(GetTemplateChild(OverlayCanvasPartName) as Canvas);
     }
 
     /// <inheritdoc />

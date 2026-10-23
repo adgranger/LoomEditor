@@ -28,6 +28,7 @@
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Visibility="Collapsed" />
+                            <Canvas x:Name="PART_OverlayCanvas" />
                             <ScrollBar
                                 x:Name="PART_VerticalScrollBar"
                                 HorizontalAlignment="Right"

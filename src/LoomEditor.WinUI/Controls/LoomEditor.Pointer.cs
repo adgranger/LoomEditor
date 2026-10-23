@@ -133,7 +133,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerReleased(e);
 
-        if (IsFromFindWidget(e.OriginalSource))
+        if (IsFromFindWidget(e.OriginalSource) || IsFromOverlay(e.OriginalSource))
         {
             return;
         }
@@ -299,7 +299,7 @@ public sealed partial class LoomEditor
     }
 
     // The widgets of the overlay layer are children of the control: their pointer events must not reach the text.
-    private static bool IsFromOverlay(object? source) => false; // P8-11 fills this in
+    private bool IsFromOverlay(object? source) => _overlay?.Contains(source as DependencyObject) == true;
 
     private bool IsFromScrollBar(object? source)
     {

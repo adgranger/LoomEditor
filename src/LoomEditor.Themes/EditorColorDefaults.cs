@@ -312,6 +312,17 @@ internal static class EditorColorDefaults
         // editorColors.ts:57
         ["editorWidget.border"] = ("#CCCCCC33", "#61616133", "contrastBorder", "contrastBorder"),
 
+        // editorColors.ts:187-198 (the hover widget colors are the editor widget colors)
+        ["editorHoverWidget.background"] = ("editorWidget.background", "editorWidget.background", "editorWidget.background", "editorWidget.background"),
+        ["editorHoverWidget.foreground"] = ("editorWidget.foreground", "editorWidget.foreground", "editorWidget.foreground", "editorWidget.foreground"),
+        ["editorHoverWidget.border"] = ("editorWidget.border", "editorWidget.border", "editorWidget.border", "editorWidget.border"),
+
+        // baseColors.ts:56
+        ["textLink.foreground"] = ("#3794FF", "#006AB1", "#21A6FF", "#0F4A85"),
+
+        // baseColors.ts:95
+        ["textCodeBlock.background"] = ("#0a0a0a66", "#dcdcdc66", "#000000", "#F2F2F2"),
+
         // inputColors.ts:20
         ["input.background"] = ("#3C3C3C", "#FFFFFF", "#000000", "#FFFFFF"),
 

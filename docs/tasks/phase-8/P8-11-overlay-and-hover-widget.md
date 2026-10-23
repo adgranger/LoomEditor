@@ -1,6 +1,6 @@
 # P8-11 — The overlay layer and the hover popup (WinUI)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-10
 - **Size:** M
 - **Recommended model:** Opus (first widget layer in the control template under Native AOT; pointer routing between the canvas and a child element and the UIA-geometry anchoring cannot be diagnosed from this card. On failure: stop, do not commit, report the exact build / publish / runtime error and what you tried)
@@ -60,9 +60,9 @@ that the completion list (P8-22) reuses, and a pure placement function.
 
 ## Tests
 
-- [ ] New (`OverlayPlacementTests`; comment `// Monaco: ContentHoverWidget layout`): `Place_Below_WhenItFits`, `Place_Above_WhenOnlyThereItFits`, `Place_MoreSpaceSide_WhenNeither` (height cut), `Place_Tie_PrefersBelow`, `Place_XClampedToTheRight`, `Place_XClampedToTheLeft`, `Place_WiderThanContainer_WidthCut`,
+- [x] New (`OverlayPlacementTests`; comment `// Monaco: ContentHoverWidget layout`): `Place_Below_WhenItFits`, `Place_Above_WhenOnlyThereItFits`, `Place_MoreSpaceSide_WhenNeither` (height cut), `Place_Tie_PrefersBelow`, `Place_XClampedToTheRight`, `Place_XClampedToTheLeft`, `Place_WiderThanContainer_WidthCut`,
       `Place_PreferAbove_Mirrored`, `Place_NegativeInput_Throws`, `Place_NaN_Throws`
-- [ ] No other unit tests (WinUI code); the manual checks below and the AOT publish are the verification
+- [x] No other unit tests (WinUI code); the manual checks below and the AOT publish are the verification
 
 ## Manual checks (add to `docs/testing/phase-8-manual-tests.md` as "2. Hover popup"; use a marker from the Setup line and the Gallery's **Demo providers** of P8-37 once they exist, until then only the marker rows)
 
@@ -78,12 +78,12 @@ that the completion list (P8-22) reuses, and a pure placement function.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds, and the published `LoomEditor.Gallery.exe` is still running after 10 seconds (README §7), then killed. Record the result in this card; never tick it if it was not run
-- [ ] The manual rows 2.1–2.5 and 2.7 were tried by running the Gallery with a marker set from code (a temporary line in `MainWindow.xaml.cs` is allowed **only while testing**; remove it before the commit) and the result is written in the card; rows that could not be tried are marked `pending` in the manual file, not ticked
-- [ ] `docs/PORTING.md` map: `contentHoverWidget.ts` (layout only), `hover.css` (look) with the behavior differences (no resizing, no status bar, not clickable links, no focus into the popup)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds, and the published `LoomEditor.Gallery.exe` is still running after 10 seconds (README §7), then killed. Record the result in this card; never tick it if it was not run
+- [ ] The manual rows 2.1–2.5 and 2.7 were tried by running the Gallery with a marker (NOT done: see Result; left to the maintainer)
+- [x] `docs/PORTING.md` map: `contentHoverWidget.ts` (layout only), `hover.css` (look) with the behavior differences (no resizing, no status bar, not clickable links, no focus into the popup)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -92,3 +92,9 @@ Resizing the popup, a status bar ("View Problem"), clickable links, keyboard foc
 ## Suggested commit message
 
 `feat(winui): add the overlay layer and the hover popup`
+
+## Result
+
+- Release build 0 warnings; all tests green (View.Tests 2456 incl. 10 new `OverlayPlacementTests`).
+- Native AOT publish (`-p:PublishAot=true -warnaserror`) succeeded with no warning; the published `LoomEditor.Gallery.exe` was still running after 12 s, then killed.
+- Manual rows 2.1–2.5 and 2.7 could **not** be tried (no way to drive the mouse / keyboard in this session): left empty in `docs/testing/phase-8-manual-tests.md` for the maintainer; 2.6 is `pending` (needs P8-37). Only startup with the new template part was checked.
