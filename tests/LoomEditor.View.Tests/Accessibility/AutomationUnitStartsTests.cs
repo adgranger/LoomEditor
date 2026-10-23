@@ -23,6 +23,17 @@ public class AutomationUnitStartsTests
         }
     });
 
+    [Theory]
+    [InlineData(AutomationTextUnit.Character)]
+    [InlineData(AutomationTextUnit.Format)]
+    [InlineData(AutomationTextUnit.Word)]
+    [InlineData(AutomationTextUnit.Line)]
+    [InlineData(AutomationTextUnit.Paragraph)]
+    [InlineData(AutomationTextUnit.Page)]
+    [InlineData(AutomationTextUnit.Document)]
+    public void Create_EveryUnit_ReturnsStarts(object unit) =>
+        WithDocument("ab\ncd", d => Assert.Equal(d.DocumentStart, AutomationUnitStarts.Create(d, (AutomationTextUnit)unit).StartAtOrBefore(d.DocumentStart)));
+
     [Fact]
     public void Create_UndefinedUnit_Throws() =>
         WithDocument("a", d => Assert.Throws<ArgumentOutOfRangeException>(() => AutomationUnitStarts.Create(d, (AutomationTextUnit)99)));

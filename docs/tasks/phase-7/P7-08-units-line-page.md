@@ -1,6 +1,6 @@
 # P7-08 — Text units: line (view line) and page
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-07
 - **Size:** M
 
@@ -40,23 +40,23 @@ None (specified in `docs/tasks/phase-7/README.md` §4). Uses `ViewModel.Coordina
 (`WithDocument` with `TestCodeEditorOptions(Wrapping: new EditorWrappingOptions { WordWrap = WordWrap.WordWrapColumn, WordWrapColumn = 10 })` for the wrapped cases; first assert in each test that the view lines are the ones the
 test relies on — `viewModel.GetLineContent(1) == "aaaa bbbb "`, `GetLineContent(2) == "cccc"` for the text `"aaaa bbbb cccc"` — and if the break differs by a column, change the text, never the production code)
 
-- [ ] New (`LineUnitStartsTests`): `S_NoWrap_IsTheModelLineStart`, `N_NoWrap_IsTheNextModelLineStart`, `S_SecondViewLine_IsTheBreakPosition` (`"aaaa bbbb cccc"`: `S((1,12)) = (1,11)`),
+- [x] New (`LineUnitStartsTests`): `S_NoWrap_IsTheModelLineStart`, `N_NoWrap_IsTheNextModelLineStart`, `S_SecondViewLine_IsTheBreakPosition` (`"aaaa bbbb cccc"`: `S((1,12)) = (1,11)`),
       `N_FirstViewLine_IsTheBreakPosition` (`N((1,3)) = (1,11)`), `P_SecondViewLine_Positions` (`P((1,12)) = (1,11)`, `P((1,11)) = (1,1)`),
       `N_LastViewLine_IsNull`, `P_AtDocumentStart_IsNull`, `NS_LastViewLine_IsDocumentEnd`,
       `WrappedLineThenNextModelLine` (`"aaaa bbbb cccc\nx"`: `N((1,11)) = (2,1)`),
       `FoldedLines_BelongToThePreviousViewLine` (3 model lines, lines 2–3 hidden with `viewModel.SetHiddenAreas([new Range(2, 1, 3, 1)])` — use the helper the folding tests use, `grep -rn "SetHiddenAreas" tests`:
       `S((3,1)) = (1,1)` and `N((1,1)) = null` when nothing follows; with a 4th visible line `N((1,1)) = (4,1)`),
       `EmptyDocument_StartIsDocumentStart_NextIsNull`, `LargeDocument_BinarySearchIsCorrect` (10 000 lines: `S((5000,1)) = (5000,1)`, `N((5000,1)) = (5001,1)`, `P((5000,1)) = (4999,1)`)
-- [ ] New (`PageUnitStartsTests`; `OuterHeight` chosen so that `GetCompletelyVisibleViewRange()` is lines 1–3, asserted first: start from `3 * 19` and adjust the height, never the code): `S_FirstPage_IsDocumentStart`,
+- [x] New (`PageUnitStartsTests`; `OuterHeight` chosen so that `GetCompletelyVisibleViewRange()` is lines 1–3, asserted first: start from `3 * 19` and adjust the height, never the code): `S_FirstPage_IsDocumentStart`,
       `S_FifthLine_IsTheStartOfPageTwo` (`S((5,1)) = (4,1)`), `N_FirstPage_IsLineFour`, `N_LastPage_IsNull`, `P_PageTwo_IsPageOneStart`, `P_AtDocumentStart_IsNull`, `NoViewport_PagesAreOneLine`
       (`OuterHeight: 0`), `PagesFollowViewLinesNotModelLines` (wrapped text)
-- [ ] New (`AutomationUnitStartsTests`): `Create_EveryUnit_ReturnsStarts` (theory over the 7 units: `StartAtOrBefore(DocumentStart) == DocumentStart`)
+- [x] New (`AutomationUnitStartsTests`): `Create_EveryUnit_ReturnsStarts` (theory over the 7 units: `StartAtOrBefore(DocumentStart) == DocumentStart`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
