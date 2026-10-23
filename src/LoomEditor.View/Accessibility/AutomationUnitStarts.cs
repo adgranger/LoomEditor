@@ -33,7 +33,8 @@ internal abstract class AutomationUnitStarts
         AutomationTextUnit.Character => new CharacterUnitStarts(document),
         AutomationTextUnit.Paragraph => new ParagraphUnitStarts(document),
         AutomationTextUnit.Document => new DocumentUnitStarts(document),
-        AutomationTextUnit.Format or AutomationTextUnit.Word or AutomationTextUnit.Line or AutomationTextUnit.Page =>
+        AutomationTextUnit.Format or AutomationTextUnit.Word => new WordUnitStarts(document),
+        AutomationTextUnit.Line or AutomationTextUnit.Page =>
             throw new NotSupportedException($"The {unit} unit is added by a later card."),
         _ => throw new ArgumentOutOfRangeException(nameof(unit), unit, null),
     };

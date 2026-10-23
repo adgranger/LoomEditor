@@ -1,6 +1,6 @@
 # P7-07 — Text unit: word (and format)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-06
 - **Size:** M
 
@@ -38,7 +38,7 @@ None for the unit itself (specified in `docs/tasks/phase-7/README.md` §4, "Word
 
 ## Tests
 
-- [ ] New (`WordUnitStartsTests`; `S`, `P`, `N` as in P7-06): `Starts_FooDotBar` (`"foo.bar"`: `N((1,1)) = (1,4)`, `N((1,4)) = (1,5)`, `N((1,5)) = null`),
+- [x] New (`WordUnitStartsTests`; `S`, `P`, `N` as in P7-06): `Starts_FooDotBar` (`"foo.bar"`: `N((1,1)) = (1,4)`, `N((1,4)) = (1,5)`, `N((1,5)) = null`),
       `Starts_TrailingWhitespaceBelongsToTheWord` (`"foo  bar"`: `N((1,1)) = (1,6)`, `S((1,5)) = (1,1)`),
       `Starts_LeadingWhitespaceIsAWord` (`"  x"`: `N((1,1)) = (1,3)`), `Starts_WhitespaceOnlyLine_IsOneWord` (`"   "`: `N((1,1)) = null`),
       `Starts_SeparatorRun_IsOneWord` (`"a//b"`: `N((1,1)) = (1,2)`, `N((1,2)) = (1,4)`), `Starts_EmptyLine_IsAWord` (`"a\n\nb"`: `N((1,1)) = (2,1)`, `N((2,1)) = (3,1)`),
@@ -46,13 +46,13 @@ None for the unit itself (specified in `docs/tasks/phase-7/README.md` §4, "Word
       `P_AtDocumentStart_IsNull`, `N_InTheLastWord_IsNull`, `NS_InTheLastWord_IsDocumentEnd`, `Tab_IsWhitespace` (`"a\tb"`: `N((1,1)) = (1,3)`),
       `Digits_AreRegular` (`"abc123 x"`: `N((1,1)) = (1,8)`), `Underscore_IsRegular` (`"a_b c"`: `N((1,1)) = (1,5)` — `_` is not in `UsualWordSeparators`),
       `CjkRun_IsOneWord` (`"日本語 x"`: `N((1,1)) = (1,5)`), `EmptyDocument_StartIsDocumentStart_NextIsNull`
-- [ ] New (`AutomationUnitStartsTests`): `Create_Format_IsTheWordUnit` (`Create(doc, Format)` and `Create(doc, Word)` give the same starts for a sample text)
+- [x] New (`AutomationUnitStartsTests`): `Create_Format_IsTheWordUnit` (`Create(doc, Format)` and `Create(doc, Word)` give the same starts for a sample text)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

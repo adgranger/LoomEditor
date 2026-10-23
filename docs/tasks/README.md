@@ -674,7 +674,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P7-05](phase-7/P7-05-automation-text-document.md) | `AutomationTextDocument` and `AutomationTextRange` (text, compare, validate) | P7-04 | done |
 | [P7-06](phase-7/P7-06-units-character-paragraph-document.md) | Text units: character, paragraph, document | P7-05 | done |
-| [P7-07](phase-7/P7-07-unit-word.md) | Text unit: word (and format) | P7-06 | todo |
+| [P7-07](phase-7/P7-07-unit-word.md) | Text unit: word (and format) | P7-06 | done |
 | [P7-08](phase-7/P7-08-units-line-page.md) | Text units: line (view line) and page | P7-07 | todo |
 | [P7-09](phase-7/P7-09-expand-and-move.md) | Expand and move text ranges | P7-08 | todo |
 | [P7-10](phase-7/P7-10-find-text.md) | Find text in a range | P7-09 | todo |

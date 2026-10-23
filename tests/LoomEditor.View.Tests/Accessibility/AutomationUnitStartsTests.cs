@@ -5,10 +5,23 @@ namespace LoomEditor.View.Tests.Accessibility;
 
 public class AutomationUnitStartsTests
 {
-    // Removed by P7-07
     [Fact]
-    public void Create_Word_NotSupportedYet() =>
-        WithDocument("a", d => Assert.Throws<NotSupportedException>(() => AutomationUnitStarts.Create(d, AutomationTextUnit.Word)));
+    public void Create_Format_IsTheWordUnit() => WithDocument("foo.bar  baz\n\n  x", d =>
+    {
+        var format = AutomationUnitStarts.Create(d, AutomationTextUnit.Format);
+        var word = AutomationUnitStarts.Create(d, AutomationTextUnit.Word);
+        Assert.IsType<WordUnitStarts>(format);
+        for (int line = 1; line <= 3; line++)
+        {
+            for (int column = 1; column <= d.Model.GetLineMaxColumn(line); column++)
+            {
+                var p = Pos(line, column);
+                Assert.Equal(word.StartAtOrBefore(p), format.StartAtOrBefore(p));
+                Assert.Equal(word.PreviousStart(p), format.PreviousStart(p));
+                Assert.Equal(word.NextStartStrict(p), format.NextStartStrict(p));
+            }
+        }
+    });
 
     [Fact]
     public void Create_UndefinedUnit_Throws() =>
