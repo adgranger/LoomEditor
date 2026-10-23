@@ -1,6 +1,7 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Events;
+using LoomEditor.View.Features.StickyScroll;
 using LoomEditor.View.Layout;
 using LoomEditor.View.Tests.TestHelpers;
 
@@ -18,7 +19,14 @@ public class RevealCalculatorTests
         int lineCount, Action<TestCodeEditor, RevealCalculator> callback, int viewportWidth = 500, EditorCursorOptions? cursorOptions = null) =>
         TestCodeEditor.WithTestCodeEditor(
             Lines(lineCount),
-            editor => callback(editor, new RevealCalculator(editor.ViewModel)),
+            editor =>
+            {
+                // The base algorithm is tested without sticky lines (they are enabled by default, like Monaco).
+                editor.ViewModel.SetOptions(
+                    editor.ViewModel.LayoutOptions with { StickyScroll = new EditorStickyScrollOptions { Enabled = false } },
+                    editor.ViewModel.ViewLayoutOptions);
+                callback(editor, new RevealCalculator(editor.ViewModel));
+            },
             new TestCodeEditorOptions(CursorOptions: cursorOptions, OuterWidth: viewportWidth, OuterHeight: ViewportHeight));
 
     private static ViewRevealRangeRequestEvent Reveal(
@@ -68,6 +76,24 @@ public class RevealCalculatorTests
             Assert.Equal((51 * LineHeight) - ViewportHeight, scrollTop);
             int lastVisibleLine = (scrollTop + ViewportHeight) / LineHeight;
             Assert.Equal(51, lastVisibleLine);
+        });
+    }
+
+    // New test: viewLines.ts takes max(cursorSurroundingLines, maxLineCount) when sticky scroll is enabled.
+    [Fact]
+    public void Reveal_WithStickyScroll_KeepsMaxLineCountLinesAbove()
+    {
+        WithReveal(100, (editor, reveal) =>
+        {
+            editor.ViewModel.SetOptions(
+                editor.ViewModel.LayoutOptions with { StickyScroll = new EditorStickyScrollOptions { MaxLineCount = 5 } },
+                editor.ViewModel.ViewLayoutOptions);
+
+            int scrollTop = reveal.ComputeScrollTopToRevealRange(
+                new Viewport(0, 60 * LineHeight, 500, ViewportHeight), "keyboard", false, Range.Collapsed(new Position(30, 1)), null, VerticalRevealType.Top);
+
+            // Line 30 starts at 29 * 19: revealed at the top, with five lines above it for the sticky lines.
+            Assert.Equal(24 * LineHeight, scrollTop);
         });
     }
 

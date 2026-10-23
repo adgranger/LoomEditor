@@ -4,7 +4,7 @@
 
 **Monaco sources:** `src/vs/editor/contrib/stickyScroll/browser/` (`stickyScrollElement.ts`, `stickyScrollProvider.ts`, `stickyScrollWidget.ts`) and `EditorStickyScroll` in `src/vs/editor/common/config/editorOptions.ts`.
 
-**Files:** `EditorStickyScrollOptions.cs` (options and defaults), `StickyScrollElement.cs` (`StickyRange`, `StickyElement`, `StickyModel`), `StickyLineCandidate.cs`, `StickyScrollWidgetState.cs`, `StickyModelProvider.cs`, `StickyLineCandidateProvider.cs`. The controller and the feature come with P6-58.
+**Files:** `EditorStickyScrollOptions.cs` (options and defaults), `StickyScrollElement.cs` (`StickyRange`, `StickyElement`, `StickyModel`), `StickyLineCandidate.cs`, `StickyScrollWidgetState.cs`, `StickyModelProvider.cs`, `StickyLineCandidateProvider.cs`. `StickyScrollFeature.cs` (the controller: `findScrollWidgetState`, triggers), `StickyScrollRenderData.cs` (what the renderer draws, published in `ViewModel.StickyScroll`), `StickyScrollCommands.cs` (command ids, from P6-61).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/StickyScroll/`.
 

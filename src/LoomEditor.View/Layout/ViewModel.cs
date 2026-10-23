@@ -87,6 +87,9 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         UpdateLayoutViewLineCount();
     }
 
+    /// <summary>Raised after <see cref="SetOptions"/>, even when the layout did not change.</summary>
+    public event EventHandler? OptionsChanged;
+
     /// <summary>Raised after <see cref="LayoutInfo"/> changed.</summary>
     public event EventHandler? LayoutInfoChanged;
 
@@ -162,6 +165,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         ViewLayout.OnOptionsChanged(viewLayoutOptions);
         RecomputeLayoutInfo();
         UpdateWrappingSettings();
+        OptionsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>Builds the data to render the current viewport.</summary>

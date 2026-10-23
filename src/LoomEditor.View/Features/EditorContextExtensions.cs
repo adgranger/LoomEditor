@@ -1,5 +1,6 @@
 using LoomEditor.View.Controller;
 using LoomEditor.View.Features.Find;
+using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Features;
@@ -16,4 +17,7 @@ internal static class EditorContextExtensions
 
     /// <summary>The find controller of the editor, or null when the Find feature is not attached.</summary>
     public static FindController? GetFindController(this IEditorContext context) => (context as EditorContext)?.FindController;
+
+    /// <summary>The folding feature of the editor, or null when the Folding feature is not attached.</summary>
+    public static FoldingFeature? GetFoldingFeature(this IEditorContext context) => (context as EditorContext)?.FoldingFeature;
 }

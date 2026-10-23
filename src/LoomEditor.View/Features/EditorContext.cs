@@ -10,6 +10,7 @@ using LoomEditor.View.Commands;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Events;
 using LoomEditor.View.Features.Find;
+using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Highlighting;
 using LoomEditor.View.Layout;
@@ -114,6 +115,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <summary>The find controller, set by <c>FindFeature</c> while it is attached (Monaco: <c>CommonFindController.get(editor)</c>).</summary>
     internal FindController? FindController { get; set; }
+
+    /// <summary>The folding feature, set by <c>FoldingFeature</c> while it is attached (Monaco: <c>FoldingController.get(editor)</c>).</summary>
+    internal FoldingFeature? FoldingFeature { get; set; }
 
     /// <inheritdoc />
     public Selection Selection

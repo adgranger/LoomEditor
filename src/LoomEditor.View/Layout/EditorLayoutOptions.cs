@@ -1,3 +1,5 @@
+using LoomEditor.View.Features.StickyScroll;
+
 namespace LoomEditor.View.Layout;
 
 /// <summary>
@@ -51,4 +53,7 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>The minimap (Monaco: <c>minimap</c>); enabled by default, like Monaco.</summary>
     public EditorMinimapOptions Minimap { get; init; } = new();
+
+    /// <summary>The sticky scroll (Monaco: <c>stickyScroll</c>); read by the sticky scroll feature and the reveal.</summary>
+    public EditorStickyScrollOptions StickyScroll { get; init; } = new();
 }

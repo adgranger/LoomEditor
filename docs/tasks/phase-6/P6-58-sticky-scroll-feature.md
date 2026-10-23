@@ -1,6 +1,6 @@
 # P6-58 — The `StickyScroll` feature: widget state and re-render triggers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-57
 - **Size:** M
 
@@ -52,22 +52,22 @@ renderer. The reveal logic leaves room for the sticky lines.
 New, porting the **scenarios** of `issue #157180` and `issue #159271` (`stickyScroll.test.ts` 161–212, 312–362) with the indentation
 model (expected line numbers recomputed for it, explained in a comment):
 
-- [ ] `FindScrollWidgetState_AtTop_NoStickyLine`
-- [ ] `FindScrollWidgetState_InsideABlock_StickTheBlockStart`
-- [ ] `FindScrollWidgetState_NestedBlocks_StickBoth`
-- [ ] `FindScrollWidgetState_LastLinePushedUp_HasANegativeRelativePosition`
-- [ ] `FindScrollWidgetState_MaxLineCount_IsRespected`
-- [ ] `Disabled_PublishesNull`
-- [ ] `Reveal_WithStickyScroll_KeepsMaxLineCountLinesAbove` (`RevealCalculator`)
+- [x] `FindScrollWidgetState_AtTop_NoStickyLine`
+- [x] `FindScrollWidgetState_InsideABlock_StickTheBlockStart`
+- [x] `FindScrollWidgetState_NestedBlocks_StickBoth`
+- [x] `FindScrollWidgetState_LastLinePushedUp_HasANegativeRelativePosition`
+- [x] `FindScrollWidgetState_MaxLineCount_IsRespected`
+- [x] `Disabled_PublishesNull`
+- [x] `Reveal_WithStickyScroll_KeepsMaxLineCountLinesAbove` (`RevealCalculator`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Architecture tests green (the feature folder has a README and is listed in `EditorFeatures.cs`)
-- [ ] `docs/PORTING.md`: `stickyScrollController.ts` (🔶), `viewLines.ts` reveal row; the `Layout/RevealCalculator.cs` rows of the cut point
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Architecture tests green (the feature folder has a README and is listed in `EditorFeatures.cs`)
+- [x] `docs/PORTING.md`: `stickyScrollController.ts` (🔶), `viewLines.ts` reveal row; the `Layout/RevealCalculator.cs` rows of the cut point
       tables are resolved
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
