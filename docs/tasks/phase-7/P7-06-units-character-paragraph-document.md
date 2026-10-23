@@ -1,6 +1,6 @@
 # P7-06 — Text units: character, paragraph, document
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-05
 - **Size:** M
 
@@ -53,7 +53,7 @@ None (specified in `docs/tasks/phase-7/README.md` §4). Grapheme helpers: `LoomE
 
 (Use `AutomationTestHelpers.WithDocument`; `S` = `StartAtOrBefore`, `P` = `PreviousStart`, `N` = `NextStartStrict`, `NS` = `NextStart`)
 
-- [ ] New (`CharacterUnitStartsTests`): `S_InsideALine_IsThePositionItself` (`"abc"`, `(1,2)` → `(1,2)`), `N_InsideALine_IsTheNextColumn`, `P_InsideALine_IsThePreviousColumn`,
+- [x] New (`CharacterUnitStartsTests`): `S_InsideALine_IsThePositionItself` (`"abc"`, `(1,2)` → `(1,2)`), `N_InsideALine_IsTheNextColumn`, `P_InsideALine_IsThePreviousColumn`,
       `N_LastCharacterOfALine_IsTheLineBreak` (`"ab\ncd"`, `(1,2)` → `(1,3)`), `N_AtTheLineBreak_IsTheNextLineStart` (`(1,3)` → `(2,1)`), `P_AtLineStart_IsThePreviousLineBreak` (`(2,1)` → `(1,3)`),
       `S_AtTheEndOfTheLastLine_IsTheLastCharacter` (`"ab\ncd"`, `(2,3)` → `(2,2)`), `N_AtTheEndOfTheLastLine_IsNull`, `NS_AtTheEndOfTheLastLine_IsDocumentEnd`,
       `P_AtDocumentStart_IsNull`, `S_AtDocumentStart_IsDocumentStart`, `EmptyDocument_StartIsDocumentStart_NextIsNull`,
@@ -61,16 +61,16 @@ None (specified in `docs/tasks/phase-7/README.md` §4). Grapheme helpers: `LoomE
       `S((2,1)) = (1,2)`),
       `SurrogatePair_IsOneCharacter` (`"a😀b"`: `N((1,2)) = (1,4)`, `P((1,4)) = (1,2)`, `S((1,3)) = (1,2)`),
       `Grapheme_CombiningMark_IsOneCharacter` (`"éx"`: `N((1,1)) = (1,3)`), `Crlf_Model_HasNoSeparateCarriageReturn` (model `"a\r\nb"`: `N((1,1)) = (1,2)`, `N((1,2)) = (2,1)`)
-- [ ] New (`ParagraphUnitStartsTests`): `S_IsTheLineStart`, `P_MidLine_IsTheLineStart`, `P_AtLineStart_IsThePreviousLineStart`, `P_AtDocumentStart_IsNull`, `N_IsTheNextLineStart`,
+- [x] New (`ParagraphUnitStartsTests`): `S_IsTheLineStart`, `P_MidLine_IsTheLineStart`, `P_AtLineStart_IsThePreviousLineStart`, `P_AtDocumentStart_IsNull`, `N_IsTheNextLineStart`,
       `N_OnTheLastLine_IsNull`, `NS_OnTheLastLine_IsDocumentEnd`, `WrappedLine_IsOneParagraph` (word wrap on, a wrapped model line: `N` of a position in its second view line is the next *model* line)
-- [ ] New (`DocumentUnitStartsTests`): `S_Anywhere_IsDocumentStart`, `P_AtDocumentStart_IsNull`, `P_Elsewhere_IsDocumentStart`, `N_Anywhere_IsNull`, `NS_Anywhere_IsDocumentEnd`
-- [ ] New (`AutomationUnitStartsTests`): `Create_Word_NotSupportedYet` (removed by P7-07), `Create_UndefinedUnit_Throws`
+- [x] New (`DocumentUnitStartsTests`): `S_Anywhere_IsDocumentStart`, `P_AtDocumentStart_IsNull`, `P_Elsewhere_IsDocumentStart`, `N_Anywhere_IsNull`, `NS_Anywhere_IsDocumentEnd`
+- [x] New (`AutomationUnitStartsTests`): `Create_Word_NotSupportedYet` (removed by P7-07), `Create_UndefinedUnit_Throws`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
