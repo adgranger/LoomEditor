@@ -35,4 +35,43 @@ public sealed class ViewModelAccessibilityWrappingTests
                 viewModel.ViewLayoutOptions);
             Assert.Equal(2, viewModel.GetLineCount());
         }, Options(AccessibilitySupport.Disabled));
+
+    private static string LongLine() => string.Concat(Enumerable.Repeat("aaaaaaaaa ", 30));
+
+    private static TestCodeEditorOptions ForcedOptions(AccessibilitySupport setting) => new(
+        Wrapping: new EditorWrappingOptions { WordWrap = WordWrap.Off },
+        Accessibility: new EditorAccessibilityOptions { Setting = setting });
+
+    [Fact]
+    public void SetIsDominatedByLongLines_InScreenReaderMode_WrapsTheLines() =>
+        TestCodeEditor.WithTestCodeEditor(LongLine(), editor =>
+        {
+            ViewModel viewModel = editor.ViewModel;
+            Assert.Equal(1, viewModel.GetLineCount());
+            viewModel.SetIsDominatedByLongLines(true);
+            Assert.True(viewModel.IsDominatedByLongLines);
+            Assert.True(viewModel.GetLineCount() > 1);
+            viewModel.SetIsDominatedByLongLines(false);
+            Assert.Equal(1, viewModel.GetLineCount());
+        }, ForcedOptions(AccessibilitySupport.Enabled));
+
+    [Fact]
+    public void SetIsDominatedByLongLines_SettingDisabled_DoesNotWrap() =>
+        TestCodeEditor.WithTestCodeEditor(LongLine(), editor =>
+        {
+            editor.ViewModel.SetIsDominatedByLongLines(true);
+            Assert.Equal(1, editor.ViewModel.GetLineCount());
+        }, ForcedOptions(AccessibilitySupport.Disabled));
+
+    [Fact]
+    public void SetIsDominatedByLongLines_SameValue_DoesNotRecompute() =>
+        TestCodeEditor.WithTestCodeEditor(LongLine(), editor =>
+        {
+            ViewModel viewModel = editor.ViewModel;
+            viewModel.SetIsDominatedByLongLines(true);
+            int count = 0;
+            viewModel.LayoutInfoChanged += (_, _) => count++;
+            viewModel.SetIsDominatedByLongLines(true);
+            Assert.Equal(0, count);
+        }, ForcedOptions(AccessibilitySupport.Enabled));
 }

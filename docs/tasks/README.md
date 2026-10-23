@@ -665,7 +665,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P7-01](phase-7/P7-01-accessibility-options.md) | Accessibility options and the effective wrapping indent | P6-63 | done |
 | [P7-02](phase-7/P7-02-model-dominated-by-long-lines.md) | `TextModel.IsDominatedByLongLines` | P7-01 | done |
-| [P7-03](phase-7/P7-03-layout-forced-wrapping.md) | Layout: force viewport wrapping for long-line models in screen reader mode | P7-02 | todo |
+| [P7-03](phase-7/P7-03-layout-forced-wrapping.md) | Layout: force viewport wrapping for long-line models in screen reader mode | P7-02 | done |
 | [P7-04](phase-7/P7-04-control-accessibility-support.md) | The control: `AccessibilitySupport` and screen reader detection | P7-03 | todo |
 
 ### Step B — The UIA text model (`LoomEditor.View/Accessibility/`)

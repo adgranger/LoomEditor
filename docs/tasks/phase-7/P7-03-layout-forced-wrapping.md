@@ -1,6 +1,6 @@
 # P7-03 — Layout: force viewport wrapping for long-line models in screen reader mode
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-02
 - **Size:** S
 
@@ -42,23 +42,23 @@ In screen reader mode, a model dominated by very long lines wraps at the viewpor
 
 ## Tests
 
-- [ ] New (`EditorLayoutInfoComputerAccessibilityTests`): compute `on` = layout with `WordWrap.On` (Accessibility off, not dominated) once, then:
+- [x] New (`EditorLayoutInfoComputerAccessibilityTests`): compute `on` = layout with `WordWrap.On` (Accessibility off, not dominated) once, then:
       `ForcedWrapping_EnabledAndDominated_WrapsAtTheViewportEvenWhenWordWrapIsOff` (`IsViewportWrapping` true, `WrappingColumn == on.WrappingColumn`),
       `ForcedWrapping_EnabledButNotDominated_DoesNotWrap` (`IsViewportWrapping` false, `WrappingColumn == -1`),
       `ForcedWrapping_DisabledAndDominated_DoesNotWrap` (`Setting = Disabled`),
       `ForcedWrapping_DetectedEnabledWithAutoSetting_Wraps` (`Setting = Unknown`, `Detected = Enabled`),
       `ForcedWrapping_BeatsWordWrapColumn` (`WordWrap.WordWrapColumn`, column 50 → `WrappingColumn == on.WrappingColumn`),
       `ForcedWrapping_BoundedStillTakesTheMinimum` (`Bounded`, column 5 → `WrappingColumn == 5`)
-- [ ] New (`ViewModelAccessibilityWrappingTests`): `SetIsDominatedByLongLines_InScreenReaderMode_WrapsTheLines` (text: one line of 300 `a` separated by a space every 10, viewport 100 wide,
+- [x] New (`ViewModelAccessibilityWrappingTests`): `SetIsDominatedByLongLines_InScreenReaderMode_WrapsTheLines` (text: one line of 300 `a` separated by a space every 10, viewport 100 wide,
       accessibility `Setting = Enabled`; before the call the view line count is 1, after it is greater than 1; after `SetIsDominatedByLongLines(false)` it is 1 again),
       `SetIsDominatedByLongLines_SettingDisabled_DoesNotWrap`, `SetIsDominatedByLongLines_SameValue_DoesNotRecompute` (the `LayoutInfoChanged` event count does not grow)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: "Behavior differences" row of the layout updated (the accessibility row is now "ported except `isWordWrapMinified`, which nothing reads"); the cut point "Accessibility-driven wrapping" says "done (P7-01, P7-03); control wiring P7-04"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: "Behavior differences" row of the layout updated (the accessibility row is now "ported except `isWordWrapMinified`, which nothing reads"); the cut point "Accessibility-driven wrapping" says "done (P7-01, P7-03); control wiring P7-04"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

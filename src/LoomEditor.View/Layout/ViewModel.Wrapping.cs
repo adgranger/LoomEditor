@@ -7,6 +7,23 @@ namespace LoomEditor.View.Layout;
 
 internal sealed partial class ViewModel
 {
+    /// <summary>Whether the model is dominated by very long lines (fed by the control; see <see cref="SetIsDominatedByLongLines"/>).</summary>
+    public bool IsDominatedByLongLines => _isDominatedByLongLines;
+
+    /// <summary>Monaco: <c>EditorConfiguration.setIsDominatedByLongLines</c>. In screen reader mode it forces viewport wrapping.</summary>
+    public void SetIsDominatedByLongLines(bool value)
+    {
+        if (_isDominatedByLongLines == value)
+        {
+            return;
+        }
+
+        _isDominatedByLongLines = value;
+        RecomputeLayoutInfo();
+        UpdateWrappingSettings();
+        UpdateCursorConfiguration();
+    }
+
     // Monaco: _onConfigurationChanged (the setWrappingSettings block; _updateConfigurationViewLineCount is not ported)
     private void UpdateWrappingSettings()
     {
