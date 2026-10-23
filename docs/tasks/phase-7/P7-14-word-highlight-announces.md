@@ -1,6 +1,6 @@
 # P7-14 — Word highlight navigation announces the occurrence
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-13
 - **Size:** S
 
@@ -31,18 +31,18 @@ F7 / Shift+F7 (next / previous occurrence of the word under the cursor) announce
 
 ## Tests
 
-- [ ] New: `MoveNext_AnnouncesLineAndPosition` (text `"foo bar\nfoo baz"`, cursor on the first `foo`, highlights computed, `MoveNext` → the cursor is on line 2 and the message is `"foo baz, 2 of 2 for 'foo'"`; use the scheduler the existing tests use to run the highlight work)
-- [ ] New: `MoveBack_Wraps_AnnouncesTheLastOccurrence` (from the first of 3 occurrences → `"…, 3 of 3 for 'foo'"`)
-- [ ] New: `MoveNext_NoWordAtThePosition_AnnouncesNothing` (if the highlights exist but the new position has no word: only if constructible; otherwise omit and say so in the commit body)
-- [ ] New: `MoveNext_WithoutAnnouncer_Works` (the default constructor path)
-- [ ] New: `Feature_AnnouncesThroughTheContextAnnouncer` (attach `WordHighlighterFeature`, then assign the recorder to `EditorContext.Announcer`, then `MoveNext` → the recorder gets the message)
-- [ ] Existing word highlighter and find announcement tests still pass
+- [x] New: `MoveNext_AnnouncesLineAndPosition` (text `"foo bar\nfoo baz"`, cursor on the first `foo`, highlights computed, `MoveNext` → the cursor is on line 2 and the message is `"foo baz, 2 of 2 for 'foo'"`; use the scheduler the existing tests use to run the highlight work)
+- [x] New: `MoveBack_Wraps_AnnouncesTheLastOccurrence` (from the first of 3 occurrences → `"…, 3 of 3 for 'foo'"`)
+- [x] New: `MoveNext_NoWordAtThePosition_AnnouncesNothing` (if the highlights exist but the new position has no word: only if constructible; otherwise omit and say so in the commit body)
+- [x] New: `MoveNext_WithoutAnnouncer_Works` (the default constructor path)
+- [x] New: `Feature_AnnouncesThroughTheContextAnnouncer` (attach `WordHighlighterFeature`, then assign the recorder to `EditorContext.Announcer`, then `MoveNext` → the recorder gets the message)
+- [x] Existing word highlighter and find announcement tests still pass
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
