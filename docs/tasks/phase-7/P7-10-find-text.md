@@ -1,6 +1,6 @@
 # P7-10 — Find text in a range
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-09
 - **Size:** S
 
@@ -33,18 +33,18 @@ None (specified in `docs/tasks/phase-7/README.md` §4, `FindText`). The editor's
 
 ## Tests
 
-- [ ] New (`PositionAfter`): `PositionAfter_InsideTheLine`, `PositionAfter_AcrossTheLineBreak` (`"ab\ncd"`, from `(1,2)` offset 2 → `(2,1)`), `PositionAfter_CrlfModelCountsTheBreakAsOne` (model `"ab\r\ncd"`, from `(1,1)` offset 3 → `(2,1)`),
+- [x] New (`PositionAfter`): `PositionAfter_InsideTheLine`, `PositionAfter_AcrossTheLineBreak` (`"ab\ncd"`, from `(1,2)` offset 2 → `(2,1)`), `PositionAfter_CrlfModelCountsTheBreakAsOne` (model `"ab\r\ncd"`, from `(1,1)` offset 3 → `(2,1)`),
       `PositionAfter_PastTheEnd_IsDocumentEnd`, `PositionAfter_ZeroOffset_IsTheStart`, `PositionAfter_NegativeOffset_Throws`
-- [ ] New (`FindText`): `FindText_Forward_ReturnsTheFirstMatch` (`"abc abc"`, `"abc"` → `[(1,1),(1,4))`), `FindText_Backward_ReturnsTheLastMatch` (→ `[(1,5),(1,8))`),
+- [x] New (`FindText`): `FindText_Forward_ReturnsTheFirstMatch` (`"abc abc"`, `"abc"` → `[(1,1),(1,4))`), `FindText_Backward_ReturnsTheLastMatch` (→ `[(1,5),(1,8))`),
       `FindText_IgnoreCase`, `FindText_CaseSensitive_NoMatch_ReturnsNull`, `FindText_Empty_ReturnsNull`, `FindText_OnlyInsideTheRange` (range `[(1,1),(1,4))` of `"abc abc"` does not see the second match),
       `FindText_AcrossLines` (`"a\nb"`, text `"a\nb"` → the whole document), `FindText_Crlf_SearchTextWithCarriageReturn_ReturnsNull`, `FindText_DoesNotChangeTheRange`,
       `FindText_Unicode_Ordinal` (`"日本語"`), `FindText_SurrogatePair` (`"a😀b"`, `"😀"` → `[(1,2),(1,4))`), `FindText_Null_Throws`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

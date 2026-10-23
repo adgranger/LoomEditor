@@ -36,6 +36,36 @@ internal sealed class AutomationTextDocument
     public Position Validate(Position position) => Model.ValidatePosition(position);
 
     /// <summary>
+    /// The position reached by walking <paramref name="textOffset"/> UTF-16 units of the LF-joined text from <paramref name="start"/>
+    /// (a line break counts as one unit); an offset past the end gives <see cref="DocumentEnd"/>.
+    /// </summary>
+    public Position PositionAfter(Position start, int textOffset)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(textOffset);
+        start = Validate(start);
+        int line = start.LineNumber;
+        int col = start.Column;
+        int remaining = textOffset;
+        while (true)
+        {
+            int available = Model.GetLineMaxColumn(line) - col;
+            if (remaining <= available)
+            {
+                return new Position(line, col + remaining);
+            }
+
+            if (line == Model.LineCount)
+            {
+                return DocumentEnd;
+            }
+
+            remaining -= available + 1;
+            line++;
+            col = 1;
+        }
+    }
+
+    /// <summary>
     /// The text of <paramref name="range"/> with <c>\n</c> line breaks. <paramref name="maxLength"/> is -1 (everything) or a maximum in UTF-16 units;
     /// a cut between the two halves of a surrogate pair drops the high surrogate too.
     /// </summary>

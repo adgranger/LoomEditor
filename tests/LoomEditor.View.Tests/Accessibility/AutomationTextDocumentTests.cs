@@ -48,4 +48,28 @@ public class AutomationTextDocumentTests
     [Fact]
     public void GetText_MaxLengthBelowMinusOne_Throws() =>
         AutomationTestHelpers.WithDocument("abc", d => Assert.Throws<ArgumentOutOfRangeException>(() => d.GetText(d.DocumentRange, -2)));
+
+    [Fact]
+    public void PositionAfter_InsideTheLine() =>
+        AutomationTestHelpers.WithDocument("abcdef", d => Assert.Equal(new Position(1, 4), d.PositionAfter(new Position(1, 2), 2)));
+
+    [Fact]
+    public void PositionAfter_AcrossTheLineBreak() =>
+        AutomationTestHelpers.WithDocument("ab\ncd", d => Assert.Equal(new Position(2, 1), d.PositionAfter(new Position(1, 2), 2)));
+
+    [Fact]
+    public void PositionAfter_CrlfModelCountsTheBreakAsOne() =>
+        AutomationTestHelpers.WithDocument("ab\r\ncd", d => Assert.Equal(new Position(2, 1), d.PositionAfter(new Position(1, 1), 3)));
+
+    [Fact]
+    public void PositionAfter_PastTheEnd_IsDocumentEnd() =>
+        AutomationTestHelpers.WithDocument("ab\ncd", d => Assert.Equal(d.DocumentEnd, d.PositionAfter(new Position(1, 1), 99)));
+
+    [Fact]
+    public void PositionAfter_ZeroOffset_IsTheStart() =>
+        AutomationTestHelpers.WithDocument("ab\ncd", d => Assert.Equal(new Position(2, 2), d.PositionAfter(new Position(2, 2), 0)));
+
+    [Fact]
+    public void PositionAfter_NegativeOffset_Throws() =>
+        AutomationTestHelpers.WithDocument("ab", d => Assert.Throws<ArgumentOutOfRangeException>(() => d.PositionAfter(new Position(1, 1), -1)));
 }

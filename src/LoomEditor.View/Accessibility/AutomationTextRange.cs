@@ -59,5 +59,29 @@ internal sealed partial class AutomationTextRange
 
     public string GetText(int maxLength = -1) => Document.GetText(Range, maxLength);
 
+    /// <summary>
+    /// Finds <paramref name="text"/> (ordinal) inside the range, first match going forward or last going backward;
+    /// returns a new range over the match, or <see langword="null"/> (also for an empty text).
+    /// </summary>
+    public AutomationTextRange? FindText(string text, bool backward, bool ignoreCase)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        if (text.Length == 0)
+        {
+            return null;
+        }
+
+        string content = GetText();
+        StringComparison comparison = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        int index = backward ? content.LastIndexOf(text, comparison) : content.IndexOf(text, comparison);
+        if (index < 0)
+        {
+            return null;
+        }
+
+        Position start = Range.Start;
+        return new AutomationTextRange(Document, new Range(Document.PositionAfter(start, index), Document.PositionAfter(start, index + text.Length)));
+    }
+
     private Position Get(AutomationTextEndpoint endpoint) => endpoint == AutomationTextEndpoint.Start ? Range.Start : Range.End;
 }
