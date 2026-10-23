@@ -1,6 +1,6 @@
 # P7-02 — `TextModel.IsDominatedByLongLines`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-01
 - **Size:** S
 
@@ -32,21 +32,21 @@ force word wrap in screen reader mode.
 
 ## Tests
 
-- [ ] New: `IsDominatedByLongLines_EmptyModel_ReturnsFalse`
-- [ ] New: `IsDominatedByLongLines_ShortLinesOnly_ReturnsFalse`
-- [ ] New: `IsDominatedByLongLines_OneLongLineAndLittleElse_ReturnsTrue` (a line of 10 000 `a` and five lines of `"short"`)
-- [ ] New: `IsDominatedByLongLines_LineOfExactlyTheBoundary_CountsAsLong` (10 000 characters → long; 9 999 → not long, with no other text)
-- [ ] New: `IsDominatedByLongLines_LongAndShortCharactersEqual_ReturnsFalse` (strict `>`: a 10 000-character line plus ten lines of 1 000 characters)
-- [ ] New: `IsDominatedByLongLines_ManyShortCharsOutweighOneLongLine_ReturnsFalse` (a 10 000-character line plus twenty lines of 1 000 characters)
-- [ ] New: `IsDominatedByLongLines_TooLargeForTokenization_ReturnsFalse` (only if a model can be made "too large" cheaply in tests: look at how `IsTooLargeForTokenization` is
+- [x] New: `IsDominatedByLongLines_EmptyModel_ReturnsFalse`
+- [x] New: `IsDominatedByLongLines_ShortLinesOnly_ReturnsFalse`
+- [x] New: `IsDominatedByLongLines_OneLongLineAndLittleElse_ReturnsTrue` (a line of 10 000 `a` and five lines of `"short"`)
+- [x] New: `IsDominatedByLongLines_LineOfExactlyTheBoundary_CountsAsLong` (10 000 characters → long; 9 999 → not long, with no other text)
+- [x] New: `IsDominatedByLongLines_LongAndShortCharactersEqual_ReturnsFalse` (strict `>`: a 10 000-character line plus ten lines of 1 000 characters)
+- [x] New: `IsDominatedByLongLines_ManyShortCharsOutweighOneLongLine_ReturnsFalse` (a 10 000-character line plus twenty lines of 1 000 characters)
+- [x] New: `IsDominatedByLongLines_TooLargeForTokenization_ReturnsFalse` (only if a model can be made "too large" cheaply in tests: look at how `IsTooLargeForTokenization` is
       tested; if that needs a huge text, skip this test and say so in the commit body)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
