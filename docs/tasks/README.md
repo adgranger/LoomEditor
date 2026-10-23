@@ -704,7 +704,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P7-20](phase-7/P7-20-contrast-ratio.md) | Contrast ratio helper and the contrast of the bundled themes | P7-19 | done |
 | [P7-21](phase-7/P7-21-selection-foreground.md) | High contrast: the selected text color (`editor.selectionForeground`) | P7-20 | done |
-| [P7-22](phase-7/P7-22-system-high-contrast-theme.md) | The Windows system high contrast theme | P7-21 | todo |
+| [P7-22](phase-7/P7-22-system-high-contrast-theme.md) | The Windows system high contrast theme | P7-21 | done |
 | [P7-23](phase-7/P7-23-control-follows-high-contrast.md) | The control follows Windows high contrast | P7-22 | todo |
 
 ### Step F — Prove it and close the phase

@@ -1,6 +1,6 @@
 # P7-22 — The Windows system high contrast theme (`SystemHighContrastThemeFactory`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-21
 - **Size:** M
 
@@ -68,19 +68,19 @@ Windows' system color meanings: Window (background), WindowText (text), Highligh
 **White** — Window `#FFFFFF`, WindowText `#000000`, Highlight `#37006E`, HighlightText `#FFFFFF`, GrayText `#600000`, Hotlight `#00009F`, ButtonFace `#FFFFFF`, ButtonText `#000000`;
 **Custom** — Window `#000080`, WindowText `#FFFF00`, Highlight `#FFFFFF`, HighlightText `#000080`, GrayText `#C0C0C0`, Hotlight `#00FFFF`, ButtonFace `#000080`, ButtonText `#FFFF00`. They are samples, not a claim about Microsoft's exact scheme values.)
 
-- [ ] New: `Create_DarkPalette_IsHighContrastDark` (Black and Custom), `Create_LightPalette_IsHighContrastLight` (White), `Create_UsesTheGivenName`, `Create_DefaultName_IsWindowsHighContrast`
-- [ ] New: `Create_MapsTheEditorColors` (theory over the 3 palettes: `Background == Window`, `Foreground == WindowText`, `SelectionBackground == Highlight`, `SelectionForeground == HighlightText`, `CursorForeground == WindowText`,
+- [x] New: `Create_DarkPalette_IsHighContrastDark` (Black and Custom), `Create_LightPalette_IsHighContrastLight` (White), `Create_UsesTheGivenName`, `Create_DefaultName_IsWindowsHighContrast`
+- [x] New: `Create_MapsTheEditorColors` (theory over the 3 palettes: `Background == Window`, `Foreground == WindowText`, `SelectionBackground == Highlight`, `SelectionForeground == HighlightText`, `CursorForeground == WindowText`,
       `LineNumberForeground == WindowText`, `LineHighlightBorder == Hotlight`)
-- [ ] New: `Create_Palette_MeetsWcagAaa_ForTextAndSelection` (theory: `ContrastRatio.Between(Foreground, Background) >= 7` and `ContrastRatio.Between(SelectionForeground!.Value, SelectionBackground) >= 4.5` for the 3 palettes; if a sample fails, fix the sample, not the factory)
-- [ ] New: `Create_CommentTokens_UseGrayText_Italic`, `Create_KeywordTokens_AreBold`, `Create_LinkTokens_UseHotlightUnderlined` (find the rule by scope in `theme.TokenColors`; `FontStyle` strings `italic`, `bold`, `underline`), `Create_DefaultRule_HasWindowTextOnWindow` (`TokenColors[0]`: `Foreground == WindowText`, `Background == Window`)
-- [ ] New: `Create_IgnoresTheAlphaOfTheInput` (colors with `A = 0x20` give the same theme colors as opaque ones)
-- [ ] New: `Create_WidgetColors_AreResolved` (`theme.GetColor("editorWidget.background") == ButtonFace`, `GetColor("focusBorder") == Hotlight`, `GetColor("input.border") == WindowText`)
+- [x] New: `Create_Palette_MeetsWcagAaa_ForTextAndSelection` (theory: `ContrastRatio.Between(Foreground, Background) >= 7` and `ContrastRatio.Between(SelectionForeground!.Value, SelectionBackground) >= 4.5` for the 3 palettes; if a sample fails, fix the sample, not the factory)
+- [x] New: `Create_CommentTokens_UseGrayText_Italic`, `Create_KeywordTokens_AreBold`, `Create_LinkTokens_UseHotlightUnderlined` (find the rule by scope in `theme.TokenColors`; `FontStyle` strings `italic`, `bold`, `underline`), `Create_DefaultRule_HasWindowTextOnWindow` (`TokenColors[0]`: `Foreground == WindowText`, `Background == Window`)
+- [x] New: `Create_IgnoresTheAlphaOfTheInput` (colors with `A = 0x20` give the same theme colors as opaque ones)
+- [x] New: `Create_WidgetColors_AreResolved` (`theme.GetColor("editorWidget.background") == ButtonFace`, `GetColor("focusBorder") == Hotlight`, `GetColor("input.border") == WindowText`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
