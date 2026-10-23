@@ -1,6 +1,7 @@
 // Inspired by microsoft/vscode: src/vs/editor/contrib/find/browser/findController.ts (CommonFindController)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Layout;
 
@@ -31,7 +32,7 @@ public sealed class FindFeature : IEditorFeature
             return;
         }
 
-        FindController controller = new(viewModel, context.Scheduler);
+        FindController controller = new(viewModel, context.Scheduler) { Announcer = new ContextAnnouncer(context) };
         _controller = controller;
         _editorContext = (EditorContext)context;
         _editorContext.FindController = controller;

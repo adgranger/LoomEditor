@@ -5,11 +5,11 @@
     xmlns:loom="using:LoomEditor.WinUI.Controls"
     Title="LoomEditor Gallery">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto">
         <TextBlock
             Margin="12,8"
             Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="LoomEditor — phase 6: view extras" />
+            Text="LoomEditor — phase 7: accessibility" />
         <StackPanel Grid.Row="1" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
             <Button Click="OnInsertHeader" Content="Insert header" />
             <Button Click="OnAppendLine" Content="Append line" />
@@ -56,7 +56,23 @@
             <ComboBox x:Name="FeatureSampleBox" Header="Features" MinWidth="220" SelectionChanged="OnFeatureSampleChanged" />
             <TextBlock x:Name="FeatureHintText" VerticalAlignment="Bottom" Style="{StaticResource CaptionTextBlockStyle}" />
         </StackPanel>
-        <loom:LoomEditor x:Name="Editor" Grid.Row="5" />
-        <TextBlock x:Name="StatusText" Grid.Row="6" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
+        <StackPanel Grid.Row="5" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
+            <ComboBox x:Name="ScreenReaderBox" Header="Screen reader mode" SelectedIndex="0" SelectionChanged="OnScreenReaderChanged">
+                <ComboBoxItem Content="Auto" />
+                <ComboBoxItem Content="On" />
+                <ComboBoxItem Content="Off" />
+            </ComboBox>
+            <ToggleSwitch x:Name="TabFocusSwitch" Toggled="OnTabFocusToggled" OffContent="Tab moves focus" OnContent="Tab moves focus" />
+            <ToggleSwitch x:Name="SystemHighContrastSwitch" IsOn="True" Toggled="OnSystemHighContrastToggled" OffContent="Follow system high contrast" OnContent="Follow system high contrast" />
+            <Button Click="OnLongLineSample" Content="Long-line sample" VerticalAlignment="Bottom" />
+            <Button Click="OnUiaSelfCheck" Content="UIA self-check" VerticalAlignment="Bottom" />
+        </StackPanel>
+        <Grid Grid.Row="6" RowDefinitions="*,Auto">
+            <loom:LoomEditor x:Name="Editor" />
+            <ScrollViewer Grid.Row="1" MaxHeight="160" Visibility="Collapsed" x:Name="SelfCheckScroll">
+                <TextBlock x:Name="SelfCheckText" Margin="12,4" FontFamily="Cascadia Mono" FontSize="12" IsTextSelectionEnabled="True" />
+            </ScrollViewer>
+        </Grid>
+        <TextBlock x:Name="StatusText" Grid.Row="7" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
     </Grid>
 </Window>

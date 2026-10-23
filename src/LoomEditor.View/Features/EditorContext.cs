@@ -6,6 +6,7 @@ using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.TextMate.Tokenization;
 using LoomEditor.Core.Tokens;
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Events;
@@ -116,6 +117,28 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <summary>The find controller, set by <c>FindFeature</c> while it is attached (Monaco: <c>CommonFindController.get(editor)</c>).</summary>
     internal FindController? FindController { get; set; }
+
+    /// <summary>Announces messages to assistive technology; assigned by the control (P7-19).</summary>
+    internal IEditorAnnouncer Announcer { get; set; } = NullEditorAnnouncer.Instance;
+
+    /// <summary>Whether Tab and Shift+Tab move the keyboard focus instead of indenting (Monaco: <c>TabFocus.getTabFocusMode()</c>). Per editor.</summary>
+    internal bool TabMovesFocus
+    {
+        get => _tabMovesFocus;
+        set
+        {
+            if (_tabMovesFocus != value)
+            {
+                _tabMovesFocus = value;
+                TabMovesFocusChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>Raised when <see cref="TabMovesFocus"/> really changes.</summary>
+    internal event EventHandler? TabMovesFocusChanged;
+
+    private bool _tabMovesFocus;
 
     /// <summary>The folding feature, set by <c>FoldingFeature</c> while it is attached (Monaco: <c>FoldingController.get(editor)</c>).</summary>
     internal FoldingFeature? FoldingFeature { get; set; }

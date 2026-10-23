@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
 
 namespace LoomEditor.View.Commands;
@@ -154,6 +155,9 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl, KeyCode.BracketLeft, "editor.action.outdentLines", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.Enter, "editor.action.insertLineBefore", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.Enter, "editor.action.insertLineAfter", WhenClauses.WritableEditorTextFocus, KeybindingWeight.EditorContrib);
+
+        // toggleTabFocusMode.ts: no kbExpr
+        Add(KeyModifiers.Ctrl, KeyCode.KeyM, TabFocusCommands.ToggleTabFocusMode, null, KeybindingWeight.EditorContrib);
 
         // clipboard.ts (Contrib): no when. Windows overrides cut and copy with a secondary key; paste has Shift+Insert only on Linux.
         Add(KeyModifiers.Ctrl, KeyCode.KeyX, ClipboardCut, null, KeybindingWeight.EditorContrib);

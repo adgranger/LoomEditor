@@ -179,4 +179,17 @@ public class EditorColorDefaultsTests
     {
         Assert.Equal(expected, ThemeTypes.FromUiTheme(uiTheme));
     }
+
+    // Monaco: editorColors.ts:125
+    [Fact]
+    public void SelectionForeground_Dark_HasNoDefault() => Assert.Null(Default("editor.selectionForeground", ThemeType.Dark));
+
+    [Fact]
+    public void SelectionForeground_Light_HasNoDefault() => Assert.Null(Default("editor.selectionForeground", ThemeType.Light));
+
+    [Fact]
+    public void SelectionForeground_HcDark_IsBlack() => Assert.Equal("#000000FF", Default("editor.selectionForeground", ThemeType.HighContrastDark));
+
+    [Fact]
+    public void SelectionForeground_HcLight_IsWhite() => Assert.Equal("#FFFFFFFF", Default("editor.selectionForeground", ThemeType.HighContrastLight));
 }

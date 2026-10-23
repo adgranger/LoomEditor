@@ -68,6 +68,7 @@ public sealed record EditorTheme
             FoldingControlForeground = theme.GetColor("editorGutter.foldingControlForeground"),
             CursorForeground = Color("editorCursor.foreground"),
             SelectionBackground = Color("editor.selectionBackground"),
+            SelectionForeground = theme.GetColor("editor.selectionForeground"),
             CompositionBorder = Color("editor.compositionBorder"),
         };
     }
@@ -126,6 +127,9 @@ public sealed record EditorTheme
 
     /// <summary>Background of selected text (<c>editor.selectionBackground</c>).</summary>
     public ThemeColor SelectionBackground { get; init; }
+
+    /// <summary>Color of selected text (<c>editor.selectionForeground</c>); only the high contrast themes have one by default.</summary>
+    public ThemeColor? SelectionForeground { get; init; }
 
     /// <summary>Underline of the text being composed with an IME (<c>editor.compositionBorder</c>); defaults to white.</summary>
     public ThemeColor CompositionBorder { get; init; } = ThemeColor.Parse("#FFFFFF");

@@ -6,7 +6,7 @@ namespace LoomEditor.View.Layout;
 /// <summary>Measurements the layout depends on. Monaco: <c>EditorLayoutInfoComputerEnv</c>.</summary>
 /// <remarks>
 /// Threading: immutable, safe from any thread, except that <c>Memory</c> is mutated by the layout computation.
-/// Not ported: <c>isDominatedByLongLines</c> (accessibility). <c>scrollBeyondLastLine</c> and the padding are read from the
+/// <c>scrollBeyondLastLine</c> and the padding are read from the
 /// environment because <see cref="EditorLayoutOptions"/> has neither.
 /// </remarks>
 internal sealed record EditorLayoutInfoComputerEnv(
@@ -22,12 +22,13 @@ internal sealed record EditorLayoutInfoComputerEnv(
     ComputeOptionsMemory? Memory = null,
     bool ScrollBeyondLastLine = false,
     int PaddingTop = 0,
-    int PaddingBottom = 0);
+    int PaddingBottom = 0,
+    bool IsDominatedByLongLines = false);
 
 /// <summary>Monaco: <c>EditorLayoutInfoComputer.computeLayout</c>.</summary>
 /// <remarks>
-/// Threading: stateless, safe from any thread. Behavior differences: accessibility
-/// ("dominated by long lines", <c>isWordWrapMinified</c>) is not ported (phase 7).
+/// Threading: stateless, safe from any thread. Behavior differences: accessibility is ported except
+/// <c>isWordWrapMinified</c>, which nothing reads.
 /// </remarks>
 internal static partial class EditorLayoutInfoComputer
 {
@@ -71,8 +72,21 @@ internal static partial class EditorLayoutInfoComputer
 
         int remainingWidth = outerWidth - glyphMarginWidth - lineNumbersWidth - lineDecorationsWidth;
 
-        bool isViewportWrapping = options.Wrapping.WordWrap is WordWrap.On or WordWrap.Bounded;
-        int wrappingColumn = options.Wrapping.WordWrap == WordWrap.WordWrapColumn ? options.Wrapping.WordWrapColumn : -1;
+        bool isViewportWrapping = false;
+        int wrappingColumn = -1;
+        if (options.Accessibility.IsEnabled && env.IsDominatedByLongLines)
+        {
+            // screen reader mode: wrap long-line models at the viewport whatever the setting is
+            isViewportWrapping = true;
+        }
+        else if (options.Wrapping.WordWrap is WordWrap.On or WordWrap.Bounded)
+        {
+            isViewportWrapping = true;
+        }
+        else if (options.Wrapping.WordWrap == WordWrap.WordWrapColumn)
+        {
+            wrappingColumn = options.Wrapping.WordWrapColumn;
+        }
 
         EditorMinimapLayoutInfo minimapLayout = ComputeMinimapLayout(
             new MinimapLayoutInput(

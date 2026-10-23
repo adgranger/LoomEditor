@@ -1,4 +1,5 @@
 using LoomEditor.Themes;
+using LoomEditor.Themes.HighContrast;
 
 namespace LoomEditor.TextMate.Tests.Themes;
 
@@ -49,5 +50,27 @@ public class BuiltInThemesTests
         IReadOnlyList<ThemeColor> map = EditorTheme.Dark.TokenColorMap;
         Assert.Same(map, EditorTheme.Dark.TokenColorMap);
         Assert.Contains(EditorTheme.Dark.Foreground, map);
+    }
+
+    private static EditorTheme Named(string name) => EditorTheme.BuiltIn.Single(t => t.Name == name);
+
+    [Fact]
+    public void SelectionForeground_DarkHighContrast_IsBlack() =>
+        Assert.Equal(ThemeColor.Parse("#000000"), Named("Dark High Contrast").SelectionForeground);
+
+    [Fact]
+    public void SelectionForeground_LightHighContrast_IsWhite() =>
+        Assert.Equal(ThemeColor.Parse("#FFFFFF"), Named("Light High Contrast").SelectionForeground);
+
+    [Fact]
+    public void SelectionForeground_DarkModern_IsNull() => Assert.Null(EditorTheme.Dark.SelectionForeground);
+
+    [Theory]
+    [InlineData("Dark High Contrast")]
+    [InlineData("Light High Contrast")]
+    public void HighContrastSelection_ForegroundOnBackground_MeetsAaa(string name)
+    {
+        EditorTheme theme = Named(name);
+        Assert.True(ContrastRatio.Between(theme.SelectionForeground!.Value, theme.SelectionBackground) >= 7);
     }
 }

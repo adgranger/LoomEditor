@@ -652,7 +652,73 @@ P6-52 … P6-54, P6-59 … P6-62 have manual checks for the maintainer.
 
 **Deferred on purpose:** `renderWhitespace`; the word wrap indicator drawing; minimap section headers; the outline model of
 sticky scroll, its click-link gesture and its keyboard navigation (phase 8 / follow-up); the DOM line-break strategy
-(`wrappingStrategy: advanced`); accessibility-driven wrapping (phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
+(`wrappingStrategy: advanced`); accessibility-driven wrapping (done in phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
+
+## Phase 7 — Full UI Automation accessibility
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [phase-7-accessibility.md](../roadmap/phase-7-accessibility.md). Design: [ADR 0010](../adr/0010-accessibility.md).
+**Read [phase-7/README.md](phase-7/README.md) before any phase 7 card** (it also holds the spec of the UIA text units and `Move` rules).
+
+### Step A — Screen reader mode
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P7-01](phase-7/P7-01-accessibility-options.md) | Accessibility options and the effective wrapping indent | P6-63 | done |
+| [P7-02](phase-7/P7-02-model-dominated-by-long-lines.md) | `TextModel.IsDominatedByLongLines` | P7-01 | done |
+| [P7-03](phase-7/P7-03-layout-forced-wrapping.md) | Layout: force viewport wrapping for long-line models in screen reader mode | P7-02 | done |
+| [P7-04](phase-7/P7-04-control-accessibility-support.md) | The control: `AccessibilitySupport` and screen reader detection | P7-03 | done |
+
+### Step B — The UIA text model (`LoomEditor.View/Accessibility/`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P7-05](phase-7/P7-05-automation-text-document.md) | `AutomationTextDocument` and `AutomationTextRange` (text, compare, validate) | P7-04 | done |
+| [P7-06](phase-7/P7-06-units-character-paragraph-document.md) | Text units: character, paragraph, document | P7-05 | done |
+| [P7-07](phase-7/P7-07-unit-word.md) | Text unit: word (and format) | P7-06 | done |
+| [P7-08](phase-7/P7-08-units-line-page.md) | Text units: line (view line) and page | P7-07 | done |
+| [P7-09](phase-7/P7-09-expand-and-move.md) | Expand and move text ranges | P7-08 | done |
+| [P7-10](phase-7/P7-10-find-text.md) | Find text in a range | P7-09 | done |
+| [P7-11](phase-7/P7-11-automation-geometry.md) | Geometry: bounding rectangles, point to position, visible range | P7-10 | done |
+
+### Step C — Announcements, events, tab focus
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P7-12](phase-7/P7-12-announcer-and-messages.md) | `IEditorAnnouncer` and the announcement messages | P7-11 | done |
+| [P7-13](phase-7/P7-13-find-announces-results.md) | Find announces its results | P7-12 | done |
+| [P7-14](phase-7/P7-14-word-highlight-announces.md) | Word highlight navigation announces the occurrence | P7-13 | done |
+| [P7-15](phase-7/P7-15-automation-event-coalescer.md) | `AutomationEventCoalescer`: selection and text change events | P7-14 | done |
+| [P7-16](phase-7/P7-16-tab-focus-mode.md) | Tab focus mode (`Ctrl+M`) and the `TabMovesFocus` property | P7-15 | done |
+
+### Step D — The UIA peer (`LoomEditor.WinUI/Accessibility/`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P7-17](phase-7/P7-17-peer-text-provider.md) | The UIA peer: text and value patterns, read members of the range provider (tracer bullet) | P7-16 | done |
+| [P7-18](phase-7/P7-18-range-provider-navigation.md) | The range provider: navigation, find, selection and scrolling | P7-17 | done |
+| [P7-19](phase-7/P7-19-uia-events-and-notifications.md) | UIA events, notifications and `ITextProvider2` | P7-18 | done |
+
+### Step E — High contrast
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P7-20](phase-7/P7-20-contrast-ratio.md) | Contrast ratio helper and the contrast of the bundled themes | P7-19 | done |
+| [P7-21](phase-7/P7-21-selection-foreground.md) | High contrast: the selected text color (`editor.selectionForeground`) | P7-20 | done |
+| [P7-22](phase-7/P7-22-system-high-contrast-theme.md) | The Windows system high contrast theme | P7-21 | done |
+| [P7-23](phase-7/P7-23-control-follows-high-contrast.md) | The control follows Windows high contrast | P7-22 | done |
+
+### Step F — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P7-24](phase-7/P7-24-gallery-accessibility-demo.md) | Gallery: accessibility switches and the in-process UIA self-check | P7-23 | done |
+| [P7-25](phase-7/P7-25-manual-test-plan.md) | The manual test plan: Narrator, NVDA, Accessibility Insights | P7-24 | done |
+| [P7-26](phase-7/P7-26-close-phase-7.md) | Close phase 7 | all | done |
+
+Take phase 7 cards in table order (each card's "Depends on" is satisfied by the cards above it; step D needs steps B and C, which come first). P7-04, P7-16, P7-17 … P7-19, P7-23 and P7-24 have manual checks for the maintainer.
+
+**Deferred on purpose:** accessibility help dialog, `ariaLabel` / `ariaRole` options, reduced motion, the UIA text edit pattern and annotations, per-token text attributes, the `cursorWordAccessibility*` keybindings,
+localization of announcements, a UIA client based automated test (details in [phase-7/README.md](phase-7/README.md) and [ADR 0010](../adr/0010-accessibility.md)).
 
 ## How to run a card with a coding agent (Claude Code)
 

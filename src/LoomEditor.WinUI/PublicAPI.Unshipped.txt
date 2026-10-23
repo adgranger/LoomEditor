@@ -4,6 +4,10 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(string fullName) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type type) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport.Auto = 0 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport.Off = 2 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport.On = 1 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
 LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.EditorBracketPairGuides.Active = 2 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.EditorBracketPairGuides.Off = 0 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
@@ -25,6 +29,8 @@ LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomEditor
+LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
@@ -57,12 +63,16 @@ LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCount.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCount.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocus.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocus.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.TabSize.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.TabSize.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.Text.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.WinUI.Controls.LoomEditor.Theme.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrast.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrast.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.WordWrap.get -> LoomEditor.WinUI.Controls.EditorWordWrap
 LoomEditor.WinUI.Controls.LoomEditor.WordWrap.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumn.get -> int
@@ -71,6 +81,7 @@ LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.WinUI.Cont
 LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupportProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
@@ -81,8 +92,10 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuidesProperty 
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocusProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrastProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!

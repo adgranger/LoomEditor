@@ -10,6 +10,8 @@ LoomEditor.Themes.EditorTheme.CursorForeground.get -> LoomEditor.Themes.ThemeCol
 LoomEditor.Themes.EditorTheme.CursorForeground.init -> void
 LoomEditor.Themes.EditorTheme.EditorTheme() -> void
 LoomEditor.Themes.EditorTheme.Equals(LoomEditor.Themes.EditorTheme? other) -> bool
+LoomEditor.Themes.EditorTheme.FoldingControlForeground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.EditorTheme.FoldingControlForeground.init -> void
 LoomEditor.Themes.EditorTheme.Foreground.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.Foreground.init -> void
 LoomEditor.Themes.EditorTheme.LineHighlightBackground.get -> LoomEditor.Themes.ThemeColor?
@@ -24,6 +26,8 @@ LoomEditor.Themes.EditorTheme.Name.get -> string!
 LoomEditor.Themes.EditorTheme.Name.init -> void
 LoomEditor.Themes.EditorTheme.SelectionBackground.get -> LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.EditorTheme.SelectionBackground.init -> void
+LoomEditor.Themes.EditorTheme.SelectionForeground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.Themes.EditorTheme.SelectionForeground.init -> void
 LoomEditor.Themes.EditorTheme.TokenColors.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Themes.TokenColorRule!>!
 LoomEditor.Themes.EditorTheme.TokenColors.init -> void
 LoomEditor.Themes.EditorTheme.Type.get -> LoomEditor.Themes.ThemeType
@@ -79,5 +83,3 @@ static LoomEditor.Themes.ThemeColor.operator ==(LoomEditor.Themes.ThemeColor lef
 static LoomEditor.Themes.ThemeColor.Parse(string! hex) -> LoomEditor.Themes.ThemeColor
 static LoomEditor.Themes.TokenColorRule.operator !=(LoomEditor.Themes.TokenColorRule? left, LoomEditor.Themes.TokenColorRule? right) -> bool
 static LoomEditor.Themes.TokenColorRule.operator ==(LoomEditor.Themes.TokenColorRule? left, LoomEditor.Themes.TokenColorRule? right) -> bool
-LoomEditor.Themes.EditorTheme.FoldingControlForeground.get -> LoomEditor.Themes.ThemeColor?
-LoomEditor.Themes.EditorTheme.FoldingControlForeground.init -> void

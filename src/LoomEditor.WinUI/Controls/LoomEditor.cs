@@ -91,6 +91,7 @@ public sealed partial class LoomEditor : Control
         CharacterReceived += OnCharacterReceived;
         InitializeFont();
         InitializeStickyScroll();
+        InitializeAccessibility();
         InitializeHighlighting();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;
@@ -188,6 +189,7 @@ public sealed partial class LoomEditor : Control
     {
         var editor = (LoomEditor)sender;
         editor._context.SetText((string?)e.NewValue ?? string.Empty);
+        editor._viewModel.SetIsDominatedByLongLines(editor._context.Model.IsDominatedByLongLines());
     }
 
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -205,6 +207,9 @@ public sealed partial class LoomEditor : Control
         StartHighlighting();
         ObserveXamlRoot();
         StartIme();
+        RefreshScreenReader();
+        StartAutomationEvents();
+        StartHighContrast();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -214,6 +219,8 @@ public sealed partial class LoomEditor : Control
         StopIme();
         _featureHost?.Dispose();
         _featureHost = null;
+        StopAutomationEvents();
+        StopHighContrast();
         StopBlinkTimer();
         StopObservingXamlRoot();
         ReleaseResources();

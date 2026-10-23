@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.Core.Text;
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Layout;
 
@@ -39,6 +40,9 @@ internal sealed class FindController : IDisposable
     /// <summary>The state every find part shares.</summary>
     public FindReplaceState State { get; } = new();
 
+    /// <summary>Where the find results are announced (Monaco: <c>alert</c> in the find widget).</summary>
+    internal IEditorAnnouncer Announcer { get; set; } = NullEditorAnnouncer.Instance;
+
     /// <summary>The find widget, or <c>null</c> without UI.</summary>
     public IFindWidget? Widget { get; set; }
 
@@ -65,6 +69,13 @@ internal sealed class FindController : IDisposable
         if (e.IsRevealed && !State.IsRevealed)
         {
             DisposeModel();
+        }
+
+        // Monaco announces from the widget, which only exists once revealed.
+        if ((e.SearchString || e.MatchesCount || e.MatchesPosition) && State.IsRevealed)
+        {
+            Announcer.Announce(AccessibilityMessages.FindResult(
+                FindMatchesLabel.Format(State.MatchesPosition, State.MatchesCount), State.CurrentMatch, State.SearchString, ViewModel.Model));
         }
     }
 

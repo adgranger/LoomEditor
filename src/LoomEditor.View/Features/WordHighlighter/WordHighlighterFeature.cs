@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/contrib/wordHighlighter/browser/wordHighlighter.ts (WordHighlighterContribution, the actions)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Commands;
 using LoomEditor.View.Layout;
 
@@ -8,7 +9,7 @@ namespace LoomEditor.View.Features.WordHighlighter;
 
 /// <summary>Highlights the occurrences of the word at the cursor, and adds the commands to go through them.</summary>
 /// <remarks>
-/// Not ported: the screen reader <c>alert</c> of the navigation, <c>onDidChangeModel</c> (the model of an editor never changes),
+/// Not ported: <c>onDidChangeModel</c> (the model of an editor never changes),
 /// the <c>hasWordHighlights</c> context key (the commands check it themselves) and the semantic providers (phase 8).
 /// Threading: UI thread only.
 /// </remarks>
@@ -55,7 +56,7 @@ internal sealed class WordHighlighterFeature : IEditorFeature
         // Monaco: createWordHighlighterIfPossible
         if (!viewModel.Model.IsTooLargeForTokenization)
         {
-            _wordHighlighter = new WordHighlighter(viewModel, context.Scheduler, _options);
+            _wordHighlighter = new WordHighlighter(viewModel, context.Scheduler, _options, new ContextAnnouncer(context));
         }
 
         void Register(string id, Action run) => _registrations.Add(context.Commands.Register(new EditorCommand(id, run)));

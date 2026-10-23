@@ -30,7 +30,9 @@ public sealed partial class LoomEditor
     /// <summary>
     /// The colors of the editor and of the tokens. Defaults to <see cref="EditorTheme.Dark"/>. A plain property, not a
     /// dependency property: a managed object cannot cross the XAML boundary under Native AOT (it can still be set from
-    /// code and by <c>x:Bind</c>).
+    /// code and by <c>x:Bind</c>). The getter returns what the application set; while the Windows high contrast scheme
+    /// is followed (<see cref="UseSystemHighContrast"/>) the editor draws with the scheme's colors instead, and uses this
+    /// theme again when high contrast goes off.
     /// </summary>
     public EditorTheme Theme
     {
@@ -39,7 +41,7 @@ public sealed partial class LoomEditor
         {
             ArgumentNullException.ThrowIfNull(value);
             _theme = value;
-            ApplyTheme(value);
+            ApplyTheme(EffectiveTheme);
         }
     }
 

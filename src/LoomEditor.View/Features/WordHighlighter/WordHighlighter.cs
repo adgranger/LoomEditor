@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Text;
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Events;
 using LoomEditor.View.Features.Scheduling;
@@ -31,6 +32,7 @@ internal sealed class WordHighlighter : IDisposable
     private readonly IEditorScheduler _scheduler;
     private readonly EditorDecorationsCollection _decorations;
     private readonly Delayer _runDelayer;
+    private readonly IEditorAnnouncer _announcer;
     private EditorWordHighlightOptions _options;
     private int _workerRequestTokenId;
     private bool _workerRequestActive;
@@ -44,7 +46,7 @@ internal sealed class WordHighlighter : IDisposable
     // Monaco: _ignorePositionChangeEvent, true while the navigation moves the cursor.
     private bool _ignorePositionChangeEvent;
 
-    public WordHighlighter(ViewModel viewModel, IEditorScheduler scheduler, EditorWordHighlightOptions options)
+    public WordHighlighter(ViewModel viewModel, IEditorScheduler scheduler, EditorWordHighlightOptions options, IEditorAnnouncer? announcer = null)
     {
         ArgumentNullException.ThrowIfNull(viewModel);
         ArgumentNullException.ThrowIfNull(scheduler);
@@ -53,6 +55,7 @@ internal sealed class WordHighlighter : IDisposable
         _viewModel = viewModel;
         _scheduler = scheduler;
         _options = options;
+        _announcer = announcer ?? NullEditorAnnouncer.Instance;
         _runDelayer = new Delayer(scheduler, RunDelay);
         _decorations = new EditorDecorationsCollection(viewModel.Model, viewModel.EditorId);
         viewModel.EventDispatcher.OnEvent += OnViewModelEvent;
@@ -132,7 +135,7 @@ internal sealed class WordHighlighter : IDisposable
         StopRequest();
     }
 
-    // Monaco: moveNext and moveBack; the screen reader alert is not ported.
+    // Monaco: moveNext and moveBack.
     private void MoveBy(int step)
     {
         List<Range> highlights = [.. _decorations.GetRanges()];
@@ -156,6 +159,13 @@ internal sealed class WordHighlighter : IDisposable
                 _viewModel.CoordinatesConverter.ConvertModelRangeToViewRange(dest),
                 VerticalRevealType.CenterIfOutsideViewport,
                 ScrollType.Smooth);
+
+            // Monaco: alert(...) with the line, the position among the occurrences and the word
+            if (_viewModel.Model.GetWordAtPosition(_viewModel.GetSelection().Range.Start) is { } word)
+            {
+                _announcer.Announce(AccessibilityMessages.WordHighlightPosition(
+                    _viewModel.Model.GetLineContent(dest.StartLineNumber), newIndex + 1, highlights.Count, word.Word));
+            }
         }
         finally
         {

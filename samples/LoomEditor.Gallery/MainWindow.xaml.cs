@@ -8,6 +8,7 @@ using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using LoomEditorControl = LoomEditor.WinUI.Controls.LoomEditor;
 
 namespace LoomEditor.Gallery;
 
@@ -57,6 +58,8 @@ public sealed partial class MainWindow : Window
         // A load detects the indentation: show the tab size it chose.
         Editor.Model.OptionsChanged += (_, _) => TabSizeBox.Value = Editor.Model.Options.TabSize;
         Editor.SelectionChanged += (_, _) => RefreshStatus();
+        // Ctrl+M toggles the property from the keyboard: keep the switch in sync.
+        Editor.RegisterPropertyChangedCallback(LoomEditorControl.TabMovesFocusProperty, (_, _) => TabFocusSwitch.IsOn = Editor.TabMovesFocus);
         RefreshStatus();
     }
 
@@ -101,6 +104,44 @@ public sealed partial class MainWindow : Window
         {
             Editor.StickyScrollEnabled = StickyScrollSwitch.IsOn;
         }
+    }
+
+    private void OnScreenReaderChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.AccessibilitySupport = (EditorAccessibilitySupport)ScreenReaderBox.SelectedIndex;
+        }
+    }
+
+    private void OnTabFocusToggled(object sender, RoutedEventArgs e) => Editor.TabMovesFocus = TabFocusSwitch.IsOn;
+
+    private void OnSystemHighContrastToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.UseSystemHighContrast = SystemHighContrastSwitch.IsOn;
+        }
+    }
+
+    // One line of 12 000 characters: "dominated by long lines", which forces wrapping in screen reader mode.
+    private void OnLongLineSample(object sender, RoutedEventArgs e)
+    {
+        Editor.LanguageId = "plaintext";
+        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "plaintext");
+        WordWrapSwitch.IsOn = false;
+        Editor.WordWrap = EditorWordWrap.Off;
+        Editor.Text = string.Concat(Enumerable.Repeat("lorem ", 2000)) + "\n" + string.Join('\n', Enumerable.Range(1, 20).Select(n => $"line {n}"));
+    }
+
+    private void OnUiaSelfCheck(object sender, RoutedEventArgs e)
+    {
+        var results = UiaSelfCheck.Run(Editor);
+        int passed = results.Count(r => r.Passed);
+        string summary = $"{passed} of {results.Count} passed";
+        SelfCheckText.Text = string.Join('\n', results.Select(r => $"{(r.Passed ? "PASS" : "FAIL")}  {r.Name} — {r.Detail}")) + $"\n{summary}";
+        SelfCheckScroll.Visibility = Visibility.Visible;
+        StatusText.Text = summary;
     }
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;

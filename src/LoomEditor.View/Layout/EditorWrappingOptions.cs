@@ -3,8 +3,8 @@ namespace LoomEditor.View.Layout;
 /// <summary>The word-wrap settings (Monaco: the <c>wordWrap*</c>, <c>wrappingIndent</c>, <c>wordBreak</c> options).</summary>
 /// <remarks>
 /// Threading: immutable, safe from any thread. Not ported: <c>wordWrapOverride1/2</c> (workbench override hooks),
-/// <c>wrappingStrategy</c> (only Monaco's <c>simple</c> strategy exists, the editor uses a monospace font) and the
-/// accessibility-driven overrides (<c>accessibilitySupport</c>).
+/// <c>wrappingStrategy</c> (only Monaco's <c>simple</c> strategy exists, the editor uses a monospace font).
+/// The screen reader override of the indent is applied by <see cref="EditorLayoutOptions.GetEffectiveWrapping"/>.
 /// </remarks>
 internal sealed record EditorWrappingOptions
 {

@@ -140,7 +140,7 @@ internal sealed partial class TextViewRenderer : IDisposable
             // The renderer only reads tokens: the model or the background worker tokenizes.
             LineStyle style = LineStyle.Create(
                 data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
-                GetStyleOverrides(data.GetInlineDecorations(lineNumber), lineNumber, viewModel.GetLineMaxColumn(lineNumber), text.Length));
+                GetLineOverrides(viewModel, data, selections, lineNumber, text.Length));
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)

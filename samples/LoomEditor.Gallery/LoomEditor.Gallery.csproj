@@ -20,6 +20,12 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
+    <!--
+      .NET SDK 11 rc.2 "optimized" Native AOT publish runs PrepareResources before ResolveReferences: the XAML compiler
+      gets no references (WMC1007) and, when worked around, the exe misses WinRT.Runtime at startup.
+      See docs/adr/0008-syntax-highlighting.md. Remove once fixed upstream.
+    -->
+    <UseOptimizedPublish>false</UseOptimizedPublish>
   </PropertyGroup>
 
   <ItemGroup>
