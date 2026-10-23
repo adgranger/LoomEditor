@@ -16,7 +16,7 @@ internal static class FindMatchesLabel
     {
         if (matchesCount <= 0)
         {
-            return "No results";
+            return Accessibility.AccessibilityMessages.NoResults;
         }
 
         string count = matchesCount >= FindConstants.MatchesLimit ? $"{matchesCount}+" : matchesCount.ToString(System.Globalization.CultureInfo.InvariantCulture);

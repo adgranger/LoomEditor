@@ -1,6 +1,6 @@
 # P7-12 — `IEditorAnnouncer` and the announcement messages
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-11
 - **Size:** S
 
@@ -53,21 +53,21 @@ Features can announce a message to assistive technology through the editor conte
 
 ## Tests
 
-- [ ] New (`AccessibilityMessagesTests`; each test carries a `// Monaco: '_getAriaLabel'`-style comment naming the upstream function): `FindResult_NoResultsEmptySearch`, `FindResult_NoResultsWithSearch`, `FindResult_WithCurrentMatch_PrefixesTheLine`
+- [x] New (`AccessibilityMessagesTests`; each test carries a `// Monaco: '_getAriaLabel'`-style comment naming the upstream function): `FindResult_NoResultsEmptySearch`, `FindResult_NoResultsWithSearch`, `FindResult_WithCurrentMatch_PrefixesTheLine`
       (`"3 of 5"`, match `(2,7)-(2,10)`, search `"foo"`, model line 2 `"a foo b"` → `"a foo b, 3 of 5 found for 'foo', at 2:7"`), `FindResult_WithCurrentMatch_WithoutModel_NoLinePrefix`,
       `FindResult_CurrentMatchOutsideTheModel_NoLinePrefix`, `FindResult_NoCurrentMatch` (`"? of 5"` → `"? of 5 found for 'foo'"`), `FindNoResultsAgain`, `WordHighlightPosition`, `TabMessages_AreMonacosText`
-- [ ] New (`EditorAnnouncerTests`): `GetAnnouncer_DefaultContext_IsTheNullAnnouncer` (an `EditorContext` created with the public constructor), `GetAnnouncer_ReturnsTheAssignedAnnouncer`, `NullAnnouncer_DoesNothing` (no exception),
+- [x] New (`EditorAnnouncerTests`): `GetAnnouncer_DefaultContext_IsTheNullAnnouncer` (an `EditorContext` created with the public constructor), `GetAnnouncer_ReturnsTheAssignedAnnouncer`, `NullAnnouncer_DoesNothing` (no exception),
       `GetAnnouncer_NonEditorContext_IsTheNullAnnouncer` (a minimal fake `IEditorContext`; if no fake exists in `TestHelpers`, create one in the test file),
       `ContextAnnouncer_ForwardsToTheCurrentAnnouncer` (create the forwarder, then assign the recorder to `EditorContext.Announcer`, then announce: the recorder gets the message),
       `ContextAnnouncer_FollowsAReplacedAnnouncer`
-- [ ] Existing find label tests still pass (`FindMatchesLabel`)
+- [x] Existing find label tests still pass (`FindMatchesLabel`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: rows for the four Monaco functions
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: rows for the four Monaco functions
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -1,3 +1,4 @@
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
@@ -20,4 +21,8 @@ internal static class EditorContextExtensions
 
     /// <summary>The folding feature of the editor, or null when the Folding feature is not attached.</summary>
     public static FoldingFeature? GetFoldingFeature(this IEditorContext context) => (context as EditorContext)?.FoldingFeature;
+
+    /// <summary>The announcer of the editor, or the null announcer when the context is not an <see cref="EditorContext"/>.</summary>
+    public static IEditorAnnouncer GetAnnouncer(this IEditorContext context) =>
+        (context as EditorContext)?.Announcer ?? NullEditorAnnouncer.Instance;
 }
