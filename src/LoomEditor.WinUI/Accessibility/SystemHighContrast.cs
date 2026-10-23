@@ -1,6 +1,7 @@
 using LoomEditor.Themes;
 using LoomEditor.Themes.HighContrast;
 using LoomEditor.WinUI.Interop;
+using System.Runtime.InteropServices;
 using Microsoft.UI.Dispatching;
 using Windows.UI.ViewManagement;
 
@@ -22,11 +23,20 @@ internal sealed class SystemHighContrast : IDisposable
     private readonly AccessibilitySettings _settings = new();
     private readonly DispatcherQueue _dispatcher;
     private bool _disposed;
+    private readonly bool _subscribed;
 
     public SystemHighContrast(DispatcherQueue dispatcher)
     {
         _dispatcher = dispatcher;
-        _settings.HighContrastChanged += OnHighContrastChanged;
+        try
+        {
+            _settings.HighContrastChanged += OnHighContrastChanged;
+            _subscribed = true;
+        }
+        catch (COMException)
+        {
+            // Some unpackaged apps cannot subscribe (0x80070490): the state is then read at load, but not followed live.
+        }
     }
 
     /// <summary>Raised on the UI thread when high contrast is switched on or off or its scheme changes.</summary>
@@ -49,7 +59,10 @@ internal sealed class SystemHighContrast : IDisposable
     public void Dispose()
     {
         _disposed = true;
-        _settings.HighContrastChanged -= OnHighContrastChanged;
+        if (_subscribed)
+        {
+            _settings.HighContrastChanged -= OnHighContrastChanged;
+        }
     }
 
     // COLORREF is 0x00BBGGRR.
