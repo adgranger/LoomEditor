@@ -22,3 +22,14 @@ of `"lorem "` repeated, plus a few short lines.
 | 1.1 | `AccessibilitySupport = On`, a long line, word wrap off | The line wraps at the window width; with `Off` it does not | |
 | 1.2 | `AccessibilitySupport = On`, `WrappingIndent = Indent`, `WordWrap = On` | Continuation lines are not indented; with `Off` they are | |
 | 1.3 | `Auto` and Narrator started (Win+Ctrl+Enter), then click into the editor | Behaves like `On`; after stopping Narrator and clicking out and in again, like `Off` | |
+
+## 2. Tab focus mode
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 2.1 | Click in the editor, press `Tab` | A tab is inserted | |
+| 2.2 | Press `Ctrl+M`, then `Tab` | The focus leaves the editor (to the next control of the Gallery) and nothing is inserted | |
+| 2.3 | Press `Shift+Tab` | The focus comes back to the editor | |
+| 2.4 | Narrator on, `Ctrl+M` | Narrator says "Pressing Tab will now move focus to the next focusable element" | |
+| 2.5 | `Ctrl+M` again | Narrator says "Pressing Tab will now insert the tab character" | |
+| 2.6 | Set `TabMovesFocus = true` from code | Behaves like 2.2 | |

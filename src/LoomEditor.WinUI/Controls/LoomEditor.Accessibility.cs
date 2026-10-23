@@ -29,7 +29,34 @@ public sealed partial class LoomEditor
         set => SetValue(AccessibilitySupportProperty, value);
     }
 
-    private void InitializeAccessibility() => GotFocus += (_, _) => RefreshScreenReader();
+    /// <summary>Identifies the <see cref="TabMovesFocus"/> dependency property.</summary>
+    public static readonly DependencyProperty TabMovesFocusProperty = DependencyProperty.Register(
+        nameof(TabMovesFocus), typeof(bool), typeof(LoomEditor), new PropertyMetadata(false, OnTabMovesFocusChanged));
+
+    /// <summary>
+    /// Whether Tab and Shift+Tab move the keyboard focus to the next control instead of inserting a tab. Ctrl+M toggles it
+    /// (Monaco's <c>editor.action.toggleTabFocusMode</c>). It is per editor and not related to <c>IsTabStop</c>.
+    /// </summary>
+    public bool TabMovesFocus
+    {
+        get => (bool)GetValue(TabMovesFocusProperty);
+        set => SetValue(TabMovesFocusProperty, value);
+    }
+
+    private void InitializeAccessibility()
+    {
+        GotFocus += (_, _) => RefreshScreenReader();
+        _context.TabMovesFocusChanged += (_, _) =>
+        {
+            if (TabMovesFocus != _context.TabMovesFocus)
+            {
+                TabMovesFocus = _context.TabMovesFocus;
+            }
+        };
+    }
+
+    private static void OnTabMovesFocusChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) =>
+        ((LoomEditor)sender)._context.TabMovesFocus = (bool)e.NewValue;
 
     private static void OnAccessibilitySupportChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) =>
         ((LoomEditor)sender).RefreshScreenReader();

@@ -45,7 +45,7 @@ public sealed partial class LoomEditor
             HasMultipleSelections: selections.Count > 1,
             ColumnSelection: _viewModel.CursorOptions.ColumnSelection,
             Writable: !IsReadOnly,
-            TabDoesNotMoveFocus: true,
+            TabDoesNotMoveFocus: !TabMovesFocus,
             AccessibilityModeEnabled: false,
             EditorFocus: HasFocus || (_findWidget?.IsFocusWithin ?? false),
             FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false,
@@ -55,6 +55,12 @@ public sealed partial class LoomEditor
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)
     {
+        // The Tab key moves the focus in this mode: its character must not be inserted.
+        if (TabMovesFocus && e.Character == '	')
+        {
+            return;
+        }
+
         if (IsComposing || !HasFocus)
         {
             return;

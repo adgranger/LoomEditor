@@ -63,6 +63,8 @@ LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCount.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCount.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocus.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocus.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.TabSize.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.TabSize.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
@@ -88,6 +90,7 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuidesProperty 
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocusProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> Microsoft.UI.Xaml.DependencyProperty!

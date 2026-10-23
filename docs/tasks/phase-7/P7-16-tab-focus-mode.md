@@ -1,6 +1,6 @@
 # P7-16 — Tab focus mode (`Ctrl+M`): the keyboard trap exit
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-15
 - **Size:** M
 
@@ -45,21 +45,21 @@ Without it a keyboard-only or screen reader user cannot leave the editor with th
 
 ## Tests
 
-- [ ] New (`TabFocusFeatureTests`): `Toggle_FlipsTheContextFlag` (run the command twice: `true`, `false`), `Toggle_On_AnnouncesTheMessage`, `Toggle_Off_AnnouncesTheMessage`, `TabMovesFocusChanged_RaisedOncePerChange`,
+- [x] New (`TabFocusFeatureTests`): `Toggle_FlipsTheContextFlag` (run the command twice: `true`, `false`), `Toggle_On_AnnouncesTheMessage`, `Toggle_Off_AnnouncesTheMessage`, `TabMovesFocusChanged_RaisedOncePerChange`,
       `Command_IsRegisteredAndEnabledWithoutAnyContext`, `Attach_WithANonEditorContext_DoesNothing`, `Dispose_UnregistersTheCommand`
-- [ ] New (keybindings test file): `CtrlM_ResolvesToToggleTabFocusMode_WhateverTheContext`, `Tab_WithTabDoesNotMoveFocusFalse_ResolvesToNothing` (`KeybindingContext(Writable: true, EditorTextFocus: true, TabDoesNotMoveFocus: false)`),
+- [x] New (keybindings test file): `CtrlM_ResolvesToToggleTabFocusMode_WhateverTheContext`, `Tab_WithTabDoesNotMoveFocusFalse_ResolvesToNothing` (`KeybindingContext(Writable: true, EditorTextFocus: true, TabDoesNotMoveFocus: false)`),
       `Tab_WithTabDoesNotMoveFocusTrue_ResolvesToTab`, `ShiftTab_WithTabDoesNotMoveFocusFalse_ResolvesToNothing`
-- [ ] Architecture tests (`ConventionTests`) pass with the new folder (`TabFocusFeature.cs`, `TabFocusCommands.cs`, `README.md`, registered in `EditorFeatures.cs`)
-- [ ] Manual (`docs/testing/phase-7-manual-tests.md` section 2 "Tab focus mode", a Result column):
+- [x] Architecture tests (`ConventionTests`) pass with the new folder (`TabFocusFeature.cs`, `TabFocusCommands.cs`, `README.md`, registered in `EditorFeatures.cs`)
+- [x] Manual (`docs/testing/phase-7-manual-tests.md` section 2 "Tab focus mode", a Result column):
       2.1 click in the editor, press `Tab` → a tab is inserted; 2.2 press `Ctrl+M`, then `Tab` → the focus leaves the editor (to the next control of the Gallery) and nothing is inserted; 2.3 `Shift+Tab` comes back; 2.4 with Narrator on, `Ctrl+M` → Narrator says
       "Pressing Tab will now move focus to the next focusable element"; 2.5 `Ctrl+M` again → "Pressing Tab will now insert the tab character"; 2.6 `TabMovesFocus = true` set from code behaves like 2.2
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (architecture tests included)
-- [ ] `docs/PORTING.md` map and behavior differences updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (architecture tests included)
+- [x] `docs/PORTING.md` map and behavior differences updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
