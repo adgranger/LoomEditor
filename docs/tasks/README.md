@@ -747,7 +747,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P8-07](phase-8/P8-07-markdown-subset.md) | A Markdown subset parser for hover and documentation text | P8-06 | done |
 | [P8-08](phase-8/P8-08-mouse-move-events.md) | Mouse move and mouse leave events for features | P8-07 | done |
-| [P8-09](phase-8/P8-09-hover-computation.md) | Hover computation: anchors, parts, `ContentHoverComputer` and `HoverOperation` | P8-08 | todo |
+| [P8-09](phase-8/P8-09-hover-computation.md) | Hover computation: anchors, parts, `ContentHoverComputer` and `HoverOperation` | P8-08 | done |
 | [P8-10](phase-8/P8-10-hover-controller.md) | `HoverController` and the `Hover` feature | P8-09 | todo |
 | [P8-11](phase-8/P8-11-overlay-and-hover-widget.md) | The overlay layer and the hover popup (WinUI) | P8-10 | todo |
 

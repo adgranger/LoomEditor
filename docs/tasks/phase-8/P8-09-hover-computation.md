@@ -1,6 +1,6 @@
 # P8-09 — Hover computation: anchors, parts, `ContentHoverComputer` and `HoverOperation`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-08
 - **Size:** M
 
@@ -66,13 +66,13 @@ All in `src/LoomEditor.View/Hover/` (namespace `LoomEditor.View.Hover`, `interna
 
 ## Tests
 
-- [ ] New (`HoverAnchorTests`): `Equals_ComparesRangesOnly` (different mouse coordinates, same range → equal), `CanAdoptVisibleHover_SameLineOnly`
-- [ ] New (`ContentHoverComputerTests`; a model with a language, a `MarkerService` + `MarkerDecorations` on it, a `LanguageFeaturesService`; comments `// Monaco: ContentHoverComputer.computeSync`): `ComputeSync_MarkerOnAnchor_ReturnsMarkerPart` (marker on columns 2–5, anchor column 3), `ComputeSync_AnchorOutsideTheMarker_Empty`, `ComputeSync_TwoMarkers_BothInDecorationOrder`,
+- [x] New (`HoverAnchorTests`): `Equals_ComparesRangesOnly` (different mouse coordinates, same range → equal), `CanAdoptVisibleHover_SameLineOnly`
+- [x] New (`ContentHoverComputerTests`; a model with a language, a `MarkerService` + `MarkerDecorations` on it, a `LanguageFeaturesService`; comments `// Monaco: ContentHoverComputer.computeSync`): `ComputeSync_MarkerOnAnchor_ReturnsMarkerPart` (marker on columns 2–5, anchor column 3), `ComputeSync_AnchorOutsideTheMarker_Empty`, `ComputeSync_TwoMarkers_BothInDecorationOrder`,
       `ComputeSync_ShowIfCollapsed_RelaxedByOneColumn` (an empty marker at column 5, anchor at column 6 → found; anchor at column 7 → not), `ComputeSync_MultiLineMarker_ClampedToTheAnchorLine`, `ComputeSync_InvalidAnchorRange_Empty`, `ComputeSync_NonMarkerDecoration_Ignored`,
       `ComputeAsync_NoProviders_Null`, `ComputeAsync_Provider_ReturnsMarkdownPart` (`FakeHoverProvider`, hover without range → the part range is the anchor range), `ComputeAsync_ProviderRange_IsUsed`, `ComputeAsync_ProviderRangeSpanningLines_ReplacedByAnchorRange`,
       `ComputeAsync_EmptyContents_Dropped`, `ComputeAsync_NullHover_Dropped`, `ComputeAsync_FaultedProvider_IgnoredOthersKept`, `ComputeAsync_ThrowingProvider_IgnoredOthersKept` (the provider throws synchronously), `ComputeAsync_TwoProviders_OrderedByProviderIndex`
       (registry order: newest first; the part ordinals are 0 and 1 in that order, whatever the completion order of the tasks; use `Pending()` and complete them in reverse), `ComputeAsync_OtherLanguageProvider_NotCalled`, `ComputeAsync_StarProvider_Called`, `ComputeAsync_PassesTheAnchorStartPosition`
-- [ ] New (`HoverOperationTests`; `ManualEditorScheduler`, `ManualUiDispatcher`, a scripted `IHoverComputer` with a `TaskCompletionSource`; comments `// Monaco: HoverOperation`; delay 300 ms): `Delayed_NoResultBeforeTheHoverDelay` (advance 299 ms: no event), `Delayed_SyncOnly_ResultAtTheDelay` (no async: one event at 300 ms, `IsComplete`),
+- [x] New (`HoverOperationTests`; `ManualEditorScheduler`, `ManualUiDispatcher`, a scripted `IHoverComputer` with a `TaskCompletionSource`; comments `// Monaco: HoverOperation`; delay 300 ms): `Delayed_NoResultBeforeTheHoverDelay` (advance 299 ms: no event), `Delayed_SyncOnly_ResultAtTheDelay` (no async: one event at 300 ms, `IsComplete`),
       `Delayed_AsyncStartsAtHalfTheDelay` (the computer's `ComputeAsync` is called at 150 ms, not before), `Delayed_AsyncCompletesBeforeTheDelay_ResultAtTheDelay_Complete`, `Delayed_AsyncPending_PartialResultAtTheDelay_NotComplete` (sync parts shown, `IsComplete` false),
       `Delayed_AsyncCompletesLater_FiresCompleteResult` (after the partial one, completing the task and `RunAll()` gives a second event with sync + async parts, complete), `Delayed_AsyncPending_LoadingMessageAtThreeTimesTheDelay` (`HasLoadingMessage` at 900 ms),
       `Delayed_WhileNotIdle_IsIgnored` (a second `Start(Delayed)` with another anchor does nothing until `Cancel`), `Immediate_FromIdle_ComputesAtOnce`, `Immediate_InSecondWait_RunsTheSyncPartNow`, `Cancel_StopsEverything_AndCancelsTheToken`, `Cancel_ThenLateAsyncResult_Dropped`,
@@ -80,10 +80,10 @@ All in `src/LoomEditor.View/Hover/` (namespace `LoomEditor.View.Hover`, `interna
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the six Monaco files above (what is not ported: foreign-element anchors, `Click` source, verbosity, color picker, code actions, status bar, related information, `hoverMessage` decorations) and the behavior difference on `isValid`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the six Monaco files above (what is not ported: foreign-element anchors, `Click` source, verbosity, color picker, code actions, status bar, related information, `hoverMessage` decorations) and the behavior difference on `isValid`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
