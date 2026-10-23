@@ -1,6 +1,6 @@
 # P7-23 — The control follows Windows high contrast
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-22
 - **Size:** M
 
@@ -56,10 +56,10 @@ No unit test (WinUI + Windows settings); the theme building is tested by P7-22. 
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

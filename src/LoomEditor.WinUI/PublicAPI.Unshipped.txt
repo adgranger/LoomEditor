@@ -71,6 +71,8 @@ LoomEditor.WinUI.Controls.LoomEditor.Text.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.Text.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.WinUI.Controls.LoomEditor.Theme.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrast.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrast.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.WordWrap.get -> LoomEditor.WinUI.Controls.EditorWordWrap
 LoomEditor.WinUI.Controls.LoomEditor.WordWrap.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumn.get -> int
@@ -93,6 +95,7 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.StickyScrollMaxLineCountPro
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabMovesFocusProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TabSizeProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.TextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrastProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!

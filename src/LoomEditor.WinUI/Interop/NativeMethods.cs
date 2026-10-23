@@ -23,4 +23,8 @@ internal static partial class NativeMethods
     [LibraryImport("user32.dll", EntryPoint = "SystemParametersInfoW")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool SystemParametersInfo(uint action, uint param, ref int value, uint winIni);
+
+    /// <summary>Reads a system color as a <c>COLORREF</c> (<c>0x00BBGGRR</c>).</summary>
+    [LibraryImport("user32.dll", EntryPoint = "GetSysColor")]
+    internal static partial uint GetSysColor(int index);
 }

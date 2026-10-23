@@ -79,3 +79,18 @@ Tools: Accessibility Insights → Events, Narrator (Win+Ctrl+Enter), NVDA.
 | 5.6 | Narrator off, no other client: repeat the actions above | No exception, normal speed (the peer does not exist) | |
 | 5.7 | `ITextProvider2.GetCaretRange` in Accessibility Insights | `isActive` is `true` with the focus, `false` after clicking another control; the range is at the caret | |
 | 5.8 | Repeat 5.1 – 5.5 on the Native AOT build | Same results | |
+
+## 6. High contrast
+
+Windows 11: Settings → Accessibility → Contrast themes; `Left Alt + Left Shift + Print Screen` toggles the last high contrast theme.
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 6.1 | Gallery open with a C# sample and a selection; turn on **Aquatic** | Within a second the editor background and text become the scheme's, the selection uses the scheme's highlight colors with readable text, no restart needed | |
+| 6.2 | Repeat with **Desert**, **Dusk**, **Night sky** | Text, selection, line numbers readable, caret visible, the active line is outlined | |
+| 6.3 | Turn high contrast off | The editor returns to its `Theme` (Dark Modern by default) | |
+| 6.4 | `UseSystemHighContrast = false` (from code) with high contrast on; then back to `true` | The editor keeps its `Theme`; then the scheme's colors | |
+| 6.5 | Open the find widget (`Ctrl+F`) in a high contrast scheme | Input, buttons, toggles and result count are readable; a toggled option (match case) is distinguishable from an untoggled one | |
+| 6.6 | Look at scrollbars, minimap, sticky scroll lines and folding chevrons in each scheme | All visible (note any that vanish) | |
+| 6.7 | `Theme = EditorTheme.BuiltIn[8]` ("Dark High Contrast") with system high contrast **off** | Black background, white text, black text on the white selection | |
+| 6.8 | Native AOT build: repeat 6.1 and 6.3 | Same results | |
