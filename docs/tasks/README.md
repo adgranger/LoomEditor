@@ -652,7 +652,7 @@ P6-52 … P6-54, P6-59 … P6-62 have manual checks for the maintainer.
 
 **Deferred on purpose:** `renderWhitespace`; the word wrap indicator drawing; minimap section headers; the outline model of
 sticky scroll, its click-link gesture and its keyboard navigation (phase 8 / follow-up); the DOM line-break strategy
-(`wrappingStrategy: advanced`); accessibility-driven wrapping (phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
+(`wrappingStrategy: advanced`); accessibility-driven wrapping (done in phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
 
 ## Phase 7 — Full UI Automation accessibility
 
@@ -713,7 +713,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P7-24](phase-7/P7-24-gallery-accessibility-demo.md) | Gallery: accessibility switches and the in-process UIA self-check | P7-23 | done |
 | [P7-25](phase-7/P7-25-manual-test-plan.md) | The manual test plan: Narrator, NVDA, Accessibility Insights | P7-24 | done |
-| [P7-26](phase-7/P7-26-close-phase-7.md) | Close phase 7 | all | todo |
+| [P7-26](phase-7/P7-26-close-phase-7.md) | Close phase 7 | all | done |
 
 Take phase 7 cards in table order (each card's "Depends on" is satisfied by the cards above it; step D needs steps B and C, which come first). P7-04, P7-16, P7-17 … P7-19, P7-23 and P7-24 have manual checks for the maintainer.
 

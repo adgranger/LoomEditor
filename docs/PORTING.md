@@ -294,6 +294,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/viewModel/viewModelImpl.ts` | `LoomEditor.View/Layout/` (`ViewModel`) | 🔶 subset: layout part (P2-10) and the cursor facade (P3-20: `ViewModel.Cursors.cs`, owns the `CursorsController`, event dispatcher and `CursorConfiguration`); view lines over `ViewModelLinesFromProjectedModel` and hidden areas (`ViewModel.HiddenAreas.cs`, P5-81); typing, paste, cut and composition facade methods come with their cards; word wrap (P6-20: `ViewModel.Wrapping.cs`, two-pass line breaks, `UpdateWrappingSettings`; `_updateConfigurationViewLineCount` skipped; `WrapOnEscapedLineFeeds` read at construction only, as in Monaco) and injected text changes (P6-21: `OnDidChangeContentOrInjectedText` shared by both events, `GetInjectedTextAt`, `ModifyPosition`); guide queries (P6-32: `ViewModel.Guides.cs`: `GetActiveIndentGuide`, `GetLinesIndentGuides`, `GetBracketGuidesInRangeByLine`; `EditorGuidesOptions`, `EditorLayoutOptions.Guides`); overview ruler groups (P6-37: `ViewModel.Decorations.cs` `GetAllOverviewRulerDecorations`, `OverviewRulerDecorations`, `DecorationColorResolver`; `_invalidateDecorationsColorCache` not needed, see "Behavior differences") |
 | `editor/common/viewLayout/viewLinesViewportData.ts` | `LoomEditor.View/Layout/` (`ViewportData`) | 🔶 phase 2 subset (P2-10): fields and constructor only; no rendering data, wrapped-line or decoration queries |
 | `editor/common/viewModel.ts` (`OverviewRulerDecorationsGroup`), `common/model/textModel.ts` (`ModelDecorationOverviewRulerOptions.getColor`) | `LoomEditor.View/Layout/` (`OverviewRulerDecorationsGroup`, `DecorationColorResolver`) | ✅ P6-37; see "Behavior differences" |
+| (no Monaco counterpart: Monaco mirrors the text into a hidden `<textarea>`) | `LoomEditor.View/Accessibility/` (`AutomationTextDocument`, `AutomationTextRange*`, `*UnitStarts`, `AutomationTextGeometry`, `AutomationEventCoalescer`), `LoomEditor.WinUI/Accessibility/` (`LoomEditorAutomationPeer`, `LoomEditorTextRangeProvider`, `AutomationEventSink`, `AutomationAnnouncer`), `LoomEditor.Themes/HighContrast/` (`ContrastRatio`, `SystemHighContrastThemeFactory`) | 🆕 phase 7 (P7-05 … P7-11, P7-15, P7-17 … P7-19, P7-20, P7-22): written from the specification in `docs/tasks/phase-7/README.md` §4 and ADR 0010, no upstream header |
 | `editor/common/viewModel/*` (the rest) | `LoomEditor.View/Layout/` | 🔶 phase 6 ported what wrapping, guides, the overview ruler and the minimap need (rows above); the rest (view events dispatcher…) is not planned |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
@@ -556,6 +557,35 @@ The step-by-step cards are in **[docs/tasks/phase-6/](tasks/phase-6/)** (P6-01 �
 - `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (Native AOT) fails in this environment with XamlCompiler
   `WMC1007` in the first XAML compile pass. A normal build and a publish with `-p:PublishAot=false` succeed, so the AOT chain of phase 6 is **not** verified.
 
+## Done in phase 7 (accessibility)
+
+The step-by-step cards are in **[docs/tasks/phase-7/](tasks/phase-7/)** (P7-01 … P7-26). Main design decisions ([ADR 0010](adr/0010-accessibility.md)):
+
+- **Screen reader mode** (`accessibilitySupport`, `AccessibilitySupport`, `isDominatedByLongLines`): ported; `Auto` asks Windows (`SPI_GETSCREENREADER`).
+- **UI Automation text pattern:** Monaco has none, so it is new code. A UI-free model (`AutomationTextDocument`, ranges, the seven text units, move, find, geometry) in `LoomEditor.View`,
+  tested without Windows; the WinUI peer and range provider only delegate to it.
+- **Announcements:** the four Monaco messages (`AccessibilityMessages`: find match, find result, word highlight `moveNext`, tab focus mode) sent as UIA notifications.
+- **Tab focus mode** (`Ctrl+M`) and **high contrast** (`editor.selectionForeground` in three Monaco locations, the Windows system colors theme) are ported or adapted as in the map.
+- Every deliberate difference of phase 7 is a row of "Behavior differences we accept" (search for `(P7-`): per-editor tab focus mode, `isWordWrapMinified` not ported, sticky lines and selection foreground.
+- **Not verified:** the manual plan ([testing/phase-7-manual-tests.md](testing/phase-7-manual-tests.md)) was not run by the agent; Narrator and NVDA behavior (including the `Move` semantics, which follow the UIA documentation) and the unticked manual checks of P7-04, P7-17, P7-23 and P7-24 are for the maintainer.
+
+## Tests ported in phase 7
+
+No phase 7 test is ported: there is no upstream test for UI Automation, and every test is `New:` (no `// Monaco:` comment). Counts are `[Fact]` / `[Theory]` per file (theories counted once), 288 in all:
+
+| Test file | Tests |
+|---|---|
+| `Core.Tests/Model/TextModelLongLinesTests.cs` | 7 |
+| `View.Tests/Layout/EditorAccessibilityOptionsTests.cs`, `EditorLayoutInfoComputerAccessibilityTests.cs`, `ViewModelAccessibilityWrappingTests.cs` | 7, 6, 6 |
+| `View.Tests/Accessibility/AutomationTextDocumentTests.cs`, `AutomationTextRangeTests.cs`, `AutomationTextSelectionTests.cs` | 17, 11, 9 |
+| `View.Tests/Accessibility/CharacterUnitStartsTests.cs`, `WordUnitStartsTests.cs`, `LineUnitStartsTests.cs`, `PageUnitStartsTests.cs`, `ParagraphUnitStartsTests.cs`, `DocumentUnitStartsTests.cs`, `AutomationUnitStartsTests.cs` | 17, 16, 13, 8, 8, 5, 3 |
+| `View.Tests/Accessibility/AutomationTextRangeNavigationTests.cs`, `AutomationTextRangeFindTests.cs`, `AutomationTextGeometryTests.cs` | 44, 12, 20 |
+| `View.Tests/Accessibility/AccessibilityMessagesTests.cs`, `EditorAnnouncerTests.cs`, `AutomationEventCoalescerTests.cs` | 9, 6, 10 |
+| `View.Tests/Features/Find/FindAnnouncementTests.cs`, `WordHighlighter/WordHighlighterAnnouncementTests.cs` | 7, 4 |
+| `View.Tests/Features/TabFocus/TabFocusFeatureTests.cs`, `Commands/TabFocusKeybindingsTests.cs` | 7, 4 |
+| `TextMate.Tests/Themes/ContrastRatioTests.cs`, `BuiltInThemesContrastTests.cs`, `SystemHighContrastThemeFactoryTests.cs` | 7, 5, 12 |
+| `Rendering.Tests/TextViewRendererSelectionForegroundTests.cs` | 8 |
+
 ## Cut points for later phases
 
 | What | Where it goes |
@@ -567,7 +597,7 @@ The step-by-step cards are in **[docs/tasks/phase-6/](tasks/phase-6/)** (P6-01 �
 | The word wrap indicator drawing (the column is reserved by the layout) | follow-up |
 | `renderWhitespace` | a later phase (moved from phase 6) |
 | The DOM line-break strategy (`wrappingStrategy: advanced`) | not planned |
-| Accessibility-driven wrapping (`accessibilitySupport`) | done (P7-01, P7-03); control wiring P7-04 |
+| Accessibility-driven wrapping (`accessibilitySupport`) | done in phase 7 (P7-01 … P7-04); not ported: `wrappingStrategy: advanced`, `accessibilityPageSize`, the paged screen reader strategy, `allowVariableFontsInAccessibilityMode`, `ariaLabel` options, the accessibility help dialog |
 | The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | phase 9 |
 
 ## Done in phase 5 (features)

@@ -190,6 +190,34 @@ The other view extras sit on the same view model:
 - **Sticky scroll:** the `StickyScroll` feature (indentation-based model → candidates → widget state, publishes `ViewModel.StickyScroll`);
   `TextViewRenderer.StickyScroll.cs` draws the lines, `StickyScrollFeature.Mouse.cs` handles clicks.
 
+## Accessibility (phase 7)
+
+```
+TextModel + ViewModel           the text and the view lines (word wrap, folding)
+  → AutomationTextDocument      the model text as `
+`-joined lines (LoomEditor.View/Accessibility/, no WinUI types)
+  → AutomationTextRange         a range: expand / move by the seven units (`*UnitStarts`), find, selection
+  → AutomationTextGeometry      bounding rectangles and points, through IAutomationLineMetrics (RendererLineMetrics in WinUI)
+  → LoomEditorTextRangeProvider ITextRangeProvider over an AutomationTextRange   (LoomEditor.WinUI/Accessibility/)
+  → LoomEditorAutomationPeer    Text, Text2 and Value patterns, returned to the UIA clients (Narrator, NVDA)
+```
+
+Events path: `EditorContext.SelectionChanged` / `Model.ContentChanged` → `AutomationEventCoalescer` (one event per burst) →
+`IAutomationEventSink` → `AutomationEventSink` → `RaiseAutomationEvent`.
+Announcements path: features call `IEditorAnnouncer` (find results, word highlight navigation, tab focus mode; the message
+texts are `AccessibilityMessages`) → `AutomationAnnouncer` → `RaiseNotificationEvent`.
+
+Four more pieces sit beside this chain:
+
+- **Screen reader mode:** `EditorAccessibilityOptions` (`Auto` / `On` / `Off`, `ScreenReaderDetector` for `Auto`) forces wrapping indent `None`
+  and wraps long-line models (`TextModel.IsDominatedByLongLines`) at the viewport (`EditorLayoutOptions.GetEffectiveWrapping`).
+- **Tab focus mode:** the `TabFocus` feature (`Ctrl+M`) sets `EditorContext.TabMovesFocus`, the control property `TabMovesFocus` lets Tab leave the editor.
+- **High contrast:** `SystemHighContrastThemeFactory` builds an `EditorTheme` from the Windows system colors; the control follows
+  them (`UseSystemHighContrast`); `editor.selectionForeground` colors the selected text in `TextViewRenderer.Selection.cs`.
+- **Self-check:** the Gallery runs `UiaSelfCheck` (an in-process UIA client) and has the accessibility switches.
+
+Design: [ADR 0010](adr/0010-accessibility.md). Manual checks with Narrator and NVDA: [testing/phase-7-manual-tests.md](testing/phase-7-manual-tests.md).
+
 ## Where do I find…?
 
 | I want to… | Go to |
@@ -242,3 +270,9 @@ The other view extras sit on the same view model:
 | add a shortcut or a chord (Ctrl+K Ctrl+…) | `src/LoomEditor.View/Commands/DefaultKeybindings.cs`, `KeybindingResolver`, `KeybindingDispatcher` |
 | understand a word | [GLOSSARY.md](GLOSSARY.md) |
 | know why something is the way it is | [adr/](adr/) |
+| change the UIA text pattern, ranges or units (what a screen reader reads and how it moves) | `src/LoomEditor.View/Accessibility/` (`AutomationText*.cs`, `*UnitStarts.cs`), `src/LoomEditor.WinUI/Accessibility/` (`LoomEditorAutomationPeer.cs`, `LoomEditorTextRangeProvider.cs`); spec in `docs/tasks/phase-7/README.md` §4 |
+| change announcements or UIA events | `src/LoomEditor.View/Accessibility/` (`AccessibilityMessages.cs`, `IEditorAnnouncer.cs`, `AutomationEventCoalescer.cs`), `src/LoomEditor.WinUI/Accessibility/` (`AutomationAnnouncer.cs`, `AutomationEventSink.cs`) |
+| change the accessibility options or the screen reader wrapping | `src/LoomEditor.View/Layout/EditorAccessibilityOptions.cs`, `EditorLayoutOptions.cs`; control property in `src/LoomEditor.WinUI/Controls/LoomEditor.Accessibility.cs` |
+| change the tab focus mode | `src/LoomEditor.View/Features/TabFocus/` |
+| change the high contrast themes | `src/LoomEditor.Themes/HighContrast/`, `src/LoomEditor.WinUI/Controls/LoomEditor.HighContrast.cs`, `src/LoomEditor.WinUI/Accessibility/SystemHighContrast.cs` |
+| run the UIA self-check | `samples/LoomEditor.Gallery/UiaSelfCheck.cs` (the Gallery accessibility switches) |
