@@ -687,7 +687,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P7-12](phase-7/P7-12-announcer-and-messages.md) | `IEditorAnnouncer` and the announcement messages | P7-11 | done |
 | [P7-13](phase-7/P7-13-find-announces-results.md) | Find announces its results | P7-12 | done |
 | [P7-14](phase-7/P7-14-word-highlight-announces.md) | Word highlight navigation announces the occurrence | P7-13 | done |
-| [P7-15](phase-7/P7-15-automation-event-coalescer.md) | `AutomationEventCoalescer`: selection and text change events | P7-14 | todo |
+| [P7-15](phase-7/P7-15-automation-event-coalescer.md) | `AutomationEventCoalescer`: selection and text change events | P7-14 | done |
 | [P7-16](phase-7/P7-16-tab-focus-mode.md) | Tab focus mode (`Ctrl+M`) and the `TabMovesFocus` property | P7-15 | todo |
 
 ### Step D — The UIA peer (`LoomEditor.WinUI/Accessibility/`)

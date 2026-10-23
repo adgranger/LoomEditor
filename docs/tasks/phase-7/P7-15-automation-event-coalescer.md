@@ -1,6 +1,6 @@
 # P7-15 — `AutomationEventCoalescer`: selection and text change events
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-14
 - **Size:** S
 
@@ -43,20 +43,20 @@ None (specified in ADR 0010 decision 6). The editor events it listens to: `IEdit
 
 (use `new EditorContext(manualScheduler)` with `ManualEditorScheduler` from `tests/LoomEditor.View.Tests/Features/TestHelpers/`; `scheduler.RunAll()`-style member: read the helper for its exact API)
 
-- [ ] New: `NoEvents_WhenNothingChanges`
-- [ ] New: `SelectionChange_RaisesOneSelectionEventOnFlush` (nothing is raised before the scheduler runs)
-- [ ] New: `ManySelectionChanges_RaiseOneEvent`
-- [ ] New: `TextChange_RaisesTextThenSelection` (typing a character through `context.ViewModel.Type("a")`: events `["text", "selection"]` in that order)
-- [ ] New: `TextChangeOnly_RaisesOnlyText` (an edit through `Model.PushEditOperations` that leaves the cursor untouched — if the cursor always reports a change after an edit, assert `["text", "selection"]` and rename the test `EditAlsoMovesTheCaret`)
-- [ ] New: `EventsAfterAFlush_ScheduleANewFlush`
-- [ ] New: `Dispose_CancelsAPendingFlush`, `Dispose_Twice_IsSafe`, `Dispose_UnsubscribesFromTheContext`
-- [ ] New: `SinkThrowing_DoesNotBreakTheEditorOrTheOtherEvent` (a sink whose `RaiseTextChanged` throws: `RaiseSelectionChanged` is still called, and `context` keeps working)
+- [x] New: `NoEvents_WhenNothingChanges`
+- [x] New: `SelectionChange_RaisesOneSelectionEventOnFlush` (nothing is raised before the scheduler runs)
+- [x] New: `ManySelectionChanges_RaiseOneEvent`
+- [x] New: `TextChange_RaisesTextThenSelection` (typing a character through `context.ViewModel.Type("a")`: events `["text", "selection"]` in that order)
+- [x] New: `TextChangeOnly_RaisesOnlyText` (an edit through `Model.PushEditOperations` that leaves the cursor untouched — if the cursor always reports a change after an edit, assert `["text", "selection"]` and rename the test `EditAlsoMovesTheCaret`)
+- [x] New: `EventsAfterAFlush_ScheduleANewFlush`
+- [x] New: `Dispose_CancelsAPendingFlush`, `Dispose_Twice_IsSafe`, `Dispose_UnsubscribesFromTheContext`
+- [x] New: `SinkThrowing_DoesNotBreakTheEditorOrTheOtherEvent` (a sink whose `RaiseTextChanged` throws: `RaiseSelectionChanged` is still called, and `context` keeps working)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
