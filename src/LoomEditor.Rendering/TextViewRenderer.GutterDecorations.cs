@@ -57,10 +57,10 @@ internal sealed partial class TextViewRenderer
 
     // folding.css 5–30: the codicon is centered in the line-decorations box (`margin-left: 2px`); here two strokes of
     // an 8-DIP chevron replace the glyph. Hidden unless the margin is hovered, the region is collapsed or `alwaysShowFoldIcons`.
-    private void DrawGutterIcon(IRenderSurface surface, string className, EditorLayoutInfo layoutInfo, float top, int lineHeight)
+    private void DrawGutterIcon(IRenderSurface surface, string className, EditorLayoutInfo layoutInfo, float top, int lineHeight, bool hovered)
     {
         if (DecorationStyles.Get(className) is not { GutterIcon: not GutterIcon.None } style
-            || !(style.AlwaysVisible || IsMarginHovered)
+            || !(style.AlwaysVisible || hovered)
             || Theme.FoldingControlForeground is not { } color)
         {
             return;

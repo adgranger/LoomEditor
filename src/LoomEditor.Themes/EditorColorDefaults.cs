@@ -322,6 +322,13 @@ internal static class EditorColorDefaults
         // colorRegistry.ts: scrollbarShadow (the minimap shadow)
         ["scrollbar.shadow"] = ("#000000", "#DDDDDD", null, null),
 
+        // editorColors.ts:28-46 (hcLight hover: #0F4A85 at 0.1)
+        ["editorStickyScroll.background"] = ("editor.background", "editor.background", "editor.background", "editor.background"),
+        ["editorStickyScrollGutter.background"] = ("editor.background", "editor.background", "editor.background", "editor.background"),
+        ["editorStickyScrollHover.background"] = ("#2A2D2E", "#F0F0F0", null, ColorValue.Transparent("#0F4A85", 0.1)),
+        ["editorStickyScroll.border"] = (null, null, "contrastBorder", "contrastBorder"),
+        ["editorStickyScroll.shadow"] = ("scrollbar.shadow", "scrollbar.shadow", "scrollbar.shadow", "scrollbar.shadow"),
+
         // miscColors.ts:56, :60, :64
         ["scrollbarSlider.background"] = (
             ColorValue.Transparent("#797979", 0.4), ColorValue.Transparent("#646464", 0.4),

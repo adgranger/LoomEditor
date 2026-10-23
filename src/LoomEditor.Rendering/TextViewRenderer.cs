@@ -115,8 +115,8 @@ internal sealed partial class TextViewRenderer : IDisposable
         FontInfo font = _measurer.FontInfo;
 
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
-        // Two layouts per visible line (number and text), plus the labels of very long lines.
-        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, 4 * lineCount));
+        // Two layouts per visible line (number and text), plus the labels of very long lines and up to 20 sticky lines.
+        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, (4 * lineCount) + 40));
 
         // Integer arithmetic first: scrollTop is of the order of the document height, the offsets are small.
         int scrollTop = (int)viewModel.ViewLayout.GetCurrentScrollTop();
@@ -140,7 +140,7 @@ internal sealed partial class TextViewRenderer : IDisposable
             // The renderer only reads tokens: the model or the background worker tokenizes.
             LineStyle style = LineStyle.Create(
                 data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
-                GetStyleOverrides(data, lineNumber, viewModel.GetLineMaxColumn(lineNumber), text.Length));
+                GetStyleOverrides(data.GetInlineDecorations(lineNumber), lineNumber, viewModel.GetLineMaxColumn(lineNumber), text.Length));
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
@@ -215,6 +215,9 @@ internal sealed partial class TextViewRenderer : IDisposable
         // The gutter hides the text that is scrolled under it.
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
         DrawGutter(surface, viewModel, data, layoutInfo, cursorLines, selections, hasFocus, topShift, font);
+
+        // Monaco: the sticky scroll widget is an overlay widget above the text and the gutter.
+        DrawStickyScroll(surface, viewModel, layoutInfo, scrollLeft);
 
         // Monaco: the minimap is a view part of its own, beside the text.
         DrawMinimap(surface, viewModel, data, layoutInfo);

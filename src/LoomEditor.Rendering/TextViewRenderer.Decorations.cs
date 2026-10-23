@@ -169,11 +169,11 @@ internal sealed partial class TextViewRenderer
     }
 
     // The foreground of the inline decorations of a line, in the order of its list (a later one wins).
-    private List<StyleOverride>? GetStyleOverrides(ViewportData data, int lineNumber, int maxColumn, int length)
+    private List<StyleOverride>? GetStyleOverrides(IReadOnlyList<InlineDecoration> inlineDecorations, int lineNumber, int maxColumn, int length)
     {
         List<StyleOverride>? overrides = null;
         List<StyleOverride>? important = null;
-        foreach (LineDecoration d in LineDecoration.Filter(data.GetInlineDecorations(lineNumber), lineNumber, 1, maxColumn))
+        foreach (LineDecoration d in LineDecoration.Filter(inlineDecorations, lineNumber, 1, maxColumn))
         {
             // `WidthOnly` (injected text with no content) is intentionally not drawn: DirectWrite has no inline-block element.
             if (d.Type is not (InlineDecorationType.Regular or InlineDecorationType.RegularAffectingLetterSpacing)

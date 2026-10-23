@@ -1,6 +1,6 @@
 # P6-59 — Drawing the sticky lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-58
 - **Size:** M
 
@@ -47,19 +47,19 @@ and shadow, and the hover background — following Monaco's `StickyScrollWidget`
 
 ## Tests
 
-- [ ] New: `StickyScroll_Null_DrawsNothing`
-- [ ] New: `StickyScroll_TwoLines_DrawsBackgroundsNumbersAndTexts`
-- [ ] New: `StickyScroll_LastLinePushedUp_IsDrawnHigher`
-- [ ] New: `StickyScroll_CollapsedScope_DrawsTheChevron`
-- [ ] New: `StickyScroll_Hover_UsesTheHoverBackground`
-- [ ] New: `GetStickyLineAt_ReturnsTheIndex`
+- [x] New: `StickyScroll_Null_DrawsNothing`
+- [x] New: `StickyScroll_TwoLines_DrawsBackgroundsNumbersAndTexts`
+- [x] New: `StickyScroll_LastLinePushedUp_IsDrawnHigher`
+- [x] New: `StickyScroll_CollapsedScope_DrawsTheChevron`
+- [x] New: `StickyScroll_Hover_UsesTheHoverBackground`
+- [x] New: `GetStickyLineAt_ReturnsTheIndex`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `stickyScrollWidget.ts` row (Win2D drawing; behavior differences: solid shadow, no relative line numbers)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `stickyScrollWidget.ts` row (Win2D drawing; behavior differences: solid shadow, no relative line numbers)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
