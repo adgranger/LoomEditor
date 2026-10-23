@@ -1,6 +1,6 @@
 # P6-60 — Sticky scroll pointer input: reveal, shift-click, folding chevron, hover
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-59
 - **Size:** S
 
@@ -41,17 +41,17 @@ File: `src/vs/editor/contrib/stickyScroll/browser/stickyScrollController.ts`.
 
 ## Tests
 
-- [ ] New: `Click_OnContent_RevealsAndSelectsThePosition`
-- [ ] New: `ShiftClick_RevealsTheEndOfTheScope`
-- [ ] New: `CtrlClick_DoesNothing`
-- [ ] New: `Click_OnChevron_TogglesTheFoldAndAdjustsScrollTop`
+- [x] New: `Click_OnContent_RevealsAndSelectsThePosition`
+- [x] New: `ShiftClick_RevealsTheEndOfTheScope`
+- [x] New: `CtrlClick_DoesNothing`
+- [x] New: `Click_OnChevron_TogglesTheFoldAndAdjustsScrollTop`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `stickyScrollController.ts` row (mouse; no click-link gesture)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `stickyScrollController.ts` row (mouse; no click-link gesture)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

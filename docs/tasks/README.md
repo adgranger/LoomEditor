@@ -637,7 +637,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P6-57](phase-6/P6-57-sticky-line-candidate-provider.md) | `StickyLineCandidateProvider` | P6-56 | done |
 | [P6-58](phase-6/P6-58-sticky-scroll-feature.md) | The `StickyScroll` feature: widget state and re-render triggers | P6-57 | done |
 | [P6-59](phase-6/P6-59-draw-sticky-scroll.md) | Drawing the sticky lines | P6-58 | done |
-| [P6-60](phase-6/P6-60-sticky-scroll-mouse.md) | Sticky scroll pointer input: reveal, shift-click, folding chevron, hover | P6-59 | todo |
+| [P6-60](phase-6/P6-60-sticky-scroll-mouse.md) | Sticky scroll pointer input: reveal, shift-click, folding chevron, hover | P6-59 | done |
 | [P6-61](phase-6/P6-61-sticky-scroll-command-and-control.md) | Toggle sticky scroll: command, control property, gallery | P6-60 | todo |
 
 ### Step J — Prove it and close the phase

@@ -43,7 +43,22 @@ internal sealed partial class TextViewRenderer
         return y >= layout.Tops[last] && y < layout.Tops[last] + layout.Heights[last] ? last : -1;
     }
 
-    private sealed record StickyLayout(float[] Tops, int[] Heights, float Height);
+    /// <summary>
+    /// The view position hit in sticky line <paramref name="index"/> at <paramref name="x"/> (DIPs from the left of the editor),
+    /// or <see langword="null"/> when there is no such line.
+    /// </summary>
+    public Position? GetStickyPositionAt(int index, double x, EditorLayoutInfo layoutInfo)
+    {
+        if (_stickyLayout is not { } layout || index < 0 || index >= layout.Texts.Length)
+        {
+            return null;
+        }
+
+        double offset = x - layoutInfo.ContentLeft + layout.TextScroll;
+        return new Position(layout.ViewLineNumbers[index], layout.Texts[index].HitTest(Math.Max(0, offset)) + 1);
+    }
+
+    private sealed record StickyLayout(float[] Tops, int[] Heights, float Height, ILineLayout[] Texts, int[] ViewLineNumbers, double TextScroll);
 
     private sealed record StickyLine(ILineLayout Text, string? FoldingClassName, bool IsCollapsed);
 
@@ -91,9 +106,11 @@ internal sealed partial class TextViewRenderer
 
         // The last line is under the others (z-index 0), pushed up by the next scope.
         int lastIndex = lineNumbers.Count - 1;
+        var texts = new ILineLayout[lineNumbers.Count];
         foreach (int i in (int[])[lastIndex, .. Enumerable.Range(0, lastIndex)])
         {
             StickyLine line = PrepareStickyLine(viewModel, viewLineNumbers[i]);
+            texts[i] = line.Text;
             if (i == lastIndex)
             {
                 tops[i] += data.LastLineRelativePosition + (line.IsCollapsed ? 1 : 0);
@@ -128,7 +145,7 @@ internal sealed partial class TextViewRenderer
             surface.FillRectangle(0, bottom, right, StickyShadowHeight, shadow);
         }
 
-        _stickyLayout = new StickyLayout([.. tops], [.. heights], totalHeight);
+        _stickyLayout = new StickyLayout([.. tops], [.. heights], totalHeight, texts, [.. viewLineNumbers], textScroll);
     }
 
     // Monaco: the `RenderedStickyLine` constructor: the first view line of the model line, its inline decorations, its folding icon.

@@ -11,6 +11,7 @@ using LoomEditor.View.Controller;
 using LoomEditor.View.Events;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.StickyScroll;
 using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Highlighting;
 using LoomEditor.View.Layout;
@@ -118,6 +119,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <summary>The folding feature, set by <c>FoldingFeature</c> while it is attached (Monaco: <c>FoldingController.get(editor)</c>).</summary>
     internal FoldingFeature? FoldingFeature { get; set; }
+
+    /// <summary>The sticky scroll feature, set by <c>StickyScrollFeature</c> while it is attached (Monaco: <c>StickyScrollController.get(editor)</c>).</summary>
+    internal StickyScrollFeature? StickyScrollFeature { get; set; }
 
     /// <inheritdoc />
     public Selection Selection

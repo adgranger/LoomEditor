@@ -1,4 +1,6 @@
 using LoomEditor.View.Controller;
+using LoomEditor.View.Features.StickyScroll;
+using LoomEditor.View.Layout;
 using LoomEditor.WinUI.Input;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -38,6 +40,14 @@ public sealed partial class LoomEditor
         {
             Focus(FocusState.Pointer);
             CapturePointer(e.Pointer);
+            e.Handled = true;
+            return;
+        }
+
+        if (_renderer.IsInStickyScroll(mouseEvent.Y))
+        {
+            // The sticky lines are over the text: the click acts on them and never reaches the text below.
+            HandleStickyPress(mouseEvent, e);
             e.Handled = true;
             return;
         }
@@ -98,6 +108,8 @@ public sealed partial class LoomEditor
 
             minimap.PointerExited();
         }
+
+        UpdateStickyHover(PointerInput.Create(e, this, 1));
 
         if (_mouseDown is { IsActive: true })
         {
@@ -165,6 +177,7 @@ public sealed partial class LoomEditor
         base.OnPointerExited(e);
 
         SetMarginHovered(false);
+        SetHoveredStickyLine(-1);
         if (_renderer?.MinimapPointer is { IsActive: false } minimapPointer)
         {
             minimapPointer.PointerExited();
@@ -173,6 +186,47 @@ public sealed partial class LoomEditor
         if (_mouseDown is not { IsActive: true })
         {
             ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
+        }
+    }
+
+    // Monaco: the click listener of `StickyScrollController`; the hit parts come from the gutter geometry.
+    private void HandleStickyPress(EditorMouseEvent mouseEvent, PointerRoutedEventArgs e)
+    {
+        Focus(FocusState.Pointer);
+        if (!mouseEvent.LeftButton || _context.StickyScrollFeature is not { } feature || _renderer is not { } renderer)
+        {
+            return;
+        }
+
+        int index = renderer.GetStickyLineAt(mouseEvent.Y);
+        if (index < 0)
+        {
+            return;
+        }
+
+        EditorLayoutInfo layout = _viewModel.LayoutInfo;
+        StickyScrollHitPart part = mouseEvent.X < layout.DecorationsLeft ? StickyScrollHitPart.LineNumberGutter
+            : mouseEvent.X < layout.ContentLeft ? StickyScrollHitPart.FoldingIcon
+            : StickyScrollHitPart.Content;
+        int? column = null;
+        if (part == StickyScrollHitPart.Content && renderer.GetStickyPositionAt(index, mouseEvent.X, layout) is { } viewPosition)
+        {
+            column = _viewModel.CoordinatesConverter.ConvertViewPositionToModelPosition(viewPosition).Column;
+        }
+
+        feature.HandleClick(index, part, column, mouseEvent.ShiftKey, mouseEvent.CtrlKey || mouseEvent.AltKey || mouseEvent.MetaKey);
+        _canvas?.Invalidate();
+    }
+
+    private void UpdateStickyHover(EditorMouseEvent move) =>
+        SetHoveredStickyLine(_renderer is { } renderer && renderer.IsInStickyScroll(move.Y) ? renderer.GetStickyLineAt(move.Y) : -1);
+
+    private void SetHoveredStickyLine(int index)
+    {
+        if (_renderer is { } renderer && renderer.HoveredStickyLineIndex != index)
+        {
+            renderer.HoveredStickyLineIndex = index;
+            _canvas?.Invalidate();
         }
     }
 

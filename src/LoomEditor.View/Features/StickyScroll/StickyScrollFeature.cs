@@ -20,7 +20,7 @@ namespace LoomEditor.View.Features.StickyScroll;
 /// renderer (P6-59), which redraws what <see cref="ViewModel.StickyScroll"/> says. The options are read from
 /// <see cref="EditorLayoutOptions.StickyScroll"/> when <see cref="ViewModel.OptionsChanged"/> is raised. Threading: UI thread only.
 /// </remarks>
-internal sealed class StickyScrollFeature : IEditorFeature
+internal sealed partial class StickyScrollFeature : IEditorFeature
 {
     private ViewModel? _viewModel;
     private TextModel? _model;
@@ -58,6 +58,11 @@ internal sealed class StickyScrollFeature : IEditorFeature
         _viewModel = viewModel;
         _model = context.Model;
         _editorContext = context as EditorContext;
+        if (_editorContext is not null)
+        {
+            _editorContext.StickyScrollFeature = this;
+        }
+
         _options = viewModel.LayoutOptions.StickyScroll;
         _provider = new StickyLineCandidateProvider(_model, viewModel, context.Scheduler, () => _viewModel!.LayoutOptions.StickyScroll);
         viewModel.LayoutInfoChanged += OnLayoutInfoChanged;
@@ -123,6 +128,11 @@ internal sealed class StickyScrollFeature : IEditorFeature
         ResetState();
         _viewModel = null;
         _model = null;
+        if (_editorContext is not null)
+        {
+            _editorContext.StickyScrollFeature = null;
+        }
+
         _editorContext = null;
     }
 
