@@ -1,6 +1,6 @@
 # P6-57 — `StickyLineCandidateProvider`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-56
 - **Size:** S
 
@@ -46,17 +46,17 @@ Port the **scenario** of `Testing the function getCandidateStickyLinesIntersecti
 (`src/vs/editor/contrib/stickyScroll/test/browser/stickyScroll.test.ts` 43–58 text, 132–159) with the indentation model instead of the
 outline model — the expected candidates differ, so these are **new** tests, written after reading the upstream one:
 
-- [ ] `GetCandidates_FirstBlock` (an indented text whose first block spans lines 1–3)
-- [ ] `GetCandidates_NestedBlocks_HaveIncreasingTops` (top 0, then one line height)
-- [ ] `GetCandidates_FoldedRegion_IsFilteredOut` (mirrors `issue #156268`)
-- [ ] `ContentChange_UpdatesAfterTheDebounce` (fake scheduler)
+- [x] `GetCandidates_FirstBlock` (an indented text whose first block spans lines 1–3)
+- [x] `GetCandidates_NestedBlocks_HaveIncreasingTops` (top 0, then one line height)
+- [x] `GetCandidates_FoldedRegion_IsFilteredOut` (mirrors `issue #156268`)
+- [x] `ContentChange_UpdatesAfterTheDebounce` (fake scheduler)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `stickyScrollProvider.ts` row; tests table: `stickyScroll.test.ts` 0 / 4 (outline model, phase 8)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `stickyScrollProvider.ts` row; tests table: `stickyScroll.test.ts` 0 / 4 (outline model, phase 8)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

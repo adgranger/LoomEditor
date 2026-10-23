@@ -222,6 +222,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/config/editorOptions.ts` (`EditorStickyScroll`) | `LoomEditor.View/Features/StickyScroll/EditorStickyScrollOptions.cs` | ✅ P6-55: `defaultModel` is an enum; the outline and folding-provider models fall back to the indentation model until phase 8 |
 | `editor/contrib/stickyScroll/browser/stickyScrollElement.ts` | `LoomEditor.View/Features/StickyScroll/StickyScrollElement.cs` | 🔶 P6-55: `StickyModel` drops `uri` and `outlineProviderId` (one model per editor, no outline) |
 | `editor/contrib/stickyScroll/browser/stickyScrollProvider.ts` (`StickyLineCandidate`) | `LoomEditor.View/Features/StickyScroll/StickyLineCandidate.cs` | 🔶 P6-55: the data type only |
+| `editor/contrib/stickyScroll/browser/stickyScrollProvider.ts` (`StickyLineCandidateProvider`) | `LoomEditor.View/Features/StickyScroll/StickyLineCandidateProvider.cs` | 🔶 P6-57: synchronous update, one model per editor, no document symbol listener (phase 8), default line height |
 | `editor/contrib/stickyScroll/browser/stickyScrollWidget.ts` (`StickyScrollWidgetState`) | `LoomEditor.View/Features/StickyScroll/StickyScrollWidgetState.cs` | 🔶 P6-55: the data type only; `Equals` compares the lists element-wise |
 | `editor/contrib/stickyScroll/browser/stickyScrollModelProvider.ts` | `LoomEditor.View/Features/StickyScroll/StickyModelProvider.cs` | 🔶 P6-56: indentation model only, synchronous (no outline or syntax folding provider until phase 8) |
 | `editor/contrib/multicursor/browser/multicursor.ts` | `LoomEditor.View/Features/MultiCursor/` | ✅ P3-38, P5-75, P5-77: all the commands, `MultiCursorSession`, `MultiCursorSelectionController`, `SelectionHighlighter`; no menus, no `announceCursorChange`, no `onDidChangeModel` (one model per editor); `hasSemanticHighlights` is always false (no document highlight provider before phase 8) |
@@ -557,6 +558,7 @@ test file; every phase 6 card adds or updates its rows.
 |---|---|---|
 | `modelDecorations.test.ts` | 1 / 1 (`injected text width must be finite and non-negative`) | P6-03 |
 | `lineBreakData.test.ts` | 8 / 8 | |
+| `stickyScroll.test.ts` | 0 / 4 | the outline model, phase 8 (P6-57 writes 4 new tests with the indentation model) |
 | `monospaceLineBreaksComputer.test.ts` | 37 / 37 | P6-10 to P6-13 (complete) |
 
 ## Tests ported in phase 5
