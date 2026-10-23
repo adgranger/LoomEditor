@@ -4,7 +4,7 @@ namespace LoomEditor.View.Accessibility;
 
 /// <summary>A mutable range over an <see cref="AutomationTextDocument"/> (UI Automation ranges are moved in place).</summary>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class AutomationTextRange
+internal sealed partial class AutomationTextRange
 {
     private Range _range;
 
