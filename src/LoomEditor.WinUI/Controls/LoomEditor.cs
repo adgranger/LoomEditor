@@ -90,6 +90,7 @@ public sealed partial class LoomEditor : Control
         InitializeIme();
         CharacterReceived += OnCharacterReceived;
         InitializeFont();
+        InitializeStickyScroll();
         InitializeHighlighting();
         _context.Model.ContentChanged += (_, _) => _canvas?.Invalidate();
         _context.Model.RawContentChanged += OnModelRawContentChanged;

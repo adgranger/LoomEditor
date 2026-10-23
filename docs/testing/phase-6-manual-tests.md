@@ -55,3 +55,13 @@ The Win2D font sampler needs a real `CanvasDevice`, which the Rendering tests ne
 | 4.6 | Open find (Ctrl+F) and search a word that occurs often | The matches are marked in the minimap | |
 | 4.7 | Select a word, then fold a region | The other occurrences and the folded region are marked in the minimap | |
 | 4.8 | Turn the **Minimap** toggle off, then on | The minimap disappears and the text uses the freed width; it comes back | |
+
+## 5. Sticky scroll (Gallery: the **Sticky scroll** toggle)
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 5.1 | Open a long C# sample and scroll inside a method | The lines that open the enclosing scopes stick at the top and follow the scroll | |
+| 5.2 | Scroll inside nested scopes (class, method, block) | The sticky lines stack, at most `StickyScrollMaxLineCount` | |
+| 5.3 | Click a sticky line | The editor reveals that line | |
+| 5.4 | Click the chevron of a sticky line | The region folds (and unfolds) | |
+| 5.5 | Turn the **Sticky scroll** toggle off, then on | The sticky widget disappears, then comes back | |

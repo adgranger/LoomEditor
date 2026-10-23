@@ -4,6 +4,7 @@
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
+using LoomEditor.View.Commands;
 using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Layout;
 
@@ -31,6 +32,7 @@ internal sealed partial class StickyScrollFeature : IEditorFeature
     private int _maxStickyLines = int.MaxValue;
     private int? _showEndForLine;
     private bool _enabled;
+    private IDisposable? _toggleRegistration;
 
     /// <inheritdoc />
     public string Id => "loom.stickyScroll";
@@ -65,10 +67,19 @@ internal sealed partial class StickyScrollFeature : IEditorFeature
 
         _options = viewModel.LayoutOptions.StickyScroll;
         _provider = new StickyLineCandidateProvider(_model, viewModel, context.Scheduler, () => _viewModel!.LayoutOptions.StickyScroll);
+        _toggleRegistration = context.Commands.Register(new EditorCommand(StickyScrollCommands.ToggleStickyScroll, Toggle));
         viewModel.LayoutInfoChanged += OnLayoutInfoChanged;
         viewModel.OptionsChanged += OnOptionsChanged;
         ReadConfiguration();
         OnDidResize();
+    }
+
+    // Monaco: ToggleStickyScroll flips `editor.stickyScroll.enabled`; here the view model owns the option.
+    private void Toggle()
+    {
+        ViewModel viewModel = _viewModel!;
+        EditorLayoutOptions layout = viewModel.LayoutOptions;
+        viewModel.SetOptions(layout with { StickyScroll = layout.StickyScroll with { Enabled = !layout.StickyScroll.Enabled } }, viewModel.ViewLayoutOptions);
     }
 
     /// <summary>Monaco: <c>findScrollWidgetState</c>.</summary>
@@ -123,6 +134,8 @@ internal sealed partial class StickyScrollFeature : IEditorFeature
         _viewModel.LayoutInfoChanged -= OnLayoutInfoChanged;
         _viewModel.OptionsChanged -= OnOptionsChanged;
         StopListening();
+        _toggleRegistration?.Dispose();
+        _toggleRegistration = null;
         _provider!.Dispose();
         _provider = null;
         ResetState();

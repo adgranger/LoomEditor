@@ -87,6 +87,8 @@ public sealed partial class MainWindow : Window
 
     private void OnMinimapToggled(object sender, RoutedEventArgs e) => Editor.MinimapEnabled = MinimapSwitch.IsOn;
 
+    private void OnStickyScrollToggled(object sender, RoutedEventArgs e) => Editor.StickyScrollEnabled = StickyScrollSwitch.IsOn;
+
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
     private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)

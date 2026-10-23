@@ -5,4 +5,4 @@
 - [x] Indentation guides, bracket pair guides
 - [x] Overview ruler
 - [x] Minimap
-- [ ] Sticky scroll
+- [x] Sticky scroll
