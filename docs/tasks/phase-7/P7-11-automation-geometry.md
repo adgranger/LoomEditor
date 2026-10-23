@@ -1,6 +1,6 @@
 # P7-11 — Geometry: bounding rectangles, point to position, visible range
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-10
 - **Size:** M
 
@@ -55,21 +55,21 @@ None for the logic (specified in `docs/tasks/phase-7/README.md` §4). The pieces
 
 (Do not hard-code pixel offsets of the gutter: compute `ContentLeft`, line height and `SpaceWidth` from `viewModel.LayoutInfo`, `viewModel.ViewLayout` and `viewModel.FontInfo`.)
 
-- [ ] New: `Rectangles_WithinOneLine` (`"hello world"`, `[(1,1),(1,6))`: one rectangle, `X == ContentLeft`, `Width == 50`, `Height == lineHeight`, `Y == 0` at scroll 0), `Rectangles_StartAfterTheFirstColumn` (`X == ContentLeft + 10 * (col - 1)`),
+- [x] New: `Rectangles_WithinOneLine` (`"hello world"`, `[(1,1),(1,6))`: one rectangle, `X == ContentLeft`, `Width == 50`, `Height == lineHeight`, `Y == 0` at scroll 0), `Rectangles_StartAfterTheFirstColumn` (`X == ContentLeft + 10 * (col - 1)`),
       `Rectangles_AcrossTwoLines_OnePerLineWithTheLineBreakWidth` (the first rectangle's width includes `SpaceWidth`), `Rectangles_Degenerate_IsOneRectangleOfWidthOne`,
       `Rectangles_EmptyLineInTheRange_KeepsTheLineBreakWidth`, `Rectangles_WrappedLine_OnePerViewLine` (wrap column 10, `"aaaa bbbb cccc"`, whole model line → 2 rectangles with different `Y`),
       `Rectangles_ScrolledOffLines_AreDropped` (a 100-line document, `viewModel.ViewLayout.SetScrollPosition(new NewScrollPosition(scrollTop: 19 * 50), ScrollType.Immediate)` — use the helper the existing layout tests use —, a range on line 1 → none, on the first visible line → `Y == 0`),
       `Rectangles_ClippedToTheContentArea` (horizontal scroll cuts the left of a rectangle: `X >= ContentLeft`), `Rectangles_RangeFullyRightOfTheContentArea_IsDropped`
-- [ ] New: `VisibleRange_FirstScreen` (a 100-line document: from `(1,1)` to the end of the last visible line), `VisibleRange_Scrolled`, `VisibleRange_Wrapped_ConvertsViewLinesToModelPositions`, `VisibleRange_EmptyViewport_IsDocumentStart` (`OuterHeight: 0`)
-- [ ] New: `PositionFromPoint_InsideALine` (`x = ContentLeft + 26` → `Math.Round(2.6) = 3` → `(1,4)` with the fixed metrics), `PositionFromPoint_SecondLine` (`y = lineHeight + 1`), `PositionFromPoint_LeftOfTheContent_IsTheLineStart`,
+- [x] New: `VisibleRange_FirstScreen` (a 100-line document: from `(1,1)` to the end of the last visible line), `VisibleRange_Scrolled`, `VisibleRange_Wrapped_ConvertsViewLinesToModelPositions`, `VisibleRange_EmptyViewport_IsDocumentStart` (`OuterHeight: 0`)
+- [x] New: `PositionFromPoint_InsideALine` (`x = ContentLeft + 26` → `Math.Round(2.6) = 3` → `(1,4)` with the fixed metrics), `PositionFromPoint_SecondLine` (`y = lineHeight + 1`), `PositionFromPoint_LeftOfTheContent_IsTheLineStart`,
       `PositionFromPoint_BelowTheLastLine_IsTheLastLine`, `PositionFromPoint_AboveTheFirstLine_IsTheFirstLine`, `PositionFromPoint_WrappedLine_ReturnsAModelPosition` (a click on the second view line gives a model column past the break),
       `PositionFromPoint_Scrolled_AddsTheScrollOffsets`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
