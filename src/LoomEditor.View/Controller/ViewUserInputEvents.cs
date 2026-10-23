@@ -16,7 +16,7 @@ internal sealed record EditorMouseEventArgs(EditorMouseEvent Event, MouseTarget 
 /// coordinates (Monaco: <c>ViewUserInputEvents</c>, without view zones).
 /// </summary>
 /// <remarks>
-/// Not ported: the other events (leave, drag, drop, wheel, key, context menu).
+/// Not ported: the other events (drag, drop, wheel, key, context menu).
 /// Threading: UI thread only.
 /// </remarks>
 internal sealed class ViewUserInputEvents(ICoordinatesConverter coordinatesConverter)
@@ -27,11 +27,26 @@ internal sealed class ViewUserInputEvents(ICoordinatesConverter coordinatesConve
     /// <summary>Monaco: <c>onMouseUp</c>.</summary>
     public event EventHandler<EditorMouseEventArgs>? MouseUp;
 
+    /// <summary>Monaco: <c>onMouseMove</c>.</summary>
+    public event EventHandler<EditorMouseEventArgs>? MouseMove;
+
+    /// <summary>
+    /// Monaco: <c>onMouseLeave</c>. Monaco's event carries a partial mouse event; this one does not (features only need to
+    /// know that the mouse left).
+    /// </summary>
+    public event EventHandler? MouseLeave;
+
     /// <summary>Monaco: <c>emitMouseDown</c>.</summary>
     public void EmitMouseDown(EditorMouseEventArgs e) => MouseDown?.Invoke(this, Convert(e));
 
     /// <summary>Monaco: <c>emitMouseUp</c>.</summary>
     public void EmitMouseUp(EditorMouseEventArgs e) => MouseUp?.Invoke(this, Convert(e));
+
+    /// <summary>Monaco: <c>emitMouseMove</c>.</summary>
+    public void EmitMouseMove(EditorMouseEventArgs e) => MouseMove?.Invoke(this, Convert(e));
+
+    /// <summary>Monaco: <c>emitMouseLeave</c>.</summary>
+    public void EmitMouseLeave() => MouseLeave?.Invoke(this, EventArgs.Empty);
 
     private EditorMouseEventArgs Convert(EditorMouseEventArgs e) =>
         e with { Target = ConvertViewToModelMouseTarget(e.Target, coordinatesConverter) };

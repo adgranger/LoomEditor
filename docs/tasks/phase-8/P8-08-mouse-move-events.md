@@ -1,6 +1,6 @@
 # P8-08 — Mouse move and mouse leave events for features
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-07
 - **Size:** S
 
@@ -38,16 +38,16 @@ Features (hover, later others) hear `MouseMove` and `MouseLeave`, with what is u
 
 ## Tests
 
-- [ ] New (`ViewUserInputEventsTests`; comments `// Monaco: viewUserInputEvents.emitMouseMove`): `EmitMouseMove_ConvertsTheTargetToModelCoordinates` (use the coordinates converter test double the existing mouse-down test uses; if there is none, `grep -rn "ICoordinatesConverter" tests/LoomEditor.View.Tests | head -3` and reuse it or the identity converter), `EmitMouseMove_NoListener_NoException`,
+- [x] New (`ViewUserInputEventsTests`; comments `// Monaco: viewUserInputEvents.emitMouseMove`): `EmitMouseMove_ConvertsTheTargetToModelCoordinates` (use the coordinates converter test double the existing mouse-down test uses; if there is none, `grep -rn "ICoordinatesConverter" tests/LoomEditor.View.Tests | head -3` and reuse it or the identity converter), `EmitMouseMove_NoListener_NoException`,
       `EmitMouseLeave_RaisesOnce`, `EmitMouseMove_PassesTheEvent` (modifiers and coordinates unchanged), `Unsubscribe_StopsDelivery`
-- [ ] The control change has no unit test; manual line for the Setup section of `docs/testing/phase-8-manual-tests.md`: "Run the Gallery from a debugger with a breakpoint in a `MouseMove` handler (or the hover of P8-11) to see the events"; the real check is P8-11's manual section
+- [x] The control change has no unit test; manual line for the Setup section of `docs/testing/phase-8-manual-tests.md`: "Run the Gallery from a debugger with a breakpoint in a `MouseMove` handler (or the hover of P8-11) to see the events"; the real check is P8-11's manual section
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the two new emitters (`viewUserInputEvents.ts`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the two new emitters (`viewUserInputEvents.ts`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -11,6 +11,7 @@ Fill the **Result** column (`pass` / `fail` + a note) and the **Findings** table
 ## Setup
 
 - `Editor.Markers.Change("manual", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)])` puts an error mark in the overview ruler.
+- Run the Gallery from a debugger with a breakpoint in a `MouseMove` handler (or the hover of P8-11) to see the events.
 
 ## 1. Squiggles and ruler
 
