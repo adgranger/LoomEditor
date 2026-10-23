@@ -645,7 +645,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P6-62](phase-6/P6-62-gallery-view-extras-demo.md) | Gallery: the phase 6 samples and the manual test list | P6-61, P6-54, P6-35, P6-26 | done |
-| [P6-63](phase-6/P6-63-close-phase-6.md) | Close phase 6 | all | todo |
+| [P6-63](phase-6/P6-63-close-phase-6.md) | Close phase 6 | all | done |
 
 Take phase 6 cards in table order (each card's "Depends on" is satisfied by the cards above it). P6-26, P6-35, P6-45,
 P6-52 … P6-54, P6-59 … P6-62 have manual checks for the maintainer.

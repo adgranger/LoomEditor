@@ -51,6 +51,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 
 | Where | Difference | Why |
 |---|---|---|
+| Sticky scroll drawing (P6-59, `stickyScroll.css`) | The shadow under the widget is a solid 2-DIP band instead of a gradient; no relative line numbers in the sticky lines | The simplest drawing that keeps the widget readable; `lineNumbers: relative` is not ported |
 | Minimap drawing (P6-52, `minimap.css`) | The 100 ms slider opacity transition and the 0.5 s auto-hide fade are not animated (instant); the shadow is a solid 6-DIP band filled with `scrollbar.shadow` instead of the `--vscode-shadow-md` box shadow (no gradient); the slider has no separate horizontal part | No CSS transitions or box shadows in Win2D; the result is the same state, without the animation |
 | `MinimapModel` (P6-49) | A content or injected text change of the model and a change of the layout (word wrap, hidden areas) re-render all the minimap lines (`IMinimapRenderTarget.OnFlushed`) instead of only the changed ones (`onLinesChanged` / `onLinesInserted` / `onLinesDeleted`) | LoomEditor has no `ViewLines*` / `ViewFlushed` view events; the minimap is cheap to redraw |
 | Injected text `WidthInEm` (P6-25) | A `WidthOnly` inline decoration (injected text with empty content and `WidthInEm`) is not drawn and reserves no space in the drawn layout; the line breaker still counts its width | DirectWrite has no inline-block element |
@@ -287,7 +288,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/viewModel/viewModelImpl.ts` | `LoomEditor.View/Layout/` (`ViewModel`) | 🔶 subset: layout part (P2-10) and the cursor facade (P3-20: `ViewModel.Cursors.cs`, owns the `CursorsController`, event dispatcher and `CursorConfiguration`); view lines over `ViewModelLinesFromProjectedModel` and hidden areas (`ViewModel.HiddenAreas.cs`, P5-81); typing, paste, cut and composition facade methods come with their cards; word wrap (P6-20: `ViewModel.Wrapping.cs`, two-pass line breaks, `UpdateWrappingSettings`; `_updateConfigurationViewLineCount` skipped; `WrapOnEscapedLineFeeds` read at construction only, as in Monaco) and injected text changes (P6-21: `OnDidChangeContentOrInjectedText` shared by both events, `GetInjectedTextAt`, `ModifyPosition`); guide queries (P6-32: `ViewModel.Guides.cs`: `GetActiveIndentGuide`, `GetLinesIndentGuides`, `GetBracketGuidesInRangeByLine`; `EditorGuidesOptions`, `EditorLayoutOptions.Guides`); overview ruler groups (P6-37: `ViewModel.Decorations.cs` `GetAllOverviewRulerDecorations`, `OverviewRulerDecorations`, `DecorationColorResolver`; `_invalidateDecorationsColorCache` not needed, see "Behavior differences") |
 | `editor/common/viewLayout/viewLinesViewportData.ts` | `LoomEditor.View/Layout/` (`ViewportData`) | 🔶 phase 2 subset (P2-10): fields and constructor only; no rendering data, wrapped-line or decoration queries |
 | `editor/common/viewModel.ts` (`OverviewRulerDecorationsGroup`), `common/model/textModel.ts` (`ModelDecorationOverviewRulerOptions.getColor`) | `LoomEditor.View/Layout/` (`OverviewRulerDecorationsGroup`, `DecorationColorResolver`) | ✅ P6-37; see "Behavior differences" |
-| `editor/common/viewModel/*` (the rest) | `LoomEditor.View/Layout/` | ⏳ phase 6 |
+| `editor/common/viewModel/*` (the rest) | `LoomEditor.View/Layout/` | 🔶 phase 6 ported what wrapping, guides, the overview ruler and the minimap need (rows above); the rest (view events dispatcher…) is not planned |
 | `microsoft/vscode-textmate` | `LoomEditor.TextMate/Grammar/` | ⏳ phase 4 |
 | `editor/contrib/<feature>/` | `LoomEditor.View/Features/<Feature>/` | ⏳ phase 5 |
 
@@ -470,7 +471,7 @@ marks each ported test). "Ported" includes tests adapted to C# types.
 | `textModel.test.ts` (`Editor Model - TextModel`) | 25 / 26 | `does not use events internally` (1) left. Indentation guessing and `normalizeIndentation` (P5-19, `TextModelIndentationTests`) create the model with the defaults and call `DetectIndentation`; `issue #168836` is in `TextModelOptionsTests`. The 3 NaN / float `validatePosition` / `validateRange` tests are adapted to `int` inside the validation tests |
 | `modelDecorations.test.ts` (`Editor Model - Model Decorations`, `deltaDecorations`, `Decorations and editing`) | 24 + 5 / 28; 7 / 10; 62 / 62 | P5-03 and P5-04. Not ported: `injected text width must be finite and non-negative` (injected text), `removeAllDecorationsWithOwnerId can be called after model dispose` (no `Dispose`), `issue #4317` (`hoverMessage`). The card counts 59 tests in `Decorations and editing`; the file has 62 (insert 8, delete 18, replace short 18, replace long 18) and all are ported |
 | `color.test.ts` (`Color`, `HSLA`) | 5 + 16 luminance cases / 12 tests of the file | P5-05: `isLighterColor`, `getLighterColor`, `isDarkerColor`, `getDarkerColor`, `luminance`, `HSLA.toRGBA`, `HSLA.fromRGBA`. Not ported: `blending`, `toString`, `toNumber32Bit`, `HSVA`, `Format`, `ensureContrastRatio` (the code they test is not ported) |
-| `inlineDecorations.test.ts` (`InlineModelDecorationsComputer`), `viewModelDecorations.test.ts` (`issue #37401`) | 32 / 33; 3 / 3 | P5-07, P6-14, P6-23 (`InjectedTextInlineDecorationsComputer`, 21). Not ported: `decoration with affectsFont sets hasVariableFonts` (font decorations) |
+| `inlineDecorations.test.ts` (`InlineModelDecorationsComputer`), `viewModelDecorations.test.ts` (`issue #37401`) | 32 / 33; 3 / 3 | P5-07, P6-14, P6-23 (`InjectedTextInlineDecorationsComputer`, 19). Not ported: `decoration with affectsFont sets hasVariableFonts` (font decorations) |
 | `lineDecorations.test.ts` (`LineDecoration.filter`) | 1 / 8 | P5-09: `issue #3661`. Not ported: the normalizer, width-only and injected text tests, `issue #37401` (a range with column 0 cannot be built in C#) |
 | `languageConfiguration.test.ts` (`StandardAutoClosingPairConditional`) | 11 / 11 | P5-10; `language configurations priorities` in P5-14 (`LanguageConfigurationRegistryTests`, no `TestLanguageConfigurationService`) |
 | `richEditBrackets.test.ts`, `electricCharacter.test.ts` | 10 / 10; 2 / 2 | P5-11 |
@@ -523,8 +524,43 @@ What phase 5 leaves for word wrap, guides, the minimap and sticky scroll. Phase 
 
 | Where (LoomEditor) | Monaco (pinned commit) | What is missing |
 |---|---|---|
-| `Layout/ViewModelLinesFromProjectedModel*.cs` (wrapping members), `ModelLineProjection` | `viewModelLines.ts`, `modelLineProjection.ts`, `modelLineProjectionData.ts`, `monospaceLineBreaksComputer.ts` | the line-break projection and word wrap |
+| `Layout/ViewModelLinesFromProjectedModel*.cs` (wrapping members), `ModelLineProjection` | `viewModelLines.ts`, `modelLineProjection.ts`, `modelLineProjectionData.ts`, `monospaceLineBreaksComputer.ts` | **resolved** (P6-07 … P6-20): the line-break projection and word wrap |
 | `Layout/RevealCalculator.cs` | `viewLines.ts` reveal, `stickyScroll/` | **resolved** (P6-58): the sticky lines are part of `surroundingLines` |
+
+## Done in phase 6 (view extras)
+
+The step-by-step cards are in **[docs/tasks/phase-6/](tasks/phase-6/)** (P6-01 … P6-63). Main design decisions:
+
+- **View lines are no longer model lines.** `ModelLineProjection` (identity or wrapped) per model line, `ViewModelLinesFromProjectedModel`
+  with hidden areas and word wrap, `CoordinatesConverter` for positions; word wrap and wrapping indent are options of the control
+  (`WordWrap`, `WordWrapColumn`, `WrappingIndent`) ([ARCHITECTURE.md](ARCHITECTURE.md#view-lines-with-word-wrap-and-injected-text-phase-6)).
+- **Injected text** (`after` / `before` decorations) is ported end to end: model queries, change event, line breaks, inline
+  decorations, rendering and hit testing.
+- **Guides:** indent and bracket pair guides in the model (`GuidesTextModelPart`), mapped to view lines, drawn by the renderer.
+- **Overview ruler:** only the decorations ruler (colors, lanes, marks of Find, highlights and bracket matching).
+- **Minimap:** options and layout, the char renderer with pre-baked and Win2D-sampled font data, the model over the view model,
+  line / selection / decoration rendering into a pixel buffer, drawn with Win2D, pointer input, and the control properties.
+- **Sticky scroll:** the indentation-based model, the candidate provider, the feature, the drawing, the pointer input and the toggle command.
+- Every deliberate difference of phase 6 is a row of "Behavior differences we accept" (search for `(P6-`).
+- `renderWhitespace` is **not** done in phase 6 (moved to a later phase, see below).
+- Manual checks (P6-26, P6-35, P6-45, P6-52 … P6-54, P6-59 … P6-62) are listed in `docs/testing/phase-6-manual-tests.md` for the
+  maintainer. **Not verified visually:** the minimap, sticky scroll and overview ruler drawing and pointer input were never run in the real app.
+- `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (Native AOT) fails in this environment with XamlCompiler
+  `WMC1007` in the first XAML compile pass. A normal build and a publish with `-p:PublishAot=false` succeed, so the AOT chain of phase 6 is **not** verified.
+
+## Cut points for later phases
+
+| What | Where it goes |
+|---|---|
+| Outline-based sticky scroll (`StickyOutlineModel`) and the 4 outline tests of `stickyScroll.test.ts` | phase 8 |
+| Click-link gesture in sticky scroll | phase 8 |
+| Keyboard navigation of the sticky lines (focus, up, down, go to) | follow-up, not planned |
+| Minimap section headers (`showRegionSectionHeaders`, `showMarkSectionHeaders`) | follow-up, not planned |
+| The word wrap indicator drawing (the column is reserved by the layout) | follow-up |
+| `renderWhitespace` | a later phase (moved from phase 6) |
+| The DOM line-break strategy (`wrappingStrategy: advanced`) | not planned |
+| Accessibility-driven wrapping (`accessibilitySupport`) | phase 7 |
+| The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | phase 9 |
 
 ## Done in phase 5 (features)
 
@@ -555,14 +591,23 @@ The step-by-step cards are in **[docs/tasks/phase-5/](tasks/phase-5/)** (P5-01 �
 ## Tests ported in phase 6
 
 The tests that phases 3-5 left because they need word wrap or injected text, and the new phase 6 tests. One row per upstream
-test file; every phase 6 card adds or updates its rows.
+test file. Counts are taken from the `// Monaco:` comments of the test files (git diff of the phase 6 branch, 116 comments, a
+few of them mark a suite or a helper).
 
 | Upstream test file | Ported / total | Not ported, and why |
 |---|---|---|
 | `modelDecorations.test.ts` | 1 / 1 (`injected text width must be finite and non-negative`) | P6-03 |
+| `modelInjectedText.test.ts` | 1 / 1 | P6-06 |
 | `lineBreakData.test.ts` | 8 / 8 | |
-| `stickyScroll.test.ts` | 0 / 4 | the outline model, phase 8 (P6-57 writes 4 new tests with the indentation model) |
-| `monospaceLineBreaksComputer.test.ts` | 37 / 37 | P6-10 to P6-13 (complete) |
+| `monospaceLineBreaksComputer.test.ts` | 37 / 37 | P6-10 to P6-13 (complete): 15 + 13 injected text + 3 incremental + 6 two-cell |
+| `modelLineProjection.test.ts` | 1 (`SplitLine`) + 3 `getViewLinesData` | P6-15, P6-16, P6-19 (the rest of the file is in "Monaco tests ported in phases 1 and 3", row `modelLineProjection.test.ts`) |
+| `inlineDecorations.test.ts` (`InjectedTextInlineDecorationsComputer`) | 19 | P6-14 |
+| `viewModelDecorations.test.ts` | 2 | P6-23 |
+| `viewModelImpl.test.ts`, `cursor.test.ts`, `columnSelectionPaste.test.ts`, `multicursor.test.ts` | 2 + 2 + 1 + 2 | P6-22: word wrap and injected text tests (`issue #144041`, `issue #140195`, `issue #26393`…) |
+| `editorLayoutProvider.test.ts` | 8 | `EditorLayoutProvider 9` … `14` and the 2 word-wrap tests (P6-41) |
+| `textModelWithTokens.test.ts` (`TextModel.getLineIndentGuide`) | 18 | P6-29 (20 comments: the suite and the `assertIndentGuides` helper) |
+| `minimapCharRenderer.test.ts` | 2 / 2 | P6-44 |
+| `stickyScroll.test.ts` | 0 / 4 | the outline model, phase 8; P6-57 writes its own tests with the indentation model, and names one Monaco test it mirrors (`issue #156268`) |
 
 ## Tests ported in phase 5
 
