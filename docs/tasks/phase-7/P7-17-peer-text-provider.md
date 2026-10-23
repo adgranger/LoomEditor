@@ -3,6 +3,7 @@
 - **Status:** todo
 - **Depends on:** P7-16
 - **Size:** L if done carelessly — keep it to what is listed (≈350 lines, mostly one-line delegations)
+- **Recommended model:** Opus (tracer bullet: managed UIA providers under Native AOT / CsWinRT; stop and report on failure)
 
 ## Goal
 

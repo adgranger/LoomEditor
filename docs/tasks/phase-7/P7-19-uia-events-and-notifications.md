@@ -3,6 +3,7 @@
 - **Status:** todo
 - **Depends on:** P7-18
 - **Size:** M
+- **Recommended model:** Opus (WinUI APIs not verified against the installed Windows App SDK: `RaiseNotificationEvent`, `TextPattern2`)
 
 ## Goal
 

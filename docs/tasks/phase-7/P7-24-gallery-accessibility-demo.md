@@ -3,6 +3,7 @@
 - **Status:** todo
 - **Depends on:** P7-23
 - **Size:** M
+- **Recommended model:** Sonnet; Opus to diagnose any failing self-check (bug in the providers vs. error in the README §4 spec)
 
 ## Goal
 
