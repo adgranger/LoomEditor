@@ -1,6 +1,6 @@
 # P7-20 — Contrast ratio helper and the contrast of the bundled themes
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-19
 - **Size:** S
 
@@ -31,18 +31,18 @@ WCAG 2.1 "contrast ratio": `(L1 + 0.05) / (L2 + 0.05)` with `L1 >= L2` the relat
 
 ## Tests
 
-- [ ] New (`ContrastRatioTests`): `Between_BlackOnWhite_Is21` (`Assert.Equal(21, ratio, precision: 1)`), `Between_WhiteOnBlack_IsSymmetric`, `Between_SameColor_IsOne`, `Between_TranslucentForeground_IsFlattenedOverTheBackground`
+- [x] New (`ContrastRatioTests`): `Between_BlackOnWhite_Is21` (`Assert.Equal(21, ratio, precision: 1)`), `Between_WhiteOnBlack_IsSymmetric`, `Between_SameColor_IsOne`, `Between_TranslucentForeground_IsFlattenedOverTheBackground`
       (`#FFFFFF80` over `#000000` equals `#808080` over `#000000` within 0.05), `Between_BackgroundAlphaIsIgnored`, `Between_KnownPair` (`#767676` on `#FFFFFF` ≈ `4.54` within 0.05: the classic AA-limit gray), `Constants_HaveTheWcagValues`
-- [ ] New (`BuiltInThemesContrastTests`): theory over the names `"Dark High Contrast"`, `"Light High Contrast"`: `HighContrastTheme_ForegroundOnBackground_MeetsAaa` (`>= 7`), `HighContrastTheme_LineNumbersOnBackground_MeetsAaa` (`LineNumberForeground`),
+- [x] New (`BuiltInThemesContrastTests`): theory over the names `"Dark High Contrast"`, `"Light High Contrast"`: `HighContrastTheme_ForegroundOnBackground_MeetsAaa` (`>= 7`), `HighContrastTheme_LineNumbersOnBackground_MeetsAaa` (`LineNumberForeground`),
       `HighContrastTheme_CursorOnBackground_MeetsNonTextContrast` (`>= 3`), `HighContrastTheme_TypeIsHighContrast` (`ThemeType.HighContrastDark` / `HighContrastLight`);
       theory over `"Dark Modern"`, `"Light Modern"`: `ModernTheme_ForegroundOnBackground_MeetsAa` (`>= 4.5`)
       (If one of these assertions fails with the bundled colors, **do not change the theme file**: write the measured ratio in the card's commit body, weaken that single row to the measured floor rounded down, and list it in `docs/PORTING.md` "Behavior differences" as an accepted upstream contrast.)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
