@@ -54,7 +54,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _lineNumbersDigitCount = CountDigits(model.LineCount);
         _layoutViewLineCount = model.LineCount;
         LayoutInfo = ComputeLayoutInfo();
-        EditorWrappingOptions wrapping = layoutOptions.Wrapping;
+        EditorWrappingOptions wrapping = layoutOptions.GetEffectiveWrapping();
         _breakBeforeCharacters = wrapping.WordWrapBreakBeforeCharacters;
         _breakAfterCharacters = wrapping.WordWrapBreakAfterCharacters;
         _lines = new ViewModelLinesFromProjectedModel(

@@ -56,4 +56,15 @@ internal sealed record EditorLayoutOptions
 
     /// <summary>The sticky scroll (Monaco: <c>stickyScroll</c>); read by the sticky scroll feature and the reveal.</summary>
     public EditorStickyScrollOptions StickyScroll { get; init; } = new();
+
+    /// <summary>The screen reader mode (Monaco: <c>accessibilitySupport</c>).</summary>
+    public EditorAccessibilityOptions Accessibility { get; init; } = new();
+
+    /// <summary>
+    /// The wrapping settings after the screen reader overrides (Monaco: <c>wrappingIndent</c>'s <c>compute</c>): the indent is
+    /// <see cref="WrappingIndent.None"/> in screen reader mode.
+    /// </summary>
+    /// <returns>The wrapping settings the view model must use.</returns>
+    public EditorWrappingOptions GetEffectiveWrapping() =>
+        Accessibility.IsEnabled ? Wrapping with { WrappingIndent = WrappingIndent.None } : Wrapping;
 }

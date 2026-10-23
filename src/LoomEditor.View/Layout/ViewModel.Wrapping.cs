@@ -10,7 +10,7 @@ internal sealed partial class ViewModel
     // Monaco: _onConfigurationChanged (the setWrappingSettings block; _updateConfigurationViewLineCount is not ported)
     private void UpdateWrappingSettings()
     {
-        EditorWrappingOptions wrapping = _layoutOptions.Wrapping;
+        EditorWrappingOptions wrapping = _layoutOptions.GetEffectiveWrapping();
         if (wrapping.WordWrapBreakBeforeCharacters != _breakBeforeCharacters || wrapping.WordWrapBreakAfterCharacters != _breakAfterCharacters)
         {
             _breakBeforeCharacters = wrapping.WordWrapBreakBeforeCharacters;

@@ -15,7 +15,8 @@ internal sealed record TestCodeEditorOptions(
     int OuterHeight = 100,
     bool HasTextFocus = true,
     EditorWrappingOptions? Wrapping = null,
-    int EditorId = 0);
+    int EditorId = 0,
+    EditorAccessibilityOptions? Accessibility = null);
 
 /// <summary>
 /// A model and a view model, without any UI: what the ported cursor tests run against (Monaco: <c>withTestCodeEditor</c>).
@@ -41,7 +42,7 @@ internal sealed class TestCodeEditor : IDisposable
         ViewModel = new ViewModel(
             model,
             fontInfo,
-            new EditorLayoutOptions { Wrapping = options.Wrapping ?? new() },
+            new EditorLayoutOptions { Wrapping = options.Wrapping ?? new(), Accessibility = options.Accessibility ?? new() },
             new ViewLayoutOptions(fontInfo.LineHeight),
             _ => new NoopDisposable(),
             TimeProvider.System,

@@ -1,6 +1,6 @@
 # P7-01 — Accessibility options and the effective wrapping indent
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-63
 - **Size:** S
 
@@ -43,23 +43,23 @@ forced to `None` in that mode, so that the wrapped lines match what a screen rea
 
 ## Tests
 
-- [ ] New: `EffectiveSupport_SettingUnknown_UsesDetected`, `EffectiveSupport_SettingDisabled_IgnoresDetected`, `EffectiveSupport_SettingEnabled_IgnoresDetected`,
+- [x] New: `EffectiveSupport_SettingUnknown_UsesDetected`, `EffectiveSupport_SettingDisabled_IgnoresDetected`, `EffectiveSupport_SettingEnabled_IgnoresDetected`,
       `IsEnabled_OnlyWhenEffectiveIsEnabled` (a theory over the 9 combinations of `Setting` × `Detected`)
-- [ ] New: `GetEffectiveWrapping_Disabled_ReturnsTheWrappingUnchanged` (same instance), `GetEffectiveWrapping_Enabled_ForcesIndentNone`,
+- [x] New: `GetEffectiveWrapping_Disabled_ReturnsTheWrappingUnchanged` (same instance), `GetEffectiveWrapping_Enabled_ForcesIndentNone`,
       `GetEffectiveWrapping_Enabled_KeepsEveryOtherSetting`
-- [ ] New (`ViewModelAccessibilityWrappingTests`): with text `"    aaaa bbbb cccc"`, `WordWrap.WordWrapColumn`, `WordWrapColumn = 10`, `WrappingIndent.Same`:
+- [x] New (`ViewModelAccessibilityWrappingTests`): with text `"    aaaa bbbb cccc"`, `WordWrap.WordWrapColumn`, `WordWrapColumn = 10`, `WrappingIndent.Same`:
       `Wrapped_SettingDisabled_ContinuationLinesKeepTheIndent` (view lines `"    aaaa "`, `"    bbbb "`, `"    cccc"`) and
       `Wrapped_SettingEnabled_ContinuationLinesHaveNoIndent` (view lines `"    aaaa "`, `"bbbb cccc"`). If the break positions of the line-break computer differ by one
       column, change `WordWrapColumn` in the test, never the production code; keep the shape of the assertions (indent kept / indent dropped).
-- [ ] New: `SetOptions_TogglingAccessibility_RewrapsTheLines` (start with `Disabled`, call `viewModel.SetOptions(viewModel.LayoutOptions with { Accessibility = … Enabled }, viewModel.ViewLayoutOptions)`,
+- [x] New: `SetOptions_TogglingAccessibility_RewrapsTheLines` (start with `Disabled`, call `viewModel.SetOptions(viewModel.LayoutOptions with { Accessibility = … Enabled }, viewModel.ViewLayoutOptions)`,
       the view line count goes from 3 to 2)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: rows for `AccessibilitySupport` and `EditorAccessibilityOptions`; the "Accessibility-driven wrapping" row of "Cut points for later phases" is marked "wrapping indent: P7-01, long lines: P7-03"
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: rows for `AccessibilitySupport` and `EditorAccessibilityOptions`; the "Accessibility-driven wrapping" row of "Cut points for later phases" is marked "wrapping indent: P7-01, long lines: P7-03"
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
