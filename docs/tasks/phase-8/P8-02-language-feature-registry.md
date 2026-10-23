@@ -1,6 +1,6 @@
 # P8-02 — `LanguageFeatureRegistry<T>` and `LanguageFeaturesService`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-01
 - **Size:** S
 
@@ -44,18 +44,18 @@ An editor has a registry per feature (completion, hover, definition) where provi
 
 ## Tests
 
-- [ ] New (comments name the Monaco member: `// Monaco: LanguageFeatureRegistry.ordered`): `Register_ThenAll_ReturnsProvider`, `Register_Dispose_RemovesProvider`, `Register_DisposeTwice_RaisesChangedOnce`, `Changed_ReportsEntryCount`,
+- [x] New (comments name the Monaco member: `// Monaco: LanguageFeatureRegistry.ordered`): `Register_ThenAll_ReturnsProvider`, `Register_Dispose_RemovesProvider`, `Register_DisposeTwice_RaisesChangedOnce`, `Changed_ReportsEntryCount`,
       `Ordered_ExactLanguageBeforeStar`, `Ordered_SameScore_NewestFirst`, `Ordered_OtherLanguage_NotReturned`, `Ordered_StarOnly_MatchesAnyLanguage`, `Has_NoMatch_False`, `OrderedGroups_GroupsEqualScores` (two for the language, one `*`, one for the language registered after → `[[newest, older], [star]]`),
       `AllNoModel_RegistrationOrder`, `Register_NullProvider_Throws`, `Register_EmptySelector_Throws`
-- [ ] New (`LanguageFeaturesServiceTests`): `Registries_AreIndependent`, `Registries_AreTypedPerFeature` (registering a hover provider does not appear in `CompletionProviders`)
+- [x] New (`LanguageFeaturesServiceTests`): `Registries_AreIndependent`, `Registries_AreTypedPerFeature` (registering a hover provider does not appear in `CompletionProviders`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.Core` run, diff checked
-- [ ] `docs/PORTING.md` map: `languageFeatureRegistry.ts`, `languageSelector.ts` (string selectors only) and `services/languageFeatures.ts` (three registries)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.Core` run, diff checked
+- [x] `docs/PORTING.md` map: `languageFeatureRegistry.ts`, `languageSelector.ts` (string selectors only) and `services/languageFeatures.ts` (three registries)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

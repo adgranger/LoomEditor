@@ -6,4 +6,4 @@ editor code that calls them come in later cards.
 
 Files: `MarkdownString`, `CompletionItemKind`, `CompletionItemTag`, `CompletionRange`, `CompletionItem`, `CompletionList`,
 `CompletionTriggerKind`, `CompletionContext`, `ICompletionItemProvider`, `Hover`, `IHoverProvider`, `Location`,
-`LocationLink`, `IDefinitionProvider`.
+`LocationLink`, `IDefinitionProvider`, `LanguageFeatureRegistry<T>`, `LanguageFeaturesService`.

@@ -122,6 +122,20 @@ LoomEditor.Core.Languages.Features.IDefinitionProvider
 LoomEditor.Core.Languages.Features.IDefinitionProvider.ProvideDefinitionAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.LocationLink!>?>!
 LoomEditor.Core.Languages.Features.IHoverProvider
 LoomEditor.Core.Languages.Features.IHoverProvider.ProvideHoverAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<LoomEditor.Core.Languages.Features.Hover?>!
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.All(string! languageId) -> System.Collections.Generic.IReadOnlyList<T!>!
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.AllNoModel() -> System.Collections.Generic.IReadOnlyList<T!>!
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.Changed -> System.EventHandler<int>?
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.Has(string! languageId) -> bool
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.LanguageFeatureRegistry() -> void
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.Ordered(string! languageId) -> System.Collections.Generic.IReadOnlyList<T!>!
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.OrderedGroups(string! languageId) -> System.Collections.Generic.IReadOnlyList<System.Collections.Generic.IReadOnlyList<T!>!>!
+LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.Register(string! selector, T! provider) -> System.IDisposable!
+LoomEditor.Core.Languages.Features.LanguageFeaturesService
+LoomEditor.Core.Languages.Features.LanguageFeaturesService.CompletionProviders.get -> LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<LoomEditor.Core.Languages.Features.ICompletionItemProvider!>!
+LoomEditor.Core.Languages.Features.LanguageFeaturesService.DefinitionProviders.get -> LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<LoomEditor.Core.Languages.Features.IDefinitionProvider!>!
+LoomEditor.Core.Languages.Features.LanguageFeaturesService.HoverProviders.get -> LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<LoomEditor.Core.Languages.Features.IHoverProvider!>!
+LoomEditor.Core.Languages.Features.LanguageFeaturesService.LanguageFeaturesService() -> void
 LoomEditor.Core.Languages.Features.Location
 LoomEditor.Core.Languages.Features.Location.Deconstruct(out string! Uri, out LoomEditor.Core.Text.Range Range) -> void
 LoomEditor.Core.Languages.Features.Location.Equals(LoomEditor.Core.Languages.Features.Location other) -> bool
