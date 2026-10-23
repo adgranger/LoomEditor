@@ -17,7 +17,7 @@ namespace LoomEditor.WinUI.Accessibility;
 /// Exposes the control as an <c>Edit</c> control with the Text and Value patterns, so that screen readers can read the text.
 /// Threading: UI thread only.
 /// </remarks>
-internal sealed partial class LoomEditorAutomationPeer(LoomEditorControl owner) : FrameworkElementAutomationPeer(owner), ITextProvider, IValueProvider
+internal sealed partial class LoomEditorAutomationPeer(LoomEditorControl owner) : FrameworkElementAutomationPeer(owner), ITextProvider, ITextProvider2, IValueProvider
 {
     protected override string GetClassNameCore() => nameof(LoomEditorControl);
 
@@ -31,7 +31,7 @@ internal sealed partial class LoomEditorAutomationPeer(LoomEditorControl owner) 
 
     protected override object? GetPatternCore(PatternInterface patternInterface) => patternInterface switch
     {
-        PatternInterface.Text or PatternInterface.Value => this,
+        PatternInterface.Text or PatternInterface.Text2 or PatternInterface.Value => this,
         _ => base.GetPatternCore(patternInterface),
     };
 
@@ -63,6 +63,14 @@ internal sealed partial class LoomEditorAutomationPeer(LoomEditorControl owner) 
             : owner.AutomationDocument.ViewModel.GetSelections()[0].Position;
         return Wrap(new AutomationTextRange(owner.AutomationDocument, Core.Text.Range.Collapsed(position)));
     }
+
+    public ITextRangeProvider GetCaretRange(out bool isActive)
+    {
+        isActive = owner.AutomationHasFocus;
+        return Wrap(new AutomationTextRange(owner.AutomationDocument, Core.Text.Range.Collapsed(owner.AutomationDocument.ViewModel.GetSelection().Position)));
+    }
+
+    public ITextRangeProvider? RangeFromAnnotation(IRawElementProviderSimple annotationElement) => null;
 
     public bool IsReadOnly => owner.IsReadOnly;
 

@@ -208,6 +208,7 @@ public sealed partial class LoomEditor : Control
         ObserveXamlRoot();
         StartIme();
         RefreshScreenReader();
+        StartAutomationEvents();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -217,6 +218,7 @@ public sealed partial class LoomEditor : Control
         StopIme();
         _featureHost?.Dispose();
         _featureHost = null;
+        StopAutomationEvents();
         StopBlinkTimer();
         StopObservingXamlRoot();
         ReleaseResources();

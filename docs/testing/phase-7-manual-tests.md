@@ -64,3 +64,18 @@ Tools: Accessibility Insights text pattern explorer, or the Gallery self-check o
 | 4.7 | `AddToSelection` on a range, then `RemoveFromSelection` on it | A second cursor appears, then goes away | |
 | 4.8 | `ScrollIntoView(true)` on a range far below | It becomes the first visible line | |
 | 4.9 | `MoveEndpointByUnit(End, Word, 1)` on a selection | The selection grows by a word | |
+
+## 5. Events and announcements
+
+Tools: Accessibility Insights → Events, Narrator (Win+Ctrl+Enter), NVDA.
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 5.1 | Accessibility Insights → Events, listen to the editor: `Right`; type a letter; hold `Right` | `TextSelectionChanged`; `TextChanged` then `TextSelectionChanged`; the editor does not freeze | |
+| 5.2 | Narrator on, arrow keys | It reads the character (`Right`/`Left`), the word (`Ctrl+Right`/`Ctrl+Left`) and the line (`Down`/`Up`), the **view** line when word wrap is on | |
+| 5.3 | Narrator on, `Ctrl+F`, type a word present in the text; then an absent word; `F3` without matches | "N of M found for 'word'" (line text before it); "No results found for 'word'"; the message is repeated | |
+| 5.4 | Narrator on, cursor on a word that occurs twice, `F7` | "line text, 2 of 2 for 'word'" | |
+| 5.5 | Narrator on, `Ctrl+M` twice | The two tab focus mode messages are spoken | |
+| 5.6 | Narrator off, no other client: repeat the actions above | No exception, normal speed (the peer does not exist) | |
+| 5.7 | `ITextProvider2.GetCaretRange` in Accessibility Insights | `isActive` is `true` with the focus, `false` after clicking another control; the range is at the caret | |
+| 5.8 | Repeat 5.1 – 5.5 on the Native AOT build | Same results | |

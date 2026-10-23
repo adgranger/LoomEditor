@@ -56,8 +56,22 @@ public sealed partial class LoomEditor
     /// <summary>The renderer, or <see langword="null"/> while the canvas is not ready.</summary>
     internal TextViewRenderer? AutomationRenderer => _renderer;
 
+    /// <summary>Whether the editor has the keyboard focus (<c>ITextProvider2.GetCaretRange</c>).</summary>
+    internal bool AutomationHasFocus => HasFocus;
+
+    private AutomationEventCoalescer? _automationEvents;
+
+    private void StartAutomationEvents() => _automationEvents ??= new AutomationEventCoalescer(_context, new AutomationEventSink(this));
+
+    private void StopAutomationEvents()
+    {
+        _automationEvents?.Dispose();
+        _automationEvents = null;
+    }
+
     private void InitializeAccessibility()
     {
+        _context.Announcer = new AutomationAnnouncer(this);
         GotFocus += (_, _) => RefreshScreenReader();
         _context.TabMovesFocusChanged += (_, _) =>
         {

@@ -85,7 +85,7 @@ Three problems need a decision:
 
 11. **WinUI trade-offs that cannot be checked by tests** (the cards say how to verify them): the peer must implement
     `ITextProvider` / `ITextProvider2` / `IValueProvider` and return `ITextRangeProvider` objects under Native AOT (CsWinRT
-    generates the marshalling for managed implementations of WinRT interfaces: the classes are `partial`); `PatternInterface.TextPattern2`
+    generates the marshalling for managed implementations of WinRT interfaces: the classes are `partial`); `PatternInterface.Text2`
     must be accepted by `GetPatternCore`; `ProviderFromPeer(this)` gives the `IRawElementProviderSimple` returned by `GetEnclosingElement`.
     P7-17 is a tracer bullet for all three and publishes with Native AOT before any further WinUI card builds on it.
 

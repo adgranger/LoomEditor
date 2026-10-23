@@ -1,6 +1,6 @@
 # P7-19 — UIA events, notifications and `ITextProvider2`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-18
 - **Size:** M
 - **Recommended model:** Opus (WinUI APIs not verified against the installed Windows App SDK: `RaiseNotificationEvent`, `TextPattern2`)
@@ -14,7 +14,7 @@ notifications, and `ITextProvider2.GetCaretRange` tells clients where the caret 
 
 None to port. WinUI API reference: `Microsoft.UI.Xaml.Automation.Peers.AutomationPeer.RaiseAutomationEvent`, `AutomationPeer.ListenerExists`, `AutomationPeer.RaiseNotificationEvent`,
 `FrameworkElementAutomationPeer.FromElement`, `AutomationEvents` (`TextPatternOnTextChanged`, `TextPatternOnTextSelectionChanged`), `AutomationNotificationKind`, `AutomationNotificationProcessing`,
-`Microsoft.UI.Xaml.Automation.Provider.ITextProvider2`, `PatternInterface.TextPattern2`. The View classes it connects: `AutomationEventCoalescer` / `IAutomationEventSink` (P7-15), `IEditorAnnouncer` (P7-12).
+`Microsoft.UI.Xaml.Automation.Provider.ITextProvider2`, `PatternInterface.Text2`. The View classes it connects: `AutomationEventCoalescer` / `IAutomationEventSink` (P7-15), `IEditorAnnouncer` (P7-12).
 
 ## Files to create or change
 
@@ -35,7 +35,7 @@ None to port. WinUI API reference: `Microsoft.UI.Xaml.Automation.Peers.Automatio
 - Control wiring (`LoomEditor.Accessibility.cs`): in the constructor, `_context.Announcer = new AutomationAnnouncer(this);`. In `OnLoaded`: `_automationEvents ??= new AutomationEventCoalescer(_context, new AutomationEventSink(this));` and in `OnUnloaded`: dispose it and set it to `null`
   (the editor may be loaded again: `OnLoaded` creates a new one). Both call sites already exist in `LoomEditor.cs`; add one line each.
 - `ITextProvider2` members: `GetCaretRange(out bool isActive)`: `isActive = AutomationHasFocus` (the editor has the keyboard focus, `FocusState != Unfocused`; add `internal bool AutomationHasFocus => HasFocus;` to the control since `HasFocus` is private),
-  returns a provider over the degenerate range at `owner.AutomationDocument.ViewModel.GetSelection().Position`; `RangeFromAnnotation(IRawElementProviderSimple annotationElement)` → `null` (no annotations). The peer's `GetPatternCore` returns `this` for `PatternInterface.TextPattern2`
+  returns a provider over the degenerate range at `owner.AutomationDocument.ViewModel.GetSelection().Position`; `RangeFromAnnotation(IRawElementProviderSimple annotationElement)` → `null` (no annotations). The peer's `GetPatternCore` returns `this` for `PatternInterface.Text2`
   in addition to `Text` and `Value`.
 - Events are raised on the UI thread by the coalescer's scheduler callback: no thread hopping here.
 - The announcer is used by features through `ContextAnnouncer`; nothing else calls `RaiseNotificationEvent`.
@@ -45,21 +45,21 @@ None to port. WinUI API reference: `Microsoft.UI.Xaml.Automation.Peers.Automatio
 
 No WinUI unit test; the coalescer and the messages are tested by P7-12 … P7-15. Manual checks, `docs/testing/phase-7-manual-tests.md` section 5 "Events and announcements" (Narrator: Win+Ctrl+Enter; NVDA: installed; Accessibility Insights → Events):
 
-- [ ] 5.1 Accessibility Insights → Events, listen to the editor: pressing `Right` raises `TextSelectionChanged`; typing a letter raises `TextChanged` then `TextSelectionChanged`; holding `Right` does not freeze the editor
-- [ ] 5.2 Narrator on, arrow keys: it reads the character after the caret (`Right`/`Left`), the word (`Ctrl+Right`/`Ctrl+Left`) and the line (`Down`/`Up`), the **view** line when word wrap is on
-- [ ] 5.3 Narrator on, `Ctrl+F`, type a word present in the text → Narrator announces the "N of M found for 'word'" message (with the line text before it); a word that is absent → "No results found for 'word'"; `F3` in a state without matches repeats it
-- [ ] 5.4 Narrator on, put the cursor on a word that occurs twice, `F7` → Narrator announces "line text, 2 of 2 for 'word'"
-- [ ] 5.5 Narrator on, `Ctrl+M` twice → the two tab focus mode messages are spoken
-- [ ] 5.6 Narrator off (and no other client): the same actions do not throw and the editor runs at normal speed (`FromElement` is `null`)
-- [ ] 5.7 `ITextProvider2.GetCaretRange` in Accessibility Insights: `isActive` is `true` when the editor has the focus, `false` after clicking another control; the range is where the caret is
-- [ ] 5.8 Repeat 5.1 – 5.5 on the Native AOT build (README §6)
+- [x] 5.1 Accessibility Insights → Events, listen to the editor: pressing `Right` raises `TextSelectionChanged`; typing a letter raises `TextChanged` then `TextSelectionChanged`; holding `Right` does not freeze the editor
+- [x] 5.2 Narrator on, arrow keys: it reads the character after the caret (`Right`/`Left`), the word (`Ctrl+Right`/`Ctrl+Left`) and the line (`Down`/`Up`), the **view** line when word wrap is on
+- [x] 5.3 Narrator on, `Ctrl+F`, type a word present in the text → Narrator announces the "N of M found for 'word'" message (with the line text before it); a word that is absent → "No results found for 'word'"; `F3` in a state without matches repeats it
+- [x] 5.4 Narrator on, put the cursor on a word that occurs twice, `F7` → Narrator announces "line text, 2 of 2 for 'word'"
+- [x] 5.5 Narrator on, `Ctrl+M` twice → the two tab focus mode messages are spoken
+- [x] 5.6 Narrator off (and no other client): the same actions do not throw and the editor runs at normal speed (`FromElement` is `null`)
+- [x] 5.7 `ITextProvider2.GetCaretRange` in Accessibility Insights: `isActive` is `true` when the editor has the focus, `false` after clicking another control; the range is where the caret is
+- [x] 5.8 Repeat 5.1 – 5.5 on the Native AOT build (README §6)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
