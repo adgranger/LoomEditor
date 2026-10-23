@@ -1,6 +1,6 @@
 # P7-05 — `AutomationTextDocument` and `AutomationTextRange` (text, compare, validate)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-04
 - **Size:** M
 
@@ -45,21 +45,21 @@ None (specified in `docs/tasks/phase-7/README.md` §4). Monaco's closest relativ
 
 ## Tests
 
-- [ ] New (`AutomationTextDocumentTests`): `DocumentEnd_MultiLineText_IsTheEndOfTheLastLine`, `DocumentEnd_EmptyModel_IsDocumentStart`, `DocumentRange_CoversTheWholeModel`,
+- [x] New (`AutomationTextDocumentTests`): `DocumentEnd_MultiLineText_IsTheEndOfTheLastLine`, `DocumentEnd_EmptyModel_IsDocumentStart`, `DocumentRange_CoversTheWholeModel`,
       `GetText_CrlfModel_UsesLineFeeds` (a model created with `"a\r\nb"` gives `"a\nb"`), `GetText_RangeAcrossLines_JoinsWithLineFeed`,
       `GetText_RangeOutsideTheModel_IsClampedToTheModel`, `GetText_MaxLength_TruncatesInUtf16Units`, `GetText_MaxLengthZero_ReturnsEmpty`,
       `GetText_MaxLengthCutsASurrogatePair_DropsTheHighSurrogate` (text `"a😀b"`, `maxLength: 2` → `"a"`), `GetText_MaxLengthMinusOne_ReturnsEverything`,
       `GetText_MaxLengthBelowMinusOne_Throws`
-- [ ] New (`AutomationTextRangeTests`): `ForDocument_IsTheDocumentRange`, `Clone_IsEqualButIndependent` (after `Set` on the clone the original is unchanged), `Compare_SameEndpoints_ReturnsTrue`,
+- [x] New (`AutomationTextRangeTests`): `ForDocument_IsTheDocumentRange`, `Clone_IsEqualButIndependent` (after `Set` on the clone the original is unchanged), `Compare_SameEndpoints_ReturnsTrue`,
       `Compare_DifferentEndpoints_ReturnsFalse`, `Compare_DifferentDocuments_ReturnsFalse`, `CompareEndpoints_StartAgainstStart_Signs` (before / equal / after),
       `CompareEndpoints_EndAgainstStart_Signs`, `CompareEndpoints_OtherDocument_Throws`, `Range_AfterTheModelShrinks_IsClamped` (a range on line 5, then the model is replaced by one line:
       `editor.Model.PushEditOperations` or `SetValue`: use what existing tests of `TextModel` use; the range is clamped, no exception), `IsDegenerate_StartEqualsEnd`, `GetText_ReadsTheRange`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

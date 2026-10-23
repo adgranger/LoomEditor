@@ -672,7 +672,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P7-05](phase-7/P7-05-automation-text-document.md) | `AutomationTextDocument` and `AutomationTextRange` (text, compare, validate) | P7-04 | todo |
+| [P7-05](phase-7/P7-05-automation-text-document.md) | `AutomationTextDocument` and `AutomationTextRange` (text, compare, validate) | P7-04 | done |
 | [P7-06](phase-7/P7-06-units-character-paragraph-document.md) | Text units: character, paragraph, document | P7-05 | todo |
 | [P7-07](phase-7/P7-07-unit-word.md) | Text unit: word (and format) | P7-06 | todo |
 | [P7-08](phase-7/P7-08-units-line-page.md) | Text units: line (view line) and page | P7-07 | todo |
