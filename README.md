@@ -45,7 +45,7 @@ decorations, LSP integration, diff editor.
 ## Requirements
 
 - Windows 10 version 2004 (build 19041) or later, x64 or ARM64 (IME input needs Windows 11)
-- .NET 11 SDK (currently RC 1, see `global.json`)
+- .NET 11 SDK (currently RC 2, see `global.json`)
 - Windows App SDK 2.5
 - To build Oniguruma (phase 4): Visual Studio 2022+ with the C++ workload
 

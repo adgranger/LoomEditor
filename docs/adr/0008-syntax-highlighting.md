@@ -117,8 +117,10 @@ C#, TypeScript, JavaScript, JSON, HTML, CSS, XML, Markdown, Python, YAML.
      was not installed, so the SDK rolled forward). rc.2 adds an "optimized" Native AOT publish
      (`_PublishOptimizedBuildAlternative`) that runs `PrepareResources` before `ResolveReferences`: the WinUI XAML
      compiler gets no references and fails with `WMC1007: Cannot resolve metadata for WinUI types`. Workaround:
-     `-p:UseOptimizedPublish=false` (or install SDK rc.1). The spike used the workaround; the Gallery project was not
-     changed.
+     `-p:UseOptimizedPublish=false` (or install SDK rc.1).
+     **Resolved:** the Gallery sets `<UseOptimizedPublish>false</UseOptimizedPublish>`, and `global.json` now pins rc.2.
+     (With the optimized publish, even once WMC1007 is bypassed, the exe crashes at startup with
+     `FileNotFoundException: WinRT.Runtime` in the generated `GlobalVtableLookup` module initializer.)
 8. **Themes.** `LoomEditor.Themes` loads VS Code color themes (`.json`, with comments): `include` (parent first),
    `colors` (with `"default"` removing an inherited color), `tokenColors` as an inline array, and the old JSON form
    with a `settings` array (`themeCompatibility.ts`). `tokenColors` given as a path, and `.tmTheme` files, are **not**

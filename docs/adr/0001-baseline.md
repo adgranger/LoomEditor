@@ -11,14 +11,14 @@ Re-check them when you upgrade anything listed here.
 
 | Item | Value |
 |---|---|
-| SDK pinned in `global.json` | `11.0.100-rc.1.26425.128` (.NET 11 **RC 1**, released 2026-09-08, "go-live" license) |
-| Roll-forward | `latestFeature` + `allowPrerelease` → RC 2 and GA (expected November 2026) are picked up automatically |
+| SDK pinned in `global.json` | `11.0.100-rc.2.26504.105` (.NET 11 **RC 2**, "go-live" license) |
+| Roll-forward | `latestFeature` + `allowPrerelease` → GA (expected November 2026) is picked up automatically |
 | Plain projects | `net11.0` (property `LoomNetTargetFramework`) |
 | Windows projects | `net11.0-windows10.0.26100.0` (property `LoomWindowsTargetFramework`), minimum `10.0.19041.0` |
 | C# | `LangVersion=latest` (C# 15 with the .NET 11 SDK) |
 | Test runner | `dotnet test` in **Microsoft.Testing.Platform** mode (`global.json` → `"test": { "runner": ... }`) |
 
-**Decision:** target .NET 11 RC 1 now. Move `global.json` to the GA SDK as soon as it ships; nothing else should change.
+**Decision:** target .NET 11 RC 2 now. Move `global.json` to the GA SDK as soon as it ships; nothing else should change.
 
 ## 2. Windows App SDK and Native AOT
 
@@ -26,7 +26,7 @@ Re-check them when you upgrade anything listed here.
 |---|---|
 | Windows App SDK | **2.5.1** (latest stable; 2.5.4 is "experimental") — brings WinUI component 2.3.9, Win2D-compatible |
 | C#/WinRT | the projection shipped by the SDK; `CsWinRTAotOptimizerEnabled=true` by default |
-| ILCompiler | `Microsoft.DotNet.ILCompiler 11.0.0-rc.1.26425.128` (x64 and ARM64 runtime packs) |
+| ILCompiler | `Microsoft.DotNet.ILCompiler 11.0.0-rc.2.26504.105` (x64 and ARM64 runtime packs) |
 
 **Native AOT support level — verified, not assumed:**
 
