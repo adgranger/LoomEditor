@@ -1,6 +1,6 @@
 # P7-04 — The control: `AccessibilitySupport` and screen reader detection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-03
 - **Size:** M
 
@@ -51,10 +51,10 @@ No unit test is possible (WinUI control, ADR 0010 decision 2); the logic it feed
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (see phase 7 README §6) — result reported in the commit body
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (see phase 7 README §6) — result reported in the commit body
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -4,6 +4,10 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(string fullName) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXamlType(System.Type type) -> Microsoft.UI.Xaml.Markup.IXamlType
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport.Auto = 0 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport.Off = 2 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.EditorAccessibilitySupport.On = 1 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
 LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.EditorBracketPairGuides.Active = 2 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.EditorBracketPairGuides.Off = 0 -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
@@ -25,6 +29,8 @@ LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomEditor
+LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
+LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
@@ -71,6 +77,7 @@ LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.WinUI.Cont
 LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupportProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
