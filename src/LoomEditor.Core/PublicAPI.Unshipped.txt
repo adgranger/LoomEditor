@@ -1,4 +1,10 @@
 #nullable enable
+~override LoomEditor.Core.Languages.Features.CompletionContext.Equals(object obj) -> bool
+~override LoomEditor.Core.Languages.Features.CompletionContext.ToString() -> string
+~override LoomEditor.Core.Languages.Features.CompletionRange.Equals(object obj) -> bool
+~override LoomEditor.Core.Languages.Features.CompletionRange.ToString() -> string
+~override LoomEditor.Core.Languages.Features.Location.Equals(object obj) -> bool
+~override LoomEditor.Core.Languages.Features.Location.ToString() -> string
 ~override LoomEditor.Core.Model.TextModelUpdateOptions.Equals(object obj) -> bool
 ~override LoomEditor.Core.Model.TextModelUpdateOptions.ToString() -> string
 ~override LoomEditor.Core.Text.Position.Equals(object obj) -> bool
@@ -7,6 +13,148 @@
 ~override LoomEditor.Core.Text.TextEdit.Equals(object obj) -> bool
 abstract LoomEditor.Core.Model.Events.ModelRawChange.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawChange!
 abstract LoomEditor.Core.Model.Events.ModelRawChange.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Languages.Features.CompletionContext
+LoomEditor.Core.Languages.Features.CompletionContext.CompletionContext() -> void
+LoomEditor.Core.Languages.Features.CompletionContext.CompletionContext(LoomEditor.Core.Languages.Features.CompletionTriggerKind TriggerKind, string? TriggerCharacter = null) -> void
+LoomEditor.Core.Languages.Features.CompletionContext.Deconstruct(out LoomEditor.Core.Languages.Features.CompletionTriggerKind TriggerKind, out string? TriggerCharacter) -> void
+LoomEditor.Core.Languages.Features.CompletionContext.Equals(LoomEditor.Core.Languages.Features.CompletionContext other) -> bool
+LoomEditor.Core.Languages.Features.CompletionContext.TriggerCharacter.get -> string?
+LoomEditor.Core.Languages.Features.CompletionContext.TriggerCharacter.init -> void
+LoomEditor.Core.Languages.Features.CompletionContext.TriggerKind.get -> LoomEditor.Core.Languages.Features.CompletionTriggerKind
+LoomEditor.Core.Languages.Features.CompletionContext.TriggerKind.init -> void
+LoomEditor.Core.Languages.Features.CompletionItem
+LoomEditor.Core.Languages.Features.CompletionItem.AdditionalTextEdits.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.TextEdit>?
+LoomEditor.Core.Languages.Features.CompletionItem.AdditionalTextEdits.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.CommitCharacters.get -> System.Collections.Generic.IReadOnlyList<char>?
+LoomEditor.Core.Languages.Features.CompletionItem.CommitCharacters.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.CompletionItem(string! label, string! insertText, LoomEditor.Core.Languages.Features.CompletionItemKind kind = LoomEditor.Core.Languages.Features.CompletionItemKind.Text) -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Detail.get -> string?
+LoomEditor.Core.Languages.Features.CompletionItem.Detail.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Documentation.get -> LoomEditor.Core.Languages.Features.MarkdownString?
+LoomEditor.Core.Languages.Features.CompletionItem.Documentation.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.FilterText.get -> string?
+LoomEditor.Core.Languages.Features.CompletionItem.FilterText.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.InsertText.get -> string!
+LoomEditor.Core.Languages.Features.CompletionItem.InsertText.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Kind.get -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItem.Kind.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Label.get -> string!
+LoomEditor.Core.Languages.Features.CompletionItem.Label.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.LabelDescription.get -> string?
+LoomEditor.Core.Languages.Features.CompletionItem.LabelDescription.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.LabelDetail.get -> string?
+LoomEditor.Core.Languages.Features.CompletionItem.LabelDetail.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.MergeFrom(LoomEditor.Core.Languages.Features.CompletionItem! resolved) -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Preselect.get -> bool
+LoomEditor.Core.Languages.Features.CompletionItem.Preselect.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.ProviderData.get -> object?
+LoomEditor.Core.Languages.Features.CompletionItem.ProviderData.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Range.get -> LoomEditor.Core.Languages.Features.CompletionRange?
+LoomEditor.Core.Languages.Features.CompletionItem.Range.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.SortText.get -> string?
+LoomEditor.Core.Languages.Features.CompletionItem.SortText.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.Tags.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.CompletionItemTag>?
+LoomEditor.Core.Languages.Features.CompletionItem.Tags.set -> void
+LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Class = 5 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Color = 19 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Constant = 14 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Constructor = 2 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Customcolor = 22 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Enum = 15 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.EnumMember = 16 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Event = 10 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Field = 3 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.File = 20 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Folder = 23 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Function = 1 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Interface = 7 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Issue = 26 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Keyword = 17 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Method = 0 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Module = 8 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Operator = 11 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Property = 9 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Reference = 21 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Snippet = 28 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Struct = 6 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Text = 18 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Tool = 27 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.TypeParameter = 24 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Unit = 12 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.User = 25 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Value = 13 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemKind.Variable = 4 -> LoomEditor.Core.Languages.Features.CompletionItemKind
+LoomEditor.Core.Languages.Features.CompletionItemTag
+LoomEditor.Core.Languages.Features.CompletionItemTag.Deprecated = 1 -> LoomEditor.Core.Languages.Features.CompletionItemTag
+LoomEditor.Core.Languages.Features.CompletionList
+LoomEditor.Core.Languages.Features.CompletionList.CompletionList(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.CompletionItem!>! suggestions, bool incomplete = false) -> void
+LoomEditor.Core.Languages.Features.CompletionList.Incomplete.get -> bool
+LoomEditor.Core.Languages.Features.CompletionList.Suggestions.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.CompletionItem!>!
+LoomEditor.Core.Languages.Features.CompletionRange
+LoomEditor.Core.Languages.Features.CompletionRange.CompletionRange() -> void
+LoomEditor.Core.Languages.Features.CompletionRange.CompletionRange(LoomEditor.Core.Text.Range Insert, LoomEditor.Core.Text.Range Replace) -> void
+LoomEditor.Core.Languages.Features.CompletionRange.Deconstruct(out LoomEditor.Core.Text.Range Insert, out LoomEditor.Core.Text.Range Replace) -> void
+LoomEditor.Core.Languages.Features.CompletionRange.Equals(LoomEditor.Core.Languages.Features.CompletionRange other) -> bool
+LoomEditor.Core.Languages.Features.CompletionRange.Insert.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Languages.Features.CompletionRange.Insert.init -> void
+LoomEditor.Core.Languages.Features.CompletionRange.Replace.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Languages.Features.CompletionRange.Replace.init -> void
+LoomEditor.Core.Languages.Features.CompletionTriggerKind
+LoomEditor.Core.Languages.Features.CompletionTriggerKind.Invoke = 0 -> LoomEditor.Core.Languages.Features.CompletionTriggerKind
+LoomEditor.Core.Languages.Features.CompletionTriggerKind.TriggerCharacter = 1 -> LoomEditor.Core.Languages.Features.CompletionTriggerKind
+LoomEditor.Core.Languages.Features.CompletionTriggerKind.TriggerForIncompleteCompletions = 2 -> LoomEditor.Core.Languages.Features.CompletionTriggerKind
+LoomEditor.Core.Languages.Features.Hover
+LoomEditor.Core.Languages.Features.Hover.<Clone>$() -> LoomEditor.Core.Languages.Features.Hover!
+LoomEditor.Core.Languages.Features.Hover.Contents.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.MarkdownString!>!
+LoomEditor.Core.Languages.Features.Hover.Contents.init -> void
+LoomEditor.Core.Languages.Features.Hover.Deconstruct(out System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.MarkdownString!>! Contents, out LoomEditor.Core.Text.Range? Range) -> void
+LoomEditor.Core.Languages.Features.Hover.Equals(LoomEditor.Core.Languages.Features.Hover? other) -> bool
+LoomEditor.Core.Languages.Features.Hover.Hover(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.MarkdownString!>! Contents, LoomEditor.Core.Text.Range? Range = null) -> void
+LoomEditor.Core.Languages.Features.Hover.Range.get -> LoomEditor.Core.Text.Range?
+LoomEditor.Core.Languages.Features.Hover.Range.init -> void
+LoomEditor.Core.Languages.Features.ICompletionItemProvider
+LoomEditor.Core.Languages.Features.ICompletionItemProvider.CanResolve.get -> bool
+LoomEditor.Core.Languages.Features.ICompletionItemProvider.ProvideCompletionItemsAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, LoomEditor.Core.Languages.Features.CompletionContext context, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<LoomEditor.Core.Languages.Features.CompletionList?>!
+LoomEditor.Core.Languages.Features.ICompletionItemProvider.ResolveCompletionItemAsync(LoomEditor.Core.Languages.Features.CompletionItem! item, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<LoomEditor.Core.Languages.Features.CompletionItem?>!
+LoomEditor.Core.Languages.Features.ICompletionItemProvider.TriggerCharacters.get -> System.Collections.Generic.IReadOnlyList<string!>?
+LoomEditor.Core.Languages.Features.IDefinitionProvider
+LoomEditor.Core.Languages.Features.IDefinitionProvider.ProvideDefinitionAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.LocationLink!>?>!
+LoomEditor.Core.Languages.Features.IHoverProvider
+LoomEditor.Core.Languages.Features.IHoverProvider.ProvideHoverAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<LoomEditor.Core.Languages.Features.Hover?>!
+LoomEditor.Core.Languages.Features.Location
+LoomEditor.Core.Languages.Features.Location.Deconstruct(out string! Uri, out LoomEditor.Core.Text.Range Range) -> void
+LoomEditor.Core.Languages.Features.Location.Equals(LoomEditor.Core.Languages.Features.Location other) -> bool
+LoomEditor.Core.Languages.Features.Location.Location() -> void
+LoomEditor.Core.Languages.Features.Location.Location(string! Uri, LoomEditor.Core.Text.Range Range) -> void
+LoomEditor.Core.Languages.Features.Location.Range.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Languages.Features.Location.Range.init -> void
+LoomEditor.Core.Languages.Features.Location.ToLink() -> LoomEditor.Core.Languages.Features.LocationLink!
+LoomEditor.Core.Languages.Features.Location.Uri.get -> string!
+LoomEditor.Core.Languages.Features.Location.Uri.init -> void
+LoomEditor.Core.Languages.Features.LocationLink
+LoomEditor.Core.Languages.Features.LocationLink.<Clone>$() -> LoomEditor.Core.Languages.Features.LocationLink!
+LoomEditor.Core.Languages.Features.LocationLink.Deconstruct(out string! Uri, out LoomEditor.Core.Text.Range Range, out LoomEditor.Core.Text.Range? OriginSelectionRange, out LoomEditor.Core.Text.Range? TargetSelectionRange) -> void
+LoomEditor.Core.Languages.Features.LocationLink.Equals(LoomEditor.Core.Languages.Features.LocationLink? other) -> bool
+LoomEditor.Core.Languages.Features.LocationLink.LocationLink(string! Uri, LoomEditor.Core.Text.Range Range, LoomEditor.Core.Text.Range? OriginSelectionRange = null, LoomEditor.Core.Text.Range? TargetSelectionRange = null) -> void
+LoomEditor.Core.Languages.Features.LocationLink.OriginSelectionRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.Core.Languages.Features.LocationLink.OriginSelectionRange.init -> void
+LoomEditor.Core.Languages.Features.LocationLink.Range.get -> LoomEditor.Core.Text.Range
+LoomEditor.Core.Languages.Features.LocationLink.Range.init -> void
+LoomEditor.Core.Languages.Features.LocationLink.TargetSelectionRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.Core.Languages.Features.LocationLink.TargetSelectionRange.init -> void
+LoomEditor.Core.Languages.Features.LocationLink.Uri.get -> string!
+LoomEditor.Core.Languages.Features.LocationLink.Uri.init -> void
+LoomEditor.Core.Languages.Features.MarkdownString
+LoomEditor.Core.Languages.Features.MarkdownString.<Clone>$() -> LoomEditor.Core.Languages.Features.MarkdownString!
+LoomEditor.Core.Languages.Features.MarkdownString.Deconstruct(out string! Value, out bool IsTrusted) -> void
+LoomEditor.Core.Languages.Features.MarkdownString.Equals(LoomEditor.Core.Languages.Features.MarkdownString? other) -> bool
+LoomEditor.Core.Languages.Features.MarkdownString.IsEmpty.get -> bool
+LoomEditor.Core.Languages.Features.MarkdownString.IsTrusted.get -> bool
+LoomEditor.Core.Languages.Features.MarkdownString.IsTrusted.init -> void
+LoomEditor.Core.Languages.Features.MarkdownString.MarkdownString(string! Value, bool IsTrusted = false) -> void
+LoomEditor.Core.Languages.Features.MarkdownString.Value.get -> string!
+LoomEditor.Core.Languages.Features.MarkdownString.Value.init -> void
 LoomEditor.Core.Model.DefaultEndOfLine
 LoomEditor.Core.Model.DefaultEndOfLine.CRLF = 2 -> LoomEditor.Core.Model.DefaultEndOfLine
 LoomEditor.Core.Model.DefaultEndOfLine.LF = 1 -> LoomEditor.Core.Model.DefaultEndOfLine
@@ -234,6 +382,18 @@ LoomEditor.Core.Text.TextEdit.Range.get -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Text.TextEdit.Text.get -> string!
 LoomEditor.Core.Text.TextEdit.TextEdit() -> void
 LoomEditor.Core.Text.TextEdit.TextEdit(LoomEditor.Core.Text.Range range, string! text) -> void
+override LoomEditor.Core.Languages.Features.CompletionContext.GetHashCode() -> int
+override LoomEditor.Core.Languages.Features.CompletionRange.GetHashCode() -> int
+override LoomEditor.Core.Languages.Features.Hover.Equals(object? obj) -> bool
+override LoomEditor.Core.Languages.Features.Hover.GetHashCode() -> int
+override LoomEditor.Core.Languages.Features.Hover.ToString() -> string!
+override LoomEditor.Core.Languages.Features.Location.GetHashCode() -> int
+override LoomEditor.Core.Languages.Features.LocationLink.Equals(object? obj) -> bool
+override LoomEditor.Core.Languages.Features.LocationLink.GetHashCode() -> int
+override LoomEditor.Core.Languages.Features.LocationLink.ToString() -> string!
+override LoomEditor.Core.Languages.Features.MarkdownString.Equals(object? obj) -> bool
+override LoomEditor.Core.Languages.Features.MarkdownString.GetHashCode() -> int
+override LoomEditor.Core.Languages.Features.MarkdownString.ToString() -> string!
 override LoomEditor.Core.Model.Events.ModelRawChange.Equals(object? obj) -> bool
 override LoomEditor.Core.Model.Events.ModelRawChange.GetHashCode() -> int
 override LoomEditor.Core.Model.Events.ModelRawChange.ToString() -> string!
@@ -281,6 +441,22 @@ override sealed LoomEditor.Core.Model.Events.ModelRawFlush.Equals(LoomEditor.Cor
 override sealed LoomEditor.Core.Model.Events.ModelRawLineChanged.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
 override sealed LoomEditor.Core.Model.Events.ModelRawLinesDeleted.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
 override sealed LoomEditor.Core.Model.Events.ModelRawLinesInserted.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+static LoomEditor.Core.Languages.Features.CompletionContext.operator !=(LoomEditor.Core.Languages.Features.CompletionContext left, LoomEditor.Core.Languages.Features.CompletionContext right) -> bool
+static LoomEditor.Core.Languages.Features.CompletionContext.operator ==(LoomEditor.Core.Languages.Features.CompletionContext left, LoomEditor.Core.Languages.Features.CompletionContext right) -> bool
+static LoomEditor.Core.Languages.Features.CompletionRange.FromRange(LoomEditor.Core.Text.Range range) -> LoomEditor.Core.Languages.Features.CompletionRange
+static LoomEditor.Core.Languages.Features.CompletionRange.operator !=(LoomEditor.Core.Languages.Features.CompletionRange left, LoomEditor.Core.Languages.Features.CompletionRange right) -> bool
+static LoomEditor.Core.Languages.Features.CompletionRange.operator ==(LoomEditor.Core.Languages.Features.CompletionRange left, LoomEditor.Core.Languages.Features.CompletionRange right) -> bool
+static LoomEditor.Core.Languages.Features.Hover.operator !=(LoomEditor.Core.Languages.Features.Hover? left, LoomEditor.Core.Languages.Features.Hover? right) -> bool
+static LoomEditor.Core.Languages.Features.Hover.operator ==(LoomEditor.Core.Languages.Features.Hover? left, LoomEditor.Core.Languages.Features.Hover? right) -> bool
+static LoomEditor.Core.Languages.Features.Location.operator !=(LoomEditor.Core.Languages.Features.Location left, LoomEditor.Core.Languages.Features.Location right) -> bool
+static LoomEditor.Core.Languages.Features.Location.operator ==(LoomEditor.Core.Languages.Features.Location left, LoomEditor.Core.Languages.Features.Location right) -> bool
+static LoomEditor.Core.Languages.Features.LocationLink.operator !=(LoomEditor.Core.Languages.Features.LocationLink? left, LoomEditor.Core.Languages.Features.LocationLink? right) -> bool
+static LoomEditor.Core.Languages.Features.LocationLink.operator ==(LoomEditor.Core.Languages.Features.LocationLink? left, LoomEditor.Core.Languages.Features.LocationLink? right) -> bool
+static LoomEditor.Core.Languages.Features.MarkdownString.FromText(string! text) -> LoomEditor.Core.Languages.Features.MarkdownString!
+static LoomEditor.Core.Languages.Features.MarkdownString.IsNullOrEmpty(LoomEditor.Core.Languages.Features.MarkdownString? value) -> bool
+static LoomEditor.Core.Languages.Features.MarkdownString.IsNullOrEmpty(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.MarkdownString!>? values) -> bool
+static LoomEditor.Core.Languages.Features.MarkdownString.operator !=(LoomEditor.Core.Languages.Features.MarkdownString? left, LoomEditor.Core.Languages.Features.MarkdownString? right) -> bool
+static LoomEditor.Core.Languages.Features.MarkdownString.operator ==(LoomEditor.Core.Languages.Features.MarkdownString? left, LoomEditor.Core.Languages.Features.MarkdownString? right) -> bool
 static LoomEditor.Core.Model.Events.ModelRawChange.operator !=(LoomEditor.Core.Model.Events.ModelRawChange? left, LoomEditor.Core.Model.Events.ModelRawChange? right) -> bool
 static LoomEditor.Core.Model.Events.ModelRawChange.operator ==(LoomEditor.Core.Model.Events.ModelRawChange? left, LoomEditor.Core.Model.Events.ModelRawChange? right) -> bool
 static LoomEditor.Core.Model.Events.ModelRawEolChanged.operator !=(LoomEditor.Core.Model.Events.ModelRawEolChanged? left, LoomEditor.Core.Model.Events.ModelRawEolChanged? right) -> bool

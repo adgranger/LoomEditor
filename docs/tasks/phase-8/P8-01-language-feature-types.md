@@ -1,6 +1,6 @@
 # P8-01 — Language feature contracts: completion, hover, definition and `MarkdownString` (public API of Core)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-26
 - **Size:** M (≈250 lines, mostly small types with XML doc)
 
@@ -47,7 +47,8 @@ All in `src/LoomEditor.Core/Languages/Features/` (namespace `LoomEditor.Core.Lan
 - `public enum CompletionItemKind` — exactly Monaco's names and order: `Method`, `Function`, `Constructor`, `Field`, `Variable`, `Class`, `Struct`, `Interface`, `Module`, `Property`, `Event`, `Operator`, `Unit`, `Value`, `Constant`,
   `Enum`, `EnumMember`, `Keyword`, `Text`, `Color`, `File`, `Reference`, `Customcolor`, `Folder`, `TypeParameter`, `User`, `Issue`, `Tool`, `Snippet` (0 … 28; **not** the LSP numbering: the LSP mapping is P8-30).
 - `public enum CompletionItemTag { Deprecated = 1 }`.
-- `public readonly record struct CompletionRange(Range Insert, Range Replace)` with `public static CompletionRange Single(Range range) => new(range, range);` (Monaco: `IRange | CompletionItemRanges`; a single range is insert = replace).
+- `public readonly record struct CompletionRange(Range Insert, Range Replace)` with `public static CompletionRange FromRange(Range range) => new(range, range);` (Monaco: `IRange | CompletionItemRanges`; a single range is insert = replace).
+  (The factory was first called `Single`; renamed to `FromRange` because analyzer CA1720 rejects identifiers named after a type.)
 - `public sealed class CompletionItem` (mutable on purpose: Monaco's `resolveCompletionItem` result is merged into the item with `Object.assign`). Properties, all `{ get; set; }`: `string Label` (required, non-empty for a valid item),
   `string? LabelDetail`, `string? LabelDescription` (Monaco's `CompletionItemLabel.detail` / `.description`, flattened), `CompletionItemKind Kind`, `IReadOnlyList<CompletionItemTag>? Tags`, `string? Detail`, `MarkdownString? Documentation`,
   `string? SortText`, `string? FilterText`, `bool Preselect`, `string InsertText` (required; **always plain text**: snippets are not supported, ADR 0011 decision 7), `CompletionRange? Range` (null = the provider wants the default range, filled in by P8-14),
@@ -67,24 +68,24 @@ All in `src/LoomEditor.Core/Languages/Features/` (namespace `LoomEditor.Core.Lan
   (Monaco's `Definition = Location | Location[] | LocationLink[]` is **flattened to `IReadOnlyList<LocationLink>`**: a `Location` becomes a `LocationLink` with both optional ranges null;
   `Location` stays as a type for providers that want it and has `public LocationLink ToLink() => new(Uri, Range)`).
   `public interface IDefinitionProvider { Task<IReadOnlyList<LocationLink>?> ProvideDefinitionAsync(TextModel model, Position position, CancellationToken token); }`.
-- `Range` is `LoomEditor.Core.Text.Range` (the global alias in `LoomEditor.Core.csproj` already applies); `Position` is `LoomEditor.Core.Text.Position`; `TextModel` is `LoomEditor.Core.Model.TextModel`.
+- `Range` is `LoomEditor.Core.Text.Range` (Core has no global alias: each file that uses it declares `using Range = LoomEditor.Core.Text.Range;`); `Position` is `LoomEditor.Core.Text.Position`; `TextModel` is `LoomEditor.Core.Model.TextModel`.
 - File header (`// Ported from microsoft/vscode: src/vs/editor/common/languages.ts (…)` + upstream commit line) on every file that ports a Monaco declaration; `README.md` has none.
 
 ## Tests
 
-- [ ] New (`MarkdownStringTests`; each comment names the Monaco function: `// Monaco: MarkdownString.appendText`): `FromText_PlainText_Unchanged`, `FromText_EscapesSyntaxTokens` (`"a*b_c"` → `"a\\*b\\_c"`), `FromText_SpacesBecomeNbsp` (`"a  b"` → `"a&nbsp;&nbsp;b"`, tab → one `&nbsp;`),
+- [x] New (`MarkdownStringTests`; each comment names the Monaco function: `// Monaco: MarkdownString.appendText`): `FromText_PlainText_Unchanged`, `FromText_EscapesSyntaxTokens` (`"a*b_c"` → `"a\\*b\\_c"`), `FromText_SpacesBecomeNbsp` (`"a  b"` → `"a&nbsp;&nbsp;b"`, tab → one `&nbsp;`),
       `FromText_GreaterThanEscaped`, `FromText_NewlineBecomesParagraph` (`"a\nb"` → `"a\n\nb"`), `FromText_LeadingDashEscaped` (`"- x"` → `"\\-&nbsp;x"`: the dash is escaped, the space after it is `&nbsp;`; and `"a-b"` is unchanged),
       `IsNullOrEmpty_One`, `IsNullOrEmpty_List_EveryEmpty` (`null`, `[]`, `[""]`, `["", ""]` are empty; `["", "x"]` is not)
-- [ ] New (`CompletionItemTests`): `Constructor_NullLabel_Throws`, `Constructor_Defaults` (Kind `Text`, `Range` null, `Preselect` false), `MergeFrom_CopiesOnlyResolvableNonNullMembers` (detail, documentation, additional edits copied; label, insert text, sort text untouched; a null in `resolved` does not erase a value),
-      `MergeFrom_Null_Throws`, `CompletionRange_Single_SameRange`, `Location_ToLink_NoOptionalRanges`, `CompletionItemKind_Order` (`Method` = 0, `EnumMember` = 16, `Snippet` = 28)
+- [x] New (`CompletionItemTests`): `Constructor_NullLabel_Throws`, `Constructor_Defaults` (Kind `Text`, `Range` null, `Preselect` false), `MergeFrom_CopiesOnlyResolvableNonNullMembers` (detail, documentation, additional edits copied; label, insert text, sort text untouched; a null in `resolved` does not erase a value),
+      `MergeFrom_Null_Throws`, `CompletionRange_FromRange_SameRange`, `Location_ToLink_NoOptionalRanges`, `CompletionItemKind_Order` (`Method` = 0, `EnumMember` = 16, `Snippet` = 28)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.Core` run; the diff of `PublicAPI.Unshipped.txt` lists exactly the new public members
-- [ ] `docs/PORTING.md` map: rows for `languages.ts` (the declarations above, with "not ported: `insertTextRules`, `command`, `action`, `extensionId`, `_id`, `dispose` of the list, `duration`, hover verbosity, `Declaration`/`Implementation`/`TypeDefinition`/`Reference` providers") and `htmlContent.ts` (`MarkdownString`: `appendText`, `isEmptyMarkdownString`, `escapeMarkdownSyntaxTokens`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.Core` run; the diff of `PublicAPI.Unshipped.txt` lists exactly the new public members
+- [x] `docs/PORTING.md` map: rows for `languages.ts` (the declarations above, with "not ported: `insertTextRules`, `command`, `action`, `extensionId`, `_id`, `dispose` of the list, `duration`, hover verbosity, `Declaration`/`Implementation`/`TypeDefinition`/`Reference` providers") and `htmlContent.ts` (`MarkdownString`: `appendText`, `isEmptyMarkdownString`, `escapeMarkdownSyntaxTokens`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
