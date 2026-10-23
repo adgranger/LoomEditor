@@ -116,7 +116,11 @@ LoomEditor.View.Features.Comment.CommentFeature.Id.get -> string!
 LoomEditor.View.Features.EditorContext
 LoomEditor.View.Features.EditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.View.Features.EditorContext.Dispose() -> void
+LoomEditor.View.Features.EditorContext.DocumentUri.get -> string!
+LoomEditor.View.Features.EditorContext.DocumentUri.set -> void
 LoomEditor.View.Features.EditorContext.EditorContext() -> void
+LoomEditor.View.Features.EditorContext.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
+LoomEditor.View.Features.EditorContext.Markers.get -> LoomEditor.Core.Markers.MarkerService!
 LoomEditor.View.Features.EditorContext.Model.get -> LoomEditor.Core.Model.TextModel!
 LoomEditor.View.Features.EditorContext.Scheduler.get -> LoomEditor.View.Features.Scheduling.IEditorScheduler!
 LoomEditor.View.Features.EditorContext.Selection.get -> LoomEditor.Core.Text.Selection

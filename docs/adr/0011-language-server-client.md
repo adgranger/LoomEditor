@@ -78,7 +78,7 @@ real server the Gallery shows.
      never runs on the read loop;
    - **providers** (`ICompletionItemProvider`…) are called on the UI thread and return a `Task` that **may complete on any thread**. The View code
      that consumes a provider result never uses `await` (no `SynchronizationContext` in tests, and one in WinUI is an implicit dependency): it uses
-     `UiContinuation.Then(task, dispatcher, token, onSuccess, onError)` (P8-05), which runs the callback through `IEditorContext`'s `IUiDispatcher`
+     `UiContinuation.Then(task, dispatcher, onSuccess, onError, token)` (P8-05), which runs the callback through `IEditorContext`'s `IUiDispatcher`
      (the control passes its `DispatcherQueue` dispatcher, as for tokenization, ADR 0008 decision 5; with none, the callback runs inline: tests, the
      parameterless `EditorContext`). After the callback is posted the code re-checks that its request is still the current one (version id, request number).
    - **conversions that run in a provider continuation** (a thread-pool thread: LSP → completion items, hovers, locations; hover part building) **never touch the `TextModel`**: they convert positions numerically, and the UI-thread code that consumes the result validates ranges against the model. Only diagnostics are converted on the UI thread (they need the model to clamp ranges);

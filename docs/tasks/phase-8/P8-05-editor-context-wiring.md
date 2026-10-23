@@ -1,6 +1,6 @@
 # P8-05 — `EditorContext` and the control expose `LanguageFeatures`, `Markers`, `DocumentUri`; `UiContinuation`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-04
 - **Size:** M
 
@@ -40,9 +40,11 @@ Sources: none (specified in this card). (Monaco gets services by dependency inje
   {
       /// Runs onSuccess(result) through the dispatcher when the task completed with a result and the token is not cancelled;
       /// onError(exception) when it faulted (never for cancellation); nothing at all when the token is cancelled or the task was cancelled.
-      public static void Then<T>(Task<T> task, IUiDispatcher dispatcher, CancellationToken token, Action<T> onSuccess, Action<Exception>? onError = null);
+      public static void Then<T>(Task<T> task, IUiDispatcher dispatcher, Action<T> onSuccess, Action<Exception>? onError = null, CancellationToken token = default);
   }
   ```
+
+  The token is the last parameter because the CA1068 analyzer rejects any other position; callers pass it by name (`token: cts.Token`).
 
   Implementation: `task.ContinueWith(static (t, state) => …, state, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default)`; inside, `dispatcher.Post(() => { if (token.IsCancellationRequested) return; … })`
   (check the token **again** inside the posted action: the request can be cancelled between completion and the post). A `t.IsCanceled` task or an `OperationCanceledException` fault → nothing. `onSuccess` / `onError` exceptions are not caught (they are the caller's bugs).
@@ -54,20 +56,20 @@ Sources: none (specified in this card). (Monaco gets services by dependency inje
 
 ## Tests
 
-- [ ] New (`EditorContextTests`): `Markers_ProduceDecorations_OnTheModel` (set a marker on `context.Markers`, `context.Model.GetAllDecorations(ownerId: context.Id)`-like query of the existing API shows one `marker-decoration`), `Markers_AreRemovedOnDispose`, `DocumentUri_Default_UsesTheEditorId`,
+- [x] New (`EditorContextTests`): `Markers_ProduceDecorations_OnTheModel` (set a marker on `context.Markers`, `context.Model.GetAllDecorations(ownerId: context.Id)`-like query of the existing API shows one `marker-decoration`), `Markers_AreRemovedOnDispose`, `DocumentUri_Default_UsesTheEditorId`,
       `DocumentUri_Empty_Throws`, `LanguageFeatures_IsNotNull_AndPerEditor` (two contexts have different services), `UiDispatcher_Default_IsInline`, `UiDispatcher_Given_IsUsed` (pass a `ManualUiDispatcher`: `GetUiDispatcher()` returns it),
       `GetLanguageId_ReturnsTheModelLanguage` (`context.Model.Tokenization.SetLanguageId("csharp")` → `"csharp"`; plain text by default: `"plaintext"`)
-- [ ] New (`UiContinuationTests`, uses `ManualUiDispatcher`): `Then_Success_PostsTheResult` (the callback has not run before `RunAll()`), `Then_Faulted_CallsOnError`, `Then_Faulted_NoOnError_DoesNothing`, `Then_CancelledTask_CallsNothing`,
+- [x] New (`UiContinuationTests`, uses `ManualUiDispatcher`): `Then_Success_PostsTheResult` (the callback has not run before `RunAll()`), `Then_Faulted_CallsOnError`, `Then_Faulted_NoOnError_DoesNothing`, `Then_CancelledTask_CallsNothing`,
       `Then_TokenCancelledBeforeCompletion_CallsNothing`, `Then_TokenCancelledAfterCompletionBeforeRunAll_CallsNothing`, `Then_PostRefused_DropsTheResult` (a dispatcher whose `Post` returns false), `Then_CompletedFromAnotherThread_CallbackRunsOnRunAllThread`
       (complete a `TaskCompletionSource` from `Task.Run`, wait with a timeout of 5 s for the post, then `RunAll()` on the test thread; the callback runs on the test thread), `Then_InlineDispatcher_RunsSynchronouslyForCompletedTask`
-- [ ] The control property cards have no unit test (WinUI): the build is the check; create `docs/testing/phase-8-manual-tests.md` (same header block as `phase-7-manual-tests.md`: title "Phase 8 — manual test list", the fill-in lines, a "Setup" section, a "Findings" table at the end) with one setup line: "`Editor.Markers.Change("manual", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)])` puts an error mark in the overview ruler". Later cards add sections; P8-38 writes it in full.
+- [x] The control property cards have no unit test (WinUI): the build is the check; create `docs/testing/phase-8-manual-tests.md` (same header block as `phase-7-manual-tests.md`: title "Phase 8 — manual test list", the fill-in lines, a "Setup" section, a "Findings" table at the end) with one setup line: "`Editor.Markers.Change("manual", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)])` puts an error mark in the overview ruler". Later cards add sections; P8-38 writes it in full.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1` run for `src/LoomEditor.View` and `src/LoomEditor.WinUI`, diffs checked (the three new public members of `EditorContext`, the three of the control)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1` run for `src/LoomEditor.View` and `src/LoomEditor.WinUI`, diffs checked (the three new public members of `EditorContext`, the three of the control)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

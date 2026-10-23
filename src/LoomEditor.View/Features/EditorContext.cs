@@ -1,5 +1,8 @@
 using LoomEditor.Core.Decorations;
+using System.Globalization;
 using LoomEditor.Core.Languages;
+using LoomEditor.Core.Languages.Features;
+using LoomEditor.Core.Markers;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Threading;
 using LoomEditor.Core.Text;
@@ -91,7 +94,36 @@ public sealed class EditorContext : IEditorContext, IDisposable
         };
         ViewModel.EventDispatcher.OnEvent += OnViewModelEvent;
         _coreCommands = CoreCommandRegistration.Register(Commands, ViewModel);
+        UiDispatcher = dispatcher ?? InlineUiDispatcher.Instance;
+        _documentUri = "inmemory://model/" + Id.ToString(CultureInfo.InvariantCulture);
+        MarkerDecorations = new MarkerDecorations(Model, Markers, Id);
     }
+
+    /// <summary>The providers of completion, hover and definition of this editor.</summary>
+    public LanguageFeaturesService LanguageFeatures { get; } = new();
+
+    /// <summary>The markers of this editor; each one becomes a squiggle decoration.</summary>
+    public MarkerService Markers { get; } = new();
+
+    /// <summary>The URI of the document (default <c>inmemory://model/&lt;id&gt;</c>), read when a language server session opens it.</summary>
+    /// <exception cref="ArgumentException">The value is null or empty.</exception>
+    public string DocumentUri
+    {
+        get => _documentUri;
+        set
+        {
+            ArgumentException.ThrowIfNullOrEmpty(value);
+            _documentUri = value;
+        }
+    }
+
+    private string _documentUri;
+
+    /// <summary>Runs an action on the UI thread; inline when the editor has no dispatcher.</summary>
+    internal IUiDispatcher UiDispatcher { get; }
+
+    /// <summary>Turns <see cref="Markers"/> into decorations of <see cref="Model"/>; hover reads it.</summary>
+    internal MarkerDecorations MarkerDecorations { get; }
 
     /// <inheritdoc />
     public IEditorScheduler Scheduler { get; }
@@ -236,6 +268,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>Stops the background tokenizer and releases the grammars.</summary>
     public void Dispose()
     {
+        MarkerDecorations.Dispose();
         Highlighter.Dispose();
         _coreCommands.Dispose();
     }

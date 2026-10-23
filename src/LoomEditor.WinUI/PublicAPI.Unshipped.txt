@@ -34,13 +34,17 @@ LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
+LoomEditor.WinUI.Controls.LoomEditor.DocumentUri.get -> string!
+LoomEditor.WinUI.Controls.LoomEditor.DocumentUri.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.WinUI.Controls.LoomEditor.Features.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
+LoomEditor.WinUI.Controls.LoomEditor.Markers.get -> LoomEditor.Core.Markers.MarkerService!
 LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabled.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.MinimapRenderCharacters.get -> bool

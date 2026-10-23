@@ -1,6 +1,9 @@
+using LoomEditor.Core.Markers;
 using LoomEditor.Core.Text;
 using LoomEditor.View.Features;
+using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Tests.Features.TestHelpers;
+using LoomEditor.View.Tests.Highlighting.TestHelpers;
 
 namespace LoomEditor.View.Tests.Features;
 
@@ -126,6 +129,94 @@ public class EditorContextTests
 
         Assert.True(context.Model.Options.InsertSpaces);
         Assert.Equal(4, context.Model.Options.TabSize);
+    }
+
+    private static int MarkerCount(EditorContext context) =>
+        context.Model.GetAllDecorations(ownerId: context.Id).Count(d => d.Options.Description == "marker-decoration");
+
+    [Fact]
+    public void Markers_ProduceDecorations_OnTheModel()
+    {
+        var context = new EditorContext();
+        context.SetText("let value = 1");
+
+        context.Markers.Change("test", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)]);
+
+        Assert.Equal(1, MarkerCount(context));
+    }
+
+    [Fact]
+    public void Markers_AreRemovedOnDispose()
+    {
+        var context = new EditorContext();
+        context.SetText("let value = 1");
+        context.Markers.Change("test", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)]);
+
+        context.Dispose();
+
+        Assert.Equal(0, MarkerCount(context));
+    }
+
+    [Fact]
+    public void DocumentUri_Default_UsesTheEditorId()
+    {
+        var context = new EditorContext();
+
+        Assert.Equal("inmemory://model/" + context.Id, context.DocumentUri);
+        Assert.Equal(context.DocumentUri, context.GetDocumentUri());
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    public void DocumentUri_NullOrEmpty_Throws(string? value)
+    {
+        var context = new EditorContext();
+
+        Assert.ThrowsAny<ArgumentException>(() => context.DocumentUri = value!);
+    }
+
+    [Fact]
+    public void LanguageFeatures_IsNotNull_AndPerEditor()
+    {
+        var first = new EditorContext();
+        var second = new EditorContext();
+
+        Assert.NotNull(first.LanguageFeatures);
+        Assert.NotSame(first.LanguageFeatures, second.LanguageFeatures);
+    }
+
+    [Fact]
+    public void UiDispatcher_Default_IsInline()
+    {
+        Assert.Same(InlineUiDispatcher.Instance, new EditorContext().GetUiDispatcher());
+    }
+
+    [Fact]
+    public void UiDispatcher_Given_IsUsed()
+    {
+        var dispatcher = new ManualUiDispatcher();
+        var context = new EditorContext(_ => new NoopDisposable(), TimeProvider.System, dispatcher);
+
+        Assert.Same(dispatcher, context.GetUiDispatcher());
+    }
+
+    [Fact]
+    public void GetLanguageId_ReturnsTheModelLanguage()
+    {
+        var context = new EditorContext();
+        Assert.Equal("plaintext", context.GetLanguageId());
+
+        context.Model.Tokenization.SetLanguageId("csharp");
+
+        Assert.Equal("csharp", context.GetLanguageId());
+    }
+
+    private sealed class NoopDisposable : IDisposable
+    {
+        public void Dispose()
+        {
+        }
     }
 
     [Fact]

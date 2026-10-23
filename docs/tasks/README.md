@@ -733,7 +733,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P8-02](phase-8/P8-02-language-feature-registry.md) | `LanguageFeatureRegistry<T>` and `LanguageFeaturesService` | P8-01 | done |
 | [P8-03](phase-8/P8-03-marker-service.md) | `MarkerService`: markers per owner (public API of Core) | P8-02 | done |
 | [P8-04](phase-8/P8-04-marker-decorations.md) | `MarkerDecorations`: markers become model decorations | P8-03 | done |
-| [P8-05](phase-8/P8-05-editor-context-wiring.md) | `EditorContext` and the control expose `LanguageFeatures`, `Markers`, `DocumentUri`; `UiContinuation` | P8-04 | todo |
+| [P8-05](phase-8/P8-05-editor-context-wiring.md) | `EditorContext` and the control expose `LanguageFeatures`, `Markers`, `DocumentUri`; `UiContinuation` | P8-04 | done |
 
 ### Step B — Diagnostics on screen
 
