@@ -1,6 +1,6 @@
 # P7-21 — High contrast: the selected text color (`editor.selectionForeground`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-20
 - **Size:** M
 
@@ -42,21 +42,21 @@ Today it keeps its token color on the selection color: white on white in `hc_bla
 
 ## Tests
 
-- [ ] New (`EditorColorDefaultsTests`): `SelectionForeground_Dark_HasNoDefault`, `SelectionForeground_Light_HasNoDefault`, `SelectionForeground_HcDark_IsBlack` (`#000000FF`), `SelectionForeground_HcLight_IsWhite` (`#FFFFFFFF`)
-- [ ] New (`BuiltInThemesTests`): `SelectionForeground_DarkHighContrast_IsBlack`, `SelectionForeground_LightHighContrast_IsWhite`, `SelectionForeground_DarkModern_IsNull`,
+- [x] New (`EditorColorDefaultsTests`): `SelectionForeground_Dark_HasNoDefault`, `SelectionForeground_Light_HasNoDefault`, `SelectionForeground_HcDark_IsBlack` (`#000000FF`), `SelectionForeground_HcLight_IsWhite` (`#FFFFFFFF`)
+- [x] New (`BuiltInThemesTests`): `SelectionForeground_DarkHighContrast_IsBlack`, `SelectionForeground_LightHighContrast_IsWhite`, `SelectionForeground_DarkModern_IsNull`,
       `HighContrastSelection_ForegroundOnBackground_MeetsAaa` (uses `ContrastRatio.Between(theme.SelectionForeground!.Value, theme.SelectionBackground) >= 7` for both HC themes)
-- [ ] New (`TextViewRendererSelectionForegroundTests`): `HighContrastDark_SelectedText_UsesTheSelectionForeground` (`"hello world"`, selection `(1,1)-(1,6)`, theme "Dark High Contrast": the drawn run covering `hello` has the black foreground, the rest `world` the theme foreground),
+- [x] New (`TextViewRendererSelectionForegroundTests`): `HighContrastDark_SelectedText_UsesTheSelectionForeground` (`"hello world"`, selection `(1,1)-(1,6)`, theme "Dark High Contrast": the drawn run covering `hello` has the black foreground, the rest `world` the theme foreground),
       `HighContrastLight_SelectedText_UsesWhite`, `DarkTheme_SelectedText_KeepsTokenColors`, `HighContrastSelection_MultiLine_ColorsTheSelectedPartOfEachLine` (`"abc\ndef"`, selection `(1,2)-(2,3)`),
       `HighContrastSelection_Empty_ChangesNothing`, `HighContrastSelection_WinsOverTokenColors` (give the line a token color and check the selected run still has the selection foreground),
       `HighContrastSelection_MultipleCursors_ColorsEachSelection`, `HighContrastSelection_WrappedLine_UsesViewColumns` (word wrap on: a selection across the break colors both view lines' parts)
-- [ ] Existing renderer tests still pass
+- [x] Existing renderer tests still pass
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the three Monaco locations; "Behavior differences": sticky lines do not color selections (there are none)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the three Monaco locations; "Behavior differences": sticky lines do not color selections (there are none)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

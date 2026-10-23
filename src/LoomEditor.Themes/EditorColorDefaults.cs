@@ -26,6 +26,9 @@ internal static class EditorColorDefaults
         // editorColors.ts:121
         ["editor.selectionBackground"] = ("#264F78", "#ADD6FF", "#f3f518", "#0F4A85"),
 
+        // editorColors.ts:125 (no default for the dark and light themes)
+        ["editor.selectionForeground"] = (null, null, "#000000", "#FFFFFF"),
+
         // editorColors.ts:133 (activeContrastBorder is the id contrastActiveBorder)
         ["editor.selectionHighlightBackground"] = (
             ColorValue.LessProminent("editor.selectionBackground", "editor.background", 0.3, 0.6),
