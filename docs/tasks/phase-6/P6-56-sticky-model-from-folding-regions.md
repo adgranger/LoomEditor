@@ -1,6 +1,6 @@
 # P6-56 — The sticky model from indentation folding regions
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-55
 - **Size:** S
 
@@ -44,17 +44,17 @@ File: `src/vs/editor/contrib/stickyScroll/browser/stickyScrollModelProvider.ts`.
 
 No upstream unit tests (the 4 upstream tests use the outline model: phase 8). New:
 
-- [ ] `FromFoldingRegions_NestedBlocks_BuildsTheTree` (a function containing an `if`: root → function → if)
-- [ ] `FromFoldingRegions_RangeEndsOneLineAfterTheRegion`
-- [ ] `Update_DefaultModelOutline_FallsBackToIndentation`
-- [ ] `Update_EmptyDocument_HasAnEmptyRoot`
+- [x] `FromFoldingRegions_NestedBlocks_BuildsTheTree` (a function containing an `if`: root → function → if)
+- [x] `FromFoldingRegions_RangeEndsOneLineAfterTheRegion`
+- [x] `Update_DefaultModelOutline_FallsBackToIndentation`
+- [x] `Update_EmptyDocument_HasAnEmptyRoot`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `stickyScrollModelProvider.ts` (🔶 indentation model only, synchronous)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `stickyScrollModelProvider.ts` (🔶 indentation model only, synchronous)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
