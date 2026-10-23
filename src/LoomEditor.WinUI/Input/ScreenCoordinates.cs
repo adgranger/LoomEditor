@@ -33,4 +33,25 @@ internal static class ScreenCoordinates
 
         return new Rect(inContent.X * scale + origin.X, inContent.Y * scale + origin.Y, inContent.Width * scale, inContent.Height * scale);
     }
+
+    /// <summary>The inverse of <see cref="ToScreenPixels"/> for a point; <see langword="null"/> when the element is not in a window.</summary>
+    public static Point? ToElement(UIElement element, Point screenPixels)
+    {
+        ArgumentNullException.ThrowIfNull(element);
+        if (element.XamlRoot is not { } root)
+        {
+            return null;
+        }
+
+        nint hwnd = Win32Interop.GetWindowFromWindowId(root.ContentIslandEnvironment.AppWindowId);
+        var origin = new NativeMethods.Point();
+        if (!NativeMethods.ClientToScreen(hwnd, ref origin))
+        {
+            return null;
+        }
+
+        double scale = root.RasterizationScale;
+        var inContent = new Point((screenPixels.X - origin.X) / scale, (screenPixels.Y - origin.Y) / scale);
+        return element.TransformToVisual(null).Inverse is { } inverse ? inverse.TransformPoint(inContent) : null;
+    }
 }

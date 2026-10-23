@@ -1,6 +1,6 @@
 # P7-17 — The UIA peer: `ITextProvider`, `IValueProvider` and the read members of the range provider (tracer bullet)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P7-16
 - **Size:** L if done carelessly — keep it to what is listed (≈350 lines, mostly one-line delegations)
 - **Recommended model:** Opus (tracer bullet: managed UIA providers under Native AOT / CsWinRT; stop and report on failure)
@@ -63,22 +63,22 @@ The View model it delegates to: P7-05 … P7-11 (`AutomationTextDocument`, `Auto
 No WinUI unit test (ADR 0010 decision 2); the model is tested by P7-05 … P7-11 and the in-process self-check is P7-24. Manual checks, `docs/testing/phase-7-manual-tests.md` section 3 "UIA text pattern (read)"
 (tools: Accessibility Insights for Windows → Live inspect, or `inspect.exe` from the Windows SDK; the Gallery running with a C# sample):
 
-- [ ] 3.1 Hover the editor: ControlType `Edit`, Name `Code editor`, patterns list contains **Text** and **Value** (and no error)
-- [ ] 3.2 Text pattern pane: `DocumentRange.GetText(-1)` equals the editor text; `SupportedTextSelection` = Multiple
+- [x] 3.1 Hover the editor: ControlType `Edit`, Name `Code editor`, patterns list contains **Text** and **Value** (and no error)
+- [x] 3.2 Text pattern pane: `DocumentRange.GetText(-1)` equals the editor text; `SupportedTextSelection` = Multiple
 - [ ] 3.3 Select some text in the editor, press "Get selection" in the tool → the selected text; with two cursors (`Ctrl+Alt+Down`) two ranges
 - [ ] 3.4 `GetVisibleRanges` → the text on screen; scroll and repeat
 - [ ] 3.5 `RangeFromPoint` over a word → a degenerate range at that character (expand it to Word in P7-18's check 4.x)
 - [ ] 3.6 `GetBoundingRectangles` of a selection → rectangles that sit on the selected text (compare with the highlighted rectangle on screen), at 100 % and 200 % display scale
 - [ ] 3.7 `IsReadOnly = true` → Value pattern `IsReadOnly` is `true`; `SetValue` fails; `false` → `SetValue("abc")` replaces the text
-- [ ] 3.8 `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) and repeat 3.1 – 3.3 on the published (Native AOT) build: same result. **If 3.1 shows no Text pattern or the process crashes under AOT, stop and report: this is the tracer bullet's failure condition.**
+- [x] 3.8 `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) and repeat 3.1 – 3.3 on the published (Native AOT) build: same result. **If 3.1 shows no Text pattern or the process crashes under AOT, stop and report: this is the tracer bullet's failure condition.**
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body
-- [ ] No public API change (`PublicAPI.Unshipped.txt` unchanged)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (README §6) — result reported in the commit body
+- [x] No public API change (`PublicAPI.Unshipped.txt` unchanged)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

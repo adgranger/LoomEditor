@@ -1,3 +1,5 @@
+using LoomEditor.Rendering;
+using LoomEditor.View.Accessibility;
 using LoomEditor.View.Layout;
 using LoomEditor.WinUI.Accessibility;
 using Microsoft.UI.Xaml;
@@ -42,6 +44,17 @@ public sealed partial class LoomEditor
         get => (bool)GetValue(TabMovesFocusProperty);
         set => SetValue(TabMovesFocusProperty, value);
     }
+
+    private AutomationTextDocument? _automationDocument;
+
+    /// <summary>What UI Automation reads: created once.</summary>
+    internal AutomationTextDocument AutomationDocument => _automationDocument ??= new AutomationTextDocument(_viewModel);
+
+    /// <summary>The geometry queries of UI Automation (cheap to create).</summary>
+    internal AutomationTextGeometry AutomationGeometry => new(AutomationDocument, new RendererLineMetrics(this));
+
+    /// <summary>The renderer, or <see langword="null"/> while the canvas is not ready.</summary>
+    internal TextViewRenderer? AutomationRenderer => _renderer;
 
     private void InitializeAccessibility()
     {
