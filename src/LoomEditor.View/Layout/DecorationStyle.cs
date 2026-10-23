@@ -15,6 +15,8 @@ namespace LoomEditor.View.Layout;
 /// <param name="AfterContentColorId">The color of <paramref name="AfterContentText"/>.</param>
 /// <param name="Important">The foreground wins over the other inline foregrounds (CSS <c>!important</c>).</param>
 /// <param name="GutterIcon">The icon drawn in the line-decorations area (the codicon of the CSS class).</param>
+/// <param name="Underline">The underline drawn at the bottom of the decorated range (the squiggles of markers).</param>
+/// <param name="UnderlineColorId">The color of <paramref name="Underline"/>.</param>
 /// <param name="AlwaysVisible">The icon is drawn even when the margin is not hovered (<c>alwaysShowFoldIcons</c>, collapsed regions).</param>
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record DecorationStyle(
@@ -27,7 +29,17 @@ internal sealed record DecorationStyle(
     Func<EditorTheme, ThemeColor?>? ForegroundResolver = null,
     bool Important = false,
     GutterIcon GutterIcon = GutterIcon.None,
-    bool AlwaysVisible = false);
+    bool AlwaysVisible = false,
+    UnderlineStyle Underline = UnderlineStyle.None,
+    string? UnderlineColorId = null);
+
+/// <summary>The underlines of a decoration (Monaco: the <c>squiggly-*</c> CSS classes).</summary>
+internal enum UnderlineStyle
+{
+    None,
+    Squiggle,
+    Dots,
+}
 
 /// <summary>The icons of the gutter that have no codicon font: drawn as strokes.</summary>
 internal enum GutterIcon

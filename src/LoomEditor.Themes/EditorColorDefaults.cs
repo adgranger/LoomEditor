@@ -111,6 +111,21 @@ internal static class EditorColorDefaults
         // bracketMatching.ts:27
         ["editorOverviewRuler.bracketMatchForeground"] = ("#A0A0A0", "#A0A0A0", "#A0A0A0", "#A0A0A0"),
 
+        // editorColors.ts:105 (editorHint.foreground)
+        ["editorHint.foreground"] = (ColorValue.Transparent("#eeeeee", 0.7), "#6c6c6c", null, null),
+
+        // editorColors.ts:109 (editorHint.border)
+        ["editorHint.border"] = (null, null, ColorValue.Transparent("#eeeeee", 0.8), "#292929"),
+
+        // editorColorRegistry.ts:75
+        ["editorOverviewRuler.errorForeground"] = (ColorValue.Transparent("#FF1212", 0.7), ColorValue.Transparent("#FF1212", 0.7), "#FF3232", "#B5200D"),
+
+        // editorColorRegistry.ts:76
+        ["editorOverviewRuler.warningForeground"] = ("editorWarning.foreground", "editorWarning.foreground", "editorWarning.border", "editorWarning.border"),
+
+        // editorColorRegistry.ts:77
+        ["editorOverviewRuler.infoForeground"] = ("editorInfo.foreground", "editorInfo.foreground", "editorInfo.border", "editorInfo.border"),
+
         // editorColorRegistry.ts:61
         ["editorOverviewRuler.border"] = ("#7f7f7f4d", "#7f7f7f4d", "#7f7f7f4d", "#666666"),
 

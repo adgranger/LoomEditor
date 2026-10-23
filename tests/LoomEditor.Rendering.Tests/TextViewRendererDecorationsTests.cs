@@ -1,4 +1,5 @@
 using LoomEditor.Core.Decorations;
+using LoomEditor.Core.Markers;
 using LoomEditor.Core.Tokens;
 using LoomEditor.Core.Text;
 using LoomEditor.Rendering.Tests.TestHelpers;
@@ -306,5 +307,68 @@ public class TextViewRendererDecorationsTests
         List<FillRectangleCall> fills = Fills(harness, harness.Render(), "editor.foldBackground");
 
         Assert.Equal(new[] { 0f, LineHeight }, fills.Select(f => f.Y));
+    }
+
+    private static List<DrawLineCall> Lines(ViewHarness harness, RecordingRenderSurface surface, string colorId)
+    {
+        ThemeColor color = Color(harness, colorId);
+        return [.. surface.Calls.OfType<DrawLineCall>().Where(call => call.Color == color)];
+    }
+
+    [Fact]
+    public void SquigglyError_DrawsZigzagLines()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 2, 1, 5), "squiggly-error");
+
+        List<DrawLineCall> lines = Lines(harness, harness.Render(), "editorError.foreground");
+
+        Assert.NotEmpty(lines);
+        Assert.Equal(harness.LayoutInfo.ContentLeft + CharacterWidth, lines[0].X1);
+        Assert.All(lines, l => Assert.InRange(l.Y1, LineHeight - 3, LineHeight));
+    }
+
+    [Fact]
+    public void SquigglyHint_DrawsThreeDots()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 2, 1, 4), "squiggly-hint");
+
+        Assert.Equal(3, Fills(harness, harness.Render(), "editorHint.foreground").Count);
+    }
+
+    [Fact]
+    public void Squiggly_Warning_DrawnAboveError_WhenHigherZIndex()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "squiggly-error");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "squiggly-warning", zIndex: 10);
+
+        RecordingRenderSurface surface = harness.Render();
+
+        Assert.True(IndexOf(surface, Lines(harness, surface, "editorError.foreground")[0]) < IndexOf(surface, Lines(harness, surface, "editorWarning.foreground")[0]));
+    }
+
+    [Fact]
+    public void Squiggly_EmptyDecoration_ShowIfCollapsed_DrawsSomething()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 3, 1, 3), "squiggly-error", showIfCollapsed: true);
+
+        List<DrawLineCall> lines = Lines(harness, harness.Render(), "editorError.foreground");
+
+        float halfwidth = (float)harness.Measurer.FontInfo.TypicalHalfwidthCharacterWidth;
+        Assert.Equal(halfwidth, lines[^1].X2 - lines[0].X1, 0.01f);
+    }
+
+    [Fact]
+    public void MarkerDecorations_DrawASquiggle()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        var service = new MarkerService();
+        using var decorations = new MarkerDecorations(harness.Model, service, harness.ViewModel.EditorId);
+        service.Change("t", new[] { new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4) });
+
+        Assert.NotEmpty(Lines(harness, harness.Render(), "editorError.foreground"));
     }
 }

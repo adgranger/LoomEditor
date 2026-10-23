@@ -1,6 +1,6 @@
 # P8-06 — Squiggles: error, warning, info and hint underlines, and the ruler colors of markers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-05
 - **Size:** M
 
@@ -48,13 +48,13 @@ A marker (P8-03) shows in the text as Monaco does: a zigzag underline in the sev
 
 ## Tests
 
-- [ ] New (`UnderlineGeometryTests`; comment `// Monaco: getSquigglySVGData (6 x 3 zigzag)`): `SquigglePoints_ZeroWidth_Empty`, `SquigglePoints_StartsAtLeftAndEndsAtRight`, `SquigglePoints_StaysBetweenPeakAndTrough` (every `Y` in `[bottom - 2.3, bottom - 0.7]`), `SquigglePoints_TroughAndPeak` (width 12: a vertex at `x = left + 1.8` with `y = bottom - 0.7`, one at `left + 4.8` with `bottom - 2.3`, one at `left + 7.8` with `bottom - 0.7`),
+- [x] New (`UnderlineGeometryTests`; comment `// Monaco: getSquigglySVGData (6 x 3 zigzag)`): `SquigglePoints_ZeroWidth_Empty`, `SquigglePoints_StartsAtLeftAndEndsAtRight`, `SquigglePoints_StaysBetweenPeakAndTrough` (every `Y` in `[bottom - 2.3, bottom - 0.7]`), `SquigglePoints_TroughAndPeak` (width 12: a vertex at `x = left + 1.8` with `y = bottom - 0.7`, one at `left + 4.8` with `bottom - 2.3`, one at `left + 7.8` with `bottom - 0.7`),
       `SquigglePoints_StartHeight` (`Y(0)`: `p = 4.2`, `v = 0.6` → `bottom - 0.7 - 1.6 * 0.6`), `DotPositions_ThreeDots`
-- [ ] New (`DecorationStylesTests`): `SquigglyClasses_HaveUnderlineRows` (error / warning / info Squiggle with the three ids, hint Dots), `UnnecessaryClasses_HaveNoRow`, `ColorIds_IncludeUnderlineColors`
-- [ ] New (`TextViewRendererDecorationsTests`, the file's helpers `CreateHarness`, `AddDecoration`, `RecordingRenderSurface`; add the five color ids to its `ThemeJson` only if a test needs them): `SquigglyError_DrawsZigzagLines` (a `squiggly-error` decoration on columns 2–5: `DrawLineCall`s with the `editorError.foreground` color, first point x = the left of column 2, all y within the bottom 3 DIPs of the line),
+- [x] New (`DecorationStylesTests`): `SquigglyClasses_HaveUnderlineRows` (error / warning / info Squiggle with the three ids, hint Dots), `UnnecessaryClasses_HaveNoRow`, `ColorIds_IncludeUnderlineColors`
+- [x] New (`TextViewRendererDecorationsTests`, the file's helpers `CreateHarness`, `AddDecoration`, `RecordingRenderSurface`; add the five color ids to its `ThemeJson` only if a test needs them): `SquigglyError_DrawsZigzagLines` (a `squiggly-error` decoration on columns 2–5: `DrawLineCall`s with the `editorError.foreground` color, first point x = the left of column 2, all y within the bottom 3 DIPs of the line),
       `SquigglyHint_DrawsThreeDots` (three `FillRectangleCall`s of the hint color), `Squiggly_Warning_DrawnAboveError_WhenHigherZIndex` (z-index order of the calls), `Squiggly_EmptyDecoration_ShowIfCollapsed_DrawsSomething` (a marker decoration has `ShowIfCollapsed = true`: an empty range still draws a squiggle of width `TypicalHalfwidthCharacterWidth`)
-- [ ] Existing `DecorationStyles_EveryColorId_IsAKnownThemeColor` still passes (the new ids are known)
-- [ ] An end-to-end check that markers reach the renderer: `TextViewRendererDecorationsTests.MarkerDecorations_DrawASquiggle` — create a `MarkerService`, a `MarkerDecorations(harness.Model, service, harness.ViewModel.EditorId)`, `service.Change("t", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)])`, render, assert a squiggle was drawn
+- [x] Existing `DecorationStyles_EveryColorId_IsAKnownThemeColor` still passes (the new ids are known)
+- [x] An end-to-end check that markers reach the renderer: `TextViewRendererDecorationsTests.MarkerDecorations_DrawASquiggle` — create a `MarkerService`, a `MarkerDecorations(harness.Model, service, harness.ViewModel.EditorId)`, `service.Change("t", [new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4)])`, render, assert a squiggle was drawn
 
 ## Manual checks (add to `docs/testing/phase-8-manual-tests.md` as "1. Squiggles and ruler")
 
@@ -66,10 +66,10 @@ A marker (P8-03) shows in the text as Monaco does: a zigzag underline in the sev
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the squiggle rows of `codeEditorWidget.ts` and `editor.css` (with the behavior differences: no `unnecessary` / `deprecated` rendering, no border or background, the squiggle is drawn with line segments and not an SVG)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the squiggle rows of `codeEditorWidget.ts` and `editor.css` (with the behavior differences: no `unnecessary` / `deprecated` rendering, no border or background, the squiggle is drawn with line segments and not an SVG)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

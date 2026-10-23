@@ -739,7 +739,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P8-06](phase-8/P8-06-squiggles.md) | Squiggles: error, warning, info and hint underlines, and the ruler colors of markers | P8-05 | todo |
+| [P8-06](phase-8/P8-06-squiggles.md) | Squiggles: error, warning, info and hint underlines, and the ruler colors of markers | P8-05 | done |
 
 ### Step C — Hover
 
