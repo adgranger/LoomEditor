@@ -1,6 +1,6 @@
 # P8-07 — A Markdown subset parser for hover and documentation text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-06
 - **Size:** M
 
@@ -53,23 +53,23 @@ Sources: none (specified in this card). Monaco renders Markdown with `marked` in
 
 ## Tests
 
-- [ ] New (`MarkdownParserTests`; helpers in the test file: `P(params MarkdownInline[])`, `T(text)`, `B(text)`, `I(text)`, `C(code)`, `L(text, url)`, `Doc(params MarkdownBlock[])`; compare with `Assert.Equal` on the record structure (use a small recursive formatter to a string for readable failures)):
+- [x] New (`MarkdownParserTests`; helpers in the test file: `P(params MarkdownInline[])`, `T(text)`, `B(text)`, `I(text)`, `C(code)`, `L(text, url)`, `Doc(params MarkdownBlock[])`; compare with `Assert.Equal` on the record structure (use a small recursive formatter to a string for readable failures)):
       `Empty_NoBlocks`, `Null_NoBlocks`, `SingleParagraph`, `TwoParagraphs_BlankLine`, `SoftBreak_BecomesSpace` (`"a\nb"` → `T("a b")`), `HardBreak_TwoSpaces` and `HardBreak_Backslash`, `Crlf_Normalized`,
       `FencedCode_WithLanguage` (```` ```csharp\nint x;\n``` ````), `FencedCode_NoLanguage_NullLanguage`, `FencedCode_Unclosed_RunsToEnd`, `FencedCode_KeepsIndentationAndBlankLines`, `FencedCode_TildeFence`, `FencedCode_LongerClosingFenceCloses`, `FencedCode_ShorterInnerFenceDoesNotClose`,
       `Heading_Levels` (`#` … `######`, 7 `#` is a paragraph), `Heading_InlineParsed`, `Rule_ThreeDashes`, `Rule_BeforeList` (`---` after a paragraph is a rule, not a list), `List_Unordered`, `List_Ordered`, `List_ContinuationLine`, `List_EndsAtBlankLine`, `List_MixedMarkers_StayOneList`,
       `ParagraphThenCode_NoBlankLine` (a fence interrupts a paragraph), `Blockquote_IsAParagraph`, `Html_IsLiteralText` (`"<b>x</b>"` stays text)
-- [ ] New (`MarkdownInlineParserTests`): `Plain`, `InlineCode`, `InlineCode_DoubleBackticks` (``` ``a`b`` ``` → `C("a`b")`), `InlineCode_StripsOneSpace`, `InlineCode_Unclosed_Literal`, `Bold_Stars`, `Bold_Underscores`, `Italic_Star`, `Italic_Underscore`, `BoldItalic_TripleStar`, `Italic_InsideBold` (`**a *b* c**` → bold `a `, bold+italic `b`, bold ` c`),
+- [x] New (`MarkdownInlineParserTests`): `Plain`, `InlineCode`, `InlineCode_DoubleBackticks` (``` ``a`b`` ``` → `C("a`b")`), `InlineCode_StripsOneSpace`, `InlineCode_Unclosed_Literal`, `Bold_Stars`, `Bold_Underscores`, `Italic_Star`, `Italic_Underscore`, `BoldItalic_TripleStar`, `Italic_InsideBold` (`**a *b* c**` → bold `a `, bold+italic `b`, bold ` c`),
       `Snake_Case_IsPlain`, `Star_WithSpaces_IsPlain` (`"a * b * c"`), `Emphasis_Unmatched_Literal`, `Link`, `Link_WithTitle`, `Link_TextHasEmphasis`, `Link_Malformed_Literal` (`"[a](b"`), `Link_AngleUrl`, `Escape_Tokens` (`"\\*a\\*"` → `T("*a*")`), `Escape_Backslash_Literal_WhenNotEscapable` (`"\\q"` → `T("\\q")`),
       `Entities` (`"a&nbsp;b &amp; &lt;"` → the text `a`, a no-break space (U+00A0), `b & <`), `Entity_Unknown_Literal`, `AdjacentSameStyle_Merged`, `FromText_RoundTrips` (for `"a*b_c"` and `"(x) [y] {z}"`: `Parse(MarkdownString.FromText(s).Value)` is one paragraph whose single inline text is `s`), `FromText_DashLine_StaysAParagraph` (`FromText("- dash")` is `"\-&nbsp;dash"`, which parses as a paragraph with the text `-`, U+00A0, `dash`),
       `FromText_NumberedLine_IsAList` (`FromText("1. item")` parses as an **ordered list with one item**: `FromText` does not escape `.`; a known limitation, documented in the README and in `MarkdownString.FromText`'s XML doc)
-- [ ] New (`MarkdownDocument.ToPlainText`): `ToPlainText_Paragraphs`, `ToPlainText_CodeBlockAndList`, `ToPlainText_LineBreak`, `ToPlainText_Empty`
+- [x] New (`MarkdownDocument.ToPlainText`): `ToPlainText_Paragraphs`, `ToPlainText_CodeBlockAndList`, `ToPlainText_LineBreak`, `ToPlainText_Empty`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `src/LoomEditor.View/Markdown/README.md` lists the supported subset and what is not supported (copy the "No HTML, no images…" decision)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `src/LoomEditor.View/Markdown/README.md` lists the supported subset and what is not supported (copy the "No HTML, no images…" decision)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
