@@ -1,6 +1,6 @@
 # P6-62 — Gallery: the phase 6 samples and the manual test list
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P6-61, P6-54, P6-35, P6-26
 - **Size:** S
 
@@ -32,6 +32,9 @@ None to port. Samples are short hand-written texts (C# constants in `FeatureSamp
      fold from a sticky chevron.
   4. **Minimap** (the large C# button already exists): hint: drag the slider, click the minimap, find a word and see the matches.
   5. **Injected text** (TypeScript): hint: put the cursor after a variable and click "Inject text"; move the cursor across it.
+- The "Inject text" action needs internals (`InjectedTextOptions`, `ModelDecorationOptions` in Core, `DecorationStyles` in View):
+  decision of the maintainer: add `<InternalsVisibleTo Include="LoomEditor.Gallery" />` to `LoomEditor.Core.csproj` and
+  `LoomEditor.View.csproj`. The class name `gallery-injected-hint` is a new row of `DecorationStyles` (dim `editorLineNumber.foreground`).
 - The large-file buttons stay; word wrap, the minimap and sticky scroll must stay fluid on "Large C# (20 000 lines)" (add that check).
 
 ## Tests
@@ -49,10 +52,10 @@ Manual (in `phase-6-manual-tests.md`, a result column for the maintainer; Native
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds (only with `-p:UseOptimizedPublish=false`: the installed SDK 11.0.100-rc.2 differs from the pinned rc.1 in `global.json` and fails with XamlCompiler WMC1007 without it, see ADR 0008; not related to this card)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

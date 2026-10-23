@@ -9,7 +9,7 @@
         <TextBlock
             Margin="12,8"
             Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="LoomEditor — phase 5: editor features" />
+            Text="LoomEditor — phase 6: view extras" />
         <StackPanel Grid.Row="1" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
             <Button Click="OnInsertHeader" Content="Insert header" />
             <Button Click="OnAppendLine" Content="Append line" />
@@ -45,6 +45,8 @@
             <Button x:Name="LongLineButton" Click="OnLongLine" Content="Long line (1 MB)" />
             <Button x:Name="UnicodeButton" Click="OnUnicode" Content="Unicode sample" />
             <Button x:Name="ScrollTestButton" Click="OnScrollTest" Content="Scroll test" />
+            <Button Click="OnInjectText" Content="Inject text" />
+            <Button Click="OnClearInjectedText" Content="Clear injected text" />
             <Button x:Name="MultiCursorButton" Click="OnMultiCursorSample" Content="Sample: multi-cursor" />
         </StackPanel>
         <StackPanel Grid.Row="4" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">

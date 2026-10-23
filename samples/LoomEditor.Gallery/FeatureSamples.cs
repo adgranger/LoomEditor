@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Text;
+
 namespace LoomEditor.Gallery;
 
 /// <summary>One entry of the "Features" picker: a text to load, where to put the cursor, and what to try.</summary>
@@ -25,6 +28,12 @@ internal static class FeatureSamples
             new("Multi-cursor", "csharp", MultiCursorText, 1, 5, "Ctrl+D, Ctrl+K Ctrl+D, Ctrl+Shift+L, Ctrl+Alt+Up/Down"),
             new("Word highlight", "csharp", FindText, 5, 20, "Put the cursor on an identifier: occurrences light up; F7 / Shift+F7 cycle"),
             new("Indentation (tabs)", "csharp", TabText, 1, 1, "The Tab size box follows the file; Tab inserts a tab character"),
+            new("Word wrap", "markdown", WordWrapText, 1, 1, "Toggle \"Word wrap\", resize the window, Home / End / Up / Down on wrapped lines"),
+            new("Guides", "csharp", GuidesText, 8, 13, "Choose \"Indent + bracket pairs\", move the cursor between scopes"),
+            new("Sticky scroll (C#)", "csharp", StickyCSharp(), 1, 1, "Scroll slowly, click a sticky line, fold from a sticky chevron"),
+            new("Sticky scroll (Python)", "python", StickyPython(), 1, 1, "Scroll slowly, click a sticky line, fold from a sticky chevron"),
+            new("Minimap", "csharp", StickyCSharp(), 1, 1, "Drag the slider, click the minimap, press Ctrl+F and find a word to see the matches (or use \"Large C# (20 000 lines)\")"),
+            new("Injected text", "typescript", InjectedText, 2, 12, "Put the cursor after a variable and click \"Inject text\"; move the cursor across it"),
         };
 
         foreach (string id in BlockLanguages)
@@ -154,4 +163,97 @@ internal static class FeatureSamples
         """;
 
     private const string TabText = "public class T\n{\n\tpublic void A()\n\t{\n\t\tint x = 1;\n\t}\n\n\tpublic void B()\n\t{\n\t\tint y = 2;\n\t}\n}\n";
+
+    private const string WordWrapText = """
+        # Word wrap
+
+        LoomEditor wraps a long paragraph at the width of the window: every view line is a slice of the model line, the line number is drawn on the first one only, and Home / End / Up / Down move by view line. Resize the window to see the paragraph flow again.
+
+        - A first list item that is long enough to wrap, and whose continuation lines follow the indent of the item when the wrapping indent is `Same`.
+        - A second item, shorter.
+            - A nested item with another quite long sentence that has to wrap at least once when the window is not very wide.
+
+        A	line	with	tabs	that	is	long	enough	to	wrap	at	the	width	of	the	window	so	that	the	tab	stops	are	computed	on	the	wrapped	lines	too.
+        """;
+
+    private const string GuidesText = """
+        namespace Demo
+        {
+            public class Guides
+            {
+                public int Run(int[] values)
+                {
+                    foreach (var value in values)
+                    {
+                        if (value > 0)
+                        {
+                            var map = new Dictionary<int, List<int[]>>
+                            {
+                                [value] = new List<int[]> { new[] { value, (value + 1) * (value - 1) } },
+                            };
+
+                            Console.WriteLine(map[value][0][1]);
+                        }
+                    }
+
+                    return values.Length;
+                }
+            }
+        }
+        """;
+
+    private const string InjectedText = """
+        function add(a: number, b: number) {
+            const total = a + b;
+            const double = total * 2;
+            return double;
+        }
+        """;
+
+    // Nested classes with methods: about 300 lines, so that several scopes stick while scrolling.
+    private static string StickyCSharp()
+    {
+        var text = new StringBuilder("namespace Demo;\n\n");
+        for (int c = 1; c <= 3; c++)
+        {
+            text.Append(CultureInfo.InvariantCulture, $"public class Outer{c}\n{{\n    public class Inner{c}\n    {{\n");
+            for (int m = 1; m <= 6; m++)
+            {
+                text.Append(CultureInfo.InvariantCulture, $"        public int Method{m}(int value)\n        {{\n            int result = value;\n");
+                for (int i = 1; i <= 8; i++)
+                {
+                    text.Append(CultureInfo.InvariantCulture, $"            result += value * {i};\n");
+                }
+
+                text.Append("            return result;\n        }\n\n");
+            }
+
+            text.Append("    }\n}\n\n");
+        }
+
+        return text.ToString();
+    }
+
+    private static string StickyPython()
+    {
+        var text = new StringBuilder();
+        for (int c = 1; c <= 3; c++)
+        {
+            text.Append(CultureInfo.InvariantCulture, $"class Outer{c}:\n    class Inner{c}:\n");
+            for (int m = 1; m <= 6; m++)
+            {
+                text.Append(CultureInfo.InvariantCulture, $"        def method{m}(self, value):\n            result = value\n");
+                for (int i = 1; i <= 10; i++)
+                {
+                    text.Append(CultureInfo.InvariantCulture, $"            result += value * {i}\n");
+                }
+
+                text.Append("            return result\n\n");
+            }
+
+            text.Append('\n');
+        }
+
+        return text.ToString();
+    }
 }

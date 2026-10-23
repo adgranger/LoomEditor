@@ -47,6 +47,9 @@ internal static class DecorationStyles
         ["codicon-folding-collapsed"] = new(GutterIcon: GutterIcon.ChevronRight, AlwaysVisible: true),
         ["codicon-folding-manual-collapsed"] = new(GutterIcon: GutterIcon.ChevronRight, AlwaysVisible: true),
 
+        // Gallery demo ("Inject text"): a dim hint, like an inlay hint
+        ["gallery-injected-hint"] = new(ForegroundColorId: "editorLineNumber.foreground"),
+
         ["inline-folded"] = new(AfterContentText: "⋯", AfterContentColorId: "editor.foldPlaceholderForeground"),
     };
 

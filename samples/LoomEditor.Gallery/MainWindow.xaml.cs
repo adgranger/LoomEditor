@@ -15,6 +15,7 @@ namespace LoomEditor.Gallery;
 public sealed partial class MainWindow : Window
 {
     private bool _isBusy;
+    private readonly List<string> _injectedTextIds = [];
 
     /// <summary>The ids of the built-in languages (the items of the language picker).</summary>
     public string[] LanguageIds { get; } = [.. BuiltInLanguages.Ids];
@@ -95,6 +96,20 @@ public sealed partial class MainWindow : Window
     {
         Editor.RenderIndentGuides = GuidesBox.SelectedIndex != 2;
         Editor.BracketPairGuides = GuidesBox.SelectedIndex == 1 ? EditorBracketPairGuides.On : EditorBracketPairGuides.Off;
+    }
+
+    // Decorations of the old text are gone once a new text is loaded, so the ids are only valid for the current model state.
+    private void OnInjectText(object sender, RoutedEventArgs e)
+    {
+        Selection primary = Editor.Selections[0];
+        _injectedTextIds.Add(ModelDemoActions.InjectText(Editor.Model, new Position(primary.PositionLineNumber, primary.PositionColumn)));
+        Editor.Focus(FocusState.Programmatic);
+    }
+
+    private void OnClearInjectedText(object sender, RoutedEventArgs e)
+    {
+        ModelDemoActions.ClearInjectedText(Editor.Model, _injectedTextIds);
+        _injectedTextIds.Clear();
     }
 
     private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;

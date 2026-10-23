@@ -19,5 +19,7 @@
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
     <InternalsVisibleTo Include="LoomEditor.WinUI" />
+    <!-- The Gallery demo adds an injected text decoration (ModelDecorationOptions, InjectedTextOptions). -->
+    <InternalsVisibleTo Include="LoomEditor.Gallery" />
   </ItemGroup>
 </Project>

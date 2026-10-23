@@ -65,3 +65,29 @@ The Win2D font sampler needs a real `CanvasDevice`, which the Rendering tests ne
 | 5.3 | Click a sticky line | The editor reveals that line | |
 | 5.4 | Click the chevron of a sticky line | The region folds (and unfolds) | |
 | 5.5 | Turn the **Sticky scroll** toggle off, then on | The sticky widget disappears, then comes back | |
+
+## 6. Injected text (Gallery: **Features** > *Injected text*, the **Inject text** button)
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 6.1 | Put the cursor after `total` on line 2, click **Inject text** | A dim `: int` is shown after the cursor; the text of the model is unchanged | |
+| 6.2 | Move the cursor left and right across it | The cursor jumps over the injected text in one step | |
+| 6.3 | Double-click on the injected text | Nothing is selected | |
+| 6.4 | Turn **Word wrap** on and narrow the window | The injected text wraps with the line | |
+| 6.5 | Click **Clear injected text** | The injected text disappears | |
+
+## 7. Overview ruler (the narrow strip at the right edge)
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 7.1 | Open **Features** > *Find / replace*, press Ctrl+F and search `retry` | The matches are marked in the ruler | |
+| 7.2 | Put the cursor on an identifier | The word occurrences are marked | |
+| 7.3 | Put the cursor on a bracket | The matching bracket is marked | |
+| 7.4 | Move the cursor | The cursor mark follows it | |
+
+## 8. Samples and performance (Gallery: **Features** picker, **Large C# (20 000 lines)**)
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 8.1 | Open each phase 6 sample (*Word wrap*, *Guides*, *Sticky scroll (C#)*, *Sticky scroll (Python)*, *Minimap*, *Injected text*) | Each one loads, shows its hint, and the feature works as the hint says | |
+| 8.2 | Load **Large C# (20 000 lines)** with word wrap, the minimap, sticky scroll and bracket pair guides on; scroll (wheel, drag, **Scroll test**) | Scrolling stays fluid; no visible stutter | |
