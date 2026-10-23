@@ -1,6 +1,6 @@
 # P8-12 — The fuzzy filter of completion: `FuzzyScore`, `fuzzyScore`, `anyScore`, `createMatches`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-11
 - **Size:** M
 
@@ -49,7 +49,7 @@
 
 ## Tests
 
-- [ ] Port (each test keeps its Monaco name in a comment `// Monaco: 'fuzzyScore, #23215'`; Monaco's `assertMatches(pattern, word, decoratedWord, filter, opts)` becomes a helper in the test file with the same decoration format (`^` before each matched character, built from `Fuzzy.CreateMatches`), calling `Fuzzy.Score(pattern, pattern.ToLowerInvariant(), opts.PatternPos, word, word.ToLowerInvariant(), opts.WordPos, new FuzzyScoreOptions(opts.FirstMatchCanBeWeak, BoostFullMatch: true))`;
+- [x] Port (each test keeps its Monaco name in a comment `// Monaco: 'fuzzyScore, #23215'`; Monaco's `assertMatches(pattern, word, decoratedWord, filter, opts)` becomes a helper in the test file with the same decoration format (`^` before each matched character, built from `Fuzzy.CreateMatches`), calling `Fuzzy.Score(pattern, pattern.ToLowerInvariant(), opts.PatternPos, word, word.ToLowerInvariant(), opts.WordPos, new FuzzyScoreOptions(opts.FirstMatchCanBeWeak, BoostFullMatch: true))`;
       `decoratedWord == null` means "no match"): `fuzzyScore, #23215`, `fuzzyScore, #23332`, `fuzzyScore, #23190`, `fuzzyScore, #23581`, `fuzzyScore, #23458`, `fuzzyScore, #23746`, `fuzzyScore`, `fuzzyScore (first match can be weak)`, `fuzzyScore, many matches`,
       `Freeze when fjfj -> jfjf, https://github.com/microsoft/vscode/issues/91807`, `fuzzyScore, issue #26423`, `Fuzzy IntelliSense matching vs Haxe metadata completion, #26995`, `Separator only match should not be weak #79558`, `Cannot set property '1' of undefined, #26511`,
       `Vscode 1.12 no longer obeys 'sortText' in completion items (from language server), #26096`, `patternPos isn't working correctly #79815`, `topScore - fuzzyScore`, `Unexpected suggestion scoring, #28791`, `HTML closing tag proposal filtered out #38880`,
@@ -57,14 +57,14 @@
       `anyScore should not require a strong first match`, `configurable full match boost`, `Unexpected suggest highlighting ignores whole word match in favor of matching first letter#147423`
       plus `'"Go to Symbol" with the exact method name doesn't work as expected #84787'` (it calls `fuzzyScore` directly). In `assertMatches`, `anyScore` is passed as the scorer: wrap `Fuzzy.AnyScore` in a lambda that ignores the options.
       **Not ported here** (P8-13): `fuzzyScoreGraceful` and `Suggestion is not highlighted #85826` (it also calls `fuzzyScoreGracefulAggressive`). Search the file for `Graceful` to double-check.
-- [ ] New: `Default_IsMinus100`, `IsDefault_NullAndDefault`, `AnyScore_NoMatch_ReturnsZeroAndWordPos`, `CreateMatches_Null_Empty`, `CreateMatches_MergesAdjacentPositions` (`[score, 0, 2, 1, 0]`-style input → one match `[0, 3)`; build the arrays by hand following Monaco's layout), `Score_PatternLongerThanWord_Null`, `Score_EmptyPattern_Null` (pattern start >= length), `Score_LongWord_UsesFirst128Characters`
+- [x] New: `Default_IsMinus100`, `IsDefault_NullAndDefault`, `AnyScore_NoMatch_ReturnsZeroAndWordPos`, `CreateMatches_Null_Empty`, `CreateMatches_MergesAdjacentPositions` (`[score, 0, 2, 1, 0]`-style input → one match `[0, 3)`; build the arrays by hand following Monaco's layout), `Score_PatternLongerThanWord_Null`, `Score_EmptyPattern_Null` (pattern start >= length), `Score_LongWord_UsesFirst128Characters`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (**no ported test may be weakened or have its expected string changed**; if one fails, the port is wrong: re-read the Monaco function)
-- [ ] `docs/PORTING.md` map: the ported part of `filters.ts` (what is not ported: `matchesPrefix`, `matchesCamelCase`, `matchesWords`, `matchesFuzzy`, `or`, the graceful variants until P8-13) and `strings.isEmojiImprecise`; tests ported with counts
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (**no ported test may be weakened or have its expected string changed**; if one fails, the port is wrong: re-read the Monaco function)
+- [x] `docs/PORTING.md` map: the ported part of `filters.ts` (what is not ported: `matchesPrefix`, `matchesCamelCase`, `matchesWords`, `matchesFuzzy`, `or`, the graceful variants until P8-13) and `strings.isEmojiImprecise`; tests ported with counts
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

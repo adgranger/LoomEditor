@@ -755,7 +755,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P8-12](phase-8/P8-12-fuzzy-score.md) | The fuzzy filter of completion: `FuzzyScore`, `fuzzyScore`, `anyScore`, `createMatches` | P8-11 | todo |
+| [P8-12](phase-8/P8-12-fuzzy-score.md) | The fuzzy filter of completion: `FuzzyScore`, `fuzzyScore`, `anyScore`, `createMatches` | P8-11 | done |
 | [P8-13](phase-8/P8-13-fuzzy-graceful.md) | The graceful fuzzy scorers | P8-12 | todo |
 | [P8-14](phase-8/P8-14-suggest-items.md) | Suggest items: `SuggestItem` and `SuggestItems.ProvideAsync` | P8-13 | todo |
 | [P8-15](phase-8/P8-15-completion-model.md) | `CompletionModel`: the filtered and sorted list | P8-14 | todo |
