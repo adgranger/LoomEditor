@@ -632,7 +632,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P6-55](phase-6/P6-55-sticky-scroll-model-types.md) | Sticky scroll options and model types | P5-96 | todo |
+| [P6-55](phase-6/P6-55-sticky-scroll-model-types.md) | Sticky scroll options and model types | P5-96 | done |
 | [P6-56](phase-6/P6-56-sticky-model-from-folding-regions.md) | The sticky model from indentation folding regions | P6-55 | todo |
 | [P6-57](phase-6/P6-57-sticky-line-candidate-provider.md) | `StickyLineCandidateProvider` | P6-56 | todo |
 | [P6-58](phase-6/P6-58-sticky-scroll-feature.md) | The `StickyScroll` feature: widget state and re-render triggers | P6-57 | todo |

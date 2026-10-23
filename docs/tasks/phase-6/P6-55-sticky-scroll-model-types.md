@@ -1,6 +1,6 @@
 # P6-55 — Sticky scroll options and model types
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P5-96
 - **Size:** S
 
@@ -44,15 +44,15 @@ Monaco's defaults and validation. Nothing computes them yet.
 
 ## Tests
 
-- [ ] New: `Options_Defaults_MatchMonaco`; `Options_Validated_ClampsMaxLineCount`
-- [ ] New: `WidgetState_Equals_ComparesContent`
+- [x] New: `Options_Defaults_MatchMonaco`; `Options_Validated_ClampsMaxLineCount`
+- [x] New: `WidgetState_Equals_ComparesContent`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: rows for `stickyScrollElement.ts` and the parts above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: rows for `stickyScrollElement.ts` and the parts above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
