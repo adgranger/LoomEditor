@@ -1,6 +1,6 @@
 # P8-10 — `HoverController` and the `Hover` feature
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-09
 - **Size:** M
 
@@ -64,23 +64,23 @@ The presenter (the WinUI popup) is P8-11; here a fake presenter proves the logic
 
 ## Tests
 
-- [ ] New (`HoverControllerTests`; a real `EditorContext` created with a `ManualEditorScheduler` and `ManualUiDispatcher` (`new EditorContext(scheduler)` is the existing internal constructor; if it takes no dispatcher, use the 4-argument one with both), text `"let value = 1;\nsecond"`, a language `csharp` registered like `EditorContextTests` does,
+- [x] New (`HoverControllerTests`; a real `EditorContext` created with a `ManualEditorScheduler` and `ManualUiDispatcher` (`new EditorContext(scheduler)` is the existing internal constructor; if it takes no dispatcher, use the 4-argument one with both), text `"let value = 1;\nsecond"`, a language `csharp` registered like `EditorContextTests` does,
       a `FakeHoverPresenter` assigned to `context.HoverPresenter`; helper `Move(line, column)` raises `context.UserInputEvents.EmitMouseMove` with a `ContentText` target at that position (look at how `ViewUserInputEvents` tests build a `MouseTarget`); comments `// Monaco: ContentHoverController._onEditorMouseMove`):
       `MouseRest_ShowsMarkerHoverAfterTheDelay` (marker on `value`; nothing at 299 ms, `Show` at 300 ms with one `MarkerHoverPart`), `MouseRest_ProviderHover_ShownWhenAsyncCompletes` (`FakeHoverProvider.Pending()`, complete at 200 ms → shown at 300 ms complete), `MouseRest_NoMarkerNoProvider_ShowsNothing`,
       `MouseMoveToAnotherWord_HidesAndRestarts` (after the first hover is visible, move to a word without hover: `Hide` called, no new `Show`), `MouseMoveWithinSameWord_KeepsHoverVisible` (anchor columns differ, the part range contains both: the presenter is not hidden between), `MouseOverPresenter_StaysVisible` (`IsMouseOver = true`, move away: not hidden),
       `MouseDown_HidesUnlessOverPresenter`, `MouseDrag_NoHoverComputed` (`MouseDown` then moves: no `Show`), `MouseLeave_Hides`, `MouseLeave_WhilePresenterVisibleAndSticky_KeepsIt` (sticky and visible: not hidden; hiding it later is the presenter's job, P8-11), `MouseLeave_NotSticky_Hides`,
       `ContentChanged_Hides`, `SelectionChanged_Hides`, `Scroll_Hides` (scroll top changed) and `HorizontalScroll_Hides`, `ScrollWithoutChange_DoesNotHide`, `Disabled_DoesNothing` (`Enabled = false`), `ContentEmptyNearText_ShowsHover` (`HorizontalDistanceToText` below / above epsilon), `ContentEmptyAfterLines_NoHover`, `GutterTarget_NoHover`,
       `StaleAsyncResult_AfterCancel_Dropped`, `ProviderRange_BeyondTheText_IsValidated`, `ProviderRange_OnAnotherLine_PartDropped`, `LoadingPart_ShownAtThreeTimesTheDelay`, `HoverVisible_FlagOnContext_FollowsThePresenter`, `Sticky_ReschedulesReactionOnMove` (visible + sticky + hiding delay: a move over another word reacts after 300 ms, not immediately), `Dispose_Unsubscribes` (events after `Dispose` do nothing)
-- [ ] New (`HoverFeatureTests`): `Attach_RegistersTheCommands`, `ShowHover_ShowsAtTheCursor` (cursor on `value`, `Execute("editor.action.showHover")`, `RunAll()` of the dispatcher: `Show` called, immediate: no delay), `HideHover_Hides`, `Dispose_UnregistersTheCommands`, `NonEditorContext_AttachDoesNothing`,
+- [x] New (`HoverFeatureTests`): `Attach_RegistersTheCommands`, `ShowHover_ShowsAtTheCursor` (cursor on `value`, `Execute("editor.action.showHover")`, `RunAll()` of the dispatcher: `Show` called, immediate: no delay), `HideHover_Hides`, `Dispose_UnregistersTheCommands`, `NonEditorContext_AttachDoesNothing`,
       `DefaultKeybindings_HaveTheHoverRules` (`Ctrl+K Ctrl+I` → showHover; `Escape` with `HoverVisible` → hideHover; `Escape` without it → not hideHover: use the resolver tests' helpers, `grep -rn "KeybindingResolver" tests/LoomEditor.View.Tests | head -3`)
-- [ ] The feature folder test of `ConventionTests` passes (folder has `HoverFeature.cs`, `HoverCommands.cs`, `README.md`, and `new HoverFeature()` is in `EditorFeatures.cs`)
+- [x] The feature folder test of `ConventionTests` passes (folder has `HoverFeature.cs`, `HoverCommands.cs`, `README.md`, and `new HoverFeature()` is in `EditorFeatures.cs`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `contentHoverController.ts`, `contentHoverWidgetWrapper.ts` (the logic parts), `hoverActions.ts` (two actions); not ported: sticky geometry (`isMouseGettingCloser`), `onKeyboardModifier`, focus and verbosity actions, context menu pause, color picker
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `contentHoverController.ts`, `contentHoverWidgetWrapper.ts` (the logic parts), `hoverActions.ts` (two actions); not ported: sticky geometry (`isMouseGettingCloser`), `onKeyboardModifier`, focus and verbosity actions, context menu pause, color picker
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

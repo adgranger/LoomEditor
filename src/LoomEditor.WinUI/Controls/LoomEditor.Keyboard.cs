@@ -50,7 +50,8 @@ public sealed partial class LoomEditor
             EditorFocus: HasFocus || (_findWidget?.IsFocusWithin ?? false),
             FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false,
             FindInputFocused: _findWidget?.IsFindInputFocused ?? false,
-            ReplaceInputFocused: _findWidget?.IsReplaceInputFocused ?? false);
+            ReplaceInputFocused: _findWidget?.IsReplaceInputFocused ?? false,
+            HoverVisible: _context.HoverVisible);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

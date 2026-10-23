@@ -51,4 +51,7 @@ internal static class WhenClauses
 
     /// <summary><c>editorFocus AND findWidgetVisible AND replaceInputFocussed</c>.</summary>
     public static bool ReplaceInputFocused(KeybindingContext c) => c.EditorFocus && c.FindWidgetVisible && c.ReplaceInputFocused;
+
+    /// <summary><c>editorHoverVisible</c>.</summary>
+    public static bool HoverVisible(KeybindingContext c) => c.HoverVisible;
 }

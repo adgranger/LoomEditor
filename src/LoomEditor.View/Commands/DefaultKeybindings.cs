@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
 
@@ -214,6 +215,10 @@ internal static class DefaultKeybindings
         {
             FoldChord(KeyModifiers.Ctrl, KeyCode.Digit0 + level, FoldingCommands.FoldLevel(level));
         }
+
+        // hoverActions.ts (Contrib): Ctrl+K Ctrl+I shows the hover; Escape hides it, above cancelSelection.
+        FoldChord(KeyModifiers.Ctrl, KeyCode.KeyI, HoverCommands.ShowHover);
+        Add(KeyModifiers.None, KeyCode.Escape, HoverCommands.HideHover, WhenClauses.HoverVisible, FindWidgetWeight);
 
         return rules;
     }

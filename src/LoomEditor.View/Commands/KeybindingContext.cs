@@ -17,6 +17,7 @@ namespace LoomEditor.View.Commands;
 /// <param name="FindWidgetVisible"><c>findWidgetVisible</c>: the find widget is revealed.</param>
 /// <param name="FindInputFocused"><c>findInputFocussed</c>: the find box has the focus.</param>
 /// <param name="ReplaceInputFocused"><c>replaceInputFocussed</c>: the replace box has the focus.</param>
+/// <param name="HoverVisible"><c>editorHoverVisible</c>: a hover popup is shown.</param>
 internal readonly record struct KeybindingContext(
     bool TextInputFocus = false,
     bool EditorTextFocus = false,
@@ -29,4 +30,5 @@ internal readonly record struct KeybindingContext(
     bool EditorFocus = false,
     bool FindWidgetVisible = false,
     bool FindInputFocused = false,
-    bool ReplaceInputFocused = false);
+    bool ReplaceInputFocused = false,
+    bool HoverVisible = false);

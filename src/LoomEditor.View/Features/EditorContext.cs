@@ -175,6 +175,12 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>The folding feature, set by <c>FoldingFeature</c> while it is attached (Monaco: <c>FoldingController.get(editor)</c>).</summary>
     internal FoldingFeature? FoldingFeature { get; set; }
 
+    /// <summary>The hover popup; assigned by the control (P8-11), the null presenter until then.</summary>
+    internal LoomEditor.View.Hover.IHoverPresenter HoverPresenter { get; set; } = LoomEditor.View.Hover.NullHoverPresenter.Instance;
+
+    /// <summary>True while a hover is shown (Monaco: <c>editorHoverVisible</c>); set by the hover controller.</summary>
+    internal bool HoverVisible { get; set; }
+
     /// <summary>The sticky scroll feature, set by <c>StickyScrollFeature</c> while it is attached (Monaco: <c>StickyScrollController.get(editor)</c>).</summary>
     internal StickyScrollFeature? StickyScrollFeature { get; set; }
 

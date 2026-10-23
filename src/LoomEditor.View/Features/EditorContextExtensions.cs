@@ -7,6 +7,7 @@ using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.Scheduling;
 using LoomEditor.View.Layout;
+using LoomEditor.View.Hover;
 
 namespace LoomEditor.View.Features;
 
@@ -45,6 +46,10 @@ internal static class EditorContextExtensions
 
     /// <summary>The URI of the document, or <c>inmemory://model/0</c> when the context is not an <see cref="EditorContext"/>.</summary>
     public static string GetDocumentUri(this IEditorContext context) => (context as EditorContext)?.DocumentUri ?? "inmemory://model/0";
+
+    /// <summary>The hover popup of the editor, or the null presenter when the context is not an <see cref="EditorContext"/> (read at use time: the control assigns it later).</summary>
+    public static IHoverPresenter GetHoverPresenter(this IEditorContext context) =>
+        (context as EditorContext)?.HoverPresenter ?? NullHoverPresenter.Instance;
 
     /// <summary>The language id of the model (<c>plaintext</c> by default).</summary>
     public static string GetLanguageId(this IEditorContext context) => context.Model.Tokenization.GetLanguageId();
