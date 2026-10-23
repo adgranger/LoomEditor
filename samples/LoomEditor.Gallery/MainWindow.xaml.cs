@@ -86,14 +86,32 @@ public sealed partial class MainWindow : Window
 
     private void OnSmoothScrollingToggled(object sender, RoutedEventArgs e) => Editor.SmoothScrolling = SmoothScrollingSwitch.IsOn;
 
-    private void OnMinimapToggled(object sender, RoutedEventArgs e) => Editor.MinimapEnabled = MinimapSwitch.IsOn;
+    // IsOn / SelectedIndex set in XAML raise these handlers during InitializeComponent, before Editor exists: the control's defaults match.
+    private void OnMinimapToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.MinimapEnabled = MinimapSwitch.IsOn;
+        }
+    }
 
-    private void OnStickyScrollToggled(object sender, RoutedEventArgs e) => Editor.StickyScrollEnabled = StickyScrollSwitch.IsOn;
+    private void OnStickyScrollToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.StickyScrollEnabled = StickyScrollSwitch.IsOn;
+        }
+    }
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
     private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (Editor is null)
+        {
+            return;
+        }
+
         Editor.RenderIndentGuides = GuidesBox.SelectedIndex != 2;
         Editor.BracketPairGuides = GuidesBox.SelectedIndex == 1 ? EditorBracketPairGuides.On : EditorBracketPairGuides.Off;
     }
