@@ -24,6 +24,8 @@ internal sealed class FakeCompletionProvider(IReadOnlyList<string>? triggerChara
 
     public void Complete(CompletionList? list) => _pending!.SetResult(list);
 
+    public void Fail() => _pending!.SetException(new InvalidOperationException("provider failed"));
+
     public Task<CompletionList?> ProvideCompletionItemsAsync(TextModel model, Position position, CompletionContext context, CancellationToken token)
     {
         Calls.Add((position, context));
