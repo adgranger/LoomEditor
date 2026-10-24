@@ -256,7 +256,7 @@ public partial class SuggestModelTests
     }
 
     // Monaco: 'Completion list closes unexpectedly when typing a digit after a word separator #169390'
-    // Replaced: typing '2' started the trigger character session; here `Trigger` does it with the same filter and reused items.
+    // Typing '2' starts the trigger character session (P8-17), as in Monaco.
     [Fact]
     public void TypingADigitAfterAWordSeparator_KeepsTheList_169390()
     {
@@ -288,14 +288,6 @@ public partial class SuggestModelTests
 
         editor.Type("-");
         editor.Type("2");
-        var reuse = new Dictionary<ICompletionItemProvider, IReadOnlyList<SuggestItem>> { [p1] = first.CompletionModel.GetItemsByProvider()[p1] };
-        model.Trigger(new SuggestTriggerOptions(
-            Auto: true,
-            Retrigger: true,
-            TriggerKind: CompletionTriggerKind.TriggerCharacter,
-            TriggerCharacter: "2",
-            ProviderFilter: new HashSet<ICompletionItemProvider> { p2 },
-            ProviderItemsToReuse: reuse));
         editor.Flush();
 
         SuggestEventArgs second = LastSuggest(recorder);

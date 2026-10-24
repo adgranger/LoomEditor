@@ -16,6 +16,15 @@ internal sealed record SuggestModelOptions(
     bool MatchOnWordStartOnly = true,
     SnippetSuggestions Snippets = SnippetSuggestions.Inline)
 {
+    /// <summary>Whether typing opens the list, per token kind (<c>editor.quickSuggestions</c>).</summary>
+    public QuickSuggestionsOptions QuickSuggestions { get; init; } = QuickSuggestionsOptions.Default;
+
+    /// <summary>How long typing must pause before the list opens (<c>editor.quickSuggestionsDelay</c>).</summary>
+    public TimeSpan QuickSuggestionsDelay { get; init; } = TimeSpan.FromMilliseconds(10);
+
+    /// <summary>Whether a trigger character of a provider opens the list (<c>editor.suggestOnTriggerCharacters</c>).</summary>
+    public bool SuggestOnTriggerCharacters { get; init; } = true;
+
     /// <summary>The VS Code defaults.</summary>
     public static readonly SuggestModelOptions Default = new();
 }

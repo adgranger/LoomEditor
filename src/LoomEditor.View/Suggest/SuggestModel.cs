@@ -8,6 +8,7 @@ using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.Core.Text;
 using LoomEditor.Core.Threading;
+using LoomEditor.Core.Tokens;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.Events;
 using LoomEditor.View.Features;
@@ -19,7 +20,7 @@ namespace LoomEditor.View.Suggest;
 /// <summary>
 /// One completion session: <see cref="Trigger"/> asks the providers, builds a <see cref="CompletionModel"/> and raises <see cref="DidSuggest"/>;
 /// typing, moving the cursor, editing and changing providers refilter, retrigger or cancel the session (Monaco: <c>SuggestModel</c>).
-/// Not ported: quick suggest and trigger characters (P8-17), composition (<c>editorIsComposing</c>: an IME composition can refilter),
+/// Not ported: composition (<c>editorIsComposing</c>: an IME composition can refilter),
 /// inline completions, clipboard, snippets sort order, word distance, telemetry, <c>onDidChangeModel</c>, configuration changes.
 /// </summary>
 /// <remarks>Threading: UI thread only; the provider tasks complete anywhere and come back through the dispatcher (ADR 0011 decision 4).</remarks>
@@ -30,6 +31,8 @@ internal sealed partial class SuggestModel : IDisposable
     private readonly ViewModel? _viewModel;
     private readonly LanguageFeatureRegistry<ICompletionItemProvider>? _providers;
     private readonly IUiDispatcher _dispatcher;
+    private readonly TimeoutTimer _triggerQuickSuggest;
+    private readonly Func<TextModel, Position, StandardTokenType> _tokenTypeAt;
 
     private SuggestTriggerOptions? _triggerState;
     private CancellationTokenSource? _requestToken;
@@ -38,8 +41,11 @@ internal sealed partial class SuggestModel : IDisposable
     private CompletionModel? _completionModel;
     private bool _refilterPending;
 
-    /// <summary>Starts listening to <paramref name="context"/>; a context that is not an <see cref="EditorContext"/> never triggers.</summary>
-    public SuggestModel(IEditorContext context, SuggestModelOptions options)
+    /// <summary>
+    /// Starts listening to <paramref name="context"/>; a context that is not an <see cref="EditorContext"/> never triggers.
+    /// <paramref name="tokenTypeAt"/> is a test seam: the token type before the caret, read from the model when null.
+    /// </summary>
+    public SuggestModel(IEditorContext context, SuggestModelOptions options, Func<TextModel, Position, StandardTokenType>? tokenTypeAt = null)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(options);
@@ -49,6 +55,8 @@ internal sealed partial class SuggestModel : IDisposable
         _providers = context.GetLanguageFeatures()?.CompletionProviders;
         _dispatcher = context.GetUiDispatcher();
         _currentSelection = context.Selection;
+        _triggerQuickSuggest = new TimeoutTimer(context.Scheduler);
+        _tokenTypeAt = tokenTypeAt ?? ReadTokenTypeFromModel;
 
         if (_viewModel is not null)
         {
@@ -61,6 +69,8 @@ internal sealed partial class SuggestModel : IDisposable
         {
             _providers.Changed += OnProvidersChanged;
         }
+
+        UpdateTriggerCharacters();
     }
 
     /// <summary>Raised when a session ends.</summary>
@@ -90,12 +100,19 @@ internal sealed partial class SuggestModel : IDisposable
             _providers.Changed -= OnProvidersChanged;
         }
 
+        if (_didTypeHandler is not null && _viewModel is not null)
+        {
+            _viewModel.DidType -= _didTypeHandler;
+        }
+
         Cancel();
+        _triggerQuickSuggest.Dispose();
     }
 
-    /// <summary>Ends the session, if any, and cancels its request. P8-17 adds the cancel of the quick suggest timer at the top.</summary>
+    /// <summary>Ends the session, if any, and cancels its request and the quick suggest timer.</summary>
     public void Cancel(bool retrigger = false)
     {
+        _triggerQuickSuggest.Cancel();
         if (_triggerState is not null)
         {
             _requestToken?.Cancel();
@@ -200,9 +217,17 @@ internal sealed partial class SuggestModel : IDisposable
         }
     }
 
-    private void OnLanguageChanged(object? sender, ModelLanguageChangedEventArgs e) => Cancel();
+    private void OnLanguageChanged(object? sender, ModelLanguageChangedEventArgs e)
+    {
+        Cancel();
+        UpdateTriggerCharacters();
+    }
 
-    private void OnProvidersChanged(object? sender, int e) => UpdateActiveSuggestSession();
+    private void OnProvidersChanged(object? sender, int e)
+    {
+        UpdateTriggerCharacters();
+        UpdateActiveSuggestSession();
+    }
 
     private void UpdateActiveSuggestSession()
     {
@@ -247,11 +272,6 @@ internal sealed partial class SuggestModel : IDisposable
             // suggest is active and something like cursor keys are used to move the cursor: refilter at the new position
             RefilterCompletionItems();
         }
-    }
-
-    private static void TriggerQuickSuggestIfTyping()
-    {
-        // P8-17: DoTriggerQuickSuggest
     }
 
     private void RefilterCompletionItems()

@@ -1,6 +1,6 @@
 # P8-17 — Automatic triggers: quick suggest while typing and trigger characters
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-16
 - **Size:** M
 
@@ -47,22 +47,22 @@ Typing a word opens the completion list by itself (after 10 ms, not inside comme
 
 ## Tests
 
-- [ ] New (`ViewModelTypeEventTests`): `Type_RaisesDidTypeOncePerCall` (with the text), `Type_AutoClosedPair_StillRaises`, `Paste_DoesNotRaise`, `DidType_RaisedAfterTheCursorEvent` (order)
-- [ ] Port (`SuggestModelAutoTriggerTests`, same conventions as P8-16; typing is `SuggestTestEditor.Type`, time is `Scheduler.AdvanceBy`; the harness sets `ViewModel.SetHasFocus(true)`): `trigger - on type` (332), `#17400: Keep filtering suggestModel.ts after space` (351, the full test now), `#21484: Trigger character always force a new completion session` (402),
+- [x] New (`ViewModelTypeEventTests`): `Type_RaisesDidTypeOncePerCall` (with the text), `Type_AutoClosedPair_StillRaises`, `Paste_DoesNotRaise`, `DidType_RaisedAfterTheCursorEvent` (order)
+- [x] Port (`SuggestModelAutoTriggerTests`, same conventions as P8-16; typing is `SuggestTestEditor.Type`, time is `Scheduler.AdvanceBy`; the harness sets `ViewModel.SetHasFocus(true)`): `trigger - on type` (332), `#17400: Keep filtering suggestModel.ts after space` (351, the full test now), `#21484: Trigger character always force a new completion session` (402),
       `Intellisense Completion doesn't respect space after equal sign (.html file), #29353 [1/2]` and `[2/2]` (479, 504), `Text changes for completion CodeAction are affected by the completion #39893` (719) **only if** it does not need code actions (else list it as not ported), `Completion unexpectedly triggers on second keypress of an edit group in a snippet #43523` (769) **not ported** (snippets),
       `Fails to render completion details #47988` (790, only the completion part), `registerCompletionItemProvider with letters as trigger characters block other completion items to show up #127815` (929), `Unexpected suggest scoring #167242` (986), `Mac press and hold accent character insertion does not update suggestions, #35269` **not ported** (composition).
       Any test of P8-16's "Moved to P8-17" note goes here. For each test not ported say why in the PORTING entry.
-- [ ] New: `QuickSuggest_FiresAfterTheDelay` (nothing at 9 ms, `DidTrigger` at 10 ms, `Auto`), `QuickSuggest_RestartsOnEachKeystroke` (typing twice within 10 ms triggers once), `QuickSuggest_NotInsideAComment` and `QuickSuggest_NotInsideAString` (a language with tokens: use `"csharp"` and wait for the tokenization like `TokenizationTests` helpers do, or a stub `ITokenizationSupport` through `TestEditorServices`; if tokens cannot be produced in a unit test, test `QuickSuggestionsOptions.ValueFor` directly and the callback through an internal seam `Func<Position, StandardTokenType> TokenTypeAt` you add to the model's constructor with the default reading the model),
+- [x] New: `QuickSuggest_FiresAfterTheDelay` (nothing at 9 ms, `DidTrigger` at 10 ms, `Auto`), `QuickSuggest_RestartsOnEachKeystroke` (typing twice within 10 ms triggers once), `QuickSuggest_NotInsideAComment` and `QuickSuggest_NotInsideAString` (a language with tokens: use `"csharp"` and wait for the tokenization like `TokenizationTests` helpers do, or a stub `ITokenizationSupport` through `TestEditorServices`; if tokens cannot be produced in a unit test, test `QuickSuggestionsOptions.ValueFor` directly and the callback through an internal seam `Func<Position, StandardTokenType> TokenTypeAt` you add to the model's constructor with the default reading the model),
       `QuickSuggest_NotOnANumber` (typing `1`), `QuickSuggest_NotWithoutProviderForTheLanguage`, `QuickSuggest_NotWithoutFocus`, `QuickSuggest_AllOff_Disabled`, `Backspace_DoesNotTriggerQuickSuggest` (deleting moves the cursor left: the condition `prev.ContainsRange(current) || prev.End <= current.Position` of P8-16 is false),
       `QuickSuggest_Inline_BehavesAsOff`, `QuickSuggest_Cancel_StopsTheTimer`, `TriggerCharacter_TriggersTheProviderAtOnce` (`.` after an identifier: `DidTrigger` with the trigger character in the provider's context, no delay), `TriggerCharacter_OtherProviderItemsReused` (a second provider without the character is not called again),
       `TriggerCharacter_InMiddleOfQuickSuggestCase_Ignored` (typing a letter is not a trigger character even if declared: `ShouldAutoTrigger` wins), `TriggerCharacter_SurrogatePairLastChar` (two units), `TriggerCharacter_ReadOnly_Ignored`, `TriggerCharacter_Disabled_Ignored` (`SuggestOnTriggerCharacters = false`), `TriggerCharacters_UpdatedWhenProvidersChange` (register a provider with `:` while idle, type `:`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the ported parts of `suggestModel.ts`, `ViewModel.DidType` (`codeEditorWidget.ts` `onDidType`), the ported tests with counts and a line for each test **not** ported with the reason
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the ported parts of `suggestModel.ts`, `ViewModel.DidType` (`codeEditorWidget.ts` `onDidType`), the ported tests with counts and a line for each test **not** ported with the reason
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

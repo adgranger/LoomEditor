@@ -10,5 +10,5 @@ The completion logic, without any UI.
 - Not ported: snippets, clipboard, durations, the kind filter (`editor.suggest.show*`), word based completions.
 - `CompletionModel` filters and sorts the list (P8-15).
 - `SuggestModel` is one completion session (P8-16): `Trigger` asks the providers and raises `DidSuggest`; typing, cursor moves, edits,
-  language and provider changes refilter, retrigger or cancel it. Typing does not start a session yet (quick suggest and trigger
-  characters are P8-17).
+  language and provider changes refilter, retrigger or cancel it. Typing starts one (P8-17): quick suggest after
+  `QuickSuggestionsDelay` (not inside comments or strings by default) and the trigger characters of the providers (`ViewModel.DidType`).
