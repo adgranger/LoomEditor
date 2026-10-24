@@ -1,6 +1,6 @@
 # P8-13 — The graceful fuzzy scorers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-12
 - **Size:** S
 
@@ -29,16 +29,16 @@
 
 ## Tests
 
-- [ ] Port (comment `// Monaco: '<name>'`): `fuzzyScoreGraceful` and `Suggestion is not highlighted #85826` (both calls: `fuzzyScore` and `fuzzyScoreGracefulAggressive`). Expected strings unchanged. Search the Monaco test file for `Graceful`: no other test uses it.
-- [ ] New: `ScoreGraceful_ReturnsPlainScoreWhenItMatches` (same array contents as `Score` for `"cno"` / `"console"`), `ScoreGracefulAggressive_PatternShorterThanThree_NoPermutations` (`"cn"` gives the same as `Score`), `NextTypoPermutation_EqualNeighbours_Null` (through an `internal` test hook: make `NextTypoPermutation` `internal static`),
+- [x] Port (comment `// Monaco: '<name>'`): `fuzzyScoreGraceful` and `Suggestion is not highlighted #85826` (both calls: `fuzzyScore` and `fuzzyScoreGracefulAggressive`). Expected strings unchanged. Search the Monaco test file for `Graceful`: no other test uses it.
+- [x] New: `ScoreGraceful_ReturnsPlainScoreWhenItMatches` (same array contents as `Score` for `"cno"` / `"console"`), `ScoreGracefulAggressive_PatternShorterThanThree_NoPermutations` (`"cn"` gives the same as `Score`), `NextTypoPermutation_EqualNeighbours_Null` (through an `internal` test hook: make `NextTypoPermutation` `internal static`),
       `NextTypoPermutation_SwapsNeighbours` (`"cnoso"`, 1 → `"conso"`), `NextTypoPermutation_AtEnd_Null`, `ScoreGraceful_PermutationPenalty` (for `"rlut"` / `"result"`: the score of the permuted match is the `Score` of the permuted pattern minus 3)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the graceful functions of `filters.ts`; tests ported with counts (P8-12 + P8-13 together = the fuzzy tests of the file)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the graceful functions of `filters.ts`; tests ported with counts (P8-12 + P8-13 together = the fuzzy tests of the file)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

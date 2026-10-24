@@ -1,40 +1,17 @@
 // Ported from microsoft/vscode: src/vs/base/test/common/filters.test.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
-using System.Text;
 using LoomEditor.Core.Filters;
+using LoomEditor.Core.Tests.Filters.TestHelpers;
 
 namespace LoomEditor.Core.Tests.Filters;
 
+[Collection("Fuzzy")] // Fuzzy uses shared static tables: not thread-safe
 public class FuzzyScoreTests
 {
-    private delegate int[]? Scorer(string pattern, string lowPattern, int patternPos, string word, string lowWord, int wordPos, FuzzyScoreOptions? options);
+    private static readonly FuzzyScorer FuzzyScorer = Fuzzy.Score;
 
-    private static readonly Scorer FuzzyScorer = Fuzzy.Score;
-
-    private static readonly Scorer AnyScorer = (p, lp, pp, w, lw, wp, _) => Fuzzy.AnyScore(p, lp, pp, w, lw, wp);
-
-    private static void AssertMatches(string pattern, string word, string? decoratedWord, Scorer filter, int patternPos = 0, int wordPos = 0, bool firstMatchCanBeWeak = false)
-    {
-        var r = filter(pattern, pattern.ToLowerInvariant(), patternPos, word, word.ToLowerInvariant(), wordPos, new FuzzyScoreOptions(firstMatchCanBeWeak, BoostFullMatch: true));
-        Assert.Equal(decoratedWord is null, r is null);
-        if (r is null)
-        {
-            return;
-        }
-
-        var actual = new StringBuilder();
-        var pos = 0;
-        foreach (var match in Fuzzy.CreateMatches(r))
-        {
-            actual.Append(word, pos, match.Start - pos);
-            actual.Append('^').Append(string.Join("^", word.Substring(match.Start, match.End - match.Start).ToCharArray()));
-            pos = match.End;
-        }
-
-        actual.Append(word, pos, word.Length - pos);
-        Assert.Equal(decoratedWord, actual.ToString());
-    }
+    private static readonly FuzzyScorer AnyScorer = (p, lp, pp, w, lw, wp, _) => Fuzzy.AnyScore(p, lp, pp, w, lw, wp);
 
     private static void AssertTopScore(string pattern, int expected, params string[] words)
     {
@@ -54,7 +31,7 @@ public class FuzzyScoreTests
     }
 
     private static void M(string pattern, string word, string? decorated, int patternPos = 0, int wordPos = 0, bool weak = false)
-        => AssertMatches(pattern, word, decorated, FuzzyScorer, patternPos, wordPos, weak);
+        => FuzzyAssert.Matches(pattern, word, decorated, FuzzyScorer, patternPos, wordPos, weak);
 
     // Monaco: 'fuzzyScore, #23215'
     [Fact]
@@ -340,16 +317,16 @@ public class FuzzyScoreTests
     public void FuzzyScore_Issue115250()
     {
         M("lo", "log", "^l^og");
-        AssertMatches(".lo", "log", "^l^og", AnyScorer);
-        AssertMatches(".", "log", "log", AnyScorer);
+        FuzzyAssert.Matches(".lo", "log", "^l^og", AnyScorer);
+        FuzzyAssert.Matches(".", "log", "log", AnyScorer);
     }
 
     // Monaco: 'anyScore should not require a strong first match'
     [Fact]
     public void AnyScore_DoesNotRequireStrongFirstMatch()
     {
-        AssertMatches("bar", "foobAr", "foo^b^A^r", AnyScorer);
-        AssertMatches("bar", "foobar", "foo^b^a^r", AnyScorer);
+        FuzzyAssert.Matches("bar", "foobAr", "foo^b^A^r", AnyScorer);
+        FuzzyAssert.Matches("bar", "foobar", "foo^b^a^r", AnyScorer);
     }
 
     // Monaco: 'configurable full match boost'
