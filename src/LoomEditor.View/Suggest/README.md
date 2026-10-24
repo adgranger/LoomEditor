@@ -12,3 +12,5 @@ The completion logic, without any UI.
 - `SuggestModel` is one completion session (P8-16): `Trigger` asks the providers and raises `DidSuggest`; typing, cursor moves, edits,
   language and provider changes refilter, retrigger or cancel it. Typing starts one (P8-17): quick suggest after
   `QuickSuggestionsDelay` (not inside comments or strings by default) and the trigger characters of the providers (`ViewModel.DidType`).
+- `SuggestSelector` picks the initially selected item (Monaco `Memory.select`; no recency memory: `suggestSelection` is always `first`);
+  `SuggestListState` is the pure state of the list: items, selection, a window of at most 12 rows (P8-18).

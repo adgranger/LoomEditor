@@ -1,6 +1,6 @@
 # P8-18 — `SuggestListState`: selection and scrolling of the completion list, and the initial selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-17
 - **Size:** S
 
@@ -40,17 +40,17 @@ The WinUI list (P8-22) draws this state; the controller (P8-19) drives it.
 
 ## Tests
 
-- [ ] Port (`SuggestSelectorTests`; the items come from `CreateSuggestItem` of P8-15's helper with scores set by hand: `item.Score = [score, 0]`): `Select_Empty_Zero`, `Select_NoPreselect_Zero`, `Select_PreselectInTopGroup_ItsIndex`, `Select_PreselectOutsideTopGroup_Zero`, `Select_FirstOfTopGroupPreselect_Zero` (`// Monaco: Memory.select`)
-- [ ] New (`SuggestListStateTests`): `Reset_SelectsAndClamps`, `Reset_Empty_SelectionMinusOne`, `Reset_SelectionBeyondWindow_Reveals` (30 items, index 20 → first visible 9), `Reset_SameContent_RaisesNothing`, `SelectNext_Wraps`, `SelectPrevious_Wraps`, `SelectNext_BelowWindow_Scrolls` (selection at the last visible row: window moves by one),
+- [x] Port (`SuggestSelectorTests`; the items come from `CreateSuggestItem` of P8-15's helper with scores set by hand: `item.Score = [score, 0]`): `Select_Empty_Zero`, `Select_NoPreselect_Zero`, `Select_PreselectInTopGroup_ItsIndex`, `Select_PreselectOutsideTopGroup_Zero`, `Select_FirstOfTopGroupPreselect_Zero` (`// Monaco: Memory.select`)
+- [x] New (`SuggestListStateTests`): `Reset_SelectsAndClamps`, `Reset_Empty_SelectionMinusOne`, `Reset_SelectionBeyondWindow_Reveals` (30 items, index 20 → first visible 9), `Reset_SameContent_RaisesNothing`, `SelectNext_Wraps`, `SelectPrevious_Wraps`, `SelectNext_BelowWindow_Scrolls` (selection at the last visible row: window moves by one),
       `SelectFirst_SelectLast`, `SelectNextPage_ToLastVisibleThenSlides` (30 items: 0 → 11 → 22 → 29), `SelectPreviousPage_ToFirstVisibleThenSlides`, `SelectNextPage_FewItems` (5 items: goes to 4), `ScrollBy_DoesNotChangeSelection`, `ScrollBy_Clamps`, `Select_ByIndex_RevealsAndRaises`, `Select_Invalid_Clamps`,
       `Clear_Resets`, `Changed_RaisedOncePerCall`, `SelectionChanged_RaisedOnlyWhenTheItemChanges`, `VisibleItems_MatchWindow`, `Moves_WhenEmpty_ReturnFalse`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `suggestMemory.ts` (`Memory.select` only), the list focus behavior of `suggestWidget.ts` (what is not ported: details pane, status bar, icons toggle, resizing)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `suggestMemory.ts` (`Memory.select` only), the list focus behavior of `suggestWidget.ts` (what is not ported: details pane, status bar, icons toggle, resizing)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
