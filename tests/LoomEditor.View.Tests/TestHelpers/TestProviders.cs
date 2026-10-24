@@ -16,6 +16,8 @@ internal sealed class FakeCompletionProvider(IReadOnlyList<string>? triggerChara
 
     public List<(Position Position, CompletionContext Context)> Calls { get; } = [];
 
+    public List<CancellationToken> Tokens { get; } = [];
+
     public bool CanResolve { get; set; }
 
     public Func<CompletionItem, CompletionItem?>? OnResolve { get; set; }
@@ -29,6 +31,7 @@ internal sealed class FakeCompletionProvider(IReadOnlyList<string>? triggerChara
     public Task<CompletionList?> ProvideCompletionItemsAsync(TextModel model, Position position, CompletionContext context, CancellationToken token)
     {
         Calls.Add((position, context));
+        Tokens.Add(token);
         return _pending is not null ? _pending.Task : Task.FromResult(OnProvide?.Invoke(model, position, context));
     }
 

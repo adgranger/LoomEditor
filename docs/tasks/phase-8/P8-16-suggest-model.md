@@ -1,6 +1,6 @@
 # P8-16 — `SuggestModel`: trigger, cancel, refilter and retrigger (the state machine)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-15
 - **Size:** M
 - **Recommended model:** Opus (an asynchronous state machine with many races: cancellation, retriggers while a request is in flight, stale results. Monaco's behavior is the spec but its tests run on a full editor. On failure — a ported scenario that cannot be made to pass, or a hang in a test — stop, do not commit, report the scenario, the state sequence you observed and what you tried)
@@ -67,12 +67,12 @@ The automatic triggers (typing a word, trigger characters) are P8-17; this card 
 
 ## Tests
 
-- [ ] Port (`SuggestModelContextTests`; `// Monaco: 'Context - shouldAutoTrigger'`): `Context - shouldAutoTrigger` (the assertions of lines 161–171 on a `"bar\nfoo\n"`-style model; port with `LineContext.ShouldAutoTrigger(model, new Position(l, c))`); `shouldAutoTrigger at embedded language boundaries` is **not** ported (needs embedded languages).
-- [ ] Port (`SuggestModelTests`; each test keeps its Monaco name in a comment and its **sequence of events** as the assertion: Monaco's `assertEvent(model.onDidTrigger, …)` helpers become checks on `SuggestModelRecorder.Log`; the editor is a `SuggestTestEditor`; Monaco's `registerCompletionItemProvider` is `Providers.Register(languageId, provider)` with a `FakeCompletionProvider` returning the same items):
+- [x] Port (`SuggestModelContextTests`; `// Monaco: 'Context - shouldAutoTrigger'`): `Context - shouldAutoTrigger` (the assertions of lines 161–171 on a `"bar\nfoo\n"`-style model; port with `LineContext.ShouldAutoTrigger(model, new Position(l, c))`); `shouldAutoTrigger at embedded language boundaries` is **not** ported (needs embedded languages).
+- [x] Port (`SuggestModelTests`; each test keeps its Monaco name in a comment and its **sequence of events** as the assertion: Monaco's `assertEvent(model.onDidTrigger, …)` helpers become checks on `SuggestModelRecorder.Log`; the editor is a `SuggestTestEditor`; Monaco's `registerCompletionItemProvider` is `Providers.Register(languageId, provider)` with a `FakeCompletionProvider` returning the same items):
       `events - cancel/trigger` (277), `events - suggest/empty` (310), `#17400: Keep filtering suggestModel.ts after space` (351, **only the parts that do not rely on quick suggest**: replace `editor.trigger('keyboard','type')` + automatic trigger by an explicit `Trigger(new SuggestTriggerOptions(Auto: true))` before typing), `Incomplete suggestion results cause re-triggering when typing w/o further context, #28400 (1/2)` (529) and `(2/2)` (567),
       `Trigger character is provided in suggest context` (611, via an explicit `Trigger` with `TriggerCharacter`), `Backspace should not always cancel code completion, #36491` (690), `Trigger (full) completions when (incomplete) completions are already active #99504` (861), `Completion list closes unexpectedly when typing a digit after a word separator #169390` (1043), `Set refilter-flag, keep triggerKind` (1116).
       Read each Monaco test; where it needs automatic triggering (typing starts the session), call `Trigger` explicitly at the point where Monaco's typing would have started it and keep the rest; **write in the comment of the test which line you replaced**. A Monaco test that cannot be expressed without quick suggest is moved to P8-17 (say so in this card's "Moved to P8-17" note and in P8-17's list).
-- [ ] New (`SuggestModelTests`): `Trigger_RaisesTriggerThenSuggest` (a provider with 3 items), `Trigger_NoProviders_SuggestWithNoItems_ThenCancelForAuto` (auto trigger with an empty result cancels; manual keeps nothing: assert what Monaco's `_onNewContext` does for an empty initial model: `Items.Count == 0`, `Auto` → `Cancel`),
+- [x] New (`SuggestModelTests`): `Trigger_RaisesTriggerThenSuggest` (a provider with 3 items), `Trigger_NoProviders_SuggestWithNoItems_ThenCancelForAuto` (auto trigger with an empty result cancels; manual keeps nothing: assert what Monaco's `_onNewContext` does for an empty initial model: `Items.Count == 0`, `Auto` → `Cancel`),
       `Trigger_StaleResult_AfterCancel_Dropped` (`Pending()` provider, `Cancel()`, complete the provider, `Flush()`: no `DidSuggest`), `Trigger_SecondTriggerCancelsFirstRequest` (the first provider call's token is cancelled), `Trigger_ProviderThrows_Cancels`, `State_FollowsTheSession` (`Idle` → `Manual` → `Auto` → `Idle`),
       `TypeMoreCharacters_Refilters_WithoutNewRequest` (one provider call for three typed characters), `CursorLeft_OnWord_Retriggers`, `CursorLeft_OffWord_Cancels`, `NewLine_Cancels`, `SelectionNonEmpty_Cancels`, `MouseMove_SourceMouse_Cancels` (a cursor event with source `"mouse"` cancels),
       `ContentChanged_WhileIdle_DoesNothing`, `LanguageChanged_Cancels`, `ProviderUnregistered_Cancels` and `ProviderRegistered_WhileActive_Retriggers`, `Dispose_CancelsAndUnsubscribes`, `LeadingWhitespaceChange_Cancels` (outdent while active), `ManualSession_FreezesWhenNothingMatches` (typing a non-matching character keeps the old list: `isFrozen`), `ManualSession_FrozenThenNotOnWord_Cancels`,
@@ -80,10 +80,17 @@ The automatic triggers (typing a word, trigger characters) are P8-17; this card 
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, and run `dotnet test --project tests/LoomEditor.View.Tests -c Release` **five times in a row** to show the new asynchronous tests are not flaky; report the result
-- [ ] `docs/PORTING.md` map: `suggestModel.ts` (what is ported, what is not: quick suggest and trigger characters → P8-17; composition, inline completions, clipboard, telemetry, snippets, `onDidChangeModel`) and the ported tests with counts
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, and run `dotnet test --project tests/LoomEditor.View.Tests -c Release` **five times in a row** to show the new asynchronous tests are not flaky; report the result
+- [x] `docs/PORTING.md` map: `suggestModel.ts` (what is ported, what is not: quick suggest and trigger characters → P8-17; composition, inline completions, clipboard, telemetry, snippets, `onDidChangeModel`) and the ported tests with counts
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Notes (written when done)
+
+- **Moved to P8-17:** none; every listed Monaco test was expressible with an explicit `Trigger` (the replaced typing is named in each test).
+- **Deviation:** the decision "`Model.ContentChanged` → `RefilterCompletionItems()`" read a stale cursor position (the model event is raised while the edit is applied, before the cursor moves; the event *order* is as the card expects). The refilter now waits for the cursor event that follows the edit, with a dispatcher post as a fallback when no cursor event comes. Listed in `docs/PORTING.md` ("Behavior differences").
+- `TriggerQuickSuggestIfTyping` is `static` for now (analyzer CA1822); P8-17 makes it an instance method.
+- `FakeCompletionProvider` got a `Tokens` list (the token of each call).
 
 ## Out of scope
 

@@ -759,7 +759,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P8-13](phase-8/P8-13-fuzzy-graceful.md) | The graceful fuzzy scorers | P8-12 | done |
 | [P8-14](phase-8/P8-14-suggest-items.md) | Suggest items: `SuggestItem` and `SuggestItems.ProvideAsync` | P8-13 | done |
 | [P8-15](phase-8/P8-15-completion-model.md) | `CompletionModel`: the filtered and sorted list | P8-14 | done |
-| [P8-16](phase-8/P8-16-suggest-model.md) | `SuggestModel`: trigger, cancel, refilter and retrigger (the state machine) | P8-15 | todo |
+| [P8-16](phase-8/P8-16-suggest-model.md) | `SuggestModel`: trigger, cancel, refilter and retrigger (the state machine) | P8-15 | done |
 | [P8-17](phase-8/P8-17-suggest-auto-triggers.md) | Automatic triggers: quick suggest while typing and trigger characters | P8-16 | todo |
 | [P8-18](phase-8/P8-18-suggest-list-state.md) | `SuggestListState`: selection and scrolling of the completion list, and the initial selection | P8-17 | todo |
 | [P8-19](phase-8/P8-19-suggest-controller.md) | `SuggestController`: show the list, move in it, accept an item | P8-18 | todo |
