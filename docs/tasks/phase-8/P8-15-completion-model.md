@@ -1,6 +1,6 @@
 # P8-15 — `CompletionModel`: the filtered and sorted list
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-14
 - **Size:** M
 
@@ -44,21 +44,21 @@ Given the items of a completion request and what the user has typed since, `Comp
 
 ## Tests
 
-- [ ] Port (`CompletionModelTests`; `CreateSuggestItem(label, overwriteBefore, kind = Property, incomplete = false, position = (1, 1), sortText = null, filterText = null)` is the port of `createSuggestItem` (the item's range is `[position.Column - overwriteBefore, position.Column]` on the position's line, `InsertText = label`, a container with `Incomplete = incomplete`, a `FakeCompletionProvider`);
+- [x] Port (`CompletionModelTests`; `CreateSuggestItem(label, overwriteBefore, kind = Property, incomplete = false, position = (1, 1), sortText = null, filterText = null)` is the port of `createSuggestItem` (the item's range is `[position.Column - overwriteBefore, position.Column]` on the position's line, `InsertText = label`, a container with `Incomplete = incomplete`, a `FakeCompletionProvider`);
       each test keeps its name in a comment `// Monaco: 'filtering - cached'`; Monaco's `defaultOptions` / `EditorOptions.suggest.defaultValue` become `SuggestModelOptions.Default`, `'top' | 'bottom' | 'inline'` become `SnippetSuggestions`; `WordDistance.None` disappears): `filtering - cached`, `complete/incomplete`, `Fuzzy matching of snippets stopped working with inline snippet suggestions #49895`,
       `proper current word when length=0, #16380`, `keep snippet sorting with prefix: top, #25495`, `keep snippet sorting with prefix: bottom, #25495`, `keep snippet sorting with prefix: inline, #25495`, `filterText seems ignored in autocompletion, #26874`, `Vscode 1.12 no longer obeys 'sortText' in completion items (from language server), #26096`
       (`items.Sort` with `SuggestItemComparer.Default`, a stable `OrderBy`), `Completion item sorting broken when using label details #153026` (plain labels; the label-details object of Monaco is `LabelDetail` here: also set `LabelDetail = "x"` on one item to keep the intent), `Score only filtered items when typing more, score all when typing less`,
       `Have more relaxed suggest matching algorithm #15419`, `Emmet suggestion not appearing at the top of the list in jsx files, #39518`
-- [ ] New: `LineContext_Unchanged_KeepsCache`, `LineContext_Longer_RefiltersOnlyFilteredItems` (count how many times the scorer is called through item `Idx`/`Word` side effects: after narrowing from 5 to 3 items, typing more scores at most 3 items — assert via a scorer counter by constructing the model through an internal constructor overload that takes a `FuzzyScorer`; add that overload (`internal CompletionModel(…, FuzzyScorer scorer)`)),
+- [x] New: `LineContext_Unchanged_KeepsCache`, `LineContext_Longer_RefiltersOnlyFilteredItems` (count how many times the scorer is called through item `Idx`/`Word` side effects: after narrowing from 5 to 3 items, typing more scores at most 3 items — assert via a scorer counter by constructing the model through an internal constructor overload that takes a `FuzzyScorer`; add that overload (`internal CompletionModel(…, FuzzyScorer scorer)`)),
       `LineContext_Shorter_RefiltersAll`, `InvalidItem_Skipped`, `GetItemsByProvider_GroupsByProvider`, `GetIncompleteProvider_OnlyIncomplete`, `FilterText_UsedForMatching_LabelForHighlights` (item with `filterText = "Map"`, label `Map - java.util`, typed `M`: match on filter text, `Score.Length > 2` from the label's `AnyScore`), `GracefulFilter_Off_NoTypoMatch` (`FilterGraceful = false`: `rlut` does not match `result`),
       `OverLongSource_UsesPlainScorer` (more than 2000 items: use the plain scorer; check with the scorer-counting overload that the graceful one is not used — pass a counting scorer for each kind through the overload: the choice is made by a `static` method `ChooseScorer(options, count)` that you test directly), `WordLongerThanLine_DoesNotThrow` (`wordLen` larger than the line)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (no ported assertion weakened)
-- [ ] `docs/PORTING.md` map: `completionModel.ts` (not ported: `stats`, `WordDistance`, clipboard, `snippetSuggestions: none`) and the 13 ported tests with counts
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (no ported assertion weakened)
+- [x] `docs/PORTING.md` map: `completionModel.ts` (not ported: `stats`, `WordDistance`, clipboard, `snippetSuggestions: none`) and the 13 ported tests with counts
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
