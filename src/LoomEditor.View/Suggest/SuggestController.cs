@@ -18,6 +18,8 @@ internal sealed partial class SuggestController : IDisposable
 {
     private readonly IEditorContext _context;
     private readonly ViewModel? _viewModel;
+    private readonly List<Action> _pendingAsyncEdits = [];
+    private readonly CommitCharacterController _commitCharacters;
     private CancellationTokenSource? _resolveToken;
     private bool _disposed;
 
@@ -30,6 +32,7 @@ internal sealed partial class SuggestController : IDisposable
         _viewModel = context.GetViewModel();
         Model = new SuggestModel(context, options);
         List = new SuggestListState();
+        _commitCharacters = new CommitCharacterController(_viewModel, this, options.AcceptSuggestionOnCommitCharacter);
 
         Model.DidSuggest += OnDidSuggest;
         Model.DidCancel += OnDidCancel;
@@ -67,6 +70,12 @@ internal sealed partial class SuggestController : IDisposable
         }
 
         CancelResolve();
+        foreach (Action cancel in _pendingAsyncEdits.ToArray())
+        {
+            cancel();
+        }
+
+        _commitCharacters.Dispose();
         Model.Dispose();
     }
 
@@ -123,6 +132,8 @@ internal sealed partial class SuggestController : IDisposable
         {
             presenter.Show(List, List.SelectedItem!.EditStart);
         }
+
+        _commitCharacters.Refresh();
     }
 
     private void OnDidCancel(object? sender, SuggestCancelEventArgs e)

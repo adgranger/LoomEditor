@@ -1,6 +1,6 @@
 # P8-20 — Suggest: additional edits that arrive after the accept, and commit characters
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-19
 - **Size:** M
 
@@ -46,20 +46,20 @@ Two behaviors of Monaco's accept that language servers rely on: (1) an item whos
 
 ## Tests
 
-- [ ] New (`ViewModelTypeEventTests`): `Type_RaisesWillTypeBeforeTheEdit` (the text is not in the model yet inside the handler), `Type_WillTypeHandlerCanEdit` (a handler that edits does not break the typing: the typed character still lands), `Paste_DoesNotRaiseWillType`
-- [ ] New (`SuggestControllerAsyncEditsTests`; a `CanResolve` provider whose `ResolveCompletionItemAsync` returns a pending task the test completes with additional edits):
+- [x] New (`ViewModelTypeEventTests`): `Type_RaisesWillTypeBeforeTheEdit` (the text is not in the model yet inside the handler), `Type_WillTypeHandlerCanEdit` (a handler that edits does not break the typing: the typed character still lands), `Paste_DoesNotRaiseWillType`
+- [x] New (`SuggestControllerAsyncEditsTests`; a `CanResolve` provider whose `ResolveCompletionItemAsync` returns a pending task the test completes with additional edits):
       `AsyncEdits_AppliedAfterResolve` (the `using`-style edit at line 1 appears after `Flush()`), `AsyncEdits_ChangeBeforeEditStart_Skipped` (the user types at line 1 before the resolve completes: not applied), `AsyncEdits_TypingAfterTheEdit_Applied` (the user types further down: applied), `AsyncEdits_Flush_Cancelled` (`Model.SetValue(...)` while pending),
       `AsyncEdits_NoEdits_NothingApplied`, `AsyncEdits_ResolveFaulted_NothingApplied_NoLeak` (listeners removed: later typing does not throw), `AsyncEdits_UndoStops` (typing before the resolve completes: two undo steps — accept; then the edits after the typing — assert by undoing twice), `AsyncEdits_NotUsedWhenAlreadyResolved`, `AsyncEdits_NotUsedWhenSyncEditsExist`,
       `AsyncEdits_Dispose_CancelsPending`, `Accept_NoAfterUndoStop_DoesNotPushTheFinalStop` (assert through the undo behavior: accept then type `x` and undo once: both are undone together when `noAfterUndoStop` is true)
-- [ ] New (`CommitCharacterControllerTests`; `SuggestTestEditor` + a provider returning items with `CommitCharacters = ['(', '.']`): `TypeCommitCharacter_AcceptsThenTypesIt` (`"fo"` + `(` → `"foo("`, one undo step for the accept + character), `TypeOtherCharacter_DoesNotAccept`, `NoCommitCharacters_NoAccept`, `Frozen_DoesNotAccept`, `SessionIdle_DoesNotAccept`,
+- [x] New (`CommitCharacterControllerTests`; `SuggestTestEditor` + a provider returning items with `CommitCharacters = ['(', '.']`): `TypeCommitCharacter_AcceptsThenTypesIt` (`"fo"` + `(` → `"foo("`, one undo step for the accept + character), `TypeOtherCharacter_DoesNotAccept`, `NoCommitCharacters_NoAccept`, `Frozen_DoesNotAccept`, `SessionIdle_DoesNotAccept`,
       `Disabled_NoAccept` (`AcceptSuggestionOnCommitCharacter = false`), `SelectionChange_UsesTheNewItemsCharacters`, `DidCancel_Resets`, `SurrogateLastUnit_Ignored` (typed text ending with a low surrogate is not a commit char), `Dispose_Unsubscribes`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the async branch of `_insertSuggestion`, `suggestCommitCharacters.ts`, `ViewModel.WillType` (`onWillType`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the async branch of `_insertSuggestion`, `suggestCommitCharacters.ts`, `ViewModel.WillType` (`onWillType`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

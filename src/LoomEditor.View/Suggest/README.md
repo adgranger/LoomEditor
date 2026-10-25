@@ -16,3 +16,5 @@ The completion logic, without any UI.
   `SuggestListState` is the pure state of the list: items, selection, a window of at most 12 rows (P8-18).
 - `SuggestController` (P8-19) connects the model, the list state and an `ISuggestPresenter`, resolves the selected item and accepts an item
   (`Accept`: prefix replaced, sync additional edits, caret after the text, one undo step).
+- P8-20: `Accept` applies additional edits that arrive after the resolve (`SuggestController.Accept.cs`), and `CommitCharacterController`
+  accepts the selected item when a commit character is typed (`ViewModel.WillType`).

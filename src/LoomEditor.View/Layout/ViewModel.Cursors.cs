@@ -260,8 +260,12 @@ internal sealed partial class ViewModel
     /// <summary>Whether the editor refuses edits (the source <see cref="Type"/> checks).</summary>
     internal bool IsReadOnly => _cursor.Context.CursorConfig.ReadOnly;
 
+    /// <summary>Raised by <see cref="Type"/> before the edit, so a handler may run its own edit first (Monaco: <c>onWillType</c>).</summary>
+    internal event EventHandler<string>? WillType;
+
     public void Type(string text, string? source = null)
     {
+        WillType?.Invoke(this, text);
         ExecuteCursorEdit(eventsCollector => _cursor.Type(eventsCollector, text, source));
         DidType?.Invoke(this, text);
     }

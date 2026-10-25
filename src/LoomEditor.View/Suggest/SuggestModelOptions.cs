@@ -25,6 +25,9 @@ internal sealed record SuggestModelOptions(
     /// <summary>Whether a trigger character of a provider opens the list (<c>editor.suggestOnTriggerCharacters</c>).</summary>
     public bool SuggestOnTriggerCharacters { get; init; } = true;
 
+    /// <summary>Whether typing a commit character accepts the selected item (<c>editor.acceptSuggestionOnCommitCharacter</c>).</summary>
+    public bool AcceptSuggestionOnCommitCharacter { get; init; } = true;
+
     /// <summary>The VS Code defaults.</summary>
     public static readonly SuggestModelOptions Default = new();
 }
