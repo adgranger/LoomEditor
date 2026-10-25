@@ -18,6 +18,8 @@ internal sealed class FakeCompletionProvider(IReadOnlyList<string>? triggerChara
 
     public List<CancellationToken> Tokens { get; } = [];
 
+    public List<CancellationToken> ResolveTokens { get; } = [];
+
     public bool CanResolve { get; set; }
 
     public Func<CompletionItem, CompletionItem?>? OnResolve { get; set; }
@@ -35,8 +37,11 @@ internal sealed class FakeCompletionProvider(IReadOnlyList<string>? triggerChara
         return _pending is not null ? _pending.Task : Task.FromResult(OnProvide?.Invoke(model, position, context));
     }
 
-    public Task<CompletionItem?> ResolveCompletionItemAsync(CompletionItem item, CancellationToken token) =>
-        Task.FromResult(OnResolve?.Invoke(item));
+    public Task<CompletionItem?> ResolveCompletionItemAsync(CompletionItem item, CancellationToken token)
+    {
+        ResolveTokens.Add(token);
+        return Task.FromResult(OnResolve?.Invoke(item));
+    }
 }
 
 internal sealed class FakeHoverProvider(Func<TextModel, Position, Hover?>? onProvide = null) : IHoverProvider

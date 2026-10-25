@@ -114,6 +114,9 @@ internal sealed class SuggestListState
         return true;
     }
 
+    /// <summary>Tells the presenter that the selected item changed in place (it was resolved).</summary>
+    public void NotifyItemUpdated() => Changed?.Invoke(this, EventArgs.Empty);
+
     private bool MoveTo(int index)
     {
         SuggestItem? previousItem = SelectedItem;

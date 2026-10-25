@@ -50,4 +50,8 @@ internal static class AccessibilityMessages
     /// <summary>The message of a word highlight move; <paramref name="index"/> is 1-based (Monaco: <c>moveNext</c>).</summary>
     public static string WordHighlightPosition(string lineContent, int index, int count, string word) =>
         string.Create(CultureInfo.InvariantCulture, $"{lineContent}, {index} of {count} for '{word}'");
+
+    /// <summary>The message after accepting an item with additional edits (Monaco: <c>aria.alert.snippet</c>).</summary>
+    public static string SuggestAdditionalEdits(string label, int count) =>
+        string.Create(CultureInfo.InvariantCulture, $"Accepting '{label}' made {count} additional edits");
 }

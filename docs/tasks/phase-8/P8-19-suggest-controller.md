@@ -1,6 +1,6 @@
 # P8-19 — `SuggestController`: show the list, move in it, accept an item
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-18
 - **Size:** M
 
@@ -56,21 +56,21 @@ Async additional edits and commit characters are P8-20; commands, keys and conte
 
 ## Tests
 
-- [ ] New (`SuggestControllerTests`; `SuggestTestEditor` of P8-16 + `FakeSuggestPresenter` (records `Show(anchor)` / `Hide()` calls, settable `IsVisible` follows them) assigned to `context.SuggestPresenter`; providers are `FakeCompletionProvider`s): `Suggest_ShowsTheList_AndSelectsTheFirst`, `Suggest_Preselect_SelectsThatItem`, `Suggest_NoItems_HidesPresenter`, `Suggest_Shy_DoesNotShow`,
+- [x] New (`SuggestControllerTests`; `SuggestTestEditor` of P8-16 + `FakeSuggestPresenter` (records `Show(anchor)` / `Hide()` calls, settable `IsVisible` follows them) assigned to `context.SuggestPresenter`; providers are `FakeCompletionProvider`s): `Suggest_ShowsTheList_AndSelectsTheFirst`, `Suggest_Preselect_SelectsThatItem`, `Suggest_NoItems_HidesPresenter`, `Suggest_Shy_DoesNotShow`,
       `Cancel_HidesPresenter_ClearsList`, `Retrigger_KeepsThePresenterVisible` (a `DidCancel(retrigger: true)` does not hide), `Blur_Cancels` (`viewModel.SetHasFocus(false)`), `Trigger_Manual_StartsAManualSession`, `Select_MovesReturnTheListResult` (`SelectNext` etc.), `SelectionChange_ResolvesTheItem` (`CanResolve` provider: after `Flush()` the item `IsResolved` and the presenter's list state got `Changed`),
       `SelectionChange_CancelsThePreviousResolve` (the first resolve token is cancelled), `ResolveFaulted_Ignored`, `Dispose_UnsubscribesAndCancels`, `NonEditorContext_DoesNothing`, `IsVisible_FollowsPresenterAndList`
-- [ ] New (`SuggestControllerAcceptTests`; text `"let value = fo"` etc.): `Accept_ReplacesTheTypedPrefix` (typed `fo`, item `foo` with range `[11,13]`: result `"let value = foo"`, caret at the end), `Accept_InsertsAtEmptyWord` (no prefix), `Accept_UsesCurrentCursor_WhenTypedAfterRequest` (the user typed one more character after the request: `columnDelta` extends the overwritten range),
+- [x] New (`SuggestControllerAcceptTests`; text `"let value = fo"` etc.): `Accept_ReplacesTheTypedPrefix` (typed `fo`, item `foo` with range `[11,13]`: result `"let value = foo"`, caret at the end), `Accept_InsertsAtEmptyWord` (no prefix), `Accept_UsesCurrentCursor_WhenTypedAfterRequest` (the user typed one more character after the request: `columnDelta` extends the overwritten range),
       `Accept_OverwriteAfter_UsesTheInsertEnd` (a range whose insert end is after the cursor replaces the suffix), `Accept_InsertText_DiffersFromLabel`, `Accept_AdditionalEdits_AppliedBeforeCursorShift` (an edit inserting a `using` line at line 1: the main text lands at the shifted position, caret after it),
       `Accept_AdditionalEdit_OnSameLineAfterCursor_IsShifted` (columnDelta shifting), `Accept_IsOneUndoStep` (one `Undo()` restores the text before the accept, additional edits included: find the undo API with `grep -n "public .* Undo" src/LoomEditor.Core/Model/TextModel.Undo.cs`), `Accept_AnnouncesAdditionalEdits` (`RecordingAnnouncer`), `Accept_CancelsTheSession` (`State` is `Idle`, presenter hidden),
       `Accept_WrongLine_ReturnsFalse_NoEdit`, `Accept_ReadOnly_ReturnsFalse`, `Accept_OnlyPrimaryCursor` (two cursors: only the primary gets text), `AcceptSelected_NoSelection_False`, `Accept_MultiLineInsertText_NotReindented`
-- [ ] New (`AccessibilityMessagesTests`): `SuggestAdditionalEdits_Text`
+- [x] New (`AccessibilityMessagesTests`): `SuggestAdditionalEdits_Text`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `suggestController.ts` (the parts above; not ported: memory, alternatives, overtyping capturer, snippets, item commands, `selectionMode`, multi-cursor insertion, `LineSuffix`, insert / replace toggle) with the behavior differences listed in the decisions
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `suggestController.ts` (the parts above; not ported: memory, alternatives, overtyping capturer, snippets, item commands, `selectionMode`, multi-cursor insertion, `LineSuffix`, insert / replace toggle) with the behavior differences listed in the decisions
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

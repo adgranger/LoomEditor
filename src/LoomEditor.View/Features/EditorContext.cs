@@ -178,6 +178,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>The hover popup; assigned by the control (P8-11), the null presenter until then.</summary>
     internal LoomEditor.View.Hover.IHoverPresenter HoverPresenter { get; set; } = LoomEditor.View.Hover.NullHoverPresenter.Instance;
 
+    /// <summary>The completion list; assigned by the control (P8-22), the null presenter until then.</summary>
+    internal LoomEditor.View.Suggest.ISuggestPresenter SuggestPresenter { get; set; } = LoomEditor.View.Suggest.NullSuggestPresenter.Instance;
+
     /// <summary>True while a hover is shown (Monaco: <c>editorHoverVisible</c>); set by the hover controller.</summary>
     internal bool HoverVisible { get; set; }
 

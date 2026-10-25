@@ -14,3 +14,5 @@ The completion logic, without any UI.
   `QuickSuggestionsDelay` (not inside comments or strings by default) and the trigger characters of the providers (`ViewModel.DidType`).
 - `SuggestSelector` picks the initially selected item (Monaco `Memory.select`; no recency memory: `suggestSelection` is always `first`);
   `SuggestListState` is the pure state of the list: items, selection, a window of at most 12 rows (P8-18).
+- `SuggestController` (P8-19) connects the model, the list state and an `ISuggestPresenter`, resolves the selected item and accepts an item
+  (`Accept`: prefix replaced, sync additional edits, caret after the text, one undo step).
