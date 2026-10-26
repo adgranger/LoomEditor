@@ -1,6 +1,6 @@
 # P8-25 — LSP message framing: `Content-Length` reader and writer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-24
 - **Size:** S
 
@@ -36,17 +36,17 @@ Sources: none (specified in this card). The wire format is the "Base Protocol" o
 
 ## Tests
 
-- [ ] New (`LspMessageReaderTests`; the input is a `MemoryStream`, or a `ChunkedStream` test helper in the same folder that returns at most `chunkSize` bytes per read, to test split reads): `ReadsOneMessage`, `ReadsTwoMessagesBackToBack`, `EmptyStream_ReturnsNull`, `EofBetweenMessages_ReturnsNull`, `OneByteChunks_StillParses`, `HeaderSplitAcrossReads`, `BodySplitAcrossReads` (chunk 3),
+- [x] New (`LspMessageReaderTests`; the input is a `MemoryStream`, or a `ChunkedStream` test helper in the same folder that returns at most `chunkSize` bytes per read, to test split reads): `ReadsOneMessage`, `ReadsTwoMessagesBackToBack`, `EmptyStream_ReturnsNull`, `EofBetweenMessages_ReturnsNull`, `OneByteChunks_StillParses`, `HeaderSplitAcrossReads`, `BodySplitAcrossReads` (chunk 3),
       `MultiByteBody_LengthIsInBytes` (a body containing `é`, `€`, `😀`: `Content-Length` counts bytes; the result decodes back), `ContentType_Ignored`, `UnknownHeader_Ignored`, `HeaderName_CaseInsensitive`, `ValueWhitespace_Trimmed`, `BareLf_Accepted`, `ZeroLength_ReturnsEmptyArray`, `MissingContentLength_Throws`, `DuplicateContentLength_Throws`,
       `NonNumericLength_Throws`, `NegativeLength_Throws`, `LengthWithPlusSign_Throws` (`NumberStyles.None`), `LengthTooLarge_Throws` (`maxMessageSize` 10, length 11), `LineWithoutColon_Throws`, `HeaderLineTooLong_Throws` (8193 bytes), `TooManyHeaders_Throws` (33 lines), `EofInHeader_Throws`, `EofInBody_Throws`, `Cancelled_ThrowsOperationCanceled`,
       `LargeBody_1MiB` (1 MiB body read through 4 KiB chunks), `AfterThrow_ReaderIsNotReusable` (document: after an `LspProtocolException` the reader must be discarded; assert the next call also throws or returns null without hanging — pick the behavior your implementation has and test it)
-- [ ] New (`LspMessageWriterTests`): `WritesHeaderAndBody` (exact bytes `Content-Length: 5\r\n\r\nhello`), `MultiByteBody_LengthInBytes`, `EmptyBody`, `LargeBody_TwoWrites_SameBytes` (> 64 KiB: bytes identical to the small-path format), `Flushes` (a stream that records `Flush` calls), `WriterThenReader_RoundTrip` (through `MemoryPipe` of P8-24, 100 messages of varying size), `Cancelled_Throws`
+- [x] New (`LspMessageWriterTests`): `WritesHeaderAndBody` (exact bytes `Content-Length: 5\r\n\r\nhello`), `MultiByteBody_LengthInBytes`, `EmptyBody`, `LargeBody_TwoWrites_SameBytes` (> 64 KiB: bytes identical to the small-path format), `Flushes` (a stream that records `Flush` calls), `WriterThenReader_RoundTrip` (through `MemoryPipe` of P8-24, 100 messages of varying size), `Cancelled_Throws`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
