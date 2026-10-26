@@ -1,6 +1,6 @@
 # P8-30 — Text document synchronization: `didOpen`, incremental `didChange`, `didClose`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-29
 - **Size:** M
 
@@ -43,19 +43,19 @@ Sources: none (specified in this card; LSP 3.17 *Text Document Synchronization*)
 
 ## Tests
 
-- [ ] New (`LspConvertPositionTests`): `ToLsp_Position_IsZeroBased`, `ToLsp_Range`, `ToPosition_RoundTrips`, `ToPosition_CharacterBeyondLine_ClampedToLineEnd`, `ToPosition_LineBeyondDocument_ClampedToEnd`, `ToPosition_Negative_ClampedToStart`, `ToRange_Swapped_Normalized`, `ToPosition_Utf16Surrogates_CharacterIsUtf16Index` (a line `a😀b`: LSP character 3 is the position before `b`, column 4)
-- [ ] New (`LspDocumentSyncTests`; in process: a `FakeServerHost`, an `LspClient` over its connection initialized with the helper, a `TextModel` from `new TextModel("…")`): `Open_SendsFullTextAndVersion` (`server.DocumentText`, `DocumentUri`, `DocumentVersion == model.VersionId`), `Open_WithCrLfModel_ServerTextHasCrLf`, `Open_TwiceIsNoOp`, `Open_BeforeRunning_Throws`, `Open_ServerWithoutSync_SendsNothing` (a tiny server without `textDocumentSync`),
+- [x] New (`LspConvertPositionTests`): `ToLsp_Position_IsZeroBased`, `ToLsp_Range`, `ToPosition_RoundTrips`, `ToPosition_CharacterBeyondLine_ClampedToLineEnd`, `ToPosition_LineBeyondDocument_ClampedToEnd`, `ToPosition_Negative_ClampedToStart`, `ToRange_Swapped_Normalized`, `ToPosition_Utf16Surrogates_CharacterIsUtf16Index` (a line `a😀b`: LSP character 3 is the position before `b`, column 4)
+- [x] New (`LspDocumentSyncTests`; in process: a `FakeServerHost`, an `LspClient` over its connection initialized with the helper, a `TextModel` from `new TextModel("…")`): `Open_SendsFullTextAndVersion` (`server.DocumentText`, `DocumentUri`, `DocumentVersion == model.VersionId`), `Open_WithCrLfModel_ServerTextHasCrLf`, `Open_TwiceIsNoOp`, `Open_BeforeRunning_Throws`, `Open_ServerWithoutSync_SendsNothing` (a tiny server without `textDocumentSync`),
       `Edit_Insert_Incremental`, `Edit_Delete_Incremental`, `Edit_Replace_Incremental`, `Edit_MultiLine_Incremental`, `Edit_MultipleRangesInOneEdit_ChangesInOrder` (`model.ApplyEdits` with three edits: the server text equals the model text), `Edit_Undo_Redo_Synced`, `Edit_AfterSetValue_FullText` (`IsFlush`), `Edit_AfterSetEol_FullText` (`IsEolChange`, LF → CRLF),
       `Edit_ServerWantsFull_SendsFullText` (`--sync=full`), `Edit_ServerWantsNone_NothingSent_ButOpenClose` (`--sync=none`: the server text stays the opening text), `Edit_MultiByteCharacters_Utf16Positions` (`é€😀` before and after the edit position), `Edit_VersionsIncrease_AndMatchTheModel`, `Edit_BeforeOpen_Ignored`, `Edit_AfterClose_Ignored`,
       `Close_SendsDidClose` (`server.DocumentUri` null afterwards), `Dispose_Closes`, `Dispose_Twice_Ok`, `ClientFaulted_StopsSending_IsFaulted` (`--exit-on=textDocument/didChange`: after the crash the next edit does not throw and `IsFaulted` becomes true), `Edit_OrderBeforeRequest` (an edit followed immediately by a hover request: the hover answer already reflects the edit: the hover word is the new one)
-- [ ] New (`LspDocumentSyncRandomTests`; `new Random(seed)` with the seed in every assertion message; several seeds: 1, 2, 3, 12345): `RandomEdits_ServerTextMatchesModel` (300 steps per seed, each step one of: insert at a random position, delete a random range, replace, multi-range `ApplyEdits` with 1–4 non-overlapping edits, `Undo`, `Redo`, a text containing `\r\n`, `é€😀`; a `BarrierAsync()` and the comparison `server.DocumentText == model.GetValue()` after **every** step; a `SetValue` and a `SetEol` every ~50 steps),
+- [x] New (`LspDocumentSyncRandomTests`; `new Random(seed)` with the seed in every assertion message; several seeds: 1, 2, 3, 12345): `RandomEdits_ServerTextMatchesModel` (300 steps per seed, each step one of: insert at a random position, delete a random range, replace, multi-range `ApplyEdits` with 1–4 non-overlapping edits, `Undo`, `Redo`, a text containing `\r\n`, `é€😀`; a `BarrierAsync()` and the comparison `server.DocumentText == model.GetValue()` after **every** step; a `SetValue` and a `SetEol` every ~50 steps),
       `RandomEdits_CrLfModel`, `RandomEdits_ServerWantsFull`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green; run `dotnet test --project tests/LoomEditor.Lsp.Tests -c Release` three times, none failed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green; run `dotnet test --project tests/LoomEditor.Lsp.Tests -c Release` three times, none failed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
