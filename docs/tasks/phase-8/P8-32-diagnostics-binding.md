@@ -1,6 +1,6 @@
 # P8-32 — Diagnostics: server `publishDiagnostics` become markers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-31
 - **Size:** S
 
@@ -29,16 +29,16 @@ Sources: none (specified in this card; LSP 3.17 *PublishDiagnostics*; `vscode-la
 
 ## Tests
 
-- [ ] New (`LspDiagnosticsBinderTests`; in process: `FakeServerHost`, an initialized `LspClient`, an `LspDocumentSync` (P8-30) opened on a `TextModel`, a real `MarkerService`, `ManualPost`; the test waits for the server's diagnostics with `FakeServerHost.BarrierAsync()` then `ManualPost.RunAll()`): `Diagnostics_BecomeMarkers` (the text `"ERROR and WARN"`: two markers, severities `Error` and `Warning`, the code `"FAKE001"` and `"2"`, source `fake`, positions one-based), `Diagnostics_NotAppliedBeforeRunAll` (the markers appear only after `RunAll()`: the handler posts),
+- [x] New (`LspDiagnosticsBinderTests`; in process: `FakeServerHost`, an initialized `LspClient`, an `LspDocumentSync` (P8-30) opened on a `TextModel`, a real `MarkerService`, `ManualPost`; the test waits for the server's diagnostics with `FakeServerHost.BarrierAsync()` then `ManualPost.RunAll()`): `Diagnostics_BecomeMarkers` (the text `"ERROR and WARN"`: two markers, severities `Error` and `Warning`, the code `"FAKE001"` and `"2"`, source `fake`, positions one-based), `Diagnostics_NotAppliedBeforeRunAll` (the markers appear only after `RunAll()`: the handler posts),
       `Diagnostics_OtherUri_Ignored` (a `ScriptedServer` publishing for another uri), `Diagnostics_StaleVersion_Dropped` (a `ScriptedServer` publishing `version = model.VersionId - 1`), `Diagnostics_NoVersion_Applied` (a `ScriptedServer` publishing without `version`), `Diagnostics_Replaced_OnNextPublish` (edit the text to remove `ERROR`: one marker left),
       `Diagnostics_EmptyList_ClearsMarkers`, `Diagnostics_Tags_Mapped` (`UNUSED`, `OLD`), `Diagnostics_RangeBeyondText_Clamped` (a `ScriptedServer`), `PostRefused_Dropped` (`Accepting = false`), `Handler_DoesNotTouchTheModel` (the handler thread is not the test thread; `Apply` runs on the thread that calls `RunAll()`: record `Environment.CurrentManagedThreadId` in both places),
       `Dispose_ClearsMarkers_AndUnsubscribes`, `Dispose_PendingPostedAction_DoesNothing`, `Dispose_Twice_Ok`, `Clear_RemovesTheOwnersMarkers_OnlyTheOwners` (another owner's markers stay), `CustomOwner_Used`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
