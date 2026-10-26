@@ -1,6 +1,6 @@
 # P8-31 — Converting LSP types to the editor's types (`LspConvert`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-30
 - **Size:** M
 
@@ -46,19 +46,19 @@ Sources: none (specified in this card). The mapping follows what VS Code's langu
 
 ## Tests
 
-- [ ] New (`LspConvertDiagnosticsTests`): `Severity_AllValues` (1–4, null, 0, 99), `Marker_Range_ToOneBased` (LSP `(0,2)-(0,5)` → columns 3–6), `Marker_RangeBeyondText_Clamped` (a model with one short line), `Marker_Code_String`, `Marker_Code_Integer` (`2` → `"2"`), `Marker_Code_Other_Null` (an object / array / bool), `Marker_Source_Message_Version`, `Marker_Tags`, `Marker_SwappedRange_Normalized`
-- [ ] New (`LspConvertCompletionTests`): `Kind_AllLspKinds` (a `[Theory]` over 1–25 with the expected Core kinds above), `Kind_NullAndUnknown_Text`, `Item_Basic` (label only: `InsertText == Label`, `Range == null`), `Item_InsertText`, `Item_TextEdit_SingleRange` (insert = replace), `Item_TextEdit_InsertReplace`, `Item_TextEdit_RangeNotValidated` (a range beyond any text stays as given, one-based),
+- [x] New (`LspConvertDiagnosticsTests`): `Severity_AllValues` (1–4, null, 0, 99), `Marker_Range_ToOneBased` (LSP `(0,2)-(0,5)` → columns 3–6), `Marker_RangeBeyondText_Clamped` (a model with one short line), `Marker_Code_String`, `Marker_Code_Integer` (`2` → `"2"`), `Marker_Code_Other_Null` (an object / array / bool), `Marker_Source_Message_Version`, `Marker_Tags`, `Marker_SwappedRange_Normalized`
+- [x] New (`LspConvertCompletionTests`): `Kind_AllLspKinds` (a `[Theory]` over 1–25 with the expected Core kinds above), `Kind_NullAndUnknown_Text`, `Item_Basic` (label only: `InsertText == Label`, `Range == null`), `Item_InsertText`, `Item_TextEdit_SingleRange` (insert = replace), `Item_TextEdit_InsertReplace`, `Item_TextEdit_RangeNotValidated` (a range beyond any text stays as given, one-based),
       `Item_SnippetFormat_ConvertedToPlainText`, `Item_Tags_DeprecatedByTagOrFlag`, `Item_Documentation_Markdown`, `Item_Documentation_PlainText_Escaped`, `Item_Documentation_Empty_Null`, `Item_CommitCharacters_FirstCharOfEach`, `Item_AdditionalTextEdits_Converted`, `Item_LabelDetails`, `Item_Preselect_SortText_FilterText_Detail`, `Item_ProviderData_IsTheRawItem`,
       `List_Array_NotIncomplete`, `List_Object_Incomplete`, `List_Null_Empty`, `NoModelParameters_ConversionsRunOffTheUiThread` (call `ToCompletionList`, `ToHover` and `ToLocationLinks` from `Task.Run` with no model in the process: they must work), `ApplyResolved_CarriesResolvedMembers`, `TriggerKind_Mapping`, `Context_Mapping`
-- [ ] New (`LspConvertHoverTests`): `Hover_Null`, `Hover_MarkupContent_Markdown`, `Hover_MarkupContent_PlainText_Escaped`, `Hover_MarkedStringArray_Mixed`, `Hover_FencedCode_FromLanguageValue`, `Hover_EmptyContents_Null`, `Hover_Range_Converted_NotValidated`, `Hover_InvalidRange_NullRange`
-- [ ] New (`LspConvertLocationsTests`): `Links_Location_ToLink`, `Links_LocationLinkArray`, `Links_RangesNotValidated` (a position far beyond any text stays), `Links_Origin_Converted`, `Links_Empty_Null`, `Links_ReversedRange_Swapped`
-- [ ] New (`LspSnippetTests`): `Plain_Unchanged`, `FinalTabStop_Removed`, `TabStops_Removed`, `Placeholder_Default_Kept`, `Placeholder_Nested`, `Choice_FirstOption`, `Variable_Removed`, `VariableWithDefault_Default`, `Escapes`, `UnterminatedBrace_Literal`, `LoneDollar_Literal`, `Empty_Empty`, `RealisticMethodSnippet` (`Console.WriteLine(${1:value})$0` → `Console.WriteLine(value)`)
+- [x] New (`LspConvertHoverTests`): `Hover_Null`, `Hover_MarkupContent_Markdown`, `Hover_MarkupContent_PlainText_Escaped`, `Hover_MarkedStringArray_Mixed`, `Hover_FencedCode_FromLanguageValue`, `Hover_EmptyContents_Null`, `Hover_Range_Converted_NotValidated`, `Hover_InvalidRange_NullRange`
+- [x] New (`LspConvertLocationsTests`): `Links_Location_ToLink`, `Links_LocationLinkArray`, `Links_RangesNotValidated` (a position far beyond any text stays), `Links_Origin_Converted`, `Links_Empty_Null`, `Links_ReversedRange_Swapped`
+- [x] New (`LspSnippetTests`): `Plain_Unchanged`, `FinalTabStop_Removed`, `TabStops_Removed`, `Placeholder_Default_Kept`, `Placeholder_Nested`, `Choice_FirstOption`, `Variable_Removed`, `VariableWithDefault_Default`, `Escapes`, `UnterminatedBrace_Literal`, `LoneDollar_Literal`, `Empty_Empty`, `RealisticMethodSnippet` (`Console.WriteLine(${1:value})$0` → `Console.WriteLine(value)`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -784,7 +784,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P8-28](phase-8/P8-28-fake-language-server.md) | The fake language server (test double) and its test host | P8-27 | done |
 | [P8-29](phase-8/P8-29-lsp-client-lifecycle.md) | `LspClient`: start the server process, initialize, shut down, survive a crash | P8-28 | done |
 | [P8-30](phase-8/P8-30-document-sync.md) | Text document synchronization: `didOpen`, incremental `didChange`, `didClose` | P8-29 | done |
-| [P8-31](phase-8/P8-31-lsp-conversions.md) | Converting LSP types to the editor's types (`LspConvert`) | P8-30 | todo |
+| [P8-31](phase-8/P8-31-lsp-conversions.md) | Converting LSP types to the editor's types (`LspConvert`) | P8-30 | done |
 | [P8-32](phase-8/P8-32-diagnostics-binding.md) | Diagnostics: server `publishDiagnostics` become markers | P8-31 | todo |
 | [P8-33](phase-8/P8-33-completion-provider.md) | `LspCompletionProvider`: completion and resolve over LSP | P8-32 | todo |
 | [P8-34](phase-8/P8-34-hover-and-definition-providers.md) | `LspHoverProvider` and `LspDefinitionProvider` | P8-33 | todo |

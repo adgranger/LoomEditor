@@ -6,7 +6,7 @@ namespace LoomEditor.Lsp.Editor;
 
 /// <summary>Conversions between LSP types (zero based, UTF-16) and the editor's types (one based).</summary>
 /// <remarks>Threading: pure functions; the overloads taking a model must run on the thread that owns it.</remarks>
-internal static class LspConvert
+internal static partial class LspConvert
 {
     public static LspPosition ToLsp(Position position)
         => new() { Line = position.LineNumber - 1, Character = position.Column - 1 };
@@ -22,6 +22,15 @@ internal static class LspConvert
     {
         Position start = ToPosition(range.Start, model);
         Position end = ToPosition(range.End, model);
+        return end < start ? new Range(end, start) : new Range(start, end);
+    }
+
+    /// <summary>Converts without a model: negative values count as 0, a reversed range is swapped, nothing is clamped to the text.</summary>
+    /// <remarks>Threading: pure; for the conversions that run off the UI thread.</remarks>
+    public static Range ToRangeUnvalidated(LspRange range)
+    {
+        Position start = new(Math.Max(range.Start.Line, 0) + 1, Math.Max(range.Start.Character, 0) + 1);
+        Position end = new(Math.Max(range.End.Line, 0) + 1, Math.Max(range.End.Character, 0) + 1);
         return end < start ? new Range(end, start) : new Range(start, end);
     }
 }
