@@ -1,6 +1,6 @@
 # P8-33 — `LspCompletionProvider`: completion and resolve over LSP
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-32
 - **Size:** S
 
@@ -30,7 +30,7 @@ Sources: none (specified in this card; LSP 3.17 *Completion Request*, *Completio
 
 ## Tests
 
-- [ ] New (`LspCompletionProviderTests`; in process with `FakeServerHost`, an initialized `LspClient`, an `LspDocumentSync` opened on `new TextModel("foo foobar bar\nbaz")`, and `FakeServerHost.BarrierAsync()` after edits): `TriggerCharacters_FromServer` (`["."]`), `CanResolve_FromServer` (true for the fake; false for a `ScriptedServer` without `resolveProvider`),
+- [x] New (`LspCompletionProviderTests`; in process with `FakeServerHost`, an initialized `LspClient`, an `LspDocumentSync` opened on `new TextModel("foo foobar bar\nbaz")`, and `FakeServerHost.BarrierAsync()` after edits): `TriggerCharacters_FromServer` (`["."]`), `CanResolve_FromServer` (true for the fake; false for a `ScriptedServer` without `resolveProvider`),
       `Complete_Words_ReturnsDistinctWordsAndKeywords` (labels as the fake server rules say; kinds mapped: `Text`, `Keyword`), `Complete_PositionIsSentZeroBased` (a word list that depends on the position: the word ending at the cursor is excluded: put the cursor at the end of `foo` and see `foo` missing), `Complete_TriggerDot_MemberItemsWithInsertReplaceRanges` (`CompletionContext(TriggerCharacter, ".")`: the first items are `Length`, `Count`, …; `Range` has insert `[cursor, cursor]` and a replace range ending at the identifier end; ranges are one-based),
       `Complete_Preselect_Keywords` (`if` has `Preselect`), `Complete_Incomplete_Flag` (`--incomplete`), `Complete_ItemsKeepRawItemInProviderData`, `Complete_ContextSent` (the fake records nothing about the context: use a `ScriptedServer` and assert `context.triggerKind == 2` and `triggerCharacter == "."`), `Complete_ClientNotRunning_Null`,
       `Complete_ContentModified_Null` (a `ScriptedServer` answering error -32801), `Complete_OtherError_Faults`, `Complete_Cancelled_TaskCanceled_AndCancelRequestSent` (`--delay=500`, cancel after 50 ms: the task is canceled and the fake server's `ReceivedMethods` contains `$/cancelRequest`), `Complete_DoesNotTouchTheModel_AfterFirstAwait` (run the provider and edit the model from the test thread meanwhile: no exception, no data race: the test only needs to pass; document the intent),
@@ -39,9 +39,9 @@ Sources: none (specified in this card; LSP 3.17 *Completion Request*, *Completio
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green; the Lsp test project run three times, none failed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green; the Lsp test project run three times, none failed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
