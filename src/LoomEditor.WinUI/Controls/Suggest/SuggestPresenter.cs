@@ -93,8 +93,7 @@ internal sealed class SuggestPresenter : ISuggestPresenter
         }
 
         var rect = rects[0];
-        _widget.Measure(new Size(_overlay.Width, _overlay.Height));
-        Size desired = _widget.DesiredSize;
+        Size desired = _overlay.Measure(_widget);
         OverlayRect placed = OverlayPlacement.Place(
             rect.X, rect.Y, rect.Y + rect.Height, SuggestWidget.WidgetWidth, desired.Height, _overlay.Width, _overlay.Height);
         _overlay.Show(_widget, placed);

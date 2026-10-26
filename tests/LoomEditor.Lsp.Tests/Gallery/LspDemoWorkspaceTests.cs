@@ -36,6 +36,26 @@ public sealed class LspDemoWorkspaceTests : IDisposable
     }
 
     [Fact]
+    public async Task RestoreAsync_AssetsFileExists_DoesNothing()
+    {
+        Directory.CreateDirectory(Path.Combine(_folder, "obj"));
+        File.WriteAllText(Path.Combine(_folder, "obj", "project.assets.json"), "{}");
+
+        Assert.Null(await LspDemoWorkspace.RestoreAsync(_folder));
+    }
+
+    [Fact]
+    public async Task RestoreAsync_NotRestored_WritesTheAssetsFile()
+    {
+        LspDemoWorkspaceInfo info = LspDemoWorkspace.Create(_folder, "class A { }");
+
+        string? error = await LspDemoWorkspace.RestoreAsync(info.Folder);
+
+        Assert.Null(error);
+        Assert.True(File.Exists(Path.Combine(info.Folder, "obj", "project.assets.json")));
+    }
+
+    [Fact]
     public void Create_Overwrites()
     {
         LspDemoWorkspace.Create(_folder, "first");

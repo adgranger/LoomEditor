@@ -15,6 +15,26 @@ internal sealed class OverlayHost(Canvas canvas)
     /// <summary>Height of the canvas in DIPs.</summary>
     public double Height => canvas.ActualHeight;
 
+    /// <summary>
+    /// Measures the element as it will show: in the canvas, visible (a collapsed element measures 0 x 0) and without the limits
+    /// of its last <see cref="Show"/> (a 0 x 0 limit would keep it at 0 x 0).
+    /// </summary>
+    public Windows.Foundation.Size Measure(FrameworkElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
+
+        if (!canvas.Children.Contains(element))
+        {
+            canvas.Children.Add(element);
+        }
+
+        element.Visibility = Visibility.Visible;
+        element.MaxWidth = double.PositiveInfinity;
+        element.MaxHeight = double.PositiveInfinity;
+        element.Measure(new Windows.Foundation.Size(Width, Height));
+        return element.DesiredSize;
+    }
+
     /// <summary>Adds the element if needed and puts it at <paramref name="rect"/>.</summary>
     public void Show(FrameworkElement element, OverlayRect rect)
     {

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 
 namespace LoomEditor.Gallery.Lsp;
@@ -32,5 +33,35 @@ internal static class LspDemoWorkspace
         string program = Path.Combine(folder, "Program.cs");
         File.WriteAllText(program, programText, utf8);
         return new LspDemoWorkspaceInfo(folder, new Uri(folder).AbsoluteUri, program, new Uri(program).AbsoluteUri);
+    }
+
+    /// <summary>Restores the project once (the server finds no references, so every type is an error, without <c>obj/project.assets.json</c>).</summary>
+    /// <returns>Null when the project is restored; otherwise why it is not (the server still starts).</returns>
+    internal static async Task<string?> RestoreAsync(string folder)
+    {
+        if (File.Exists(Path.Combine(folder, "obj", "project.assets.json")))
+        {
+            return null;
+        }
+
+        try
+        {
+            using Process process = Process.Start(new ProcessStartInfo("dotnet", "restore Sample.csproj --nologo -v q")
+            {
+                WorkingDirectory = folder,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            })!;
+            Task<string> output = process.StandardOutput.ReadToEndAsync();
+            using CancellationTokenSource timeout = new(TimeSpan.FromMinutes(2));
+            await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+            return process.ExitCode == 0 ? null : (await output.ConfigureAwait(false)).Trim();
+        }
+        catch (Exception e) when (e is IOException or System.ComponentModel.Win32Exception or OperationCanceledException)
+        {
+            return e.Message;
+        }
     }
 }

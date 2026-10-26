@@ -37,6 +37,12 @@ internal sealed class LspDemoController(LoomEditorControl editor, Action<string>
         try
         {
             LspDemoWorkspaceInfo info = LspDemoWorkspace.Create(LspDemoWorkspace.DefaultBaseFolder, editor.Text);
+            setStatus("Restoring the demo project...");
+            if (await LspDemoWorkspace.RestoreAsync(info.Folder).ConfigureAwait(true) is { } restoreError)
+            {
+                appendLog($"[restore] {restoreError}");
+            }
+
             editor.DocumentUri = info.ProgramUri;
             editor.LanguageId = choice.LanguageId;
             _description = choice.Description;
