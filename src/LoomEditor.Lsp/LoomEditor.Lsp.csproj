@@ -16,6 +16,7 @@
   <ItemGroup>
     <!-- The fake language server (test double) uses the internal protocol types. -->
     <InternalsVisibleTo Include="LoomEditor.Lsp.FakeServer" />
+    <InternalsVisibleTo Include="LoomEditor.View.Tests" />
   </ItemGroup>
 
   <ItemGroup>

@@ -103,6 +103,10 @@ internal sealed class FakeServerHost : IAsyncDisposable
         return host;
     }
 
+    /// <summary>The client factory of an <c>LspEditorSession</c>: builds the client on this host's existing connection.</summary>
+    public Func<LoomEditor.Lsp.Client.LspClient> CreateSessionClientFactory(LoomEditor.Lsp.Client.LspClientOptions? options = null)
+        => () => new LoomEditor.Lsp.Client.LspClient(Connection, options ?? new LoomEditor.Lsp.Client.LspClientOptions());
+
     /// <summary>Sends <c>initialize</c> then <c>initialized</c>.</summary>
     public async Task<InitializeResult> InitializeAsync()
     {

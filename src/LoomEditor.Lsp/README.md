@@ -20,3 +20,14 @@ editor's language features (diagnostics → markers, completion, hover, definiti
 ## Files
 
 - `LspProtocolVersion.cs` — the specification version (3.17).
+- `Editor/LspEditorSession.cs`, `LspEditorSession.Lifecycle.cs` — the public entry point: start, stop and fault handling.
+- `Editor/LspSessionOptions.cs`, `LspSessionState.cs` — its options and its state enum.
+
+## How to use
+
+```csharp
+var session = new LspEditorSession(editor.Model, editor.LanguageFeatures, editor.Markers, editor.DocumentUri, "csharp",
+    new LspServerCommand("csharp-ls", [], workspaceFolder), action => editor.DispatcherQueue.TryEnqueue(() => action()),
+    new LspSessionOptions { RootUri = workspaceUri });
+await session.StartAsync();
+```

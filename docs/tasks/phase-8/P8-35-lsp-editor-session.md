@@ -1,6 +1,6 @@
 # P8-35 — `LspEditorSession`: one call connects an editor to a language server
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-34
 - **Size:** M
 
@@ -51,20 +51,20 @@ Sources: none (specified in this card; ADR 0011 decisions 2, 4 and 6). Monaco ha
 
 ## Tests
 
-- [ ] New (`LspEditorSessionTests`; in process through the internal constructor with a client over a `FakeServerHost`'s streams (`FakeServerHost` gets `CreateSessionClientFactory()`: returns the `Func<LspClient>` that builds the client on the host's existing `JsonRpcConnection`), a `ManualPost`, a real `LanguageFeaturesService`, `MarkerService` and `new TextModel(…)`; every `await` has a 10 s timeout; after each await of the session the test calls `ManualPost.RunAll()` where the card says so):
+- [x] New (`LspEditorSessionTests`; in process through the internal constructor with a client over a `FakeServerHost`'s streams (`FakeServerHost` gets `CreateSessionClientFactory()`: returns the `Func<LspClient>` that builds the client on the host's existing `JsonRpcConnection`), a `ManualPost`, a real `LanguageFeaturesService`, `MarkerService` and `new TextModel(…)`; every `await` has a 10 s timeout; after each await of the session the test calls `ManualPost.RunAll()` where the card says so):
       `Start_RegistersAllThreeProviders_ForTheLanguage` (`Ordered("csharp")` of each registry has one provider; another language has none), `Start_OpensTheDocument` (`server.DocumentText == model.GetValue()`, `DocumentUri` as given), `Start_StateSequence` (`Starting`, `Running` raised on the thread that calls `RunAll()`), `Start_TypedDuringInitialize_OpensWithTheLatestText` (a `ScriptedServer` that delays its `initialize` answer; the test edits the model meanwhile),
       `Start_OnlyHoverCapability_OnlyHoverRegistered` (`ScriptedServer`), `Start_NoSyncCapability_RegistersNothing_StillRunning` (and the `ServerOutput` line), `Start_Twice_Throws`, `Start_PostRefused_ShutsTheServerDown`, `Providers_Work_EndToEnd` (call the registered completion, hover and definition providers directly and check the fake's answers),
       `Diagnostics_ReachTheMarkerService` (the text `"ERROR"`: one marker after `BarrierAsync()` and `RunAll()`), `Edits_AreSynced` (type into the model, `BarrierAsync()`, server text equal), `Stop_UnregistersClearsAndShutsDown` (providers gone, markers gone, the server saw `didClose`, `shutdown`, `exit`; state `Stopped`), `Stop_Twice_Ok`, `Stop_WhileStarting_Cancels`, `Dispose_IsStop`,
       `ServerOutput_LogAndShowMessages` (`Chatty`: lines `[info] fake server ready`, `(notification) [warning] fake warning`), `ServerOutput_Stderr` (process mode, `--stderr=hello`: `[stderr] hello`)
-- [ ] New (`LspEditorSessionFaultTests`): `InitializeFails_Faulted_StartTaskFaults` (`ScriptedServer` answering an error), `InitializeTimeout_Faulted` (`InitializeTimeout = 300 ms`), `ServerCrashesWhileRunning_FaultedAndEverythingRemoved` (process mode, `--exit-on=textDocument/didChange`, then edit: providers unregistered, markers cleared, `FaultMessage` set, state `Faulted`, `ServerOutput` line), `Fault_DoesNotRestart`, `StartProcess_FileNotFound_PublicConstructor_Faulted_AndTaskFaults` (a `LspServerCommand("this-does-not-exist-xyz", [])` through the **public** constructor),
+- [x] New (`LspEditorSessionFaultTests`): `InitializeFails_Faulted_StartTaskFaults` (`ScriptedServer` answering an error), `InitializeTimeout_Faulted` (`InitializeTimeout = 300 ms`), `ServerCrashesWhileRunning_FaultedAndEverythingRemoved` (process mode, `--exit-on=textDocument/didChange`, then edit: providers unregistered, markers cleared, `FaultMessage` set, state `Faulted`, `ServerOutput` line), `Fault_DoesNotRestart`, `StartProcess_FileNotFound_PublicConstructor_Faulted_AndTaskFaults` (a `LspServerCommand("this-does-not-exist-xyz", [])` through the **public** constructor),
       `Stop_AfterFault_Ok`, `Edits_AfterFault_DoNotThrow`, `ModelEditedAfterStop_NoNotifications` (the server does not receive anything after `Stopped`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green; the Lsp test project three times in a row, none failed, no `LoomEditor.Lsp.FakeServer` process left
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.Lsp` run; the public surface is exactly the four types listed (`LspServerCommand` from P8-29 plus the three of this card)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green; the Lsp test project three times in a row, none failed, no `LoomEditor.Lsp.FakeServer` process left
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.Lsp` run; the public surface is exactly the four types listed (`LspServerCommand` from P8-29 plus the three of this card)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

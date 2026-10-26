@@ -788,7 +788,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P8-32](phase-8/P8-32-diagnostics-binding.md) | Diagnostics: server `publishDiagnostics` become markers | P8-31 | done |
 | [P8-33](phase-8/P8-33-completion-provider.md) | `LspCompletionProvider`: completion and resolve over LSP | P8-32 | done |
 | [P8-34](phase-8/P8-34-hover-and-definition-providers.md) | `LspHoverProvider` and `LspDefinitionProvider` | P8-33 | done |
-| [P8-35](phase-8/P8-35-lsp-editor-session.md) | `LspEditorSession`: one call connects an editor to a language server | P8-34 | todo |
+| [P8-35](phase-8/P8-35-lsp-editor-session.md) | `LspEditorSession`: one call connects an editor to a language server | P8-34 | done |
 | [P8-36](phase-8/P8-36-end-to-end-tests.md) | End-to-end tests: the real editor features against the fake language server | P8-35 | todo |
 
 ### Step G — Prove it and close the phase
