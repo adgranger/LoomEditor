@@ -1,6 +1,6 @@
 # P8-37 — Gallery: connect to a real language server, demo providers and the LSP self-check
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-36
 - **Size:** M
 - **Recommended model:** Opus (a WinUI app under Native AOT that starts a child process, a UI-thread marshalling path from a read loop, and a real server (`csharp-ls`) whose behavior on this SDK could not be verified when the card was written. On failure — the published exe crashes or hangs, the self-check fails against the fake server, a XamlCompiler / trimming error you cannot explain — stop, do not commit, report the command, the output, `%TEMP%\LoomEditor.Gallery.log` and what you tried)
@@ -72,23 +72,23 @@ Sources: none (specified in this card; ADR 0011 decision 9 for the server, ADR 0
 
 ## Tests
 
-- [ ] New (`LspServerLocatorTests`; the linked file; fake environment / file system delegates): `EnvVar_Wins_OverFiles`, `EnvVar_QuotedPathWithSpaces` (`"C:\Program Files\x\server.exe" --stdio` → file name without quotes, one argument), `EnvVar_Language_FromSecondVariable`, `EnvVar_Empty_Ignored`, `EnvVar_OnlyWhitespace_Ignored`, `DotnetToolsFolder_Found`, `Path_Found_WhenNotInDotnetTools`, `NothingFound_Null`, `Find_InvalidPathFolder_Skipped` (a folder name with invalid characters does not throw), `SplitCommandLine_Cases` (a theory: empty, one token, two tokens, quotes, adjacent quotes, trailing space)
-- [ ] New (`LspDemoWorkspaceTests`, a temp folder per test, deleted at the end): `Create_WritesBothFiles`, `Create_ProgramTextIsExact_NoBom`, `Create_Overwrites`, `Create_UrisAreFileUris` (start with `file:///`, the program uri ends with `Program.cs`), `Create_FolderWithSpaces_UriEncoded`
-- [ ] New (`DemoProvidersTests`): `Completion_WordsAndKeywords_Sorted`, `Completion_DotTrigger_Items`, `Hover_OnWord`, `Hover_NoWord_Null`, `Definition_Class_Found`, `Definition_NotFound_Empty`, `Register_AndDispose_UpdatesTheRegistries`, `DemoMarkers_Set_FourSeverities`, `DemoMarkers_Clear`, `DemoMarkers_SkipsEmptyLines`
-- [ ] No unit tests for the XAML / controller; the self-check and the manual rows verify them
+- [x] New (`LspServerLocatorTests`; the linked file; fake environment / file system delegates): `EnvVar_Wins_OverFiles`, `EnvVar_QuotedPathWithSpaces` (`"C:\Program Files\x\server.exe" --stdio` → file name without quotes, one argument), `EnvVar_Language_FromSecondVariable`, `EnvVar_Empty_Ignored`, `EnvVar_OnlyWhitespace_Ignored`, `DotnetToolsFolder_Found`, `Path_Found_WhenNotInDotnetTools`, `NothingFound_Null`, `Find_InvalidPathFolder_Skipped` (a folder name with invalid characters does not throw), `SplitCommandLine_Cases` (a theory: empty, one token, two tokens, quotes, adjacent quotes, trailing space)
+- [x] New (`LspDemoWorkspaceTests`, a temp folder per test, deleted at the end): `Create_WritesBothFiles`, `Create_ProgramTextIsExact_NoBom`, `Create_Overwrites`, `Create_UrisAreFileUris` (start with `file:///`, the program uri ends with `Program.cs`), `Create_FolderWithSpaces_UriEncoded`
+- [x] New (`DemoProvidersTests`): `Completion_WordsAndKeywords_Sorted`, `Completion_DotTrigger_Items`, `Hover_OnWord`, `Hover_NoWord_Null`, `Definition_Class_Found`, `Definition_NotFound_Empty`, `Register_AndDispose_UpdatesTheRegistries`, `DemoMarkers_Set_FourSeverities`, `DemoMarkers_Clear`, `DemoMarkers_SkipsEmptyLines`
+- [x] No unit tests for the XAML / controller; the self-check and the manual rows verify them
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds, and the published `LoomEditor.Gallery.exe` is still running after 10 seconds (README §7), then killed. Record the result in this card
-- [ ] **The self-check against the fake server, in the published Native AOT app**: publish the fake server too (`dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror`), then run
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds, and the published `LoomEditor.Gallery.exe` is still running after 10 seconds (README §7), then killed. Record the result in this card
+- [x] **The self-check against the fake server, in the published Native AOT app**: publish the fake server too (`dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror`), then run
       `$env:LOOMEDITOR_LSP_COMMAND = '<full path of the published LoomEditor.Lsp.FakeServer.exe>'; Start-Process <published LoomEditor.Gallery.exe> -ArgumentList '--lsp-selfcheck=<absolute path of a report file>' -Wait`
       and read the report: every line is `PASS` (`server found`, `session running`, `diagnostics`, `completion`, `hover`, `definition`, `stop`) and the exit code is 0. Paste the report in this card. If it does not pass: stop and report (this card's Opus instruction). Afterwards check that no `LoomEditor.Gallery` or `LoomEditor.Lsp.FakeServer` process is left (kill them if so)
-- [ ] The same self-check run **without** `LOOMEDITOR_LSP_COMMAND` on a machine **without** `csharp-ls`: the report says `FAIL server found` and the status text names the install command (run it and record it; if `csharp-ls` is installed on the machine, say so and mark the row `n/a`)
-- [ ] If `csharp-ls` **is** installed (`Get-Command csharp-ls` / `~\.dotnet\tools`), run the self-check once against it (no environment variable) and **paste the report as it is, pass or fail**: a failure here is information for the maintainer (SDK compatibility, start time), not a reason to change this card; note it under "Open risks" in the card. If it is not installed, write "csharp-ls not installed: not verified" — **never** claim it
-- [ ] `docs/testing/phase-8-manual-tests.md` section 4 added (below); the maintainer-only rows stay `pending`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] The same self-check run **without** `LOOMEDITOR_LSP_COMMAND` on a machine **without** `csharp-ls`: the report says `FAIL server found` and the status text names the install command (run it and record it; if `csharp-ls` is installed on the machine, say so and mark the row `n/a`)
+- [x] If `csharp-ls` **is** installed (`Get-Command csharp-ls` / `~\.dotnet\tools`), run the self-check once against it (no environment variable) and **paste the report as it is, pass or fail**: a failure here is information for the maintainer (SDK compatibility, start time), not a reason to change this card; note it under "Open risks" in the card. If it is not installed, write "csharp-ls not installed: not verified" — **never** claim it
+- [x] `docs/testing/phase-8-manual-tests.md` section 4 added (below); the maintainer-only rows stay `pending`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Manual checks (add as "4. Language server in the Gallery"; every row needs a human; unverified rows are `pending`)
 
@@ -114,3 +114,31 @@ Bundling any server, installing `csharp-ls` for the user, restart on crash, mult
 ## Suggested commit message
 
 `feat(gallery): connect the editor to a language server and add the LSP self-check`
+
+## Result (recorded when the card was done)
+
+- Build Release 0 warnings, `dotnet test --solution` all green (`--max-threads 2`).
+- `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds; the exe was still running after 10 s, then killed.
+- Self-check against the published fake server (Native AOT), exit code 0:
+  `PASS server found`, `PASS session running`, `PASS diagnostics`, `PASS completion`, `PASS hover`, `PASS definition`, `PASS stop`.
+- Without `LOOMEDITOR_LSP_COMMAND`: `csharp-ls` 0.26.0.0 **is installed** on this machine, so the "server not found" row is `n/a` here
+  (the not-found path is a status text only; manual row 4.9).
+- Self-check against the real `csharp-ls` (no environment variable), exit code 1:
+
+  ```
+  PASS server found
+  PASS session running
+  PASS diagnostics
+  FAIL completion: no item
+  PASS hover
+  PASS definition
+  PASS stop
+  ```
+
+## Open risks
+
+- `csharp-ls` 0.26.0.0 returned no completion item at line 14 column 17 (right after `Console.`) within the self-check: the document has a syntax
+  error there and the server may still be loading the workspace. Information for the maintainer (row 4.4 / 4.5), not changed in this card.
+- Deviation: the window `Closed` handler cancels the close (`Handled = true`), waits at most 3 s with `Task.WaitAsync` and closes again, instead
+  of blocking the UI thread with `Task.WaitAny` (the session needs the UI thread to finish stopping; CA2027 forbids `WhenAny` + `Delay`).
+- The Gallery csproj got the global `Range` alias (the repo convention); the local alias in `ModelDemoActions.cs` was removed.

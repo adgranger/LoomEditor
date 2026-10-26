@@ -795,7 +795,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P8-37](phase-8/P8-37-gallery-language-server.md) | Gallery: connect to a real language server, demo providers and the LSP self-check | P8-36 | todo |
+| [P8-37](phase-8/P8-37-gallery-language-server.md) | Gallery: connect to a real language server, demo providers and the LSP self-check | P8-36 | done |
 | [P8-38](phase-8/P8-38-manual-test-plan.md) | The manual test plan of phase 8 | P8-37 | todo |
 | [P8-39](phase-8/P8-39-close-phase-8.md) | Close phase 8 | all phase 8 cards | todo |
 

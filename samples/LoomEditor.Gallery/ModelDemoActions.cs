@@ -1,7 +1,6 @@
 using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
-using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.Gallery;
 

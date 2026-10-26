@@ -61,6 +61,7 @@ public sealed partial class MainWindow : Window
         // Ctrl+M toggles the property from the keyboard: keep the switch in sync.
         Editor.RegisterPropertyChangedCallback(LoomEditorControl.TabMovesFocusProperty, (_, _) => TabFocusSwitch.IsOn = Editor.TabMovesFocus);
         RefreshStatus();
+        InitializeLsp();
     }
 
     private void OnInsertHeader(object sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);

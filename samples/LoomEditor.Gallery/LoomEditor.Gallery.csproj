@@ -29,11 +29,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\LoomEditor.WinUI\LoomEditor.WinUI.csproj" />
+    <ProjectReference Include="..\..\src\LoomEditor.Lsp\LoomEditor.Lsp.csproj" />
   </ItemGroup>
 
   <!--

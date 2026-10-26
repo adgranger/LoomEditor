@@ -50,6 +50,22 @@ Needs a provider: the Gallery's **Demo providers** (P8-37) or a temporary one. R
 | 3.9 | A word near the bottom of the editor | The list opens above the word | pending |
 | 3.10 | Change the theme | The list's colors follow the theme | pending |
 
+## 4. Language server in the Gallery
+
+| # | Steps | Expected | Result |
+|---|---|---|---|
+| 4.1 | `dotnet tool install --global csharp-ls`; run the Gallery; **Load LSP sample**; **Start language server** | The status goes `Starting…` then `Running (csharp-ls (dotnet tool))`; no window pops up for the server process | pending |
+| 4.2 | Wait a few seconds after starting | A squiggle under `"text"` (error: cannot convert string to int) and a mark in the overview ruler; hovering it shows the compiler message | pending |
+| 4.3 | Hover `Console` | A popup with the type's documentation (Markdown rendered as text) | pending |
+| 4.4 | Place the caret after `Console.` and press `Ctrl+Space`; type `Wr` | A list of members, `WriteLine` among them; `Enter` inserts it | pending |
+| 4.5 | Type `Console.` anew | The list opens by itself right after the `.` | pending |
+| 4.6 | `F12` on `Program` in `Program.Greet();` (and `Ctrl+click`) | The caret jumps to the declaration `class Program` | pending |
+| 4.7 | **Stop language server** | Status `Stopped`, the squiggles are gone, no `csharp-ls` process remains (`Get-Process csharp-ls*`) | pending |
+| 4.8 | Start, then kill the server in Task Manager | Status `Faulted: …`, squiggles gone, the editor still types normally; **Start** works again | pending |
+| 4.9 | Uninstall / rename `csharp-ls` and press **Start language server** | The status says the server was not found and shows the install command; nothing else changes | pending |
+| 4.10 | Close the window while the server runs | No `csharp-ls` process remains | pending |
+| 4.11 | Set `LOOMEDITOR_LSP_COMMAND` to another stdio server and `LOOMEDITOR_LSP_LANGUAGE` to its language id, start | The Gallery uses it (status description `LOOMEDITOR_LSP_COMMAND`) | pending |
+| 4.12 | **Demo providers** then type, hover, `F12` (no server) | The widgets of sections 2 and 3 work with the in-process providers; **Demo markers** shows four squiggle kinds | pending |
 ## Findings
 
 | # | Row | What happened | Severity | Follow-up card |

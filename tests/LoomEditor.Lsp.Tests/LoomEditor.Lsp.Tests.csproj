@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The WinUI-free Gallery sources (P8-37) are compiled into the tests. -->
+    <Compile Include="..\..\samples\LoomEditor.Gallery\Lsp\LspServerLocator.cs;..\..\samples\LoomEditor.Gallery\Lsp\LspDemoWorkspace.cs;..\..\samples\LoomEditor.Gallery\Lsp\DemoProviders.cs;..\..\samples\LoomEditor.Gallery\Lsp\DemoMarkers.cs" Link="Gallery\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
   </ItemGroup>
