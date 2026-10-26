@@ -1,6 +1,6 @@
 # P8-27 — The LSP protocol types, source-generated JSON and the union decoders
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-26
 - **Size:** M
 - **Recommended model:** Opus (the exact shape of the LSP JSON — optional members, unions, `null` versus absent — must match what real servers send and must work under Native AOT with source generation; neither is verifiable from this card alone. On failure — a type whose JSON does not round-trip, an AOT / trimming warning you cannot fix without reflection — stop, do not commit, report the type, the JSON and what you tried)
@@ -73,20 +73,20 @@ All in `src/LoomEditor.Lsp/Protocol/` (namespace `LoomEditor.Lsp.Protocol`, `int
 
 ## Tests
 
-- [ ] New (`JsonAssert.Equal(string expectedJson, string actualJson)`: parses both with `JsonDocument` and compares deeply, object members in any order, numbers by value; used by the round-trip tests): `RoundTripTests`: `InitializeParams_Serializes_RequiredNulls` (`processId: null` and `rootUri: null` **are written** when unset; `trace` is omitted), `InitializeParams_Full` (the capabilities of `LspClientCapabilities.Create()` serialize to exactly the JSON of the decision above: write the expected string in the test),
+- [x] New (`JsonAssert.Equal(string expectedJson, string actualJson)`: parses both with `JsonDocument` and compares deeply, object members in any order, numbers by value; used by the round-trip tests): `RoundTripTests`: `InitializeParams_Serializes_RequiredNulls` (`processId: null` and `rootUri: null` **are written** when unset; `trace` is omitted), `InitializeParams_Full` (the capabilities of `LspClientCapabilities.Create()` serialize to exactly the JSON of the decision above: write the expected string in the test),
       `InitializedParams_WritesEmptyObject`, `DidOpen_Serializes`, `DidChange_Incremental_Serializes` (with `range`, `rangeLength` omitted), `DidChange_Full_NoRange`, `DidClose`, `CompletionParams_WithAndWithoutContext`, `PositionParams`, `CancelParams_IntegerId_RoundTrips` and `CancelParams_StringId`,
       `CompletionItem_Data_RoundTripsUnchanged` (a `data` object with nested arrays, numbers like `1.0` and `1e3`, unicode: the serialized item contains an equal `data` — compare with `JsonAssert`), `CompletionItem_UnknownMembers_Ignored`, `Diagnostic_CodeNumberAndString`
-- [ ] New (`ServerPayloadTests`; the JSON strings are written by hand in the style of real servers, **one test per payload**, each deserialized with the type info of the context and asserted member by member): `InitializeResult_TypicalServer` (`textDocumentSync` as number 2, `completionProvider` with `triggerCharacters: ["."]` and `resolveProvider: true`, `hoverProvider: true`, `definitionProvider: true`, extra unknown capabilities ignored),
+- [x] New (`ServerPayloadTests`; the JSON strings are written by hand in the style of real servers, **one test per payload**, each deserialized with the type info of the context and asserted member by member): `InitializeResult_TypicalServer` (`textDocumentSync` as number 2, `completionProvider` with `triggerCharacters: ["."]` and `resolveProvider: true`, `hoverProvider: true`, `definitionProvider: true`, extra unknown capabilities ignored),
       `InitializeResult_OptionObjects` (`textDocumentSync` object, `hoverProvider: {}`), `PublishDiagnostics_WithVersion`, `PublishDiagnostics_WithoutVersion`, `PublishDiagnostics_CodeAsNumber`, `PublishDiagnostics_Tags`, `CompletionList_InsertReplaceEdit`, `CompletionList_TextEdit`, `CompletionItem_LabelDetails`, `CompletionItem_DocumentationString` and `…_MarkupContent`, `Hover_MarkupContent`, `Hover_MarkedStringArray`, `LogMessage`
-- [ ] New (`LspUnionsTests`): `ParseTextDocumentSync_Number`, `…_Object`, `…_Null`, `…_Garbage`; `IsEnabled_TrueObjectFalseAbsent`; `ParseCompletionResult_Array`, `…_List`, `…_ListIncomplete`, `…_Null`, `…_MalformedItemSkipped`; `ParseHoverContents_String`, `…_MarkedStringObject` (fenced code), `…_MarkupContentMarkdown`, `…_MarkupContentPlainText` (`IsMarkdown` false), `…_Array`, `…_EmptyDropped`, `…_Garbage`;
+- [x] New (`LspUnionsTests`): `ParseTextDocumentSync_Number`, `…_Object`, `…_Null`, `…_Garbage`; `IsEnabled_TrueObjectFalseAbsent`; `ParseCompletionResult_Array`, `…_List`, `…_ListIncomplete`, `…_Null`, `…_MalformedItemSkipped`; `ParseHoverContents_String`, `…_MarkedStringObject` (fenced code), `…_MarkupContentMarkdown`, `…_MarkupContentPlainText` (`IsMarkdown` false), `…_Array`, `…_EmptyDropped`, `…_Garbage`;
       `ParseDocumentation_String_Markup_Null`; `ParseTextEdit_Range`, `…_InsertReplace`, `…_Null`; `ParseDefinitionResult_Location`, `…_LocationArray`, `…_LocationLinkArray`, `…_Mixed`, `…_Null`, `…_MalformedSkipped`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] **Native AOT proof:** `dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds with **no** IL2026 / IL3050 / SYSLIB1xxx warning, and the published exe run with `--selftest` prints `ok` after round-tripping `InitializeParams` (with `LspClientCapabilities.Create()`), `InitializeResult`, an `LspCompletionItem` with `data`, and parsing a hover and a definition payload with `LspUnions`. Report the exact output. Never tick it if it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] **Native AOT proof:** `dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds with **no** IL2026 / IL3050 / SYSLIB1xxx warning, and the published exe run with `--selftest` prints `ok` after round-tripping `InitializeParams` (with `LspClientCapabilities.Create()`), `InitializeResult`, an `LspCompletionItem` with `data`, and parsing a hover and a definition payload with `LspUnions`. Report the exact output. Never tick it if it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

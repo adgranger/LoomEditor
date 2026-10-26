@@ -780,7 +780,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P8-24](phase-8/P8-24-lsp-project-skeleton.md) | The `LoomEditor.Lsp` project, its test projects and the architecture rules | P8-23 | done |
 | [P8-25](phase-8/P8-25-message-framing.md) | LSP message framing: `Content-Length` reader and writer | P8-24 | done |
 | [P8-26](phase-8/P8-26-json-rpc-connection.md) | The JSON-RPC connection: requests, notifications, cancellation, server requests | P8-25 | done |
-| [P8-27](phase-8/P8-27-lsp-protocol-types.md) | The LSP protocol types, source-generated JSON and the union decoders | P8-26 | todo |
+| [P8-27](phase-8/P8-27-lsp-protocol-types.md) | The LSP protocol types, source-generated JSON and the union decoders | P8-26 | done |
 | [P8-28](phase-8/P8-28-fake-language-server.md) | The fake language server (test double) and its test host | P8-27 | todo |
 | [P8-29](phase-8/P8-29-lsp-client-lifecycle.md) | `LspClient`: start the server process, initialize, shut down, survive a crash | P8-28 | todo |
 | [P8-30](phase-8/P8-30-document-sync.md) | Text document synchronization: `didOpen`, incremental `didChange`, `didClose` | P8-29 | todo |
