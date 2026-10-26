@@ -6,3 +6,9 @@ M:System.Type.GetType(System.String,System.Boolean);No type lookup by name: refe
 M:System.Type.GetType(System.String,System.Boolean,System.Boolean);No type lookup by name: reference the type directly.
 M:System.Text.Json.JsonSerializer.Serialize``1(``0,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
 M:System.Text.Json.JsonSerializer.Deserialize``1(System.String,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.Deserialize``1(System.ReadOnlySpan{System.Byte},System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.Deserialize``1(System.IO.Stream,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.Serialize``1(System.IO.Stream,``0,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.SerializeToUtf8Bytes``1(``0,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.SerializeToElement``1(``0,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.
+M:System.Text.Json.JsonSerializer.Deserialize``1(System.Text.Json.JsonElement,System.Text.Json.JsonSerializerOptions);Use a source-generated JsonSerializerContext.

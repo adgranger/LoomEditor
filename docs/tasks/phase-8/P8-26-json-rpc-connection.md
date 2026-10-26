@@ -1,6 +1,6 @@
 # P8-26 — The JSON-RPC connection: requests, notifications, cancellation, server requests
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-25
 - **Size:** M
 - **Recommended model:** Opus (concurrent read loop and ordered write queue, cancellation races, shutdown that must not hang on a pipe that cannot be cancelled, source-generated JSON under Native AOT; the failure modes are timing dependent and cannot be diagnosed from this card. On failure — a flaky or hanging test, an AOT warning you cannot remove — stop, do not commit, report the test name, the interleaving you suspect and what you tried)
@@ -49,21 +49,21 @@ Sources: none (specified in this card). JSON-RPC 2.0 (<https://www.jsonrpc.org/s
 
 ## Tests
 
-- [ ] New (`JsonRpcConnectionTests`; every wait has a **5 s timeout**: no test may hang): `Request_GetsTypedResult` (use `JsonRpcMessage` itself as TResult type? use a raw `JsonElement` overload and a small `[JsonSerializable]` test type registered in a **test-local** `JsonSerializerContext` in the test project), `Request_NullResult_ReturnsNull`, `Request_ErrorResponse_FaultsWithJsonRpcException` (code, message, data preserved),
+- [x] New (`JsonRpcConnectionTests`; every wait has a **5 s timeout**: no test may hang): `Request_GetsTypedResult` (use `JsonRpcMessage` itself as TResult type? use a raw `JsonElement` overload and a small `[JsonSerializable]` test type registered in a **test-local** `JsonSerializerContext` in the test project), `Request_NullResult_ReturnsNull`, `Request_ErrorResponse_FaultsWithJsonRpcException` (code, message, data preserved),
       `Request_IdsStartAtOneAndIncrease`, `Requests_ConcurrentAndAnsweredOutOfOrder` (50 requests, the peer answers in reverse order, every task gets its own answer), `Request_Cancelled_SendsCancelRequestAndCancelsTask`, `Request_TokenAlreadyCancelled_SendsNothing`, `Request_AnswerAfterCancel_Ignored`, `Response_UnknownId_Ignored`, `Response_StringId_Ignored`,
       `Notification_IsWrittenWithoutId`, `Notifications_KeepCallOrder` (1000 notifications from one thread arrive in order), `Notifications_FromManyThreads_AllArrive_NoInterleavedBytes` (8 threads × 200; every message parses: the writer loop serializes them), `Notification_SentBeforeRequest_ArrivesBeforeIt`, `SendNotification_DoesNotBlock_WhenPeerNeverReads` (fill the pipe: the call returns at once, a 10 MB total is accepted into the queue),
       `NotificationReceived_InOrder_OnTheReadLoop`, `NotificationHandlerThrows_LoopContinues`, `MalformedJson_RaisesProtocolError_LoopContinues`, `NotAnObject_RaisesProtocolError`, `UnknownMessageShape_Ignored` (no id and no method)
-- [ ] New (`JsonRpcConnectionServerRequestTests`): `ServerRequest_HandlerResult_SentAsResponse` (integer id echoed), `ServerRequest_StringId_EchoedAsString`, `ServerRequest_NullResult`, `ServerRequest_HandlerThrowsJsonRpcException_SentAsError`, `ServerRequest_HandlerThrows_InternalError`, `ServerRequest_NoHandler_MethodNotFound`, `ServerRequest_HandlerIsAsync_ReadLoopKeepsReading` (a handler that waits on a TCS while a notification arrives and is delivered), `ServerRequest_CancelRequest_CancelsTheHandlerToken`, `ServerRequest_ConnectionClosed_CancelsTheHandlerToken`
-- [ ] New (`JsonRpcConnectionShutdownTests`): `PeerClosesStream_ClosedRaisedOnceWithNull_PendingRequestsFault` (`JsonRpcConnectionClosedException`), `FramingError_ClosedWithProtocolException_PendingFault`, `Completion_CompletesOnClose`, `SendRequest_AfterClose_Throws`, `SendNotification_AfterClose_Throws`, `Dispose_DrainsQueuedNotifications` (10 notifications then dispose: the peer reads all 10),
+- [x] New (`JsonRpcConnectionServerRequestTests`): `ServerRequest_HandlerResult_SentAsResponse` (integer id echoed), `ServerRequest_StringId_EchoedAsString`, `ServerRequest_NullResult`, `ServerRequest_HandlerThrowsJsonRpcException_SentAsError`, `ServerRequest_HandlerThrows_InternalError`, `ServerRequest_NoHandler_MethodNotFound`, `ServerRequest_HandlerIsAsync_ReadLoopKeepsReading` (a handler that waits on a TCS while a notification arrives and is delivered), `ServerRequest_CancelRequest_CancelsTheHandlerToken`, `ServerRequest_ConnectionClosed_CancelsTheHandlerToken`
+- [x] New (`JsonRpcConnectionShutdownTests`): `PeerClosesStream_ClosedRaisedOnceWithNull_PendingRequestsFault` (`JsonRpcConnectionClosedException`), `FramingError_ClosedWithProtocolException_PendingFault`, `Completion_CompletesOnClose`, `SendRequest_AfterClose_Throws`, `SendNotification_AfterClose_Throws`, `Dispose_DrainsQueuedNotifications` (10 notifications then dispose: the peer reads all 10),
       `Dispose_PeerNeverCloses_DoesNotHang` (the peer keeps its end open and silent: `DisposeAsync` completes within 5 s, `Closed(null)` raised), `Dispose_Twice_Ok`, `Dispose_FaultsPendingRequests`, `Start_Twice_Throws`, `WriteFailure_ClosesTheConnection` (a stream whose `WriteAsync` throws)
-- [ ] Run the three test classes **ten times in a row** (`dotnet test --project tests/LoomEditor.Lsp.Tests -c Release` ten times) and report that none failed: these tests are timing sensitive on purpose
+- [x] Run the three test classes **ten times in a row** (`dotnet test --project tests/LoomEditor.Lsp.Tests -c Release` ten times) and report that none failed: these tests are timing sensitive on purpose
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds. To prove that the source-generated envelope works under Native AOT, change the fake server's `Program.cs` so that `--selftest` (the only argument) serializes one `JsonRpcMessage` with `LspJsonContext.Default.JsonRpcMessage`, deserializes it back and writes `ok` to standard output (exit code 0), anything else exits 0 silently as before; run the **published exe** with `--selftest` and report its output
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds. To prove that the source-generated envelope works under Native AOT, change the fake server's `Program.cs` so that `--selftest` (the only argument) serializes one `JsonRpcMessage` with `LspJsonContext.Default.JsonRpcMessage`, deserializes it back and writes `ok` to standard output (exit code 0), anything else exits 0 silently as before; run the **published exe** with `--selftest` and report its output
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
