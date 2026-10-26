@@ -88,5 +88,6 @@ internal sealed record TestReply(string Value);
 
 [JsonSerializable(typeof(TestParams))]
 [JsonSerializable(typeof(TestReply))]
+[JsonSerializable(typeof(string))]
 [JsonSourceGenerationOptions(PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 internal sealed partial class TestJson : JsonSerializerContext;

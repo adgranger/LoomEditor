@@ -2,7 +2,7 @@ using System.Text.Json;
 using LoomEditor.Lsp.JsonRpc;
 using LoomEditor.Lsp.Protocol;
 
-// P8-28 writes the server loop. --selftest proves that the source-generated types and the union decoders work under Native AOT.
+// --selftest proves that the source-generated types and the union decoders work under Native AOT.
 if (args is ["--selftest"])
 {
     byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(
@@ -33,6 +33,12 @@ if (args is ["--selftest"])
     {
         Console.Out.WriteLine("ok");
     }
+
+    return 0;
 }
 
-return 0;
+// Standard output carries protocol frames only; anything for a human goes to standard error.
+await using Stream stdin = Console.OpenStandardInput();
+await using Stream stdout = Console.OpenStandardOutput();
+using LoomEditor.Lsp.FakeServer.FakeLanguageServer server = new(stdin, stdout, LoomEditor.Lsp.FakeServer.FakeServerOptions.Parse(args), exitProcess: true);
+return await server.RunAsync(CancellationToken.None);
