@@ -22,9 +22,22 @@ public sealed partial class FakeLanguageServer(Stream input, Stream output, Fake
     private readonly ConcurrentDictionary<string, CancellationTokenSource> _delayed = new();
     private bool _initializeSeen;
     private bool _shutdown;
+    private JsonElement? _initializeParams;
 
     /// <summary>Releases the write lock; call once <see cref="RunAsync"/> has ended.</summary>
     public void Dispose() => _writeLock.Dispose();
+
+    /// <summary>The <c>params</c> of the <c>initialize</c> request (cloned); <c>null</c> before it arrives.</summary>
+    public JsonElement? LastInitializeParams
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _initializeParams;
+            }
+        }
+    }
 
     /// <summary>The text of the open document (empty when none).</summary>
     public string DocumentText
@@ -89,6 +102,16 @@ public sealed partial class FakeLanguageServer(Stream input, Stream output, Fake
         if (options.Stderr is { } stderr)
         {
             await Console.Error.WriteLineAsync(stderr.AsMemory(), token).ConfigureAwait(false);
+        }
+
+        if (options.EchoEnv is { } name)
+        {
+            await Console.Error.WriteLineAsync($"{name}={Environment.GetEnvironmentVariable(name)}".AsMemory(), token).ConfigureAwait(false);
+        }
+
+        if (options.EchoCwd)
+        {
+            await Console.Error.WriteLineAsync($"cwd={Environment.CurrentDirectory}".AsMemory(), token).ConfigureAwait(false);
         }
 
         try
@@ -193,6 +216,11 @@ public sealed partial class FakeLanguageServer(Stream input, Stream output, Fake
         {
             if (method == LspMethods.Initialize)
             {
+                lock (_gate)
+                {
+                    _initializeParams = @params?.Clone();
+                }
+
                 result = Initialize();
             }
             else if (!_initializeSeen)

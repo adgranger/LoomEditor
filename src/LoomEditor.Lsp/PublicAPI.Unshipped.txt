@@ -1,1 +1,19 @@
 #nullable enable
+LoomEditor.Lsp.Client.LspServerCommand
+LoomEditor.Lsp.Client.LspServerCommand.<Clone>$() -> LoomEditor.Lsp.Client.LspServerCommand!
+LoomEditor.Lsp.Client.LspServerCommand.Arguments.get -> System.Collections.Generic.IReadOnlyList<string!>!
+LoomEditor.Lsp.Client.LspServerCommand.Arguments.init -> void
+LoomEditor.Lsp.Client.LspServerCommand.Deconstruct(out string! FileName, out System.Collections.Generic.IReadOnlyList<string!>! Arguments, out string? WorkingDirectory, out System.Collections.Generic.IReadOnlyDictionary<string!, string!>? Environment) -> void
+LoomEditor.Lsp.Client.LspServerCommand.Environment.get -> System.Collections.Generic.IReadOnlyDictionary<string!, string!>?
+LoomEditor.Lsp.Client.LspServerCommand.Environment.init -> void
+LoomEditor.Lsp.Client.LspServerCommand.Equals(LoomEditor.Lsp.Client.LspServerCommand? other) -> bool
+LoomEditor.Lsp.Client.LspServerCommand.FileName.get -> string!
+LoomEditor.Lsp.Client.LspServerCommand.FileName.init -> void
+LoomEditor.Lsp.Client.LspServerCommand.LspServerCommand(string! FileName, System.Collections.Generic.IReadOnlyList<string!>! Arguments, string? WorkingDirectory = null, System.Collections.Generic.IReadOnlyDictionary<string!, string!>? Environment = null) -> void
+LoomEditor.Lsp.Client.LspServerCommand.WorkingDirectory.get -> string?
+LoomEditor.Lsp.Client.LspServerCommand.WorkingDirectory.init -> void
+override LoomEditor.Lsp.Client.LspServerCommand.Equals(object? obj) -> bool
+override LoomEditor.Lsp.Client.LspServerCommand.GetHashCode() -> int
+override LoomEditor.Lsp.Client.LspServerCommand.ToString() -> string!
+static LoomEditor.Lsp.Client.LspServerCommand.operator !=(LoomEditor.Lsp.Client.LspServerCommand? left, LoomEditor.Lsp.Client.LspServerCommand? right) -> bool
+static LoomEditor.Lsp.Client.LspServerCommand.operator ==(LoomEditor.Lsp.Client.LspServerCommand? left, LoomEditor.Lsp.Client.LspServerCommand? right) -> bool

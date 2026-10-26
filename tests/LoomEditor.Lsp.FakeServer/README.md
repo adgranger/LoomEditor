@@ -4,7 +4,7 @@ A deterministic language server (test double) that speaks the real LSP over stdi
 never needs a real language server. It keeps **one** open document. Standard output carries protocol frames only; human
 diagnostics go to standard error.
 
-Run it: `LoomEditor.Lsp.FakeServer [--sync=none|full|incremental] [--delay=<ms>] [--exit-on=<method>] [--stderr=<text>] [--incomplete] [--chatty]`.
+Run it: `LoomEditor.Lsp.FakeServer [--sync=none|full|incremental] [--delay=<ms>] [--exit-on=<method>] [--stderr=<text>] [--incomplete] [--chatty] [--echo-env=<name>] [--echo-cwd]`.
 `--selftest` checks the protocol types and prints `ok`. In process: `new FakeLanguageServer(input, output, options).RunAsync(token)`.
 
 ## Lifecycle

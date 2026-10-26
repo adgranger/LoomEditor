@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using LoomEditor.Lsp.Client;
+using LoomEditor.Lsp.FakeServer;
 
 namespace LoomEditor.Lsp.Tests.TestHelpers;
 
@@ -40,6 +42,13 @@ internal static class FakeServerLocator
         return info;
     }
 
+    /// <summary>The fake server as an <see cref="LspServerCommand"/>.</summary>
+    public static LspServerCommand GetCommand(FakeServerOptions? options = null, string[]? extraArgs = null)
+    {
+        ProcessStartInfo info = GetStartInfo([.. ToArgs(options ?? new FakeServerOptions()), .. extraArgs ?? []]);
+        return new LspServerCommand(info.FileName, [.. info.ArgumentList]);
+    }
+
     /// <summary>The command line of <paramref name="options"/>.</summary>
     public static string[] ToArgs(LoomEditor.Lsp.FakeServer.FakeServerOptions options)
     {
@@ -62,6 +71,16 @@ internal static class FakeServerLocator
         if (options.Chatty)
         {
             args.Add("--chatty");
+        }
+
+        if (options.EchoEnv is { } echoEnv)
+        {
+            args.Add($"--echo-env={echoEnv}");
+        }
+
+        if (options.EchoCwd)
+        {
+            args.Add("--echo-cwd");
         }
 
         return [.. args];
