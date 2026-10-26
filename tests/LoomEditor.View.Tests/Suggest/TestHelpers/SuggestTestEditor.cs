@@ -1,6 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/contrib/suggest/test/browser/suggestModel.test.ts (createMockEditor, withOracle, assertEvent)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using System.Diagnostics;
 using LoomEditor.Core.Languages.Features;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
@@ -69,14 +70,16 @@ internal sealed class SuggestTestEditor : IDisposable
 
     /// <summary>
     /// Runs what the providers posted to the dispatcher and what the scheduler has due, until the editor stays quiet: the provider tasks
-    /// finish on the thread pool, so a few quiet rounds are needed to be sure none is on its way.
+    /// finish on the thread pool, so a few quiet rounds are needed to be sure none is on its way. A queued thread pool item counts as
+    /// work: on a busy machine (several test assemblies at once) it can wait far longer than the quiet rounds, so the loop is bounded by a deadline.
     /// </summary>
     public void Flush()
     {
         var quiet = 0;
-        for (var i = 0; i < 100 && quiet < 20; i++)
+        long deadline = Stopwatch.GetTimestamp() + Stopwatch.Frequency * 10;
+        while (quiet < 20 && Stopwatch.GetTimestamp() < deadline)
         {
-            bool didWork = Dispatcher.PendingCount > 0 || Scheduler.PendingCount > 0;
+            bool didWork = Dispatcher.PendingCount > 0 || Scheduler.PendingCount > 0 || ThreadPool.PendingWorkItemCount > 0;
             Dispatcher.RunAll();
             Scheduler.AdvanceBy(TimeSpan.Zero);
             quiet = didWork ? 0 : quiet + 1;

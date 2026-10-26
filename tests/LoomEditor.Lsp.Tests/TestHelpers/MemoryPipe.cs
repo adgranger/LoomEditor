@@ -11,6 +11,10 @@ internal sealed class MemoryPipe : IDisposable
     private readonly AnonymousPipeServerStream _serverToClientWriter;
     private readonly AnonymousPipeClientStream _serverToClientReader;
 
+    // Anonymous pipes have no real asynchronous I/O on Windows: every pending read holds a thread pool thread. With many connection tests
+    // at once the pool would add threads one at a time and the tests would time out, so the pool gets its threads at once.
+    static MemoryPipe() => ThreadPool.SetMinThreads(256, 256);
+
     public MemoryPipe()
     {
         _clientToServerWriter = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.None);
