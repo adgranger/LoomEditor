@@ -43,6 +43,8 @@ LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.LocationOpener.get -> LoomEditor.View.Features.GotoDefinition.ILocationOpener?
+LoomEditor.WinUI.Controls.LoomEditor.LocationOpener.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
 LoomEditor.WinUI.Controls.LoomEditor.Markers.get -> LoomEditor.Core.Markers.MarkerService!
 LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabled.get -> bool

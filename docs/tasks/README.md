@@ -771,7 +771,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P8-23](phase-8/P8-23-go-to-definition.md) | Go to definition (`F12` and `Ctrl+click`) | P8-22 | todo |
+| [P8-23](phase-8/P8-23-go-to-definition.md) | Go to definition (`F12` and `Ctrl+click`) | P8-22 | done |
 
 ### Step F — The LSP client (`LoomEditor.Lsp`)
 

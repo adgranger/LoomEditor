@@ -190,6 +190,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>True while the completion list has several items (Monaco: <c>suggestWidgetMultipleSuggestions</c>); set by the suggest feature.</summary>
     internal bool SuggestWidgetMultipleSuggestions { get; set; }
 
+    /// <summary>Opens the definitions that are in another document; null (the default) announces them instead.</summary>
+    public LoomEditor.View.Features.GotoDefinition.ILocationOpener? LocationOpener { get; set; }
+
     /// <summary>The sticky scroll feature, set by <c>StickyScrollFeature</c> while it is attached (Monaco: <c>StickyScrollController.get(editor)</c>).</summary>
     internal StickyScrollFeature? StickyScrollFeature { get; set; }
 

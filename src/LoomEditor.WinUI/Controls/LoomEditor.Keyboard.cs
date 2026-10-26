@@ -55,7 +55,8 @@ public sealed partial class LoomEditor
             HoverVisible: _context.HoverVisible,
             SuggestWidgetVisible: _context.SuggestWidgetVisible,
             SuggestWidgetMultipleSuggestions: _context.SuggestWidgetMultipleSuggestions,
-            HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()));
+            HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()),
+            HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()));
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

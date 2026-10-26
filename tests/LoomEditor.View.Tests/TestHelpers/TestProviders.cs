@@ -67,13 +67,18 @@ internal sealed class FakeDefinitionProvider(Func<TextModel, Position, IReadOnly
 
     public List<Position> Calls { get; } = [];
 
+    public List<CancellationToken> Tokens { get; } = [];
+
     public static FakeDefinitionProvider Pending() => new() { _pending = new TaskCompletionSource<IReadOnlyList<LocationLink>?>() };
 
     public void Complete(IReadOnlyList<LocationLink>? links) => _pending!.SetResult(links);
 
+    public void Fail() => _pending!.SetException(new InvalidOperationException("provider failed"));
+
     public Task<IReadOnlyList<LocationLink>?> ProvideDefinitionAsync(TextModel model, Position position, CancellationToken token)
     {
         Calls.Add(position);
+        Tokens.Add(token);
         return _pending is not null ? _pending.Task : Task.FromResult(onProvide?.Invoke(model, position));
     }
 }

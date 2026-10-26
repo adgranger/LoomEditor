@@ -19,6 +19,7 @@ const LoomEditor.View.Features.Find.FindCommands.TogglePreserveCaseCommand = "to
 const LoomEditor.View.Features.Find.FindCommands.ToggleRegexCommand = "toggleFindRegex" -> string!
 const LoomEditor.View.Features.Find.FindCommands.ToggleSearchScopeCommand = "toggleFindInSelection" -> string!
 const LoomEditor.View.Features.Find.FindCommands.ToggleWholeWordCommand = "toggleFindWholeWord" -> string!
+const LoomEditor.View.Features.GotoDefinition.GotoDefinitionCommands.RevealDefinition = "editor.action.revealDefinition" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ChangeTabDisplaySize = "editor.action.changeTabDisplaySize" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.DetectIndentation = "editor.action.detectIndentation" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.IndentationToSpaces = "editor.action.indentationToSpaces" -> string!
@@ -129,6 +130,8 @@ LoomEditor.View.Features.EditorContext.DocumentUri.get -> string!
 LoomEditor.View.Features.EditorContext.DocumentUri.set -> void
 LoomEditor.View.Features.EditorContext.EditorContext() -> void
 LoomEditor.View.Features.EditorContext.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
+LoomEditor.View.Features.EditorContext.LocationOpener.get -> LoomEditor.View.Features.GotoDefinition.ILocationOpener?
+LoomEditor.View.Features.EditorContext.LocationOpener.set -> void
 LoomEditor.View.Features.EditorContext.Markers.get -> LoomEditor.Core.Markers.MarkerService!
 LoomEditor.View.Features.EditorContext.Model.get -> LoomEditor.Core.Model.TextModel!
 LoomEditor.View.Features.EditorContext.Scheduler.get -> LoomEditor.View.Features.Scheduling.IEditorScheduler!
@@ -149,6 +152,9 @@ LoomEditor.View.Features.Find.FindFeature.Attach(LoomEditor.View.Features.IEdito
 LoomEditor.View.Features.Find.FindFeature.Dispose() -> void
 LoomEditor.View.Features.Find.FindFeature.FindFeature() -> void
 LoomEditor.View.Features.Find.FindFeature.Id.get -> string!
+LoomEditor.View.Features.GotoDefinition.GotoDefinitionCommands
+LoomEditor.View.Features.GotoDefinition.ILocationOpener
+LoomEditor.View.Features.GotoDefinition.ILocationOpener.Open(LoomEditor.Core.Languages.Features.LocationLink! target) -> bool
 LoomEditor.View.Features.IEditorContext
 LoomEditor.View.Features.IEditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.View.Features.IEditorContext.Model.get -> LoomEditor.Core.Model.TextModel!

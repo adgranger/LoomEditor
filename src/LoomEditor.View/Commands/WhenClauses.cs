@@ -63,4 +63,7 @@ internal static class WhenClauses
 
     /// <summary><c>textInputFocus AND writable AND editorHasCompletionItemProvider AND NOT suggestWidgetVisible</c> (<c>editor.action.triggerSuggest</c>).</summary>
     public static bool TriggerSuggest(KeybindingContext c) => c.TextInputFocus && c.Writable && c.HasCompletionItemProvider && !c.SuggestWidgetVisible;
+
+    /// <summary><c>editorHasDefinitionProvider AND editorTextFocus</c> (<c>editor.action.revealDefinition</c>).</summary>
+    public static bool GotoDefinition(KeybindingContext c) => c.EditorTextFocus && c.HasDefinitionProvider;
 }

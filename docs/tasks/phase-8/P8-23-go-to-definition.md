@@ -1,6 +1,6 @@
 # P8-23 — Go to definition (`F12` and `Ctrl+click`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-22
 - **Size:** M
 
@@ -56,23 +56,23 @@
 
 ## Tests
 
-- [ ] Port (`DefinitionResultsTests`; `// Monaco: 'nearestReference'`): `nearestReference` (the four assertions with string URIs: `file:///out/obj/can`, `file:///out/obj/can2`, `file:///src/can`; ranges `(1,1,1,1)`; Monaco compares `uri.path`: compare the full uri strings)
-- [ ] New (`DefinitionResultsTests`): `Sorted_ByUriThenRange`, `Deduplicated_SameUriAndRange`, `FirstReference_IsTheFirstOfProviders` (the first link given, even if it sorts later), `FirstReference_Empty_Null`, `ReferenceAt_ContainsPosition`, `AriaMessage_ZeroOneManyOneFileManyFiles`, `NearestReference_PrefersCloserPositionOnTie`
-- [ ] New (`DefinitionProvidersTests`; `FakeDefinitionProvider` incl. `Pending()`): `NoProviders_Empty`, `TwoProviders_Concatenated_InProviderOrder` (complete in reverse order), `FaultedProvider_Ignored`, `ThrowingProvider_Ignored`, `NullList_Ignored`, `OtherLanguage_NotCalled`, `PassesThePosition`
-- [ ] New (`GotoDefinitionControllerTests`; `SuggestTestEditor`-like harness: a context with `ManualUiDispatcher`, a recording announcer, text with two lines):
+- [x] Port (`DefinitionResultsTests`; `// Monaco: 'nearestReference'`): `nearestReference` (the four assertions with string URIs: `file:///out/obj/can`, `file:///out/obj/can2`, `file:///src/can`; ranges `(1,1,1,1)`; Monaco compares `uri.path`: compare the full uri strings)
+- [x] New (`DefinitionResultsTests`): `Sorted_ByUriThenRange`, `Deduplicated_SameUriAndRange`, `FirstReference_IsTheFirstOfProviders` (the first link given, even if it sorts later), `FirstReference_Empty_Null`, `ReferenceAt_ContainsPosition`, `AriaMessage_ZeroOneManyOneFileManyFiles`, `NearestReference_PrefersCloserPositionOnTie`
+- [x] New (`DefinitionProvidersTests`; `FakeDefinitionProvider` incl. `Pending()`): `NoProviders_Empty`, `TwoProviders_Concatenated_InProviderOrder` (complete in reverse order), `FaultedProvider_Ignored`, `ThrowingProvider_Ignored`, `NullList_Ignored`, `OtherLanguage_NotCalled`, `PassesThePosition`
+- [x] New (`GotoDefinitionControllerTests`; `SuggestTestEditor`-like harness: a context with `ManualUiDispatcher`, a recording announcer, text with two lines):
       `Run_SameDocument_MovesTheCursorToTheTargetSelectionRange` (`TargetSelectionRange` wins over `Range`), `Run_UsesRangeWhenNoTargetSelectionRange`, `Run_OtherDocument_CallsTheOpener`, `Run_OtherDocument_NoOpener_Announces`, `Run_OpenerReturnsFalse_Announces`, `Run_NoResult_AnnouncesNoDefinitionForWord`, `Run_NoResultNoWord_AnnouncesGeneric`,
       `Run_Announces_AriaMessage`, `Run_ModelEditedWhileWaiting_Dropped` (keyboard run), `Run_CursorMovedWhileWaiting_Dropped`, `Run_FromMousePosition_NotDroppedWhenCursorMoved`, `Run_SecondRunCancelsTheFirst` (first token cancelled, only the second result applied), `Run_InvalidRange_Clamped`, `Run_MultipleResults_GoesToFirstProviderResult`,
       `Run_NoProvider_DoesNothing`, `Dispose_CancelsPending`
-- [ ] New (`GotoDefinitionFeatureTests`): `Attach_RegistersTheCommand`, `Command_WithoutProvider_NoOp`, `CtrlClick_OnText_RunsAtThePosition`, `Click_WithoutCtrl_DoesNothing`, `CtrlAltClick_DoesNothing`, `CtrlClick_OnGutter_DoesNothing`, `CtrlRightClick_DoesNothing` (not `LeftButton`), `F12_Resolves_WithProvider_AndNotWithout` (resolver helper), `Dispose_Unsubscribes`
-- [ ] `ConventionTests.FeatureFolder_*` pass for `GotoDefinition`
+- [x] New (`GotoDefinitionFeatureTests`): `Attach_RegistersTheCommand`, `Command_WithoutProvider_NoOp`, `CtrlClick_OnText_RunsAtThePosition`, `Click_WithoutCtrl_DoesNothing`, `CtrlAltClick_DoesNothing`, `CtrlClick_OnGutter_DoesNothing`, `CtrlRightClick_DoesNothing` (not `LeftButton`), `F12_Resolves_WithProvider_AndNotWithout` (resolver helper), `Dispose_Unsubscribes`
+- [x] `ConventionTests.FeatureFolder_*` pass for `GotoDefinition`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1` for `src/LoomEditor.View` and `src/LoomEditor.WinUI`, diffs checked (`ILocationOpener`, the two `LocationOpener` properties)
-- [ ] `docs/PORTING.md` map: `goToSymbol.ts` (`getDefinitionsAtPosition`), `referencesModel.ts` (reduced), `goToCommands.ts` (`DefinitionAction`, `F12`), `goToDefinitionAtPosition.ts` (Ctrl+click only) and the one ported test, with the behavior differences (no peek, no highlight flash, no Ctrl+hover underline, no side-by-side)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1` for `src/LoomEditor.View` and `src/LoomEditor.WinUI`, diffs checked (`ILocationOpener`, the two `LocationOpener` properties)
+- [x] `docs/PORTING.md` map: `goToSymbol.ts` (`getDefinitionsAtPosition`), `referencesModel.ts` (reduced), `goToCommands.ts` (`DefinitionAction`, `F12`), `goToDefinitionAtPosition.ts` (Ctrl+click only) and the one ported test, with the behavior differences (no peek, no highlight flash, no Ctrl+hover underline, no side-by-side)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

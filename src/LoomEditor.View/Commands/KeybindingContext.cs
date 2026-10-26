@@ -21,6 +21,7 @@ namespace LoomEditor.View.Commands;
 /// <param name="SuggestWidgetVisible"><c>suggestWidgetVisible</c>: the completion list is shown.</param>
 /// <param name="SuggestWidgetMultipleSuggestions"><c>suggestWidgetMultipleSuggestions</c>: the completion list has several items.</param>
 /// <param name="HasCompletionItemProvider"><c>editorHasCompletionItemProvider</c>: a provider is registered for the language of the model.</param>
+/// <param name="HasDefinitionProvider"><c>editorHasDefinitionProvider</c>: a provider is registered for the language of the model.</param>
 internal readonly record struct KeybindingContext(
     bool TextInputFocus = false,
     bool EditorTextFocus = false,
@@ -37,4 +38,5 @@ internal readonly record struct KeybindingContext(
     bool HoverVisible = false,
     bool SuggestWidgetVisible = false,
     bool SuggestWidgetMultipleSuggestions = false,
-    bool HasCompletionItemProvider = false);
+    bool HasCompletionItemProvider = false,
+    bool HasDefinitionProvider = false);

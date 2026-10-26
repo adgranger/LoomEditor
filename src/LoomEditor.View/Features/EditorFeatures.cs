@@ -2,6 +2,7 @@ using LoomEditor.View.Features.BracketMatching;
 using LoomEditor.View.Features.Comment;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Indentation;
 using LoomEditor.View.Features.LinesOperations;
@@ -43,6 +44,7 @@ public static class EditorFeatures
         () => new WordHighlighterFeature(),
         () => new HoverFeature(),
         () => new SuggestFeature(),
+        () => new GotoDefinitionFeature(),
         () => new TabFocusFeature(),
     ];
 }

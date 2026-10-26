@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
@@ -241,6 +242,7 @@ internal static class DefaultKeybindings
         Navigate(KeyCode.PageUp, SuggestCommands.SelectPrevPageSuggestion);
         Add(KeyModifiers.Ctrl, KeyCode.Space, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.KeyI, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.F12, GotoDefinitionCommands.RevealDefinition, WhenClauses.GotoDefinition, KeybindingWeight.EditorContrib);
 
         return rules;
     }
