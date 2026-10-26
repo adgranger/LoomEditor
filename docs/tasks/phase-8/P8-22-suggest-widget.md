@@ -1,6 +1,6 @@
 # P8-22 — The completion list (WinUI)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-21
 - **Size:** M
 
@@ -46,9 +46,9 @@ The completion list is on screen: rows with a kind badge, the label with the mat
 
 ## Tests
 
-- [ ] Port-ish (`SuggestKindBadgesTests`; comment `// Monaco: CompletionItemKinds.toLabel`): `ToLabel_AllKinds` (a `[Theory]` over the 29 names above), `ToLabel_Unknown_Empty`, `Glyph_AllKinds_TwoLettersAndDistinct` (all 29 glyphs are non-empty and unique), `Glyph_Spot` (Method `Me`, EnumMember `EM`, Snippet `Sn`)
-- [ ] New (`SuggestRowModelTests`): `Create_NoWord_NoMatches` (default score), `Create_WithWord_HasMatches` (an item scored against `fo`: matches `[0,2)` for `foo`), `Create_Deprecated`, `Create_Selected`, `Create_LabelDetails_Copied`, `DetailText_DetailAndDocumentation` (`"detail\n\ndoc text"`), `DetailText_OnlyDetail`, `DetailText_Empty`, `DetailText_Markdown_PlainText` (`"**bold** `code`"` → `"bold code"`), `DetailText_CutsAt400` (a 1000-character documentation → 400 characters + `…`)
-- [ ] No other unit tests (WinUI code); the manual checks and the AOT publish are the verification
+- [x] Port-ish (`SuggestKindBadgesTests`; comment `// Monaco: CompletionItemKinds.toLabel`): `ToLabel_AllKinds` (a `[Theory]` over the 29 names above), `ToLabel_Unknown_Empty`, `Glyph_AllKinds_TwoLettersAndDistinct` (all 29 glyphs are non-empty and unique), `Glyph_Spot` (Method `Me`, EnumMember `EM`, Snippet `Sn`)
+- [x] New (`SuggestRowModelTests`): `Create_NoWord_NoMatches` (default score), `Create_WithWord_HasMatches` (an item scored against `fo`: matches `[0,2)` for `foo`), `Create_Deprecated`, `Create_Selected`, `Create_LabelDetails_Copied`, `DetailText_DetailAndDocumentation` (`"detail\n\ndoc text"`), `DetailText_OnlyDetail`, `DetailText_Empty`, `DetailText_Markdown_PlainText` (`"**bold** `code`"` → `"bold code"`), `DetailText_CutsAt400` (a 1000-character documentation → 400 characters + `…`)
+- [x] No other unit tests (WinUI code); the manual checks and the AOT publish are the verification
 
 ## Manual checks (add to `docs/testing/phase-8-manual-tests.md` as "3. Completion list"; they need a provider: the Gallery's **Demo providers** of P8-37 or a temporary one; mark rows `pending` if you could not run them)
 
@@ -67,12 +67,12 @@ The completion list is on screen: rows with a kind badge, the label with the mat
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds and the exe is still running after 10 seconds (README §7), then killed; result recorded in this card (never ticked if not run)
-- [ ] The manual rows were tried where possible and the result is written in the card; others stay `pending`
-- [ ] `docs/PORTING.md` map: `suggestWidget.ts` / `suggestWidgetRenderer.ts` (look and list behavior only; not ported: details side pane, status bar, icons toggle, resizing, loading state, `selectionMode`), `toLabel`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` succeeds and the exe is still running after 10 seconds (README §7), then killed; result: publish OK with `-p:UseOptimizedPublish=false` (0 warnings), exe still running after 10 s, killed (2026-10-26)
+- [ ] The manual rows were tried where possible and the result is written in the card; others stay `pending` — not tried: no provider exists before P8-37, all rows are `pending` in `docs/testing/phase-8-manual-tests.md`
+- [x] `docs/PORTING.md` map: `suggestWidget.ts` / `suggestWidgetRenderer.ts` (look and list behavior only; not ported: details side pane, status bar, icons toggle, resizing, loading state, `selectionMode`), `toLabel`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

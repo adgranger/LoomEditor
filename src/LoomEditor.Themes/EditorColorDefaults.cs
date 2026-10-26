@@ -317,6 +317,38 @@ internal static class EditorColorDefaults
         ["editorHoverWidget.foreground"] = ("editorWidget.foreground", "editorWidget.foreground", "editorWidget.foreground", "editorWidget.foreground"),
         ["editorHoverWidget.border"] = ("editorWidget.border", "editorWidget.border", "editorWidget.border", "editorWidget.border"),
 
+        // baseColors.ts / listColors.ts / quickpickColors.ts / suggestWidget.ts: the completion list colors and the chains they need
+        // listColors.ts:33
+        ["list.activeSelectionBackground"] = ("#04395E", "#0060C0", null, ColorValue.Transparent("#0F4A85", 0.1)),
+        // listColors.ts:37
+        ["list.activeSelectionForeground"] = ("#FFFFFF", "#FFFFFF", null, null),
+        // listColors.ts:41
+        ["list.activeSelectionIconForeground"] = (null, null, null, null),
+        // listColors.ts:81
+        ["list.highlightForeground"] = ("#2AAAFF", "#0066BF", "focusBorder", "focusBorder"),
+        // listColors.ts:85 (light: ifDefinedThenElse(list.activeSelectionBackground, ...) is always defined here)
+        ["list.focusHighlightForeground"] = ("list.highlightForeground", "list.highlightForeground", "list.highlightForeground", "list.highlightForeground"),
+        // quickpickColors.ts:41
+        ["quickInputList.focusForeground"] = ("list.activeSelectionForeground", "list.activeSelectionForeground", "list.activeSelectionForeground", "list.activeSelectionForeground"),
+        // quickpickColors.ts:45
+        ["quickInputList.focusIconForeground"] = ("list.activeSelectionIconForeground", "list.activeSelectionIconForeground", "list.activeSelectionIconForeground", "list.activeSelectionIconForeground"),
+        // quickpickColors.ts:49 (oneOf(deprecated quickInput.list.focusBackground, list.activeSelectionBackground))
+        ["quickInputList.focusBackground"] = ("list.activeSelectionBackground", "list.activeSelectionBackground", null, null),
+        // suggestWidget.ts:43
+        ["editorSuggestWidget.background"] = ("editorWidget.background", "editorWidget.background", "editorWidget.background", "editorWidget.background"),
+        // suggestWidget.ts:44
+        ["editorSuggestWidget.border"] = ("editorWidget.border", "editorWidget.border", "editorWidget.border", "editorWidget.border"),
+        // suggestWidget.ts:45
+        ["editorSuggestWidget.foreground"] = ("editor.foreground", "editor.foreground", "editor.foreground", "editor.foreground"),
+        // suggestWidget.ts:46
+        ["editorSuggestWidget.selectedForeground"] = ("quickInputList.focusForeground", "quickInputList.focusForeground", "editorSuggestWidget.background", "editorSuggestWidget.background"),
+        // suggestWidget.ts:48
+        ["editorSuggestWidget.selectedBackground"] = ("quickInputList.focusBackground", "quickInputList.focusBackground", "editorSuggestWidget.foreground", "editorSuggestWidget.foreground"),
+        // suggestWidget.ts:50
+        ["editorSuggestWidget.highlightForeground"] = ("list.highlightForeground", "list.highlightForeground", "list.highlightForeground", "list.highlightForeground"),
+        // suggestWidget.ts:51
+        ["editorSuggestWidget.focusHighlightForeground"] = ("list.focusHighlightForeground", "list.focusHighlightForeground", "editorSuggestWidget.selectedForeground", "editorSuggestWidget.selectedForeground"),
+
         // baseColors.ts:56
         ["textLink.foreground"] = ("#3794FF", "#006AB1", "#21A6FF", "#0F4A85"),
 

@@ -155,7 +155,7 @@ public sealed partial class LoomEditor : Control
         _canvas.SizeChanged += OnCanvasSizeChanged;
         AttachScrollBars();
         _findWidget = GetTemplateChild(FindWidgetPartName) as FindWidget;
-        InitializeHover(GetTemplateChild(OverlayCanvasPartName) as Canvas);
+        InitializeOverlayWidgets(GetTemplateChild(OverlayCanvasPartName) as Canvas);
     }
 
     /// <inheritdoc />
