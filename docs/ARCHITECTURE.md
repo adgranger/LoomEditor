@@ -30,6 +30,9 @@ This page tells you **where things are** and **which rules keep the code base ea
 | `LoomEditor.View` | cursors, commands, view layout, **features** | Core, TextMate, Themes |
 | `LoomEditor.Rendering` | `IRenderSurface`, `TextViewRenderer`, Win2D backend | View |
 | `LoomEditor.WinUI` | `LoomEditor` control, input, accessibility | Rendering |
+| `LoomEditor.Lsp` | LSP client: JSON-RPC over stdio, document sync, mapping to the language features | Core |
+
+`LoomEditor.Lsp` (language server client) references Core only and sits beside View: the Gallery wires it to the control (ADR 0011).
 
 Monaco equivalents: Core ≈ `editor/common/core` + `editor/common/model`; View ≈ `editor/common/cursor`,
 `editor/common/viewModel`, `editor/contrib`; Rendering + WinUI ≈ `editor/browser`.
@@ -218,6 +221,48 @@ Four more pieces sit beside this chain:
 
 Design: [ADR 0010](adr/0010-accessibility.md). Manual checks with Narrator and NVDA: [testing/phase-7-manual-tests.md](testing/phase-7-manual-tests.md).
 
+## Language features and the language server client (phase 8)
+
+Three layers, then a separate project that speaks LSP ([ADR 0011](adr/0011-language-server-client.md)):
+
+```
+LoomEditor.Core    provider contracts (ICompletionItemProvider, IHoverProvider, IDefinitionProvider), LanguageFeatureRegistry<T>,
+                   LanguageFeaturesService, MarkerService, MarkerDecorations, the fuzzy filter       (public API: applications register providers)
+  → LoomEditor.View    SuggestModel / CompletionModel / SuggestController, ContentHoverComputer / HoverController,
+                       GotoDefinitionController, squiggle styles (DecorationStyles), the Markdown subset parser
+  → LoomEditor.WinUI   OverlayHost (the overlay layer in the control template), HoverWidget, SuggestWidget
+
+LoomEditor.Lsp (beside View, references Core only):
+  LspMessageReader/Writer (Content-Length framing) → JsonRpcConnection → LspClient (child process, initialize)
+    → LspDocumentSync, LspCompletionProvider / LspHoverProvider / LspDefinitionProvider, LspDiagnosticsBinder
+    → LspEditorSession (one call connects an editor to a server)
+```
+
+Typing a letter until the completion list shows:
+
+```
+ViewModel.Type  → DidType
+  → SuggestModel                    quick suggest timer (IEditorScheduler), trigger characters
+  → SuggestItems.ProvideAsync       asks the registered providers (UI thread), returns a Task
+  → LspCompletionProvider           builds `textDocument/completion`
+  → JsonRpcConnection               write queue → server stdout/stdin ← read loop (background threads)
+  ← server answer                   the Task completes on any thread
+  ← UiContinuation.Then             hops back to the UI thread through IUiDispatcher, re-checks the request is current
+  → CompletionModel                 filter (FuzzyScore) and sort
+  → SuggestController               list state, accept, additional edits
+  → ISuggestPresenter → SuggestWidget   rows drawn by hand in the overlay layer
+```
+
+**Threading** (ADR 0011 decision 4): the editor (model, decorations, markers, features, widgets) is UI thread only. The LSP client has one
+read loop and one ordered write queue; a `didChange` sent before a request always reaches the server first. Providers are called on the UI thread
+and their `Task` may complete anywhere: View code never uses `await` on it, only `UiContinuation.Then`. Server notifications reach the editor through the
+`post` delegate of `LspEditorSession` (the Gallery passes `DispatcherQueue.TryEnqueue`). Conversions in a provider continuation never touch the `TextModel`.
+
+**The fake language server** (`tests/LoomEditor.Lsp.FakeServer`) is a deterministic server (completion, resolve, hover, definition, diagnostics). Tests run it in
+process over in-memory pipes (`tests/LoomEditor.Lsp.Tests`, and the end-to-end tests of the real features in `tests/LoomEditor.View.Tests/Lsp`); a few start it as a child process; the Gallery self-check runs it published with Native AOT. No automated test needs a real server.
+
+Deliberately not delivered in phase 8: snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, folding ranges from the server, peek definition.
+
 ## Where do I find…?
 
 | I want to… | Go to |
@@ -276,3 +321,12 @@ Design: [ADR 0010](adr/0010-accessibility.md). Manual checks with Narrator and N
 | change the tab focus mode | `src/LoomEditor.View/Features/TabFocus/` |
 | change the high contrast themes | `src/LoomEditor.Themes/HighContrast/`, `src/LoomEditor.WinUI/Controls/LoomEditor.HighContrast.cs`, `src/LoomEditor.WinUI/Accessibility/SystemHighContrast.cs` |
 | run the UIA self-check | `samples/LoomEditor.Gallery/UiaSelfCheck.cs` (the Gallery accessibility switches) |
+| add a completion, hover or definition provider, or read the provider contracts (phase 8) | `src/LoomEditor.Core/Languages/Features/` ([README](../src/LoomEditor.Core/Languages/Features/README.md)), [how-to/add-a-language-server.md](how-to/add-a-language-server.md) |
+| change markers, squiggles or the ruler marks of markers | `src/LoomEditor.Core/Markers/` (`MarkerService`, `MarkerDecorations`), `src/LoomEditor.View/Layout/DecorationStyles.cs` (`squiggly-*`), `src/LoomEditor.Rendering/UnderlineGeometry.cs` |
+| change hover (computation, delays, popup) | `src/LoomEditor.View/Hover/`, `src/LoomEditor.View/Features/Hover/`, `src/LoomEditor.View/Markdown/`, `src/LoomEditor.WinUI/Controls/Hover/` |
+| change completion (filter, session, list, accept) | `src/LoomEditor.Core/Filters/` (fuzzy), `src/LoomEditor.View/Suggest/`, `src/LoomEditor.View/Features/Suggest/`, `src/LoomEditor.WinUI/Controls/Suggest/` |
+| change go to definition (`F12`, `Ctrl+click`) | `src/LoomEditor.View/Features/GotoDefinition/` (`ILocationOpener`) |
+| change the overlay layer (hover and completion hosts) | `src/LoomEditor.WinUI/Controls/Overlay/` (`OverlayHost`), `src/LoomEditor.View/Layout/OverlayPlacement.cs`, `LoomEditor.Overlay.cs` |
+| change the LSP client or the editor session | `src/LoomEditor.Lsp/` ([README](../src/LoomEditor.Lsp/README.md)); wire format in `Protocol/`, framing and JSON-RPC in `JsonRpc/` |
+| change the fake language server or write an LSP test | `tests/LoomEditor.Lsp.FakeServer/` ([README](../tests/LoomEditor.Lsp.FakeServer/README.md)), helpers in `tests/LoomEditor.Lsp.Tests/TestHelpers/` |
+| run the language server demo or the LSP self-check | `samples/LoomEditor.Gallery/Lsp/` (`LspSelfCheck.cs`, `--lsp-selfcheck=<file>`), [testing/phase-8-manual-tests.md](testing/phase-8-manual-tests.md) |

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LoomEditor.Lsp\LoomEditor.Lsp.csproj" />
+    <ProjectReference Include="..\..\src\LoomEditor.Core\LoomEditor.Core.csproj" />
+    <!-- A normal reference: the fake server's assembly is copied next to the tests. -->
+    <ProjectReference Include="..\LoomEditor.Lsp.FakeServer\LoomEditor.Lsp.FakeServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The WinUI-free Gallery sources (P8-37) are compiled into the tests. -->
+    <Compile Include="..\..\samples\LoomEditor.Gallery\Lsp\LspServerLocator.cs;..\..\samples\LoomEditor.Gallery\Lsp\LspDemoWorkspace.cs;..\..\samples\LoomEditor.Gallery\Lsp\DemoProviders.cs;..\..\samples\LoomEditor.Gallery\Lsp\DemoMarkers.cs" Link="Gallery\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+</Project>

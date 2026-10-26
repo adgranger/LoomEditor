@@ -254,8 +254,21 @@ internal sealed partial class ViewModel
     public void CompositionType(string text, int replacePrevCharCnt, int replaceNextCharCnt, int positionDelta, string? source = null) =>
         ExecuteCursorEdit(eventsCollector => _cursor.CompositionType(eventsCollector, text, replacePrevCharCnt, replaceNextCharCnt, positionDelta, source));
 
-    public void Type(string text, string? source = null) =>
+    /// <summary>Raised after <see cref="Type"/> with the typed text, even when an auto-closing pair or overtype swallowed it (Monaco: <c>onDidType</c>).</summary>
+    internal event EventHandler<string>? DidType;
+
+    /// <summary>Whether the editor refuses edits (the source <see cref="Type"/> checks).</summary>
+    internal bool IsReadOnly => _cursor.Context.CursorConfig.ReadOnly;
+
+    /// <summary>Raised by <see cref="Type"/> before the edit, so a handler may run its own edit first (Monaco: <c>onWillType</c>).</summary>
+    internal event EventHandler<string>? WillType;
+
+    public void Type(string text, string? source = null)
+    {
+        WillType?.Invoke(this, text);
         ExecuteCursorEdit(eventsCollector => _cursor.Type(eventsCollector, text, source));
+        DidType?.Invoke(this, text);
+    }
 
     public void Paste(string text, bool pasteOnNewLine, IReadOnlyList<string>? multicursorText = null, string? source = null, bool isBlock = false) =>
         ExecuteCursorEdit(eventsCollector => _cursor.Paste(eventsCollector, text, pasteOnNewLine, multicursorText, source, isBlock));

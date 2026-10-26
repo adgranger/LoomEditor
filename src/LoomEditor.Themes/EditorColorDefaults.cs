@@ -111,6 +111,21 @@ internal static class EditorColorDefaults
         // bracketMatching.ts:27
         ["editorOverviewRuler.bracketMatchForeground"] = ("#A0A0A0", "#A0A0A0", "#A0A0A0", "#A0A0A0"),
 
+        // editorColors.ts:105 (editorHint.foreground)
+        ["editorHint.foreground"] = (ColorValue.Transparent("#eeeeee", 0.7), "#6c6c6c", null, null),
+
+        // editorColors.ts:109 (editorHint.border)
+        ["editorHint.border"] = (null, null, ColorValue.Transparent("#eeeeee", 0.8), "#292929"),
+
+        // editorColorRegistry.ts:75
+        ["editorOverviewRuler.errorForeground"] = (ColorValue.Transparent("#FF1212", 0.7), ColorValue.Transparent("#FF1212", 0.7), "#FF3232", "#B5200D"),
+
+        // editorColorRegistry.ts:76
+        ["editorOverviewRuler.warningForeground"] = ("editorWarning.foreground", "editorWarning.foreground", "editorWarning.border", "editorWarning.border"),
+
+        // editorColorRegistry.ts:77
+        ["editorOverviewRuler.infoForeground"] = ("editorInfo.foreground", "editorInfo.foreground", "editorInfo.border", "editorInfo.border"),
+
         // editorColorRegistry.ts:61
         ["editorOverviewRuler.border"] = ("#7f7f7f4d", "#7f7f7f4d", "#7f7f7f4d", "#666666"),
 
@@ -296,6 +311,49 @@ internal static class EditorColorDefaults
 
         // editorColors.ts:57
         ["editorWidget.border"] = ("#CCCCCC33", "#61616133", "contrastBorder", "contrastBorder"),
+
+        // editorColors.ts:187-198 (the hover widget colors are the editor widget colors)
+        ["editorHoverWidget.background"] = ("editorWidget.background", "editorWidget.background", "editorWidget.background", "editorWidget.background"),
+        ["editorHoverWidget.foreground"] = ("editorWidget.foreground", "editorWidget.foreground", "editorWidget.foreground", "editorWidget.foreground"),
+        ["editorHoverWidget.border"] = ("editorWidget.border", "editorWidget.border", "editorWidget.border", "editorWidget.border"),
+
+        // baseColors.ts / listColors.ts / quickpickColors.ts / suggestWidget.ts: the completion list colors and the chains they need
+        // listColors.ts:33
+        ["list.activeSelectionBackground"] = ("#04395E", "#0060C0", null, ColorValue.Transparent("#0F4A85", 0.1)),
+        // listColors.ts:37
+        ["list.activeSelectionForeground"] = ("#FFFFFF", "#FFFFFF", null, null),
+        // listColors.ts:41
+        ["list.activeSelectionIconForeground"] = (null, null, null, null),
+        // listColors.ts:81
+        ["list.highlightForeground"] = ("#2AAAFF", "#0066BF", "focusBorder", "focusBorder"),
+        // listColors.ts:85 (light: ifDefinedThenElse(list.activeSelectionBackground, ...) is always defined here)
+        ["list.focusHighlightForeground"] = ("list.highlightForeground", "list.highlightForeground", "list.highlightForeground", "list.highlightForeground"),
+        // quickpickColors.ts:41
+        ["quickInputList.focusForeground"] = ("list.activeSelectionForeground", "list.activeSelectionForeground", "list.activeSelectionForeground", "list.activeSelectionForeground"),
+        // quickpickColors.ts:45
+        ["quickInputList.focusIconForeground"] = ("list.activeSelectionIconForeground", "list.activeSelectionIconForeground", "list.activeSelectionIconForeground", "list.activeSelectionIconForeground"),
+        // quickpickColors.ts:49 (oneOf(deprecated quickInput.list.focusBackground, list.activeSelectionBackground))
+        ["quickInputList.focusBackground"] = ("list.activeSelectionBackground", "list.activeSelectionBackground", null, null),
+        // suggestWidget.ts:43
+        ["editorSuggestWidget.background"] = ("editorWidget.background", "editorWidget.background", "editorWidget.background", "editorWidget.background"),
+        // suggestWidget.ts:44
+        ["editorSuggestWidget.border"] = ("editorWidget.border", "editorWidget.border", "editorWidget.border", "editorWidget.border"),
+        // suggestWidget.ts:45
+        ["editorSuggestWidget.foreground"] = ("editor.foreground", "editor.foreground", "editor.foreground", "editor.foreground"),
+        // suggestWidget.ts:46
+        ["editorSuggestWidget.selectedForeground"] = ("quickInputList.focusForeground", "quickInputList.focusForeground", "editorSuggestWidget.background", "editorSuggestWidget.background"),
+        // suggestWidget.ts:48
+        ["editorSuggestWidget.selectedBackground"] = ("quickInputList.focusBackground", "quickInputList.focusBackground", "editorSuggestWidget.foreground", "editorSuggestWidget.foreground"),
+        // suggestWidget.ts:50
+        ["editorSuggestWidget.highlightForeground"] = ("list.highlightForeground", "list.highlightForeground", "list.highlightForeground", "list.highlightForeground"),
+        // suggestWidget.ts:51
+        ["editorSuggestWidget.focusHighlightForeground"] = ("list.focusHighlightForeground", "list.focusHighlightForeground", "editorSuggestWidget.selectedForeground", "editorSuggestWidget.selectedForeground"),
+
+        // baseColors.ts:56
+        ["textLink.foreground"] = ("#3794FF", "#006AB1", "#21A6FF", "#0F4A85"),
+
+        // baseColors.ts:95
+        ["textCodeBlock.background"] = ("#0a0a0a66", "#dcdcdc66", "#000000", "#F2F2F2"),
 
         // inputColors.ts:20
         ["input.background"] = ("#3C3C3C", "#FFFFFF", "#000000", "#FFFFFF"),

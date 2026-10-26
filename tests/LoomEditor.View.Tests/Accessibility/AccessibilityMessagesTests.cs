@@ -55,4 +55,8 @@ public class AccessibilityMessagesTests
         Assert.Equal("Pressing Tab will now move focus to the next focusable element", AccessibilityMessages.TabMovesFocusOn);
         Assert.Equal("Pressing Tab will now insert the tab character", AccessibilityMessages.TabMovesFocusOff);
     }
+
+    [Fact]
+    public void SuggestAdditionalEdits_Text() =>
+        Assert.Equal("Accepting 'foo' made 2 additional edits", AccessibilityMessages.SuggestAdditionalEdits("foo", 2));
 }

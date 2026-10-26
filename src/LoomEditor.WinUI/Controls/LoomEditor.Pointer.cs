@@ -28,7 +28,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerPressed(e);
 
-        if (_renderer is null || IsFromScrollBar(e.OriginalSource) || IsFromFindWidget(e.OriginalSource))
+        if (_renderer is null || IsFromScrollBar(e.OriginalSource) || IsFromFindWidget(e.OriginalSource) || IsFromOverlay(e.OriginalSource))
         {
             return;
         }
@@ -83,7 +83,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerMoved(e);
 
-        if (IsFromFindWidget(e.OriginalSource))
+        if (IsFromFindWidget(e.OriginalSource) || IsFromOverlay(e.OriginalSource))
         {
             return;
         }
@@ -118,6 +118,12 @@ public sealed partial class LoomEditor
             return;
         }
 
+        if (_renderer is not null && !IsFromScrollBar(e.OriginalSource))
+        {
+            EditorMouseEvent mouseEvent = PointerInput.Create(e, this, 1);
+            _context.UserInputEvents.EmitMouseMove(new EditorMouseEventArgs(mouseEvent, CreateMouseTarget(mouseEvent.X, mouseEvent.Y)));
+        }
+
         UpdatePointerShape(e);
     }
 
@@ -127,7 +133,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerReleased(e);
 
-        if (IsFromFindWidget(e.OriginalSource))
+        if (IsFromFindWidget(e.OriginalSource) || IsFromOverlay(e.OriginalSource))
         {
             return;
         }
@@ -175,6 +181,7 @@ public sealed partial class LoomEditor
     {
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerExited(e);
+        _context.UserInputEvents.EmitMouseLeave();
 
         SetMarginHovered(false);
         SetHoveredStickyLine(-1);
@@ -290,6 +297,9 @@ public sealed partial class LoomEditor
 
         return false;
     }
+
+    // The widgets of the overlay layer are children of the control: their pointer events must not reach the text.
+    private bool IsFromOverlay(object? source) => _overlay?.Contains(source as DependencyObject) == true;
 
     private bool IsFromScrollBar(object? source)
     {

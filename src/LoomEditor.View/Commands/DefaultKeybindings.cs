@@ -2,6 +2,9 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.GotoDefinition;
+using LoomEditor.View.Features.Hover;
+using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
 
@@ -214,6 +217,32 @@ internal static class DefaultKeybindings
         {
             FoldChord(KeyModifiers.Ctrl, KeyCode.Digit0 + level, FoldingCommands.FoldLevel(level));
         }
+
+        // hoverActions.ts (Contrib): Ctrl+K Ctrl+I shows the hover; Escape hides it, above cancelSelection.
+        FoldChord(KeyModifiers.Ctrl, KeyCode.KeyI, HoverCommands.ShowHover);
+        Add(KeyModifiers.None, KeyCode.Escape, HoverCommands.HideHover, WhenClauses.HoverVisible, FindWidgetWeight);
+
+        // suggestController.ts (Contrib, +90): acceptSuggestionOnEnter is always on and a suggestion always makes a text edit in phase 8 (no smart mode),
+        // so Enter has the same condition as Tab. selectFirstSuggestion and selectLastSuggestion have no key; Shift+Tab and Shift+Enter are not bound.
+        const int SuggestWeight = KeybindingWeight.EditorContrib + 90;
+        Add(KeyModifiers.None, KeyCode.Tab, SuggestCommands.AcceptSelectedSuggestion, WhenClauses.SuggestVisible, SuggestWeight);
+        Add(KeyModifiers.None, KeyCode.Enter, SuggestCommands.AcceptSelectedSuggestion, WhenClauses.SuggestVisible, SuggestWeight);
+        Add(KeyModifiers.None, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
+        Add(KeyModifiers.Shift, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
+
+        void Navigate(KeyCode key, string id)
+        {
+            Add(KeyModifiers.None, key, id, WhenClauses.SuggestNavigation, SuggestWeight);
+            Add(KeyModifiers.Ctrl, key, id, WhenClauses.SuggestNavigation, SuggestWeight);
+        }
+
+        Navigate(KeyCode.DownArrow, SuggestCommands.SelectNextSuggestion);
+        Navigate(KeyCode.UpArrow, SuggestCommands.SelectPrevSuggestion);
+        Navigate(KeyCode.PageDown, SuggestCommands.SelectNextPageSuggestion);
+        Navigate(KeyCode.PageUp, SuggestCommands.SelectPrevPageSuggestion);
+        Add(KeyModifiers.Ctrl, KeyCode.Space, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyI, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.F12, GotoDefinitionCommands.RevealDefinition, WhenClauses.GotoDefinition, KeybindingWeight.EditorContrib);
 
         return rules;
     }

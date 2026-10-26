@@ -14,6 +14,7 @@ public partial class PlatformNeutralSourceTests
         "LoomEditor.TextMate",
         "LoomEditor.Themes",
         "LoomEditor.View",
+        "LoomEditor.Lsp",
     };
 
     [GeneratedRegex(@"\b(using\s+(static\s+)?(Windows|Microsoft\.UI|Microsoft\.Windows|Microsoft\.Graphics|WinRT|System\.Runtime\.InteropServices\.WindowsRuntime)\b|SupportedOSPlatform\s*\(\s*""windows)")]

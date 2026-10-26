@@ -243,5 +243,25 @@ internal sealed partial class TextViewRenderer
             float inset = style.BorderWidth / 2;
             surface.DrawRectangle(left + inset, top + inset, width - style.BorderWidth, height - style.BorderWidth, border, style.BorderWidth);
         }
+
+        if (style.Underline != UnderlineStyle.None && GetDecorationColor(style.UnderlineColorId) is { } underline)
+        {
+            float bottom = top + height;
+            if (style.Underline == UnderlineStyle.Squiggle)
+            {
+                IReadOnlyList<(float X, float Y)> points = UnderlineGeometry.SquigglePoints(left, width, bottom);
+                for (int i = 1; i < points.Count; i++)
+                {
+                    surface.DrawLine(points[i - 1].X, points[i - 1].Y, points[i].X, points[i].Y, underline, 1.2f);
+                }
+            }
+            else
+            {
+                foreach ((float x, float y, float size) in UnderlineGeometry.DotPositions(left, bottom))
+                {
+                    surface.FillRectangle(x, y, size, size, underline);
+                }
+            }
+        }
     }
 }

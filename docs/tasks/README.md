@@ -525,7 +525,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 
 Phase 5 cards form a single chain, in table order (P5-46 also needs P5-31 and P5-32). P5-72 … P5-74, P5-90, P5-91 and P5-95 have manual checks for the maintainer.
 
-**Deferred on purpose:** syntax folding and language-feature providers (word highlight, folding ranges: phase 8);
+**Deferred on purpose:** syntax folding and language-feature providers (word highlight, folding ranges: **not delivered in phase 8**, ADR 0011 decision 7);
 word wrap, bracket pair guides, minimap, sticky scroll (phase 6); overtype mode; find history, overview ruler marks,
 the global find clipboard; injected text; the `editor.language.brackets` / `colorizedBracketPairs` settings.
 
@@ -651,7 +651,7 @@ Take phase 6 cards in table order (each card's "Depends on" is satisfied by the 
 P6-52 … P6-54, P6-59 … P6-62 have manual checks for the maintainer.
 
 **Deferred on purpose:** `renderWhitespace`; the word wrap indicator drawing; minimap section headers; the outline model of
-sticky scroll, its click-link gesture and its keyboard navigation (phase 8 / follow-up); the DOM line-break strategy
+sticky scroll, its click-link gesture and its keyboard navigation (**not delivered in phase 8** / follow-up); the DOM line-break strategy
 (`wrappingStrategy: advanced`); accessibility-driven wrapping (done in phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
 
 ## Phase 7 — Full UI Automation accessibility
@@ -719,6 +719,89 @@ Take phase 7 cards in table order (each card's "Depends on" is satisfied by the 
 
 **Deferred on purpose:** accessibility help dialog, `ariaLabel` / `ariaRole` options, reduced motion, the UIA text edit pattern and annotations, per-token text attributes, the `cursorWordAccessibility*` keybindings,
 localization of announcements, a UIA client based automated test (details in [phase-7/README.md](phase-7/README.md) and [ADR 0010](../adr/0010-accessibility.md)).
+
+## Phase 8 — LSP client: completion, hover, diagnostics, go-to-definition
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [phase-8-lsp.md](../roadmap/phase-8-lsp.md). Design: [ADR 0011](../adr/0011-language-server-client.md).
+**Read [phase-8/README.md](phase-8/README.md) before any phase 8 card** (conventions, threading rules, test helpers). Monaco has no LSP: the cards of step F are specified by the LSP 3.17 specification and by the card itself.
+
+### Step A — Language features in Core (`LoomEditor.Core`, public API)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-01](phase-8/P8-01-language-feature-types.md) | Language feature contracts: completion, hover, definition and `MarkdownString` (public API of Core) | P7-26 | done |
+| [P8-02](phase-8/P8-02-language-feature-registry.md) | `LanguageFeatureRegistry<T>` and `LanguageFeaturesService` | P8-01 | done |
+| [P8-03](phase-8/P8-03-marker-service.md) | `MarkerService`: markers per owner (public API of Core) | P8-02 | done |
+| [P8-04](phase-8/P8-04-marker-decorations.md) | `MarkerDecorations`: markers become model decorations | P8-03 | done |
+| [P8-05](phase-8/P8-05-editor-context-wiring.md) | `EditorContext` and the control expose `LanguageFeatures`, `Markers`, `DocumentUri`; `UiContinuation` | P8-04 | done |
+
+### Step B — Diagnostics on screen
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-06](phase-8/P8-06-squiggles.md) | Squiggles: error, warning, info and hint underlines, and the ruler colors of markers | P8-05 | done |
+
+### Step C — Hover
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-07](phase-8/P8-07-markdown-subset.md) | A Markdown subset parser for hover and documentation text | P8-06 | done |
+| [P8-08](phase-8/P8-08-mouse-move-events.md) | Mouse move and mouse leave events for features | P8-07 | done |
+| [P8-09](phase-8/P8-09-hover-computation.md) | Hover computation: anchors, parts, `ContentHoverComputer` and `HoverOperation` | P8-08 | done |
+| [P8-10](phase-8/P8-10-hover-controller.md) | `HoverController` and the `Hover` feature | P8-09 | done |
+| [P8-11](phase-8/P8-11-overlay-and-hover-widget.md) | The overlay layer and the hover popup (WinUI) | P8-10 | done |
+
+### Step D — Completion
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-12](phase-8/P8-12-fuzzy-score.md) | The fuzzy filter of completion: `FuzzyScore`, `fuzzyScore`, `anyScore`, `createMatches` | P8-11 | done |
+| [P8-13](phase-8/P8-13-fuzzy-graceful.md) | The graceful fuzzy scorers | P8-12 | done |
+| [P8-14](phase-8/P8-14-suggest-items.md) | Suggest items: `SuggestItem` and `SuggestItems.ProvideAsync` | P8-13 | done |
+| [P8-15](phase-8/P8-15-completion-model.md) | `CompletionModel`: the filtered and sorted list | P8-14 | done |
+| [P8-16](phase-8/P8-16-suggest-model.md) | `SuggestModel`: trigger, cancel, refilter and retrigger (the state machine) | P8-15 | done |
+| [P8-17](phase-8/P8-17-suggest-auto-triggers.md) | Automatic triggers: quick suggest while typing and trigger characters | P8-16 | done |
+| [P8-18](phase-8/P8-18-suggest-list-state.md) | `SuggestListState`: selection and scrolling of the completion list, and the initial selection | P8-17 | done |
+| [P8-19](phase-8/P8-19-suggest-controller.md) | `SuggestController`: show the list, move in it, accept an item | P8-18 | done |
+| [P8-20](phase-8/P8-20-suggest-async-edits-and-commit-characters.md) | Suggest: additional edits that arrive after the accept, and commit characters | P8-19 | done |
+| [P8-21](phase-8/P8-21-suggest-feature.md) | The `Suggest` feature: commands, keybindings and context keys | P8-20 | done |
+| [P8-22](phase-8/P8-22-suggest-widget.md) | The completion list (WinUI) | P8-21 | done |
+
+### Step E — Go to definition
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-23](phase-8/P8-23-go-to-definition.md) | Go to definition (`F12` and `Ctrl+click`) | P8-22 | done |
+
+### Step F — The LSP client (`LoomEditor.Lsp`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-24](phase-8/P8-24-lsp-project-skeleton.md) | The `LoomEditor.Lsp` project, its test projects and the architecture rules | P8-23 | done |
+| [P8-25](phase-8/P8-25-message-framing.md) | LSP message framing: `Content-Length` reader and writer | P8-24 | done |
+| [P8-26](phase-8/P8-26-json-rpc-connection.md) | The JSON-RPC connection: requests, notifications, cancellation, server requests | P8-25 | done |
+| [P8-27](phase-8/P8-27-lsp-protocol-types.md) | The LSP protocol types, source-generated JSON and the union decoders | P8-26 | done |
+| [P8-28](phase-8/P8-28-fake-language-server.md) | The fake language server (test double) and its test host | P8-27 | done |
+| [P8-29](phase-8/P8-29-lsp-client-lifecycle.md) | `LspClient`: start the server process, initialize, shut down, survive a crash | P8-28 | done |
+| [P8-30](phase-8/P8-30-document-sync.md) | Text document synchronization: `didOpen`, incremental `didChange`, `didClose` | P8-29 | done |
+| [P8-31](phase-8/P8-31-lsp-conversions.md) | Converting LSP types to the editor's types (`LspConvert`) | P8-30 | done |
+| [P8-32](phase-8/P8-32-diagnostics-binding.md) | Diagnostics: server `publishDiagnostics` become markers | P8-31 | done |
+| [P8-33](phase-8/P8-33-completion-provider.md) | `LspCompletionProvider`: completion and resolve over LSP | P8-32 | done |
+| [P8-34](phase-8/P8-34-hover-and-definition-providers.md) | `LspHoverProvider` and `LspDefinitionProvider` | P8-33 | done |
+| [P8-35](phase-8/P8-35-lsp-editor-session.md) | `LspEditorSession`: one call connects an editor to a language server | P8-34 | done |
+| [P8-36](phase-8/P8-36-end-to-end-tests.md) | End-to-end tests: the real editor features against the fake language server | P8-35 | done |
+
+### Step G — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P8-37](phase-8/P8-37-gallery-language-server.md) | Gallery: connect to a real language server, demo providers and the LSP self-check | P8-36 | done |
+| [P8-38](phase-8/P8-38-manual-test-plan.md) | The manual test plan of phase 8 | P8-37 | done |
+| [P8-39](phase-8/P8-39-close-phase-8.md) | Close phase 8 | all phase 8 cards | done |
+
+Take phase 8 cards in table order (each card's "Depends on" is satisfied by the cards above it). P8-11, P8-16, P8-26, P8-27, P8-29 and P8-37 are flagged **Recommended model: Opus** (reason in the card). P8-06, P8-08, P8-11, P8-22 and P8-37 have manual checks for the maintainer; whether the Gallery works with a real language server (`csharp-ls`) is only verified by a human (P8-38).
+
+**Deferred on purpose:** snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, document highlights and folding ranges from the server, document links, workspace symbols, pull diagnostics, several documents or workspace folders, server-initiated edits, peek definition, Ctrl+hover link underlines, the diagnostics list (`F8`), screen reader support of the hover popup and the completion list, bundling a server (**not delivered in phase 8**; details in [phase-8/README.md](phase-8/README.md) and [ADR 0011](../adr/0011-language-server-client.md)).
 
 ## How to run a card with a coding agent (Claude Code)
 

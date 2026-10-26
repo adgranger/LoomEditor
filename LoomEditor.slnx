@@ -9,6 +9,7 @@
     <Project Path="src/LoomEditor.TextMate/LoomEditor.TextMate.csproj" />
     <Project Path="src/LoomEditor.Themes/LoomEditor.Themes.csproj" />
     <Project Path="src/LoomEditor.View/LoomEditor.View.csproj" />
+    <Project Path="src/LoomEditor.Lsp/LoomEditor.Lsp.csproj" />
     <Project Path="src/LoomEditor.Rendering/LoomEditor.Rendering.csproj" />
     <Project Path="src/LoomEditor.WinUI/LoomEditor.WinUI.csproj" />
   </Folder>
@@ -22,6 +23,8 @@
     <Project Path="tests/LoomEditor.Core.Tests/LoomEditor.Core.Tests.csproj" />
     <Project Path="tests/LoomEditor.TextMate.Tests/LoomEditor.TextMate.Tests.csproj" />
     <Project Path="tests/LoomEditor.View.Tests/LoomEditor.View.Tests.csproj" />
+    <Project Path="tests/LoomEditor.Lsp.Tests/LoomEditor.Lsp.Tests.csproj" />
+    <Project Path="tests/LoomEditor.Lsp.FakeServer/LoomEditor.Lsp.FakeServer.csproj" />
     <Project Path="tests/LoomEditor.Rendering.Tests/LoomEditor.Rendering.Tests.csproj" />
     <Project Path="tests/LoomEditor.Architecture.Tests/LoomEditor.Architecture.Tests.csproj" />
     <Project Path="tests/LoomEditor.Benchmarks/LoomEditor.Benchmarks.csproj" />

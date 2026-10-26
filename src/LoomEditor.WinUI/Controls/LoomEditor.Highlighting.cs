@@ -90,6 +90,7 @@ public sealed partial class LoomEditor
 
         _context.Highlighter.SetTheme(theme);
         _findWidget?.ApplyTheme(theme);
+        ApplyOverlayWidgetsTheme(theme);
         _canvas?.Invalidate();
     }
 

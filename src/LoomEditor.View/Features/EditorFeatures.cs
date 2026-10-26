@@ -2,11 +2,14 @@ using LoomEditor.View.Features.BracketMatching;
 using LoomEditor.View.Features.Comment;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.GotoDefinition;
+using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Indentation;
 using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.StickyScroll;
+using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordOperations;
 using LoomEditor.View.Features.WordHighlighter;
@@ -39,6 +42,9 @@ public static class EditorFeatures
         () => new FoldingFeature(),
         () => new StickyScrollFeature(),
         () => new WordHighlighterFeature(),
+        () => new HoverFeature(),
+        () => new SuggestFeature(),
+        () => new GotoDefinitionFeature(),
         () => new TabFocusFeature(),
     ];
 }

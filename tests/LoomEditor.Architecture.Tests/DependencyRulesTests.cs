@@ -11,7 +11,7 @@ public class DependencyRulesTests
 {
     /// <summary>
     /// For each project, the ONLY projects it may reference directly. If you need to change this table,
-    /// you are changing the architecture: update docs/ARCHITECTURE.md and write an ADR.
+    /// you are changing the architecture: update docs/ARCHITECTURE.md and write an ADR (ADR 0011 added LoomEditor.Lsp).
     /// </summary>
     private static readonly Dictionary<string, string[]> AllowedReferences = new()
     {
@@ -21,6 +21,7 @@ public class DependencyRulesTests
         ["LoomEditor.View"] = ["LoomEditor.Core", "LoomEditor.TextMate", "LoomEditor.Themes"],
         ["LoomEditor.Rendering"] = ["LoomEditor.View"],
         ["LoomEditor.WinUI"] = ["LoomEditor.Rendering"],
+        ["LoomEditor.Lsp"] = ["LoomEditor.Core"],
     };
 
     public static TheoryData<string> SourceProjectNames => new(AllowedReferences.Keys);
@@ -32,6 +33,7 @@ public class DependencyRulesTests
         "LoomEditor.TextMate",
         "LoomEditor.Themes",
         "LoomEditor.View",
+        "LoomEditor.Lsp",
     };
 
     private static readonly string[] UiPackages = ["Microsoft.WindowsAppSDK", "Microsoft.Graphics.Win2D", "Microsoft.Windows.CsWinRT"];

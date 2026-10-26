@@ -1,5 +1,8 @@
 using LoomEditor.Core.Decorations;
+using System.Globalization;
 using LoomEditor.Core.Languages;
+using LoomEditor.Core.Languages.Features;
+using LoomEditor.Core.Markers;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Threading;
 using LoomEditor.Core.Text;
@@ -91,7 +94,36 @@ public sealed class EditorContext : IEditorContext, IDisposable
         };
         ViewModel.EventDispatcher.OnEvent += OnViewModelEvent;
         _coreCommands = CoreCommandRegistration.Register(Commands, ViewModel);
+        UiDispatcher = dispatcher ?? InlineUiDispatcher.Instance;
+        _documentUri = "inmemory://model/" + Id.ToString(CultureInfo.InvariantCulture);
+        MarkerDecorations = new MarkerDecorations(Model, Markers, Id);
     }
+
+    /// <summary>The providers of completion, hover and definition of this editor.</summary>
+    public LanguageFeaturesService LanguageFeatures { get; } = new();
+
+    /// <summary>The markers of this editor; each one becomes a squiggle decoration.</summary>
+    public MarkerService Markers { get; } = new();
+
+    /// <summary>The URI of the document (default <c>inmemory://model/&lt;id&gt;</c>), read when a language server session opens it.</summary>
+    /// <exception cref="ArgumentException">The value is null or empty.</exception>
+    public string DocumentUri
+    {
+        get => _documentUri;
+        set
+        {
+            ArgumentException.ThrowIfNullOrEmpty(value);
+            _documentUri = value;
+        }
+    }
+
+    private string _documentUri;
+
+    /// <summary>Runs an action on the UI thread; inline when the editor has no dispatcher.</summary>
+    internal IUiDispatcher UiDispatcher { get; }
+
+    /// <summary>Turns <see cref="Markers"/> into decorations of <see cref="Model"/>; hover reads it.</summary>
+    internal MarkerDecorations MarkerDecorations { get; }
 
     /// <inheritdoc />
     public IEditorScheduler Scheduler { get; }
@@ -142,6 +174,24 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <summary>The folding feature, set by <c>FoldingFeature</c> while it is attached (Monaco: <c>FoldingController.get(editor)</c>).</summary>
     internal FoldingFeature? FoldingFeature { get; set; }
+
+    /// <summary>The hover popup; assigned by the control (P8-11), the null presenter until then.</summary>
+    internal LoomEditor.View.Hover.IHoverPresenter HoverPresenter { get; set; } = LoomEditor.View.Hover.NullHoverPresenter.Instance;
+
+    /// <summary>The completion list; assigned by the control (P8-22), the null presenter until then.</summary>
+    internal LoomEditor.View.Suggest.ISuggestPresenter SuggestPresenter { get; set; } = LoomEditor.View.Suggest.NullSuggestPresenter.Instance;
+
+    /// <summary>True while a hover is shown (Monaco: <c>editorHoverVisible</c>); set by the hover controller.</summary>
+    internal bool HoverVisible { get; set; }
+
+    /// <summary>True while the completion list is on screen (Monaco: <c>suggestWidgetVisible</c>); set by the suggest feature.</summary>
+    internal bool SuggestWidgetVisible { get; set; }
+
+    /// <summary>True while the completion list has several items (Monaco: <c>suggestWidgetMultipleSuggestions</c>); set by the suggest feature.</summary>
+    internal bool SuggestWidgetMultipleSuggestions { get; set; }
+
+    /// <summary>Opens the definitions that are in another document; null (the default) announces them instead.</summary>
+    public LoomEditor.View.Features.GotoDefinition.ILocationOpener? LocationOpener { get; set; }
 
     /// <summary>The sticky scroll feature, set by <c>StickyScrollFeature</c> while it is attached (Monaco: <c>StickyScrollController.get(editor)</c>).</summary>
     internal StickyScrollFeature? StickyScrollFeature { get; set; }
@@ -236,6 +286,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>Stops the background tokenizer and releases the grammars.</summary>
     public void Dispose()
     {
+        MarkerDecorations.Dispose();
         Highlighter.Dispose();
         _coreCommands.Dispose();
     }

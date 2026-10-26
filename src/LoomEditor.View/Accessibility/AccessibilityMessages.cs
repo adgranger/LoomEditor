@@ -50,4 +50,15 @@ internal static class AccessibilityMessages
     /// <summary>The message of a word highlight move; <paramref name="index"/> is 1-based (Monaco: <c>moveNext</c>).</summary>
     public static string WordHighlightPosition(string lineContent, int index, int count, string word) =>
         string.Create(CultureInfo.InvariantCulture, $"{lineContent}, {index} of {count} for '{word}'");
+
+    /// <summary>The message when go to definition finds nothing (Monaco: <c>noResultWord</c> / <c>generic.noResult</c>).</summary>
+    public static string NoDefinitionFound(string? word) =>
+        string.IsNullOrEmpty(word) ? "No definition found" : $"No definition found for '{word}'";
+
+    /// <summary>The message when the definition is in a document that cannot be opened.</summary>
+    public static string DefinitionInOtherDocument(string uri) => $"Definition in {uri}";
+
+    /// <summary>The message after accepting an item with additional edits (Monaco: <c>aria.alert.snippet</c>).</summary>
+    public static string SuggestAdditionalEdits(string label, int count) =>
+        string.Create(CultureInfo.InvariantCulture, $"Accepting '{label}' made {count} additional edits");
 }

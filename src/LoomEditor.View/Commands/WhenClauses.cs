@@ -51,4 +51,19 @@ internal static class WhenClauses
 
     /// <summary><c>editorFocus AND findWidgetVisible AND replaceInputFocussed</c>.</summary>
     public static bool ReplaceInputFocused(KeybindingContext c) => c.EditorFocus && c.FindWidgetVisible && c.ReplaceInputFocused;
+
+    /// <summary><c>editorHoverVisible</c>.</summary>
+    public static bool HoverVisible(KeybindingContext c) => c.HoverVisible;
+
+    /// <summary><c>suggestWidgetVisible AND textInputFocus</c> (Tab, Enter, Escape while the list is shown).</summary>
+    public static bool SuggestVisible(KeybindingContext c) => c.SuggestWidgetVisible && c.TextInputFocus;
+
+    /// <summary><c>suggestWidgetVisible AND suggestWidgetMultipleSuggestions AND textInputFocus</c> (the selection keys).</summary>
+    public static bool SuggestNavigation(KeybindingContext c) => c.SuggestWidgetVisible && c.SuggestWidgetMultipleSuggestions && c.TextInputFocus;
+
+    /// <summary><c>textInputFocus AND writable AND editorHasCompletionItemProvider AND NOT suggestWidgetVisible</c> (<c>editor.action.triggerSuggest</c>).</summary>
+    public static bool TriggerSuggest(KeybindingContext c) => c.TextInputFocus && c.Writable && c.HasCompletionItemProvider && !c.SuggestWidgetVisible;
+
+    /// <summary><c>editorHasDefinitionProvider AND editorTextFocus</c> (<c>editor.action.revealDefinition</c>).</summary>
+    public static bool GotoDefinition(KeybindingContext c) => c.EditorTextFocus && c.HasDefinitionProvider;
 }

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The fake language server: a test double started by the LoomEditor.Lsp tests. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.Lsp.FakeServer</RootNamespace>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <IsPackable>false</IsPackable>
+    <!-- An AOT publish of an exe does not stage the XML doc file in bin; do not ask it to be published. -->
+    <PublishDocumentationFile>false</PublishDocumentationFile>  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LoomEditor.Lsp\LoomEditor.Lsp.csproj" />
+    <ProjectReference Include="..\..\src\LoomEditor.Core\LoomEditor.Core.csproj" />
+  </ItemGroup>
+</Project>

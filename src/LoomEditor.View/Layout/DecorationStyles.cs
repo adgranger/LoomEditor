@@ -47,6 +47,12 @@ internal static class DecorationStyles
         ["codicon-folding-collapsed"] = new(GutterIcon: GutterIcon.ChevronRight, AlwaysVisible: true),
         ["codicon-folding-manual-collapsed"] = new(GutterIcon: GutterIcon.ChevronRight, AlwaysVisible: true),
 
+        // codeEditorWidget.ts 2524–2560. `squiggly-unnecessary` and the inline unnecessary / deprecated classes have no row.
+        ["squiggly-error"] = new(Underline: UnderlineStyle.Squiggle, UnderlineColorId: "editorError.foreground"),
+        ["squiggly-warning"] = new(Underline: UnderlineStyle.Squiggle, UnderlineColorId: "editorWarning.foreground"),
+        ["squiggly-info"] = new(Underline: UnderlineStyle.Squiggle, UnderlineColorId: "editorInfo.foreground"),
+        ["squiggly-hint"] = new(Underline: UnderlineStyle.Dots, UnderlineColorId: "editorHint.foreground"),
+
         // Gallery demo ("Inject text"): a dim hint, like an inlay hint
         ["gallery-injected-hint"] = new(ForegroundColorId: "editorLineNumber.foreground"),
 
@@ -65,7 +71,7 @@ internal static class DecorationStyles
     /// <summary>Every color id of the table.</summary>
     internal static IEnumerable<string> ColorIds =>
         Table.Values
-            .SelectMany(style => new[] { style.BackgroundColorId, style.BorderColorId, style.ForegroundColorId, style.AfterContentColorId })
+            .SelectMany(style => new[] { style.BackgroundColorId, style.BorderColorId, style.ForegroundColorId, style.AfterContentColorId, style.UnderlineColorId })
             .OfType<string>()
             .Distinct(StringComparer.Ordinal);
 
