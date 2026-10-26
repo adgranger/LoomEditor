@@ -1,6 +1,6 @@
 # P8-38 — The manual test plan of phase 8
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-37
 - **Size:** S (docs)
 
@@ -31,13 +31,13 @@ Sources: none (a test plan).
 
 ## Tests
 
-- [ ] None (documentation). Read the file once as if you were the tester: every step is executable with the Gallery buttons that exist, every expectation observable.
+- [x] None (documentation). Read the file once as if you were the tester: every step is executable with the Gallery buttons that exist, every expectation observable.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (nothing but docs changed)
-- [ ] Section numbers 1–6 present, rows of sections 1–4 unchanged, a Findings table at the end
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (nothing but docs changed)
+- [x] Section numbers 1–6 present, rows of sections 1–4 unchanged, a Findings table at the end
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
