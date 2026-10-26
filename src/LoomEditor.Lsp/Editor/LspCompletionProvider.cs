@@ -3,7 +3,6 @@ using LoomEditor.Core.Languages.Features;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.Lsp.Client;
-using LoomEditor.Lsp.JsonRpc;
 using LoomEditor.Lsp.Protocol;
 
 namespace LoomEditor.Lsp.Editor;
@@ -46,7 +45,7 @@ internal sealed class LspCompletionProvider : ICompletionItemProvider
                 LspMethods.Completion, JsonSerializer.SerializeToElement(@params, LspJsonContext.Default.CompletionParams), token).ConfigureAwait(false);
             return LspConvert.ToCompletionList(result);
         }
-        catch (Exception e) when (IsBenign(e))
+        catch (Exception e) when (LspRequestErrors.IsBenign(e))
         {
             return null;
         }
@@ -65,13 +64,9 @@ internal sealed class LspCompletionProvider : ICompletionItemProvider
                 LspMethods.CompletionResolve, raw, LspJsonContext.Default.LspCompletionItem, LspJsonContext.Default.LspCompletionItem, token).ConfigureAwait(false);
             return resolved is null ? null : LspConvert.ApplyResolved(resolved);
         }
-        catch (Exception e) when (IsBenign(e))
+        catch (Exception e) when (LspRequestErrors.IsBenign(e))
         {
             return null;
         }
     }
-
-    // The document changed under the server (the next keystroke asks again) or the client stopped.
-    private static bool IsBenign(Exception e) => e is LspClientException
-        || e is JsonRpcException { Code: JsonRpcErrorCodes.ContentModified or JsonRpcErrorCodes.RequestCancelled or JsonRpcErrorCodes.ServerCancelled };
 }

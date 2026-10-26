@@ -1,6 +1,6 @@
 # P8-34 — `LspHoverProvider` and `LspDefinitionProvider`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-33
 - **Size:** S
 
@@ -28,17 +28,17 @@ Sources: none (specified in this card; LSP 3.17 *Hover Request*, *Goto Definitio
 
 ## Tests
 
-- [ ] New (`LspRequestErrorsTests`): `IsBenign_ContentModified_RequestCancelled_ServerCancelled`, `IsBenign_ClientException`, `IsBenign_OtherJsonRpcError_False`, `IsBenign_OtherException_False`
-- [ ] New (`LspHoverProviderTests`; in process, `FakeServerHost` + initialized `LspClient` + opened `LspDocumentSync` on `new TextModel("let value = 1;\nsecond value")`): `Hover_OnWord_ReturnsMarkdownAndRange` (position of `value` on line 1: contents one `MarkdownString` whose `Value` is the fake's hover markdown, `Range` one-based `(1,5)-(1,10)`), `Hover_PositionAtWordEnd_StillInsideTheWord`,
+- [x] New (`LspRequestErrorsTests`): `IsBenign_ContentModified_RequestCancelled_ServerCancelled`, `IsBenign_ClientException`, `IsBenign_OtherJsonRpcError_False`, `IsBenign_OtherException_False`
+- [x] New (`LspHoverProviderTests`; in process, `FakeServerHost` + initialized `LspClient` + opened `LspDocumentSync` on `new TextModel("let value = 1;\nsecond value")`): `Hover_OnWord_ReturnsMarkdownAndRange` (position of `value` on line 1: contents one `MarkdownString` whose `Value` is the fake's hover markdown, `Range` one-based `(1,5)-(1,10)`), `Hover_PositionAtWordEnd_StillInsideTheWord`,
       `Hover_OnWhitespace_Null`, `Hover_SecondLine_PositionIsZeroBased` (a word on line 2: the hover word is that word), `Hover_AfterEdit_UsesTheNewText` (edit, `BarrierAsync()`, hover: the new word), `Hover_ClientNotRunning_Null`, `Hover_ContentModified_Null` (`ScriptedServer`), `Hover_OtherError_Faults`, `Hover_Cancelled_TaskCanceled`, `Hover_MarkedStringArray_Converted` (`ScriptedServer` returning an array of marked strings), `Hover_NullResult_Null`
-- [ ] New (`LspDefinitionProviderTests`; document text `"def alpha\nclass Beta\nalpha Beta external"`): `Definition_Def_SingleLocation` (position on `alpha` line 3: one link with `Uri == documentUri`, `Range` = the word `alpha` on line 1, `TargetSelectionRange` equal to it), `Definition_Class_LocationLink` (on `Beta`: the link has `OriginSelectionRange` = the word at the request, `Range` = the whole line 2, `TargetSelectionRange` = `Beta`),
+- [x] New (`LspDefinitionProviderTests`; document text `"def alpha\nclass Beta\nalpha Beta external"`): `Definition_Def_SingleLocation` (position on `alpha` line 3: one link with `Uri == documentUri`, `Range` = the word `alpha` on line 1, `TargetSelectionRange` equal to it), `Definition_Class_LocationLink` (on `Beta`: the link has `OriginSelectionRange` = the word at the request, `Range` = the whole line 2, `TargetSelectionRange` = `Beta`),
       `Definition_External_OtherUri` (`file:///other/file.txt`), `Definition_NotFound_Null_Or_Empty` (the fake answers `null`: the provider returns an empty list), `Definition_ClientNotRunning_Null`, `Definition_ContentModified_Null`, `Definition_Cancelled_TaskCanceled`, `Definition_PositionIsSentZeroBased`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
