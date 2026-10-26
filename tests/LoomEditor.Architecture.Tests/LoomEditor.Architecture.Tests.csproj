@@ -19,6 +19,7 @@
     <ProjectReference Include="..\..\src\LoomEditor.TextMate\LoomEditor.TextMate.csproj" />
     <ProjectReference Include="..\..\src\LoomEditor.Themes\LoomEditor.Themes.csproj" />
     <ProjectReference Include="..\..\src\LoomEditor.View\LoomEditor.View.csproj" />
+    <ProjectReference Include="..\..\src\LoomEditor.Lsp\LoomEditor.Lsp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -30,6 +30,9 @@ This page tells you **where things are** and **which rules keep the code base ea
 | `LoomEditor.View` | cursors, commands, view layout, **features** | Core, TextMate, Themes |
 | `LoomEditor.Rendering` | `IRenderSurface`, `TextViewRenderer`, Win2D backend | View |
 | `LoomEditor.WinUI` | `LoomEditor` control, input, accessibility | Rendering |
+| `LoomEditor.Lsp` | LSP client: JSON-RPC over stdio, document sync, mapping to the language features | Core |
+
+`LoomEditor.Lsp` (language server client) references Core only and sits beside View: the Gallery wires it to the control (ADR 0011).
 
 Monaco equivalents: Core ≈ `editor/common/core` + `editor/common/model`; View ≈ `editor/common/cursor`,
 `editor/common/viewModel`, `editor/contrib`; Rendering + WinUI ≈ `editor/browser`.

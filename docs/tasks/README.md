@@ -777,7 +777,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P8-24](phase-8/P8-24-lsp-project-skeleton.md) | The `LoomEditor.Lsp` project, its test projects and the architecture rules | P8-23 | todo |
+| [P8-24](phase-8/P8-24-lsp-project-skeleton.md) | The `LoomEditor.Lsp` project, its test projects and the architecture rules | P8-23 | done |
 | [P8-25](phase-8/P8-25-message-framing.md) | LSP message framing: `Content-Length` reader and writer | P8-24 | todo |
 | [P8-26](phase-8/P8-26-json-rpc-connection.md) | The JSON-RPC connection: requests, notifications, cancellation, server requests | P8-25 | todo |
 | [P8-27](phase-8/P8-27-lsp-protocol-types.md) | The LSP protocol types, source-generated JSON and the union decoders | P8-26 | todo |

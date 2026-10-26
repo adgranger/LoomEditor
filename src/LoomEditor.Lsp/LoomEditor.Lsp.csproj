@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.Lsp: Language Server Protocol client (JSON-RPC over stdio) and its mapping to the language features.
+    RULE: Core only, no UI framework. Testable with plain `dotnet test`.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.Lsp</RootNamespace>
+    <Description>Language Server Protocol client of LoomEditor: JSON-RPC over stdio, document sync and the mapping to the editor's language features, independent of any UI framework.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The fake language server (test double) uses the internal protocol types. -->
+    <InternalsVisibleTo Include="LoomEditor.Lsp.FakeServer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoomEditor.Core\LoomEditor.Core.csproj" />
+  </ItemGroup>
+</Project>

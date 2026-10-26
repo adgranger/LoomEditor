@@ -1,6 +1,6 @@
 # P8-24 — The `LoomEditor.Lsp` project, its test projects and the architecture rules
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-23
 - **Size:** S
 
@@ -41,17 +41,17 @@ Sources: none (specified in this card; ADR 0011 decisions 2 and 10).
 
 ## Tests
 
-- [ ] New (`LspProtocolVersionTests`): `Version_Is317`
-- [ ] New (`MemoryPipeTests`): the five above
-- [ ] Existing architecture tests: `EverySourceProject_IsListedInTheRules`, `Project_ReferencesOnlyAllowedProjects(LoomEditor.Lsp)`, `UiIndependentProject_TargetsPlainDotNet(LoomEditor.Lsp)`, `UiIndependentProject_DoesNotReferenceUiPackages(LoomEditor.Lsp)`, `UiIndependentAssembly_ReferencesOnlyDotNetAndLoomEditor(LoomEditor.Lsp)`, `PortableProject_SourceFiles_DoNotUseWindowsApis(LoomEditor.Lsp)` run for the new project and pass (they are theories over the lists you changed)
+- [x] New (`LspProtocolVersionTests`): `Version_Is317`
+- [x] New (`MemoryPipeTests`): the five above
+- [x] Existing architecture tests: `EverySourceProject_IsListedInTheRules`, `Project_ReferencesOnlyAllowedProjects(LoomEditor.Lsp)`, `UiIndependentProject_TargetsPlainDotNet(LoomEditor.Lsp)`, `UiIndependentProject_DoesNotReferenceUiPackages(LoomEditor.Lsp)`, `UiIndependentAssembly_ReferencesOnlyDotNetAndLoomEditor(LoomEditor.Lsp)`, `PortableProject_SourceFiles_DoNotUseWindowsApis(LoomEditor.Lsp)` run for the new project and pass (they are theories over the lists you changed)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds; run the produced exe once, it exits with code 0 (report both)
-- [ ] `docs/ARCHITECTURE.md` updated as above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish tests/LoomEditor.Lsp.FakeServer -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds; run the produced exe once, it exits with code 0 (report both)
+- [x] `docs/ARCHITECTURE.md` updated as above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
