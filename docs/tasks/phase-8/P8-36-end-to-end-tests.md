@@ -1,6 +1,6 @@
 # P8-36 — End-to-end tests: the real editor features against the fake language server
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-35
 - **Size:** M
 
@@ -29,7 +29,7 @@ Sources: none (specified in this card).
 
 ## Tests
 
-- [ ] New (`LspEditorIntegrationTests`; text and positions as written, the fake's rules are in P8-28): `Start_RegistersProviders_AndOpensTheDocument` (after `StartAsync`: the three registries have a provider for `fake`, the server text equals the model text),
+- [x] New (`LspEditorIntegrationTests`; text and positions as written, the fake's rules are in P8-28): `Start_RegistersProviders_AndOpensTheDocument` (after `StartAsync`: the three registries have a provider for `fake`, the server text equals the model text),
       `Typing_ShowsTheCompletionListFromTheServer` (text `"foo foobar\n"`, caret at (2,1), type `f`, `o`: the suggest presenter shows a list whose items include `foo`, `foobar` and the keyword `for`, and **not** `else` or `class`; the first item is the best match), `Typing_FilterNarrows` (type one more letter: the list narrows without a new server request: `server.ReceivedMethods` has exactly one `textDocument/completion`),
       `AcceptWithEnter_InsertsTheItem` (`Command("acceptSelectedSuggestion")`: the typed prefix is replaced, caret after it, the list closes, `BarrierAsync()`: the server's text equals the model's), `AcceptThenUndo_RestoresTheText`,
       `TriggerDot_ShowsMembers_AcceptReplacesNothing` (type `x.`: items `Length`, `Count`, `ToString`, `Equals` first; accept `Count` → `x.Count`), `AcceptMethod_WithCommitCharacter` (type `x.To`, then `(`: the item `ToString` is accepted and the `(` typed → `x.ToString(`), `AcceptLength_AppliesTheLateAdditionalEdit` (after accepting `Length` and pumping: the text starts with `// resolved` + a line break, the caret is still after `x.Length`),
@@ -38,15 +38,15 @@ Sources: none (specified in this card).
       `Hover_ShowsProviderMarkdown` (`MoveMouseTo` a word, advance 300 ms and pump: the hover presenter shows a `MarkdownHoverPart` whose text contains `Hover for **<word>**`), `Hover_OnMarkerWord_ShowsMarkerThenProvider` (on `ERROR`: the first part is a `MarkerHoverPart` with `Found ERROR`, the second the markdown), `Hover_LeaveHides`,
       `F12_GoesToTheDeclaration` (`"def alpha\nalpha"`, caret on the second `alpha`, `Command(GotoDefinitionCommands.RevealDefinition)`: selection collapsed at (1,5)), `CtrlClick_GoesToTheClassDeclaration` (the `class Beta` `LocationLink` case: caret at the `TargetSelectionRange` start), `F12_ExternalDefinition_CallsTheLocationOpener` (`context.LocationOpener` fake receives `file:///other/file.txt`), `F12_NoDefinition_Announces` (a `RecordingAnnouncer`),
       `Stop_RemovesProvidersMarkersAndSquiggles_AndTheServerSawShutdown`, `AfterStop_TypingDoesNotShowTheList`, `TextEditsAreSynced_ThroughTheWholeStack` (50 random typed / deleted characters with `new Random(7)`, pumping, then the server text equals the model text)
-- [ ] New (`LspEditorFailureTests`, process mode): `ServerCrash_RemovesTheFeatures` (`--exit-on=textDocument/completion`: type a letter, the server dies; the registries are empty, markers cleared, the session `Faulted`, a later keystroke does not throw), `ServerCrashDuringInitialize_StartFaults_EditorKeepsWorking` (`--exit-on=initialize`: typing and `F12` do nothing and do not throw),
+- [x] New (`LspEditorFailureTests`, process mode): `ServerCrash_RemovesTheFeatures` (`--exit-on=textDocument/completion`: type a letter, the server dies; the registries are empty, markers cleared, the session `Faulted`, a later keystroke does not throw), `ServerCrashDuringInitialize_StartFaults_EditorKeepsWorking` (`--exit-on=initialize`: typing and `F12` do nothing and do not throw),
       `ServerNotFound_StartFaults_EditorKeepsWorking`, `SlowServer_CompletionArrivesLate_StillShown` (`--delay=300`: the list appears after the delay), `SlowServer_TypingMoreCancelsTheOldRequest` (`--delay=300`: type, type again quickly: the server received a `$/cancelRequest`; the list reflects the latest word)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green; `dotnet test --project tests/LoomEditor.View.Tests -c Release` run **five times in a row**, none failed, no `LoomEditor.Lsp.FakeServer` process left (these tests start a child process in some cases)
-- [ ] A failure that only appears when the whole `LoomEditor.slnx` test run is executed (not alone) is reported, not retried until green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green; `dotnet test --project tests/LoomEditor.View.Tests -c Release` run **five times in a row**, none failed, no `LoomEditor.Lsp.FakeServer` process left (these tests start a child process in some cases)
+- [x] A failure that only appears when the whole `LoomEditor.slnx` test run is executed (not alone) is reported, not retried until green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -55,3 +55,10 @@ Real servers, WinUI, rendering; the Gallery (P8-37).
 ## Suggested commit message
 
 `test: add end-to-end tests of the editor features against the fake language server`
+
+## Implementation notes
+
+- The sort order of the member items is alphabetical (`sortText = label`), so `TriggerDot` checks the four members are listed, not their order.
+- The default hover is sticky: `Hover_LeaveHides` turns stickiness off through `LspEditorHarness.DisableStickyHover()`.
+- Typing more while a request is pending does not cancel it (Monaco refilters instead); `SlowServer_TypingMoreCancelsTheOldRequest` triggers a second request with `editor.action.triggerSuggest`, which cancels the first.
+- The slow-server tests run the fake in process (they read `ReceivedMethods`); the crash and not-found tests use the public constructor with a child process.

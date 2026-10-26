@@ -13,8 +13,12 @@ internal sealed class FakeSuggestPresenter : ISuggestPresenter
 
     public bool IsVisible { get; private set; }
 
+    /// <summary>The list state of the last <see cref="Show"/>.</summary>
+    public SuggestListState? State { get; private set; }
+
     public void Show(SuggestListState state, Position anchor)
     {
+        State = state;
         Shows.Add(anchor);
         IsVisible = true;
     }
