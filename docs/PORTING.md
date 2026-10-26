@@ -577,6 +577,42 @@ The step-by-step cards are in **[docs/tasks/phase-6/](tasks/phase-6/)** (P6-01 �
 - `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` (Native AOT) fails in this environment with XamlCompiler
   `WMC1007` in the first XAML compile pass. A normal build and a publish with `-p:PublishAot=false` succeed, so the AOT chain of phase 6 is **not** verified.
 
+## Done in phase 8 (language features)
+
+The step-by-step cards are in **[docs/tasks/phase-8/](tasks/phase-8/)** (P8-01 … P8-39). Main design decisions ([ADR 0011](adr/0011-language-server-client.md)):
+
+- **Language features** (`languages.ts` subset, `LanguageFeatureRegistry`, `MarkerService`, `markerDecorationsService.ts`) are public API of `LoomEditor.Core`; an application can register providers and markers without LSP.
+- **Hover, completion (fuzzy filter, `CompletionModel`, `SuggestModel`, `SuggestController`) and go to definition** are ports of the Monaco contribs, reduced as the map says; the WinUI widgets live in an overlay layer of the control template (no `Popup`, no `ListView`).
+- **Squiggles** come from marker decorations (`squiggly-*` class names) drawn by the renderer.
+- **The LSP client** (`LoomEditor.Lsp`) has no Monaco counterpart (Monaco has no LSP): it is new code specified by ADR 0011 and the LSP 3.17 specification, and every automated test uses the in-repo fake language server.
+- Deliberate differences of phase 8 (also in the map rows): provider hover without a range is kept (P8-09); the suggest model refilters on the cursor event after an edit (P8-16);
+  `QuickSuggestionValue.Inline` behaves as `Off` and IME composition can refilter (P8-16 / P8-17); no `unnecessary` / `deprecated` rendering, squiggle drawn with line segments (P8-06);
+  hover popup not resizable, no status bar, links colored but not clickable (P8-11); completion edits only the primary cursor, plain text only, no re-indent (P8-19);
+  two-letter kind badges instead of codicons, no details pane (P8-22); `Ctrl+click` also jumps on a double click, no peek view, no Ctrl+hover underline (P8-23).
+- **Not verified:** the manual plan ([testing/phase-8-manual-tests.md](testing/phase-8-manual-tests.md)) was not run by the agent. The self-check against the real `csharp-ls` 0.26.0.0 **failed on completion** (`FAIL completion: no item`; see the roadmap and P8-37); every other row passed. Native AOT: the Gallery publish with `-p:PublishAot=true -warnaserror` succeeded in P8-11, P8-22 (with `-p:UseOptimizedPublish=false`) and P8-37, with the exe still running after 10 s; it was not re-run by the closing card.
+
+## Tests ported in phase 8
+
+Counts are `[Fact]` / `[Theory]` per file (theories counted once) and `// Monaco:` comments, counted from the test files. The tests with a `// Monaco:` comment are 100 of them:
+
+| Test file | Monaco tests | All tests |
+|---|---|---|
+| `Core.Tests/Filters/FuzzyScoreTests.cs` (`filters.test.ts`, P8-12) | 27 | 35 |
+| `Core.Tests/Filters/FuzzyGracefulTests.cs` (P8-13) | 2 | 8 |
+| `Core.Tests/Languages/Features/CompletionItemTests.cs`, `LanguageFeatureRegistryTests.cs`, `MarkdownStringTests.cs` | 2, 6, 8 | 7, 13, 8 |
+| `Core.Tests/Markers/MarkerServiceTests.cs` (`markerService.test.ts`, the six) | 6 | 14 |
+| `Core.Tests/Markers/MarkerDecorationsTests.cs` | 4 | 17 |
+| `View.Tests/Suggest/CompletionModelTests.cs` (`completionModel.test.ts`) | 13 | 23 |
+| `View.Tests/Suggest/SuggestItemsTests.cs` (`suggest.test.ts`: `only from`, `#97650`) | 2 | 19 |
+| `View.Tests/Suggest/SuggestSelectorTests.cs` (`Memory.select`) | 5 | 5 |
+| `View.Tests/Suggest/SuggestKindBadgesTests.cs` | 2 | 4 |
+| `View.Tests/Suggest/SuggestModelTests.cs`, `SuggestModelContextTests.cs`, `SuggestModelAutoTriggerTests.cs` (`suggestModel.test.ts`) | 12, 1, 9 | 10, 3, 29 |
+| `View.Tests/Features/GotoDefinition/DefinitionResultsTests.cs` (`referencesModel.test.ts`, `nearestReference`) | 1 | 8 |
+
+`suggestModel.test.ts` scenarios **not** ported: `#39893` (needs `SuggestController` and code actions), `#43523` (snippets), `Mac press and hold … #35269` (IME composition),
+the `offWhenInlineCompletions` shorthand test (no inline completions) and the embedded-languages test are not. The `sort - snippet *` tests of `suggest.test.ts` are not ported (snippets).
+The LSP project has no Monaco tests: `LoomEditor.Lsp.Tests` (442 tests by file count) and the end-to-end tests in `View.Tests/Lsp` (28) are all new.
+
 ## Done in phase 7 (accessibility)
 
 The step-by-step cards are in **[docs/tasks/phase-7/](tasks/phase-7/)** (P7-01 … P7-26). Main design decisions ([ADR 0010](adr/0010-accessibility.md)):
@@ -610,8 +646,10 @@ No phase 7 test is ported: there is no upstream test for UI Automation, and ever
 
 | What | Where it goes |
 |---|---|
-| Outline-based sticky scroll (`StickyOutlineModel`) and the 4 outline tests of `stickyScroll.test.ts` | phase 8 |
-| Click-link gesture in sticky scroll | phase 8 |
+| Outline-based sticky scroll (`StickyOutlineModel`) and the 4 outline tests of `stickyScroll.test.ts` | **not delivered in phase 8** (it needs the folding / outline providers from the server; ADR 0011 decision 7) |
+| Click-link gesture in sticky scroll | **not delivered in phase 8** (ADR 0011 decision 7; no link gesture was ported) |
+| `hoverMessage` decorations in the hover popup | **not delivered in phase 8** (the hover shows markers and provider results only; ADR 0011 decision 8) |
+| Folding range providers (`FoldingRangeProvider`, server folding ranges) | **not delivered in phase 8** (ADR 0011 decision 7; folding stays indentation-based) |
 | Keyboard navigation of the sticky lines (focus, up, down, go to) | follow-up, not planned |
 | Minimap section headers (`showRegionSectionHeaders`, `showMarkSectionHeaders`) | follow-up, not planned |
 | The word wrap indicator drawing (the column is reserved by the layout) | follow-up |
@@ -640,7 +678,7 @@ The step-by-step cards are in **[docs/tasks/phase-5/](tasks/phase-5/)** (P5-01 �
   Find-based multi-cursor.
 - **Folding** and **hidden areas**: the view model has view lines (`ViewModelLinesFromProjectedModel`, the real
   `CoordinatesConverter`); the renderer, the hit testing and the control draw view lines. This is the base of word wrap.
-- **Word highlight** with the textual provider only (semantic highlights are phase 8).
+- **Word highlight** with the textual provider only (semantic highlights: **not delivered in phase 8**, ADR 0011 decision 7).
 - JavaScript-only regex syntax is not supported (ADR 0009, decision 6).
 - Every deliberate difference of phase 5 is a row of "Behavior differences we accept" (search for `(P5-`).
 - The "done when" criterion (each feature is one documented folder) is met, 2026-10-22. The manual checks of P5-72 … P5-74,
@@ -665,7 +703,7 @@ few of them mark a suite or a helper).
 | `editorLayoutProvider.test.ts` | 8 | `EditorLayoutProvider 9` … `14` and the 2 word-wrap tests (P6-41) |
 | `textModelWithTokens.test.ts` (`TextModel.getLineIndentGuide`) | 18 | P6-29 (20 comments: the suite and the `assertIndentGuides` helper) |
 | `minimapCharRenderer.test.ts` | 2 / 2 | P6-44 |
-| `stickyScroll.test.ts` | 0 / 4 | the outline model, phase 8; P6-57 writes its own tests with the indentation model, and names one Monaco test it mirrors (`issue #156268`) |
+| `stickyScroll.test.ts` | 0 / 4 | the outline model, **not delivered in phase 8** (ADR 0011 decision 7); P6-57 writes its own tests with the indentation model, and names one Monaco test it mirrors (`issue #156268`) |
 
 ## Tests ported in phase 5
 
@@ -691,7 +729,7 @@ file; counts come from the `// Monaco:` comments and the rows of those tables.
 | `multicursor.test.ts` | 75 / 76 | `setModel` |
 | `foldingRanges`, `indentRangeProvider`, `indentFold`, `foldingModel`, `hiddenRangeModel` | 7, 26, 1, 22, 1 (all) | listed in "Tests ported in phase 4" |
 | `modelLineProjection.test.ts`, `viewModelImpl.test.ts` | 6 / 6 the hidden-area tests | wrapping (phase 6) |
-| `wordHighlighter.test.ts` | 0 / 18 | provider registry (phase 8); new tests cover the textual path |
+| `wordHighlighter.test.ts` | 0 / 18 | provider registry (LSP document highlights: **not delivered in phase 8**, ADR 0011 decision 7); new tests cover the textual path |
 
 ## Cut points for phases 4–5
 
@@ -760,7 +798,7 @@ design decisions:
 | `foldingModel.test.ts` | 22 / 22 | `delete` deletes up to column 1 (Monaco: column 0, validated to 1); the test provider ignores `isManual` (P5-85) |
 | `hiddenRangeModel.test.ts` | 1 / 1 | |
 | `minimapCharRenderer.test.ts` | 2 / 2 | P6-44 |
-| `wordHighlighter.test.ts` | 0 / 18 | `DocumentHighlightProviders` (15) tests the merging of providers through `LanguageFeatureRegistry` (phase 8); `WordHighlighterContribution` (3) needs provider registries, `occurrencesHighlightFromAllProviders`, `setModel` and the instantiation service. New `WordHighlighterTests` and `TextualDocumentHighlightProviderTests` (P5-92) cover the textual path |
+| `wordHighlighter.test.ts` | 0 / 18 | `DocumentHighlightProviders` (15) tests the merging of providers through `LanguageFeatureRegistry` (the LSP document highlights were **not delivered in phase 8**, ADR 0011 decision 7); `WordHighlighterContribution` (3) needs provider registries, `occurrencesHighlightFromAllProviders`, `setModel` and the instantiation service. New `WordHighlighterTests` and `TextualDocumentHighlightProviderTests` (P5-92) cover the textual path |
 | `json.test.ts` of vscode-textmate | 0 | JSON is read with `System.Text.Json` |
 | Golden tests (no upstream test file) | 30 | |
 

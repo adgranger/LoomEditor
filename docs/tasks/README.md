@@ -525,7 +525,7 @@ wrap, folding from indentation and markers, a XAML find widget, .NET regexes). E
 
 Phase 5 cards form a single chain, in table order (P5-46 also needs P5-31 and P5-32). P5-72 … P5-74, P5-90, P5-91 and P5-95 have manual checks for the maintainer.
 
-**Deferred on purpose:** syntax folding and language-feature providers (word highlight, folding ranges: phase 8);
+**Deferred on purpose:** syntax folding and language-feature providers (word highlight, folding ranges: **not delivered in phase 8**, ADR 0011 decision 7);
 word wrap, bracket pair guides, minimap, sticky scroll (phase 6); overtype mode; find history, overview ruler marks,
 the global find clipboard; injected text; the `editor.language.brackets` / `colorizedBracketPairs` settings.
 
@@ -651,7 +651,7 @@ Take phase 6 cards in table order (each card's "Depends on" is satisfied by the 
 P6-52 … P6-54, P6-59 … P6-62 have manual checks for the maintainer.
 
 **Deferred on purpose:** `renderWhitespace`; the word wrap indicator drawing; minimap section headers; the outline model of
-sticky scroll, its click-link gesture and its keyboard navigation (phase 8 / follow-up); the DOM line-break strategy
+sticky scroll, its click-link gesture and its keyboard navigation (**not delivered in phase 8** / follow-up); the DOM line-break strategy
 (`wrappingStrategy: advanced`); accessibility-driven wrapping (done in phase 7); the generic `OverviewRuler` of the diff editor (phase 9).
 
 ## Phase 7 — Full UI Automation accessibility
@@ -797,11 +797,11 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P8-37](phase-8/P8-37-gallery-language-server.md) | Gallery: connect to a real language server, demo providers and the LSP self-check | P8-36 | done |
 | [P8-38](phase-8/P8-38-manual-test-plan.md) | The manual test plan of phase 8 | P8-37 | done |
-| [P8-39](phase-8/P8-39-close-phase-8.md) | Close phase 8 | all phase 8 cards | todo |
+| [P8-39](phase-8/P8-39-close-phase-8.md) | Close phase 8 | all phase 8 cards | done |
 
 Take phase 8 cards in table order (each card's "Depends on" is satisfied by the cards above it). P8-11, P8-16, P8-26, P8-27, P8-29 and P8-37 are flagged **Recommended model: Opus** (reason in the card). P8-06, P8-08, P8-11, P8-22 and P8-37 have manual checks for the maintainer; whether the Gallery works with a real language server (`csharp-ls`) is only verified by a human (P8-38).
 
-**Deferred on purpose:** snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, document highlights and folding ranges from the server, document links, workspace symbols, pull diagnostics, several documents or workspace folders, server-initiated edits, peek definition, Ctrl+hover link underlines, the diagnostics list (`F8`), screen reader support of the hover popup and the completion list, bundling a server (details in [phase-8/README.md](phase-8/README.md) and [ADR 0011](../adr/0011-language-server-client.md)).
+**Deferred on purpose:** snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, document highlights and folding ranges from the server, document links, workspace symbols, pull diagnostics, several documents or workspace folders, server-initiated edits, peek definition, Ctrl+hover link underlines, the diagnostics list (`F8`), screen reader support of the hover popup and the completion list, bundling a server (**not delivered in phase 8**; details in [phase-8/README.md](phase-8/README.md) and [ADR 0011](../adr/0011-language-server-client.md)).
 
 ## How to run a card with a coding agent (Claude Code)
 

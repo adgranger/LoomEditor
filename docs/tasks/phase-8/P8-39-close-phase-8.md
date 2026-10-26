@@ -1,6 +1,6 @@
 # P8-39 — Close phase 8
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all phase 8 cards
 - **Size:** S (docs)
 
@@ -36,11 +36,11 @@ Sources: none (documentation).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — result stated in the roadmap file (`succeeded` + the 10 s start check, or `NOT verified` with the reason), never ticked if it was not run
-- [ ] Every link in the new docs resolves (open each new relative link once)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Every link in the new docs resolves (open each new relative link once)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -49,3 +49,9 @@ Phase 9 cards, running the manual plan, any code change.
 ## Suggested commit message
 
 `docs: close phase 8`
+
+## Result (recorded when the card was done)
+
+- Docs written: `ARCHITECTURE.md` section and "Where do I find" rows, `PORTING.md` (phase 8 sections, counted test table, cut points marked "not delivered in phase 8"), the roadmap, the ADR "Changes during implementation", READMEs, `how-to/add-a-language-server.md`.
+- The Native AOT Gallery publish was **not re-run** by this card (no code change); the roadmap cites the results recorded in P8-11, P8-22 and P8-37.
+- Honest status: the self-check against the real `csharp-ls` 0.26.0.0 failed on completion (P8-37), so "the Gallery demonstrates a real language server" is **not ticked**; the manual plan was not run.

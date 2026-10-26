@@ -9,3 +9,10 @@ after half the hover delay, results after the whole delay, "Loading…" after th
   information, `hoverMessage` decorations.
 - A provider hover without a range is kept (Monaco drops it); the anchor range is used.
 - The controller is P8-10 and the popup P8-11.
+
+## Files
+
+- `ContentHoverComputer.cs`, `HoverOperation.cs`, `HoverComputerOptions.cs`, `IHoverComputer.cs`, `HoverResult.cs` — the computation and its state machine.
+- `HoverAnchor.cs`, `HoverStartMode.cs`, `HoverStartSource.cs`, `EditorHoverOptions.cs` — where a hover starts and its options.
+- `IHoverPart.cs`, `MarkerHoverPart.cs`, `MarkdownHoverPart.cs`, `LoadingHoverPart.cs`, `HoverContent.cs` — what a hover shows.
+- `HoverController.cs` (mouse and keyboard triggers, delays) and `IHoverPresenter.cs` / `NullHoverPresenter.cs` (the widget seam).

@@ -38,3 +38,10 @@ A change for another uri or with a version `<=` the current one is ignored and r
 `--delay=<ms>` delays completion, resolve, hover and definition answers (the read loop keeps reading); `$/cancelRequest` of a waiting request answers `-32800` at once.
 `--chatty` sends, after `initialized`: `window/logMessage`, requests `cfg-1` (`workspace/configuration`), `reg-1` (`client/registerCapability`), `wdp-1`
 (`window/workDoneProgress/create`), `edit-1` (`workspace/applyEdit`) and `window/showMessage`; the responses are recorded as `response(<id>)`.
+
+## Files
+
+- `Program.cs` — the console entry point (`--selftest`, options below); `FakeServerOptions.cs` — the command-line options.
+- `FakeLanguageServer.cs` — the loop and the lifecycle; `.Documents.cs` — the open document and `didChange`; `.Diagnostics.cs` — `publishDiagnostics`; `.Features.cs` — completion, resolve, hover, definition.
+
+Tests use it in process over in-memory pipes (`tests/LoomEditor.Lsp.Tests`, the end-to-end tests of `LoomEditor.View.Tests`), or as a child process for the lifecycle tests; the Gallery self-check runs it published (Native AOT).

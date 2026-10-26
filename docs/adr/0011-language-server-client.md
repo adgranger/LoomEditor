@@ -139,3 +139,8 @@ real server the Gallery shows.
 - One more project to build and one more AOT-checked assembly. The architecture tests and `ARCHITECTURE.md` get the `LoomEditor.Lsp` row (P8-24).
 - Real-server behavior (start time, SDK compatibility, what csharp-ls returns) is only verified by a human (manual plan P8-38); the roadmap says so.
 - Deferred on purpose: see decision 7.
+
+## Changes during implementation
+
+- **Snippets are flattened, not refused (decision 7).** `snippetSupport = false` is advertised, but a server may still send snippet text; `LspSnippet.ToPlainText` reduces it to plain text (tab stops vanish, placeholders keep their default, choices keep the first option). Card P8-31.
+- **The Gallery window close waits for the session (decision 9).** The `Closed` handler cancels the close, waits at most 3 s for the session to stop and closes again, because the session needs the UI thread to finish stopping. Card P8-37.

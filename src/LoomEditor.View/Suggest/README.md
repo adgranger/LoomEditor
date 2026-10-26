@@ -18,3 +18,11 @@ The completion logic, without any UI.
   (`Accept`: prefix replaced, sync additional edits, caret after the text, one undo step).
 - P8-20: `Accept` applies additional edits that arrive after the resolve (`SuggestController.Accept.cs`), and `CommitCharacterController`
   accepts the selected item when a commit character is typed (`ViewModel.WillType`).
+
+## Files
+
+- `SuggestItems.cs`, `SuggestItem.cs`, `SuggestItemOptions.cs`, `SuggestItemComparer.cs` — asking the providers and the item.
+- `CompletionModel.cs`, `CompletionLineContext.cs`, `SnippetSuggestions.cs` — the filtered and sorted list.
+- `SuggestModel.cs` (+ `.Context`, `.NewContext`, `.AutoTrigger`), `SuggestState.cs`, `SuggestEvents.cs`, `SuggestTriggerOptions.cs`, `SuggestModelOptions.cs`, `QuickSuggestionsOptions.cs` — the session.
+- `SuggestSelector.cs`, `SuggestListState.cs`, `SuggestRowModel.cs`, `SuggestKindBadges.cs` — selection, window, row text and kind badges for the list.
+- `SuggestController.cs`, `SuggestController.Accept.cs`, `CommitCharacterController.cs`, `ISuggestPresenter.cs`, `NullSuggestPresenter.cs` — accept and the widget seam.
