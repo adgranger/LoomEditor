@@ -1,6 +1,6 @@
 # P8-21 — The `Suggest` feature: commands, keybindings and context keys
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-20
 - **Size:** M
 
@@ -46,21 +46,21 @@ Completion works from the keyboard in an editor with the default features: typin
 
 ## Tests
 
-- [ ] New (`SuggestFeatureTests`; `new EditorContext(scheduler)` + the dispatcher as in P8-16's helper, `SuggestFeature` attached, `FakeSuggestPresenter`, `FakeCompletionProvider`): `Attach_RegistersTheNineCommands`, `Dispose_UnregistersTheCommands_AndTheController`, `NonEditorContext_AttachDoesNothing`, `Flags_FollowTheList` (`SuggestWidgetVisible` true when the list shows, `MultipleSuggestions` for 2 items, both false after `Cancel`),
+- [x] New (`SuggestFeatureTests`; `new EditorContext(scheduler)` + the dispatcher as in P8-16's helper, `SuggestFeature` attached, `FakeSuggestPresenter`, `FakeCompletionProvider`): `Attach_RegistersTheNineCommands`, `Dispose_UnregistersTheCommands_AndTheController`, `NonEditorContext_AttachDoesNothing`, `Flags_FollowTheList` (`SuggestWidgetVisible` true when the list shows, `MultipleSuggestions` for 2 items, both false after `Cancel`),
       `Trigger_Command_OpensTheList` (`Execute("editor.action.triggerSuggest")`, `Flush()`), `Trigger_Command_WhenVisible_NoOp`, `Trigger_Command_ReadOnly_NoOp`, `Trigger_Command_NoProvider_NoOp`, `Accept_Command_InsertsTheSelectedItem`, `Hide_Command_ClosesTheList`, `Select_Commands_MoveTheSelection` (down, down, up, page down, last, first through the list state),
       `Commands_WhenListHidden_NoOp`
-- [ ] New (`SuggestKeybindingsTests`; the resolver helpers of `KeybindingResolver` tests): `Tab_WithSuggestVisible_ResolvesToAccept` and without it to the indent command (`tab`), `Enter_WithSuggestVisible_Accepts_WithoutIt_NewLine`, `Escape_WithSuggestVisible_ResolvesToHide_BeforeCancelSelection` (also with a non-empty selection),
+- [x] New (`SuggestKeybindingsTests`; the resolver helpers of `KeybindingResolver` tests): `Tab_WithSuggestVisible_ResolvesToAccept` and without it to the indent command (`tab`), `Enter_WithSuggestVisible_Accepts_WithoutIt_NewLine`, `Escape_WithSuggestVisible_ResolvesToHide_BeforeCancelSelection` (also with a non-empty selection),
       `Down_WithSuggestVisibleAndMultiple_ResolvesToNext_WithSingleItem_CursorDown`, `Up_PageUp_PageDown_Mapping`, `CtrlSpace_ResolvesToTrigger_OnlyWhenWritableAndProvider_AndNotVisible`, `CtrlI_ResolvesToTrigger`, `CtrlDown_WithSuggestVisible_ResolvesToNext`, `NoKeyBound_ForFirstLast`
-- [ ] New (`SuggestEndToEndTests`; a context with the **default features** (`EditorFeatures.Default` attached the way `EditorFeatureHost` does, see `EditorFeatureHostTests`), a `csharp`-less plain text model, a provider with items `foo`, `foobar`, `bar`): `TypeAWord_ShowsFilteredList_AcceptWithEnter_InsertsAndCloses` (type `f`, `o`, flush the scheduler by 10 ms and the dispatcher: list shows `foo`, `foobar`; `Execute("acceptSelectedSuggestion")` → text `foo`), `TriggerCharacter_Dot_ShowsList`,
+- [x] New (`SuggestEndToEndTests`; a context with the **default features** (`EditorFeatures.Default` attached the way `EditorFeatureHost` does, see `EditorFeatureHostTests`), a `csharp`-less plain text model, a provider with items `foo`, `foobar`, `bar`): `TypeAWord_ShowsFilteredList_AcceptWithEnter_InsertsAndCloses` (type `f`, `o`, flush the scheduler by 10 ms and the dispatcher: list shows `foo`, `foobar`; `Execute("acceptSelectedSuggestion")` → text `foo`), `TriggerCharacter_Dot_ShowsList`,
       `EscapeClosesAndTypingAgainReopens`, `TypingNonMatching_ClosesAutoList`, `AcceptThenUndo_RestoresTypedText`, `ManualTrigger_EmptyWord_ShowsAllItems`
-- [ ] `ConventionTests.FeatureFolder_*` pass for `Suggest`
+- [x] `ConventionTests.FeatureFolder_*` pass for `Suggest`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: the commands and keybindings of `suggestController.ts` (not ported: `acceptAlternativeSelectedSuggestion`, `toggleSuggestionDetails`, `toggleExplainMode`, `toggleSuggestionFocus`, copy, `insertBestCompletion`, `insertNextSuggestion`, `insertPrevSuggestion`, `triggerSuggestAndAcceptBest`, mac keys)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: the commands and keybindings of `suggestController.ts` (not ported: `acceptAlternativeSelectedSuggestion`, `toggleSuggestionDetails`, `toggleExplainMode`, `toggleSuggestionFocus`, copy, `insertBestCompletion`, `insertNextSuggestion`, `insertPrevSuggestion`, `triggerSuggestAndAcceptBest`, mac keys)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

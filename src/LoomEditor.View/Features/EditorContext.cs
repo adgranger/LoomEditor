@@ -184,6 +184,12 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>True while a hover is shown (Monaco: <c>editorHoverVisible</c>); set by the hover controller.</summary>
     internal bool HoverVisible { get; set; }
 
+    /// <summary>True while the completion list is on screen (Monaco: <c>suggestWidgetVisible</c>); set by the suggest feature.</summary>
+    internal bool SuggestWidgetVisible { get; set; }
+
+    /// <summary>True while the completion list has several items (Monaco: <c>suggestWidgetMultipleSuggestions</c>); set by the suggest feature.</summary>
+    internal bool SuggestWidgetMultipleSuggestions { get; set; }
+
     /// <summary>The sticky scroll feature, set by <c>StickyScrollFeature</c> while it is attached (Monaco: <c>StickyScrollController.get(editor)</c>).</summary>
     internal StickyScrollFeature? StickyScrollFeature { get; set; }
 

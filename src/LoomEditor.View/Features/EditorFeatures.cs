@@ -8,6 +8,7 @@ using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.StickyScroll;
+using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordOperations;
 using LoomEditor.View.Features.WordHighlighter;
@@ -41,6 +42,7 @@ public static class EditorFeatures
         () => new StickyScrollFeature(),
         () => new WordHighlighterFeature(),
         () => new HoverFeature(),
+        () => new SuggestFeature(),
         () => new TabFocusFeature(),
     ];
 }

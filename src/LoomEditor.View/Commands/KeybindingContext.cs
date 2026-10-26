@@ -18,6 +18,9 @@ namespace LoomEditor.View.Commands;
 /// <param name="FindInputFocused"><c>findInputFocussed</c>: the find box has the focus.</param>
 /// <param name="ReplaceInputFocused"><c>replaceInputFocussed</c>: the replace box has the focus.</param>
 /// <param name="HoverVisible"><c>editorHoverVisible</c>: a hover popup is shown.</param>
+/// <param name="SuggestWidgetVisible"><c>suggestWidgetVisible</c>: the completion list is shown.</param>
+/// <param name="SuggestWidgetMultipleSuggestions"><c>suggestWidgetMultipleSuggestions</c>: the completion list has several items.</param>
+/// <param name="HasCompletionItemProvider"><c>editorHasCompletionItemProvider</c>: a provider is registered for the language of the model.</param>
 internal readonly record struct KeybindingContext(
     bool TextInputFocus = false,
     bool EditorTextFocus = false,
@@ -31,4 +34,7 @@ internal readonly record struct KeybindingContext(
     bool FindWidgetVisible = false,
     bool FindInputFocused = false,
     bool ReplaceInputFocused = false,
-    bool HoverVisible = false);
+    bool HoverVisible = false,
+    bool SuggestWidgetVisible = false,
+    bool SuggestWidgetMultipleSuggestions = false,
+    bool HasCompletionItemProvider = false);

@@ -67,6 +67,15 @@ const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToNe
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToPreviousFindMatch = "editor.action.moveSelectionToPreviousFindMatch" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.SelectHighlights = "editor.action.selectHighlights" -> string!
 const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.AcceptSelectedSuggestion = "acceptSelectedSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.HideSuggestWidget = "hideSuggestWidget" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.SelectFirstSuggestion = "selectFirstSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.SelectLastSuggestion = "selectLastSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.SelectNextPageSuggestion = "selectNextPageSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.SelectNextSuggestion = "selectNextSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.SelectPrevPageSuggestion = "selectPrevPageSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.SelectPrevSuggestion = "selectPrevSuggestion" -> string!
+const LoomEditor.View.Features.Suggest.SuggestCommands.TriggerSuggest = "editor.action.triggerSuggest" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityLeft = "cursorWordAccessibilityLeft" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityLeftSelect = "cursorWordAccessibilityLeftSelect" -> string!
 const LoomEditor.View.Features.WordOperations.WordOperationsCommands.CursorWordAccessibilityRight = "cursorWordAccessibilityRight" -> string!
@@ -178,6 +187,7 @@ LoomEditor.View.Features.SelectAll.SelectAllFeature.Attach(LoomEditor.View.Featu
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Dispose() -> void
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Id.get -> string!
 LoomEditor.View.Features.SelectAll.SelectAllFeature.SelectAllFeature() -> void
+LoomEditor.View.Features.Suggest.SuggestCommands
 LoomEditor.View.Features.WordOperations.WordOperationsCommands
 LoomEditor.View.Features.WordOperations.WordOperationsFeature
 LoomEditor.View.Features.WordOperations.WordOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void

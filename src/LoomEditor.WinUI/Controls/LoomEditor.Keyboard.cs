@@ -1,5 +1,6 @@
 using LoomEditor.View.Commands;
 using LoomEditor.View.Controller;
+using LoomEditor.View.Features;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 
@@ -51,7 +52,10 @@ public sealed partial class LoomEditor
             FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false,
             FindInputFocused: _findWidget?.IsFindInputFocused ?? false,
             ReplaceInputFocused: _findWidget?.IsReplaceInputFocused ?? false,
-            HoverVisible: _context.HoverVisible);
+            HoverVisible: _context.HoverVisible,
+            SuggestWidgetVisible: _context.SuggestWidgetVisible,
+            SuggestWidgetMultipleSuggestions: _context.SuggestWidgetMultipleSuggestions,
+            HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()));
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

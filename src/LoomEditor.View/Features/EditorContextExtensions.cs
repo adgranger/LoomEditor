@@ -52,8 +52,8 @@ internal static class EditorContextExtensions
         (context as EditorContext)?.HoverPresenter ?? NullHoverPresenter.Instance;
 
     /// <summary>The completion list of the editor, or the null presenter when the context is not an <see cref="EditorContext"/> (read at use time: the control assigns it later).</summary>
-    public static Suggest.ISuggestPresenter GetSuggestPresenter(this IEditorContext context) =>
-        (context as EditorContext)?.SuggestPresenter ?? Suggest.NullSuggestPresenter.Instance;
+    public static LoomEditor.View.Suggest.ISuggestPresenter GetSuggestPresenter(this IEditorContext context) =>
+        (context as EditorContext)?.SuggestPresenter ?? LoomEditor.View.Suggest.NullSuggestPresenter.Instance;
 
     /// <summary>The language id of the model (<c>plaintext</c> by default).</summary>
     public static string GetLanguageId(this IEditorContext context) => context.Model.Tokenization.GetLanguageId();

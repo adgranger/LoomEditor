@@ -764,7 +764,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P8-18](phase-8/P8-18-suggest-list-state.md) | `SuggestListState`: selection and scrolling of the completion list, and the initial selection | P8-17 | done |
 | [P8-19](phase-8/P8-19-suggest-controller.md) | `SuggestController`: show the list, move in it, accept an item | P8-18 | done |
 | [P8-20](phase-8/P8-20-suggest-async-edits-and-commit-characters.md) | Suggest: additional edits that arrive after the accept, and commit characters | P8-19 | done |
-| [P8-21](phase-8/P8-21-suggest-feature.md) | The `Suggest` feature: commands, keybindings and context keys | P8-20 | todo |
+| [P8-21](phase-8/P8-21-suggest-feature.md) | The `Suggest` feature: commands, keybindings and context keys | P8-20 | done |
 | [P8-22](phase-8/P8-22-suggest-widget.md) | The completion list (WinUI) | P8-21 | todo |
 
 ### Step E — Go to definition
