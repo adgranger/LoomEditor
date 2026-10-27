@@ -1,6 +1,6 @@
 # P9-02 — Sequence contracts: `ISequence`, `SequenceDiff`, `OffsetPair`, timeouts, `LineSequence`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-01
 - **Size:** M
 
@@ -40,14 +40,14 @@ The vocabulary shared by the diff algorithms exists: the sequence interface, the
 
 ## Tests
 
-- [ ] New (comments name the Monaco member): `SequenceDiff_Join_Intersect_Delta_Swap`, `SequenceDiff_Invert_*`, `SequenceDiff_FromOffsetPairs_*`, `SequenceDiff_AssertSorted_Unsorted_Asserts` (Debug only), `OffsetPair_Delta_Equals`, `InfiniteTimeout_AlwaysValid`, `DateTimeout_ExpiresAndStaysInvalid` (use a very small timeout and a spin on `IsValid()` bounded at 5 s), `LineSequence_BoundaryScore_*` (indentation before and after), `LineSequence_IsStronglyEqual_ComparesUntrimmedLines`, and one test per added `OffsetRange` member.
+- [x] New (comments name the Monaco member): `SequenceDiff_Join_Intersect_Delta_Swap`, `SequenceDiff_Invert_*`, `SequenceDiff_FromOffsetPairs_*`, `SequenceDiff_AssertSorted_Unsorted_Asserts` (Debug only), `OffsetPair_Delta_Equals`, `InfiniteTimeout_AlwaysValid`, `DateTimeout_ExpiresAndStaysInvalid` (use a very small timeout and a spin on `IsValid()` bounded at 5 s), `LineSequence_BoundaryScore_*` (indentation before and after), `LineSequence_IsStronglyEqual_ComparesUntrimmedLines`, and one test per added `OffsetRange` member.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `diffAlgorithm.ts`, `lineSequence.ts`, `offsetRange.ts` (members added)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `diffAlgorithm.ts`, `lineSequence.ts`, `offsetRange.ts` (members added)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

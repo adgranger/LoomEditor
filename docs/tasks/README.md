@@ -813,7 +813,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P9-01](phase-9/P9-01-line-range.md) | `LineRange` and `LineRangeSet` | P8-39 | done |
-| [P9-02](phase-9/P9-02-sequence-contracts.md) | Sequence contracts: `ISequence`, `SequenceDiff`, `OffsetPair`, timeouts, `LineSequence` | P9-01 | todo |
+| [P9-02](phase-9/P9-02-sequence-contracts.md) | Sequence contracts: `ISequence`, `SequenceDiff`, `OffsetPair`, timeouts, `LineSequence` | P9-01 | done |
 | [P9-03](phase-9/P9-03-myers-and-dynamic-programming.md) | `MyersDiffAlgorithm` and `DynamicProgrammingDiffing` | P9-02 | todo |
 | [P9-04](phase-9/P9-04-lines-slice-char-sequence.md) | `LinesSliceCharSequence` | P9-03 | todo |
 | [P9-05](phase-9/P9-05-heuristics-shifting.md) | Diff heuristics (1/2): `optimizeSequenceDiffs` and `removeShortMatches` | P9-04 | todo |

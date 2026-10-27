@@ -74,8 +74,20 @@ internal readonly record struct OffsetRange
         }
     }
 
+    /// <summary><c>ofLength</c>.</summary>
+    public static OffsetRange OfLength(int length) => new(0, length);
+
     /// <summary><c>delta</c>.</summary>
     public OffsetRange Delta(int offset) => new(Start + offset, EndExclusive + offset);
+
+    /// <summary><c>deltaStart</c>.</summary>
+    public OffsetRange DeltaStart(int offset) => new(Start + offset, EndExclusive);
+
+    /// <summary><c>deltaEnd</c>.</summary>
+    public OffsetRange DeltaEnd(int offset) => new(Start, EndExclusive + offset);
+
+    /// <summary><c>intersectsOrTouches</c>.</summary>
+    public bool IntersectsOrTouches(OffsetRange other) => Math.Max(Start, other.Start) <= Math.Min(EndExclusive, other.EndExclusive);
 
     /// <summary><c>contains</c>.</summary>
     public bool Contains(int offset) => Start <= offset && offset < EndExclusive;
