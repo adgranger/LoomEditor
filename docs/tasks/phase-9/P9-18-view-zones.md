@@ -1,6 +1,6 @@
 # P9-18 — View zones: gaps with a purpose, anchored to a model line
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-17
 - **Size:** M
 
@@ -38,14 +38,14 @@ An editor can hold **view zones** (Monaco `changeViewZones`): vertical gaps that
 
 ## Tests
 
-- [ ] New: `AddZone_InsertsWhitespaceWithHeight`, `AddZone_HeightInLines_UsesLineHeight`, `AddZone_AfterLineZero_AtTop`, `AddZone_Ordinal_OrdersZonesAfterTheSameLine`, `RemoveZone_RemovesWhitespace`, `LayoutZone_AfterHeightChange_UpdatesLayout`, `Change_Accessor_InvalidAfterCallback_Throws`, `Change_CallbackThrows_LayoutStillConsistent`, `HiddenArea_ZoneHasZeroHeight_UnlessShowInHiddenAreas`, `HiddenArea_Changes_ZoneRecomputed` (use `ViewModel.SetHiddenAreas`), `WordWrap_LineMappingChange_ZoneMovesToWrappedLine` (a zone after a wrapped model line is anchored after its last view line), `OnComputedHeight_CalledWithHeight`, `ZonesChanged_RaisedOnceForABatch`, `LineHeightChange_RecomputesHeightInLinesZones`, `ShouldSuppressMouseDown_ZoneWithFlag_True_UnknownId_False`.
+- [x] New: `AddZone_InsertsWhitespaceWithHeight`, `AddZone_HeightInLines_UsesLineHeight`, `AddZone_AfterLineZero_AtTop`, `AddZone_Ordinal_OrdersZonesAfterTheSameLine`, `RemoveZone_RemovesWhitespace`, `LayoutZone_AfterHeightChange_UpdatesLayout`, `Change_Accessor_InvalidAfterCallback_Throws`, `Change_CallbackThrows_LayoutStillConsistent`, `HiddenArea_ZoneHasZeroHeight_UnlessShowInHiddenAreas`, `HiddenArea_Changes_ZoneRecomputed` (use `ViewModel.SetHiddenAreas`), `WordWrap_LineMappingChange_ZoneMovesToWrappedLine` (a zone after a wrapped model line is anchored after its last view line), `OnComputedHeight_CalledWithHeight`, `ZonesChanged_RaisedOnceForABatch`, `LineHeightChange_RecomputesHeightInLinesZones`, `ShouldSuppressMouseDown_ZoneWithFlag_True_UnknownId_False`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `viewZones.ts` (model part: no DOM nodes), `IViewZone`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `viewZones.ts` (model part: no DOM nodes), `IViewZone`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

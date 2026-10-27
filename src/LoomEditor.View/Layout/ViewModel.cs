@@ -74,6 +74,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
 
         EventDispatcher = new ViewModelEventDispatcher();
         CoordinatesConverter = _lines.CreateCoordinatesConverter();
+        ViewZones = new ViewZones(this);
         CursorConfig = CreateCursorConfiguration();
         _cursor = new CursorsController(model, this, CoordinatesConverter, CursorConfig);
 
@@ -97,6 +98,9 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     public TextModel Model => _model;
 
     public ViewLayout ViewLayout { get; }
+
+    /// <summary>The view zones: gaps anchored to model lines (Monaco: <c>changeViewZones</c>).</summary>
+    public ViewZones ViewZones { get; }
 
     /// <summary>The id of the editor that owns this view model and its decorations; 0 when there is none (Monaco: <c>editorId</c>).</summary>
     public int EditorId { get; }
@@ -145,6 +149,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         {
             _viewLayoutOptions = _viewLayoutOptions with { LineHeight = fontInfo.LineHeight };
             ViewLayout.OnOptionsChanged(_viewLayoutOptions);
+            ViewZones.RecomputeWhitespaceProps();
         }
 
         RecomputeLayoutInfo();
@@ -164,6 +169,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         _layoutOptions = layoutOptions;
         _viewLayoutOptions = viewLayoutOptions;
         ViewLayout.OnOptionsChanged(viewLayoutOptions);
+        ViewZones.RecomputeWhitespaceProps();
         RecomputeLayoutInfo();
         UpdateWrappingSettings();
         OptionsChanged?.Invoke(this, EventArgs.Empty);
@@ -265,6 +271,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
             {
                 _cursor.OnLineMappingChanged(eventsCollector);
                 _decorations.OnLineMappingChanged();
+                ViewZones.RecomputeWhitespaceProps();
             }
         });
 

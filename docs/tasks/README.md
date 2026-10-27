@@ -839,7 +839,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P9-18](phase-9/P9-18-view-zones.md) | View zones: gaps with a purpose, anchored to a model line | P9-17 | todo |
+| [P9-18](phase-9/P9-18-view-zones.md) | View zones: gaps with a purpose, anchored to a model line | P9-17 | done |
 | [P9-19](phase-9/P9-19-draw-view-zones.md) | Drawing view zones: the diagonal fill | P9-18, P9-16 | todo |
 | [P9-20](phase-9/P9-20-read-only.md) | Read-only editor | P9-18 | todo |
 | [P9-21](phase-9/P9-21-control-host-hooks.md) | Control hooks for a host: zones, scroll, hidden areas and decorations | P9-19, P9-20 | todo |
