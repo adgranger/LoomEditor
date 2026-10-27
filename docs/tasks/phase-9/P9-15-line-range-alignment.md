@@ -1,6 +1,6 @@
 # P9-15 — Line range alignment: how much empty space each side needs
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-14
 - **Size:** M
 
@@ -37,14 +37,14 @@ A pure function turns a diff into a list of aligned blocks (`LineRangeAlignment`
 
 ## Tests
 
-- [ ] New (expected alignments computed by hand): `Compute_NoDiffs_NoAlignments`, `Compute_NoDiffsButExtraHeights_AlignsTheTallerSide` (an original zone of 20 px after line 3 and none on the modified side → `[3,4)` vs `[3,4)` with heights `lh + 20` and `lh`), `Compute_Insertion_ModifiedLonger` (diff `[2,2)->[2,5)`: one alignment `[2,2)` vs `[2,5)`, heights `0` and `3*lh`), `Compute_Deletion`, `Compute_Replacement_SameLineCount`, `Compute_Replacement_DifferentLineCount_ExtraSpaceOnShorterSide` (heights `2*lh` vs `5*lh`), `Compute_InnerHunkAlignment_SplitsAtUnchangedTextOnTheLine` (a diff with an inner change that starts at column > 1 on both sides emits an extra alignment at that line), `Compute_InnerHunkAlignment_Off_SingleAlignmentPerDiff`, `Compute_ExtraHeightInsideDiff_AddedToTheRightBlock`, `Compute_ExtraHeightsOnBothSidesAtSameDistance_Paired`, `Compute_DiffsSortedAndNonOverlapping_RangesAreContiguous` (random diffs; the alignments' original ranges never overlap, seed in the message), `ArrayQueue_TakeWhile_Peek_Dequeue`.
+- [x] New (expected alignments computed by hand): `Compute_NoDiffs_NoAlignments`, `Compute_NoDiffsButExtraHeights_AlignsTheTallerSide` (an original zone of 20 px after line 3 and none on the modified side → `[3,4)` vs `[3,4)` with heights `lh + 20` and `lh`), `Compute_Insertion_ModifiedLonger` (diff `[2,2)->[2,5)`: one alignment `[2,2)` vs `[2,5)`, heights `0` and `3*lh`), `Compute_Deletion`, `Compute_Replacement_SameLineCount`, `Compute_Replacement_DifferentLineCount_ExtraSpaceOnShorterSide` (heights `2*lh` vs `5*lh`), `Compute_InnerHunkAlignment_SplitsAtUnchangedTextOnTheLine` (a diff with an inner change that starts at column > 1 on both sides emits an extra alignment at that line), `Compute_InnerHunkAlignment_Off_SingleAlignmentPerDiff`, `Compute_ExtraHeightInsideDiff_AddedToTheRightBlock`, `Compute_ExtraHeightsOnBothSidesAtSameDistance_Paired`, `Compute_DiffsSortedAndNonOverlapping_RangesAreContiguous` (random diffs; the alignments' original ranges never overlap, seed in the message), `ArrayQueue_TakeWhile_Peek_Dequeue`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `computeRangeAlignment` (`diffEditorViewZones.ts`), `ArrayQueue`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `computeRangeAlignment` (`diffEditorViewZones.ts`), `ArrayQueue`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
