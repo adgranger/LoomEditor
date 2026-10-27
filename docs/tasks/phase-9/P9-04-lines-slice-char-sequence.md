@@ -1,6 +1,6 @@
 # P9-04 — `LinesSliceCharSequence`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-03
 - **Size:** M
 
@@ -32,15 +32,15 @@ The character-level sequence of the second diff pass exists: a slice of several 
 
 ## Tests
 
-- [ ] Port: `myers` › `1` (with `LinesSliceCharSequence(["hello world"], Range(1,1,1,int.MaxValue), true)` against `"hallo welt"`; assert no exception).
-- [ ] New: `Length_TrimsLeadingWhitespace_WhenNotConsideringWhitespace` (and keeps it when considering), `TranslateOffset_MultipleLines` (offset at a line end → `Position(line, len+1)`), `TranslateRange_*`, `FindWordContaining_InsideAndOutsideWord`, `FindSubWordContaining_CamelCase` (`fooBarBaz`, offset in `Bar` → `Bar`), `FindSubWordContaining_SnakeCase`, `GetBoundaryScore_PrefersLineBreakOverWordBoundaryOverInsideWord`, `ExtendToFullLines_*`, `CountLinesIn_*`, `IsStronglyEqual_*`, `GetText_Range`.
+- [x] Port: `myers` › `1` (with `LinesSliceCharSequence(["hello world"], Range(1,1,1,int.MaxValue), true)` against `"hallo welt"`; assert no exception).
+- [x] New: `Length_TrimsLeadingWhitespace_WhenNotConsideringWhitespace` (and keeps it when considering), `TranslateOffset_MultipleLines` (offset at a line end → `Position(line, len+1)`), `TranslateRange_*`, `FindWordContaining_InsideAndOutsideWord`, `FindSubWordContaining_CamelCase` (`fooBarBaz`, offset in `Bar` → `Bar`), `FindSubWordContaining_SnakeCase`, `GetBoundaryScore_PrefersLineBreakOverWordBoundaryOverInsideWord`, `ExtendToFullLines_*`, `CountLinesIn_*`, `IsStronglyEqual_*`, `GetText_Range`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `linesSliceCharSequence.ts`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `linesSliceCharSequence.ts`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

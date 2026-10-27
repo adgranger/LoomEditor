@@ -1,3 +1,4 @@
+using LoomEditor.Core.Diff;
 using LoomEditor.Core.Diff.Algorithms;
 using LoomEditor.Core.Tests.Diff.TestHelpers;
 
@@ -7,11 +8,13 @@ public class MyersDiffAlgorithmTests
 {
     private readonly MyersDiffAlgorithm _algorithm = new();
 
-    // Monaco: 'myers' > '1' (re-added with LinesSliceCharSequence in P9-04)
+    // Monaco: 'myers' > '1'
     [Fact]
     public void Compute_HelloWorldToHalloWelt_DoesNotThrow()
     {
-        DiffAlgorithmResult result = _algorithm.Compute(new ArraySequence("hello world"), new ArraySequence("hallo welt"));
+        var seq1 = new LinesSliceCharSequence(["hello world"], new Range(1, 1, 1, int.MaxValue), true);
+        var seq2 = new LinesSliceCharSequence(["hallo welt"], new Range(1, 1, 1, int.MaxValue), true);
+        DiffAlgorithmResult result = _algorithm.Compute(seq1, seq2);
         Assert.False(result.HitTimeout);
     }
 
