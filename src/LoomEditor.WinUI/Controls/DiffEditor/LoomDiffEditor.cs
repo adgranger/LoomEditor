@@ -127,6 +127,10 @@ public sealed partial class LoomDiffEditor : Control
         _original.Model.ContentChanged += OnOriginalContentChanged;
         _modified.Model.ContentChanged += OnModifiedContentChanged;
         ApplyLayout();
+        if (IsLoaded)
+        {
+            EnsureViewModel();
+        }
     }
 
     private T GetTemplatePart<T>(string name) where T : class =>
@@ -154,7 +158,10 @@ public sealed partial class LoomDiffEditor : Control
         }
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e) => EnsureViewModel();
+
+    // Loaded also fires for a collapsed control, before its template is applied: OnApplyTemplate calls this again.
+    private void EnsureViewModel()
     {
         if (_viewModel is not null || _original is null || _modified is null)
         {
