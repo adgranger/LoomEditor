@@ -1,6 +1,6 @@
 # P9-06 — Diff heuristics (2/2): word extension and very short matches
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-05
 - **Size:** M
 
@@ -32,14 +32,14 @@ The second half of the post-processing exists: extending a character diff to who
 
 ## Tests
 
-- [ ] New (hand-built `LinesSliceCharSequence` / `LineSequence` inputs): `ExtendToWord_PartialWordChange_ExtendsToWholeWord` (`foobar` → `foobaz`: char diff `[5,6)` becomes `[0,6)` / `[0,6)`), `ExtendToWord_SubWords_CamelCase` (the `forceSubWords` variant), `ExtendToWord_NothingToExtend_Unchanged`, `RemoveVeryShortMatchingLines_MergesAcrossOneBlankLine`, `RemoveVeryShortMatchingLines_KeepsLongMatchingBlock`, `RemoveVeryShortMatchingText_MergesAcrossShortEqualText`, `RemoveVeryShortMatchingText_KeepsEqualTextBetweenSmallDiffs`, `Merge_InterleavesAndJoinsOverlaps` (through `ExtendDiffsToEntireWordIfAppropriate` results, since `Merge` is private).
+- [x] New (hand-built `LinesSliceCharSequence` / `LineSequence` inputs): `ExtendToWord_PartialWordChange_ExtendsToWholeWord` (`foobar` → `foobaz`: char diff `[5,6)` becomes `[0,6)` / `[0,6)`), `ExtendToWord_SubWords_CamelCase` (the `forceSubWords` variant), `ExtendToWord_NothingToExtend_Unchanged`, `RemoveVeryShortMatchingLines_MergesAcrossOneBlankLine`, `RemoveVeryShortMatchingLines_KeepsLongMatchingBlock`, `RemoveVeryShortMatchingText_MergesAcrossShortEqualText`, `RemoveVeryShortMatchingText_KeepsEqualTextBetweenSmallDiffs`, `Merge_InterleavesAndJoinsOverlaps` (through `ExtendDiffsToEntireWordIfAppropriate` results, since `Merge` is private).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `heuristicSequenceOptimizations.ts` (2/2) → ✅
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `heuristicSequenceOptimizations.ts` (2/2) → ✅
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
