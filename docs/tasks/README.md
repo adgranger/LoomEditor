@@ -821,7 +821,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P9-07](phase-9/P9-07-range-mappings.md) | Text abstraction and range mappings: `LineRangeMapping`, `RangeMapping`, `LinesDiff` | P9-06 | done |
 | [P9-08](phase-9/P9-08-default-lines-diff-computer.md) | `DefaultLinesDiffComputer` (without moved lines) | P9-07 | done |
 | [P9-09](phase-9/P9-09-moved-lines.md) | Moved lines: `ComputeMovedLines` | P9-08 | done |
-| [P9-10](phase-9/P9-10-diff-fixtures.md) | Monaco's diff fixture tests | P9-09 | todo |
+| [P9-10](phase-9/P9-10-diff-fixtures.md) | Monaco's diff fixture tests | P9-09 | done |
 | [P9-11](phase-9/P9-11-document-diff-provider.md) | `DocumentDiffProvider`: diffing two models off the UI thread | P9-10 | todo |
 
 ### Step B — The diff model (`LoomEditor.View/DiffEditor`, no UI)

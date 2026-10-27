@@ -1,6 +1,6 @@
 # P9-10 — Monaco's diff fixture tests
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-09
 - **Size:** M
 - **Recommended model:** Opus (a mismatch against a fixture means a port bug somewhere in P9-02 … P9-09: finding it needs reading the two algorithms side by side. On failure — a fixture still differs after you fixed what you could prove wrong — stop, do **not** edit the expected files, do not commit, and report the fixture names, a unified diff of expected vs actual and what you checked.)
@@ -35,15 +35,15 @@ The whole diff stack is proven against Monaco's own expected results: every fixt
 
 ## Tests
 
-- [ ] Port: `diffing fixtures` › `<folder>-advanced` for every folder (comment: `// Monaco: 'diffing fixtures' › '<folder>-advanced'` on the theory).
-- [ ] New: `Fixtures_AreAllPresent` (the folder count equals the number listed in the card's result section — write the number in the card when done), `FormatRange_ToLastChar_AddsEol`.
+- [x] Port: `diffing fixtures` › `<folder>-advanced` for every folder (comment: `// Monaco: 'diffing fixtures' › '<folder>-advanced'` on the theory).
+- [x] New: `Fixtures_AreAllPresent` (the folder count equals the number listed in the card's result section — write the number in the card when done), `FormatRange_ToLastChar_AddsEol`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the fixture theory included (write the number of fixtures run in the card's "Result" section)
-- [ ] Any bug fix is made in the file of the card that owns it, with a regression test there
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the fixture theory included (write the number of fixtures run in the card's "Result" section)
+- [x] Any bug fix is made in the file of the card that owns it, with a regression test there
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -52,3 +52,10 @@ The `legacy` fixtures and the legacy computer; performance (P9-31).
 ## Suggested commit message
 
 `test(core): port Monaco's diff fixture tests`
+
+## Result
+
+- 58 fixture folders run (all with dvanced.expected.diff.json), no known differences; s_knownDifferences stays empty (named KnownDifferences for the naming rule).
+- Bug found and fixed in P9-09's ComputeMovedLines.AreLinesSimilar: an empty line made 
+ew Range(1, 1, 1, 0) throw (Monaco's Range swaps it into an empty range). Fixed with Math.Max(1, length); the fixtures racket-aligning, sorted-offsets, 
+oisy-move1, issue-185779 are the regression tests.

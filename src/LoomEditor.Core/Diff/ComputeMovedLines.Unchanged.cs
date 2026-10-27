@@ -209,6 +209,7 @@ internal static partial class ComputeMovedLines
         return moves;
     }
 
+    // Monaco's Range constructor swaps (1,1,1,0) into an empty range; ours rejects column 0, hence Math.Max(1, ...).
     private static bool AreLinesSimilar(string line1, string line2, ITimeout timeout)
     {
         if (DefaultLinesDiffComputer.TrimJs(line1) == DefaultLinesDiffComputer.TrimJs(line2))
@@ -222,8 +223,8 @@ internal static partial class ComputeMovedLines
         }
 
         DiffAlgorithmResult result = new MyersDiffAlgorithm().Compute(
-            new LinesSliceCharSequence([line1], new Range(1, 1, 1, line1.Length), false),
-            new LinesSliceCharSequence([line2], new Range(1, 1, 1, line2.Length), false),
+            new LinesSliceCharSequence([line1], new Range(1, 1, 1, Math.Max(1, line1.Length)), false),
+            new LinesSliceCharSequence([line2], new Range(1, 1, 1, Math.Max(1, line2.Length)), false),
             timeout);
 
         int commonNonSpaceCharCount = 0;
