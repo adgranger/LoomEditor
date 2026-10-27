@@ -1,6 +1,6 @@
 # P9-01 — `LineRange` and `LineRangeSet`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P8-39
 - **Size:** M
 
@@ -33,15 +33,15 @@ The two line-number range types the whole diff code is written in exist in Core:
 
 ## Tests
 
-- [ ] Port (`// Monaco: 'contains'` etc.): every `test(...)` of `lineRange.test.ts`.
-- [ ] New: `OfLength_StartAndLength`, `Ctor_StartAfterEnd_Throws`, `Subtract_*` (no overlap, inside, left part, right part, covers), `Join_Many`, `ToInclusiveRange_Empty_Null`, `Equals_*`, `ToString_Format` (`[2,5)`).
+- [x] Port (`// Monaco: 'contains'` etc.): every `test(...)` of `lineRange.test.ts`.
+- [x] New: `OfLength_StartAndLength`, `Ctor_StartAfterEnd_Throws`, `Subtract_*` (no overlap, inside, left part, right part, covers), `Join_Many`, `ToInclusiveRange_Empty_Null`, `Equals_*`, `ToString_Format` (`[2,5)`).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `lineRange.ts`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `lineRange.ts`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

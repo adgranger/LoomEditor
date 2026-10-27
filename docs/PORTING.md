@@ -844,3 +844,9 @@ The step-by-step cards are in **[docs/tasks/](tasks/README.md)** (P1-01 … P1-3
 - `PieceTreeTextBuffer` / `ITextBuffer` stay `internal`; the public API is `TextModel`, which uses `TextEdit` for edits.
 - Decorations and injected text were deferred to phase 2+ (search in the piece tree: P5-64).
 - Monaco's workspace-wide `IUndoRedoService` is replaced by a per-model `UndoRedoStack`.
+
+## Done in phase 9 (diff editor)
+
+| Monaco | LoomEditor | Status |
+|---|---|---|
+| `editor/common/core/ranges/lineRange.ts` (`LineRange`, `LineRangeSet`), `test/common/core/lineRange.test.ts` | `LoomEditor.Core/Text/LineRange.cs`, `LineRangeSet.cs` | ✅ P9-01; `LineRange` is a `readonly record struct`, `BugIndicatingError` is `ArgumentException`, `ISerializedLineRange` is a tuple; 4 Monaco tests + new ones |
