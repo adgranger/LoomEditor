@@ -1,6 +1,6 @@
 # P9-21 — Control hooks for a host: zones, scroll, hidden areas and decorations
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-19, P9-20
 - **Size:** S
 
@@ -33,14 +33,14 @@ Sources: none (specified in this card). Monaco's counterparts are the `ICodeEdit
 
 ## Tests
 
-- [ ] New (`tests/LoomEditor.View.Tests/Layout/ViewZoneHitTestTests.cs`; the pure part lives in View: add `ViewZoneViewportData.HitTest(double x, double y, double contentLeft, double contentWidth)` returning the zone and the y offset inside it, to the class P9-19 created): `HitTest_InsideZone_ReturnsZoneAndOffset`, `HitTest_BetweenLines_Null`, `HitTest_LeftOfContent_Null`, `HitTest_ZoneWithZeroHeight_Null`, `HitTest_TwoZones_ReturnsTheOneUnderThePoint`.
-- [ ] The rest is covered by build and by later cards; run `dotnet build` and open the Gallery once to check that nothing regressed (the existing editor still scrolls, clicks and types).
+- [x] New (`tests/LoomEditor.View.Tests/Layout/ViewZoneHitTestTests.cs`; the pure part lives in View: add `ViewZoneViewportData.HitTest(double x, double y, double contentLeft, double contentWidth)` returning the zone and the y offset inside it, to the class P9-19 created): `HitTest_InsideZone_ReturnsZoneAndOffset`, `HitTest_BetweenLines_Null`, `HitTest_LeftOfContent_Null`, `HitTest_ZoneWithZeroHeight_Null`, `HitTest_TwoZones_ReturnsTheOneUnderThePoint`.
+- [x] The rest is covered by build and by later cards; run `dotnet build` and open the Gallery once to check that nothing regressed (the existing editor still scrolls, clicks and types).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
