@@ -1,6 +1,6 @@
 # P9-17 — Diff decorations: from a `DiffState` to decorations of the two models
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-16, P9-14
 - **Size:** S
 
@@ -34,14 +34,14 @@
 
 ## Tests
 
-- [ ] New (the expected decorations are listed by hand: range + options instance): `Compute_NoDiff_Empty`, `Compute_Insertion_ModifiedGetsLineAndWholeLineAdd`, `Compute_Deletion_OriginalGetsLineAndWholeLineDelete`, `Compute_Replacement_InnerChangesBecomeCharDecorations`, `Compute_EmptyInnerRange_UsesEmptyOption_WhenShowEmptyDecorations`, `Compute_EmptyInnerRange_UsesNormalOption_WhenNotShowEmptyDecorations`, `Compute_InnerChangeOutsideLineRange_Skipped` (Monaco: "Don't show empty markers outside the line range"), `Compute_RenderIndicatorsFalse_PlainBackgrounds`, `Compute_StaleRangesBeyondModel_ClampedOrDropped`, `Update_SetsBothSides`, `Update_NullDiff_ClearsBoth`.
+- [x] New (the expected decorations are listed by hand: range + options instance): `Compute_NoDiff_Empty`, `Compute_Insertion_ModifiedGetsLineAndWholeLineAdd`, `Compute_Deletion_OriginalGetsLineAndWholeLineDelete`, `Compute_Replacement_InnerChangesBecomeCharDecorations`, `Compute_EmptyInnerRange_UsesEmptyOption_WhenShowEmptyDecorations`, `Compute_EmptyInnerRange_UsesNormalOption_WhenNotShowEmptyDecorations`, `Compute_InnerChangeOutsideLineRange_Skipped` (Monaco: "Don't show empty markers outside the line range"), `Compute_RenderIndicatorsFalse_PlainBackgrounds`, `Compute_StaleRangesBeyondModel_ClampedOrDropped`, `Update_SetsBothSides`, `Update_NullDiff_ClearsBoth`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `diffEditorDecorations.ts` (subset: no moved blocks, no true inline)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `diffEditorDecorations.ts` (subset: no moved blocks, no true inline)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
