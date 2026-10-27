@@ -1,6 +1,6 @@
 # P9-03 — `MyersDiffAlgorithm` and `DynamicProgrammingDiffing`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-02
 - **Size:** M
 
@@ -35,15 +35,15 @@ Both sequence diff algorithms exist and give Monaco's results on small inputs: M
 
 ## Tests
 
-- [ ] Port: `myers` › `1` (build the two sequences with `ArraySequence`; Monaco uses `LinesSliceCharSequence`, which comes in P9-04: this test is re-added there with its real sequences, the name stays in the comment).
-- [ ] New (both algorithms, same table of inputs, expected diffs as `SequenceDiff.ToString()` strings): `Compute_EqualSequences_NoDiffs`, `Compute_EmptyAndNonEmpty_OneDiff`, `Compute_BothEmpty_NoDiffs`, `Compute_InsertionInTheMiddle`, `Compute_DeletionAtTheStart`, `Compute_Replace`, `Compute_ResultsAreSortedAndNonOverlapping` (random sequences, `new Random(seed)` with the seed in the failure message; apply the diffs and check they transform seq1 into seq2), `Compute_TimeoutInvalid_HitTimeoutTrue` (`FakeTimeout`), `DynamicProgramming_EqualityScore_PrefersHigherScore`, `Array2D_GetSet`.
+- [x] Port: `myers` › `1` (build the two sequences with `ArraySequence`; Monaco uses `LinesSliceCharSequence`, which comes in P9-04: this test is re-added there with its real sequences, the name stays in the comment).
+- [x] New (both algorithms, same table of inputs, expected diffs as `SequenceDiff.ToString()` strings): `Compute_EqualSequences_NoDiffs`, `Compute_EmptyAndNonEmpty_OneDiff`, `Compute_BothEmpty_NoDiffs`, `Compute_InsertionInTheMiddle`, `Compute_DeletionAtTheStart`, `Compute_Replace`, `Compute_ResultsAreSortedAndNonOverlapping` (random sequences, `new Random(seed)` with the seed in the failure message; apply the diffs and check they transform seq1 into seq2), `Compute_TimeoutInvalid_HitTimeoutTrue` (`FakeTimeout`), `DynamicProgramming_EqualityScore_PrefersHigherScore`, `Array2D_GetSet`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `myersDiffAlgorithm.ts`, `dynamicProgrammingDiffing.ts`, `utils.ts` (`Array2D`; `LineRangeFragment` comes in P9-09)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `myersDiffAlgorithm.ts`, `dynamicProgrammingDiffing.ts`, `utils.ts` (`Array2D`; `LineRangeFragment` comes in P9-09)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
