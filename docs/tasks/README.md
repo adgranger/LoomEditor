@@ -830,7 +830,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 |---|---|---|---|
 | [P9-12](phase-9/P9-12-diff-options-and-state.md) | `DiffEditorOptions`, `DiffState` and `DiffMapping` | P9-11 | done |
 | [P9-13](phase-9/P9-13-unchanged-region.md) | `UnchangedRegion`: which unchanged lines are hidden | P9-12 | done |
-| [P9-14](phase-9/P9-14-diff-editor-view-model.md) | `DiffEditorViewModel`: computing and publishing the diff | P9-13 | todo |
+| [P9-14](phase-9/P9-14-diff-editor-view-model.md) | `DiffEditorViewModel`: computing and publishing the diff | P9-13 | done |
 | [P9-15](phase-9/P9-15-line-range-alignment.md) | Line range alignment: how much empty space each side needs | P9-14 | todo |
 | [P9-16](phase-9/P9-16-diff-colors-and-styles.md) | Diff theme colors and decoration styles | P9-12 | todo |
 | [P9-17](phase-9/P9-17-diff-decorations.md) | Diff decorations: from a `DiffState` to decorations of the two models | P9-16, P9-14 | todo |

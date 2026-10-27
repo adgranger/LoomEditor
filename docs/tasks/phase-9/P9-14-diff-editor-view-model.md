@@ -1,6 +1,6 @@
 # P9-14 — `DiffEditorViewModel`: computing and publishing the diff
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-13
 - **Size:** M
 
@@ -40,14 +40,14 @@ A `DiffEditorViewModel` watches two `TextModel`s and an options object, recomput
 
 ## Tests
 
-- [ ] New (all with fakes: `FakeDocumentDiffProvider` returns a prepared `DocumentDiff` or a `TaskCompletionSource`; `ManualScheduler`; a synchronous dispatcher): `Start_ComputesDiffImmediately`, `Edit_MarksNotUpToDate_ThenRecomputesAfter200ms`, `Edit_TwiceQuickly_OneRecompute`, `Edit_WhileComputing_CancelsOldResult` (the old result is dropped), `ProviderThrows_KeepsOldState`, `OptionChange_IgnoreTrimWhitespace_Recomputes`, `UnchangedRegions_Disabled_Empty`, `UnchangedRegions_Enabled_FromDiff`, `UnchangedRegions_VisibleCountsSurviveRecompute`, `UnchangedRegions_TouchingRegionsMergedAfterEdit`, `UnchangedRegions_FollowEditsAbove` (insert lines above a region: its start moves), `EnsureModifiedLineIsVisible_InsideRegion_ShowsLine`, `EnsureModifiedLineIsVisible_OutsideRegion_NoChange`, `EnsureOriginalLineIsVisible_*`, `WaitForDiffAsync_CompletesWhenUpToDate`, `Dispose_CancelsAndStopsEvents`.
+- [x] New (all with fakes: `FakeDocumentDiffProvider` returns a prepared `DocumentDiff` or a `TaskCompletionSource`; `ManualScheduler`; a synchronous dispatcher): `Start_ComputesDiffImmediately`, `Edit_MarksNotUpToDate_ThenRecomputesAfter200ms`, `Edit_TwiceQuickly_OneRecompute`, `Edit_WhileComputing_CancelsOldResult` (the old result is dropped), `ProviderThrows_KeepsOldState`, `OptionChange_IgnoreTrimWhitespace_Recomputes`, `UnchangedRegions_Disabled_Empty`, `UnchangedRegions_Enabled_FromDiff`, `UnchangedRegions_VisibleCountsSurviveRecompute`, `UnchangedRegions_TouchingRegionsMergedAfterEdit`, `UnchangedRegions_FollowEditsAbove` (insert lines above a region: its start moves), `EnsureModifiedLineIsVisible_InsideRegion_ShowsLine`, `EnsureModifiedLineIsVisible_OutsideRegion_NoChange`, `EnsureOriginalLineIsVisible_*`, `WaitForDiffAsync_CompletesWhenUpToDate`, `Dispose_CancelsAndStopsEvents`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `DiffEditorViewModel` (subset) and "Behavior differences": no edit mapping (stale diff), no observables
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `DiffEditorViewModel` (subset) and "Behavior differences": no edit mapping (stale diff), no observables
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
