@@ -138,11 +138,28 @@ public class DefaultLinesDiffComputerTests
         }
     }
 
-    // Deleted by P9-09.
     [Fact]
-    public void ComputeDiff_ComputeMovesTrue_ReturnsEmptyMoves_UntilP9_09()
+    public void DefaultLinesDiffComputer_ComputeMoves_ReportsMoveWithInnerChanges()
     {
-        LinesDiff result = Diff(["a", "b", "c", "d"], ["c", "d", "a", "b"], Default with { ComputeMoves = true });
+        string[] rest = Numbered(25);
+        string[] block = ["first moved line here", "second moved line here", "third moved line here", "fourth moved line here", "fifth moved line here"];
+        string[] editedBlock = [.. block];
+        editedBlock[2] = "third relocated line here";
+
+        LinesDiff result = Diff([.. block, .. rest], [.. rest, .. editedBlock], Default with { ComputeMoves = true });
+
+        MovedText move = Assert.Single(result.Moves);
+        Assert.Equal("{[1,6)->[26,31)}", move.LineRangeMapping.ToString());
+        DetailedLineRangeMapping change = Assert.Single(move.Changes);
+        Assert.Single(change.InnerChanges!);
+    }
+
+    [Fact]
+    public void DefaultLinesDiffComputer_ComputeMoves_False_NoMoves()
+    {
+        string[] rest = Numbered(25);
+        string[] block = ["first moved line here", "second moved line here", "third moved line here"];
+        LinesDiff result = Diff([.. block, .. rest], [.. rest, .. block]);
         Assert.Empty(result.Moves);
     }
 }

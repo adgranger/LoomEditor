@@ -10,7 +10,7 @@ namespace LoomEditor.Core.Diff;
 
 /// <summary>
 /// Monaco's default line diff: a line-level alignment (dynamic programming for small inputs, Myers otherwise),
-/// refined into character-level inner changes. Moved lines are not computed yet (<see cref="ComputeMoves"/> returns none).
+/// refined into character-level inner changes. Moved lines are computed when <see cref="LinesDiffComputerOptions.ComputeMoves"/> is set.
 /// </summary>
 /// <remarks>Threading: the instance only holds two stateless algorithm objects, so ComputeDiff may be called concurrently.</remarks>
 internal sealed class DefaultLinesDiffComputer : ILinesDiffComputer
@@ -132,15 +132,29 @@ internal sealed class DefaultLinesDiffComputer : ILinesDiffComputer
         List<DetailedLineRangeMapping> changes = LineRangeMappingConversions.LineRangeMappingFromRangeMappings(
             alignments, new ArrayText(originalLines), new ArrayText(modifiedLines));
 
-        IReadOnlyList<MovedText> moves = options.ComputeMoves ? ComputeMoves() : [];
+        IReadOnlyList<MovedText> moves = options.ComputeMoves
+            ? ComputeMoves(changes, originalLines, modifiedLines, originalLinesHashes, modifiedLinesHashes, timeout, considerWhitespaceChanges, options)
+            : [];
 
         Guard.Assert(ValidateChanges(changes, originalLines, modifiedLines));
 
         return new LinesDiff(changes, moves, hitTimeout);
     }
 
-    /// <summary><c>computeMoves</c>: not ported yet (P9-09 fills it).</summary>
-    private static IReadOnlyList<MovedText> ComputeMoves() => [];
+    private MovedText[] ComputeMoves(
+        List<DetailedLineRangeMapping> changes, string[] originalLines, string[] modifiedLines, int[] hashedOriginalLines, int[] hashedModifiedLines,
+        ITimeout timeout, bool considerWhitespaceChanges, LinesDiffComputerOptions options)
+    {
+        IReadOnlyList<LineRangeMapping> moves = ComputeMovedLines.Compute(changes, originalLines, modifiedLines, hashedOriginalLines, hashedModifiedLines, timeout);
+        return moves.Select(m =>
+        {
+            (List<RangeMapping> mappings, _) = RefineDiff(
+                originalLines, modifiedLines, new SequenceDiff(m.Original.ToOffsetRange(), m.Modified.ToOffsetRange()), timeout, considerWhitespaceChanges, options);
+            List<DetailedLineRangeMapping> moveChanges = LineRangeMappingConversions.LineRangeMappingFromRangeMappings(
+                mappings, new ArrayText(originalLines), new ArrayText(modifiedLines), true);
+            return new MovedText(m, moveChanges);
+        }).ToArray();
+    }
 
     private (List<RangeMapping> Mappings, bool HitTimeout) RefineDiff(
         string[] originalLines, string[] modifiedLines, SequenceDiff diff, ITimeout timeout, bool considerWhitespaceChanges, LinesDiffComputerOptions options)
@@ -217,7 +231,7 @@ internal sealed class DefaultLinesDiffComputer : ILinesDiffComputer
     }
 
     // JavaScript's String.prototype.trim and string.Trim() differ (U+0085, U+001C-U+001F vs U+FEFF).
-    private static string TrimJs(string s)
+    internal static string TrimJs(string s)
     {
         int start = 0;
         int end = s.Length;

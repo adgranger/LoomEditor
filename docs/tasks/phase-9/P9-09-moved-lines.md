@@ -1,6 +1,6 @@
 # P9-09 — Moved lines: `ComputeMovedLines` and `computeMoves`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-08
 - **Size:** M
 
@@ -40,14 +40,14 @@ With `ComputeMoves = true`, `DefaultLinesDiffComputer` also reports blocks of li
 
 ## Tests
 
-- [ ] New: `ComputeMovedLines_NoChanges_NoMoves`, `ComputeMovedLines_BlockMovedDown_OneMove` (30 distinct lines of text, a 5-line block cut from the top and pasted at the bottom: one move `[1,6)->[26,31)`), `ComputeMovedLines_ShortBlock_Ignored` (a block under 15 characters), `ComputeMovedLines_TwoLinesOnlyOneLong_Ignored`, `ComputeMovedLines_TwoMovesCloseTogether_Joined`, `ComputeMovedLines_MoveInsideSameDiff_Removed`, `LineRangeFragment_ComputeSimilarity_IdenticalOne_DisjointZero`, `LineRangeFragment_ComputeSimilarity_Partial`, `DefaultLinesDiffComputer_ComputeMoves_ReportsMoveWithInnerChanges` (a moved block with one edited word → the move has `Changes` with one inner change), `DefaultLinesDiffComputer_ComputeMoves_False_NoMoves`. Remove the P9-08 test `ComputeDiff_ComputeMovesTrue_ReturnsEmptyMoves_UntilP9_09`.
+- [x] New: `ComputeMovedLines_NoChanges_NoMoves`, `ComputeMovedLines_BlockMovedDown_OneMove` (30 distinct lines of text, a 5-line block cut from the top and pasted at the bottom: one move `[1,6)->[26,31)`), `ComputeMovedLines_ShortBlock_Ignored` (a block under 15 characters), `ComputeMovedLines_TwoLinesOnlyOneLong_Ignored`, `ComputeMovedLines_TwoMovesCloseTogether_Joined`, `ComputeMovedLines_MoveInsideSameDiff_Removed`, `LineRangeFragment_ComputeSimilarity_IdenticalOne_DisjointZero`, `LineRangeFragment_ComputeSimilarity_Partial`, `DefaultLinesDiffComputer_ComputeMoves_ReportsMoveWithInnerChanges` (a moved block with one edited word → the move has `Changes` with one inner change), `DefaultLinesDiffComputer_ComputeMoves_False_NoMoves`. Remove the P9-08 test `ComputeDiff_ComputeMovesTrue_ReturnsEmptyMoves_UntilP9_09`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `computeMovedLines.ts`, `utils.ts` (`LineRangeFragment`) and the "Behavior differences" row for the per-call key map
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `computeMovedLines.ts`, `utils.ts` (`LineRangeFragment`) and the "Behavior differences" row for the per-call key map
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
