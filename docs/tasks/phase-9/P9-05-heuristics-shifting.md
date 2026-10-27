@@ -1,6 +1,6 @@
 # P9-05 — Diff heuristics (1/2): `optimizeSequenceDiffs` and `removeShortMatches`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-04
 - **Size:** M
 
@@ -34,14 +34,14 @@ The first half of Monaco's post-processing of a raw sequence diff exists: joinin
 
 ## Tests
 
-- [ ] New (the Monaco tests for these functions are the fixtures of P9-10; here small hand-computed cases, using `ArraySequence` from P9-03 with a boundary-score override where needed): `Optimize_JoinsDiffsSeparatedByEqualElements`, `Optimize_ShiftsInsertionToBoundary` (a custom `ISequence` whose `GetBoundaryScore` is highest at offset 3 → the insertion `[1,1)` moves to `[3,3)`), `Optimize_NoDiffs_Empty`, `Optimize_ShiftIsBoundedByStronglyEqual` (elements equal but not strongly equal block the shift), `RemoveShortMatches_MergesDiffsWithTinyEqualGap` (gap `<= 2` merges only when both neighbours are large: read lines 203–221), `RemoveShortMatches_KeepsLongGap`, `Optimize_Result_IsSortedAndNonOverlapping` (random: `new Random(seed)`, seed in the message).
+- [x] New (the Monaco tests for these functions are the fixtures of P9-10; here small hand-computed cases, using `ArraySequence` from P9-03 with a boundary-score override where needed): `Optimize_JoinsDiffsSeparatedByEqualElements`, `Optimize_ShiftsInsertionToBoundary` (a custom `ISequence` whose `GetBoundaryScore` is highest at offset 3 → the insertion `[1,1)` moves to `[3,3)`), `Optimize_NoDiffs_Empty`, `Optimize_ShiftIsBoundedByStronglyEqual` (elements equal but not strongly equal block the shift), `RemoveShortMatches_MergesDiffsWithTinyEqualGap` (gap `<= 2` merges only when both neighbours are large: read lines 203–221), `RemoveShortMatches_KeepsLongGap`, `Optimize_Result_IsSortedAndNonOverlapping` (random: `new Random(seed)`, seed in the message).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `heuristicSequenceOptimizations.ts` (1/2)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `heuristicSequenceOptimizations.ts` (1/2)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

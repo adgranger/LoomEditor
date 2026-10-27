@@ -816,7 +816,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P9-02](phase-9/P9-02-sequence-contracts.md) | Sequence contracts: `ISequence`, `SequenceDiff`, `OffsetPair`, timeouts, `LineSequence` | P9-01 | done |
 | [P9-03](phase-9/P9-03-myers-and-dynamic-programming.md) | `MyersDiffAlgorithm` and `DynamicProgrammingDiffing` | P9-02 | done |
 | [P9-04](phase-9/P9-04-lines-slice-char-sequence.md) | `LinesSliceCharSequence` | P9-03 | done |
-| [P9-05](phase-9/P9-05-heuristics-shifting.md) | Diff heuristics (1/2): `optimizeSequenceDiffs` and `removeShortMatches` | P9-04 | todo |
+| [P9-05](phase-9/P9-05-heuristics-shifting.md) | Diff heuristics (1/2): `optimizeSequenceDiffs` and `removeShortMatches` | P9-04 | done |
 | [P9-06](phase-9/P9-06-heuristics-words.md) | Diff heuristics (2/2): word extension and very short matches | P9-05 | todo |
 | [P9-07](phase-9/P9-07-range-mappings.md) | Text abstraction and range mappings: `LineRangeMapping`, `RangeMapping`, `LinesDiff` | P9-06 | todo |
 | [P9-08](phase-9/P9-08-default-lines-diff-computer.md) | `DefaultLinesDiffComputer` (without moved lines) | P9-07 | todo |
