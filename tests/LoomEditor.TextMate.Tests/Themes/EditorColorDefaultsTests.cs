@@ -54,6 +54,30 @@ public class EditorColorDefaultsTests
         Assert.Equal(expected, Default(id, type));
     }
 
+    // editorColors.ts 264–335
+    [Theory]
+    [InlineData(ThemeType.Dark, "diffEditor.insertedTextBackground", "#9CCC2C33")]
+    [InlineData(ThemeType.Light, "diffEditor.insertedTextBackground", "#9CCC2C40")]
+    [InlineData(ThemeType.Dark, "diffEditor.removedTextBackground", "#FF000033")]
+    [InlineData(ThemeType.Light, "diffEditor.insertedLineBackground", "#9BB95533")]
+    [InlineData(ThemeType.Dark, "diffEditor.removedLineBackground", "#FF000033")]
+    [InlineData(ThemeType.HighContrastDark, "diffEditor.insertedLineBackground", null)]
+    [InlineData(ThemeType.Dark, "diffEditorGutter.insertedLineBackground", null)]
+    [InlineData(ThemeType.HighContrastDark, "diffEditor.insertedTextBorder", "#33FF2EFF")]
+    [InlineData(ThemeType.HighContrastLight, "diffEditor.removedTextBorder", "#AD0707FF")]
+    [InlineData(ThemeType.Dark, "diffEditor.insertedTextBorder", null)]
+    [InlineData(ThemeType.HighContrastDark, "diffEditor.border", "#6FC3DFFF")]
+    [InlineData(ThemeType.Dark, "diffEditor.diagonalFill", "#CCCCCC33")]
+    [InlineData(ThemeType.Light, "diffEditor.diagonalFill", "#22222233")]
+    [InlineData(ThemeType.Dark, "diffEditor.unchangedRegionBackground", "#252526FF")]
+    [InlineData(ThemeType.Light, "diffEditor.unchangedRegionForeground", "#616161FF")]
+    [InlineData(ThemeType.Dark, "diffEditor.unchangedCodeBackground", "#74747429")]
+    [InlineData(ThemeType.Light, "diffEditor.unchangedCodeBackground", "#B8B8B829")]
+    public void EditorColorDefaults_DiffColors_DarkLightHighContrast(ThemeType type, string id, string? expected)
+    {
+        Assert.Equal(expected, Default(id, type));
+    }
+
     [Fact]
     public void WithAlphaFactor_MultipliesAlpha()
     {

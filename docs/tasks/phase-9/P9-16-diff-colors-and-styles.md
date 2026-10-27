@@ -1,6 +1,6 @@
 # P9-16 — Diff theme colors and decoration styles
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-12
 - **Size:** S
 
@@ -38,14 +38,14 @@ The theme knows the colors of the diff editor (with VS Code's defaults) and the 
 
 ## Tests
 
-- [ ] New: `EditorColorDefaults_DiffColors_DarkLightHighContrast` (each id resolves to the upstream value for each theme type: the table of the card), `DecorationStyles_DiffClasses_HaveRows`, `DecorationStyles_GutterInsert_FallsBackToLineBackground`, `DiffDecorationOptions_ClassNamesAndFlags` (e.g. `LineAddBackgroundWithIndicator` has `IsWholeLine`, `MarginClassName == "gutter-insert"`, `LinesDecorationsClassName == "insert-sign"` — the codicon part of Monaco's string is dropped), and a rendering test in `tests/LoomEditor.Rendering.Tests` for the new `LeftBorderWidth`, `StrikeThrough` and the two gutter icons using the recording surface the existing decoration tests use (`grep -rln "RecordingSurface\|FakeSurface" tests/LoomEditor.Rendering.Tests`).
+- [x] New: `EditorColorDefaults_DiffColors_DarkLightHighContrast` (each id resolves to the upstream value for each theme type: the table of the card), `DecorationStyles_DiffClasses_HaveRows`, `DecorationStyles_GutterInsert_FallsBackToLineBackground`, `DiffDecorationOptions_ClassNamesAndFlags` (e.g. `LineAddBackgroundWithIndicator` has `IsWholeLine`, `MarginClassName == "gutter-insert"`, `LinesDecorationsClassName == "insert-sign"` — the codicon part of Monaco's string is dropped), and a rendering test in `tests/LoomEditor.Rendering.Tests` for the new `LeftBorderWidth`, `StrikeThrough` and the two gutter icons using the recording surface the existing decoration tests use (`grep -rln "RecordingSurface\|FakeSurface" tests/LoomEditor.Rendering.Tests`).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `editorColors.ts` (diff colors), `registrations.contribution.ts`, `style.css` (diff rules) and the "Behavior differences" rows (no fallback chains, line-break fill not drawn)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `editorColors.ts` (diff colors), `registrations.contribution.ts`, `style.css` (diff rules) and the "Behavior differences" rows (no fallback chains, line-break fill not drawn)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

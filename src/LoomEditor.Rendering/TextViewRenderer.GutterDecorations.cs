@@ -61,7 +61,7 @@ internal sealed partial class TextViewRenderer
     {
         if (DecorationStyles.Get(className) is not { GutterIcon: not GutterIcon.None } style
             || !(style.AlwaysVisible || hovered)
-            || Theme.FoldingControlForeground is not { } color)
+            || (style.GutterIcon is GutterIcon.Plus or GutterIcon.Minus ? GetDecorationColor("foreground") : Theme.FoldingControlForeground) is not { } color)
         {
             return;
         }
@@ -73,6 +73,14 @@ internal sealed partial class TextViewRenderer
         {
             surface.DrawLine(cx - 4, cy - 2, cx, cy + 2, color, ChevronStrokeWidth);
             surface.DrawLine(cx, cy + 2, cx + 4, cy - 2, color, ChevronStrokeWidth);
+        }
+        else if (style.GutterIcon is GutterIcon.Plus or GutterIcon.Minus)
+        {
+            surface.DrawLine(cx - 4, cy, cx + 4, cy, color, ChevronStrokeWidth);
+            if (style.GutterIcon == GutterIcon.Plus)
+            {
+                surface.DrawLine(cx, cy - 4, cx, cy + 4, color, ChevronStrokeWidth);
+            }
         }
         else
         {

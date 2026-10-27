@@ -233,15 +233,28 @@ internal sealed partial class TextViewRenderer
             return;
         }
 
-        if (GetDecorationColor(style.BackgroundColorId) is { } background)
+        if ((GetDecorationColor(style.BackgroundColorId) ?? GetDecorationColor(style.BackgroundFallbackColorId)) is { } background)
         {
             surface.FillRectangle(left, top, width, height, background);
         }
 
         if (GetDecorationColor(style.BorderColorId) is { } border)
         {
-            float inset = style.BorderWidth / 2;
-            surface.DrawRectangle(left + inset, top + inset, width - style.BorderWidth, height - style.BorderWidth, border, style.BorderWidth);
+            if (style.BorderWidth > 0)
+            {
+                float inset = style.BorderWidth / 2;
+                surface.DrawRectangle(left + inset, top + inset, width - style.BorderWidth, height - style.BorderWidth, border, style.BorderWidth);
+            }
+
+            if (style.LeftBorderWidth > 0)
+            {
+                surface.FillRectangle(left, top, style.LeftBorderWidth, height, border);
+            }
+        }
+
+        if (style.StrikeThrough && Theme.Foreground is var strike)
+        {
+            surface.FillRectangle(left, top + height / 2, width, 1, strike);
         }
 
         if (style.Underline != UnderlineStyle.None && GetDecorationColor(style.UnderlineColorId) is { } underline)

@@ -7,7 +7,9 @@ namespace LoomEditor.View.Layout;
 /// <remarks>
 /// Behavior differences: high-contrast <c>dotted</c> / <c>dashed</c> borders are drawn solid, the <c>padding: 1px</c>
 /// of <c>.currentFindMatch</c> is ignored, and <c>selectionHighlight</c> always uses the focused colors (the unfocused
-/// <c>transparent(0.5)</c> rule of <c>highlightDecorations.ts</c> is not ported).
+/// <c>transparent(0.5)</c> rule of <c>highlightDecorations.ts</c> is not ported). The diff rows have no CSS fallback chains
+/// (<c>var(a, var(b))</c>: every id has its own default; only a custom theme that sets the text color but not the line
+/// color differs), except the gutter background, which falls back to the line background.
 /// Threading: immutable, safe from any thread.
 /// </remarks>
 internal static class DecorationStyles
@@ -57,6 +59,20 @@ internal static class DecorationStyles
         ["gallery-injected-hint"] = new(ForegroundColorId: "editorLineNumber.foreground"),
 
         ["inline-folded"] = new(AfterContentText: "⋯", AfterContentColorId: "editor.foldPlaceholderForeground"),
+
+        // registrations.contribution.ts 14–96, style.css 274–285, 327–346, 373–425. The CSS fallback chains `var(a, var(b))`
+        // are not ported: every id has its own default.
+        ["line-insert"] = new("diffEditor.insertedLineBackground", "diffEditor.insertedTextBorder"),
+        ["line-delete"] = new("diffEditor.removedLineBackground", "diffEditor.removedTextBorder"),
+        ["char-insert"] = new("diffEditor.insertedTextBackground", "diffEditor.insertedTextBorder"),
+        ["char-delete"] = new("diffEditor.removedTextBackground", "diffEditor.removedTextBorder"),
+        ["char-insert diff-range-empty"] = new(BorderColorId: "diffEditor.insertedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
+        ["char-delete diff-range-empty"] = new(BorderColorId: "diffEditor.removedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
+        ["gutter-insert"] = new("diffEditorGutter.insertedLineBackground", BackgroundFallbackColorId: "diffEditor.insertedLineBackground"),
+        ["gutter-delete"] = new("diffEditorGutter.removedLineBackground", BackgroundFallbackColorId: "diffEditor.removedLineBackground"),
+        ["inline-deleted-text"] = new("diffEditor.removedTextBackground", StrikeThrough: true),
+        ["insert-sign"] = new(GutterIcon: GutterIcon.Plus, AlwaysVisible: true),
+        ["delete-sign"] = new(GutterIcon: GutterIcon.Minus, AlwaysVisible: true),
     };
 
     static DecorationStyles()
@@ -71,7 +87,7 @@ internal static class DecorationStyles
     /// <summary>Every color id of the table.</summary>
     internal static IEnumerable<string> ColorIds =>
         Table.Values
-            .SelectMany(style => new[] { style.BackgroundColorId, style.BorderColorId, style.ForegroundColorId, style.AfterContentColorId, style.UnderlineColorId })
+            .SelectMany(style => new[] { style.BackgroundColorId, style.BorderColorId, style.BackgroundFallbackColorId, style.ForegroundColorId, style.AfterContentColorId, style.UnderlineColorId })
             .OfType<string>()
             .Distinct(StringComparer.Ordinal);
 
@@ -84,6 +100,12 @@ internal static class DecorationStyles
         if (className is null)
         {
             return null;
+        }
+
+        // A class list registered as one string (`char-insert diff-range-empty`) has its own row.
+        if (Table.TryGetValue(className, out DecorationStyle? whole))
+        {
+            return whole;
         }
 
         string[] names = className.Split(' ', StringSplitOptions.RemoveEmptyEntries);
