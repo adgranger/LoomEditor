@@ -803,6 +803,83 @@ Take phase 8 cards in table order (each card's "Depends on" is satisfied by the 
 
 **Deferred on purpose:** snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, document highlights and folding ranges from the server, document links, workspace symbols, pull diagnostics, several documents or workspace folders, server-initiated edits, peek definition, Ctrl+hover link underlines, the diagnostics list (`F8`), screen reader support of the hover popup and the completion list, bundling a server (**not delivered in phase 8**; details in [phase-8/README.md](phase-8/README.md) and [ADR 0011](../adr/0011-language-server-client.md)).
 
+## Phase 9 — Diff editor
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [phase-9-diff-editor.md](../roadmap/phase-9-diff-editor.md). Design: [ADR 0012](../adr/0012-diff-editor.md).
+**Read [phase-9/README.md](phase-9/README.md) before any phase 9 card** (conventions, Monaco → LoomEditor concepts, what is out of scope).
+
+### Step A — The diff algorithm (`LoomEditor.Core`, internal)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-01](phase-9/P9-01-line-range.md) | `LineRange` and `LineRangeSet` | P8-39 | todo |
+| [P9-02](phase-9/P9-02-sequence-contracts.md) | Sequence contracts: `ISequence`, `SequenceDiff`, `OffsetPair`, timeouts, `LineSequence` | P9-01 | todo |
+| [P9-03](phase-9/P9-03-myers-and-dynamic-programming.md) | `MyersDiffAlgorithm` and `DynamicProgrammingDiffing` | P9-02 | todo |
+| [P9-04](phase-9/P9-04-lines-slice-char-sequence.md) | `LinesSliceCharSequence` | P9-03 | todo |
+| [P9-05](phase-9/P9-05-heuristics-shifting.md) | Diff heuristics (1/2): `optimizeSequenceDiffs` and `removeShortMatches` | P9-04 | todo |
+| [P9-06](phase-9/P9-06-heuristics-words.md) | Diff heuristics (2/2): word extension and very short matches | P9-05 | todo |
+| [P9-07](phase-9/P9-07-range-mappings.md) | Text abstraction and range mappings: `LineRangeMapping`, `RangeMapping`, `LinesDiff` | P9-06 | todo |
+| [P9-08](phase-9/P9-08-default-lines-diff-computer.md) | `DefaultLinesDiffComputer` (without moved lines) | P9-07 | todo |
+| [P9-09](phase-9/P9-09-moved-lines.md) | Moved lines: `ComputeMovedLines` | P9-08 | todo |
+| [P9-10](phase-9/P9-10-diff-fixtures.md) | Monaco's diff fixture tests | P9-09 | todo |
+| [P9-11](phase-9/P9-11-document-diff-provider.md) | `DocumentDiffProvider`: diffing two models off the UI thread | P9-10 | todo |
+
+### Step B — The diff model (`LoomEditor.View/DiffEditor`, no UI)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-12](phase-9/P9-12-diff-options-and-state.md) | `DiffEditorOptions`, `DiffState` and `DiffMapping` | P9-11 | todo |
+| [P9-13](phase-9/P9-13-unchanged-region.md) | `UnchangedRegion`: which unchanged lines are hidden | P9-12 | todo |
+| [P9-14](phase-9/P9-14-diff-editor-view-model.md) | `DiffEditorViewModel`: computing and publishing the diff | P9-13 | todo |
+| [P9-15](phase-9/P9-15-line-range-alignment.md) | Line range alignment: how much empty space each side needs | P9-14 | todo |
+| [P9-16](phase-9/P9-16-diff-colors-and-styles.md) | Diff theme colors and decoration styles | P9-12 | todo |
+| [P9-17](phase-9/P9-17-diff-decorations.md) | Diff decorations: from a `DiffState` to decorations of the two models | P9-16, P9-14 | todo |
+
+### Step C — Editor infrastructure (View, Rendering, WinUI)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-18](phase-9/P9-18-view-zones.md) | View zones: gaps with a purpose, anchored to a model line | P9-17 | todo |
+| [P9-19](phase-9/P9-19-draw-view-zones.md) | Drawing view zones: the diagonal fill | P9-18, P9-16 | todo |
+| [P9-20](phase-9/P9-20-read-only.md) | Read-only editor | P9-18 | todo |
+| [P9-21](phase-9/P9-21-control-host-hooks.md) | Control hooks for a host: zones, scroll, hidden areas and decorations | P9-19, P9-20 | todo |
+
+### Step D — The control (`LoomEditor.WinUI`, public `LoomDiffEditor`)
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-22](phase-9/P9-22-diff-editor-control-shell.md) | `LoomDiffEditor`: the control, its two editors, the sash and the public API | P9-21, P9-17, P9-15 | todo |
+| [P9-23](phase-9/P9-23-side-by-side.md) | Side by side: aligned view zones and synchronized scrolling | P9-22 | todo |
+| [P9-24](phase-9/P9-24-inline-view.md) | Inline view: deleted lines drawn inside the modified editor | P9-23 | todo |
+| [P9-25](phase-9/P9-25-hide-unchanged-regions.md) | Hide unchanged regions: the collapsed bar | P9-24 | todo |
+| [P9-26](phase-9/P9-26-go-to-change.md) | Go to next / previous change | P9-25 | todo |
+
+### Step E — Overview ruler
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-27](phase-9/P9-27-overview-zone-manager.md) | `OverviewZoneManager`: zones of a generic overview ruler | P9-26 | todo |
+| [P9-28](phase-9/P9-28-overview-ruler-and-diff-overview.md) | The generic `OverviewRuler` and the diff overview | P9-27, P9-23 | todo |
+
+### Step F — Accessible diff viewer
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-29](phase-9/P9-29-accessible-diff-viewer-model.md) | Accessible diff viewer: the model | P9-26 | todo |
+| [P9-30](phase-9/P9-30-accessible-diff-viewer-ui.md) | Accessible diff viewer: the UI | P9-29, P9-26 | todo |
+
+### Step G — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P9-31](phase-9/P9-31-gallery-diff-demo-and-manual-plan.md) | Gallery: the diff editor demo and the manual test plan | P9-30, P9-28 | todo |
+| [P9-32](phase-9/P9-32-diff-self-check-and-benchmarks.md) | Native AOT self-check of the diff stack and diff benchmarks | P9-31 | todo |
+| [P9-33](phase-9/P9-33-close-phase-9.md) | Close phase 9 | all phase 9 cards | todo |
+
+Take phase 9 cards in table order (each card's "Depends on" is satisfied by the cards above it). P9-10, P9-23 and P9-24 are flagged **Recommended model: Opus** (reason in the card). P9-19, P9-22 … P9-26, P9-28, P9-30 and P9-31 have manual checks for the maintainer (`docs/testing/phase-9-manual-tests.md`, written by P9-31); whether the Native AOT Gallery works with the diff editor is verified by P9-31 and P9-32, and Narrator by a human only.
+
+**Deferred on purpose:** moved blocks drawing (the computation is ported), the gutter menu and revert buttons, `diffCodeLens`, the embedded diff editor, `compactMode`, true inline view, the legacy diff computer and algorithm selection, `serializeState`, accessibility sounds, mapping the old diff through edits while a new one is computed, `setModel`, breadcrumbs (**not delivered in phase 9**; details in [phase-9/README.md](phase-9/README.md) and [ADR 0012](../adr/0012-diff-editor.md)).
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
