@@ -1,6 +1,6 @@
 # P9-08 — `DefaultLinesDiffComputer` (without moved lines)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-07
 - **Size:** M
 
@@ -37,14 +37,14 @@
 
 ## Tests
 
-- [ ] New (expected values are computed by hand or taken from the fixture dirs of P9-10 `1.txt` / `2.txt` of `equals`, `deletion`; do **not** copy the output of your own implementation as expectation): `ComputeDiff_BothEmptySingleLine_NoChanges`, `ComputeDiff_IdenticalLines_NoChanges`, `ComputeDiff_OriginalEmptyFile_WholeFileAdded` (the shortcut at lines 31–43 returns one mapping with one inner change), `ComputeDiff_InsertedLine_OneLineMapping` (`[2,2)->[2,3)`), `ComputeDiff_DeletedLine`, `ComputeDiff_ChangedWord_InnerChangeCoversWord`, `ComputeDiff_IgnoreTrimWhitespace_TrimmedEqualLinesNotReported`, `ComputeDiff_WhitespaceOnlyChange_Reported_WhenNotIgnoring`, `ComputeDiff_LargeInput_UsesMyersPath` (two 1000-line inputs differing in 3 lines: three changes), `ComputeDiff_TimeoutZero_NoTimeout`, `ComputeDiff_ChangesAreSortedAndMappingsConsistent` (random edits on random lines: for every change the number of unchanged lines before it is equal in both files; seeds in messages), `ComputeDiff_ComputeMovesTrue_ReturnsEmptyMoves_UntilP9_09` (deleted by P9-09).
+- [x] New (expected values are computed by hand or taken from the fixture dirs of P9-10 `1.txt` / `2.txt` of `equals`, `deletion`; do **not** copy the output of your own implementation as expectation): `ComputeDiff_BothEmptySingleLine_NoChanges`, `ComputeDiff_IdenticalLines_NoChanges`, `ComputeDiff_OriginalEmptyFile_WholeFileAdded` (the shortcut at lines 31–43 returns one mapping with one inner change), `ComputeDiff_InsertedLine_OneLineMapping` (`[2,2)->[2,3)`), `ComputeDiff_DeletedLine`, `ComputeDiff_ChangedWord_InnerChangeCoversWord`, `ComputeDiff_IgnoreTrimWhitespace_TrimmedEqualLinesNotReported`, `ComputeDiff_WhitespaceOnlyChange_Reported_WhenNotIgnoring`, `ComputeDiff_LargeInput_UsesMyersPath` (two 1000-line inputs differing in 3 lines: three changes), `ComputeDiff_TimeoutZero_NoTimeout`, `ComputeDiff_ChangesAreSortedAndMappingsConsistent` (random edits on random lines: for every change the number of unchanged lines before it is equal in both files; seeds in messages), `ComputeDiff_ComputeMovesTrue_ReturnsEmptyMoves_UntilP9_09` (deleted by P9-09).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `defaultLinesDiffComputer.ts`, `linesDiffComputers.ts` (`getDefault` only: no `getLegacy`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `defaultLinesDiffComputer.ts`, `linesDiffComputers.ts` (`getDefault` only: no `getLegacy`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
