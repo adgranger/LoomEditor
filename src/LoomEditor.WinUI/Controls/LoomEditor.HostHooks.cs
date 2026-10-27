@@ -38,6 +38,10 @@ public sealed partial class LoomEditor
     /// <summary>Whether lines wrap.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal bool IsWrapping => WordWrap != EditorWordWrap.Off;
+    /// <summary>Why the selections changed last (a flush means the text was reset).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal global::LoomEditor.View.Cursors.CursorChangeReason LastSelectionChangeReason => _context.LastSelectionChangeReason;
+
     /// <summary>The height of a line, in DIPs.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal double LineHeight => _viewModel.FontInfo.LineHeight;
@@ -173,7 +177,7 @@ public sealed partial class LoomEditor
             return false;
         }
 
-        var args = new ViewZonePointerEventArgs(hit.Zone, ViewZonePointerPhase.Pressed, mouseEvent.X, hit.YInZone, mouseEvent.LeftButton);
+        var args = new ViewZonePointerEventArgs(hit.Zone, ViewZonePointerPhase.Pressed, mouseEvent.X, hit.YInZone, mouseEvent.LeftButton, mouseEvent.Y);
         ViewZonePointer?.Invoke(this, args);
         if (args.CaptureRequested)
         {
@@ -202,7 +206,7 @@ public sealed partial class LoomEditor
                 }
 
                 ViewZonePointer?.Invoke(
-                    this, new ViewZonePointerEventArgs(captured, phase, mouseEvent.X, y - _capturedZoneTop, mouseEvent.LeftButton));
+                    this, new ViewZonePointerEventArgs(captured, phase, mouseEvent.X, y - _capturedZoneTop, mouseEvent.LeftButton, mouseEvent.Y));
             }
 
             if (phase == ViewZonePointerPhase.Released)
@@ -215,7 +219,7 @@ public sealed partial class LoomEditor
 
         if (phase == ViewZonePointerPhase.Moved && HitTestZone(mouseEvent) is { } hit)
         {
-            ViewZonePointer?.Invoke(this, new ViewZonePointerEventArgs(hit.Zone, phase, mouseEvent.X, hit.YInZone, mouseEvent.LeftButton));
+            ViewZonePointer?.Invoke(this, new ViewZonePointerEventArgs(hit.Zone, phase, mouseEvent.X, hit.YInZone, mouseEvent.LeftButton, mouseEvent.Y));
         }
 
         return false;
@@ -261,8 +265,9 @@ internal enum ViewZonePointerPhase
 /// <param name="x">The x of the pointer in the editor.</param>
 /// <param name="yInZone">The y of the pointer from the top of the zone.</param>
 /// <param name="isLeftButton">Whether the left button is involved.</param>
+/// <param name="y">The y of the pointer in the editor (not the zone), or <see cref="double.NaN"/> when unknown.</param>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class ViewZonePointerEventArgs(ViewZone zone, ViewZonePointerPhase phase, double x, double yInZone, bool isLeftButton) : EventArgs
+internal sealed class ViewZonePointerEventArgs(ViewZone zone, ViewZonePointerPhase phase, double x, double yInZone, bool isLeftButton, double y = double.NaN) : EventArgs
 {
     /// <summary>The zone.</summary>
     public ViewZone Zone { get; } = zone;
@@ -278,6 +283,9 @@ internal sealed class ViewZonePointerEventArgs(ViewZone zone, ViewZonePointerPha
 
     /// <summary>Whether the left button is involved.</summary>
     public bool IsLeftButton { get; } = isLeftButton;
+
+    /// <summary>The y of the pointer in the editor (not the zone), or NaN when unknown.</summary>
+    public double Y { get; } = y;
 
     internal bool CaptureRequested { get; private set; }
 

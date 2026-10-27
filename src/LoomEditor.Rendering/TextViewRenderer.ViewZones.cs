@@ -1,11 +1,12 @@
 using System.Globalization;
 using LoomEditor.Themes;
+using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.Rendering;
 
 // Monaco: the DOM node of a zone covers the content area; an `Empty` zone of a diff editor has the `diagonal-fill` class.
-// A `DeletedLines` zone is `renderLines.ts` (the text) and `.inline-deleted-margin-view-zone` (the margin). Collapsed bars: a later card.
+// A `DeletedLines` zone is `renderLines.ts` (the text) and `.inline-deleted-margin-view-zone` (the margin).
 internal sealed partial class TextViewRenderer
 {
     private readonly DiagonalFillPattern _diagonalFill = new();
@@ -19,6 +20,10 @@ internal sealed partial class TextViewRenderer
             if (zone.Zone.Data is DeletedLinesZoneData deleted)
             {
                 count += deleted.OriginalLines.Length;
+            }
+            else if (zone.Zone.Kind == ViewZoneKind.Collapsed)
+            {
+                count++;
             }
         }
 
@@ -53,6 +58,10 @@ internal sealed partial class TextViewRenderer
                 surface.DrawRgbaImage(
                     pattern.Rgba, pattern.Width, pattern.Height, (float)layoutInfo.ContentLeft, zone.VerticalOffset - scrollTop,
                     pattern.Width, pattern.Height, 1f, pattern.Version);
+            }
+            else if (zone.Zone is { Kind: ViewZoneKind.Collapsed, Data: CollapsedZoneData collapsed })
+            {
+                DrawCollapsedBar(surface, collapsed, layoutInfo, zone.VerticalOffset - scrollTop, zone.Height);
             }
             else if (zone.Zone is { Kind: ViewZoneKind.DeletedLines, Data: DeletedLinesZoneData deleted })
             {

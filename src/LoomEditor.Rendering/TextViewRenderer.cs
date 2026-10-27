@@ -218,6 +218,7 @@ internal sealed partial class TextViewRenderer : IDisposable
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
         DrawGutter(surface, viewModel, data, layoutInfo, cursorLines, selections, hasFocus, topShift, font);
         DrawDeletedLinesMargins(surface, data, layoutInfo, scrollTop, font);
+        DrawCollapsedMargins(surface, data, layoutInfo, scrollTop);
 
         // Monaco: the sticky scroll widget is an overlay widget above the text and the gutter.
         DrawStickyScroll(surface, viewModel, layoutInfo, scrollLeft);

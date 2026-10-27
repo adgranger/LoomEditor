@@ -61,6 +61,8 @@ public sealed partial class LoomDiffEditor
             return;
         }
 
+        _hideUnchangedRegions?.Invalidate();
+
         if (_viewZones is null)
         {
             _viewZonesInline = inline;

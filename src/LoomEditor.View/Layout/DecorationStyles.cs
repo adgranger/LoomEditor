@@ -73,6 +73,8 @@ internal static class DecorationStyles
         ["inline-deleted-text"] = new("diffEditor.removedTextBackground", StrikeThrough: true),
         ["insert-sign"] = new(GutterIcon: GutterIcon.Plus, AlwaysVisible: true),
         ["delete-sign"] = new(GutterIcon: GutterIcon.Minus, AlwaysVisible: true),
+        // style.css 283–285
+        ["diff-unchanged-lines"] = new("diffEditor.unchangedCodeBackground"),
     };
 
     static DecorationStyles()

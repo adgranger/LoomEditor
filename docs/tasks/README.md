@@ -851,7 +851,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | [P9-22](phase-9/P9-22-diff-editor-control-shell.md) | `LoomDiffEditor`: the control, its two editors, the sash and the public API | P9-21, P9-17, P9-15 | done |
 | [P9-23](phase-9/P9-23-side-by-side.md) | Side by side: aligned view zones and synchronized scrolling | P9-22 | done |
 | [P9-24](phase-9/P9-24-inline-view.md) | Inline view: deleted lines drawn inside the modified editor | P9-23 | done |
-| [P9-25](phase-9/P9-25-hide-unchanged-regions.md) | Hide unchanged regions: the collapsed bar | P9-24 | todo |
+| [P9-25](phase-9/P9-25-hide-unchanged-regions.md) | Hide unchanged regions: the collapsed bar | P9-24 | done |
 | [P9-26](phase-9/P9-26-go-to-change.md) | Go to next / previous change | P9-25 | todo |
 
 ### Step E — Overview ruler

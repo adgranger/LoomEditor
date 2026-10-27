@@ -63,6 +63,18 @@ public sealed partial class LoomDiffEditor
             editor.ConfigureEditors();
         });
 
+    /// <summary>Identifies the <see cref="HideUnchangedRegionsRevealLineCount"/> dependency property.</summary>
+    public static readonly DependencyProperty HideUnchangedRegionsRevealLineCountProperty = RegisterCount(
+        nameof(HideUnchangedRegionsRevealLineCount), 20, (editor, value) => editor._options.HideUnchangedRegions = editor._options.HideUnchangedRegions with { RevealLineCount = value });
+
+    /// <summary>Identifies the <see cref="HideUnchangedRegionsContextLineCount"/> dependency property.</summary>
+    public static readonly DependencyProperty HideUnchangedRegionsContextLineCountProperty = RegisterCount(
+        nameof(HideUnchangedRegionsContextLineCount), 3, (editor, value) => editor._options.HideUnchangedRegions = editor._options.HideUnchangedRegions with { ContextLineCount = value });
+
+    /// <summary>Identifies the <see cref="HideUnchangedRegionsMinimumLineCount"/> dependency property.</summary>
+    public static readonly DependencyProperty HideUnchangedRegionsMinimumLineCountProperty = RegisterCount(
+        nameof(HideUnchangedRegionsMinimumLineCount), 3, (editor, value) => editor._options.HideUnchangedRegions = editor._options.HideUnchangedRegions with { MinimumLineCount = value });
+
     /// <summary>Identifies the <see cref="UseInlineViewWhenSpaceIsLimited"/> dependency property.</summary>
     public static readonly DependencyProperty UseInlineViewWhenSpaceIsLimitedProperty = Register(
         nameof(UseInlineViewWhenSpaceIsLimited), true, (editor, value) => editor._options.UseInlineViewWhenSpaceIsLimited = value);
@@ -153,11 +165,32 @@ public sealed partial class LoomDiffEditor
         set => SetValue(IsReadOnlyProperty, value);
     }
 
-    /// <summary>Whether long unchanged blocks are hidden (drawn by a later card). Defaults to <c>false</c>.</summary>
+    /// <summary>Whether long unchanged blocks are collapsed behind a bar. Defaults to <c>false</c>.</summary>
     public bool HideUnchangedRegions
     {
         get => (bool)GetValue(HideUnchangedRegionsProperty);
         set => SetValue(HideUnchangedRegionsProperty, value);
+    }
+
+    /// <summary>How many lines one click on the edge of a collapsed bar reveals. Defaults to 20.</summary>
+    public int HideUnchangedRegionsRevealLineCount
+    {
+        get => (int)GetValue(HideUnchangedRegionsRevealLineCountProperty);
+        set => SetValue(HideUnchangedRegionsRevealLineCountProperty, value);
+    }
+
+    /// <summary>How many unchanged lines stay visible around each change. Defaults to 3.</summary>
+    public int HideUnchangedRegionsContextLineCount
+    {
+        get => (int)GetValue(HideUnchangedRegionsContextLineCountProperty);
+        set => SetValue(HideUnchangedRegionsContextLineCountProperty, value);
+    }
+
+    /// <summary>The minimum number of lines an unchanged region needs to be collapsed. Defaults to 3.</summary>
+    public int HideUnchangedRegionsMinimumLineCount
+    {
+        get => (int)GetValue(HideUnchangedRegionsMinimumLineCountProperty);
+        set => SetValue(HideUnchangedRegionsMinimumLineCountProperty, value);
     }
 
     /// <summary>Whether a narrow control switches to the inline view. Defaults to <c>true</c>.</summary>
@@ -187,6 +220,10 @@ public sealed partial class LoomDiffEditor
         get => (int)GetValue(MaxComputationTimeMsProperty);
         set => SetValue(MaxComputationTimeMsProperty, value);
     }
+
+    private static DependencyProperty RegisterCount(string name, int defaultValue, Action<LoomDiffEditor, int> apply) =>
+        DependencyProperty.Register(
+            name, typeof(int), typeof(LoomDiffEditor), new PropertyMetadata(defaultValue, (d, e) => apply((LoomDiffEditor)d, (int)e.NewValue)));
 
     private static DependencyProperty Register(string name, bool defaultValue, Action<LoomDiffEditor, bool> apply) =>
         DependencyProperty.Register(

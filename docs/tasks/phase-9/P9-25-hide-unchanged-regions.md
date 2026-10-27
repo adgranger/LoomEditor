@@ -1,6 +1,6 @@
 # P9-25 — Hide unchanged regions: the collapsed bar
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-24
 - **Size:** M
 
@@ -43,17 +43,17 @@ With `HideUnchangedRegions = true` the diff editor hides the long stretches of u
 
 ## Tests
 
-- [ ] New (`UnchangedRegionZonesTests`): `Compute_NoRegions_Empty`, `Compute_OneRegion_ZonesAfterLineBeforeHiddenRange`, `Compute_RegionWithTopVisibleLines_ZoneAfterTheVisibleOnes`, `Compute_ShouldHideControls_NoZoneButDecoration`, `Compute_SingleRegionCoveringWholeFile_Empty`, `Compute_HiddenAreas_AreTheHiddenRanges`, `Compute_Decorations_CoverWholeUnchangedRange`, `Compute_BarHeightIs24`.
-- [ ] New (`CollapsedZoneRenderingTests`): `Draw_Collapsed_DrawsBackgroundGlyphAndLabel`, `Draw_Label_SingularAndPlural`, `Draw_TopStrip_OnlyWhenVisibleTopLines`, `Draw_BottomStrip_OnlyWhenVisibleBottomLines`.
+- [x] New (`UnchangedRegionZonesTests`): `Compute_NoRegions_Empty`, `Compute_OneRegion_ZonesAfterLineBeforeHiddenRange`, `Compute_RegionWithTopVisibleLines_ZoneAfterTheVisibleOnes`, `Compute_ShouldHideControls_NoZoneButDecoration`, `Compute_SingleRegionCoveringWholeFile_Empty`, `Compute_HiddenAreas_AreTheHiddenRanges`, `Compute_Decorations_CoverWholeUnchangedRange`, `Compute_BarHeightIs24`.
+- [x] New (`CollapsedZoneRenderingTests`): `Draw_Collapsed_DrawsBackgroundGlyphAndLabel`, `Draw_Label_SingularAndPlural`, `Draw_TopStrip_OnlyWhenVisibleTopLines`, `Draw_BottomStrip_OnlyWhenVisibleBottomLines`.
 - [ ] Manual (P9-31's plan): with a long file and two small changes the unchanged stretches collapse; clicking the bar reveals; clicking the top / bottom edge reveals 20 lines; dragging reveals line by line; Ctrl+Home / searching into hidden lines reveals them; both sides stay aligned in side-by-side and in inline mode.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
-- [ ] `docs/PORTING.md`: `hideUnchangedRegionsFeature.ts` (subset: no compact mode, no breadcrumbs, no glyph fold icon)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
+- [x] `docs/PORTING.md`: `hideUnchangedRegionsFeature.ts` (subset: no compact mode, no breadcrumbs, no glyph fold icon)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

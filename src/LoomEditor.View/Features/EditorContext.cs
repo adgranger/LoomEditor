@@ -1,3 +1,4 @@
+using LoomEditor.View.Cursors;
 using LoomEditor.Core.Decorations;
 using System.Globalization;
 using LoomEditor.Core.Languages;
@@ -218,6 +219,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
         ViewModel.SetSelections("api", selections);
     }
 
+    /// <summary>Why the selections changed last, for a host that must tell a text reset from a user move.</summary>
+    internal CursorChangeReason LastSelectionChangeReason { get; private set; }
+
     /// <inheritdoc />
     public event EventHandler? SelectionChanged;
 
@@ -310,8 +314,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     private void OnViewModelEvent(object? sender, OutgoingViewModelEvent e)
     {
-        if (e is CursorStateChangedEvent)
+        if (e is CursorStateChangedEvent cursorEvent)
         {
+            LastSelectionChangeReason = cursorEvent.Reason;
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
     }

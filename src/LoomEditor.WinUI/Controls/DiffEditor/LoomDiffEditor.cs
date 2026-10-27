@@ -46,6 +46,7 @@ public sealed partial class LoomDiffEditor : Control
     private DiffEditorViewModel? _viewModel;
     private DiffDecorations? _decorations;
     private DiffEditorViewZones? _viewZones;
+    private HideUnchangedRegionsController? _hideUnchangedRegions;
     private bool _viewZonesInline;
     private EditorDecorationTarget? _originalTarget;
     private EditorDecorationTarget? _modifiedTarget;
@@ -79,6 +80,24 @@ public sealed partial class LoomDiffEditor : Control
 
     /// <summary>The number of changes (blocks of changed lines) of the last diff.</summary>
     public int ChangeCount => _viewModel?.Diff?.Mappings.Count ?? 0;
+
+    /// <summary>Collapses every unchanged region (Monaco: <c>diffEditor.collapseAllUnchangedRegions</c>); only has an effect while <see cref="HideUnchangedRegions"/> is on.</summary>
+    public void CollapseAllUnchangedRegions()
+    {
+        foreach (UnchangedRegion region in _viewModel?.UnchangedRegions ?? [])
+        {
+            region.CollapseAll();
+        }
+    }
+
+    /// <summary>Shows every unchanged region (Monaco: <c>diffEditor.showAllUnchangedRegions</c>).</summary>
+    public void ShowAllUnchangedRegions()
+    {
+        foreach (UnchangedRegion region in _viewModel?.UnchangedRegions ?? [])
+        {
+            region.ShowAll();
+        }
+    }
 
     /// <summary>Completes when <see cref="IsDiffUpToDate"/> is true; waits for the control to be loaded first.</summary>
     /// <param name="cancellationToken">Cancels the wait.</param>
@@ -154,6 +173,8 @@ public sealed partial class LoomDiffEditor : Control
             new DispatcherQueueUiDispatcher(DispatcherQueue),
             new DispatcherQueueEditorScheduler(DispatcherQueue));
         _viewModel.DiffChanged += OnViewModelDiffChanged;
+        _hideUnchangedRegions = new HideUnchangedRegionsController(
+            _original, _modified, _viewModel, DispatcherQueue, () => !_options.RenderSideBySideEffective, () => _options.HideUnchangedRegions.RevealLineCount);
         UpdateViewZones();
         _viewModelReady.TrySetResult();
     }
@@ -165,6 +186,8 @@ public sealed partial class LoomDiffEditor : Control
             return;
         }
 
+        _hideUnchangedRegions?.Dispose();
+        _hideUnchangedRegions = null;
         _viewZones?.Dispose();
         _viewZones = null;
         _viewModel.DiffChanged -= OnViewModelDiffChanged;
