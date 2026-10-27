@@ -1,6 +1,6 @@
 # P9-23 — Side by side: aligned view zones and synchronized scrolling
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-22
 - **Size:** M
 - **Recommended model:** Opus (two controls, their view zones, a layout feedback loop and scroll synchronization that interact; a mistake shows up only at runtime as drifting lines or an endless re-layout. On failure — the sides drift, the layout never settles, or the zone re-creation flickers — stop, do not commit, report what you observed, the zone lists of both sides at that moment and what you tried.)
@@ -41,16 +41,16 @@ In side-by-side mode both editors show the corresponding lines at the same heigh
 
 ## Tests
 
-- [ ] New (`AdditionalLineHeightsTests`): `Compute_NoZones_NoHeights`, `Compute_ForeignZone_ReturnsItsHeightAtModelLine`, `Compute_OwnZone_Ignored`, `Compute_AfterLineZero_LineNumberZero`, `Compute_WrappedLine_ExtraRows` (a model line with 3 view lines gives `2 * lineHeight`), `Compute_ZoneAndWrap_SameLine_Combined` (`JoinCombine` sums), `JoinCombine_*` (interleaved keys, equal keys combined, one list empty), `Compute_ZoneInHiddenView_MapsToModelLine`.
+- [x] New (`AdditionalLineHeightsTests`): `Compute_NoZones_NoHeights`, `Compute_ForeignZone_ReturnsItsHeightAtModelLine`, `Compute_OwnZone_Ignored`, `Compute_AfterLineZero_LineNumberZero`, `Compute_WrappedLine_ExtraRows` (a model line with 3 view lines gives `2 * lineHeight`), `Compute_ZoneAndWrap_SameLine_Combined` (`JoinCombine` sums), `JoinCombine_*` (interleaved keys, equal keys combined, one list empty), `Compute_ZoneInHiddenView_MapsToModelLine`.
 - [ ] Manual (in P9-31's plan): two files with an inserted block, a deleted block and a replaced block: the lines on both sides stay level while scrolling with the wheel and the scrollbar; dragging the horizontal scrollbar of one side moves the other; editing the modified text re-aligns after about 0.2 s without flicker; resizing the window keeps the alignment.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — result stated in the card (the Gallery has no diff demo yet: run the existing one to prove the AOT build still works; the diff editor itself is exercised in P9-31)
-- [ ] `docs/PORTING.md`: `diffEditorViewZones.ts` (side by side part), `utils.ts` (`joinCombine`, `applyViewZones`); "Behavior differences": no word wrap difference between sides, no top padding
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — result: Native AOT build OK (the Gallery has no diff demo yet: run the existing one to prove the AOT build still works; the diff editor itself is exercised in P9-31)
+- [x] `docs/PORTING.md`: `diffEditorViewZones.ts` (side by side part), `utils.ts` (`joinCombine`, `applyViewZones`); "Behavior differences": no word wrap difference between sides, no top padding
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

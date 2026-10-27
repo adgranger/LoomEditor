@@ -31,6 +31,13 @@ public sealed partial class LoomEditor
     /// <remarks>Threading: UI thread only.</remarks>
     internal ViewZones ViewZones => _viewModel.ViewZones;
 
+    /// <summary>Converts between model and view positions (needed to map whitespaces and wrapped lines to model lines).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal ICoordinatesConverter CoordinatesConverter => _viewModel.CoordinatesConverter;
+
+    /// <summary>Whether lines wrap.</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal bool IsWrapping => WordWrap != EditorWordWrap.Off;
     /// <summary>The height of a line, in DIPs.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal double LineHeight => _viewModel.FontInfo.LineHeight;

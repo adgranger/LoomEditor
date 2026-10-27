@@ -30,6 +30,7 @@ public sealed partial class LoomDiffEditor
         _sashLayout.EnableSplitViewResizing = _options.EnableSplitViewResizing;
         _sashLayout.SplitViewDefaultRatio = _options.SplitViewDefaultRatio;
         ApplyLayout();
+        UpdateViewZones();
     }
 
     private void OnSashMoved(object? sender, double sashLeft)
@@ -42,6 +43,25 @@ public sealed partial class LoomDiffEditor
     {
         _sashLayout.ResetSash();
         ApplyLayout();
+    }
+
+    // Monaco: the zones of diffEditorViewZones.ts exist only while both sides are shown.
+    private void UpdateViewZones()
+    {
+        bool wanted = _viewModel is not null && _original is not null && _modified is not null && _options.RenderSideBySideEffective;
+        if (!wanted)
+        {
+            _viewZones?.Dispose();
+            _viewZones = null;
+        }
+        else if (_viewZones is null)
+        {
+            _viewZones = new DiffEditorViewZones(_original!, _modified!, _viewModel!, DispatcherQueue);
+        }
+        else
+        {
+            _viewZones.Invalidate();
+        }
     }
 
     private void ApplyLayout()

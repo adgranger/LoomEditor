@@ -20,8 +20,8 @@ namespace LoomEditor.WinUI.Controls;
 /// </example>
 /// <remarks>
 /// <para>
-/// Subset of Monaco's widget: this part has the two editors, the sash and the decorations; alignment of the two sides, the inline
-/// view, hidden unchanged regions, navigation and the overview ruler are added by the following cards.
+/// Subset of Monaco's widget: this part has the two editors, the sash, the decorations and the alignment of the two sides (view zones and
+/// synchronized scrolling; word wrap must be the same on both, wrapping is off by default); the inline view, hidden unchanged regions, navigation and the overview ruler are added by the following cards.
 /// The editors are available as <see cref="Original"/> and <see cref="Modified"/>.
 /// </para>
 /// <para>Threading: UI thread only.</para>
@@ -45,6 +45,7 @@ public sealed partial class LoomDiffEditor : Control
     private DiffEditorSash? _sash;
     private DiffEditorViewModel? _viewModel;
     private DiffDecorations? _decorations;
+    private DiffEditorViewZones? _viewZones;
     private EditorDecorationTarget? _originalTarget;
     private EditorDecorationTarget? _modifiedTarget;
     private bool _isSyncingText;
@@ -152,6 +153,7 @@ public sealed partial class LoomDiffEditor : Control
             new DispatcherQueueUiDispatcher(DispatcherQueue),
             new DispatcherQueueEditorScheduler(DispatcherQueue));
         _viewModel.DiffChanged += OnViewModelDiffChanged;
+        UpdateViewZones();
         _viewModelReady.TrySetResult();
     }
 
@@ -162,6 +164,8 @@ public sealed partial class LoomDiffEditor : Control
             return;
         }
 
+        _viewZones?.Dispose();
+        _viewZones = null;
         _viewModel.DiffChanged -= OnViewModelDiffChanged;
         _viewModel.Dispose();
         _viewModel = null;
