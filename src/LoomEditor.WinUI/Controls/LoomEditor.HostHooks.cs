@@ -81,6 +81,17 @@ public sealed partial class LoomEditor
         }
     }
 
+    /// <summary>
+    /// Replaces the text of the model without going through <see cref="Text"/>, whose value is not kept in sync with the edits (a
+    /// host that sets the same string twice must still reset the model).
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal void ApplyText(string text)
+    {
+        _context.SetText(text);
+        _viewModel.SetIsDominatedByLongLines(_context.Model.IsDominatedByLongLines());
+    }
+
     /// <summary>Hides ranges of lines (Monaco: <c>setHiddenAreas</c>).</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal void SetHiddenAreas(IReadOnlyList<Core.Text.Range> ranges, object source) => _viewModel.SetHiddenAreas(ranges, source);

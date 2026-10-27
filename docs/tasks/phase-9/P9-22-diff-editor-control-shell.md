@@ -1,6 +1,6 @@
 # P9-22 — `LoomDiffEditor`: the control, its two editors, the sash and the public API
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-21, P9-17, P9-15
 - **Size:** M
 
@@ -39,16 +39,16 @@ A public `LoomDiffEditor` control exists: it hosts an original and a modified `L
 
 ## Tests
 
-- [ ] New (`SashLayoutTests`): `ComputeSashLeft_DefaultRatio_IsMidpoint`, `ComputeSashLeft_ClampsToMinimumEditorWidth`, `ComputeSashLeft_NarrowerThanTwoMinimums_Midpoint`, `ComputeSashLeft_ResizingDisabled_AlwaysMidpoint`, `ResetSash_RestoresDefaultRatio`.
+- [x] New (`SashLayoutTests`): `ComputeSashLeft_DefaultRatio_IsMidpoint`, `ComputeSashLeft_ClampsToMinimumEditorWidth`, `ComputeSashLeft_NarrowerThanTwoMinimums_Midpoint`, `ComputeSashLeft_ResizingDisabled_AlwaysMidpoint`, `ResetSash_RestoresDefaultRatio`.
 - [ ] Manual (recorded in the card result; part of P9-31's plan): the control shows two editors with the texts, the sash drags and double-click resets, editing the modified side updates `ModifiedText`, the decorations appear after a moment (no alignment yet).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
-- [ ] `docs/PORTING.md`: `diffEditorWidget.ts`, `diffEditorEditors.ts`, `diffEditorSash.ts` (subset)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
+- [x] `docs/PORTING.md`: `diffEditorWidget.ts`, `diffEditorEditors.ts`, `diffEditorSash.ts` (subset)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

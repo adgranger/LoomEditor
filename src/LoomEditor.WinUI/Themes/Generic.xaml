@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:LoomEditor.WinUI.Controls"
+    xmlns:diff="using:LoomEditor.WinUI.Controls.DiffEditor"
     xmlns:find="using:LoomEditor.WinUI.Controls.Find"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml">
 
@@ -43,6 +44,22 @@
                                 Visibility="Collapsed" />
                         </Grid>
                     </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Default look of the LoomDiffEditor control: the three parts are required and placed by code (sash position, inline mode). -->
+    <Style TargetType="controls:LoomDiffEditor">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:LoomDiffEditor">
+                    <Grid Background="{TemplateBinding Background}">
+                        <controls:LoomEditor x:Name="PART_Original" HorizontalAlignment="Left" />
+                        <controls:LoomEditor x:Name="PART_Modified" HorizontalAlignment="Stretch" />
+                        <diff:DiffEditorSash x:Name="PART_Sash" HorizontalAlignment="Left" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -191,9 +191,7 @@ public sealed partial class LoomEditor : Control
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        var editor = (LoomEditor)sender;
-        editor._context.SetText((string?)e.NewValue ?? string.Empty);
-        editor._viewModel.SetIsDominatedByLongLines(editor._context.Model.IsDominatedByLongLines());
+        ((LoomEditor)sender).ApplyText((string?)e.NewValue ?? string.Empty);
     }
 
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
