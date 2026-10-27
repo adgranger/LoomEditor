@@ -1,6 +1,6 @@
 # P9-13 — `UnchangedRegion`: which unchanged lines are hidden
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-12
 - **Size:** M
 
@@ -35,14 +35,14 @@ The model of "hide unchanged regions" exists: the regions between changes that c
 
 ## Tests
 
-- [ ] New (expected values computed by hand from Monaco's formulas; each test names the member): `FromDiffs_NoChanges_WholeFileOneRegionHidden`, `FromDiffs_ChangeInTheMiddle_TwoRegionsWithContext` (30 lines, change at line 15, context 3, minimum 3 → regions `[1, 12)` minus context at the end only on one side: compute and assert both regions' original/modified start and count), `FromDiffs_SmallGap_NoRegion` (gap shorter than `2*context + min`), `FromDiffs_AtStartAtEnd_OneSidedContext`, `Constructor_ClampsVisibleCounts`, `GetHiddenRanges_AfterShowMoreAbove`, `ShowMoreAbove_Capped`, `ShowMoreBelow_Capped`, `ShowAll_NoHiddenLines_ControlsHidden`, `CollapseAll`, `ShowModifiedLine_FromCloserSide_Top`, `ShowModifiedLine_FromBottom`, `ShowOriginalLine_*`, `SetHiddenModifiedRange_*`, `SetVisibleRanges_SplitsInTwoRegions`, `SetVisibleRanges_AllVisible_ShowsAll`, `Changed_RaisedOncePerMutation`, `Changed_NotRaisedWhenNothingChanges`.
+- [x] New (expected values computed by hand from Monaco's formulas; each test names the member): `FromDiffs_NoChanges_WholeFileOneRegionHidden`, `FromDiffs_ChangeInTheMiddle_TwoRegionsWithContext` (30 lines, change at line 15, context 3, minimum 3 → regions `[1, 12)` minus context at the end only on one side: compute and assert both regions' original/modified start and count), `FromDiffs_SmallGap_NoRegion` (gap shorter than `2*context + min`), `FromDiffs_AtStartAtEnd_OneSidedContext`, `Constructor_ClampsVisibleCounts`, `GetHiddenRanges_AfterShowMoreAbove`, `ShowMoreAbove_Capped`, `ShowMoreBelow_Capped`, `ShowAll_NoHiddenLines_ControlsHidden`, `CollapseAll`, `ShowModifiedLine_FromCloserSide_Top`, `ShowModifiedLine_FromBottom`, `ShowOriginalLine_*`, `SetHiddenModifiedRange_*`, `SetVisibleRanges_SplitsInTwoRegions`, `SetVisibleRanges_AllVisible_ShowsAll`, `Changed_RaisedOncePerMutation`, `Changed_NotRaisedWhenNothingChanges`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `UnchangedRegion`, `RevealPreference`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `UnchangedRegion`, `RevealPreference`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
