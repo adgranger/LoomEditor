@@ -1,6 +1,6 @@
 # P9-20 — Read-only editor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-18
 - **Size:** M
 
@@ -38,15 +38,15 @@ Read each file (`curl` them) and note in the card result which entry points Mona
 
 ## Tests
 
-- [ ] New (`EditorContext` driven, no WinUI): `ReadOnly_Type_DoesNotChangeText`, `ReadOnly_Backspace_Delete_DoNothing`, `ReadOnly_Paste_Cut_DoNothing_CopyStillWorks`, `ReadOnly_UndoRedo_DoNothing`, `ReadOnly_MoveLinesDown_DoesNothing`, `ReadOnly_CommentLine_DoesNothing`, `ReadOnly_Indent_DoesNothing`, `ReadOnly_Composition_Ignored`, `ReadOnly_SelectAll_Navigation_Find_StillWork`, `ReadOnly_ModelApplyEdits_StillWorks`, `ReadOnly_SetFalse_EditingWorksAgain`, `ReadOnlyChanged_RaisedOnChangeOnly`, `KeybindingContext_EditorReadOnly_ReflectsProperty`, `Keybinding_Indent_NotResolvedWhenReadOnly`.
+- [x] New (`EditorContext` driven, no WinUI): `ReadOnly_Type_DoesNotChangeText`, `ReadOnly_Backspace_Delete_DoNothing`, `ReadOnly_Paste_Cut_DoNothing_CopyStillWorks`, `ReadOnly_UndoRedo_DoNothing`, `ReadOnly_MoveLinesDown_DoesNothing`, `ReadOnly_CommentLine_DoesNothing`, `ReadOnly_Indent_DoesNothing`, `ReadOnly_Composition_Ignored`, `ReadOnly_SelectAll_Navigation_Find_StillWork`, `ReadOnly_ModelApplyEdits_StillWorks`, `ReadOnly_SetFalse_EditingWorksAgain`, `ReadOnlyChanged_RaisedOnChangeOnly`, `KeybindingContext_EditorReadOnly_ReflectsProperty`, `Keybinding_Indent_NotResolvedWhenReadOnly`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
-- [ ] `docs/PORTING.md`: where Monaco guards and where this repository guards; "Behavior differences": no `readOnlyMessage`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
+- [x] `docs/PORTING.md`: where Monaco guards and where this repository guards; "Behavior differences": no `readOnlyMessage`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

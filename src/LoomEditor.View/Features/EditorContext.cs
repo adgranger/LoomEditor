@@ -221,6 +221,23 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <inheritdoc />
     public event EventHandler? SelectionChanged;
 
+    /// <inheritdoc />
+    public bool IsReadOnly
+    {
+        get => ViewModel.IsReadOnly;
+        set
+        {
+            if (ViewModel.IsReadOnly != value)
+            {
+                ViewModel.SetCursorOptions(ViewModel.CursorOptions with { ReadOnly = value });
+                ReadOnlyChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <inheritdoc />
+    public event EventHandler? ReadOnlyChanged;
+
     /// <summary>
     /// Replaces the whole text. Accepts <c>\r\n</c>, <c>\n</c> and <c>\r</c> line breaks.
     /// The cursor is reset to the start of the document.

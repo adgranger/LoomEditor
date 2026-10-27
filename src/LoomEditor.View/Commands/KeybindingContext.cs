@@ -10,7 +10,7 @@ namespace LoomEditor.View.Commands;
 /// <param name="HasNonEmptySelection"><c>editorHasSelection</c>: some selection is not empty.</param>
 /// <param name="HasMultipleSelections"><c>editorHasMultipleSelections</c>: there are several cursors.</param>
 /// <param name="ColumnSelection"><c>editorColumnSelection</c>: the <c>columnSelection</c> option.</param>
-/// <param name="Writable"><c>!editorReadonly</c>.</param>
+/// <param name="EditorReadOnly"><c>editorReadonly</c>: user edits are ignored (the default, false, is a writable editor).</param>
 /// <param name="TabDoesNotMoveFocus"><c>editorTabMovesFocus</c> is false.</param>
 /// <param name="AccessibilityModeEnabled"><c>accessibilityModeEnabled</c>.</param>
 /// <param name="EditorFocus"><c>editorFocus</c>: the editor (or its find widget) has the focus.</param>
@@ -28,7 +28,7 @@ internal readonly record struct KeybindingContext(
     bool HasNonEmptySelection = false,
     bool HasMultipleSelections = false,
     bool ColumnSelection = false,
-    bool Writable = false,
+    bool EditorReadOnly = false,
     bool TabDoesNotMoveFocus = false,
     bool AccessibilityModeEnabled = false,
     bool EditorFocus = false,

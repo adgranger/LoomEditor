@@ -129,11 +129,14 @@ LoomEditor.View.Features.EditorContext.Dispose() -> void
 LoomEditor.View.Features.EditorContext.DocumentUri.get -> string!
 LoomEditor.View.Features.EditorContext.DocumentUri.set -> void
 LoomEditor.View.Features.EditorContext.EditorContext() -> void
+LoomEditor.View.Features.EditorContext.IsReadOnly.get -> bool
+LoomEditor.View.Features.EditorContext.IsReadOnly.set -> void
 LoomEditor.View.Features.EditorContext.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
 LoomEditor.View.Features.EditorContext.LocationOpener.get -> LoomEditor.View.Features.GotoDefinition.ILocationOpener?
 LoomEditor.View.Features.EditorContext.LocationOpener.set -> void
 LoomEditor.View.Features.EditorContext.Markers.get -> LoomEditor.Core.Markers.MarkerService!
 LoomEditor.View.Features.EditorContext.Model.get -> LoomEditor.Core.Model.TextModel!
+LoomEditor.View.Features.EditorContext.ReadOnlyChanged -> System.EventHandler?
 LoomEditor.View.Features.EditorContext.Scheduler.get -> LoomEditor.View.Features.Scheduling.IEditorScheduler!
 LoomEditor.View.Features.EditorContext.Selection.get -> LoomEditor.Core.Text.Selection
 LoomEditor.View.Features.EditorContext.Selection.set -> void
@@ -157,7 +160,10 @@ LoomEditor.View.Features.GotoDefinition.ILocationOpener
 LoomEditor.View.Features.GotoDefinition.ILocationOpener.Open(LoomEditor.Core.Languages.Features.LocationLink! target) -> bool
 LoomEditor.View.Features.IEditorContext
 LoomEditor.View.Features.IEditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
+LoomEditor.View.Features.IEditorContext.IsReadOnly.get -> bool
+LoomEditor.View.Features.IEditorContext.IsReadOnly.set -> void
 LoomEditor.View.Features.IEditorContext.Model.get -> LoomEditor.Core.Model.TextModel!
+LoomEditor.View.Features.IEditorContext.ReadOnlyChanged -> System.EventHandler?
 LoomEditor.View.Features.IEditorContext.Scheduler.get -> LoomEditor.View.Features.Scheduling.IEditorScheduler!
 LoomEditor.View.Features.IEditorContext.Selection.get -> LoomEditor.Core.Text.Selection
 LoomEditor.View.Features.IEditorContext.Selection.set -> void

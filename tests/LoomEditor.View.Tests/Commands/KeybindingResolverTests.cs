@@ -4,7 +4,7 @@ namespace LoomEditor.View.Tests.Commands;
 
 public class KeybindingResolverTests
 {
-    private static readonly KeybindingContext Focused = new(TextInputFocus: true, EditorTextFocus: true, Writable: true, TabDoesNotMoveFocus: true);
+    private static readonly KeybindingContext Focused = new(TextInputFocus: true, EditorTextFocus: true, TabDoesNotMoveFocus: true);
 
     private static string? Resolve(KeyModifiers modifiers, KeyCode key, KeybindingContext context) =>
         KeybindingResolver.Default.Resolve(new Keybinding(modifiers, key), context);
@@ -40,7 +40,7 @@ public class KeybindingResolverTests
     [Fact]
     public void Resolve_NotWritable_TabAndCtrlBackspaceDoNothing()
     {
-        KeybindingContext readOnly = Focused with { Writable = false };
+        KeybindingContext readOnly = Focused with { EditorReadOnly = true };
 
         Assert.Null(Resolve(KeyModifiers.None, KeyCode.Tab, readOnly));
         Assert.Null(Resolve(KeyModifiers.Shift, KeyCode.Tab, readOnly));
@@ -113,10 +113,10 @@ public class KeybindingResolverTests
     [Fact]
     public void Resolve_ChordWhoseWhenIsFalse_ReturnsNoMatchingKb()
     {
-        KeybindingResolver resolver = ChordResolver(context => context.Writable);
+        KeybindingResolver resolver = ChordResolver(context => !context.EditorReadOnly);
 
-        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolver.Resolve(Focused with { Writable = false }, null, CtrlK).Kind);
-        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolver.Resolve(Focused with { Writable = false }, CtrlK, CtrlC).Kind);
+        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolver.Resolve(Focused with { EditorReadOnly = true }, null, CtrlK).Kind);
+        Assert.Equal(KeybindingResolutionKind.NoMatchingKb, resolver.Resolve(Focused with { EditorReadOnly = true }, CtrlK, CtrlC).Kind);
     }
 
     [Fact]

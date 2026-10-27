@@ -4,7 +4,7 @@ namespace LoomEditor.View.Tests.Commands;
 
 public class KeybindingDispatcherTests
 {
-    private static readonly KeybindingContext Focused = new(TextInputFocus: true, EditorTextFocus: true, Writable: true, TabDoesNotMoveFocus: true);
+    private static readonly KeybindingContext Focused = new(TextInputFocus: true, EditorTextFocus: true, TabDoesNotMoveFocus: true);
     private static readonly Keybinding CtrlK = new(KeyModifiers.Ctrl, KeyCode.KeyK);
     private static readonly Keybinding CtrlC = new(KeyModifiers.Ctrl, KeyCode.KeyC);
     private static readonly Keybinding F1 = new(KeyModifiers.None, KeyCode.F1);

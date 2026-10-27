@@ -10,6 +10,9 @@ namespace LoomEditor.View.Commands;
 /// <remarks>Threading: pure functions; thread-safe.</remarks>
 internal static class WhenClauses
 {
+    /// <summary><c>writable</c> (<c>!editorReadonly</c>): the precondition of the editing actions.</summary>
+    public static bool Writable(KeybindingContext c) => !c.EditorReadOnly;
+
     /// <summary><c>editorTextFocus</c> (kbExpr of the multi-cursor commands).</summary>
     public static bool EditorTextFocus(KeybindingContext c) => c.EditorTextFocus;
 
@@ -26,13 +29,13 @@ internal static class WhenClauses
     public static bool ColumnSelection(KeybindingContext c) => c.TextInputFocus && c.ColumnSelection;
 
     /// <summary><c>writable AND editorTextFocus AND tabDoesNotMoveFocus</c> (<c>tab</c>, <c>outdent</c>).</summary>
-    public static bool Tab(KeybindingContext c) => c.Writable && c.EditorTextFocus && c.TabDoesNotMoveFocus;
+    public static bool Tab(KeybindingContext c) => !c.EditorReadOnly && c.EditorTextFocus && c.TabDoesNotMoveFocus;
 
     /// <summary><c>writable AND editorTextFocus</c> (the comment commands).</summary>
-    public static bool WritableEditorTextFocus(KeybindingContext c) => c.Writable && c.EditorTextFocus;
+    public static bool WritableEditorTextFocus(KeybindingContext c) => !c.EditorReadOnly && c.EditorTextFocus;
 
     /// <summary><c>writable AND textInputFocus</c> (word deletes).</summary>
-    public static bool WritableTextInput(KeybindingContext c) => c.Writable && c.TextInputFocus;
+    public static bool WritableTextInput(KeybindingContext c) => !c.EditorReadOnly && c.TextInputFocus;
 
     /// <summary>
     /// <c>textInputFocus AND NOT (accessibilityModeEnabled AND isWindows)</c> (word moves). The default keybindings are the
@@ -62,7 +65,7 @@ internal static class WhenClauses
     public static bool SuggestNavigation(KeybindingContext c) => c.SuggestWidgetVisible && c.SuggestWidgetMultipleSuggestions && c.TextInputFocus;
 
     /// <summary><c>textInputFocus AND writable AND editorHasCompletionItemProvider AND NOT suggestWidgetVisible</c> (<c>editor.action.triggerSuggest</c>).</summary>
-    public static bool TriggerSuggest(KeybindingContext c) => c.TextInputFocus && c.Writable && c.HasCompletionItemProvider && !c.SuggestWidgetVisible;
+    public static bool TriggerSuggest(KeybindingContext c) => c.TextInputFocus && !c.EditorReadOnly && c.HasCompletionItemProvider && !c.SuggestWidgetVisible;
 
     /// <summary><c>editorHasDefinitionProvider AND editorTextFocus</c> (<c>editor.action.revealDefinition</c>).</summary>
     public static bool GotoDefinition(KeybindingContext c) => c.EditorTextFocus && c.HasDefinitionProvider;

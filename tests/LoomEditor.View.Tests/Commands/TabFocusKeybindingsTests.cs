@@ -6,7 +6,7 @@ namespace LoomEditor.View.Tests.Commands;
 // New tests: keybindings of toggleTabFocusMode.ts (no kbExpr) and of the Tab / outdent rules.
 public class TabFocusKeybindingsTests
 {
-    private static readonly KeybindingContext Focused = new(Writable: true, EditorTextFocus: true, TabDoesNotMoveFocus: true);
+    private static readonly KeybindingContext Focused = new(EditorTextFocus: true, TabDoesNotMoveFocus: true);
 
     private static string? Resolve(KeyModifiers modifiers, KeyCode key, KeybindingContext context) =>
         KeybindingResolver.Default.Resolve(new Keybinding(modifiers, key), context);

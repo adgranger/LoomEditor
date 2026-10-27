@@ -225,7 +225,7 @@ public partial class LinesOperationsTests
     [Fact]
     public void Keybindings_DeleteIndentAndInsertKeys_ResolveToTheirCommands()
     {
-        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: true);
+        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true);
         var dispatcher = new KeybindingDispatcher(KeybindingResolver.Default);
 
         Assert.True(dispatcher.Dispatch(new Keybinding(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.KeyK), focused, out string? deleteLines));
@@ -235,7 +235,7 @@ public partial class LinesOperationsTests
         Assert.True(dispatcher.Dispatch(new Keybinding(KeyModifiers.Ctrl, KeyCode.Enter), focused, out string? insertAfter));
         Assert.Equal(LinesOperationsCommands.InsertLineAfter, insertAfter);
 
-        var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: false);
+        var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, EditorReadOnly: true);
         Assert.Null(KeybindingResolver.Default.Resolve(new Keybinding(KeyModifiers.Ctrl | KeyModifiers.Shift, KeyCode.KeyK), readOnly));
     }
 }
