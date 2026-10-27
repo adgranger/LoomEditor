@@ -1,6 +1,6 @@
 # P9-07 — Text abstraction and range mappings: `LineRangeMapping`, `RangeMapping`, `LinesDiff`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-06
 - **Size:** M
 
@@ -39,15 +39,15 @@ The result types of a diff exist: `RangeMapping` (character level), `LineRangeMa
 
 ## Tests
 
-- [ ] Port: suite `lineRangeMapping` of `defaultLinesDiffComputer.test.ts`, tests `Simple`, `Empty Lines`, `Whitespace` ... (all of them; they use `getLineRangeMapping(new RangeMapping(...), new ArrayText([...]), new ArrayText([...])).toString()`).
-- [ ] New: `Inverse_FullCoverage`, `Inverse_Empty`, `Clip_*`, `Join_*`, `Flip_SwapsOriginalAndModified`, `LineRangeMappingFromRangeMappings_GroupsByLine`, `RangeMapping_AssertSorted_Unsorted_Asserts`, `ArrayText_GetValueOfRange_MultiLine`, `ArrayText_Length`.
+- [x] Port: suite `lineRangeMapping` of `defaultLinesDiffComputer.test.ts`, tests `Simple`, `Empty Lines`, `Whitespace` ... (all of them; they use `getLineRangeMapping(new RangeMapping(...), new ArrayText([...]), new ArrayText([...])).toString()`).
+- [x] New: `Inverse_FullCoverage`, `Inverse_Empty`, `Clip_*`, `Join_*`, `Flip_SwapsOriginalAndModified`, `LineRangeMappingFromRangeMappings_GroupsByLine`, `RangeMapping_AssertSorted_Unsorted_Asserts`, `ArrayText_GetValueOfRange_MultiLine`, `ArrayText_Length`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `rangeMapping.ts`, `linesDiffComputer.ts`, `abstractText.ts` (+ the "Not ported" list)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `rangeMapping.ts`, `linesDiffComputer.ts`, `abstractText.ts` (+ the "Not ported" list)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
