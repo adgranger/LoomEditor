@@ -1,6 +1,6 @@
 # P9-12 — `DiffEditorOptions`, `DiffState` and `DiffMapping`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-11
 - **Size:** S
 
@@ -34,14 +34,14 @@ The settings of a diff editor (with Monaco's defaults and validation, and the ru
 
 ## Tests
 
-- [ ] New: `Defaults_MatchMonaco` (every default of the list above), `SplitViewDefaultRatio_Clamped_0_1_To_0_9`, `NegativeCounts_ClampedToZero`, `Changed_RaisedOnlyWhenValueChanges`, `Changed_CarriesTheChangedNames`, `RenderSideBySideEffective_WideEditor_True`, `RenderSideBySideEffective_NarrowEditor_False_WhenUseInlineViewWhenSpaceIsLimited`, `RenderSideBySideEffective_NarrowEditor_True_WhenOptionOff`, `RenderSideBySideEffective_ScreenReader_StaysSideBySide`, `RenderSideBySideInlineOption_False_AlwaysInline`, `SetWidth_RaisesChangedWhenEffectiveValueFlips`, `HideUnchangedRegions_Replace_RaisesChanged`, `DiffState_FromDiffResult_WrapsMappings`.
+- [x] New: `Defaults_MatchMonaco` (every default of the list above), `SplitViewDefaultRatio_Clamped_0_1_To_0_9`, `NegativeCounts_ClampedToZero`, `Changed_RaisedOnlyWhenValueChanges`, `Changed_CarriesTheChangedNames`, `RenderSideBySideEffective_WideEditor_True`, `RenderSideBySideEffective_NarrowEditor_False_WhenUseInlineViewWhenSpaceIsLimited`, `RenderSideBySideEffective_NarrowEditor_True_WhenOptionOff`, `RenderSideBySideEffective_ScreenReader_StaysSideBySide`, `RenderSideBySideInlineOption_False_AlwaysInline`, `SetWidth_RaisesChangedWhenEffectiveValueFlips`, `HideUnchangedRegions_Replace_RaisesChanged`, `DiffState_FromDiffResult_WrapsMappings`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `diffEditor.ts` (defaults), `diffEditorOptions.ts` (subset), `DiffState` / `DiffMapping`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `diffEditor.ts` (defaults), `diffEditorOptions.ts` (subset), `DiffState` / `DiffMapping`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
