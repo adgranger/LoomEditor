@@ -1,6 +1,6 @@
 # P9-11 — `DocumentDiffProvider`: diffing two models off the UI thread
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-10
 - **Size:** S
 
@@ -37,14 +37,14 @@ Given two `TextModel`s, `DocumentDiffProvider.ComputeDiffAsync` returns a `Docum
 
 ## Tests
 
-- [ ] New: `ComputeDiffAsync_IdenticalModels_IdenticalTrue`, `ComputeDiffAsync_DifferentModels_ReturnsChanges`, `ComputeDiffAsync_OnlyEolDiffers_Identical` (the models have different EOL but equal lines: `Identical == true`, as in Monaco), `ComputeDiffAsync_CancelledBefore_Cancelled`, `ComputeDiffAsync_ModelEditedWhileRunning_UsesSnapshot` (a computer fake that blocks on a `ManualResetEventSlim`; edit the model; release; the result still describes the old text), `ComputeDiffAsync_QuitEarly_WhenComputerHitTimeout` (fake computer returns `HitTimeout = true`), `ComputeDiffAsync_FakeComputerThrows_TaskFaulted`, `ComputeDiffAsync_OriginalEmpty_ModifiedNot_SingleChange`, `ComputeDiffAsync_BothEmpty_Identical`, `ComputeDiffAsync_CancelledDuringCompute_QuitEarlyResult`, `Normalize_FullLineInnerChange_ExtendedToNextLineStart`, `Normalize_NotAtLineEnd_Unchanged`, `Normalize_LastLine_Unchanged`.
+- [x] New: `ComputeDiffAsync_IdenticalModels_IdenticalTrue`, `ComputeDiffAsync_DifferentModels_ReturnsChanges`, `ComputeDiffAsync_OnlyEolDiffers_Identical` (the models have different EOL but equal lines: `Identical == true`, as in Monaco), `ComputeDiffAsync_CancelledBefore_Cancelled`, `ComputeDiffAsync_ModelEditedWhileRunning_UsesSnapshot` (a computer fake that blocks on a `ManualResetEventSlim`; edit the model; release; the result still describes the old text), `ComputeDiffAsync_QuitEarly_WhenComputerHitTimeout` (fake computer returns `HitTimeout = true`), `ComputeDiffAsync_FakeComputerThrows_TaskFaulted`, `ComputeDiffAsync_OriginalEmpty_ModifiedNot_SingleChange`, `ComputeDiffAsync_BothEmpty_Identical`, `ComputeDiffAsync_CancelledDuringCompute_QuitEarlyResult`, `Normalize_FullLineInnerChange_ExtendedToNextLineStart`, `Normalize_NotAtLineEnd_Unchanged`, `Normalize_LastLine_Unchanged`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `documentDiffProvider.ts`, `editorWebWorker.ts` (`computeDiff`), `diffProviderFactoryService.ts` (early-outs only), `normalizeDocumentDiff`; "Behavior differences": no worker, no cache
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `documentDiffProvider.ts`, `editorWebWorker.ts` (`computeDiff`), `diffProviderFactoryService.ts` (early-outs only), `normalizeDocumentDiff`; "Behavior differences": no worker, no cache
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
