@@ -44,7 +44,7 @@ Sources: none (documentation only).
 
 ## Out of scope
 
-Phase 10, running the manual plan, any code change.
+Phase 10 (see the roadmap), running the manual plan, any code change.
 
 ## Suggested commit message
 

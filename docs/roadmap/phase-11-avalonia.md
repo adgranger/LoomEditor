@@ -1,4 +1,4 @@
-# Phase 10 — Avalonia backend (macOS and Linux)
+# Phase 11 — Avalonia backend (macOS and Linux)
 
 Later, not scheduled. `LoomEditor.Core`, `TextMate`, `Themes` and `View` already run on any .NET platform
 (enforced by the architecture tests); only the two Windows projects are specific to Windows.
