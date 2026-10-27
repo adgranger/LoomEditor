@@ -1,6 +1,6 @@
 # P9-19 — Drawing view zones: the diagonal fill
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-18, P9-16
 - **Size:** S
 
@@ -33,16 +33,16 @@ The renderer paints the zones that are in the viewport. `Empty` zones show the d
 
 ## Tests
 
-- [ ] New (`tests/LoomEditor.Rendering.Tests`, recording surface): `Draw_EmptyZone_DrawsOneImageOverZoneRect`, `Draw_NoZones_NoImageCalls`, `Draw_ZoneOutsideViewport_NotDrawn`, `Draw_HiddenZone_NotDrawn`, `Draw_DeletedLinesZone_Skipped_NoException`, `Draw_ScrolledViewport_ZoneRectMovesWithScrollTop`, `Draw_NoDiagonalFillColor_NotDrawn`, `Pattern_Buffer_StripesAtExpectedPixels` (check four pixels of the 8×8 tile), `Pattern_Cache_ReusesBufferForSameSize`, `Pattern_Cache_EvictsBeyondEight`.
-- [ ] New (`ViewportDataZonesTests`): `ZoneViewportData_ListsZonesInViewport`, `ZoneViewportData_NonZoneWhitespace_Ignored`.
+- [x] New (`tests/LoomEditor.Rendering.Tests`, recording surface): `Draw_EmptyZone_DrawsOneImageOverZoneRect`, `Draw_NoZones_NoImageCalls`, `Draw_ZoneOutsideViewport_NotDrawn`, `Draw_HiddenZone_NotDrawn`, `Draw_DeletedLinesZone_Skipped_NoException`, `Draw_ScrolledViewport_ZoneRectMovesWithScrollTop`, `Draw_NoDiagonalFillColor_NotDrawn`, `Pattern_Buffer_StripesAtExpectedPixels` (check four pixels of the 8×8 tile), `Pattern_Cache_ReusesBufferForSameSize`, `Pattern_Cache_EvictsBeyondEight`.
+- [x] New (`ViewportDataZonesTests`): `ZoneViewportData_ListsZonesInViewport`, `ZoneViewportData_NonZoneWhitespace_Ignored`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [ ] **Manual check (maintainer, in P9-31's plan):** an empty zone shows the hatching and scrolls with the text
-- [ ] `docs/PORTING.md`: `.diagonal-fill` row + the DPI difference
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `docs/PORTING.md`: `.diagonal-fill` row + the DPI difference
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

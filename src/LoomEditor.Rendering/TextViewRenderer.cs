@@ -162,6 +162,8 @@ internal sealed partial class TextViewRenderer : IDisposable
             }
         }
 
+        DrawViewZones(surface, data, layoutInfo, scrollTop);
+
         // Monaco: the current line highlight overlay is under the text.
         // Monaco: `_selectionIsEmpty` is true only when every selection is empty; one highlight per distinct line.
         HashSet<int> cursorLines = GetCursorLineNumbers(selections);

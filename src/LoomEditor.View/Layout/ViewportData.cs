@@ -33,6 +33,11 @@ internal sealed class ViewportData
         BigNumbersDelta = partialData.BigNumbersDelta;
         LineHeight = partialData.LineHeight;
         WhitespaceViewportData = whitespaceViewportData;
+        ZoneViewportData = [.. whitespaceViewportData
+            .Select(whitespace => viewModel.ViewZones.GetZone(whitespace.Id) is { } zone
+                ? new ViewZoneViewportData(zone, whitespace.VerticalOffset, whitespace.Height)
+                : (ViewZoneViewportData?)null)
+            .OfType<ViewZoneViewportData>()];
 
         VisibleRange = new Range(
             partialData.StartLineNumber,
@@ -75,4 +80,7 @@ internal sealed class ViewportData
 
     /// <summary>Positioning information about whitespace gaps.</summary>
     public IReadOnlyList<ViewWhitespaceViewportData> WhitespaceViewportData { get; }
+
+    /// <summary>The view zones among <see cref="WhitespaceViewportData"/>, in the same order.</summary>
+    public IReadOnlyList<ViewZoneViewportData> ZoneViewportData { get; }
 }
