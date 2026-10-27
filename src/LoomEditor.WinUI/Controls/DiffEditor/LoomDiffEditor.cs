@@ -46,6 +46,7 @@ public sealed partial class LoomDiffEditor : Control
     private DiffEditorViewModel? _viewModel;
     private DiffDecorations? _decorations;
     private DiffEditorViewZones? _viewZones;
+    private bool _viewZonesInline;
     private EditorDecorationTarget? _originalTarget;
     private EditorDecorationTarget? _modifiedTarget;
     private bool _isSyncingText;

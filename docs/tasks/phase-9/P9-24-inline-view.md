@@ -1,6 +1,6 @@
 # P9-24 — Inline view: deleted lines drawn inside the modified editor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-23
 - **Size:** M
 - **Recommended model:** Opus (the renderer must draw lines of a **different model** (the original) inside zones of the modified editor, which means extracting the line drawing path of `TextViewRenderer` without changing how the editor draws today. On failure — the normal editor rendering changes, the Rendering tests regress, or the zone text is drawn with wrong tokens or offsets — stop, do not commit, report what you changed in `TextViewRenderer`, the failing tests and what you tried.)
@@ -39,16 +39,16 @@ With `RenderSideBySide = false` (or when the space is limited), the diff editor 
 
 ## Tests
 
-- [ ] New (`InlineViewZonesTests`): `Compute_NoAlignments_Empty`, `Compute_Deletion_OneDeletedLinesZoneBeforeFollowingLine` (`[3,5)->[3,3)` → after line 2, height `2*lh`), `Compute_Replacement_DeletedZoneAboveModifiedRange`, `Compute_Insertion_NoZone` (original range empty), `Compute_InnerChanges_BecomeDeletedRangesClippedToTheBlock`, `Compute_NoDiffAlignment_NegativeDelta_EmptyZone`, `Compute_NoDiffAlignment_PositiveDelta_Nothing`, `Compute_ZoneSuppressesMouseDown`.
-- [ ] New (`DeletedLinesZoneRenderingTests`, recording surface): `Draw_DeletedZone_DrawsBackgroundAndOneLineLayoutPerLine`, `Draw_DeletedRanges_DrawBackgroundsBehindText`, `Draw_OriginalLineNumbersInMargin`, `Draw_RenderIndicators_DrawsMinusSign`, `Draw_LineMissing_Skipped`, `Draw_NormalEditorRendering_Unchanged` (an existing text rendered before and after the extraction gives the same recorded calls: use the recording the neighbouring tests make).
+- [x] New (`InlineViewZonesTests`): `Compute_NoAlignments_Empty`, `Compute_Deletion_OneDeletedLinesZoneBeforeFollowingLine` (`[3,5)->[3,3)` → after line 2, height `2*lh`), `Compute_Replacement_DeletedZoneAboveModifiedRange`, `Compute_Insertion_NoZone` (original range empty), `Compute_InnerChanges_BecomeDeletedRangesClippedToTheBlock`, `Compute_NoDiffAlignment_NegativeDelta_EmptyZone`, `Compute_NoDiffAlignment_PositiveDelta_Nothing`, `Compute_ZoneSuppressesMouseDown`.
+- [x] New (`DeletedLinesZoneRenderingTests`, recording surface): `Draw_DeletedZone_DrawsBackgroundAndOneLineLayoutPerLine`, `Draw_DeletedRanges_DrawBackgroundsBehindText`, `Draw_OriginalLineNumbersInMargin`, `Draw_RenderIndicators_DrawsMinusSign`, `Draw_LineMissing_Skipped`, `Draw_NormalEditorRendering_Unchanged` (an existing text rendered before and after the extraction gives the same recorded calls: use the recording the neighbouring tests make).
 - [ ] Manual (P9-31's plan): turn `RenderSideBySide` off; deleted blocks appear in red with old line numbers and the old text coloured like the original; shrinking the window below 900 DIPs switches to inline; growing it switches back.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (all earlier Rendering tests unchanged)
-- [ ] `docs/PORTING.md`: `renderLines.ts`, `diffEditorViewZones.ts` (inline part); "Behavior differences": deleted text not selectable, no wrapping inside zones, original line numbers drawn by the renderer
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (all earlier Rendering tests unchanged)
+- [x] `docs/PORTING.md`: `renderLines.ts`, `diffEditorViewZones.ts` (inline part); "Behavior differences": deleted text not selectable, no wrapping inside zones, original line numbers drawn by the renderer
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

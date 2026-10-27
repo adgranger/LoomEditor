@@ -16,8 +16,7 @@ namespace LoomEditor.WinUI.Controls.DiffEditor;
 /// <remarks>
 /// <para>
 /// Deliberate difference: recomputation is event driven and coalesced in one dispatcher tick, instead of observables; a pass that
-/// would produce the zones already in place is skipped, which ends the layout feedback loop. Not ported: the inline view (zones of
-/// deleted lines), moved text padding and the animated scroll offsets.
+/// would produce the zones already in place is skipped, which ends the layout feedback loop. Not ported: moved text padding and the animated scroll offsets.
 /// </para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
@@ -29,24 +28,28 @@ internal sealed class DiffEditorViewZones : IDisposable
     private readonly LoomEditor _modified;
     private readonly DiffEditorViewModel _viewModel;
     private readonly DispatcherQueue _dispatcher;
+    private readonly bool _inline;
+    private readonly Func<bool> _renderIndicators;
     private readonly HashSet<string> _originalOwn = [];
     private readonly HashSet<string> _modifiedOwn = [];
-    private List<(int After, int Height)> _originalSpecs = [];
-    private List<(int After, int Height)> _modifiedSpecs = [];
+    private List<ZoneSpec> _originalSpecs = [];
+    private List<ZoneSpec> _modifiedSpecs = [];
     private bool _isUpdatingZones;
     private bool _isSyncing;
     private bool _recomputePending;
     private bool _isDisposed;
     private bool _warned;
 
-    /// <summary>Starts listening and computes the zones of the current diff.</summary>
-    public DiffEditorViewZones(LoomEditor original, LoomEditor modified, DiffEditorViewModel viewModel, DispatcherQueue dispatcher)
+    /// <summary>Starts listening and computes the zones of the current diff. In the inline view only the modified editor gets zones.</summary>
+    public DiffEditorViewZones(LoomEditor original, LoomEditor modified, DiffEditorViewModel viewModel, DispatcherQueue dispatcher, bool inline = false, Func<bool>? renderIndicators = null)
     {
+        _inline = inline;
+        _renderIndicators = renderIndicators ?? (() => true);
         _original = original;
         _modified = modified;
         _viewModel = viewModel;
         _dispatcher = dispatcher;
-        foreach (LoomEditor editor in new[] { original, modified })
+        foreach (LoomEditor editor in Editors)
         {
             editor.ViewZones.ZonesChanged += OnTrigger;
             editor.HostLayoutChanged += OnTrigger;
@@ -69,7 +72,7 @@ internal sealed class DiffEditorViewZones : IDisposable
         }
 
         _isDisposed = true;
-        foreach (LoomEditor editor in new[] { _original, _modified })
+        foreach (LoomEditor editor in Editors)
         {
             editor.ViewZones.ZonesChanged -= OnTrigger;
             editor.HostLayoutChanged -= OnTrigger;
@@ -77,7 +80,11 @@ internal sealed class DiffEditorViewZones : IDisposable
         }
 
         _viewModel.DiffChanged -= OnTrigger;
-        Apply(_original, _originalOwn, []);
+        if (!_inline)
+        {
+            Apply(_original, _originalOwn, []);
+        }
+
         Apply(_modified, _modifiedOwn, []);
     }
 
@@ -113,7 +120,7 @@ internal sealed class DiffEditorViewZones : IDisposable
         // The zones of a pass change the scroll height, which may re-trigger a pass; an unchanged result ends the loop.
         for (int pass = 0; pass < MaxPasses; pass++)
         {
-            ComputeSpecs(diff, out List<(int, int)> originalSpecs, out List<(int, int)> modifiedSpecs);
+            ComputeSpecs(diff, out List<ZoneSpec> originalSpecs, out List<ZoneSpec> modifiedSpecs);
             if (originalSpecs.SequenceEqual(_originalSpecs) && modifiedSpecs.SequenceEqual(_modifiedSpecs))
             {
                 return;
@@ -122,7 +129,11 @@ internal sealed class DiffEditorViewZones : IDisposable
             _isUpdatingZones = true;
             try
             {
-                Apply(_original, _originalOwn, originalSpecs);
+                if (!_inline)
+                {
+                    Apply(_original, _originalOwn, originalSpecs);
+                }
+
                 Apply(_modified, _modifiedOwn, modifiedSpecs);
             }
             finally
@@ -141,7 +152,9 @@ internal sealed class DiffEditorViewZones : IDisposable
         }
     }
 
-    private void ComputeSpecs(DiffState diff, out List<(int, int)> originalSpecs, out List<(int, int)> modifiedSpecs)
+    private LoomEditor[] Editors => _inline ? [_modified] : [_original, _modified];
+
+    private void ComputeSpecs(DiffState diff, out List<ZoneSpec> originalSpecs, out List<ZoneSpec> modifiedSpecs)
     {
         originalSpecs = [];
         modifiedSpecs = [];
@@ -149,13 +162,21 @@ internal sealed class DiffEditorViewZones : IDisposable
 
         IReadOnlyList<LineRangeAlignment> alignments = LineRangeAlignments.Compute(
             diff.Mappings,
-            Extra(_original, _originalOwn),
+            _inline ? [] : Extra(_original, _originalOwn),
             Extra(_modified, _modifiedOwn),
             LineHeightOf(_original),
             LineHeightOf(_modified),
             originalModel.GetLineMaxColumn,
             originalModel.LineCount,
-            innerHunkAlignment: true);
+            innerHunkAlignment: !_inline);
+
+        if (_inline)
+        {
+            modifiedSpecs.AddRange(InlineViewZones.Compute(
+                alignments, LineHeightOf(_modified), _renderIndicators(),
+                line => IdentityModelLineProjection.Instance.GetViewLineData(originalModel, line, 0, line)));
+            return;
+        }
 
         // Monaco: delta = modifiedHeight - originalHeight; a positive delta pads the original side.
         foreach (LineRangeAlignment a in alignments)
@@ -163,11 +184,11 @@ internal sealed class DiffEditorViewZones : IDisposable
             int delta = a.ModifiedHeightInPx - a.OriginalHeightInPx;
             if (delta > 0)
             {
-                originalSpecs.Add((a.OriginalRange.EndLineNumberExclusive - 1, delta));
+                originalSpecs.Add(new ZoneSpec(ViewZoneKind.Empty, a.OriginalRange.EndLineNumberExclusive - 1, delta, null, true));
             }
             else if (delta < 0)
             {
-                modifiedSpecs.Add((a.ModifiedRange.EndLineNumberExclusive - 1, -delta));
+                modifiedSpecs.Add(new ZoneSpec(ViewZoneKind.Empty, a.ModifiedRange.EndLineNumberExclusive - 1, -delta, null, true));
             }
         }
     }
@@ -187,7 +208,7 @@ internal sealed class DiffEditorViewZones : IDisposable
     }
 
     // Monaco: applyViewZones. One change removes the previous zones of this class and adds the new ones.
-    private static void Apply(LoomEditor editor, HashSet<string> own, List<(int After, int Height)> specs)
+    private static void Apply(LoomEditor editor, HashSet<string> own, List<ZoneSpec> specs)
     {
         HashSet<string> previous = [.. own];
         own.Clear();
@@ -198,15 +219,16 @@ internal sealed class DiffEditorViewZones : IDisposable
                 accessor.RemoveZone(id);
             }
 
-            foreach ((int after, int height) in specs)
+            foreach (ZoneSpec spec in specs)
             {
                 own.Add(accessor.AddZone(new ViewZone
                 {
-                    AfterLineNumber = after,
-                    HeightInPx = height,
-                    Kind = ViewZoneKind.Empty,
+                    AfterLineNumber = spec.AfterLineNumber,
+                    HeightInPx = spec.HeightInPx,
+                    Kind = spec.Kind,
+                    Data = spec.Data,
                     ShowInHiddenAreas = true,
-                    SuppressMouseDown = true,
+                    SuppressMouseDown = spec.SuppressMouseDown,
                 }));
             }
         });
@@ -219,7 +241,7 @@ internal sealed class DiffEditorViewZones : IDisposable
             Schedule();
         }
 
-        if (_isSyncing || (!e.ScrollTopChanged && !e.ScrollLeftChanged))
+        if (_inline || _isSyncing || (!e.ScrollTopChanged && !e.ScrollLeftChanged))
         {
             return;
         }

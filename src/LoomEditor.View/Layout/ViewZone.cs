@@ -1,6 +1,8 @@
 // Ported from microsoft/vscode: src/vs/editor/browser/editorBrowser.ts (IViewZone)
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
+using LoomEditor.Core.Text;
+
 namespace LoomEditor.View.Layout;
 
 /// <summary>What the renderer paints in a <see cref="ViewZone"/>.</summary>
@@ -58,4 +60,24 @@ internal sealed class ViewZone
 
     /// <summary>Called with the computed height in pixels when it is (re)computed.</summary>
     public Action<int>? OnComputedHeight { get; set; }
+}
+
+/// <summary>The <see cref="ViewZone.Data"/> of a <see cref="ViewZoneKind.DeletedLines"/> zone.</summary>
+/// <param name="OriginalLines">The original lines the zone shows, top to bottom.</param>
+/// <param name="GetOriginalLineData">The tokens and text of an original line, by model line number; may throw for a line that no longer exists.</param>
+/// <param name="DeletedRanges">The deleted characters, in original model coordinates, only the part inside <paramref name="OriginalLines"/>.</param>
+/// <param name="RenderIndicators">Whether the margin shows a minus sign.</param>
+/// <remarks>Threading: immutable; the delegate is called on the UI thread.</remarks>
+internal sealed record DeletedLinesZoneData(
+    LineRange OriginalLines, Func<int, ViewLineData> GetOriginalLineData, IReadOnlyList<Range> DeletedRanges, bool RenderIndicators)
+{
+    /// <summary>Equal when the same lines are shown the same way; the delegate is left out (the owner recreates it every pass), which lets it skip a pass that changes nothing.</summary>
+    public bool Equals(DeletedLinesZoneData? other) =>
+        other is not null
+        && OriginalLines.Equals(other.OriginalLines)
+        && RenderIndicators == other.RenderIndicators
+        && DeletedRanges.SequenceEqual(other.DeletedRanges);
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(OriginalLines, RenderIndicators, DeletedRanges.Count);
 }

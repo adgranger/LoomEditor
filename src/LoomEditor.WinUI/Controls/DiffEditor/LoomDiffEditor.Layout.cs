@@ -45,18 +45,26 @@ public sealed partial class LoomDiffEditor
         ApplyLayout();
     }
 
-    // Monaco: the zones of diffEditorViewZones.ts exist only while both sides are shown.
+    // Monaco: the zones of diffEditorViewZones.ts; side by side they pad both editors, inline the modified one gets the deleted lines.
     private void UpdateViewZones()
     {
-        bool wanted = _viewModel is not null && _original is not null && _modified is not null && _options.RenderSideBySideEffective;
-        if (!wanted)
+        bool wanted = _viewModel is not null && _original is not null && _modified is not null;
+        bool inline = !_options.RenderSideBySideEffective;
+        if (!wanted || (_viewZones is not null && _viewZonesInline != inline))
         {
             _viewZones?.Dispose();
             _viewZones = null;
         }
-        else if (_viewZones is null)
+
+        if (!wanted)
         {
-            _viewZones = new DiffEditorViewZones(_original!, _modified!, _viewModel!, DispatcherQueue);
+            return;
+        }
+
+        if (_viewZones is null)
+        {
+            _viewZonesInline = inline;
+            _viewZones = new DiffEditorViewZones(_original!, _modified!, _viewModel!, DispatcherQueue, inline, () => _options.RenderIndicators);
         }
         else
         {
