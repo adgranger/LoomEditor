@@ -10,6 +10,7 @@ internal static class SampleText
         // inside the LoomEditor WinUI control, in an app compiled with Native AOT.
         // Tabs use tab stops, and CJK characters their real width: 你好，世界
         // Tab stop:	x	y	z
+        // Whitespace:	tab,  two spaces, and trailing spaces   
 
         using System;
 

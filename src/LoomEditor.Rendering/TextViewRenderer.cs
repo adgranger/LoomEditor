@@ -196,6 +196,7 @@ internal sealed partial class TextViewRenderer : IDisposable
             }
         }
 
+        DrawWhitespace(surface, viewModel, data, selections, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawAfterContents(surface, data, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawCompositionUnderlines(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
 

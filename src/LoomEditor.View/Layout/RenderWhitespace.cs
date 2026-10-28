@@ -7,7 +7,7 @@ using LoomEditor.Core.Text;
 namespace LoomEditor.View.Layout;
 
 /// <summary>Which whitespace characters are drawn as <c>·</c> and <c>→</c> (Monaco: <c>RenderWhitespace</c>).</summary>
-internal enum RenderWhitespace
+public enum RenderWhitespace
 {
     /// <summary>No whitespace is drawn.</summary>
     None,

@@ -82,6 +82,13 @@
                             <ComboBoxItem Content="Indent + bracket pairs" />
                             <ComboBoxItem Content="None" />
                         </ComboBox>
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="WhitespaceBox" Header="Render whitespace" SelectedIndex="0" SelectionChanged="OnWhitespaceChanged">
+                            <ComboBoxItem Content="None" />
+                            <ComboBoxItem Content="Selection" />
+                            <ComboBoxItem Content="Boundary" />
+                            <ComboBoxItem Content="Trailing" />
+                            <ComboBoxItem Content="All" />
+                        </ComboBox>
                         <NumberBox x:Name="TabSizeBox" Header="Tab size" Minimum="1" Maximum="16" SpinButtonPlacementMode="Inline" Value="4" ValueChanged="OnTabSizeChanged" />
                     </StackPanel>
                 </Expander>

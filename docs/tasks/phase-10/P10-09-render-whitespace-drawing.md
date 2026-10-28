@@ -1,6 +1,6 @@
 # P10-09 — `renderWhitespace`: drawing the dots and arrows, and the control property
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-08
 - **Size:** M
 
@@ -36,15 +36,15 @@
 
 ## Tests
 
-- [ ] New (recording surface): `None_DrawsNothing`, `All_DrawsOneDotPerSpace` (draw calls for `"a b c"` = 2), `All_Tab_DrawsArrowAtTabStart`, `Boundary_InnerSingleSpace_NotDrawn`, `Selection_OnlyInsideSelection`, `Trailing_OnlyAtTheEnd`, `Dot_IsCentered_InTheCell`, `UsesWhitespaceForeground`, `ScrollLeft_ShiftsTheDots`, `WrappedLine_FauxIndent_NotDrawn` (use `ViewHarness` with word wrap, as `TextViewRendererWordWrapTests` does)
-- [ ] Manual (section "P10-09"): the five modes on the sample; tabs show arrows of the tab width; with a proportional-width font nothing overlaps text; dots stay aligned while scrolling; high contrast theme: the dots are visible.
+- [x] New (recording surface): `None_DrawsNothing`, `All_DrawsOneDotPerSpace` (draw calls for `"a b c"` = 2), `All_Tab_DrawsArrowAtTabStart`, `Boundary_InnerSingleSpace_NotDrawn`, `Selection_OnlyInsideSelection`, `Trailing_OnlyAtTheEnd`, `Dot_IsCentered_InTheCell`, `UsesWhitespaceForeground`, `ScrollLeft_ShiftsTheDots`, `WrappedLine_FauxIndent_NotDrawn` (use `ViewHarness` with word wrap, as `TextViewRendererWordWrapTests` does)
+- [x] Manual (section "P10-09"): the five modes on the sample; tabs show arrows of the tab width; with a proportional-width font nothing overlaps text; dots stay aligned while scrolling; high contrast theme: the dots are visible.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: "Behavior differences" rows (default `None`, overlay drawing instead of character substitution)
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: "Behavior differences" rows (default `None`, overlay drawing instead of character substitution)
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

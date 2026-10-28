@@ -44,6 +44,16 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 2 | Switch on: Ctrl + wheel zooms, plain wheel still scrolls | pending |
 | 3 | Touchpad two-finger scroll with Ctrl zooms smoothly | pending |
 
+## P10-09 — Render whitespace
+
+| # | Check | Result |
+|---|---|---|
+| 1 | The five modes (None, Selection, Boundary, Trailing, All) on the sample: dots over spaces, arrows over tabs | pending |
+| 2 | Tabs show arrows at the tab start, as wide as the tab | pending |
+| 3 | With a proportional font (Segoe UI) nothing overlaps the text | pending |
+| 4 | The dots stay aligned while scrolling horizontally | pending |
+| 5 | High contrast theme: the dots are visible | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

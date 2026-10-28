@@ -4,6 +4,7 @@ using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.View.Features.FontZoom;
+using LoomEditor.View.Layout;
 using LoomEditor.Themes;
 using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
@@ -148,6 +149,14 @@ public sealed partial class MainWindow : Window
     }
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
+
+    private void OnWhitespaceChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.RenderWhitespace = (RenderWhitespace)WhitespaceBox.SelectedIndex;
+        }
+    }
 
     private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)
     {

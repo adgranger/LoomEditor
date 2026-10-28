@@ -230,5 +230,11 @@ LoomEditor.View.Layout.EditorZoomState.Changed -> System.EventHandler?
 LoomEditor.View.Layout.EditorZoomState.EditorZoomState() -> void
 LoomEditor.View.Layout.EditorZoomState.Level.get -> double
 LoomEditor.View.Layout.EditorZoomState.SetLevel(double level) -> void
+LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.All = 4 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.Boundary = 2 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.None = 0 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.Selection = 1 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.Trailing = 3 -> LoomEditor.View.Layout.RenderWhitespace
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection
