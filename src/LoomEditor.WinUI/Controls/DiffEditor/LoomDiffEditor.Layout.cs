@@ -15,6 +15,7 @@ public sealed partial class LoomDiffEditor
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
         _sashLayout.Width = e.NewSize.Width;
+        InvalidateOverview();
         _options.SetWidth(e.NewSize.Width);
         ApplyLayout();
     }
@@ -91,6 +92,11 @@ public sealed partial class LoomDiffEditor
         sash.IsSplitEnabled = _options.EnableSplitViewResizing;
         sash.Margin = new Thickness(left - DiffEditorSash.HitWidth / 2, 0, 0, 0);
         sash.LineBrush = DiffBorderBrush(Theme);
+        if (_overview is not null)
+        {
+            _overview.Visibility = _options.RenderOverviewRuler ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         modified.Margin = new Thickness(sideBySide ? left + 1 : 0, 0, _options.RenderOverviewRuler ? OverviewRulerWidth : 0, 0);
     }
 

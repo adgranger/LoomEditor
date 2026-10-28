@@ -59,6 +59,7 @@
                         <controls:LoomEditor x:Name="PART_Original" HorizontalAlignment="Left" />
                         <controls:LoomEditor x:Name="PART_Modified" HorizontalAlignment="Stretch" />
                         <diff:DiffEditorSash x:Name="PART_Sash" HorizontalAlignment="Left" />
+                        <diff:DiffOverviewRuler x:Name="PART_Overview" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -1,6 +1,6 @@
 # P9-28 — The generic `OverviewRuler` and the diff overview
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-27, P9-23
 - **Size:** M
 
@@ -40,17 +40,17 @@ The diff editor shows an overview strip on the right (two 15 DIP rulers: removed
 
 ## Tests
 
-- [ ] New (`DiffOverviewZonesTests`): `Create_SkipsEmptyRanges`, `Create_MapsModelToViewLines`, `Create_HeightInLinesIsViewLineDelta`, `GetColors_ThemeValues_Used_AlphaDoubled`, `GetColors_Defaults_WhenThemeHasNone`, `GetColors_AlphaCappedAtOne`.
-- [ ] Port-style (`ScrollbarStateTests`, expected values from the formulas): `SliderSize_ProportionalToVisibleOverScroll`, `SliderSize_MinimumTwenty`, `SliderSize_NotNeeded_FullTrack`, `SliderPosition_AtTop_Zero`, `SliderPosition_AtBottom_TrackMinusSlider`, `GetDesiredScrollPositionFromOffset_CentersSlider`, `GetDesiredScrollPositionFromDelta_Proportional`, `SetScrollSize_Change_Recomputes`.
-- [ ] New (`OverviewRulerPainterTests`, recording surface): `Draw_NoZones_NoRectangles`, `Draw_TwoZonesSameColorAdjacent_OneRectangle`, `Draw_TwoColors_TwoRectangles`, `Draw_ScaledByHeightRatio`.
+- [x] New (`DiffOverviewZonesTests`): `Create_SkipsEmptyRanges`, `Create_MapsModelToViewLines`, `Create_HeightInLinesIsViewLineDelta`, `GetColors_ThemeValues_Used_AlphaDoubled`, `GetColors_Defaults_WhenThemeHasNone`, `GetColors_AlphaCappedAtOne`.
+- [x] Port-style (`ScrollbarStateTests`, expected values from the formulas): `SliderSize_ProportionalToVisibleOverScroll`, `SliderSize_MinimumTwenty`, `SliderSize_NotNeeded_FullTrack`, `SliderPosition_AtTop_Zero`, `SliderPosition_AtBottom_TrackMinusSlider`, `GetDesiredScrollPositionFromOffset_CentersSlider`, `GetDesiredScrollPositionFromDelta_Proportional`, `SetScrollSize_Change_Recomputes`.
+- [x] New (`OverviewRulerPainterTests`, recording surface): `Draw_NoZones_NoRectangles`, `Draw_TwoZonesSameColorAdjacent_OneRectangle`, `Draw_TwoColors_TwoRectangles`, `Draw_ScaledByHeightRatio`.
 - [ ] Manual (P9-31's plan): red / green marks line up with the changes, the slider follows the scroll, clicking and dragging scrolls both sides, the wheel over the strip scrolls.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `overviewRuler.ts` (generic part), `overviewRulerFeature.ts`, `scrollbarState.ts` (used for the slider only)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `overviewRuler.ts` (generic part), `overviewRulerFeature.ts`, `scrollbarState.ts` (used for the slider only)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

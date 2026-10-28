@@ -273,6 +273,8 @@ public sealed partial class LoomDiffEditor
                 editor.Theme = Theme;
             }
         }
+
+        InvalidateOverview();
     }
 
     // Everything else the sub-editors get from this control. Safe to call again: it only assigns properties.

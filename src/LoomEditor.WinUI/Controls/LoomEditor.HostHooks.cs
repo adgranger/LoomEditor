@@ -65,6 +65,10 @@ public sealed partial class LoomEditor
         return _viewModel.ViewLayout.GetVerticalOffsetForLineNumber(viewLine, includeViewZones);
     }
 
+    /// <summary>The top of a view line in scroll coordinates (Monaco: <c>viewLayout.getVerticalOffsetForLineNumber</c>).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal int GetVerticalOffsetForViewLine(int viewLineNumber) => _viewModel.ViewLayout.GetVerticalOffsetForLineNumber(viewLineNumber);
+
     /// <summary>The height of the scrollable content, in DIPs.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal double GetScrollHeight() => _viewModel.ViewLayout.GetScrollable().GetScrollDimensions().ScrollHeight;

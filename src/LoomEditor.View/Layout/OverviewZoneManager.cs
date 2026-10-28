@@ -103,6 +103,12 @@ internal sealed class OverviewZoneManager
         _getVerticalOffsetForLine = getVerticalOffsetForLine;
     }
 
+    /// <summary>The height of the whole scrollable content, in pixels (0 until set).</summary>
+    public int OuterHeight => _outerHeight;
+
+    /// <summary>The DPI scale.</summary>
+    public double PixelRatio => _pixelRatio;
+
     /// <summary>The width of the canvas, in pixels.</summary>
     public int CanvasWidth => (int)(_domWidth * _pixelRatio);
 

@@ -13,17 +13,16 @@ namespace LoomEditor.Rendering.Win2D;
 internal sealed class Win2DRenderSurface : IRenderSurface
 {
     private readonly CanvasDrawingSession _session;
-    private readonly Win2DTextMeasurer _measurer;
+    private readonly Win2DTextMeasurer? _measurer;
     private readonly Win2DBitmapCache _bitmaps;
 
     /// <summary>Wraps a drawing session.</summary>
     /// <param name="session">The session of the current draw call.</param>
-    /// <param name="measurer">The measurer that made the layouts.</param>
+    /// <param name="measurer">The measurer that made the layouts; <see langword="null"/> for a surface that only fills shapes.</param>
     /// <param name="bitmaps">Keeps the uploaded images between frames; without it every image is uploaded again each frame.</param>
-    public Win2DRenderSurface(CanvasDrawingSession session, Win2DTextMeasurer measurer, Win2DBitmapCache? bitmaps = null)
+    public Win2DRenderSurface(CanvasDrawingSession session, Win2DTextMeasurer? measurer, Win2DBitmapCache? bitmaps = null)
     {
         ArgumentNullException.ThrowIfNull(session);
-        ArgumentNullException.ThrowIfNull(measurer);
 
         _session = session;
         _measurer = measurer;
@@ -55,7 +54,7 @@ internal sealed class Win2DRenderSurface : IRenderSurface
             throw new ArgumentException("The layout must come from a Win2DTextMeasurer.", nameof(layout));
         }
 
-        _session.DrawTextLayout(win2DLayout.TextLayout, x, lineTop + _measurer.GlyphTopOffset, ToWindowsColor(color));
+        _session.DrawTextLayout(win2DLayout.TextLayout, x, lineTop + (_measurer ?? throw new InvalidOperationException("This surface was created without a text measurer.")).GlyphTopOffset, ToWindowsColor(color));
     }
 
     /// <inheritdoc />

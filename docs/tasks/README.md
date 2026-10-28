@@ -859,7 +859,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P9-27](phase-9/P9-27-overview-zone-manager.md) | `OverviewZoneManager`: zones of a generic overview ruler | P9-26 | done |
-| [P9-28](phase-9/P9-28-overview-ruler-and-diff-overview.md) | The generic `OverviewRuler` and the diff overview | P9-27, P9-23 | todo |
+| [P9-28](phase-9/P9-28-overview-ruler-and-diff-overview.md) | The generic `OverviewRuler` and the diff overview | P9-27, P9-23 | done |
 
 ### Step F — Accessible diff viewer
 

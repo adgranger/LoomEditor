@@ -29,6 +29,7 @@ namespace LoomEditor.WinUI.Controls;
 [TemplatePart(Name = OriginalPartName, Type = typeof(LoomEditor))]
 [TemplatePart(Name = ModifiedPartName, Type = typeof(LoomEditor))]
 [TemplatePart(Name = SashPartName, Type = typeof(DiffEditorSash))]
+[TemplatePart(Name = OverviewPartName, Type = typeof(DiffOverviewRuler))]
 #pragma warning disable CA1001 // WinUI controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomDiffEditor : Control
 #pragma warning restore CA1001
@@ -36,6 +37,7 @@ public sealed partial class LoomDiffEditor : Control
     private const string OriginalPartName = "PART_Original";
     private const string ModifiedPartName = "PART_Modified";
     private const string SashPartName = "PART_Sash";
+    private const string OverviewPartName = "PART_Overview";
 
     private readonly DiffEditorOptions _options = new();
     private readonly SashLayout _sashLayout = new(0, 0.5, true);
@@ -120,6 +122,7 @@ public sealed partial class LoomDiffEditor : Control
         _sash.GetSashLeft = () => _sashLayout.SashLeft;
         _sash.SashMoved += OnSashMoved;
         _sash.ResetRequested += OnSashReset;
+        ConnectOverview(GetTemplatePart<DiffOverviewRuler>(OverviewPartName));
         ConfigureEditors();
         ApplyLanguageAndTheme();
         ApplyText(_original, OriginalText);
@@ -141,6 +144,7 @@ public sealed partial class LoomDiffEditor : Control
 
     private void DetachParts()
     {
+        DisconnectOverview();
         if (_sash is not null)
         {
             _sash.SashMoved -= OnSashMoved;
@@ -207,6 +211,7 @@ public sealed partial class LoomDiffEditor : Control
 
     private void OnViewModelDiffChanged(object? sender, EventArgs e)
     {
+        InvalidateOverview();
         UpdateDecorations();
         DiffChanged?.Invoke(this, EventArgs.Empty);
     }
