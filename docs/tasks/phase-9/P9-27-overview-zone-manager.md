@@ -1,6 +1,6 @@
 # P9-27 — `OverviewZoneManager`: zones of a generic overview ruler
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-26
 - **Size:** S
 
@@ -31,14 +31,14 @@ The geometry of a generic overview ruler exists in `LoomEditor.View`: zones (a l
 
 ## Tests
 
-- [ ] New (expected numbers computed by hand from the formulas): `ResolveColorZones_SingleZone_ProportionalPosition` (outer height 1000, canvas 100, a zone of 10 lines at line 11 with line height 10), `ResolveColorZones_ZoneShorterThanMinimum_GrownToFourPixels`, `ResolveColorZones_ZoneAtTopEdge_ClampedInsideCanvas`, `ResolveColorZones_ZoneAtBottomEdge_ClampedInsideCanvas`, `ResolveColorZones_HeightInLinesZero_UsesEndLine`, `ResolveColorZones_SameColorsSortedByFrom`, `ResolveColorZones_ColorIdsAssignedOncePerColor`, `ResolveColorZones_CachedUntilInvalidated` (a counter in the offset callback), `SetLineHeight_Same_ReturnsFalse`, `SetDomHeight_Change_InvalidatesCache`, `SetPixelRatio_ScalesCanvas`, `ColorZone_Compare_ByColorThenFromThenTo`, `OverviewRulerZone_Compare_Order`.
+- [x] New (expected numbers computed by hand from the formulas): `ResolveColorZones_SingleZone_ProportionalPosition` (outer height 1000, canvas 100, a zone of 10 lines at line 11 with line height 10), `ResolveColorZones_ZoneShorterThanMinimum_GrownToFourPixels`, `ResolveColorZones_ZoneAtTopEdge_ClampedInsideCanvas`, `ResolveColorZones_ZoneAtBottomEdge_ClampedInsideCanvas`, `ResolveColorZones_HeightInLinesZero_UsesEndLine`, `ResolveColorZones_SameColorsSortedByFrom`, `ResolveColorZones_ColorIdsAssignedOncePerColor`, `ResolveColorZones_CachedUntilInvalidated` (a counter in the offset callback), `SetLineHeight_Same_ReturnsFalse`, `SetDomHeight_Change_InvalidatesCache`, `SetPixelRatio_ScalesCanvas`, `ColorZone_Compare_ByColorThenFromThenTo`, `OverviewRulerZone_Compare_Order`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map updated: `overviewZoneManager.ts`; the row "The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | phase 9" of the cut points becomes ✅ P9-27 / P9-28
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map updated: `overviewZoneManager.ts`; the row "The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | phase 9" of the cut points becomes ✅ P9-27 / P9-28
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

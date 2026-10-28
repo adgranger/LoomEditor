@@ -666,7 +666,7 @@ No phase 7 test is ported: there is no upstream test for UI Automation, and ever
 | `renderWhitespace` | a later phase (moved from phase 6) |
 | The DOM line-break strategy (`wrappingStrategy: advanced`) | not planned |
 | Accessibility-driven wrapping (`accessibilitySupport`) | done in phase 7 (P7-01 … P7-04); not ported: `wrappingStrategy: advanced`, `accessibilityPageSize`, the paged screen reader strategy, `allowVariableFontsInAccessibilityMode`, `ariaLabel` options, the accessibility help dialog |
-| The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | phase 9 |
+| The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | ✅ P9-27 (`OverviewZoneManager`); `OverviewRuler`: P9-28 |
 
 ## Done in phase 5 (features)
 
@@ -882,3 +882,4 @@ The step-by-step cards are in **[docs/tasks/](tasks/README.md)** (P1-01 … P1-3
 | `diffEditorViewZones.ts` (inline part), `renderLines.ts` | `LoomEditor.View/DiffEditor/InlineViewZones.cs`, `LoomEditor.Rendering/TextViewRenderer.ViewZones.cs` | ✅ P9-24; see "Behavior differences" |
 | `hideUnchangedRegionsFeature.ts` (subset: no compact mode, no breadcrumbs, no glyph fold icon), `diffEditor/style.css` (55–70, 283–285) | `LoomEditor.View/DiffEditor/UnchangedRegionZones.cs`, `LoomEditor.Rendering/TextViewRenderer.CollapsedZones.cs`, `LoomEditor.WinUI/Controls/DiffEditor/HideUnchangedRegionsController.cs` | ✅ P9-25; see "Behavior differences" |
 | `diffEditorWidget.ts` (724–770: `goToDiff`, `revealFirstDiff`; no accessibility signal sounds) | `LoomEditor.View/DiffEditor/DiffNavigator.cs`, `LoomEditor.View/Features/DiffNavigation/`, `LoomEditor.WinUI/Controls/DiffEditor/LoomDiffEditor.Navigation.cs` | ✅ P9-26; the keys `Alt+F5` / `Shift+Alt+F5` come from VS Code's workbench, not Monaco; the feature is added to the two sub editors by the diff control, not to `EditorFeatures.Default` |
+| `common/viewModel/overviewZoneManager.ts` | `LoomEditor.View/Layout/OverviewZoneManager.cs` | ✅ P9-27; `OverviewRulerZone.Compare` compares the packed ARGB value of a `ThemeColor`, not a color string (same drawing); `Math.floor` → `(int)Math.Floor`; the line height is an `int` |
