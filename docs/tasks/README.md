@@ -866,7 +866,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P9-29](phase-9/P9-29-accessible-diff-viewer-model.md) | Accessible diff viewer: the model | P9-26 | done |
-| [P9-30](phase-9/P9-30-accessible-diff-viewer-ui.md) | Accessible diff viewer: the UI | P9-29, P9-26 | todo |
+| [P9-30](phase-9/P9-30-accessible-diff-viewer-ui.md) | Accessible diff viewer: the UI | P9-29, P9-26 | done |
 
 ### Step G — Prove it and close the phase
 

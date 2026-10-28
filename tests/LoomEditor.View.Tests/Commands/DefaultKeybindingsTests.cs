@@ -11,6 +11,14 @@ public class DefaultKeybindingsTests
         public void GoToChange(LoomEditor.View.DiffEditor.NavigationDirection direction)
         {
         }
+
+        public void AccessibleDiffViewerNext()
+        {
+        }
+
+        public void AccessibleDiffViewerPrevious()
+        {
+        }
     }
 
     [Fact]

@@ -1,6 +1,6 @@
 # P9-30 — Accessible diff viewer: the UI
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-29, P9-26
 - **Size:** M
 
@@ -40,16 +40,16 @@
 
 ## Tests
 
-- [ ] The model is tested in P9-29; here: `tests/LoomEditor.View.Tests/Features/DiffNavigation/AccessibleViewerCommandsTests.cs` — `Command_F7_ResolvesInDiffEditor`, `Command_ShiftF7_ResolvesInDiffEditor`, `Command_F7_NotResolvedOutsideDiffEditor`.
+- [x] The model is tested in P9-29; here: `tests/LoomEditor.View.Tests/Features/DiffNavigation/AccessibleViewerCommandsTests.cs` — `Command_F7_ResolvesInDiffEditor`, `Command_ShiftF7_ResolvesInDiffEditor`, `Command_F7_NotResolvedOutsideDiffEditor`.
 - [ ] Manual with Narrator (P9-31's plan): `F7` opens the viewer on the group nearest to the cursor; Narrator reads "Difference 1 of 2: original line 3, 1 line changed, modified line 3, 2 lines changed"; the arrows read the rows ("- old text original line 3", "+ new text modified line 3"); `Enter` closes and the caret is on that line; `Esc` closes and focus returns to the modified editor.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
-- [ ] `docs/PORTING.md`: `accessibleDiffViewer.ts` (view part), `commands.ts` (F7 / Shift+F7)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
+- [x] `docs/PORTING.md`: `accessibleDiffViewer.ts` (view part), `commands.ts` (F7 / Shift+F7)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

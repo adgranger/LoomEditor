@@ -13,6 +13,14 @@ public class DiffNavigationFeatureTests
         public List<NavigationDirection> Calls { get; } = [];
 
         public void GoToChange(NavigationDirection direction) => Calls.Add(direction);
+
+        public int ViewerNext { get; private set; }
+
+        public int ViewerPrevious { get; private set; }
+
+        public void AccessibleDiffViewerNext() => ViewerNext++;
+
+        public void AccessibleDiffViewerPrevious() => ViewerPrevious++;
     }
 
     private static string? Resolve(KeyModifiers modifiers, KeybindingContext context) =>

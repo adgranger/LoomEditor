@@ -9,6 +9,12 @@ internal interface IDiffNavigationTarget
 {
     /// <summary>Moves the cursor of the modified editor to the next or previous change and reveals it.</summary>
     void GoToChange(NavigationDirection direction);
+
+    /// <summary>Opens the accessible diff viewer, or goes to its next group when it is open (<c>F7</c>).</summary>
+    void AccessibleDiffViewerNext();
+
+    /// <summary>Opens the accessible diff viewer and goes to its previous group (<c>Shift+F7</c>).</summary>
+    void AccessibleDiffViewerPrevious();
 }
 
 /// <summary>
@@ -35,6 +41,10 @@ internal sealed class DiffNavigationFeature : IEditorFeature
             new EditorCommand(DiffNavigationCommands.NextChange, () => Target?.GoToChange(NavigationDirection.Next))));
         _registrations.Add(context.Commands.Register(
             new EditorCommand(DiffNavigationCommands.PreviousChange, () => Target?.GoToChange(NavigationDirection.Previous))));
+        _registrations.Add(context.Commands.Register(
+            new EditorCommand(DiffNavigationCommands.AccessibleViewerNext, () => Target?.AccessibleDiffViewerNext())));
+        _registrations.Add(context.Commands.Register(
+            new EditorCommand(DiffNavigationCommands.AccessibleViewerPrevious, () => Target?.AccessibleDiffViewerPrevious())));
     }
 
     /// <inheritdoc />

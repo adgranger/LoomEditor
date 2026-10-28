@@ -64,6 +64,7 @@ public sealed partial class LoomDiffEditor : Control
         SizeChanged += OnSizeChanged;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
+        GotFocus += (_, _) => RefreshScreenReader();
     }
 
     /// <summary>Raised when a new diff was published, or <see cref="IsDiffUpToDate"/> changed.</summary>
@@ -123,6 +124,7 @@ public sealed partial class LoomDiffEditor : Control
         _sash.SashMoved += OnSashMoved;
         _sash.ResetRequested += OnSashReset;
         ConnectOverview(GetTemplatePart<DiffOverviewRuler>(OverviewPartName));
+        ConnectViewerHost(GetTemplatePart<Grid>(ViewerHostPartName));
         ConfigureEditors();
         ApplyLanguageAndTheme();
         ApplyText(_original, OriginalText);
@@ -144,6 +146,7 @@ public sealed partial class LoomDiffEditor : Control
 
     private void DetachParts()
     {
+        DestroyAccessibleViewer();
         DisconnectOverview();
         if (_sash is not null)
         {
@@ -175,6 +178,7 @@ public sealed partial class LoomDiffEditor : Control
         _originalTarget = new EditorDecorationTarget(_original.CreateDecorationsCollection());
         _modifiedTarget = new EditorDecorationTarget(_modified.CreateDecorationsCollection());
         _decorations = new DiffDecorations(_originalTarget, _modifiedTarget);
+        RefreshScreenReader();
         _options.SetWidth(ActualWidth);
         _viewModel = new DiffEditorViewModel(
             _original.Model,
@@ -192,6 +196,7 @@ public sealed partial class LoomDiffEditor : Control
 
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
+        DestroyAccessibleViewer();
         if (_viewModel is null)
         {
             return;
@@ -212,6 +217,7 @@ public sealed partial class LoomDiffEditor : Control
     private void OnViewModelDiffChanged(object? sender, EventArgs e)
     {
         InvalidateOverview();
+        UpdateViewerDiffs();
         UpdateDecorations();
         DiffChanged?.Invoke(this, EventArgs.Empty);
     }

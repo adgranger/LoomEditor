@@ -30,6 +30,11 @@ public sealed partial class LoomEditor
         _viewModel.RevealRange(
             "api", true, _viewModel.CoordinatesConverter.ConvertModelRangeToViewRange(modelRange), VerticalRevealType.Center, ScrollType.Smooth);
 
+    // Monaco: `revealRange` (the vertical position is kept when the range is already visible). Used by the diff editor.
+    internal void RevealRange(Core.Text.Range modelRange) =>
+        _viewModel.RevealRange(
+            "api", true, _viewModel.CoordinatesConverter.ConvertModelRangeToViewRange(modelRange), VerticalRevealType.Simple, ScrollType.Smooth);
+
     // Monaco: `renderText`, step 2. Called after each draw.
     private void ApplyPendingHorizontalReveal()
     {

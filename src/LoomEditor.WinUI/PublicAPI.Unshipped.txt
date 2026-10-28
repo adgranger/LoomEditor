@@ -30,6 +30,7 @@ LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizing.get -> bool
@@ -46,6 +47,7 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.get
 LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespace.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespace.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.IsAccessibleDiffViewerOpen.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.IsDiffUpToDate.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.set -> void
@@ -57,6 +59,7 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.Modified.get -> LoomEditor.WinUI.Controls.LoomEditor!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedText.get -> string!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedText.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.OpenAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.Original.get -> LoomEditor.WinUI.Controls.LoomEditor!
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.set -> void
