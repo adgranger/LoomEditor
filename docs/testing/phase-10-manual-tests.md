@@ -81,6 +81,13 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 3 | `Escape` removes the bar (and does not close an open find widget or suggest list first) | pending |
 | 4 | `Ctrl+L` selects the line, then the next line, repeatedly | pending |
 
+## P10-14 — Cursor undo and redo
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Click in three places, press `Ctrl+U` twice: the caret goes back to each place, and the view scrolls back | pending |
+| 2 | Typing text clears the history: `Ctrl+U` then does nothing | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

@@ -1,5 +1,6 @@
 using LoomEditor.View.Features.BracketMatching;
 using LoomEditor.View.Features.Comment;
+using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
@@ -35,6 +36,7 @@ public static class EditorFeatures
     /// <summary>The features enabled by default, in the order they are attached.</summary>
     public static IReadOnlyList<Func<IEditorFeature>> Default { get; } =
     [
+        () => new CursorUndoFeature(),
         () => new SelectAllFeature(),
         () => new FontZoomFeature(),
         () => new WordOperationsFeature(),

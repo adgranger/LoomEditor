@@ -3,6 +3,8 @@ const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.
 const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.RemoveCommentLine = "editor.action.removeCommentLine" -> string!
+const LoomEditor.View.Features.CursorUndo.CursorUndoCommands.CursorRedo = "cursorRedo" -> string!
+const LoomEditor.View.Features.CursorUndo.CursorUndoCommands.CursorUndo = "cursorUndo" -> string!
 const LoomEditor.View.Features.Find.FindCommands.CloseFindWidgetCommand = "closeFindWidget" -> string!
 const LoomEditor.View.Features.Find.FindCommands.NextMatchFindAction = "editor.action.nextMatchFindAction" -> string!
 const LoomEditor.View.Features.Find.FindCommands.NextSelectionMatchFindAction = "editor.action.nextSelectionMatchFindAction" -> string!
@@ -138,6 +140,12 @@ LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.
 LoomEditor.View.Features.Comment.CommentFeature.CommentFeature() -> void
 LoomEditor.View.Features.Comment.CommentFeature.Dispose() -> void
 LoomEditor.View.Features.Comment.CommentFeature.Id.get -> string!
+LoomEditor.View.Features.CursorUndo.CursorUndoCommands
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.CursorUndoFeature() -> void
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Dispose() -> void
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Id.get -> string!
 LoomEditor.View.Features.EditorContext
 LoomEditor.View.Features.EditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.View.Features.EditorContext.Dispose() -> void

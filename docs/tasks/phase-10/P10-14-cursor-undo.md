@@ -1,6 +1,6 @@
 # P10-14 — Cursor undo and redo
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-13
 - **Size:** S
 
@@ -32,15 +32,15 @@
 
 ## Tests
 
-- [ ] Port: `cursorUndo.test.ts`
-- [ ] New: `Undo_AfterTwoMoves_RestoresFirstPosition`, `Redo_AfterUndo_RestoresSecond`, `NewMove_AfterUndo_ClearsRedoStack`, `TypingText_ClearsBothStacks`, `SameSelectionTwice_NotPushedTwice`, `Stack_BoundedTo50`, `Undo_RestoresScrollPosition`, `Undo_WithEmptyStack_DoesNothing`, `SelectionChangeCausedByEdit_IsNotRecorded`, `Ctrl_U_ResolvesToCursorUndo`
+- [x] Port: `cursorUndo.test.ts`
+- [x] New: `Undo_AfterTwoMoves_RestoresFirstPosition`, `Redo_AfterUndo_RestoresSecond`, `NewMove_AfterUndo_ClearsRedoStack`, `TypingText_ClearsBothStacks`, `SameSelectionTwice_NotPushedTwice`, `Stack_BoundedTo50`, `Undo_RestoresScrollPosition`, `Undo_WithEmptyStack_DoesNothing`, `SelectionChangeCausedByEdit_IsNotRecorded`, `Ctrl_U_ResolvesToCursorUndo`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `cursorUndo.ts` row (+ the event args change if any)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `cursorUndo.ts` row (+ the event args change if any)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -917,7 +917,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | [P10-11](phase-10/P10-11-overtype-mode.md) | Overtype mode: the input mode and the overtype edits | P9-33 | done |
 | [P10-12](phase-10/P10-12-cursor-styles-and-insert-key.md) | Cursor styles, `OvertypeCursorStyle` and the `Insert` key | P10-11 | done |
 | [P10-13](phase-10/P10-13-selection-anchor-and-expand-line.md) | Selection anchor and `Expand Line Selection` | P9-33 | done |
-| [P10-14](phase-10/P10-14-cursor-undo.md) | Cursor undo and redo | P10-13 | todo |
+| [P10-14](phase-10/P10-14-cursor-undo.md) | Cursor undo and redo | P10-13 | done |
 | [P10-15](phase-10/P10-15-move-selected-text.md) | Move selected text one character left or right | P9-33 | todo |
 | [P10-16](phase-10/P10-16-smart-select.md) | Smart select: expand and shrink the selection | P9-33 | todo |
 | [P10-17](phase-10/P10-17-mouse-drag-state.md) | Drag and drop of the selection (1/2): the drag state of the mouse operation | P9-33 | todo |

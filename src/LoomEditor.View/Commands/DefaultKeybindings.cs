@@ -6,6 +6,7 @@ using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.LineSelection;
+using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.Overtype;
 using LoomEditor.View.Features.SelectionAnchor;
 using LoomEditor.View.Features.Suggest;
@@ -241,6 +242,7 @@ internal static class DefaultKeybindings
             new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), SelectionAnchorCommands.SelectFromAnchorToCursor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK)));
         Add(KeyModifiers.None, KeyCode.Escape, SelectionAnchorCommands.CancelSelectionAnchor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorCore);
         Add(KeyModifiers.Ctrl, KeyCode.KeyL, LineSelectionCommands.ExpandLineSelection, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyU, CursorUndoCommands.CursorUndo, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
 
         void Navigate(KeyCode key, string id)
         {

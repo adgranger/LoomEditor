@@ -304,6 +304,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/inputMode.ts` | `LoomEditor.View/Cursors/EditorInputMode.cs`, `LoomEditor.View/Features/Overtype/` | ✅ ported (P10-11); per editor, see "Behavior differences" |
 | `editor/contrib/anchorSelect/browser/anchorSelect.ts` | `LoomEditor.View/Features/SelectionAnchor/` | ✅ ported (P10-13); see "Behavior differences" |
 | `editor/contrib/lineSelection/browser/lineSelection.ts` | `LoomEditor.View/Features/LineSelection/` | ✅ ported (P10-13) |
+| `editor/contrib/cursorUndo/browser/cursorUndo.ts` | `LoomEditor.View/Features/CursorUndo/` | ✅ ported (P10-14); the stacks are cleared on content change only (the model of an editor never changes); `CursorStateChangedEvent` already carried `OldSelections` and `OldModelVersionId` |
 | `editor/contrib/linesOperations/browser/copyLinesCommand.ts` | `LoomEditor.View/Features/LinesOperations/CopyLinesCommand.cs` | ✅ ported (P5-55) |
 | `editor/contrib/linesOperations/browser/sortLinesCommand.ts` | `LoomEditor.View/Features/LinesOperations/SortLinesCommand.cs` | ✅ ported (P5-55); invariant culture, see "Behavior differences" |
 | `editor/contrib/linesOperations/browser/moveLinesCommand.ts` | `LoomEditor.View/Features/LinesOperations/MoveLinesCommand*.cs` | ✅ ported (P5-56); the virtual model has no `ForceTokenization`, like Monaco's object |
