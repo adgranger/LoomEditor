@@ -2,6 +2,8 @@
 
 Words you will meet in the code, explained simply. Monaco uses the same words, so you can search its source too.
 
+**Alignment (diff)** — A pair of line ranges, one in the original text and one in the modified text, that must start and end level in a side by side diff, with the height each side needs (`LineRangeAlignment`). The shorter side gets a *view zone* to make up the difference.
+
 **Alternative version id** — A number on a `TextModel` that goes back to an earlier value when undo returns the text
 to an earlier state, unlike the *version id*, which only grows. Used to know whether a document is "dirty".
 
@@ -83,6 +85,8 @@ font or the DPI changes.
 **Native AOT** — Ahead-of-time compilation of .NET code to a native executable: fast start-up, no JIT, but **no
 run-time reflection or code generation**. That is why we use source generators.
 
+**Overview ruler** — The narrow strip next to the scrollbar that shows colored marks for the whole document (find matches, markers; in the diff editor the changed lines) and, in the diff editor, a slider for the visible part. `OverviewZoneManager` turns line ranges into pixel bands; `OverviewRulerPainter` draws them.
+
 **Oniguruma** — The regular-expression library used by TextMate grammars (C, BSD-2 license).
 
 **Piece tree** — How Monaco stores text efficiently. The original file and everything typed are kept in
@@ -128,6 +132,8 @@ outside (`TrackedRangeStickiness`).
 **Tracked range** — A range the model keeps up to date through edits (stored in the interval tree). The cursor uses
 them to follow the selections during a command.
 
+**Unchanged region** — A block of lines that did not change in a diff, longer than the context kept around the changes. The diff editor can collapse it behind a bar "N hidden lines" (`UnchangedRegion`, `HideUnchangedRegions`).
+
 **Undo stack element** — One undo step: all the edits (and EOL change) that one undo reverts together.
 
 **Undo stop** — A boundary between two undo steps. Typing keeps adding to the current step until an undo stop is
@@ -137,6 +143,8 @@ pushed (for example when the cursor moves or a command ends).
 several model lines may be hidden. Model line numbers ≠ view line numbers.
 
 **Viewport** — The part of the document currently visible on screen.
+
+**View zone** — A gap between two lines that a widget owns (Monaco: `IViewZone`; here `ViewZone` over the *whitespaces* of the layout): the hatched filler that aligns the two sides of a diff, the deleted lines of the inline diff, the "N hidden lines" bar. Its *kind* tells the renderer what to paint.
 
 **Virtualization** — Only creating/drawing what is visible in the viewport, so huge files stay fast.
 

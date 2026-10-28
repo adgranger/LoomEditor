@@ -168,6 +168,10 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | Inline view of the diff editor (P9-24) | Deleted lines are drawn by the renderer from the zone data: no wrapping inside zones (one view line per model line), the deleted text is not selectable (the zone suppresses mouse down; Monaco lets the user select it), the original line numbers and the minus sign are drawn by the renderer in the margin instead of margin DOM elements | Selecting deleted text, the margin menu of deleted code and word wrap in zones are out of scope of P9-24 |
 | Hide unchanged regions (P9-25) | The bar is painted by the renderer (no DOM widget): background, a ⇕ glyph in the editor font, "N hidden lines" and the edge strips; no outline breadcrumb, no compact mode, no fold icon in the glyph margin, no resize cursor over the strips; a scroll anchor keeps the line below the bar in place after a click (Monaco passes no anchor in the standalone editor), not after a drag; the bar zone is kept (same id) while its region lives, so a pointer capture survives a drag | Compact mode, breadcrumbs and the fold icon are out of scope of P9-25 |
 | Accessible diff viewer model (P9-29) | Monaco builds a group range as `new LineRangeMapping(modifiedRange, originalRange)` while the constructor takes `(original, modified)`: its header announces the modified line numbers and counts as the original ones, and its initial group is picked on the original side. The port builds the range the right way round, so the labels and the initial group use the right side. No audio cues; `ViewModel` selects the modified line of the current row itself (`ModifiedSetSelection`) | A Monaco bug; the audio cues are out of scope |
+| Go to next / previous change (P9-26) | `Alt+F5` / `Shift+Alt+F5` come from VS Code's workbench (`workbench.action.compareEditor.nextChange`), not from Monaco; the commands live in `DiffNavigationFeature`, which the diff control adds to its two editors (it is not in `EditorFeatures.Default`) and only resolve under `isInDiffEditor`; no accessibility signal sounds | Monaco has no keys for it |
+| Overview ruler (P9-27, P9-28) | `OverviewRulerZone.Compare` compares the packed ARGB value of a `ThemeColor`, not a color string (same drawing); the bands are filled in DIPs (canvas pixels / pixel ratio) and the slider is one translucent rectangle, not a DOM element; both editors have `OverviewRulerEnabled = false`, so their own overview decorations (find matches, markers) are not shown in a diff editor; `getDesiredScrollPositionFromOffsetPaged` of `ScrollbarState` is not ported | Colors are `ThemeColor` values; no DOM |
+| Accessible diff viewer UI (P9-30) | A `ListView` of code-built `ListViewItem`s with plain text in the editor font; the arrows are handled in `PreviewKeyDown` and the list follows the model; `F7` / `Shift+F7` are registered after the word highlighter ones, so inside a diff editor they open the viewer; a deleted row in the inline view reveals its block in the modified editor; the two editors are `AccessibilityView.Raw` while it is open; no audio cues, no `onlyShowAccessibleDiffViewer`, no syntax colors | Out of scope in the cards; the original editor is hidden in the inline view (Monaco has the same limit) |
+| Gallery diff demo and self-check (P9-31, P9-32) | The demo is a separate window (`DiffDemoWindow`); the earlier `Diff editor preview` switch of the main window is kept. The `alignment` check of the self-check asserts what `LineRangeAlignments.Compute` returns: the blocks of the changed areas only | No Monaco counterpart |
 
 ## Map: Monaco → LoomEditor
 
@@ -668,6 +672,18 @@ No phase 7 test is ported: there is no upstream test for UI Automation, and ever
 | The DOM line-break strategy (`wrappingStrategy: advanced`) | not planned |
 | Accessibility-driven wrapping (`accessibilitySupport`) | done in phase 7 (P7-01 … P7-04); not ported: `wrappingStrategy: advanced`, `accessibilityPageSize`, the paged screen reader strategy, `allowVariableFontsInAccessibilityMode`, `ariaLabel` options, the accessibility help dialog |
 | The generic `OverviewRuler` / `overviewZoneManager.ts` (diff editor) | ✅ P9-27 (`OverviewZoneManager`); `OverviewRuler` (`OverviewRulerPainter`) ✅ P9-28 |
+| Moved blocks drawing (the computation is ported), the gutter menu and revert buttons, `diffCodeLens`, the embedded diff editor, `compactMode`, true inline view | **not delivered in phase 9** (ADR 0012 decision 9); listed in the phase 10 backlog |
+| The legacy diff computer and algorithm selection, `serializeState`, accessibility sounds, mapping the old diff through edits, `setModel`, breadcrumbs of unchanged regions | **not delivered in phase 9** (ADR 0012 decisions 4, 5, 9) |
+| The accessible view of the diff editor (cut point of phase 7, ADR 0010) | done in phase 9 (P9-29, P9-30) |
+
+## Done in phase 9 (diff editor)
+
+The step-by-step cards are in **[docs/tasks/phase-9/](tasks/phase-9/)** (P9-01 … P9-33); the design is [ADR 0012](adr/0012-diff-editor.md). Every file ported in
+phase 9 has a row in the map (the diff rows near the end of the map) and every deliberate difference a row in "Behavior differences" (the `(P9-nn)` rows).
+
+Tests, counted on 2026-10-28 with `dotnet test --list-tests`: the 47 test files created in phase 9 (Core 18, Rendering 4, View 25) hold **465 tests**
+(Core 215, Rendering 25, View 225), among them Monaco's diff fixtures (60 rows of `DiffFixtureTests`); tests added to files that already existed are not in that number.
+The whole solution has 6,527 tests on that date. Not verified by an agent: the manual plan ([testing/phase-9-manual-tests.md](testing/phase-9-manual-tests.md)) and Narrator.
 
 ## Done in phase 5 (features)
 

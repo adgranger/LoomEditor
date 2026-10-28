@@ -1,6 +1,6 @@
 # P9-33 — Close phase 9
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all phase 9 cards
 - **Size:** S
 
@@ -32,15 +32,15 @@ Sources: none (documentation only).
 
 ## Tests
 
-- [ ] None (documentation).
+- [x] None (documentation).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — result stated in the roadmap file (cite P9-31 / P9-32, or `NOT verified`), never ticked if not run
-- [ ] Every link in the new docs resolves (open each new relative link once)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — result stated in the roadmap file (cite P9-31 / P9-32, or `NOT verified`), never ticked if not run
+- [x] Every link in the new docs resolves (open each new relative link once)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -49,3 +49,11 @@ Phase 10 (see the roadmap), running the manual plan, any code change.
 ## Suggested commit message
 
 `docs: close phase 9`
+
+## Result
+
+- Documentation only; no code change. Build 0 warnings and all tests green (a full run showed two timing dependent failures, both passing when run again; see the roadmap file).
+- The Native AOT publish was **not run again** in this card: the roadmap file cites P9-31 / P9-32 (publish succeeded, diff self-check 9 of 9, exe up after 10 s) and states what was not verified.
+- Test count: 465 tests in the 47 test files created in phase 9, counted with `dotnet test --list-tests` (tests added to existing files are not in it); 6,527 tests in the solution.
+- Every relative link of the new and changed docs was checked to resolve.
+- No follow-up card was needed. Not verified (listed in the roadmap file): the manual plan, Narrator, the diff control under Native AOT with a human.

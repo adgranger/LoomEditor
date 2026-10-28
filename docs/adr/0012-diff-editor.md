@@ -66,3 +66,21 @@ diff viewer. The Monaco code has four layers, and each one gets its own decision
 - The algorithm is a faithful port with Monaco's fixture tests (P9-10), so it can be trusted without a UI.
 - The widget differs structurally from Monaco (events instead of observables, one control assembling two controls); every difference that changes behavior goes into `PORTING.md`.
 - View zones and read-only mode are general editor features that later phases can use.
+
+## Changes during implementation
+
+Written when phase 9 was closed (2026-10-28). The decisions above held; these are the places where a card did something else or more. The per-card differences with
+Monaco are in the "Behavior differences" rows of [PORTING.md](../PORTING.md) (`(P9-nn)`).
+
+- **Decision 1 (where the code goes).** The navigation commands are a feature folder, `LoomEditor.View/Features/DiffNavigation/` (P9-26), that is **not** in `EditorFeatures.Default`: the diff
+  control appends it to the features of its two editors (`EditorFeatures.ForDiffEditor`), and its keys resolve only under the new `isInDiffEditor` condition. `OffsetRange.Clip` /
+  `ClipCyclic` (Core) were added for the accessible viewer model (P9-29). `Win2DRenderSurface` accepts a null text measurer, so the overview strip can fill shapes without one (P9-28).
+- **Decision 5 (the control).** The language property is `LanguageId` (like `LoomEditor`), not `Language`.
+- **Decision 9 (not in phase 9).** Held. The `F7` / `Shift+F7` keys of the accessible viewer shadow the word highlighter's `F7` / `Shift+F7` inside a diff editor (the rules are registered
+  after it); outside a diff editor nothing changed.
+- **The accessible diff viewer** (P9-29): Monaco builds a group range with the original and modified ranges swapped, so its header announces the modified numbers as the original ones and its
+  initial group is picked on the original side; the port builds it the right way round. A deleted row reveals its block in the modified editor in the inline view (the original editor is hidden).
+- **Overview ruler** (P9-27, P9-28): colors are `ThemeColor` values (the sort order of equal zones compares ARGB, not strings); the editors' own overview ruler is off in a diff editor.
+- **Gallery** (P9-31): the demo is a separate window; the earlier in-window preview switch stays. The manual plan is written and **not run**.
+
+What phase 9 did not verify: the manual plan, Narrator, the hatching at high DPI. The Native AOT publish of the Gallery and the diff self-check (`--diff-selfcheck`) passed in P9-31 / P9-32.

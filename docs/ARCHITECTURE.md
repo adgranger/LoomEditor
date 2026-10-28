@@ -263,6 +263,43 @@ process over in-memory pipes (`tests/LoomEditor.Lsp.Tests`, and the end-to-end t
 
 Deliberately not delivered in phase 8: snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, folding ranges from the server, peek definition.
 
+## Diff editor (phase 9)
+
+Four layers ([ADR 0012](adr/0012-diff-editor.md)); every class is `internal` except `LoomDiffEditor` and its few enums and properties:
+
+```
+LoomEditor.Core    Diff/: DefaultLinesDiffComputer (Myers, dynamic programming, heuristics, moved lines), the range mappings,
+                   DocumentDiffProvider; Text/: LineRange, OffsetRange                           (pure: string[] in, mappings out)
+  → LoomEditor.View    DiffEditor/: DiffEditorOptions, DiffState, DiffEditorViewModel, UnchangedRegion, line range alignment,
+                       decorations, view zone specs, DiffNavigator, DiffOverviewZones, AccessibleDiffViewerModel
+                       Layout/: ViewZones (gaps with a purpose), OverviewZoneManager, ScrollbarState
+                       Features/DiffNavigation/ (Alt+F5, F7), read-only mode in EditorContext
+  → LoomEditor.Rendering   view zones drawn by hand (diagonal fill, deleted lines, collapsed bar), OverviewRulerPainter
+  → LoomEditor.WinUI       LoomDiffEditor: two LoomEditor controls, the sash, the zone controllers, the overview strip,
+                           the accessible viewer (Controls/DiffEditor/)
+```
+
+From text to pixels:
+
+```
+TextModel (original) ┐
+TextModel (modified) ┴→ DiffEditorViewModel         debounce 200 ms (IEditorScheduler), cancels the previous request
+  → DocumentDiffProvider.ComputeDiffAsync          Task.Run over copies of the lines; result back on the UI thread (IUiDispatcher)
+  → DiffState (mappings, moves, identical)  +  UnchangedRegions (when HideUnchangedRegions is on)
+  ├→ DiffDecorationsComputer → line and character decorations in both editors
+  ├→ LineRangeAlignments + DiffEditorViewZones       hatched gaps (side by side) / deleted-lines zones (inline); equal ScrollTop
+  ├→ HideUnchangedRegionsController                  hidden areas + "N hidden lines" bars, pointer handling
+  ├→ DiffOverviewZones → OverviewZoneManager → OverviewRulerPainter   the strip and the viewport slider (ScrollbarState)
+  └→ AccessibleDiffViewerModel → AccessibleDiffViewer (list of rows, UIA names from AccessibilityMessages)
+```
+
+**Threading**: everything is UI thread only except the diff computation itself (a pool thread working on copies of the lines). While a new diff
+is computed the old one stays (`IsDiffUpToDate` is false): Monaco patches it through the edit, phase 9 does not.
+
+**Not delivered in phase 9**: moved blocks drawing (the computation is ported), the gutter menu and revert buttons, `diffCodeLens`, the embedded diff editor,
+`compactMode`, true inline view, the legacy diff computer, `serializeState`, accessibility sounds, mapping the old diff through edits, `setModel`, breadcrumbs.
+How to use the control: [how-to/use-the-diff-editor.md](how-to/use-the-diff-editor.md).
+
 ## Where do I find…?
 
 | I want to… | Go to |
@@ -330,3 +367,9 @@ Deliberately not delivered in phase 8: snippets, signature help, references, ren
 | change the LSP client or the editor session | `src/LoomEditor.Lsp/` ([README](../src/LoomEditor.Lsp/README.md)); wire format in `Protocol/`, framing and JSON-RPC in `JsonRpc/` |
 | change the fake language server or write an LSP test | `tests/LoomEditor.Lsp.FakeServer/` ([README](../tests/LoomEditor.Lsp.FakeServer/README.md)), helpers in `tests/LoomEditor.Lsp.Tests/TestHelpers/` |
 | run the language server demo or the LSP self-check | `samples/LoomEditor.Gallery/Lsp/` (`LspSelfCheck.cs`, `--lsp-selfcheck=<file>`), [testing/phase-8-manual-tests.md](testing/phase-8-manual-tests.md) |
+| change the diff algorithm or the document diff provider | `src/LoomEditor.Core/Diff/` (`DefaultLinesDiffComputer`, `Algorithms/`, `DocumentDiffProvider`); Monaco's fixtures in `tests/LoomEditor.Core.Tests/Diff/Fixtures/` |
+| change the diff model (options, state, unchanged regions, alignment, decorations, navigation) | `src/LoomEditor.View/DiffEditor/` (`DiffEditorViewModel`, `UnchangedRegion`, `LineRangeAlignment`, `DiffNavigator`), `src/LoomEditor.View/Features/DiffNavigation/` |
+| change view zones (gaps, deleted lines, collapsed bars) | model `src/LoomEditor.View/Layout/ViewZones.cs`, drawing `src/LoomEditor.Rendering/TextViewRenderer.ViewZones.cs`, `.CollapsedZones.cs` |
+| change the diff control (sash, side by side, inline, overview strip, accessible viewer) | `src/LoomEditor.WinUI/Controls/DiffEditor/` ([how-to](how-to/use-the-diff-editor.md)) |
+| change the overview ruler | `src/LoomEditor.View/Layout/OverviewZoneManager.cs`, `ScrollbarState.cs`, `src/LoomEditor.Rendering/OverviewRulerPainter.cs` |
+| run the diff demo, the diff self-check or the diff benchmarks | `samples/LoomEditor.Gallery/DiffDemoWindow.xaml`, `DiffSelfCheck.cs` (`--diff-selfcheck=<file>`), `tests/LoomEditor.Benchmarks/DiffBenchmarks.cs`, [testing/phase-9-manual-tests.md](testing/phase-9-manual-tests.md) |
