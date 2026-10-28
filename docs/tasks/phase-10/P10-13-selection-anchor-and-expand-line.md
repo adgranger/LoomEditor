@@ -1,6 +1,6 @@
 # P10-13 — Selection anchor and `Expand Line Selection`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** S
 
@@ -38,17 +38,17 @@ Four anchor commands (`Ctrl+K Ctrl+B` set the anchor, `Ctrl+K Ctrl+K` select fro
 
 ## Tests
 
-- [ ] Port: `lineSelection.test.ts` (names in `// Monaco:` comments)
-- [ ] New: `SetAnchor_CreatesDecorationAtCaret`, `SetAnchor_Twice_ReplacesTheFirst`, `SelectFromAnchorToCursor_SelectsAndCancels`, `SelectFromAnchorToCursor_AnchorBeforeCaret_Forward`, `SelectFromAnchorToCursor_AnchorAfterCaret_Backward`, `GoToAnchor_MovesCaret`, `Anchor_FollowsEditsBeforeIt`, `Cancel_RemovesDecoration_AndContextKey`, `ContextKey_TrueOnlyWhileAnchorSet`, `Escape_WithAnchor_ResolvesToCancel`, `Escape_WithoutAnchor_DoesNotResolveToCancel`, `Announces_AnchorSet`
-- [ ] Rendering: `selection-anchor` empty range draws a 2 px left border (recording surface; copy the diff-range-empty test of P9-16 in `TextViewRendererDecorationsTests`)
-- [ ] Manual (section "P10-13"): `Ctrl+K Ctrl+B`, move, `Ctrl+K Ctrl+K` selects; a blue bar marks the anchor; `Escape` removes it; `Ctrl+L` selects the line then the next, repeatedly.
+- [x] Port: `lineSelection.test.ts` (names in `// Monaco:` comments)
+- [x] New: `SetAnchor_CreatesDecorationAtCaret`, `SetAnchor_Twice_ReplacesTheFirst`, `SelectFromAnchorToCursor_SelectsAndCancels`, `SelectFromAnchorToCursor_AnchorBeforeCaret_Forward`, `SelectFromAnchorToCursor_AnchorAfterCaret_Backward`, `GoToAnchor_MovesCaret`, `Anchor_FollowsEditsBeforeIt`, `Cancel_RemovesDecoration_AndContextKey`, `ContextKey_TrueOnlyWhileAnchorSet`, `Escape_WithAnchor_ResolvesToCancel`, `Escape_WithoutAnchor_DoesNotResolveToCancel`, `Announces_AnchorSet`
+- [x] Rendering: `selection-anchor` empty range draws a 2 px left border (recording surface; copy the diff-range-empty test of P9-16 in `TextViewRendererDecorationsTests`)
+- [x] Manual (section "P10-13"): `Ctrl+K Ctrl+B`, move, `Ctrl+K Ctrl+K` selects; a blue bar marks the anchor; `Escape` removes it; `Ctrl+L` selects the line then the next, repeatedly.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `anchorSelect.ts`, `lineSelection.ts` rows; "Behavior differences": no hover message, color id `loom.selectionAnchor`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `anchorSelect.ts`, `lineSelection.ts` rows; "Behavior differences": no hover message, color id `loom.selectionAnchor`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

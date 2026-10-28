@@ -194,6 +194,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>True while the completion list has several items (Monaco: <c>suggestWidgetMultipleSuggestions</c>); set by the suggest feature.</summary>
     internal bool SuggestWidgetMultipleSuggestions { get; set; }
 
+    /// <summary>True while the selection anchor exists (Monaco: <c>selectionAnchorSet</c>); set by the selection anchor feature.</summary>
+    internal bool SelectionAnchorSet { get; set; }
+
     /// <summary>Opens the definitions that are in another document; null (the default) announces them instead.</summary>
     public LoomEditor.View.Features.GotoDefinition.ILocationOpener? LocationOpener { get; set; }
 

@@ -23,6 +23,7 @@ namespace LoomEditor.View.Commands;
 /// <param name="HasCompletionItemProvider"><c>editorHasCompletionItemProvider</c>: a provider is registered for the language of the model.</param>
 /// <param name="HasDefinitionProvider"><c>editorHasDefinitionProvider</c>: a provider is registered for the language of the model.</param>
 /// <param name="IsInDiffEditor"><c>isInDiffEditor</c>: the editor is a side of a diff editor.</param>
+/// <param name="SelectionAnchorSet"><c>selectionAnchorSet</c>: the selection anchor exists.</param>
 internal readonly record struct KeybindingContext(
     bool TextInputFocus = false,
     bool EditorTextFocus = false,
@@ -41,4 +42,5 @@ internal readonly record struct KeybindingContext(
     bool SuggestWidgetMultipleSuggestions = false,
     bool HasCompletionItemProvider = false,
     bool HasDefinitionProvider = false,
-    bool IsInDiffEditor = false);
+    bool IsInDiffEditor = false,
+    bool SelectionAnchorSet = false);

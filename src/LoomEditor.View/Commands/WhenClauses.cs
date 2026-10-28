@@ -70,6 +70,9 @@ internal static class WhenClauses
     /// <summary><c>editorHasDefinitionProvider AND editorTextFocus</c> (<c>editor.action.revealDefinition</c>).</summary>
     public static bool GotoDefinition(KeybindingContext c) => c.EditorTextFocus && c.HasDefinitionProvider;
 
+    /// <summary><c>selectionAnchorSet AND editorTextFocus</c> (<c>selectFromAnchorToCursor</c>, <c>cancelSelectionAnchor</c>).</summary>
+    public static bool SelectionAnchorSet(KeybindingContext c) => c.SelectionAnchorSet && c.EditorTextFocus;
+
     /// <summary><c>isInDiffEditor</c> (the diff navigation keys).</summary>
     public static bool InDiffEditor(KeybindingContext c) => c.IsInDiffEditor;
 }

@@ -72,6 +72,15 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 4 | The caret still blinks | pending |
 | 5 | In a long wrapped line the caret is on the right view line | pending |
 
+## P10-13 — Selection anchor and Expand Line Selection
+
+| # | Check | Result |
+|---|---|---|
+| 1 | `Ctrl+K Ctrl+B`, move the caret, `Ctrl+K Ctrl+K`: the text between is selected | pending |
+| 2 | A blue 2 px bar marks the anchor while it is set | pending |
+| 3 | `Escape` removes the bar (and does not close an open find widget or suggest list first) | pending |
+| 4 | `Ctrl+L` selects the line, then the next line, repeatedly | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

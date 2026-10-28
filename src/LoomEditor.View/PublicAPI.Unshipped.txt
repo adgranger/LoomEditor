@@ -31,6 +31,7 @@ const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingSpaces
 const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingTabs = "editor.action.indentUsingTabs" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentLines = "editor.action.reindentlines" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentSelectedLines = "editor.action.reindentselectedlines" -> string!
+const LoomEditor.View.Features.LineSelection.LineSelectionCommands.ExpandLineSelection = "expandLineSelection" -> string!
 const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.CopyLinesDown = "editor.action.copyLinesDownAction" -> string!
 const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.CopyLinesUp = "editor.action.copyLinesUpAction" -> string!
 const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.DeleteAllLeft = "deleteAllLeft" -> string!
@@ -72,6 +73,10 @@ const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToPr
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.SelectHighlights = "editor.action.selectHighlights" -> string!
 const LoomEditor.View.Features.Overtype.OvertypeCommands.ToggleOvertype = "editor.action.toggleOvertype" -> string!
 const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.CancelSelectionAnchor = "editor.action.cancelSelectionAnchor" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.GoToSelectionAnchor = "editor.action.goToSelectionAnchor" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.SelectFromAnchorToCursor = "editor.action.selectFromAnchorToCursor" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.SetSelectionAnchor = "editor.action.setSelectionAnchor" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.AcceptSelectedSuggestion = "acceptSelectedSuggestion" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.HideSuggestWidget = "hideSuggestWidget" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.SelectFirstSuggestion = "selectFirstSuggestion" -> string!
@@ -199,6 +204,12 @@ LoomEditor.View.Features.Indentation.IndentationFeature.Attach(LoomEditor.View.F
 LoomEditor.View.Features.Indentation.IndentationFeature.Dispose() -> void
 LoomEditor.View.Features.Indentation.IndentationFeature.Id.get -> string!
 LoomEditor.View.Features.Indentation.IndentationFeature.IndentationFeature() -> void
+LoomEditor.View.Features.LineSelection.LineSelectionCommands
+LoomEditor.View.Features.LineSelection.LineSelectionFeature
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.Dispose() -> void
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.Id.get -> string!
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.LineSelectionFeature() -> void
 LoomEditor.View.Features.LinesOperations.LinesOperationsCommands
 LoomEditor.View.Features.LinesOperations.LinesOperationsFeature
 LoomEditor.View.Features.LinesOperations.LinesOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
@@ -225,6 +236,12 @@ LoomEditor.View.Features.SelectAll.SelectAllFeature.Attach(LoomEditor.View.Featu
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Dispose() -> void
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Id.get -> string!
 LoomEditor.View.Features.SelectAll.SelectAllFeature.SelectAllFeature() -> void
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Dispose() -> void
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Id.get -> string!
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.SelectionAnchorFeature() -> void
 LoomEditor.View.Features.Suggest.SuggestCommands
 LoomEditor.View.Features.WordOperations.WordOperationsCommands
 LoomEditor.View.Features.WordOperations.WordOperationsFeature
@@ -249,8 +266,6 @@ LoomEditor.View.Layout.RenderWhitespace.Boundary = 2 -> LoomEditor.View.Layout.R
 LoomEditor.View.Layout.RenderWhitespace.None = 0 -> LoomEditor.View.Layout.RenderWhitespace
 LoomEditor.View.Layout.RenderWhitespace.Selection = 1 -> LoomEditor.View.Layout.RenderWhitespace
 LoomEditor.View.Layout.RenderWhitespace.Trailing = 3 -> LoomEditor.View.Layout.RenderWhitespace
-static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
-static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection
 LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.Block = 1 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.BlockOutline = 4 -> LoomEditor.View.Layout.TextEditorCursorStyle
@@ -258,3 +273,5 @@ LoomEditor.View.Layout.TextEditorCursorStyle.Line = 0 -> LoomEditor.View.Layout.
 LoomEditor.View.Layout.TextEditorCursorStyle.LineThin = 3 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.Underline = 2 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.UnderlineThin = 5 -> LoomEditor.View.Layout.TextEditorCursorStyle
+static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
+static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection

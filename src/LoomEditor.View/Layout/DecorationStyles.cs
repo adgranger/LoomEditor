@@ -68,6 +68,8 @@ internal static class DecorationStyles
         ["char-delete"] = new("diffEditor.removedTextBackground", "diffEditor.removedTextBorder"),
         ["char-insert diff-range-empty"] = new(BorderColorId: "diffEditor.insertedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
         ["char-delete diff-range-empty"] = new(BorderColorId: "diffEditor.removedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
+        // anchorSelect.css 5-8: the anchor is a 2 px bar
+        ["selection-anchor"] = new(BorderColorId: "loom.selectionAnchor", BorderWidth: 0, LeftBorderWidth: 2),
         ["gutter-insert"] = new("diffEditorGutter.insertedLineBackground", BackgroundFallbackColorId: "diffEditor.insertedLineBackground"),
         ["gutter-delete"] = new("diffEditorGutter.removedLineBackground", BackgroundFallbackColorId: "diffEditor.removedLineBackground"),
         ["inline-deleted-text"] = new("diffEditor.removedTextBackground", StrikeThrough: true),

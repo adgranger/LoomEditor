@@ -58,6 +58,10 @@ internal static class AccessibilityMessages
     public static string WordHighlightPosition(string lineContent, int index, int count, string word) =>
         string.Create(CultureInfo.InvariantCulture, $"{lineContent}, {index} of {count} for '{word}'");
 
+    /// <summary>The message when the selection anchor is set (Monaco: <c>anchorSet</c>).</summary>
+    public static string AnchorSet(int lineNumber, int column) =>
+        string.Create(CultureInfo.InvariantCulture, $"Anchor set at {lineNumber}:{column}");
+
     /// <summary>The message when go to definition finds nothing (Monaco: <c>noResultWord</c> / <c>generic.noResult</c>).</summary>
     public static string NoDefinitionFound(string? word) =>
         string.IsNullOrEmpty(word) ? "No definition found" : $"No definition found for '{word}'";

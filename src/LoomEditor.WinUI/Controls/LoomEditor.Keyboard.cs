@@ -37,7 +37,8 @@ public sealed partial class LoomEditor
             SuggestWidgetMultipleSuggestions: _context.SuggestWidgetMultipleSuggestions,
             HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()),
             HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()),
-            IsInDiffEditor: IsInDiffEditor);
+            IsInDiffEditor: IsInDiffEditor,
+            SelectionAnchorSet: _context.SelectionAnchorSet);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

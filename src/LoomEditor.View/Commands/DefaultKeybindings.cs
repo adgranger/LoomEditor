@@ -5,7 +5,9 @@ using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
+using LoomEditor.View.Features.LineSelection;
 using LoomEditor.View.Features.Overtype;
+using LoomEditor.View.Features.SelectionAnchor;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
@@ -231,6 +233,14 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.None, KeyCode.Enter, SuggestCommands.AcceptSelectedSuggestion, WhenClauses.SuggestVisible, SuggestWeight);
         Add(KeyModifiers.None, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
         Add(KeyModifiers.Shift, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
+
+        // anchorSelect.ts and lineSelection.ts: Ctrl+K Ctrl+B, Ctrl+K Ctrl+K and Ctrl+L. Escape has the lowest weight of the Escape rules (Monaco: EditorContrib) so the widgets close first.
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), SelectionAnchorCommands.SetSelectionAnchor, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyB)));
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), SelectionAnchorCommands.SelectFromAnchorToCursor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK)));
+        Add(KeyModifiers.None, KeyCode.Escape, SelectionAnchorCommands.CancelSelectionAnchor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorCore);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyL, LineSelectionCommands.ExpandLineSelection, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
 
         void Navigate(KeyCode key, string id)
         {
