@@ -134,7 +134,7 @@ public class CommentFeatureTests
     [Fact]
     public void Keybindings_CommentKeys_ResolveToTheCommentCommands()
     {
-        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: true);
+        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true);
         var dispatcher = new KeybindingDispatcher(KeybindingResolver.Default);
 
         Assert.True(dispatcher.Dispatch(new Keybinding(KeyModifiers.Ctrl, KeyCode.Slash), focused, out string? commentLine));
@@ -152,7 +152,7 @@ public class CommentFeatureTests
     [Fact]
     public void Keybindings_NotWritable_ResolveToNothing()
     {
-        var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: false);
+        var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, EditorReadOnly: true);
 
         Assert.Null(KeybindingResolver.Default.Resolve(new Keybinding(KeyModifiers.Ctrl, KeyCode.Slash), readOnly));
         // Ctrl+K starts the folding chords, which do not need a writable editor; the comment chord itself resolves to nothing.

@@ -25,7 +25,11 @@ public class TextViewRendererDecorationsTests
             "editor.findMatchForeground": "#ff00ff",
             "editor.foldPlaceholderForeground": "#00ffff",
             "editor.foldBackground": "#123456",
-            "editorBracketMatch.background": "#654321"
+            "editorBracketMatch.background": "#654321",
+            "foreground": "#abcdef",
+            "diffEditor.insertedTextBackground": "#00aa00",
+            "diffEditor.removedTextBackground": "#aa0000",
+            "diffEditor.insertedLineBackground": "#00bb00"
           }
         }
         """;
@@ -260,6 +264,54 @@ public class TextViewRendererDecorationsTests
         Assert.Equal(new DrawLineLayoutCall("⋯", x, 0, Color(harness, "editor.foldPlaceholderForeground")), call);
         int text = surface.Calls.FindIndex(c => c is DrawLineLayoutCall { Text: "abc" });
         Assert.True(text < surface.Calls.IndexOf(call), "the after content must be drawn after the text");
+    }
+
+    [Fact]
+    public void Render_EmptyDiffRange_DrawsA3DipLeftBar()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 3, 1, 6), "char-insert diff-range-empty");
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "diffEditor.insertedTextBackground"));
+
+        Assert.Equal(new FillRectangleCall(harness.LayoutInfo.ContentLeft + 2 * CharacterWidth, 0, 3, LineHeight, fill.Color), fill);
+    }
+
+    [Fact]
+    public void Render_InlineDeletedText_DrawsAStrikeThroughOverItsBackground()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "inline-deleted-text");
+
+        RecordingRenderSurface surface = harness.Render();
+
+        FillRectangleCall background = Assert.Single(Fills(harness, surface, "diffEditor.removedTextBackground"));
+        Assert.Equal(new FillRectangleCall(harness.LayoutInfo.ContentLeft, 0, 5 * CharacterWidth, LineHeight, background.Color), background);
+        var strike = new FillRectangleCall(harness.LayoutInfo.ContentLeft, LineHeight / 2, 5 * CharacterWidth, 1, harness.Renderer.Theme.Foreground);
+        Assert.Contains(strike, surface.Calls.OfType<FillRectangleCall>());
+    }
+
+    [Fact]
+    public void Render_GutterInsert_FallsBackToTheLineBackground()
+    {
+        using ViewHarness harness = CreateHarness("a\nb");
+        AddDecoration(harness, new Range(1, 1, 1, 1), new ModelDecorationOptionsData { Description = "test", MarginClassName = "gutter-insert" });
+
+        Assert.Single(Fills(harness, harness.Render(), "diffEditor.insertedLineBackground"));
+    }
+
+    [Theory]
+    [InlineData("insert-sign", 2)]
+    [InlineData("delete-sign", 1)]
+    public void Render_DiffSigns_DrawAPlusOrAMinusInTheForeground(string className, int strokes)
+    {
+        using ViewHarness harness = CreateHarness("a\nb");
+        AddDecoration(harness, new Range(1, 1, 1, 1), new ModelDecorationOptionsData { Description = "test", LinesDecorationsClassName = className });
+
+        ThemeColor foreground = Color(harness, "foreground");
+        List<DrawLineCall> lines = [.. harness.Render().Calls.OfType<DrawLineCall>().Where(c => c.Color == foreground)];
+
+        Assert.Equal(strokes, lines.Count);
     }
 
     [Fact]

@@ -53,6 +53,7 @@ internal sealed partial class ViewModel
                 _cursor.OnLineMappingChanged(eventsCollector);
                 _decorations.OnLineMappingChanged();
                 ViewLayout.OnFlushed(GetLineCount(), []);
+                ViewZones.RecomputeWhitespaceProps();
             });
         }
 

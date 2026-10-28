@@ -291,6 +291,26 @@ internal static class EditorColorDefaults
         // baseColors.ts:33
         ["icon.foreground"] = ("#C5C5C5", "#424242", "#FFFFFF", "#292929"),
 
+        // editorColors.ts:264–335 (diff editor). defaultInsertColor = rgba(155,185,85,0.2), defaultRemoveColor = rgba(255,0,0,0.2).
+        ["diffEditor.insertedTextBackground"] = ("#9ccc2c33", "#9ccc2c40", null, null),
+        ["diffEditor.removedTextBackground"] = ("#ff000033", "#ff000033", null, null),
+        ["diffEditor.insertedLineBackground"] = ("#9bb95533", "#9bb95533", null, null),
+        ["diffEditor.removedLineBackground"] = ("#ff000033", "#ff000033", null, null),
+        ["diffEditorGutter.insertedLineBackground"] = (null, null, null, null),
+        ["diffEditorGutter.removedLineBackground"] = (null, null, null, null),
+        ["diffEditorOverview.insertedForeground"] = (null, null, null, null),
+        ["diffEditorOverview.removedForeground"] = (null, null, null, null),
+        ["diffEditor.insertedTextBorder"] = (null, null, "#33ff2eff", "#374E06"),
+        ["diffEditor.removedTextBorder"] = (null, null, "#FF008F", "#AD0707"),
+        ["diffEditor.border"] = (null, null, "contrastBorder", "contrastBorder"),
+        ["diffEditor.diagonalFill"] = ("#cccccc33", "#22222233", null, null),
+        ["diffEditor.unchangedRegionBackground"] = ("sideBar.background", "sideBar.background", "sideBar.background", "sideBar.background"),
+        ["diffEditor.unchangedRegionForeground"] = ("foreground", "foreground", "foreground", "foreground"),
+        ["diffEditor.unchangedCodeBackground"] = ("#74747429", "#b8b8b829", null, null),
+
+        // theme.ts:625
+        ["sideBar.background"] = ("#252526", "#F3F3F3", "#000000", "#FFFFFF"),
+
         // baseColors.ts:37
         ["focusBorder"] = ("#007FD4", "#0090F1", "#F38518", "#006BBD"),
 

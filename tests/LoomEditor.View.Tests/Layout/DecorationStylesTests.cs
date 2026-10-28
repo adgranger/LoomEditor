@@ -42,6 +42,40 @@ public class DecorationStylesTests
     [InlineData("squiggly-inline-deprecated")]
     public void UnnecessaryClasses_HaveNoRow(string className) => Assert.Null(DecorationStyles.Get(className));
 
+    // registrations.contribution.ts 14–96, style.css
+    [Theory]
+    [InlineData("line-insert", "diffEditor.insertedLineBackground")]
+    [InlineData("line-delete", "diffEditor.removedLineBackground")]
+    [InlineData("char-insert", "diffEditor.insertedTextBackground")]
+    [InlineData("char-delete", "diffEditor.removedTextBackground")]
+    [InlineData("inline-deleted-text", "diffEditor.removedTextBackground")]
+    public void DecorationStyles_DiffClasses_HaveRows(string className, string background)
+    {
+        Assert.Equal(background, DecorationStyles.Get(className)?.BackgroundColorId);
+        Assert.True(DecorationStyles.Get("inline-deleted-text")!.StrikeThrough);
+        Assert.Equal(GutterIcon.Plus, DecorationStyles.Get("insert-sign")?.GutterIcon);
+        Assert.Equal(GutterIcon.Minus, DecorationStyles.Get("delete-sign")?.GutterIcon);
+    }
+
+    [Fact]
+    public void DecorationStyles_EmptyRange_HasItsOwnRowWithALeftBorder()
+    {
+        DecorationStyle style = DecorationStyles.Get("char-insert diff-range-empty")!;
+
+        Assert.Equal(3, style.LeftBorderWidth);
+        Assert.Equal("diffEditor.insertedTextBackground", style.BorderColorId);
+        Assert.Equal("diffEditor.removedTextBackground", DecorationStyles.Get("char-delete diff-range-empty")?.BorderColorId);
+    }
+
+    [Fact]
+    public void DecorationStyles_GutterInsert_FallsBackToLineBackground()
+    {
+        DecorationStyle style = DecorationStyles.Get("gutter-insert")!;
+
+        Assert.Equal("diffEditorGutter.insertedLineBackground", style.BackgroundColorId);
+        Assert.Equal("diffEditor.insertedLineBackground", style.BackgroundFallbackColorId);
+    }
+
     [Fact]
     public void ColorIds_IncludeUnderlineColors() => Assert.Contains("editorHint.foreground", DecorationStyles.ColorIds);
 }

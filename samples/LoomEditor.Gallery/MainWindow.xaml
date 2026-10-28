@@ -3,85 +3,130 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:loom="using:LoomEditor.WinUI.Controls"
+    xmlns:loomdiff="using:LoomEditor.WinUI.Controls"
     Title="LoomEditor Gallery">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*,Auto">
-        <TextBlock
-            Margin="12,8"
-            Style="{StaticResource BodyStrongTextBlockStyle}"
-            Text="LoomEditor — phase 7: accessibility" />
-        <StackPanel Grid.Row="1" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
-            <Button Click="OnInsertHeader" Content="Insert header" />
-            <Button Click="OnAppendLine" Content="Append line" />
-            <Button Click="OnDeleteFirstLine" Content="Delete first line" />
-            <Button Click="OnReplaceHello" Content="Replace &quot;Hello&quot;" />
-            <Button x:Name="UndoButton" Click="OnUndo" Content="Undo" />
-            <Button x:Name="RedoButton" Click="OnRedo" Content="Redo" />
-            <Button Click="OnLf" Content="LF" />
-            <Button Click="OnCrlf" Content="CRLF" />
-            <Button Click="OnReset" Content="Reset" />
-            <ToggleSwitch x:Name="SmoothScrollingSwitch" Toggled="OnSmoothScrollingToggled" OffContent="Smooth scrolling" OnContent="Smooth scrolling" />
-            <ToggleSwitch x:Name="WordWrapSwitch" Toggled="OnWordWrapToggled" OffContent="Word wrap" OnContent="Word wrap" />
-            <ToggleSwitch x:Name="MinimapSwitch" IsOn="True" Toggled="OnMinimapToggled" OffContent="Minimap" OnContent="Minimap" />
-            <ToggleSwitch x:Name="StickyScrollSwitch" IsOn="True" Toggled="OnStickyScrollToggled" OffContent="Sticky scroll" OnContent="Sticky scroll" />
-            <ToggleSwitch x:Name="ReadOnlySwitch" Toggled="OnReadOnlyToggled" OffContent="Read-only" OnContent="Read-only" />
-        </StackPanel>
-        <StackPanel Grid.Row="2" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
-            <NumberBox x:Name="FontSizeBox" Header="Font size" Minimum="8" Maximum="40" SpinButtonPlacementMode="Inline" Value="14" ValueChanged="OnFontSizeChanged" />
-            <ComboBox x:Name="GuidesBox" Header="Guides" SelectedIndex="0" SelectionChanged="OnGuidesChanged">
-                <ComboBoxItem Content="Indent only" />
-                <ComboBoxItem Content="Indent + bracket pairs" />
-                <ComboBoxItem Content="None" />
-            </ComboBox>
-            <ComboBox x:Name="FontFamilyBox" Header="Font family" SelectedIndex="0" SelectionChanged="OnFontFamilyChanged">
-                <ComboBoxItem Content="Cascadia Mono" />
-                <ComboBoxItem Content="Consolas" />
-                <ComboBoxItem Content="Segoe UI" />
-            </ComboBox>
-            <NumberBox x:Name="TabSizeBox" Header="Tab size" Minimum="1" Maximum="16" SpinButtonPlacementMode="Inline" Value="4" ValueChanged="OnTabSizeChanged" />
-        </StackPanel>
-        <StackPanel Grid.Row="3" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
-            <Button x:Name="LargeFileButton" Click="OnLargeFile" Content="Large file (100 MB)" />
-            <Button x:Name="LongLineButton" Click="OnLongLine" Content="Long line (1 MB)" />
-            <Button x:Name="UnicodeButton" Click="OnUnicode" Content="Unicode sample" />
-            <Button x:Name="ScrollTestButton" Click="OnScrollTest" Content="Scroll test" />
-            <Button Click="OnInjectText" Content="Inject text" />
-            <Button Click="OnClearInjectedText" Content="Clear injected text" />
-            <Button x:Name="MultiCursorButton" Click="OnMultiCursorSample" Content="Sample: multi-cursor" />
-        </StackPanel>
-        <StackPanel Grid.Row="4" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
-            <ComboBox x:Name="LanguageBox" Header="Language" SelectedIndex="0" SelectionChanged="OnLanguageChanged" />
-            <ComboBox x:Name="ThemeBox" Header="Theme" SelectedIndex="0" SelectionChanged="OnThemeChanged" />
-            <Button x:Name="LargeCSharpButton" Click="OnLargeCSharp" Content="Large C# (20 000 lines)" VerticalAlignment="Bottom" />
-            <ComboBox x:Name="FeatureSampleBox" Header="Features" MinWidth="220" SelectionChanged="OnFeatureSampleChanged" />
-            <TextBlock x:Name="FeatureHintText" VerticalAlignment="Bottom" Style="{StaticResource CaptionTextBlockStyle}" />
-        </StackPanel>
-        <StackPanel Grid.Row="5" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
-            <ComboBox x:Name="ScreenReaderBox" Header="Screen reader mode" SelectedIndex="0" SelectionChanged="OnScreenReaderChanged">
-                <ComboBoxItem Content="Auto" />
-                <ComboBoxItem Content="On" />
-                <ComboBoxItem Content="Off" />
-            </ComboBox>
-            <ToggleSwitch x:Name="TabFocusSwitch" Toggled="OnTabFocusToggled" OffContent="Tab moves focus" OnContent="Tab moves focus" />
-            <ToggleSwitch x:Name="SystemHighContrastSwitch" IsOn="True" Toggled="OnSystemHighContrastToggled" OffContent="Follow system high contrast" OnContent="Follow system high contrast" />
-            <Button Click="OnLongLineSample" Content="Long-line sample" VerticalAlignment="Bottom" />
-            <Button Click="OnUiaSelfCheck" Content="UIA self-check" VerticalAlignment="Bottom" />
-        </StackPanel>
-        <StackPanel Grid.Row="6" Margin="12,0,12,8" Orientation="Horizontal" Spacing="8">
-            <Button x:Name="StartLspButton" Click="OnStartLsp" Content="Start language server" VerticalAlignment="Top" />
-            <Button x:Name="StopLspButton" Click="OnStopLsp" Content="Stop language server" IsEnabled="False" VerticalAlignment="Top" />
-            <Button x:Name="DemoProvidersButton" Click="OnDemoProviders" Content="Demo providers: off" VerticalAlignment="Top" />
-            <Button x:Name="DemoMarkersButton" Click="OnDemoMarkers" Content="Demo markers: off" VerticalAlignment="Top" />
-            <Button Click="OnLoadLspSample" Content="Load LSP sample" VerticalAlignment="Top" />
-            <TextBlock x:Name="LspStatus" Text="Language server: not started" VerticalAlignment="Top" Margin="0,6,0,0" Style="{StaticResource CaptionTextBlockStyle}" />
-            <TextBox x:Name="LspLog" Height="80" Width="480" AcceptsReturn="True" IsReadOnly="True" TextWrapping="NoWrap" FontFamily="Cascadia Mono" FontSize="12" />
-        </StackPanel>
-        <Grid Grid.Row="7" RowDefinitions="*,Auto">
-            <loom:LoomEditor x:Name="Editor" />
+    <!-- Options live in a side panel of collapsible sections: the editor takes the whole right side. -->
+    <Grid ColumnDefinitions="360,*">
+        
+
+        <ScrollViewer Grid.Column="0">
+            <StackPanel Margin="12,8" Spacing="6">
+                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="LoomEditor Gallery" />
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Phase 9: diff editor" IsExpanded="True">
+                    <StackPanel Spacing="6">
+                        <Button HorizontalAlignment="Stretch" Click="OnOpenDiffWindow" Content="Diff editor window" />
+                        <ToggleSwitch x:Name="DiffSwitch" Toggled="OnDiffToggled" OffContent="Diff editor preview" OnContent="Diff editor preview" />
+                        <ToggleSwitch x:Name="DiffSideBySideSwitch" IsOn="True" Toggled="OnDiffOptionToggled" OffContent="Inline view" OnContent="Side by side" />
+                        <ToggleSwitch x:Name="DiffHideUnchangedSwitch" Toggled="OnDiffOptionToggled" OffContent="Hide unchanged regions" OnContent="Hide unchanged regions" />
+                        <ToggleSwitch x:Name="DiffIgnoreWhitespaceSwitch" IsOn="True" Toggled="OnDiffOptionToggled" OffContent="Ignore trim whitespace" OnContent="Ignore trim whitespace" />
+                        <ToggleSwitch x:Name="DiffReadOnlySwitch" Toggled="OnDiffOptionToggled" OffContent="Read-only" OnContent="Read-only" />
+                        <Button HorizontalAlignment="Stretch" Click="OnDiffCollapseAll" Content="Collapse all unchanged regions" />
+                        <Button HorizontalAlignment="Stretch" Click="OnDiffShowAll" Content="Show all unchanged regions" />
+                        <TextBlock x:Name="DiffStatusText" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Text model">
+                    <StackPanel Spacing="6">
+                        <Button HorizontalAlignment="Stretch" Click="OnInsertHeader" Content="Insert header" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAppendLine" Content="Append line" />
+                        <Button HorizontalAlignment="Stretch" Click="OnDeleteFirstLine" Content="Delete first line" />
+                        <Button HorizontalAlignment="Stretch" Click="OnReplaceHello" Content="Replace &quot;Hello&quot;" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                            <Button HorizontalAlignment="Stretch" x:Name="UndoButton" Click="OnUndo" Content="Undo" />
+                            <Button HorizontalAlignment="Stretch" x:Name="RedoButton" Grid.Column="1" Click="OnRedo" Content="Redo" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="6">
+                            <Button HorizontalAlignment="Stretch" Click="OnLf" Content="LF" />
+                            <Button HorizontalAlignment="Stretch" Grid.Column="1" Click="OnCrlf" Content="CRLF" />
+                        </Grid>
+                        <Button HorizontalAlignment="Stretch" Click="OnReset" Content="Reset" />
+                        <Button HorizontalAlignment="Stretch" Click="OnInjectText" Content="Inject text" />
+                        <Button HorizontalAlignment="Stretch" Click="OnClearInjectedText" Content="Clear injected text" />
+                        <Button HorizontalAlignment="Stretch" x:Name="MultiCursorButton" Click="OnMultiCursorSample" Content="Sample: multi-cursor" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Display">
+                    <StackPanel Spacing="6">
+                        <ToggleSwitch x:Name="SmoothScrollingSwitch" Toggled="OnSmoothScrollingToggled" OffContent="Smooth scrolling" OnContent="Smooth scrolling" />
+                        <ToggleSwitch x:Name="WordWrapSwitch" Toggled="OnWordWrapToggled" OffContent="Word wrap" OnContent="Word wrap" />
+                        <ToggleSwitch x:Name="MinimapSwitch" IsOn="True" Toggled="OnMinimapToggled" OffContent="Minimap" OnContent="Minimap" />
+                        <ToggleSwitch x:Name="StickyScrollSwitch" IsOn="True" Toggled="OnStickyScrollToggled" OffContent="Sticky scroll" OnContent="Sticky scroll" />
+                        <ToggleSwitch x:Name="ReadOnlySwitch" Toggled="OnReadOnlyToggled" OffContent="Read-only" OnContent="Read-only" />
+                        <NumberBox x:Name="FontSizeBox" Header="Font size" Minimum="8" Maximum="40" SpinButtonPlacementMode="Inline" Value="14" ValueChanged="OnFontSizeChanged" />
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="FontFamilyBox" Header="Font family" SelectedIndex="0" SelectionChanged="OnFontFamilyChanged">
+                            <ComboBoxItem Content="Cascadia Mono" />
+                            <ComboBoxItem Content="Consolas" />
+                            <ComboBoxItem Content="Segoe UI" />
+                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="GuidesBox" Header="Guides" SelectedIndex="0" SelectionChanged="OnGuidesChanged">
+                            <ComboBoxItem Content="Indent only" />
+                            <ComboBoxItem Content="Indent + bracket pairs" />
+                            <ComboBoxItem Content="None" />
+                        </ComboBox>
+                        <NumberBox x:Name="TabSizeBox" Header="Tab size" Minimum="1" Maximum="16" SpinButtonPlacementMode="Inline" Value="4" ValueChanged="OnTabSizeChanged" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Documents">
+                    <StackPanel Spacing="6">
+                        <Button HorizontalAlignment="Stretch" x:Name="LargeFileButton" Click="OnLargeFile" Content="Large file (100 MB)" />
+                        <Button HorizontalAlignment="Stretch" x:Name="LongLineButton" Click="OnLongLine" Content="Long line (1 MB)" />
+                        <Button HorizontalAlignment="Stretch" x:Name="UnicodeButton" Click="OnUnicode" Content="Unicode sample" />
+                        <Button HorizontalAlignment="Stretch" x:Name="ScrollTestButton" Click="OnScrollTest" Content="Scroll test" />
+                        <Button HorizontalAlignment="Stretch" x:Name="LargeCSharpButton" Click="OnLargeCSharp" Content="Large C# (20 000 lines)" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Language and features">
+                    <StackPanel Spacing="6">
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="LanguageBox" Header="Language" SelectedIndex="0" SelectionChanged="OnLanguageChanged" />
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="ThemeBox" Header="Theme" SelectedIndex="0" SelectionChanged="OnThemeChanged" />
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="FeatureSampleBox" Header="Features" SelectionChanged="OnFeatureSampleChanged" />
+                        <TextBlock x:Name="FeatureHintText" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Accessibility">
+                    <StackPanel Spacing="6">
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="ScreenReaderBox" Header="Screen reader mode" SelectedIndex="0" SelectionChanged="OnScreenReaderChanged">
+                            <ComboBoxItem Content="Auto" />
+                            <ComboBoxItem Content="On" />
+                            <ComboBoxItem Content="Off" />
+                        </ComboBox>
+                        <ToggleSwitch x:Name="TabFocusSwitch" Toggled="OnTabFocusToggled" OffContent="Tab moves focus" OnContent="Tab moves focus" />
+                        <ToggleSwitch x:Name="SystemHighContrastSwitch" IsOn="True" Toggled="OnSystemHighContrastToggled" OffContent="Follow system high contrast" OnContent="Follow system high contrast" />
+                        <Button HorizontalAlignment="Stretch" Click="OnLongLineSample" Content="Long-line sample" />
+                        <Button HorizontalAlignment="Stretch" Click="OnUiaSelfCheck" Content="UIA self-check" />
+                    </StackPanel>
+                </Expander>
+
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Language server">
+                    <StackPanel Spacing="6">
+                        <Button HorizontalAlignment="Stretch" x:Name="StartLspButton" Click="OnStartLsp" Content="Start language server" />
+                        <Button HorizontalAlignment="Stretch" x:Name="StopLspButton" Click="OnStopLsp" Content="Stop language server" IsEnabled="False" />
+                        <Button HorizontalAlignment="Stretch" x:Name="DemoProvidersButton" Click="OnDemoProviders" Content="Demo providers: off" />
+                        <Button HorizontalAlignment="Stretch" x:Name="DemoMarkersButton" Click="OnDemoMarkers" Content="Demo markers: off" />
+                        <Button HorizontalAlignment="Stretch" Click="OnLoadLspSample" Content="Load LSP sample" />
+                        <TextBlock x:Name="LspStatus" Text="Language server: not started" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                        <TextBox x:Name="LspLog" Height="120" AcceptsReturn="True" IsReadOnly="True" TextWrapping="NoWrap" FontFamily="Cascadia Mono" FontSize="12" />
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Column="1" RowDefinitions="*,Auto,Auto">
+            <Grid>
+                <loom:LoomEditor x:Name="Editor" />
+                <loomdiff:LoomDiffEditor x:Name="DiffEditor" Visibility="Collapsed" />
+            </Grid>
             <ScrollViewer Grid.Row="1" MaxHeight="160" Visibility="Collapsed" x:Name="SelfCheckScroll">
                 <TextBlock x:Name="SelfCheckText" Margin="12,4" FontFamily="Cascadia Mono" FontSize="12" IsTextSelectionEnabled="True" />
             </ScrollViewer>
+            <TextBlock x:Name="StatusText" Grid.Row="2" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
         </Grid>
-        <TextBlock x:Name="StatusText" Grid.Row="8" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
     </Grid>
 </Window>

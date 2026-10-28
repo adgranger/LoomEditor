@@ -381,7 +381,7 @@ public class MultiCursorSelectionTests
     [Fact]
     public void CtrlD_Keybinding_ResolvesToAddSelectionToNextFindMatch()
     {
-        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: true, TabDoesNotMoveFocus: true, EditorFocus: true);
+        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, TabDoesNotMoveFocus: true, EditorFocus: true);
 
         Assert.Equal(
             MultiCursorCommands.AddSelectionToNextFindMatch,
@@ -397,7 +397,7 @@ public class MultiCursorSelectionTests
     [Fact]
     public void CtrlK_CtrlD_Chord_ResolvesToMoveSelectionToNextFindMatch()
     {
-        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: true, TabDoesNotMoveFocus: true, EditorFocus: true);
+        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, TabDoesNotMoveFocus: true, EditorFocus: true);
         var dispatcher = new KeybindingDispatcher(KeybindingResolver.Default);
 
         dispatcher.Dispatch(new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), focused, out _);

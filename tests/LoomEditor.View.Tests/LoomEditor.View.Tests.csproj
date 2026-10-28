@@ -20,6 +20,10 @@
     <Compile Include="..\LoomEditor.Core.Tests\Languages\TestHelpers\**\*.cs" Link="Languages\TestHelpers\%(RecursiveDir)%(Filename)%(Extension)" />
     <!-- The helpers of the LSP tests (fake server host, locator); their own tests stay in LoomEditor.Lsp.Tests. -->
     <Compile Include="..\LoomEditor.Lsp.Tests\TestHelpers\**\*.cs" Exclude="..\LoomEditor.Lsp.Tests\TestHelpers\MemoryPipeTests.cs" Link="Lsp\TestHelpers\%(RecursiveDir)%(Filename)%(Extension)" />
+    <!-- Pure (WinUI-free) layout code of the diff editor control. -->
+    <Compile Include="..\..\src\LoomEditor.WinUI\Controls\DiffEditor\SashLayout.cs" Link="DiffEditor\SashLayout.cs" />
+    <!-- The WinUI-free diff samples of the Gallery (P9-31). -->
+    <Compile Include="..\..\samples\LoomEditor.Gallery\DiffSamples.cs;..\..\samples\LoomEditor.Gallery\DiffSelfCheck.cs" Link="Gallery\%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

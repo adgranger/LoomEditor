@@ -147,7 +147,7 @@ public partial class LinesOperationsTests
     [Fact]
     public void Keybindings_MoveLinesDownAndTrimChord_ResolveToTheLinesOperationsCommands()
     {
-        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: true);
+        var focused = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true);
         var dispatcher = new KeybindingDispatcher(KeybindingResolver.Default);
 
         Assert.True(dispatcher.Dispatch(new Keybinding(KeyModifiers.Alt, KeyCode.DownArrow), focused, out string? moveDown));
@@ -162,7 +162,7 @@ public partial class LinesOperationsTests
     [Fact]
     public void Keybindings_NotWritable_ResolveToNothing()
     {
-        var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, Writable: false);
+        var readOnly = new KeybindingContext(TextInputFocus: true, EditorTextFocus: true, EditorReadOnly: true);
 
         Assert.Null(KeybindingResolver.Default.Resolve(new Keybinding(KeyModifiers.Alt, KeyCode.DownArrow), readOnly));
     }

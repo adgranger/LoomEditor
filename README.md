@@ -71,7 +71,7 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64  # Native AOT bu
 | 6 | Minimap, sticky scroll, word wrap, whitespace, guides | — |
 | 7 | Full UI Automation accessibility | Narrator reads and navigates the content |
 | 8 | LSP client (completion, hover, diagnostics, go-to-definition) | Demo with a real language server |
-| 9 | Diff editor | — |
+| 9 | Diff editor (side by side, inline, overview ruler, accessible viewer) | Gallery diff demo (built and tested; manual plan pending) |
 
 Details: [docs/roadmap/](docs/roadmap/).
 

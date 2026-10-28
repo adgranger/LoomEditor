@@ -7,7 +7,7 @@ namespace LoomEditor.View.Tests.Features.Suggest;
 public class SuggestKeybindingsTests
 {
     private static readonly KeybindingContext Focused = new(
-        TextInputFocus: true, EditorTextFocus: true, Writable: true, TabDoesNotMoveFocus: true, EditorFocus: true, HasCompletionItemProvider: true);
+        TextInputFocus: true, EditorTextFocus: true, TabDoesNotMoveFocus: true, EditorFocus: true, HasCompletionItemProvider: true);
 
     private static readonly KeybindingContext Visible = Focused with { SuggestWidgetVisible = true, SuggestWidgetMultipleSuggestions = true };
 
@@ -63,7 +63,7 @@ public class SuggestKeybindingsTests
     public void CtrlSpace_ResolvesToTrigger_OnlyWhenWritableAndProvider_AndNotVisible()
     {
         Assert.Equal(SuggestCommands.TriggerSuggest, Resolve(KeyModifiers.Ctrl, KeyCode.Space, Focused));
-        Assert.Null(Resolve(KeyModifiers.Ctrl, KeyCode.Space, Focused with { Writable = false }));
+        Assert.Null(Resolve(KeyModifiers.Ctrl, KeyCode.Space, Focused with { EditorReadOnly = true }));
         Assert.Null(Resolve(KeyModifiers.Ctrl, KeyCode.Space, Focused with { HasCompletionItemProvider = false }));
         Assert.Null(Resolve(KeyModifiers.Ctrl, KeyCode.Space, Visible));
     }

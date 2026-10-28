@@ -20,6 +20,18 @@ internal readonly record struct TextLength(int LineCount, int ColumnCount)
     /// <summary>True when both counts are zero.</summary>
     public bool IsZero => LineCount == 0 && ColumnCount == 0;
 
+    /// <summary><c>addToPosition</c>: the position reached by moving over this length from <paramref name="position"/>.</summary>
+    public Position AddToPosition(Position position) =>
+        LineCount == 0
+            ? new Position(position.LineNumber, position.Column + ColumnCount)
+            : new Position(position.LineNumber + LineCount, ColumnCount + 1);
+
+    /// <summary><c>toRange</c>: the range covered by this length starting at (1, 1).</summary>
+    public Range ToRange() => new(1, 1, LineCount + 1, ColumnCount + 1);
+
+    /// <summary><c>toLineRange</c>.</summary>
+    public LineRange ToLineRange() => new(1, LineCount + 1);
+
     /// <inheritdoc />
     public override string ToString()
     {

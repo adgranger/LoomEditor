@@ -5,7 +5,7 @@ namespace LoomEditor.View.Tests.Commands;
 public class FindKeybindingsTests
 {
     private static readonly KeybindingContext Focused = new(
-        TextInputFocus: true, EditorTextFocus: true, Writable: true, TabDoesNotMoveFocus: true, EditorFocus: true);
+        TextInputFocus: true, EditorTextFocus: true, TabDoesNotMoveFocus: true, EditorFocus: true);
 
     private static string? Resolve(KeyModifiers modifiers, KeyCode key, KeybindingContext context) =>
         KeybindingResolver.Default.Resolve(new Keybinding(modifiers, key), context);

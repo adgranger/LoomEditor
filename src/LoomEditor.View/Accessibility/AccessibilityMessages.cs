@@ -1,8 +1,9 @@
-// Ported from microsoft/vscode: src/vs/editor/contrib/find/browser/findWidget.ts (_getAriaLabel), findController.ts (MatchFindAction), wordHighlighter.ts (moveNext), toggleTabFocusMode.ts
+// Ported from microsoft/vscode: src/vs/editor/contrib/find/browser/findWidget.ts (_getAriaLabel), findController.ts (MatchFindAction), wordHighlighter.ts (moveNext), toggleTabFocusMode.ts, diffEditor/components/accessibleDiffViewer.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using System.Globalization;
 using LoomEditor.Core.Model;
+using LoomEditor.View.DiffEditor;
 
 namespace LoomEditor.View.Accessibility;
 
@@ -61,4 +62,39 @@ internal static class AccessibilityMessages
     /// <summary>The message after accepting an item with additional edits (Monaco: <c>aria.alert.snippet</c>).</summary>
     public static string SuggestAdditionalEdits(string label, int count) =>
         string.Create(CultureInfo.InvariantCulture, $"Accepting '{label}' made {count} additional edits");
+
+    /// <summary>The label of the list of the accessible diff viewer (Monaco: <c>accessibleDiffViewer.ts</c>, <c>ariaLabel</c>).</summary>
+    public const string DiffViewerListLabel = "Accessible Diff Viewer. Use arrow up and down to navigate.";
+
+    /// <summary>"no lines changed", "1 line changed" or "{n} lines changed".</summary>
+    public static string DiffChangedLines(int lineCount) => lineCount switch
+    {
+        0 => "no lines changed",
+        1 => "1 line changed",
+        _ => string.Create(CultureInfo.InvariantCulture, $"{lineCount} lines changed"),
+    };
+
+    /// <summary>The label of the header of a group; <paramref name="index"/> is 1-based.</summary>
+    public static string DiffHeaderLabel(int index, int count, int originalStart, int originalLength, int modifiedStart, int modifiedLength) =>
+        string.Create(
+            CultureInfo.InvariantCulture,
+            $"Difference {index} of {count}: original line {originalStart}, {DiffChangedLines(originalLength)}, modified line {modifiedStart}, {DiffChangedLines(modifiedLength)}");
+
+    /// <summary>The text of the header of a group, like <c>1/2: @@ -3,2 +3,4 @@</c>; <paramref name="index"/> is 1-based.</summary>
+    public static string DiffHeaderText(int index, int count, int originalStart, int originalLength, int modifiedStart, int modifiedLength) =>
+        string.Create(CultureInfo.InvariantCulture, $"{index}/{count}: @@ -{originalStart},{originalLength} +{modifiedStart},{modifiedLength} @@");
+
+    /// <summary>The label of an unchanged, deleted or added row; an empty line is announced as "blank".</summary>
+    public static string DiffRowLabel(LineType type, string content, int? originalLine, int? modifiedLine)
+    {
+        string text = content.Length == 0 ? "blank" : content;
+        return type switch
+        {
+            LineType.Unchanged when originalLine == modifiedLine => string.Create(CultureInfo.InvariantCulture, $"{text} unchanged line {originalLine}"),
+            LineType.Unchanged => string.Create(CultureInfo.InvariantCulture, $"{text} original line {originalLine} modified line {modifiedLine}"),
+            LineType.Added => string.Create(CultureInfo.InvariantCulture, $"+ {text} modified line {modifiedLine}"),
+            LineType.Deleted => string.Create(CultureInfo.InvariantCulture, $"- {text} original line {originalLine}"),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, "A header has no row label."),
+        };
+    }
 }

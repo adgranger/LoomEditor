@@ -52,7 +52,12 @@ public sealed partial class LoomEditor
     {
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerWheelChanged(e);
+        ScrollFromWheel(e);
+    }
 
+    // Also used by the diff overview, which hands its wheel events to the modified editor (Monaco: `delegateScrollFromMouseWheelEvent`).
+    internal void ScrollFromWheel(PointerRoutedEventArgs e)
+    {
         // Monaco: `StandardWheelEvent` on Windows: one notch (WHEEL_DELTA = 120) is 1, positive = up / left.
         PointerPoint point = e.GetCurrentPoint(this);
         double delta = point.Properties.MouseWheelDelta / 120.0;
@@ -149,6 +154,7 @@ public sealed partial class LoomEditor
     {
         UpdateScrollBars();
         _canvas?.Invalidate();
+        RaiseHostContentSizeChanged();
     }
 
     // Monaco: `ScrollbarVisibility.Auto`: a scrollbar is shown only when the content is larger than the viewport.

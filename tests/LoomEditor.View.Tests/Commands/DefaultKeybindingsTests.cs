@@ -5,11 +5,27 @@ namespace LoomEditor.View.Tests.Commands;
 
 public class DefaultKeybindingsTests
 {
+    // The diff navigation commands only exist in the sub editors of a diff editor.
+    private sealed class NoDiffTarget : LoomEditor.View.Features.DiffNavigation.IDiffNavigationTarget
+    {
+        public void GoToChange(LoomEditor.View.DiffEditor.NavigationDirection direction)
+        {
+        }
+
+        public void AccessibleDiffViewerNext()
+        {
+        }
+
+        public void AccessibleDiffViewerPrevious()
+        {
+        }
+    }
+
     [Fact]
     public void Windows_EveryCommandExceptTheClipboardOnesIsRegisteredInANewEditor()
     {
         var context = new EditorContext();
-        using var host = new EditorFeatureHost(context, EditorFeatures.Default);
+        using var host = new EditorFeatureHost(context, EditorFeatures.ForDiffEditor(new NoDiffTarget()));
         string[] clipboard = [DefaultKeybindings.ClipboardCut, DefaultKeybindings.ClipboardCopy, DefaultKeybindings.ClipboardPaste];
 
         IEnumerable<string> ids = DefaultKeybindings.Windows.Select(rule => rule.CommandId).Distinct().Except(clipboard);

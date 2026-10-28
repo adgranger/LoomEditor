@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Suggest;
@@ -243,6 +244,11 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl, KeyCode.Space, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.KeyI, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.None, KeyCode.F12, GotoDefinitionCommands.RevealDefinition, WhenClauses.GotoDefinition, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Alt, KeyCode.F5, DiffNavigationCommands.NextChange, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.F5, DiffNavigationCommands.PreviousChange, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
+        // commands.ts (AccessibleDiffViewerNext, AccessibleDiffViewerPrev): after the word highlighter F7 rules, which win only outside a diff editor.
+        Add(KeyModifiers.None, KeyCode.F7, DiffNavigationCommands.AccessibleViewerNext, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift, KeyCode.F7, DiffNavigationCommands.AccessibleViewerPrevious, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
 
         return rules;
     }

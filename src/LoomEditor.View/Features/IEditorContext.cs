@@ -41,4 +41,10 @@ public interface IEditorContext
 
     /// <summary>Raised after <see cref="Selection"/> changes.</summary>
     event EventHandler? SelectionChanged;
+
+    /// <summary>Whether user edits are ignored (Monaco: the <c>readOnly</c> option). Model edits made through <see cref="Model"/> still work.</summary>
+    bool IsReadOnly { get; set; }
+
+    /// <summary>Raised after <see cref="IsReadOnly"/> really changes.</summary>
+    event EventHandler? ReadOnlyChanged;
 }

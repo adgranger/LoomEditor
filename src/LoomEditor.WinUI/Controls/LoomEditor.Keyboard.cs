@@ -10,30 +10,10 @@ namespace LoomEditor.WinUI.Controls;
 // (ADR 0006, decision 11: the plain typing path; IME comes with P3-48 and later).
 public sealed partial class LoomEditor
 {
-    /// <summary>Identifies the <see cref="IsReadOnly"/> dependency property.</summary>
-    public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(
-        nameof(IsReadOnly), typeof(bool), typeof(LoomEditor), new PropertyMetadata(false, OnIsReadOnlyChanged));
-
     private readonly TextInputBuffer _textInput = new();
 
-    /// <summary>
-    /// Whether the text cannot be edited from the keyboard (Monaco: <c>readOnly</c>). The cursor can still move and select.
-    /// Defaults to <c>false</c>.
-    /// </summary>
-    public bool IsReadOnly
-    {
-        get => (bool)GetValue(IsReadOnlyProperty);
-        set => SetValue(IsReadOnlyProperty, value);
-    }
-
-    private static void OnIsReadOnlyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-    {
-        var editor = (LoomEditor)sender;
-        bool readOnly = (bool)e.NewValue;
-        editor._viewModel.SetCursorOptions(editor._viewModel.CursorOptions with { ReadOnly = readOnly });
-        editor._cursorBlinking.Update(editor.HasFocus, readOnly);
-        editor._findWidget?.OnReadOnlyChanged();
-    }
+    // Set by the diff control for its two editors (Monaco: the `isInDiffEditor` context key).
+    internal bool IsInDiffEditor { get; set; }
 
     // The state the `when` conditions of the keybindings read (Monaco: the editor's context keys).
     private KeybindingContext CreateKeybindingContext()
@@ -45,7 +25,7 @@ public sealed partial class LoomEditor
             HasNonEmptySelection: selections.Any(selection => !selection.IsEmpty),
             HasMultipleSelections: selections.Count > 1,
             ColumnSelection: _viewModel.CursorOptions.ColumnSelection,
-            Writable: !IsReadOnly,
+            EditorReadOnly: IsReadOnly,
             TabDoesNotMoveFocus: !TabMovesFocus,
             AccessibilityModeEnabled: false,
             EditorFocus: HasFocus || (_findWidget?.IsFocusWithin ?? false),
@@ -56,7 +36,8 @@ public sealed partial class LoomEditor
             SuggestWidgetVisible: _context.SuggestWidgetVisible,
             SuggestWidgetMultipleSuggestions: _context.SuggestWidgetMultipleSuggestions,
             HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()),
-            HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()));
+            HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()),
+            IsInDiffEditor: IsInDiffEditor);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

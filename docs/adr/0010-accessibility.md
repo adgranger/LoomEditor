@@ -94,4 +94,4 @@ Three problems need a decision:
 Accessibility help dialog and verbosity settings, `ariaLabel` / `ariaRole` options (the control's `AutomationProperties.Name` is used),
 reduced motion (`UISettings.AnimationsEnabled` → smooth scrolling and caret blinking), UIA text edit pattern (`ITextEditProvider`),
 annotations, per-token text attributes (colors and font styles are reported as uniform), a UI Automation client based test, localization of
-announcements, the accessible view of the diff editor.
+announcements. (The accessible view of the diff editor was a cut point of phase 7 and was delivered in phase 9: P9-29, P9-30.)

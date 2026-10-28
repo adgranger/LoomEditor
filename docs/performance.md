@@ -160,3 +160,25 @@ created in the measured call.
 
 The UI thread only runs what the worker posts, about 1,100 ms per 10 000 lines is consistent with `GrammarBenchmarks`
 (about 11 s of raw tokenization for 100 000 lines).
+### Diff (card P9-32)
+
+The diff computation of the diff editor (`DiffBenchmarks`) on generated C#-like texts where 1 % of the lines changed
+(`new Random(42)`). `ComputeDiff` uses the default options of the diff editor (`IgnoreTrimWhitespace` on, 5 s limit); the
+provider benchmark includes the copy of the lines of the two models and the hop to the pool thread.
+
+- **Date:** 2026-10-28
+- **Machine:** the one of the sections above (11th Gen Intel Core i7-1165G7, Windows 11); the BenchmarkDotNet header was not kept
+- **Runtime:** .NET SDK 11.0.100-rc.3.26522.148, .NET 11.0.0-rc.3 (X64 RyuJIT x86-64-v4), 1 launch, 1 warmup, 3 iterations
+- **Command:** `dotnet run -c Release --project tests/LoomEditor.Benchmarks -- --filter "*DiffBenchmarks*"`
+
+| Benchmark | 200 lines | 2,000 lines | 20,000 lines | Allocated (20,000) |
+|---|---:|---:|---:|---:|
+| `ComputeDiff` | 1.32 ms | 5.37 ms | 35.5 ms | 25.6 MB |
+| `ComputeDiff_WithMoves` | 1.61 ms | 4.04 ms | 40.4 ms | 25.6 MB |
+| `ComputeDiff_IgnoreWhitespaceOff` | 1.54 ms | 3.91 ms | 40.5 ms | 27.3 MB |
+| `DocumentDiffProvider_TwoModels` | 1.50 ms | 3.82 ms | 44.6 ms | 32.5 MB |
+
+Targets of the card (not upstream numbers): 2,000 lines / 1 % changes under 100 ms (**met**, ~5 ms), 20,000 lines under 1 s
+(**met**, ~35 to 45 ms). The error bars are wide with 3 iterations (the 20,000-line provider StdDev is 10.7 ms). With 1 % of the
+lines changed and nothing moved, the move detection costs nothing visible. These numbers do not include the inner (character)
+diffs of a very large change, nor the drawing.

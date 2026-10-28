@@ -113,6 +113,10 @@ public class TabFocusFeatureTests
 
         public IReadOnlyList<Selection> Selections => throw new NotSupportedException();
 
+        public bool IsReadOnly { get => false; set => throw new NotSupportedException(); }
+
+        public event EventHandler? ReadOnlyChanged { add { } remove { } }
+
         public event EventHandler? SelectionChanged
         {
             add { }

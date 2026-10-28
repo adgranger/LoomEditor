@@ -1,5 +1,6 @@
 using LoomEditor.View.Features.BracketMatching;
 using LoomEditor.View.Features.Comment;
+using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.GotoDefinition;
@@ -46,5 +47,12 @@ public static class EditorFeatures
         () => new SuggestFeature(),
         () => new GotoDefinitionFeature(),
         () => new TabFocusFeature(),
+    ];
+
+    /// <summary>The features a diff editor adds to each of its two editors, on top of <see cref="Default"/>.</summary>
+    internal static IReadOnlyList<Func<IEditorFeature>> ForDiffEditor(IDiffNavigationTarget target) =>
+    [
+        .. Default,
+        () => new DiffNavigationFeature() { Target = target },
     ];
 }

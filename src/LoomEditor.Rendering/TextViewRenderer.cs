@@ -116,7 +116,7 @@ internal sealed partial class TextViewRenderer : IDisposable
 
         int lineCount = data.EndLineNumber - data.StartLineNumber + 1;
         // Two layouts per visible line (number and text), plus the labels of very long lines and up to 20 sticky lines.
-        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, (4 * lineCount) + 40));
+        _cache.EnsureCapacity(Math.Max(MinimumCacheCapacity, (4 * lineCount) + 40 + (2 * CountDeletedLines(data))));
 
         // Integer arithmetic first: scrollTop is of the order of the document height, the offsets are small.
         int scrollTop = (int)viewModel.ViewLayout.GetCurrentScrollTop();
@@ -161,6 +161,8 @@ internal sealed partial class TextViewRenderer : IDisposable
                 DrawSelection(surface, selection, data.StartLineNumber + i, layouts[i], layoutInfo, scrollLeft, top, font);
             }
         }
+
+        DrawViewZones(surface, viewModel, data, layoutInfo, scrollTop, scrollLeft);
 
         // Monaco: the current line highlight overlay is under the text.
         // Monaco: `_selectionIsEmpty` is true only when every selection is empty; one highlight per distinct line.
@@ -215,6 +217,8 @@ internal sealed partial class TextViewRenderer : IDisposable
         // The gutter hides the text that is scrolled under it.
         surface.FillRectangle(0, 0, layoutInfo.ContentLeft, layoutInfo.Height, Theme.Background);
         DrawGutter(surface, viewModel, data, layoutInfo, cursorLines, selections, hasFocus, topShift, font);
+        DrawDeletedLinesMargins(surface, data, layoutInfo, scrollTop, font);
+        DrawCollapsedMargins(surface, data, layoutInfo, scrollTop);
 
         // Monaco: the sticky scroll widget is an overlay widget above the text and the gutter.
         DrawStickyScroll(surface, viewModel, layoutInfo, scrollLeft);

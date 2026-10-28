@@ -284,6 +284,10 @@ public class SuggestControllerTests
 
         public IReadOnlyList<Selection> Selections => [Selection];
 
+        public bool IsReadOnly { get => false; set => throw new NotSupportedException(); }
+
+        public event EventHandler? ReadOnlyChanged { add { } remove { } }
+
         public event EventHandler? SelectionChanged
         {
             add { }

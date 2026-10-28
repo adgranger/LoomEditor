@@ -82,6 +82,7 @@ public sealed partial class LoomEditor : Control
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
         _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
         _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
+        _viewModel.ViewZones.ZonesChanged += (_, _) => _canvas?.Invalidate();
         _keyboard = new KeyboardInput(_context.Commands);
         LostFocus += (_, _) => _keyboard.LeaveChordMode();
         _context.SelectionChanged += (_, _) => _canvas?.Invalidate();
@@ -190,9 +191,7 @@ public sealed partial class LoomEditor : Control
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        var editor = (LoomEditor)sender;
-        editor._context.SetText((string?)e.NewValue ?? string.Empty);
-        editor._viewModel.SetIsDominatedByLongLines(editor._context.Model.IsDominatedByLongLines());
+        ((LoomEditor)sender).ApplyText((string?)e.NewValue ?? string.Empty);
     }
 
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -271,6 +270,7 @@ public sealed partial class LoomEditor : Control
         _renderer?.ResetMaxLineWidth();
         UpdateScrollBars();
         _canvas?.Invalidate();
+        HostLayoutChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void CreateResources(CanvasControl canvas)
@@ -312,6 +312,7 @@ public sealed partial class LoomEditor : Control
         _ime?.RequestLayoutChanged();
         UpdateScrollBars();
         _canvas?.Invalidate();
+        RaiseHostScroll(e);
     }
 
     private IDisposable ScheduleAtNextAnimationFrame(Action callback) => _frameScheduler.Schedule(callback);

@@ -28,6 +28,56 @@ LoomEditor.WinUI.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.WinUI.Cont
 LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor
+LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
+LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizing.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizing.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.GoToNextChange() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.GoToPreviousChange() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegions.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegions.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCount.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCount.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCount.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCount.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespace.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespace.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.IsAccessibleDiffViewerOpen.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.IsDiffUpToDate.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.get -> string!
+LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LoomDiffEditor() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.Modified.get -> LoomEditor.WinUI.Controls.LoomEditor!
+LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedText.get -> string!
+LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedText.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.OpenAccessibleDiffViewer() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.Original.get -> LoomEditor.WinUI.Controls.LoomEditor!
+LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalText.get -> string!
+LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicators.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicators.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.RenderOverviewRuler.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.RenderOverviewRuler.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySide.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySide.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.RevealFirstChangeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+LoomEditor.WinUI.Controls.LoomDiffEditor.ShowAllUnchangedRegions() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
+LoomEditor.WinUI.Controls.LoomDiffEditor.Theme.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.WaitForDiffAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 LoomEditor.WinUI.Controls.LoomEditor
 LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
 LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
@@ -87,6 +137,22 @@ LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.WinUI.Cont
 LoomEditor.WinUI.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizingProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespaceProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMsProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedTextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditableProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalTextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicatorsProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderOverviewRulerProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySideProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupportProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!

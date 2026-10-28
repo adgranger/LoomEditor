@@ -52,6 +52,7 @@ internal sealed partial class ViewModel
                 _decorations.OnLineMappingChanged();
                 ViewLayout.OnFlushed(GetLineCount(), []);
                 ViewLayout.OnHeightMaybeChanged();
+                ViewZones.RecomputeWhitespaceProps();
                 stableViewport.RecoverViewportStart(CoordinatesConverter, ViewLayout);
             }
         });
