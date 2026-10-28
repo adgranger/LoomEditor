@@ -1,5 +1,6 @@
 using LoomEditor.Core.Model;
 using LoomEditor.Rendering.Win2D;
+using LoomEditor.View.Layout;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 
@@ -88,7 +89,8 @@ public sealed partial class LoomEditor
     }
 
     private Win2DTextMeasurer CreateTextMeasurer(CanvasControl canvas) =>
-        new(canvas, FontFamily.Source, FontSize, _context.Model.Options.TabSize, _rasterizationScale);
+        new(
+            canvas, FontFamily.Source, FontSize, _context.Model.Options.TabSize, _rasterizationScale, EditorFontOptions.Default, 0);
 
     // Replaces the measurer with one that matches the current font, tab size and DPI. Also used after a device loss.
     private void RecreateTextMeasurer()

@@ -897,7 +897,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P10-03](phase-10/P10-03-font-options.md) | Font options: weight, letter spacing, ligatures, variations (the model) | P10-02 | done |
-| [P10-04](phase-10/P10-04-directwrite-font-options.md) | Font options in DirectWrite: weight, letter spacing, ligatures | P10-03 | todo |
+| [P10-04](phase-10/P10-04-directwrite-font-options.md) | Font options in DirectWrite: weight, letter spacing, ligatures | P10-03 | done |
 | [P10-05](phase-10/P10-05-font-control-properties.md) | Control properties for the font options, and Gallery switches | P10-04 | todo |
 | [P10-06](phase-10/P10-06-editor-zoom.md) | Editor zoom: the state, the three commands and the `ZoomLevel` property | P10-05 | todo |
 | [P10-07](phase-10/P10-07-mouse-wheel-zoom.md) | `Ctrl` + mouse wheel zoom | P10-06 | todo |

@@ -1,6 +1,6 @@
 # P10-04 — Font options in DirectWrite: weight, letter spacing, ligatures
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-03
 - **Size:** M
 
@@ -31,8 +31,8 @@ Sources: none (specified in this card; the options are P10-03, the decisions are
 
 ## Tests
 
-- [ ] New: `FontFeatureTagsTests`: `Pack_Liga_EqualsStandardLigatures`, `Pack_Calt_EqualsContextualAlternates`, `Pack_Ss01_EqualsStylisticSet1`, `Pack_NotFourCharacters_Throws`, `Pack_NonAscii_Throws`
-- [ ] No automated test creates a Win2D device in this repository: the rest is verified by the manual checks below (P10-05 adds the Gallery switches).
+- [x] New: `FontFeatureTagsTests`: `Pack_Liga_EqualsStandardLigatures`, `Pack_Calt_EqualsContextualAlternates`, `Pack_Ss01_EqualsStylisticSet1`, `Pack_NotFourCharacters_Throws`, `Pack_NonAscii_Throws`
+- [x] No automated test creates a Win2D device in this repository: the rest is verified by the manual checks below (P10-05 adds the Gallery switches).
 
 ## Manual checks (add to `docs/testing/phase-10-manual-tests.md`, section "P10-04")
 
@@ -40,10 +40,10 @@ With Cascadia Code installed (`Cascadia Code` is on every Windows 11), in the Ga
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] "Behavior differences" row in `docs/PORTING.md`: only the `wght` axis is applied; ligature caret positions are DirectWrite's
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] "Behavior differences" row in `docs/PORTING.md`: only the `wght` axis is applied; ligature caret positions are DirectWrite's
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
