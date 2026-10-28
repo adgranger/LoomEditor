@@ -2,9 +2,18 @@ using Microsoft.UI.Xaml;
 
 namespace LoomEditor.Gallery;
 
-/// <summary>The phase 9 preview: a <c>LoomDiffEditor</c> swapped in place of the editor.</summary>
+// Diff editor section of the Gallery (phase 9).
+//
+// Diff editor
+//   "Diff editor window" opens DiffDemoWindow: a LoomDiffEditor over two sample files (DiffSamples) with a switch for every option
+//   (side by side, ignore trim whitespace, hide unchanged regions, indicators, editable original, read-only modified, overview ruler),
+//   buttons for the previous / next change, the accessible viewer, collapse / show all, swap sides, reset texts and "Large files"
+//   (two generated texts of 5 000 lines). Resize the window below 900 DIPs to see the switch to the inline view.
+//   "Diff editor preview" swaps a LoomDiffEditor in place of the editor of this window. The manual plan is docs/testing/phase-9-manual-tests.md.
 public sealed partial class MainWindow
 {
+    private void OnOpenDiffWindow(object sender, RoutedEventArgs e) => new DiffDemoWindow(Editor.Theme).Activate();
+
     // Switches set in XAML raise their handlers during InitializeComponent, before the controls exist: guard on DiffEditor.
     private void OnDiffToggled(object sender, RoutedEventArgs e)
     {

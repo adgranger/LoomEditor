@@ -1,6 +1,6 @@
 # P9-31 — Gallery: the diff editor demo and the manual test plan
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-30, P9-28
 - **Size:** M
 
@@ -45,15 +45,15 @@ Write it in the style of `docs/testing/phase-8-manual-tests.md` (header with how
 
 ## Tests
 
-- [ ] `tests/LoomEditor.View.Tests/DiffEditor/DiffSamplesSanityTests.cs` (links `DiffSamples.cs` the way P8-37 linked its Gallery files): `Samples_ProduceChanges_WithInnerChanges` (the default computer on the two texts gives ≥ 4 changes, at least one with inner changes and one pure insertion and one pure deletion), `Samples_HideUnchangedRegions_ProducesAtLeastTwoRegions` (`UnchangedRegion.FromDiffs` with 3 / 3), `Samples_WhitespaceOnlyLine_OnlyWithoutIgnoreTrim` (with `IgnoreTrimWhitespace = true` the number of changes is one smaller).
+- [x] `tests/LoomEditor.View.Tests/DiffEditor/DiffSamplesSanityTests.cs` (links `DiffSamples.cs` the way P8-37 linked its Gallery files): `Samples_ProduceChanges_WithInnerChanges` (the default computer on the two texts gives ≥ 4 changes, at least one with inner changes and one pure insertion and one pure deletion), `Samples_HideUnchangedRegions_ProducesAtLeastTwoRegions` (`UnchangedRegion.FromDiffs` with 3 / 3), `Samples_WhitespaceOnlyLine_OnlyWithoutIgnoreTrim` (with `IgnoreTrimWhitespace = true` the number of changes is one smaller).
 - [ ] Manual: run the plan sections you can; record in the card which sections were run and by whom (the agent runs none: it states that in the card result).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — result stated in the card (`succeeded` + the app still running after 10 s, or `NOT verified` with the reason; never ticked if not run)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — result stated in the card (`succeeded` + the app still running after 10 s, or `NOT verified` with the reason; never ticked if not run)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -62,3 +62,9 @@ The self-check and the benchmarks (P9-32), docs of the phase (P9-33).
 ## Suggested commit message
 
 `feat(gallery): add the diff editor demo and the phase 9 manual test plan`
+
+## Result
+
+- `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror`: **succeeded**; the published `LoomEditor.Gallery.exe` was still running after 10 s (killed afterwards). Only the main window was started: the diff window was **not opened or exercised** under Native AOT (that is P9-32's self-check and the maintainer's manual plan).
+- Manual plan: **no section was run** (the agent runs none); `docs/testing/phase-9-manual-tests.md` is ready to be filled in by the maintainer.
+- The WIP "Diff editor preview" of the main window (commit `046dd2b`) is kept; the card's demo is the new **Diff editor window** button.

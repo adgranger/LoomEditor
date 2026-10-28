@@ -1,0 +1,39 @@
+<Window
+    x:Class="LoomEditor.Gallery.DiffDemoWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loom="using:LoomEditor.WinUI.Controls"
+    Title="LoomEditor Gallery - Diff editor">
+
+    <!-- The options of the diff editor in a toolbar (code-behind handlers, no bindings), the editor below, a status line at the bottom. -->
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" Margin="12,8,12,0" Spacing="16">
+                <CheckBox x:Name="SideBySideBox" IsChecked="True" Click="OnOptionChanged" Content="Side by side" />
+                <CheckBox x:Name="IgnoreTrimWhitespaceBox" IsChecked="True" Click="OnOptionChanged" Content="Ignore trim whitespace" />
+                <CheckBox x:Name="HideUnchangedRegionsBox" Click="OnOptionChanged" Content="Hide unchanged regions" />
+                <CheckBox x:Name="RenderIndicatorsBox" IsChecked="True" Click="OnOptionChanged" Content="Render indicators" />
+                <CheckBox x:Name="OriginalEditableBox" Click="OnOptionChanged" Content="Original editable" />
+                <CheckBox x:Name="ReadOnlyBox" Click="OnOptionChanged" Content="Read-only modified" />
+                <CheckBox x:Name="OverviewRulerBox" IsChecked="True" Click="OnOptionChanged" Content="Overview ruler" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" Margin="12,4,12,8" Spacing="8">
+                <Button Click="OnPreviousChange" Content="Previous change" />
+                <Button Click="OnNextChange" Content="Next change" />
+                <Button Click="OnAccessibleViewer" Content="Accessible viewer" />
+                <Button Click="OnCollapseAll" Content="Collapse all" />
+                <Button Click="OnShowAll" Content="Show all" />
+                <Button Click="OnSwapSides" Content="Swap sides" />
+                <Button Click="OnResetTexts" Content="Reset texts" />
+                <Button Click="OnLargeFiles" Content="Large files" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <loom:LoomDiffEditor x:Name="DiffEditor" Grid.Row="2" />
+
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="12,6" Style="{StaticResource CaptionTextBlockStyle}" />
+    </Grid>
+</Window>

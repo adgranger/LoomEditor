@@ -872,7 +872,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P9-31](phase-9/P9-31-gallery-diff-demo-and-manual-plan.md) | Gallery: the diff editor demo and the manual test plan | P9-30, P9-28 | todo |
+| [P9-31](phase-9/P9-31-gallery-diff-demo-and-manual-plan.md) | Gallery: the diff editor demo and the manual test plan | P9-30, P9-28 | done |
 | [P9-32](phase-9/P9-32-diff-self-check-and-benchmarks.md) | Native AOT self-check of the diff stack and diff benchmarks | P9-31 | todo |
 | [P9-33](phase-9/P9-33-close-phase-9.md) | Close phase 9 | all phase 9 cards | todo |
 
