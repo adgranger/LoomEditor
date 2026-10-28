@@ -1,6 +1,6 @@
 # P10-02 — ADR 0013: font options, ligatures, zoom, whitespace and snippets
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-01
 - **Size:** S (documentation only, no code)
 
@@ -35,14 +35,14 @@ Sources: none (specified in this card). Read to write the "Context" part: `src/v
 
 ## Tests
 
-- [ ] None (documentation).
+- [x] None (documentation).
 
 ## Acceptance criteria
 
-- [ ] ADR 0013 has the 12 decisions above (each with its reason in one or two sentences) and a "Not delivered" list equal to the "Later" table of `docs/tasks/phase-10/README.md`
-- [ ] `docs/ARCHITECTURE.md` section added; the "Where do I find…?" rows point to folders that the later cards create (write them as `src/LoomEditor.View/Features/Snippet/`, etc.)
-- [ ] `git status` shows only `docs/` files; no build needed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] ADR 0013 has the 12 decisions above (each with its reason in one or two sentences) and a "Not delivered" list equal to the "Later" table of `docs/tasks/phase-10/README.md`
+- [x] `docs/ARCHITECTURE.md` section added; the "Where do I find…?" rows point to folders that the later cards create (write them as `src/LoomEditor.View/Features/Snippet/`, etc.)
+- [x] `git status` shows only `docs/` files; no build needed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

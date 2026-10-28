@@ -300,6 +300,26 @@ is computed the old one stays (`IsDiffUpToDate` is false): Monaco patches it thr
 `compactMode`, true inline view, the legacy diff computer, `serializeState`, accessibility sounds, mapping the old diff through edits, `setModel`, breadcrumbs.
 How to use the control: [how-to/use-the-diff-editor.md](how-to/use-the-diff-editor.md).
 
+## Text rendering options and snippets (phase 10)
+
+Decisions in [ADR 0013](adr/0013-text-options-and-snippets.md). Three flows; each editor has its own state, nothing is a singleton:
+
+```
+Fonts:      control properties (FontLigatures, FontFeatureSettings, FontVariationSettings, LetterSpacing, FontWeight, ZoomLevel)
+  → EditorFontOptions + EditorZoomState → BareFontInfo.Create (zoom factor) → RecreateTextMeasurer
+  → FontInfo (width table: word wrap, minimap)  +  CanvasTypography / SetCharacterSpacing on each CanvasTextLayout (ligatures, spacing, wght)
+  positions always come from ILineLayout.GetCharacterX / HitTest
+
+Whitespace: RenderWhitespaceComputer (pure: the ranges of a line) → overlay drawn over the text layout (dots, arrows)
+            control characters are substituted 1:1 before the layout is built
+
+Snippets:   LoomEditor.Core/Snippets (scanner, SnippetParser, TextmateSnippet, variable resolvers)
+  → LoomEditor.View/Features/Snippet (OneSnippet, SnippetSession, SnippetController: tab stops tracked by model decorations)
+  ← CompletionItem.InsertTextRules (InsertAsSnippet) from the suggest widget and from LspConvert
+```
+
+The input mode (insert / overtype) is `EditorContext.InputMode`, one per editor.
+
 ## Where do I find…?
 
 | I want to… | Go to |
@@ -373,3 +393,7 @@ How to use the control: [how-to/use-the-diff-editor.md](how-to/use-the-diff-edit
 | change the diff control (sash, side by side, inline, overview strip, accessible viewer) | `src/LoomEditor.WinUI/Controls/DiffEditor/` ([how-to](how-to/use-the-diff-editor.md)) |
 | change the overview ruler | `src/LoomEditor.View/Layout/OverviewZoneManager.cs`, `ScrollbarState.cs`, `src/LoomEditor.Rendering/OverviewRulerPainter.cs` |
 | run the diff demo, the diff self-check or the diff benchmarks | `samples/LoomEditor.Gallery/DiffDemoWindow.xaml`, `DiffSelfCheck.cs` (`--diff-selfcheck=<file>`), `tests/LoomEditor.Benchmarks/DiffBenchmarks.cs`, [testing/phase-9-manual-tests.md](testing/phase-9-manual-tests.md) |
+| change font options, ligatures, letter spacing or zoom | `src/LoomEditor.View/Layout/` (`EditorFontOptions`, `EditorZoomState`, `BareFontInfo`), DirectWrite side in `src/LoomEditor.Rendering/Win2D/` ([ADR 0013](adr/0013-text-options-and-snippets.md)) |
+| change whitespace or control character rendering | `src/LoomEditor.View/Layout/` (`RenderWhitespaceComputer`), drawing in `src/LoomEditor.Rendering/TextViewRenderer*.cs` |
+| change snippets (syntax, variables, session, tab stops) | `src/LoomEditor.Core/Snippets/` (parser), `src/LoomEditor.View/Features/Snippet/` (session, controller) |
+| change the input mode (overtype) or the cursor style | `EditorContext.InputMode`, `src/LoomEditor.View/Cursors/`, caret drawing in `src/LoomEditor.Rendering/` |

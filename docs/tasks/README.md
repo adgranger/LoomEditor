@@ -890,7 +890,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P10-01](phase-10/P10-01-monaco-audit.md) | Audit: what of Monaco's editor is not in LoomEditor yet | P9-33 | done |
-| [P10-02](phase-10/P10-02-adr-fonts-whitespace-snippets.md) | ADR 0013: font options, ligatures, zoom, whitespace and snippets | P10-01 | todo |
+| [P10-02](phase-10/P10-02-adr-fonts-whitespace-snippets.md) | ADR 0013: font options, ligatures, zoom, whitespace and snippets | P10-01 | done |
 
 ### Step B — Fonts and zoom
 
