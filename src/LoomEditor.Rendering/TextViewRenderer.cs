@@ -126,6 +126,7 @@ internal sealed partial class TextViewRenderer : IDisposable
         uint defaultForeground = LineStyle.ToArgb(Theme.Foreground);
         var layouts = new ILineLayout[lineCount];
         var labels = new ILineLayout?[lineCount];
+        var controlCharacters = new List<int>?[lineCount];
         double widestLine = 1;
         for (int i = 0; i < lineCount; i++)
         {
@@ -133,14 +134,21 @@ internal sealed partial class TextViewRenderer : IDisposable
             int lineLength = viewModel.GetLineLength(lineNumber);
             bool isOverflowing = lineLength > StopRenderingLineAfter;
             // Never read a whole very long line during a frame: only the part that is drawn.
-            string text = isOverflowing
+            string content = isOverflowing
                 ? viewModel.GetLineContent(lineNumber)[..StopRenderingLineAfter]
                 : viewModel.GetLineContent(lineNumber);
 
+            // Same length as the content: only the layout is substituted, never the model text.
+            string text = ControlCharacters.Substitute(content, RenderControlCharacters);
+            List<StyleOverride>? overrides = GetLineOverrides(viewModel, data, selections, lineNumber, text.Length);
+            if (!ReferenceEquals(text, content))
+            {
+                overrides = AddControlCharacterOverrides(text, overrides, out controlCharacters[i]);
+            }
+
             // The renderer only reads tokens: the model or the background worker tokenizes.
             LineStyle style = LineStyle.Create(
-                data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
-                GetLineOverrides(viewModel, data, selections, lineNumber, text.Length));
+                data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground, overrides);
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
@@ -184,6 +192,7 @@ internal sealed partial class TextViewRenderer : IDisposable
         // Monaco: the decorations overlay is after the selections overlay, under the text.
         DrawDecorations(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawGuides(surface, viewModel, data, selections, layouts, layoutInfo, scrollLeft, topShift, font);
+        DrawControlCharacterCells(surface, data, controlCharacters, layouts, layoutInfo, scrollLeft, topShift, font);
 
         for (int i = 0; i < lineCount; i++)
         {

@@ -291,6 +291,7 @@ public sealed partial class LoomEditor : Control
         _renderer.MinimapSampleDataProvider = fontFamily => Win2DMinimapFontSampler.CreateSampleData(canvas.Device, fontFamily);
         _renderer.Theme = Theme;
         _renderer.RenderWhitespace = RenderWhitespace;
+        _renderer.RenderControlCharacters = RenderControlCharacters;
 
         _viewModel.SetFontInfo(_measurer.FontInfo);
         _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);

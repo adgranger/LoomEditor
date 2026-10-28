@@ -1,6 +1,6 @@
 # P10-10 — `renderControlCharacters`: visible control characters
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-09
 - **Size:** S
 
@@ -35,16 +35,16 @@ A control character in a line (`U+0001`…`U+001F` except tab, `DEL`) is drawn a
 
 ## Tests
 
-- [ ] New (View): `Substitute_NoControlCharacters_ReturnsSameInstance`, `Substitute_Nul_GivesControlPicture` (`"\0"` → `"␀"`), `Substitute_Us_GivesU241F`, `Substitute_Del_GivesU2421`, `Substitute_Tab_Unchanged`, `Substitute_Bom_GivesReplacementEvenWhenOff`, `Substitute_OptionOff_LeavesControlCharacters`, `Substitute_SameLength`
-- [ ] New (Rendering, recording surface): `ControlCharacter_DrawsRedCellAndWhiteGlyph`, `OptionOff_NoRedCell`, `Bom_NoRedCell_ButReplacementGlyph`, `Caret_AfterControlCharacter_UsesOriginalOffset`
-- [ ] Manual (section "P10-10"): the sample line shows `a␁b␇c␡d�e`; the three pictures sit on dark red; the caret moves one character per key press; with the switch off the line looks as before except `�`.
+- [x] New (View): `Substitute_NoControlCharacters_ReturnsSameInstance`, `Substitute_Nul_GivesControlPicture` (`"\0"` → `"␀"`), `Substitute_Us_GivesU241F`, `Substitute_Del_GivesU2421`, `Substitute_Tab_Unchanged`, `Substitute_Bom_GivesReplacementEvenWhenOff`, `Substitute_OptionOff_LeavesControlCharacters`, `Substitute_SameLength`
+- [x] New (Rendering, recording surface): `ControlCharacter_DrawsRedCellAndWhiteGlyph`, `OptionOff_NoRedCell`, `Bom_NoRedCell_ButReplacementGlyph`, `Caret_AfterControlCharacter_UsesOriginalOffset`
+- [x] Manual (section "P10-10"): the sample line shows `a␁b␇c␡d�e`; the three pictures sit on dark red; the caret moves one character per key press; with the switch off the line looks as before except `�`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewLineRenderer.ts` row extended; "Behavior differences": directional formatting characters are not rendered as `[U+202A]`
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewLineRenderer.ts` row extended; "Behavior differences": directional formatting characters are not rendered as `[U+202A]`
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

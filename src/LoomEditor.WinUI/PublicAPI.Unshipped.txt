@@ -114,6 +114,8 @@ LoomEditor.WinUI.Controls.LoomEditor.MinimapSide.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
 LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoom.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoom.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.RenderControlCharacters.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.RenderControlCharacters.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.RenderWhitespace.get -> LoomEditor.View.Layout.RenderWhitespace
@@ -179,6 +181,7 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabledProperty -> M
 static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapRenderCharactersProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapSideProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoomProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderControlCharactersProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.RenderWhitespaceProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.SmoothScrollingProperty -> Microsoft.UI.Xaml.DependencyProperty!

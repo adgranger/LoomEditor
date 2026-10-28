@@ -33,7 +33,7 @@ internal static class SampleText
         "alpha beta", "gamma delta", "epsilon zeta", "eta theta", "iota kappa");
 
     /// <summary>The small C# file, followed by 200 numbered lines and one 300-character line, so that it scrolls.</summary>
-    public static string HelloWorld { get; } = Header + Environment.NewLine + string.Join(
+    public static string HelloWorld { get; } = Header + Environment.NewLine + "// Control characters: a\u0001b\u0007c\u007Fd\uFEFFe" + Environment.NewLine + string.Join(
         Environment.NewLine,
         Enumerable.Range(1, 200).Select(i => $"// Numbered line {i}"))
         + Environment.NewLine + "// " + new string('x', 297);

@@ -54,6 +54,14 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 4 | The dots stay aligned while scrolling horizontally | pending |
 | 5 | High contrast theme: the dots are visible | pending |
 
+## P10-10 — Control characters
+
+| # | Check | Result |
+|---|---|---|
+| 1 | The sample line shows `a␁b␇c␡d�e`; the three pictures sit on dark red | pending |
+| 2 | The caret moves one character per key press across them | pending |
+| 3 | Switch off: the line looks as before, except the `�` | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

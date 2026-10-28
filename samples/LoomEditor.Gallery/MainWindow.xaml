@@ -72,6 +72,7 @@
                         </ComboBox>
                         <Slider x:Name="LetterSpacingSlider" Header="Letter spacing" Minimum="0" Maximum="5" StepFrequency="0.5" Value="0" ValueChanged="OnLetterSpacingChanged" />
                         <ToggleSwitch x:Name="WheelZoomSwitch" Toggled="OnWheelZoomToggled" OffContent="Ctrl + wheel zoom" OnContent="Ctrl + wheel zoom" />
+                        <ToggleSwitch x:Name="ControlCharactersSwitch" IsOn="True" Toggled="OnControlCharactersToggled" OffContent="Control characters" OnContent="Control characters" />
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <Button x:Name="ZoomOutButton" Content="A−" Click="OnZoomOutClick" />
                             <Button x:Name="ZoomInButton" Content="A+" Click="OnZoomInClick" />

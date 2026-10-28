@@ -150,6 +150,8 @@ public sealed partial class MainWindow : Window
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
+    private void OnControlCharactersToggled(object sender, RoutedEventArgs e) => Editor.RenderControlCharacters = ControlCharactersSwitch.IsOn;
+
     private void OnWhitespaceChanged(object sender, SelectionChangedEventArgs e)
     {
         if (Editor is not null)

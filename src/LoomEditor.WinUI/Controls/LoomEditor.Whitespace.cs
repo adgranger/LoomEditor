@@ -27,4 +27,26 @@ public sealed partial class LoomEditor
 
         editor._canvas?.Invalidate();
     }
+
+    /// <summary>Identifies the <see cref="RenderControlCharacters"/> dependency property.</summary>
+    public static readonly DependencyProperty RenderControlCharactersProperty = DependencyProperty.Register(
+        nameof(RenderControlCharacters), typeof(bool), typeof(LoomEditor), new PropertyMetadata(true, OnRenderControlCharactersChanged));
+
+    /// <summary>Whether control characters are drawn as pictures on a dark red cell (Monaco: <c>renderControlCharacters</c>). Defaults to <see langword="true"/>.</summary>
+    public bool RenderControlCharacters
+    {
+        get => (bool)GetValue(RenderControlCharactersProperty);
+        set => SetValue(RenderControlCharactersProperty, value);
+    }
+
+    private static void OnRenderControlCharactersChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+        var editor = (LoomEditor)sender;
+        if (editor._renderer is { } renderer)
+        {
+            renderer.RenderControlCharacters = (bool)e.NewValue;
+        }
+
+        editor._canvas?.Invalidate();
+    }
 }
