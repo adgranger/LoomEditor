@@ -919,37 +919,37 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | [P10-13](phase-10/P10-13-selection-anchor-and-expand-line.md) | Selection anchor and `Expand Line Selection` | P9-33 | done |
 | [P10-14](phase-10/P10-14-cursor-undo.md) | Cursor undo and redo | P10-13 | done |
 | [P10-15](phase-10/P10-15-move-selected-text.md) | Move selected text one character left or right | P9-33 | done |
-| [P10-16](phase-10/P10-16-smart-select.md) | Smart select: expand and shrink the selection | P9-33 | todo |
-| [P10-17](phase-10/P10-17-mouse-drag-state.md) | Drag and drop of the selection (1/2): the drag state of the mouse operation | P9-33 | todo |
-| [P10-18](phase-10/P10-18-drag-and-drop-feature.md) | Drag and drop of the selection (2/2): the command, the drop marker and the mouse cursor | P10-17 | todo |
+| [P10-16](phase-10/P10-16-smart-select.md) | Smart select: expand and shrink the selection | P9-33 | done |
+| [P10-17](phase-10/P10-17-mouse-drag-state.md) | Drag and drop of the selection (1/2): the drag state of the mouse operation | P9-33 | done |
+| [P10-18](phase-10/P10-18-drag-and-drop-feature.md) | Drag and drop of the selection (2/2): the command, the drop marker and the mouse cursor | P10-17 | done |
 
 ### Step E — Snippets
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-19](phase-10/P10-19-snippet-scanner-and-markers.md) | Snippet syntax (1/3): the scanner and the text, placeholder and choice markers | P10-02 | todo |
-| [P10-20](phase-10/P10-20-snippet-transforms-variables-snippet.md) | Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet` | P10-19 | todo |
-| [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | todo |
-| [P10-22](phase-10/P10-22-snippet-variables.md) | Snippet variables: the resolvers | P10-21 | todo |
-| [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | todo |
-| [P10-24](phase-10/P10-24-snippet-session.md) | `SnippetSession`: insert a snippet at every cursor, merge, next and previous | P10-23 | todo |
-| [P10-25](phase-10/P10-25-snippet-controller.md) | `SnippetController`: the feature, the keys and `InsertSnippet` | P10-24 | todo |
-| [P10-26](phase-10/P10-26-completion-snippets.md) | Completion items that are snippets | P10-25 | todo |
+| [P10-19](phase-10/P10-19-snippet-scanner-and-markers.md) | Snippet syntax (1/3): the scanner and the text, placeholder and choice markers | P10-02 | done |
+| [P10-20](phase-10/P10-20-snippet-transforms-variables-snippet.md) | Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet` | P10-19 | done |
+| [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | done |
+| [P10-22](phase-10/P10-22-snippet-variables.md) | Snippet variables: the resolvers | P10-21 | done |
+| [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | done |
+| [P10-24](phase-10/P10-24-snippet-session.md) | `SnippetSession`: insert a snippet at every cursor, merge, next and previous | P10-23 | done |
+| [P10-25](phase-10/P10-25-snippet-controller.md) | `SnippetController`: the feature, the keys and `InsertSnippet` | P10-24 | done |
+| [P10-26](phase-10/P10-26-completion-snippets.md) | Completion items that are snippets | P10-25 | done |
 
 ### Step F — Diagnostics navigation
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-27](phase-10/P10-27-marker-list.md) | `MarkerList`: the sorted problems of a model and the "next one" arithmetic | P9-33 | todo |
-| [P10-28](phase-10/P10-28-go-to-problem.md) | Go to next / previous problem (`F8`) | P10-27 | todo |
+| [P10-27](phase-10/P10-27-marker-list.md) | `MarkerList`: the sorted problems of a model and the "next one" arithmetic | P9-33 | done |
+| [P10-28](phase-10/P10-28-go-to-problem.md) | Go to next / previous problem (`F8`) | P10-27 | done |
 
 ### Step G — Prove it and close the phase
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-29](phase-10/P10-29-gallery-demo-and-manual-plan.md) | Gallery: the phase 10 samples and the manual test plan | P10-28 | todo |
-| [P10-30](phase-10/P10-30-native-aot-self-check.md) | Native AOT self-check of the phase 10 logic | P10-29 | todo |
-| [P10-31](phase-10/P10-31-close-phase-10.md) | Close phase 10 | all phase 10 cards | todo |
+| [P10-29](phase-10/P10-29-gallery-demo-and-manual-plan.md) | Gallery: the phase 10 samples and the manual test plan | P10-28 | done |
+| [P10-30](phase-10/P10-30-native-aot-self-check.md) | Native AOT self-check of the phase 10 logic | P10-29 | done |
+| [P10-31](phase-10/P10-31-close-phase-10.md) | Close phase 10 | all phase 10 cards | done |
 
 Take phase 10 cards in table order (each card's "Depends on" is satisfied by the cards above it). P10-17, P10-18 and P10-24 are the riskiest: a card that does not fit in one session stops with a proposed split. Cards with manual checks add them to `docs/testing/phase-10-manual-tests.md` (P10-29 completes it).
 
@@ -960,7 +960,7 @@ Take phase 10 cards in table order (each card's "Depends on" is satisfied by the
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
 
 ```
-/next-task          # picks the first `todo` card whose dependencies are `done`
+/next-task          # picks the first `done` card whose dependencies are `done`
 /next-task P1-07    # or a specific card
 ```
 

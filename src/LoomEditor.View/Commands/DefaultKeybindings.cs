@@ -9,6 +9,7 @@ using LoomEditor.View.Features.LineSelection;
 using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.Overtype;
 using LoomEditor.View.Features.SelectionAnchor;
+using LoomEditor.View.Features.SmartSelect;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
@@ -243,6 +244,9 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.None, KeyCode.Escape, SelectionAnchorCommands.CancelSelectionAnchor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorCore);
         Add(KeyModifiers.Ctrl, KeyCode.KeyL, LineSelectionCommands.ExpandLineSelection, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.KeyU, CursorUndoCommands.CursorUndo, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
+        // smartSelect.ts: Shift+Alt+Right / Left (the Windows binding; the macOS ones are not ported).
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.RightArrow, SmartSelectCommands.Expand, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.LeftArrow, SmartSelectCommands.Shrink, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
 
         void Navigate(KeyCode key, string id)
         {

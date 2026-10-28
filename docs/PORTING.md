@@ -53,6 +53,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 
 | Where | Difference | Why |
 |---|---|---|
+| Smart select (P10-16, `smartSelect.ts`, `bracketSelections.ts`) | Synchronous (Monaco is async); no `selectionRangeProvider` registry, so the providers are always bracket then word; the bracket search stops after 60 ms per position instead of yielding every 30 ms for 2 rounds | The only providers are local; a registry is a later phase |
 | Font features (P10-03, `fontMeasurements.ts`) | `FontInfo.IsMonospace` is only true when the feature string is exactly `LigaturesOff`; `"liga" 0, "calt" 0` counts as ligatures on. Zoom rounds `LineHeight` again (it is an `int`) | Same test as Monaco; `LineHeight` stays an integer for the layout |
 | Font options in DirectWrite (P10-04, ADR 0013) | Only the `wght` variation axis is applied (other axes are parsed and ignored); inside a ligature the caret positions are DirectWrite's (equal share of the advance) and `HitTest` picks the nearest one | Win2D has no variation API; Monaco has no ligature caret special case either |
 | Editor zoom (P10-06, ADR 0013) | The zoom level is per editor (`EditorContext.Zoom`), not a global shared by every editor | Several editors in one window must not zoom together |
@@ -305,6 +306,9 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/contrib/anchorSelect/browser/anchorSelect.ts` | `LoomEditor.View/Features/SelectionAnchor/` | ✅ ported (P10-13); see "Behavior differences" |
 | `editor/contrib/lineSelection/browser/lineSelection.ts` | `LoomEditor.View/Features/LineSelection/` | ✅ ported (P10-13) |
 | `editor/contrib/cursorUndo/browser/cursorUndo.ts` | `LoomEditor.View/Features/CursorUndo/` | ✅ ported (P10-14); the stacks are cleared on content change only (the model of an editor never changes); `CursorStateChangedEvent` already carried `OldSelections` and `OldModelVersionId` |
+| `editor/contrib/smartSelect/browser/smartSelect.ts` | `LoomEditor.View/Features/SmartSelect/` (`SmartSelectFeature`, `SmartSelectRanges`, `SelectionRanges`, `SmartSelectOptions`) | ✅ ported (P10-16); synchronous, no provider registry, no `_executeSelectionRangeProvider`; a blank line gives no whitespace-trimmed range (Monaco builds an invalid column-0 range that never contains anything) |
+| `editor/contrib/smartSelect/browser/wordSelections.ts` | `LoomEditor.View/Features/SmartSelect/WordSelectionRangeProvider.cs` | ✅ ported (P10-16) |
+| `editor/contrib/smartSelect/browser/bracketSelections.ts` | `LoomEditor.View/Features/SmartSelect/BracketSelectionRangeProvider.cs` | ✅ ported (P10-16); no `setTimeout` yielding, the search stops after 60 ms per position and keeps what it found |
 | `editor/contrib/linesOperations/browser/copyLinesCommand.ts` | `LoomEditor.View/Features/LinesOperations/CopyLinesCommand.cs` | ✅ ported (P5-55) |
 | `editor/contrib/linesOperations/browser/sortLinesCommand.ts` | `LoomEditor.View/Features/LinesOperations/SortLinesCommand.cs` | ✅ ported (P5-55); invariant culture, see "Behavior differences" |
 | `editor/contrib/linesOperations/browser/moveLinesCommand.ts` | `LoomEditor.View/Features/LinesOperations/MoveLinesCommand*.cs` | ✅ ported (P5-56); the virtual model has no `ForceTokenization`, like Monaco's object |

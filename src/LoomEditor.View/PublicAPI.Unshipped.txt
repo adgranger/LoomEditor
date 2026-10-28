@@ -81,6 +81,8 @@ const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.CancelSel
 const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.GoToSelectionAnchor = "editor.action.goToSelectionAnchor" -> string!
 const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.SelectFromAnchorToCursor = "editor.action.selectFromAnchorToCursor" -> string!
 const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.SetSelectionAnchor = "editor.action.setSelectionAnchor" -> string!
+const LoomEditor.View.Features.SmartSelect.SmartSelectCommands.Expand = "editor.action.smartSelect.expand" -> string!
+const LoomEditor.View.Features.SmartSelect.SmartSelectCommands.Shrink = "editor.action.smartSelect.shrink" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.AcceptSelectedSuggestion = "acceptSelectedSuggestion" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.HideSuggestWidget = "hideSuggestWidget" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.SelectFirstSuggestion = "selectFirstSuggestion" -> string!
@@ -258,6 +260,12 @@ LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Attach(LoomEdito
 LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Dispose() -> void
 LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Id.get -> string!
 LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.SelectionAnchorFeature() -> void
+LoomEditor.View.Features.SmartSelect.SmartSelectCommands
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.Dispose() -> void
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.Id.get -> string!
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.SmartSelectFeature() -> void
 LoomEditor.View.Features.Suggest.SuggestCommands
 LoomEditor.View.Features.WordOperations.WordOperationsCommands
 LoomEditor.View.Features.WordOperations.WordOperationsFeature

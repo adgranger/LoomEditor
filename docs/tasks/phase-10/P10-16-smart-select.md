@@ -1,6 +1,6 @@
 # P10-16 — Smart select: expand and shrink the selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** M
 
@@ -36,15 +36,15 @@
 
 ## Tests
 
-- [ ] Port: `smartSelect.test.ts`: the tests that use only the built-in providers (word and bracket: `Smart select`-suite names such as "bracket selection", "word selection", "in-word ranges", "whitespace lines", "trivia"); skip, with a comment `// Monaco: <name> — needs a registered provider (later)`, the ones that register a custom `SelectionRangeProvider`
-- [ ] New: `Expand_Repeatedly_GrowsToWholeDocument`, `Shrink_AfterExpand_ReturnsToPreviousSelections`, `Expand_MultiCursor_EachGrowsIndependently`, `CaretMove_ForgetsState`, `Expand_InsideBrackets_SelectsInnerThenWithBrackets`, `Expand_CamelCaseWord_SelectsSubwordThenWord`, `Expand_SnakeCaseWord_SelectsPartThenWord`, `Expand_WhitespaceOnlyLine_SelectsTheLine`, `ProvideSelectionRanges_EqualRangesCollapsed`, `Keybindings_ResolveToTheTwoCommands`
+- [x] Port: `smartSelect.test.ts`: the tests that use only the built-in providers (word and bracket: `Smart select`-suite names such as "bracket selection", "word selection", "in-word ranges", "whitespace lines", "trivia"); skip, with a comment `// Monaco: <name> — needs a registered provider (later)`, the ones that register a custom `SelectionRangeProvider`
+- [x] New: `Expand_Repeatedly_GrowsToWholeDocument`, `Shrink_AfterExpand_ReturnsToPreviousSelections`, `Expand_MultiCursor_EachGrowsIndependently`, `CaretMove_ForgetsState`, `Expand_InsideBrackets_SelectsInnerThenWithBrackets`, `Expand_CamelCaseWord_SelectsSubwordThenWord`, `Expand_SnakeCaseWord_SelectsPartThenWord`, `Expand_WhitespaceOnlyLine_SelectsTheLine`, `ProvideSelectionRanges_EqualRangesCollapsed`, `Keybindings_ResolveToTheTwoCommands`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: the three `smartSelect` files; "Behavior differences": synchronous, no provider registry, 60 ms budget for brackets
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: the three `smartSelect` files; "Behavior differences": synchronous, no provider registry, 60 ms budget for brackets
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
