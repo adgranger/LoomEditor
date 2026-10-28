@@ -1,4 +1,5 @@
 using LoomEditor.View.Features.BracketMatching;
+using LoomEditor.View.Features.CaretOperations;
 using LoomEditor.View.Features.Comment;
 using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.DiffNavigation;
@@ -47,6 +48,7 @@ public static class EditorFeatures
         () => new CommentFeature(),
         () => new IndentationFeature(),
         () => new LinesOperationsFeature(),
+        () => new CaretOperationsFeature(),
         () => new FoldingFeature(),
         () => new StickyScrollFeature(),
         () => new WordHighlighterFeature(),

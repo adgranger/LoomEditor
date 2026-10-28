@@ -1,4 +1,6 @@
 #nullable enable
+const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretLeft = "editor.action.moveCarretLeftAction" -> string!
+const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretRight = "editor.action.moveCarretRightAction" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.action.addCommentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
@@ -134,6 +136,12 @@ LoomEditor.View.Controller.MouseWheelZoomGesture.OnWheel(double deltaY, bool isP
 LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Cursors.EditorInputMode.Insert = 0 -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Cursors.EditorInputMode.Overtype = 1 -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Features.CaretOperations.CaretOperationsCommands
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.CaretOperationsFeature() -> void
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Dispose() -> void
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Id.get -> string!
 LoomEditor.View.Features.Comment.CommentCommands
 LoomEditor.View.Features.Comment.CommentFeature
 LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void

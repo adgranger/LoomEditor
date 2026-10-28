@@ -1,6 +1,6 @@
 # P10-15 — Move selected text one character left or right
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** S
 
@@ -30,15 +30,15 @@
 
 ## Tests
 
-- [ ] Port: `moveCarretCommand.test.ts` (names in `// Monaco:` comments)
-- [ ] New: `Left_AtColumn1_DoesNothing`, `Right_AtLineEnd_DoesNothing`, `EmptySelection_DoesNothing`, `MultiLineSelection_DoesNothing`, `Left_MovesSelectionAndKeepsItSelected`, `MultiCursor_EachMovesIndependently`, `Undo_RestoresInOneStep`, `ReadOnly_DoesNothing`
+- [x] Port: `moveCarretCommand.test.ts` (names in `// Monaco:` comments)
+- [x] New: `Left_AtColumn1_DoesNothing`, `Right_AtLineEnd_DoesNothing`, `EmptySelection_DoesNothing`, `MultiLineSelection_DoesNothing`, `Left_MovesSelectionAndKeepsItSelected`, `MultiCursor_EachMovesIndependently`, `Undo_RestoresInOneStep`, `ReadOnly_DoesNothing`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `caretOperations.ts`, `moveCaretCommand.ts` rows
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `caretOperations.ts`, `moveCaretCommand.ts` rows
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
