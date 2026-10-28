@@ -1,6 +1,6 @@
 # P10-05 — Control properties for the font options, and Gallery switches
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-04
 - **Size:** S
 
@@ -32,15 +32,15 @@ Sources: none (specified in this card; the options are `fontLigatures`, `fontVar
 
 ## Tests
 
-- [ ] No automated test (control + DirectWrite). Validation of the strings is covered by P10-03.
-- [ ] Manual (section "P10-05" of the manual plan): the checks of P10-04, plus font weight 700 on Cascadia Code is visibly bolder, letter spacing 5 widens and the caret / selection stay aligned, switching a property keeps the scroll position (`RecreateTextMeasurer` does that).
+- [x] No automated test (control + DirectWrite). Validation of the strings is covered by P10-03.
+- [x] Manual (section "P10-05" of the manual plan): the checks of P10-04, plus font weight 700 on Cascadia Code is visibly bolder, letter spacing 5 widens and the caret / selection stay aligned, switching a property keeps the scroll position (`RecreateTextMeasurer` does that).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Public API file updated; `docs/PORTING.md` not needed (no port)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Public API file updated; `docs/PORTING.md` not needed (no port)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

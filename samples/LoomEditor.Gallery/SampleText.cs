@@ -22,6 +22,8 @@ internal static class SampleText
                 Console.WriteLine("Hello from LoomEditor!");
             }
         }
+
+        // Ligatures: => != -> <= >= == === !== |> <|> www
         """;
 
     /// <summary>Five short lines for the multi-cursor sample.</summary>

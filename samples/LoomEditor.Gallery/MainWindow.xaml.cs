@@ -293,7 +293,9 @@ public sealed partial class MainWindow : Window
 
     // Same order as the items of FontFamilyBox. SelectedItem is not read: under Native AOT it comes back as a plain
     // ContentControl, not a ComboBoxItem, so a type test on it (or on its Content) never matches.
-    private static readonly string[] FontFamilies = ["Cascadia Mono", "Consolas", "Segoe UI"];
+    private static readonly string[] FontFamilies = ["Cascadia Mono", "Cascadia Code", "Consolas", "Segoe UI"];
+
+    private static readonly ushort[] FontWeights = [400, 500, 600, 700];
 
     private void OnFontFamilyChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -301,6 +303,25 @@ public sealed partial class MainWindow : Window
         if (Editor is not null && index >= 0 && index < FontFamilies.Length)
         {
             Editor.FontFamily = new FontFamily(FontFamilies[index]);
+        }
+    }
+
+    private void OnFontLigaturesToggled(object sender, RoutedEventArgs e) => Editor.FontLigatures = FontLigaturesSwitch.IsOn;
+
+    private void OnFontWeightChanged(object sender, SelectionChangedEventArgs e)
+    {
+        int index = FontWeightBox.SelectedIndex;
+        if (Editor is not null && index >= 0 && index < FontWeights.Length)
+        {
+            Editor.FontWeight = new Windows.UI.Text.FontWeight { Weight = FontWeights[index] };
+        }
+    }
+
+    private void OnLetterSpacingChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.LetterSpacing = e.NewValue;
         }
     }
 

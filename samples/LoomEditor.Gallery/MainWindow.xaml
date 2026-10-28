@@ -59,9 +59,18 @@
                         <NumberBox x:Name="FontSizeBox" Header="Font size" Minimum="8" Maximum="40" SpinButtonPlacementMode="Inline" Value="14" ValueChanged="OnFontSizeChanged" />
                         <ComboBox HorizontalAlignment="Stretch" x:Name="FontFamilyBox" Header="Font family" SelectedIndex="0" SelectionChanged="OnFontFamilyChanged">
                             <ComboBoxItem Content="Cascadia Mono" />
+                            <ComboBoxItem Content="Cascadia Code" />
                             <ComboBoxItem Content="Consolas" />
                             <ComboBoxItem Content="Segoe UI" />
                         </ComboBox>
+                        <ToggleSwitch x:Name="FontLigaturesSwitch" Toggled="OnFontLigaturesToggled" OffContent="Ligatures" OnContent="Ligatures" />
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="FontWeightBox" Header="Font weight" SelectedIndex="0" SelectionChanged="OnFontWeightChanged">
+                            <ComboBoxItem Content="Normal (400)" />
+                            <ComboBoxItem Content="Medium (500)" />
+                            <ComboBoxItem Content="SemiBold (600)" />
+                            <ComboBoxItem Content="Bold (700)" />
+                        </ComboBox>
+                        <Slider x:Name="LetterSpacingSlider" Header="Letter spacing" Minimum="0" Maximum="5" StepFrequency="0.5" Value="0" ValueChanged="OnLetterSpacingChanged" />
                         <ComboBox HorizontalAlignment="Stretch" x:Name="GuidesBox" Header="Guides" SelectedIndex="0" SelectionChanged="OnGuidesChanged">
                             <ComboBoxItem Content="Indent only" />
                             <ComboBoxItem Content="Indent + bracket pairs" />
