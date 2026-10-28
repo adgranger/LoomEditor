@@ -1,6 +1,6 @@
 # P10-01 — Audit: what of Monaco's editor is not in LoomEditor yet
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** S (documentation only, no code)
 
@@ -37,15 +37,15 @@ Invoke-RestMethod "https://api.github.com/repos/microsoft/vscode/git/trees/0c9c0
 
 ## Tests
 
-- [ ] None (documentation). `docs/roadmap/phase-10-audit.md` renders: every table has the same number of columns on every row.
+- [x] None (documentation). `docs/roadmap/phase-10-audit.md` renders: every table has the same number of columns on every row.
 
 ## Acceptance criteria
 
-- [ ] The three tables exist and cover every folder, option and command (counts stated at the top of the file, e.g. "61 folders, 148 options, 74 commands")
-- [ ] Every `missing` / `deferred` row has a card id, "later" or "out of scope", each with a reason
-- [ ] The backlog file is corrected as above
-- [ ] `dotnet build LoomEditor.slnx -c Release` is **not** required (docs only); `git status` shows only `docs/` files
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] The three tables exist and cover every folder, option and command (counts stated at the top of the file, e.g. "61 folders, 148 options, 74 commands")
+- [x] Every `missing` / `deferred` row has a card id, "later" or "out of scope", each with a reason
+- [x] The backlog file is corrected as above
+- [x] `dotnet build LoomEditor.slnx -c Release` is **not** required (docs only); `git status` shows only `docs/` files
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -54,3 +54,4 @@ Writing cards, porting anything, changing code.
 ## Suggested commit message
 
 `docs: audit Monaco's editor against LoomEditor for phase 10`
+

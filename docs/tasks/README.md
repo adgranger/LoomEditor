@@ -889,7 +889,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-01](phase-10/P10-01-monaco-audit.md) | Audit: what of Monaco's editor is not in LoomEditor yet | P9-33 | todo |
+| [P10-01](phase-10/P10-01-monaco-audit.md) | Audit: what of Monaco's editor is not in LoomEditor yet | P9-33 | done |
 | [P10-02](phase-10/P10-02-adr-fonts-whitespace-snippets.md) | ADR 0013: font options, ligatures, zoom, whitespace and snippets | P10-01 | todo |
 
 ### Step B — Fonts and zoom
@@ -967,3 +967,4 @@ Start a fresh session for each card, on the phase branch, with a clean working t
 The skill (`.claude/skills/next-task/SKILL.md`) implements the card, runs the build and the tests, updates the card
 and this index, and makes **one commit without any co-author trailer**. It never pushes. Review the commit
 (`git show`), then push when you are happy with it.
+

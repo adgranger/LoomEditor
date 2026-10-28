@@ -7,7 +7,7 @@ Task cards: [docs/tasks/phase-10/](../tasks/phase-10/README.md) (31 cards: theme
 
 ## A. Text rendering and fonts (first: this is what the maintainer asked for)
 
-- [ ] **Font ligatures** (`fontLigatures`, `fontFeatureSettings`): a ligature fuses several characters into one glyph, so the character width table of `FontMeasurements` (P2-06) is no longer enough: columns, caret position, selection and hit testing must go through the shaped text. Needs an ADR (shaping through DirectWrite typography features; Monaco itself splits the line into runs and disables ligatures while the caret is inside one)
+- [ ] **Font ligatures** (`fontLigatures`, `fontFeatureSettings`): a ligature fuses several characters into one glyph, so the character width table of `FontMeasurements` (P2-06) is no longer enough: columns, caret position, selection and hit testing must go through the shaped text. Needs an ADR (shaping through DirectWrite typography features; Monaco sets `font-feature-settings` and reads positions from the DOM (`FontMeasurements`: `isMonospace` is false when ligatures are on, `fontMeasurements.ts` line 219); there is no caret special case)
 - [ ] Font variations (`fontVariationSettings`), font weight and letter spacing options
 - [ ] Editor zoom (`Ctrl` + wheel, `EditorZoom`)
 - [ ] `renderWhitespace` (none, boundary, selection, trailing, all) and the word wrap indicator
@@ -53,10 +53,15 @@ Task cards: [docs/tasks/phase-10/](../tasks/phase-10/README.md) (31 cards: theme
 - [ ] Localization of announcements and messages; a UIA client based automated test
 - [ ] Screen reader support of the hover popup and the completion list
 
-## G. To verify before writing cards
+## Found by the audit
+
+The audit is [phase-10-audit.md](phase-10-audit.md) (59 `contrib` folders, 178 options, 163 commands). Contribs with no phase 10 card, to schedule later: `inPlaceReplace`, `insertFinalNewLine`, `longLinesHelper`, `middleScroll`, `readOnlyMessage`, `unusualLineTerminators`, `dropOrPasteInto`, `sectionHeaders`, `symbolIcons`. Options still missing and not covered by a card are marked "later" in table 2 (for example `rulers`, `scrollbar`, `selectionClipboard`, `cursorSmoothCaretAnimation`, `renderFinalNewline`).
+
+## G. To verify before writing cards (done by P10-01)
 
 These are Monaco features that no document of the repository mentions as deferred. The first step of this phase is a pass over `src/vs/editor/contrib` and `editorOptions.ts` at the pinned commit to turn this list into either "ported", "deferred" (with a reason) or "out of scope":
 
-- [ ] Compare `src/vs/editor/contrib/*` folder by folder with `docs/PORTING.md` and list the folders that have no row
-- [ ] Compare the options of `editorOptions.ts` with the options the control exposes, and list the ones that are missing
-- [ ] Compare the commands of `coreCommands.ts` and the `editor.action.*` contributions with the registered commands
+- [x] Compare `src/vs/editor/contrib/*` folder by folder with `docs/PORTING.md` and list the folders that have no row
+- [x] Compare the options of `editorOptions.ts` with the options the control exposes, and list the ones that are missing
+- [x] Compare the commands of `coreCommands.ts` and the `editor.action.*` contributions with the registered commands
+
