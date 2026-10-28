@@ -1,6 +1,6 @@
 # P9-32 — Native AOT self-check of the diff stack and diff benchmarks
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-31
 - **Size:** M
 
@@ -30,16 +30,16 @@ Sources: none (specified in this card; the pattern is P8-37's `--lsp-selfcheck` 
 
 ## Tests
 
-- [ ] New: `SelfCheck_Algorithm_Passes`, `SelfCheck_Large_Passes`, `SelfCheck_ProviderMatchesDirectComputation`, `SelfCheck_AccessibleModelLabel`, `SelfCheck_AllChecks_Pass_WithSynchronousDispatcher`, `Report_Format_PassFailAndSummary`.
-- [ ] Not automated: the published app run — `Gallery.exe --diff-selfcheck=%TEMP%\diff-selfcheck.txt` after `dotnet publish -p:PublishAot=true`; paste the report in the card result.
+- [x] New: `SelfCheck_Algorithm_Passes`, `SelfCheck_Large_Passes`, `SelfCheck_ProviderMatchesDirectComputation`, `SelfCheck_AccessibleModelLabel`, `SelfCheck_AllChecks_Pass_WithSynchronousDispatcher`, `Report_Format_PassFailAndSummary`.
+- [x] Not automated: the published app run — `Gallery.exe --diff-selfcheck=%TEMP%\diff-selfcheck.txt` after `dotnet publish -p:PublishAot=true`; paste the report in the card result.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` and the self-check run — result stated (`PASS` lines or `NOT verified` with the reason, never ticked if not run)
-- [ ] `dotnet run --project tests/LoomEditor.Benchmarks -c Release -- --filter "*Diff*"` — numbers in `docs/performance.md` (or `NOT measured` with the reason)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` and the self-check run — result stated (`PASS` lines or `NOT verified` with the reason, never ticked if not run)
+- [x] `dotnet run --project tests/LoomEditor.Benchmarks -c Release -- --filter "*Diff*"` — numbers in `docs/performance.md` (or `NOT measured` with the reason)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -48,3 +48,25 @@ Tuning the algorithm, UI automation tests of the diff control.
 ## Suggested commit message
 
 `test(gallery): add the diff self-check and benchmarks`
+
+## Result
+
+- Unit tests: `DiffSelfCheckTests` (6) pass with a synchronous dispatcher and an immediate scheduler.
+- Native AOT: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` **succeeded**, and
+  `LoomEditor.Gallery.exe --diff-selfcheck=%TEMP%\diff-selfcheck.txt` exited with code 0 and wrote:
+
+  ```text
+  PASS  algorithm — 9 changes, the inner changes rebuild the modified text
+  PASS  moves — 1 move(s)
+  PASS  large — 33 changes in 26 ms
+  PASS  timeout — HitTimeout = True, 1 changes
+  PASS  provider — 8 changes, the same as the direct computation
+  PASS  provider-cancel — cancelled
+  PASS  viewmodel — 8 then 9 changes, 3 unchanged region(s)
+  PASS  alignment — 8 blocks cover 13 and 14 changed lines
+  PASS  accessible-model — 3 group(s); Difference 1 of 3: original line 30, 6 lines changed, modified line 30, no lines changed
+  SUMMARY: 9 passed, 0 failed
+  ```
+
+- Benchmarks: measured, both targets met (numbers in `docs/performance.md`, "Diff"). No follow-up card needed.
+- The `alignment` check asserts what `LineRangeAlignments.Compute` really returns: the blocks of the changed areas only (the unchanged lines are not blocks), in order, as high as their line counts times the line height, covering exactly the changed lines of both sides. A block of a pure insertion or deletion has a height of 0 on the other side (the editors add the view zone), so the two sides of a block are not level by design.

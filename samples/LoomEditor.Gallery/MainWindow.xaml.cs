@@ -62,6 +62,7 @@ public sealed partial class MainWindow : Window
         Editor.RegisterPropertyChangedCallback(LoomEditorControl.TabMovesFocusProperty, (_, _) => TabFocusSwitch.IsOn = Editor.TabMovesFocus);
         RefreshStatus();
         InitializeLsp();
+        InitializeDiffSelfCheck();
     }
 
     private void OnInsertHeader(object sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);

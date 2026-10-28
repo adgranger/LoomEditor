@@ -873,7 +873,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap: [p
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P9-31](phase-9/P9-31-gallery-diff-demo-and-manual-plan.md) | Gallery: the diff editor demo and the manual test plan | P9-30, P9-28 | done |
-| [P9-32](phase-9/P9-32-diff-self-check-and-benchmarks.md) | Native AOT self-check of the diff stack and diff benchmarks | P9-31 | todo |
+| [P9-32](phase-9/P9-32-diff-self-check-and-benchmarks.md) | Native AOT self-check of the diff stack and diff benchmarks | P9-31 | done |
 | [P9-33](phase-9/P9-33-close-phase-9.md) | Close phase 9 | all phase 9 cards | todo |
 
 Take phase 9 cards in table order (each card's "Depends on" is satisfied by the cards above it). P9-10, P9-23 and P9-24 are flagged **Recommended model: Opus** (reason in the card). P9-19, P9-22 … P9-26, P9-28, P9-30 and P9-31 have manual checks for the maintainer (`docs/testing/phase-9-manual-tests.md`, written by P9-31); whether the Native AOT Gallery works with the diff editor is verified by P9-31 and P9-32, and Narrator by a human only.

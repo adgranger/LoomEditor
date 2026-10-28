@@ -227,15 +227,14 @@ internal static class DiffSamples
         """.ReplaceLineEndings("\n");
 
     /// <summary>
-    /// Two texts of 5 000 generated lines where about one line in a hundred differs, from a fixed seed (the "Large files" button).
+    /// Two texts of <paramref name="lineCount"/> (5 000 for the "Large files" button) generated lines where about one line in a hundred differs, from a fixed seed.
     /// </summary>
-    public static (string Original, string Modified) CreateLargePair()
+    public static (string Original, string Modified) CreateLargePair(int lineCount = 5000)
     {
-        const int LineCount = 5000;
         var random = new Random(7);
-        var original = new List<string>(LineCount);
-        var modified = new List<string>(LineCount);
-        for (int i = 1; i <= LineCount; i++)
+        var original = new List<string>(lineCount);
+        var modified = new List<string>(lineCount);
+        for (int i = 1; i <= lineCount; i++)
         {
             string line = $"    var value{i} = Compute({i % 97}, {i * 31 % 1013}); // generated line {i}";
             original.Add(line);
