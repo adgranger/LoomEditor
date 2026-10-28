@@ -1,6 +1,6 @@
 # P10-03 — Font options: weight, letter spacing, ligatures, variations (the model)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-02
 - **Size:** M
 
@@ -38,17 +38,17 @@
 
 ## Tests
 
-- [ ] Port: the ligature / monospace cases of `fontMeasurements.test.ts` that can run on a fake `ICharacterWidthReader`
-- [ ] New: `ValidateLigatures_*` (null, `""`, `"false"`, `"true"`, `"'ss01' 1"`), `ValidateVariations_*`, `ValidateWeight_*` (`normal`, `bold`, `"700"`, `"0"` → `"1"`, `"2000"` → `"1000"`, `"abc"` → `"normal"`)
-- [ ] New: `Parse_*` (`'liga' on, "calt" 0` → two items; `'ss01'` alone → value 1; `'abc'` skipped; `'liga' -1` skipped; unterminated quote skipped; empty → empty)
-- [ ] New: `Create_TranslateVariations_NumericWeight_GivesWght`, `Create_ZoomLevel_ScalesSizeAndLineHeight` (level 5 → ×1.5), `Read_LigaturesOn_IsNotMonospace`, `Read_LigaturesOff_MonospaceFont_IsMonospace`
+- [x] Port: the ligature / monospace cases of `fontMeasurements.test.ts` that can run on a fake `ICharacterWidthReader`
+- [x] New: `ValidateLigatures_*` (null, `""`, `"false"`, `"true"`, `"'ss01' 1"`), `ValidateVariations_*`, `ValidateWeight_*` (`normal`, `bold`, `"700"`, `"0"` → `"1"`, `"2000"` → `"1000"`, `"abc"` → `"normal"`)
+- [x] New: `Parse_*` (`'liga' on, "calt" 0` → two items; `'ss01'` alone → value 1; `'abc'` skipped; `'liga' -1` skipped; unterminated quote skipped; empty → empty)
+- [x] New: `Create_TranslateVariations_NumericWeight_GivesWght`, `Create_ZoomLevel_ScalesSizeAndLineHeight` (level 5 → ×1.5), `Read_LigaturesOn_IsNotMonospace`, `Read_LigaturesOff_MonospaceFont_IsMonospace`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: rows for `editorOptions.ts` (font options), `fontInfo.ts`, `fontMeasurements.ts` updated; "Behavior differences": `IsMonospace` uses the exact off string
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: rows for `editorOptions.ts` (font options), `fontInfo.ts`, `fontMeasurements.ts` updated; "Behavior differences": `IsMonospace` uses the exact off string
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

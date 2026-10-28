@@ -26,7 +26,7 @@ internal sealed record TestCodeEditorOptions(
 internal sealed class TestCodeEditor : IDisposable
 {
     // Monaco: TestConfiguration's mock FontInfo
-    private static FontInfo CreateFontInfo() => new(1, "mockFont", "normal", 14, 19, 1.5, true, 10, 20, true, 10, 10, 10, 10);
+    private static FontInfo CreateFontInfo() => new(1, "mockFont", "normal", 14, 19, 1.5, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 10, 20, true, 10, 10, 10, 10);
 
     private sealed class NoopDisposable : IDisposable
     {

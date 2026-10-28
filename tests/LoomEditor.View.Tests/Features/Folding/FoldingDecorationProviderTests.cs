@@ -19,7 +19,7 @@ public class FoldingDecorationProviderTests
 
     private ViewModel CreateViewModel(TextModel model, int editorId = 0)
     {
-        var fontInfo = new FontInfo(1, "Consolas", "normal", 14, LineHeight, 0, true, 8.4, 16.8, true, 8.4, 8, 8, 8.4);
+        var fontInfo = new FontInfo(1, "Consolas", "normal", 14, LineHeight, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 8.4, 16.8, true, 8.4, 8, 8, 8.4);
         return new ViewModel(model, fontInfo, new EditorLayoutOptions(), new ViewLayoutOptions(LineHeight), _frames.Schedule, _clock, editorId);
     }
 

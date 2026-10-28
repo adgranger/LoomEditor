@@ -37,7 +37,7 @@ public class ViewLayoutTests
 
     private static FontInfo CreateFontInfo()
     {
-        return new FontInfo(1, "Consolas", "normal", 14, LineHeight, 0, true, 8, 16, true, 8, 8, 8, 8);
+        return new FontInfo(1, "Consolas", "normal", 14, LineHeight, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 8, 16, true, 8, 8, 8, 8);
     }
 
     private ViewLayout CreateViewLayout(int lineCount, ViewLayoutOptions? options = null)

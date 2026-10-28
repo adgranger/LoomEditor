@@ -19,7 +19,7 @@ public class CursorConfigurationTests
         string languageId = "plaintext",
         LanguageConfigurationRegistry? registry = null)
     {
-        var font = new FontInfo(1, "Consolas", "normal", 14, lineHeight, 0, true, 8, 16, true, 8, 8, 8, 8);
+        var font = new FontInfo(1, "Consolas", "normal", 14, lineHeight, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 8, 16, true, 8, 8, 8, 8);
         var layout = new EditorLayoutInfo(
             Width: 652,
             Height: height,

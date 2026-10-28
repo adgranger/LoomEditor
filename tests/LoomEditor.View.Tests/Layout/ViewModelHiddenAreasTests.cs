@@ -23,7 +23,7 @@ public class ViewModelHiddenAreasTests
 
     private ViewModel CreateViewModel(string text)
     {
-        var fontInfo = new FontInfo(1, "Consolas", "normal", 14, LineHeight, 0, true, 8.4, 16.8, true, 8.4, 8, 8, 8.4);
+        var fontInfo = new FontInfo(1, "Consolas", "normal", 14, LineHeight, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 8.4, 16.8, true, 8.4, 8, 8, 8.4);
         var viewModel = new ViewModel(new TextModel(text), fontInfo, new EditorLayoutOptions(), new ViewLayoutOptions(LineHeight, ScrollBeyondLastLine: false), _frames.Schedule, _clock);
         viewModel.SetViewportSize(400, 100); // 5 lines
         return viewModel;

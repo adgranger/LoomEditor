@@ -8,8 +8,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// Threading: immutable, safe from any thread.
-/// Not ported: <c>fontFeatureSettings</c>, <c>fontVariationSettings</c>, editor zoom, <c>getId</c>,
-/// <c>getMassagedFontFamily</c>. The Windows values of Monaco's constants are used.
+/// Not ported: <c>getId</c>, <c>getMassagedFontFamily</c>. The Windows values of Monaco's constants are used.
 /// </remarks>
 internal record BareFontInfo(
     double PixelRatio,
@@ -17,7 +16,9 @@ internal record BareFontInfo(
     string FontWeight,
     double FontSize,
     int LineHeight,
-    double LetterSpacing)
+    double LetterSpacing,
+    string FontFeatureSettings,
+    string FontVariationSettings)
 {
     /// <summary>Monaco: <c>GOLDEN_LINE_HEIGHT_RATIO</c> (Windows value).</summary>
     public const double GoldenLineHeightRatio = 1.35;
@@ -33,7 +34,10 @@ internal record BareFontInfo(
     /// the font size when below 8, or a size in pixels; the result is rounded and at least 8.
     /// </summary>
     public static BareFontInfo Create(
-        string fontFamily, string fontWeight, double fontSize, double lineHeight, double letterSpacing, double pixelRatio)
+        string fontFamily, string fontWeight, double fontSize, double lineHeight, double letterSpacing, double pixelRatio,
+        string fontFeatureSettings = EditorFontOptions.LigaturesOff,
+        string fontVariationSettings = EditorFontOptions.VariationsOff,
+        double zoomLevel = 0)
     {
         if (lineHeight == 0)
         {
@@ -51,6 +55,25 @@ internal record BareFontInfo(
             rounded = MinimumLineHeight;
         }
 
-        return new BareFontInfo(pixelRatio, fontFamily, fontWeight, fontSize, rounded, letterSpacing);
+        // The zoom multiplier applies after the rounding, as in fontInfo.ts; LineHeight is an int, so it is rounded again.
+        double zoom = 1 + (zoomLevel * 0.1);
+        fontSize *= zoom;
+        rounded = (int)Math.Round(rounded * zoom, MidpointRounding.AwayFromZero);
+
+        if (fontVariationSettings == EditorFontOptions.VariationsTranslate)
+        {
+            if (fontWeight is "normal" or "bold")
+            {
+                fontVariationSettings = EditorFontOptions.VariationsOff;
+            }
+            else
+            {
+                fontVariationSettings = $"'wght' {fontWeight}";
+                fontWeight = "normal";
+            }
+        }
+
+        return new BareFontInfo(
+            pixelRatio, fontFamily, fontWeight, fontSize, rounded, letterSpacing, fontFeatureSettings, fontVariationSettings);
     }
 }

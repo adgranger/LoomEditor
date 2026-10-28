@@ -92,6 +92,8 @@ internal static class LineBreaksTestHelpers
             FontSize: 14,
             LineHeight: 19,
             LetterSpacing: 0,
+            FontFeatureSettings: EditorFontOptions.LigaturesOff,
+            FontVariationSettings: EditorFontOptions.VariationsOff,
             IsMonospace: true,
             TypicalHalfwidthCharacterWidth: 7,
             TypicalFullwidthCharacterWidth: 7 * columnsForFullWidthChar,
