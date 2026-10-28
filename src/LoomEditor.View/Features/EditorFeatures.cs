@@ -3,6 +3,7 @@ using LoomEditor.View.Features.Comment;
 using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.FontZoom;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Indentation;
@@ -32,6 +33,7 @@ public static class EditorFeatures
     public static IReadOnlyList<Func<IEditorFeature>> Default { get; } =
     [
         () => new SelectAllFeature(),
+        () => new FontZoomFeature(),
         () => new WordOperationsFeature(),
         () => new FindFeature(),
         () => new MultiCursorFeature(),

@@ -55,6 +55,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 |---|---|---|
 | Font features (P10-03, `fontMeasurements.ts`) | `FontInfo.IsMonospace` is only true when the feature string is exactly `LigaturesOff`; `"liga" 0, "calt" 0` counts as ligatures on. Zoom rounds `LineHeight` again (it is an `int`) | Same test as Monaco; `LineHeight` stays an integer for the layout |
 | Font options in DirectWrite (P10-04, ADR 0013) | Only the `wght` variation axis is applied (other axes are parsed and ignored); inside a ligature the caret positions are DirectWrite's (equal share of the advance) and `HitTest` picks the nearest one | Win2D has no variation API; Monaco has no ligature caret special case either |
+| Editor zoom (P10-06, ADR 0013) | The zoom level is per editor (`EditorContext.Zoom`), not a global shared by every editor | Several editors in one window must not zoom together |
 | Sticky scroll drawing (P6-59, `stickyScroll.css`) | The shadow under the widget is a solid 2-DIP band instead of a gradient; no relative line numbers in the sticky lines | The simplest drawing that keeps the widget readable; `lineNumbers: relative` is not ported |
 | Tab focus mode (P7-16, `tabFocus.ts`) | The mode is per editor (`EditorContext.TabMovesFocus`, `LoomEditor.TabMovesFocus`), not a process-wide singleton; not persisted, no `editor.tabFocusMode` option | Several editors in one app must not share the mode; the host decides what to persist |
 | Minimap drawing (P6-52, `minimap.css`) | The 100 ms slider opacity transition and the 0.5 s auto-hide fade are not animated (instant); the shadow is a solid 6-DIP band filled with `scrollbar.shadow` instead of the `--vscode-shadow-md` box shadow (no gradient); the slider has no separate horizontal part | No CSS transitions or box shadows in Win2D; the result is the same state, without the animation |
@@ -195,6 +196,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `platform/commands/common/commands.ts` | `LoomEditor.View/Commands/CommandRegistry.cs` | ✅ adapted (per editor) |
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
+| `editor/common/config/editorZoom.ts`, `editor/contrib/fontZoom/browser/fontZoom.ts` | `LoomEditor.View/Layout/EditorZoomState.cs`, `LoomEditor.View/Features/FontZoom/` | ✅ ported (P10-06); one zoom state per editor, see "Behavior differences" |
 | `editor/common/cursor/cursorMoveCommands.ts` | `LoomEditor.View/Cursors/CursorMoveCommands*.cs`, `CursorMove.cs` | ✅ ported (P3-24, P3-25) except `word` (P3-30); `CursorMove.metadata` is not ported |
 | `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ✅ ported (phase 1; search P5-64) |
 | `editor/common/encodedTokenAttributes.ts` | `LoomEditor.Core/Tokens/` (`TokenMetadata`, `MetadataConsts`, `LanguageId`, `ColorId`, `FontStyle`, `StandardTokenType`, `TokenPresentation`) | ✅ P4-23; without the CSS helpers; ids are `int` constants, metadata is `uint` |

@@ -103,6 +103,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>The providers of completion, hover and definition of this editor.</summary>
     public LanguageFeaturesService LanguageFeatures { get; } = new();
 
+    /// <summary>The zoom level of this editor (Monaco: the global EditorZoom; here one per editor).</summary>
+    public EditorZoomState Zoom { get; } = new();
+
     /// <summary>The markers of this editor; each one becomes a squiggle decoration.</summary>
     public MarkerService Markers { get; } = new();
 

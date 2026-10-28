@@ -19,6 +19,9 @@ const LoomEditor.View.Features.Find.FindCommands.TogglePreserveCaseCommand = "to
 const LoomEditor.View.Features.Find.FindCommands.ToggleRegexCommand = "toggleFindRegex" -> string!
 const LoomEditor.View.Features.Find.FindCommands.ToggleSearchScopeCommand = "toggleFindInSelection" -> string!
 const LoomEditor.View.Features.Find.FindCommands.ToggleWholeWordCommand = "toggleFindWholeWord" -> string!
+const LoomEditor.View.Features.FontZoom.FontZoomCommands.FontZoomIn = "editor.action.fontZoomIn" -> string!
+const LoomEditor.View.Features.FontZoom.FontZoomCommands.FontZoomOut = "editor.action.fontZoomOut" -> string!
+const LoomEditor.View.Features.FontZoom.FontZoomCommands.FontZoomReset = "editor.action.fontZoomReset" -> string!
 const LoomEditor.View.Features.GotoDefinition.GotoDefinitionCommands.RevealDefinition = "editor.action.revealDefinition" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ChangeTabDisplaySize = "editor.action.changeTabDisplaySize" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.DetectIndentation = "editor.action.detectIndentation" -> string!
@@ -144,6 +147,7 @@ LoomEditor.View.Features.EditorContext.SelectionChanged -> System.EventHandler?
 LoomEditor.View.Features.EditorContext.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
 LoomEditor.View.Features.EditorContext.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.View.Features.EditorContext.SetText(string! text) -> void
+LoomEditor.View.Features.EditorContext.Zoom.get -> LoomEditor.View.Layout.EditorZoomState!
 LoomEditor.View.Features.EditorFeatureHost
 LoomEditor.View.Features.EditorFeatureHost.Dispose() -> void
 LoomEditor.View.Features.EditorFeatureHost.EditorFeatureHost(LoomEditor.View.Features.IEditorContext! context, System.Collections.Generic.IEnumerable<System.Func<LoomEditor.View.Features.IEditorFeature!>!>! factories) -> void
@@ -155,6 +159,12 @@ LoomEditor.View.Features.Find.FindFeature.Attach(LoomEditor.View.Features.IEdito
 LoomEditor.View.Features.Find.FindFeature.Dispose() -> void
 LoomEditor.View.Features.Find.FindFeature.FindFeature() -> void
 LoomEditor.View.Features.Find.FindFeature.Id.get -> string!
+LoomEditor.View.Features.FontZoom.FontZoomCommands
+LoomEditor.View.Features.FontZoom.FontZoomFeature
+LoomEditor.View.Features.FontZoom.FontZoomFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.FontZoom.FontZoomFeature.Dispose() -> void
+LoomEditor.View.Features.FontZoom.FontZoomFeature.FontZoomFeature() -> void
+LoomEditor.View.Features.FontZoom.FontZoomFeature.Id.get -> string!
 LoomEditor.View.Features.GotoDefinition.GotoDefinitionCommands
 LoomEditor.View.Features.GotoDefinition.ILocationOpener
 LoomEditor.View.Features.GotoDefinition.ILocationOpener.Open(LoomEditor.Core.Languages.Features.LocationLink! target) -> bool
@@ -212,5 +222,10 @@ LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Attach(Loo
 LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Dispose() -> void
 LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Id.get -> string!
 LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.WordPartOperationsFeature() -> void
+LoomEditor.View.Layout.EditorZoomState
+LoomEditor.View.Layout.EditorZoomState.Changed -> System.EventHandler?
+LoomEditor.View.Layout.EditorZoomState.EditorZoomState() -> void
+LoomEditor.View.Layout.EditorZoomState.Level.get -> double
+LoomEditor.View.Layout.EditorZoomState.SetLevel(double level) -> void
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection

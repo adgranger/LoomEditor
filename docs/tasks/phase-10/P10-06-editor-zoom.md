@@ -1,6 +1,6 @@
 # P10-06 — Editor zoom: the state, the three commands and the `ZoomLevel` property
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-05
 - **Size:** S
 
@@ -36,18 +36,18 @@ An editor has a zoom level (−5 … 20); `editor.action.fontZoomIn`, `fontZoomO
 
 ## Tests
 
-- [ ] Port: none (no upstream test for `EditorZoom`)
-- [ ] New: `SetLevel_AboveMax_ClampsTo20`, `SetLevel_BelowMin_ClampsToMinus5`, `SetLevel_Same_DoesNotFire`, `SetLevel_NaN_Ignored`, `Changed_FiresOnce_WithNewLevel`
-- [ ] New: `FontZoomIn_IncrementsLevel`, `FontZoomOut_DecrementsLevel`, `FontZoomReset_SetsZero`, `FontZoomIn_AtMax_StaysAtMax`, `Feature_DoesNotRegisterKeybindings`
-- [ ] New (View): `FontInfo` created with level 10 has font size and line height doubled (`BareFontInfo.Create` is tested in P10-03; here test that `EditorZoomState.Level` feeds a `FontInfo` through the helper that builds it in `ViewHarness`, if one exists; otherwise skip)
+- [x] Port: none (no upstream test for `EditorZoom`)
+- [x] New: `SetLevel_AboveMax_ClampsTo20`, `SetLevel_BelowMin_ClampsToMinus5`, `SetLevel_Same_DoesNotFire`, `SetLevel_NaN_Ignored`, `Changed_FiresOnce_WithNewLevel`
+- [x] New: `FontZoomIn_IncrementsLevel`, `FontZoomOut_DecrementsLevel`, `FontZoomReset_SetsZero`, `FontZoomIn_AtMax_StaysAtMax`, `Feature_DoesNotRegisterKeybindings`
+- [x] New (View): `FontInfo` created with level 10 has font size and line height doubled (`BareFontInfo.Create` is tested in P10-03; here test that `EditorZoomState.Level` feeds a `FontInfo` through the helper that builds it in `ViewHarness`, if one exists; otherwise skip)
 - [ ] Manual (section "P10-06"): A+ ×3 → text 30 % bigger, line height too, scroll position kept; A− ×5 stops at −5 (50 %); "100 %" resets.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `editorZoom.ts`, `fontZoom.ts` rows; "Behavior differences": zoom is per editor
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `editorZoom.ts`, `fontZoom.ts` rows; "Behavior differences": zoom is per editor
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

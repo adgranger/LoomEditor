@@ -32,6 +32,7 @@ public sealed partial class LoomEditor
         RegisterPropertyChangedCallback(FontSizeProperty, (_, _) => RecreateTextMeasurer());
         RegisterPropertyChangedCallback(FontWeightProperty, (_, _) => RecreateTextMeasurer());
         _context.Model.OptionsChanged += OnModelOptionsChanged;
+        _context.Zoom.Changed += OnZoomChanged;
     }
 
     private static void OnTabSizeChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -90,7 +91,7 @@ public sealed partial class LoomEditor
 
     private Win2DTextMeasurer CreateTextMeasurer(CanvasControl canvas) =>
         new(
-            canvas, FontFamily.Source, FontSize, _context.Model.Options.TabSize, _rasterizationScale, CurrentFontOptions, 0);
+            canvas, FontFamily.Source, FontSize, _context.Model.Options.TabSize, _rasterizationScale, CurrentFontOptions, _context.Zoom.Level);
 
     // Replaces the measurer with one that matches the current font, tab size and DPI. Also used after a device loss.
     private void RecreateTextMeasurer()

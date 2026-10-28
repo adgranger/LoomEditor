@@ -28,6 +28,14 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 3 | Letter spacing 5 widens the text; the caret and the selection stay aligned | pending |
 | 4 | Switching any of these keeps the scroll position | pending |
 
+## P10-06 — Editor zoom
+
+| # | Check | Result |
+|---|---|---|
+| 1 | "A+" ×3: the text is 30 % bigger, the line height too, the scroll position is kept | pending |
+| 2 | "A−" ×5 stops at -5 (50 %) | pending |
+| 3 | "100 %" resets the zoom | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

@@ -3,6 +3,7 @@ using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
+using LoomEditor.View.Features.FontZoom;
 using LoomEditor.Themes;
 using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
@@ -316,6 +317,12 @@ public sealed partial class MainWindow : Window
             Editor.FontWeight = new Windows.UI.Text.FontWeight { Weight = FontWeights[index] };
         }
     }
+
+    private void OnZoomOutClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomOut);
+
+    private void OnZoomInClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomIn);
+
+    private void OnZoomResetClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomReset);
 
     private void OnLetterSpacingChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
     {
