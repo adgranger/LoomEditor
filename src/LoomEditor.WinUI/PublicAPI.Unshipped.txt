@@ -195,3 +195,11 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> M
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.ZoomLevelProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.LoomEditor.CursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.WinUI.Controls.LoomEditor.CursorStyle.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.OvertypeCursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.WinUI.Controls.LoomEditor.OvertypeCursorStyle.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
+static readonly LoomEditor.WinUI.Controls.LoomEditor.CursorStyleProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.OvertypeCursorStyleProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.InputModeProperty -> Microsoft.UI.Xaml.DependencyProperty!

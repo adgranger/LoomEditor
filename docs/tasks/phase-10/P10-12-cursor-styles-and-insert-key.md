@@ -1,6 +1,6 @@
 # P10-12 — Cursor styles, `OvertypeCursorStyle` and the `Insert` key
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-11
 - **Size:** M
 
@@ -39,16 +39,16 @@ The caret can be drawn in Monaco's six styles (`Line`, `Block`, `Underline`, `Li
 
 ## Tests
 
-- [ ] New (recording surface): `Line_Draws2PxWideRect` (the current behavior, unchanged), `Block_FillsCell_AndRedrawsCharacterInBackgroundColor`, `Block_AtEndOfLine_FillsTypicalWidthWithoutCharacter`, `BlockOutline_DrawsRectangleOutline`, `Underline_Is2PxAtBottom`, `UnderlineThin_Is1PxAtBottom`, `LineThin_Is1PxWide`, `OvertypeMode_UsesOvertypeStyle`, `Tab_BlockCursor_UsesTypicalWidth`
-- [ ] New (View): `Insert_Key_ResolvesToToggleOvertype` (the keybinding resolver test pattern of `tests/LoomEditor.View.Tests/Commands`), `Insert_Key_NotWhenFindInputFocused`
-- [ ] Manual (section "P10-12"): `Insert` toggles; block caret in overtype with the character visible inside; typing overwrites; every style in the combo box looks like Monaco's; blinking still works; the caret in a long wrapped line is on the right view line.
+- [x] New (recording surface): `Line_Draws2PxWideRect` (the current behavior, unchanged), `Block_FillsCell_AndRedrawsCharacterInBackgroundColor`, `Block_AtEndOfLine_FillsTypicalWidthWithoutCharacter`, `BlockOutline_DrawsRectangleOutline`, `Underline_Is2PxAtBottom`, `UnderlineThin_Is1PxAtBottom`, `LineThin_Is1PxWide`, `OvertypeMode_UsesOvertypeStyle`, `Tab_BlockCursor_UsesTypicalWidth`
+- [x] New (View): `Insert_Key_ResolvesToToggleOvertype` (the keybinding resolver test pattern of `tests/LoomEditor.View.Tests/Commands`), `Insert_Key_NotWhenFindInputFocused`
+- [x] Manual (section "P10-12"): `Insert` toggles; block caret in overtype with the character visible inside; typing overwrites; every style in the combo box looks like Monaco's; blinking still works; the caret in a long wrapped line is on the right view line.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewCursor.ts` (cursor styles) and `editorOptions.ts` (cursor style options) rows
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewCursor.ts` (cursor styles) and `editorOptions.ts` (cursor style options) rows
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

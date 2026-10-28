@@ -60,6 +60,7 @@ public sealed partial class MainWindow : Window
         // A load detects the indentation: show the tab size it chose.
         Editor.Model.OptionsChanged += (_, _) => TabSizeBox.Value = Editor.Model.Options.TabSize;
         Editor.SelectionChanged += (_, _) => RefreshStatus();
+        Editor.RegisterPropertyChangedCallback(LoomEditorControl.InputModeProperty, (_, _) => OvertypeSwitch.IsOn = Editor.InputMode == LoomEditor.View.Cursors.EditorInputMode.Overtype);
         // Ctrl+M toggles the property from the keyboard: keep the switch in sync.
         Editor.RegisterPropertyChangedCallback(LoomEditorControl.TabMovesFocusProperty, (_, _) => TabFocusSwitch.IsOn = Editor.TabMovesFocus);
         RefreshStatus();
@@ -151,6 +152,14 @@ public sealed partial class MainWindow : Window
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
     private void OnControlCharactersToggled(object sender, RoutedEventArgs e) => Editor.RenderControlCharacters = ControlCharactersSwitch.IsOn;
+
+    private void OnCursorStyleChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.CursorStyle = (TextEditorCursorStyle)CursorStyleBox.SelectedIndex;
+        }
+    }
 
     private void OnWhitespaceChanged(object sender, SelectionChangedEventArgs e)
     {

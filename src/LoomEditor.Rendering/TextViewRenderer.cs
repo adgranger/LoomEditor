@@ -267,34 +267,6 @@ internal sealed partial class TextViewRenderer : IDisposable
         }
     }
 
-    // Monaco: `ViewCursor._prepareRender` for `TextEditorCursorStyle.Line`.
-    private void DrawCaret(
-        IRenderSurface surface, Selection selection, ILineLayout layout, EditorLayoutInfo layoutInfo,
-        double scrollLeft, float top, FontInfo font)
-    {
-        int offset = selection.PositionColumn - 1;
-        if (offset > layout.Text.Length)
-        {
-            // The layout of a very long line is cut: the caret is outside of the rendered line.
-            return;
-        }
-
-        double lineCursorWidth = Math.Min(CursorWidth, font.TypicalHalfwidthCharacterWidth);
-        // Monaco: `dom.computeScreenAwareSize`.
-        double requested = lineCursorWidth > 0 ? lineCursorWidth : 2;
-        double width = Math.Max(1, Math.Floor(requested * font.PixelRatio)) / font.PixelRatio;
-
-        double left = layout.GetCharacterX(offset) - scrollLeft;
-        if (width >= 2 && left >= 1)
-        {
-            // Shift the caret a bit between the characters.
-            left -= 1;
-        }
-
-        surface.FillRectangle(
-            (float)(layoutInfo.ContentLeft + left), top, (float)width, font.LineHeight, Theme.CursorForeground);
-    }
-
     private void DrawSelection(
         IRenderSurface surface, Selection selection, int lineNumber, ILineLayout layout,
         EditorLayoutInfo layoutInfo, double scrollLeft, float top, FontInfo font)

@@ -62,6 +62,16 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 2 | The caret moves one character per key press across them | pending |
 | 3 | Switch off: the line looks as before, except the `�` | pending |
 
+## P10-12 — Cursor styles and the Insert key
+
+| # | Check | Result |
+|---|---|---|
+| 1 | `Insert` toggles overtype: the "Overtype" switch follows, and the caret becomes a block with the character visible inside | pending |
+| 2 | In overtype mode, typing overwrites the next character | pending |
+| 3 | Every style of the "Cursor style" combo box looks like Monaco's (line, block, underline, thin line, outlined block, thin underline) | pending |
+| 4 | The caret still blinks | pending |
+| 5 | In a long wrapped line the caret is on the right view line | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

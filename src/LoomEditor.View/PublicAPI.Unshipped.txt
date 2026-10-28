@@ -251,3 +251,10 @@ LoomEditor.View.Layout.RenderWhitespace.Selection = 1 -> LoomEditor.View.Layout.
 LoomEditor.View.Layout.RenderWhitespace.Trailing = 3 -> LoomEditor.View.Layout.RenderWhitespace
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection
+LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.Block = 1 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.BlockOutline = 4 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.Line = 0 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.LineThin = 3 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.Underline = 2 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.UnderlineThin = 5 -> LoomEditor.View.Layout.TextEditorCursorStyle

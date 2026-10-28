@@ -1,4 +1,6 @@
 using LoomEditor.Rendering;
+using LoomEditor.View.Cursors;
+using LoomEditor.View.Layout;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
@@ -11,6 +13,54 @@ public sealed partial class LoomEditor
 #pragma warning restore CA1001
 {
     private readonly CursorBlinking _cursorBlinking = new();
+
+    /// <summary>Identifies the <see cref="CursorStyle"/> dependency property.</summary>
+    public static readonly DependencyProperty CursorStyleProperty = DependencyProperty.Register(
+        nameof(CursorStyle), typeof(TextEditorCursorStyle), typeof(LoomEditor), new PropertyMetadata(TextEditorCursorStyle.Line, OnCursorStyleChanged));
+
+    /// <summary>Identifies the <see cref="OvertypeCursorStyle"/> dependency property.</summary>
+    public static readonly DependencyProperty OvertypeCursorStyleProperty = DependencyProperty.Register(
+        nameof(OvertypeCursorStyle), typeof(TextEditorCursorStyle), typeof(LoomEditor), new PropertyMetadata(TextEditorCursorStyle.Block, OnCursorStyleChanged));
+
+    /// <summary>Identifies the <see cref="InputMode"/> dependency property.</summary>
+    public static readonly DependencyProperty InputModeProperty = DependencyProperty.Register(
+        nameof(InputMode), typeof(EditorInputMode), typeof(LoomEditor), new PropertyMetadata(EditorInputMode.Insert, OnCursorStyleChanged));
+
+    /// <summary>How the caret is drawn in insert mode. Defaults to <see cref="TextEditorCursorStyle.Line"/>.</summary>
+    public TextEditorCursorStyle CursorStyle
+    {
+        get => (TextEditorCursorStyle)GetValue(CursorStyleProperty);
+        set => SetValue(CursorStyleProperty, value);
+    }
+
+    /// <summary>How the caret is drawn in overtype mode. Defaults to <see cref="TextEditorCursorStyle.Block"/>.</summary>
+    public TextEditorCursorStyle OvertypeCursorStyle
+    {
+        get => (TextEditorCursorStyle)GetValue(OvertypeCursorStyleProperty);
+        set => SetValue(OvertypeCursorStyleProperty, value);
+    }
+
+    /// <summary>Whether typing inserts or overwrites. Read-only: the <c>Insert</c> key or the toggle-overtype command changes it.</summary>
+    public EditorInputMode InputMode
+    {
+        get => (EditorInputMode)GetValue(InputModeProperty);
+        private set => SetValue(InputModeProperty, value);
+    }
+
+    private static void OnCursorStyleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) =>
+        ((LoomEditor)sender).SyncCaretStyle();
+
+    private void SyncCaretStyle()
+    {
+        if (_renderer is { } renderer)
+        {
+            renderer.CursorStyle = CursorStyle;
+            renderer.OvertypeCursorStyle = OvertypeCursorStyle;
+            renderer.InputMode = InputMode;
+        }
+
+        _canvas?.Invalidate();
+    }
     private DispatcherQueueTimer? _blinkTimer;
 
     private void InitializeCaret()
@@ -19,6 +69,7 @@ public sealed partial class LoomEditor
         GotFocus += OnCaretFocusChanged;
         LostFocus += OnCaretFocusChanged;
         _context.SelectionChanged += OnCaretSelectionChanged;
+        _context.InputModeChanged += (_, _) => InputMode = _context.InputMode;
     }
 
     private bool HasFocus => FocusState != FocusState.Unfocused;

@@ -5,6 +5,7 @@ using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
+using LoomEditor.View.Features.Overtype;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
@@ -244,6 +245,8 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl, KeyCode.Space, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.KeyI, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.None, KeyCode.F12, GotoDefinitionCommands.RevealDefinition, WhenClauses.GotoDefinition, KeybindingWeight.EditorContrib);
+        // The workbench owns the Insert key (no Monaco id): it toggles overtype while the editor text has the focus.
+        Add(KeyModifiers.None, KeyCode.Insert, OvertypeCommands.ToggleOvertype, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Alt, KeyCode.F5, DiffNavigationCommands.NextChange, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.F5, DiffNavigationCommands.PreviousChange, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
         // commands.ts (AccessibleDiffViewerNext, AccessibleDiffViewerPrev): after the word highlighter F7 rules, which win only outside a diff editor.

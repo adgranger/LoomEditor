@@ -292,6 +292,7 @@ public sealed partial class LoomEditor : Control
         _renderer.Theme = Theme;
         _renderer.RenderWhitespace = RenderWhitespace;
         _renderer.RenderControlCharacters = RenderControlCharacters;
+        SyncCaretStyle();
 
         _viewModel.SetFontInfo(_measurer.FontInfo);
         _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);
