@@ -1,6 +1,6 @@
 # P9-29 — Accessible diff viewer: the model
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-26
 - **Size:** M
 
@@ -39,14 +39,14 @@ The pure model of Monaco's accessible diff viewer exists: the diff is cut into g
 
 ## Tests
 
-- [ ] New (diffs built by hand, 20-line files): `Groups_TwoFarApartChanges_TwoGroups`, `Groups_TwoCloseChanges_OneGroup` (gap `< 6`), `Groups_ContextLinesLimitedToFileBounds`, `Group_Rows_HeaderThenUnchangedDeletedAddedInOrder`, `Group_Rows_UnchangedBetweenTwoChangesInGroup`, `NextGroup_Wraps`, `PreviousGroup_Wraps`, `NextGroup_SingleGroup_Stays`, `GoToNextLine_ClipsAtEnd`, `GoToPreviousLine_ClipsAtStart`, `InitialGroup_FirstGroupEndingAfterCursor`, `InitialGroup_CursorAfterAll_StaysFirst`, `CurrentElementChange_SelectsModifiedLine`, `CurrentElementChange_Deleted_SelectsDiffModifiedStart`, `CurrentElementChange_Header_NoSelection`, `Reveal_Deleted_CallsOriginalReveal`, `Reveal_Added_CallsModifiedReveal`, `Reveal_Header_ModifiedRevealWithNull`, `Close_CanCloseFalse_DoesNothing`, `Labels_Header_OriginalAndModifiedCounts` (the three plural forms), `Labels_HeaderText_Format` (`1/2: @@ -3,2 +3,4 @@`), `Labels_Rows_UnchangedSameNumber`, `Labels_Rows_UnchangedDifferentNumbers`, `Labels_Rows_AddedDeleted`, `Labels_Rows_BlankLine`, `Changed_RaisedOnNavigation`.
+- [x] New (diffs built by hand, 20-line files): `Groups_TwoFarApartChanges_TwoGroups`, `Groups_TwoCloseChanges_OneGroup` (gap `< 6`), `Groups_ContextLinesLimitedToFileBounds`, `Group_Rows_HeaderThenUnchangedDeletedAddedInOrder`, `Group_Rows_UnchangedBetweenTwoChangesInGroup`, `NextGroup_Wraps`, `PreviousGroup_Wraps`, `NextGroup_SingleGroup_Stays`, `GoToNextLine_ClipsAtEnd`, `GoToPreviousLine_ClipsAtStart`, `InitialGroup_FirstGroupEndingAfterCursor`, `InitialGroup_CursorAfterAll_StaysFirst`, `CurrentElementChange_SelectsModifiedLine`, `CurrentElementChange_Deleted_SelectsDiffModifiedStart`, `CurrentElementChange_Header_NoSelection`, `Reveal_Deleted_CallsOriginalReveal`, `Reveal_Added_CallsModifiedReveal`, `Reveal_Header_ModifiedRevealWithNull`, `Close_CanCloseFalse_DoesNothing`, `Labels_Header_OriginalAndModifiedCounts` (the three plural forms), `Labels_HeaderText_Format` (`1/2: @@ -3,2 +3,4 @@`), `Labels_Rows_UnchangedSameNumber`, `Labels_Rows_UnchangedDifferentNumbers`, `Labels_Rows_AddedDeleted`, `Labels_Rows_BlankLine`, `Changed_RaisedOnNavigation`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md` map: `accessibleDiffViewer.ts` (model and labels; UI in P9-30)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md` map: `accessibleDiffViewer.ts` (model and labels; UI in P9-30)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

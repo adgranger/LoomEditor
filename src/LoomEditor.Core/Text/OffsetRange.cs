@@ -77,6 +77,33 @@ internal readonly record struct OffsetRange
     /// <summary><c>ofLength</c>.</summary>
     public static OffsetRange OfLength(int length) => new(0, length);
 
+    /// <summary><c>clip</c>: the closest offset inside the range (throws when the range is empty).</summary>
+    public int Clip(int value)
+    {
+        if (IsEmpty)
+        {
+            throw new InvalidOperationException("Invalid clipping range");
+        }
+
+        return Math.Max(Start, Math.Min(EndExclusive - 1, value));
+    }
+
+    /// <summary><c>clipCyclic</c>: wraps an offset around the range (throws when the range is empty).</summary>
+    public int ClipCyclic(int value)
+    {
+        if (IsEmpty)
+        {
+            throw new InvalidOperationException("Invalid clipping range");
+        }
+
+        if (value < Start)
+        {
+            return EndExclusive - ((Start - value) % Length);
+        }
+
+        return value >= EndExclusive ? Start + ((value - Start) % Length) : value;
+    }
+
     /// <summary><c>delta</c>.</summary>
     public OffsetRange Delta(int offset) => new(Start + offset, EndExclusive + offset);
 
