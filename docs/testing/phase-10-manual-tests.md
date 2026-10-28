@@ -36,6 +36,14 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 2 | "A−" ×5 stops at -5 (50 %) | pending |
 | 3 | "100 %" resets the zoom | pending |
 
+## P10-07 — Ctrl + mouse wheel zoom
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Switch off: Ctrl + wheel scrolls as before | pending |
+| 2 | Switch on: Ctrl + wheel zooms, plain wheel still scrolls | pending |
+| 3 | Touchpad two-finger scroll with Ctrl zooms smoothly | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

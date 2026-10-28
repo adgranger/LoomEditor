@@ -1,4 +1,7 @@
+using LoomEditor.View.Controller;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Windows.System;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -17,6 +20,19 @@ public sealed partial class LoomEditor
     {
         get => (double)GetValue(ZoomLevelProperty);
         set => SetValue(ZoomLevelProperty, value);
+    }
+
+    /// <summary>Identifies the <see cref="MouseWheelZoom"/> dependency property.</summary>
+    public static readonly DependencyProperty MouseWheelZoomProperty = DependencyProperty.Register(
+        nameof(MouseWheelZoom), typeof(bool), typeof(LoomEditor), new PropertyMetadata(false));
+
+    private readonly MouseWheelZoomGesture _wheelZoom = new();
+
+    /// <summary>Whether Ctrl + mouse wheel zooms the editor (Monaco: <c>mouseWheelZoom</c>). Defaults to <see langword="false"/>.</summary>
+    public bool MouseWheelZoom
+    {
+        get => (bool)GetValue(MouseWheelZoomProperty);
+        set => SetValue(MouseWheelZoomProperty, value);
     }
 
     private static void OnZoomLevelChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -38,5 +54,28 @@ public sealed partial class LoomEditor
         }
 
         RecreateTextMeasurer();
+    }
+
+    // The classifier has already accepted this event (see ScrollFromWheel).
+    private bool TryZoomFromWheel(PointerRoutedEventArgs e, Microsoft.UI.Input.PointerPoint point, double delta)
+    {
+        VirtualKeyModifiers keys = e.KeyModifiers;
+        double? level = _wheelZoom.OnWheel(
+            delta,
+            _wheelClassifier.IsPhysicalMouseWheel(),
+            keys.HasFlag(VirtualKeyModifiers.Control),
+            keys.HasFlag(VirtualKeyModifiers.Shift),
+            keys.HasFlag(VirtualKeyModifiers.Menu),
+            keys.HasFlag(VirtualKeyModifiers.Windows),
+            (long)(point.Timestamp / 1000),
+            _context.Zoom.Level);
+        if (level is null)
+        {
+            return false;
+        }
+
+        _context.Zoom.SetLevel(level.Value);
+        e.Handled = true;
+        return true;
     }
 }

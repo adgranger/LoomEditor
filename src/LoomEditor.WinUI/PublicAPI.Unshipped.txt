@@ -183,6 +183,9 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.UseSystemHighContrastProper
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoomProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoom.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoom.set -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.ZoomLevelProperty -> Microsoft.UI.Xaml.DependencyProperty!
 LoomEditor.WinUI.Controls.LoomEditor.ZoomLevel.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ZoomLevel.set -> void

@@ -318,6 +318,8 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    private void OnWheelZoomToggled(object sender, RoutedEventArgs e) => Editor.MouseWheelZoom = WheelZoomSwitch.IsOn;
+
     private void OnZoomOutClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomOut);
 
     private void OnZoomInClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomIn);

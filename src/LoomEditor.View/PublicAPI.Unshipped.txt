@@ -120,6 +120,9 @@ LoomEditor.View.Commands.EditorCommand.CanExecute() -> bool
 LoomEditor.View.Commands.EditorCommand.EditorCommand(string! id, System.Action! execute, System.Func<bool>? canExecute = null) -> void
 LoomEditor.View.Commands.EditorCommand.Execute() -> bool
 LoomEditor.View.Commands.EditorCommand.Id.get -> string!
+LoomEditor.View.Controller.MouseWheelZoomGesture
+LoomEditor.View.Controller.MouseWheelZoomGesture.MouseWheelZoomGesture() -> void
+LoomEditor.View.Controller.MouseWheelZoomGesture.OnWheel(double deltaY, bool isPhysicalWheel, bool ctrl, bool shift, bool alt, bool win, long timestampMs, double currentLevel) -> double?
 LoomEditor.View.Features.Comment.CommentCommands
 LoomEditor.View.Features.Comment.CommentFeature
 LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void

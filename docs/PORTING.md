@@ -197,6 +197,7 @@ Any deliberate difference from Monaco must be documented in the XML doc of the m
 | `editor/common/editorCommon.ts` (`IEditorContribution`) | `LoomEditor.View/Features/IEditorFeature.cs` | ✅ adapted |
 | `editor/common/cursor/cursorMoveCommands.ts` (`selectAll`) | `LoomEditor.View/Features/SelectAll/` | ✅ ported |
 | `editor/common/config/editorZoom.ts`, `editor/contrib/fontZoom/browser/fontZoom.ts` | `LoomEditor.View/Layout/EditorZoomState.cs`, `LoomEditor.View/Features/FontZoom/` | ✅ ported (P10-06); one zoom state per editor, see "Behavior differences" |
+| `editor/browser/controller/mouseHandler.ts` (`_setupMouseWheelZoomListener`) | `LoomEditor.View/Controller/MouseWheelZoomGesture.cs` | ✅ ported (P10-07); Windows modifiers only (no macOS cmd / pinch variant) |
 | `editor/common/cursor/cursorMoveCommands.ts` | `LoomEditor.View/Cursors/CursorMoveCommands*.cs`, `CursorMove.cs` | ✅ ported (P3-24, P3-25) except `word` (P3-30); `CursorMove.metadata` is not ported |
 | `editor/common/model/pieceTreeTextBuffer/*` | `LoomEditor.Core/Model/PieceTree/` | ✅ ported (phase 1; search P5-64) |
 | `editor/common/encodedTokenAttributes.ts` | `LoomEditor.Core/Tokens/` (`TokenMetadata`, `MetadataConsts`, `LanguageId`, `ColorId`, `FontStyle`, `StandardTokenType`, `TokenPresentation`) | ✅ P4-23; without the CSS helpers; ids are `int` constants, metadata is `uint` |

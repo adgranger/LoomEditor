@@ -52,11 +52,11 @@ public sealed partial class LoomEditor
     {
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerWheelChanged(e);
-        ScrollFromWheel(e);
+        ScrollFromWheel(e, allowZoom: true);
     }
 
     // Also used by the diff overview, which hands its wheel events to the modified editor (Monaco: `delegateScrollFromMouseWheelEvent`).
-    internal void ScrollFromWheel(PointerRoutedEventArgs e)
+    internal void ScrollFromWheel(PointerRoutedEventArgs e, bool allowZoom = false)
     {
         // Monaco: `StandardWheelEvent` on Windows: one notch (WHEEL_DELTA = 120) is 1, positive = up / left.
         PointerPoint point = e.GetCurrentPoint(this);
@@ -70,6 +70,11 @@ public sealed partial class LoomEditor
 
         // Timestamp is in microseconds, Monaco's classifier takes milliseconds.
         _wheelClassifier.Accept(point.Timestamp / 1000.0, input.DeltaX, input.DeltaY);
+
+        if (allowZoom && MouseWheelZoom && !isHorizontal && TryZoomFromWheel(e, point, delta))
+        {
+            return;
+        }
 
         Scrollable scrollable = _viewModel.ViewLayout.GetScrollable();
         IScrollPosition future = scrollable.GetFutureScrollPosition();

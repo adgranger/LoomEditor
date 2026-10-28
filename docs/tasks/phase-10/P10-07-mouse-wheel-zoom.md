@@ -1,6 +1,6 @@
 # P10-07 — `Ctrl` + mouse wheel zoom
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-06
 - **Size:** S
 
@@ -32,15 +32,15 @@ With `MouseWheelZoom = true`, `Ctrl` + wheel zooms the editor like Monaco: one s
 
 ## Tests
 
-- [ ] New (all with explicit timestamps): `PhysicalWheel_CtrlUp_ZoomsInByOne`, `PhysicalWheel_CtrlDown_ZoomsOutByOne`, `PhysicalWheel_NoCtrl_ReturnsNull`, `PhysicalWheel_CtrlShift_ReturnsNull`, `PhysicalWheel_CtrlAlt_ReturnsNull`, `Touchpad_Gesture_AccumulatesDividedByFive` (three events 10 ms apart with deltaY 2, 2, 1 from level 0 → 0.4, 0.8, 1.0), `Touchpad_NewGestureAfter50Ms_RestartsFromCurrentLevel`, `Touchpad_InertiaWithoutCtrl_DoesNotZoom` (the gesture started without Ctrl keeps ignoring events until a 50 ms pause), `Touchpad_CtrlPressedMidGesture_DoesNotZoom`
+- [x] New (all with explicit timestamps): `PhysicalWheel_CtrlUp_ZoomsInByOne`, `PhysicalWheel_CtrlDown_ZoomsOutByOne`, `PhysicalWheel_NoCtrl_ReturnsNull`, `PhysicalWheel_CtrlShift_ReturnsNull`, `PhysicalWheel_CtrlAlt_ReturnsNull`, `Touchpad_Gesture_AccumulatesDividedByFive` (three events 10 ms apart with deltaY 2, 2, 1 from level 0 → 0.4, 0.8, 1.0), `Touchpad_NewGestureAfter50Ms_RestartsFromCurrentLevel`, `Touchpad_InertiaWithoutCtrl_DoesNotZoom` (the gesture started without Ctrl keeps ignoring events until a 50 ms pause), `Touchpad_CtrlPressedMidGesture_DoesNotZoom`
 - [ ] Manual (section "P10-07"): option off → `Ctrl` + wheel scrolls as before; option on → zooms, plain wheel still scrolls; a touchpad pinch / two-finger scroll with `Ctrl` zooms smoothly.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `mouseHandler.ts` (wheel zoom listener) row
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `mouseHandler.ts` (wheel zoom listener) row
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
