@@ -1,6 +1,6 @@
 # P9-26 — Go to next / previous change
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-25
 - **Size:** S
 
@@ -37,17 +37,17 @@ The keys have no Monaco counterpart (VS Code binds `Alt+F5` / `Shift+Alt+F5` in 
 
 ## Tests
 
-- [ ] New (`DiffNavigatorTests`): `Find_Empty_Null`, `Find_Next_FirstAfterCursor`, `Find_Next_AtLastLine_WrapsToFirst`, `Find_Next_NoneAfter_WrapsToFirst`, `Find_Next_CursorOnChangeStart_GoesToTheNextOne`, `Find_Previous_LastBeforeCursor`, `Find_Previous_NoneBefore_WrapsToLast`, `Find_Previous_CursorOnChangeStart_GoesToThePreviousOne`.
-- [ ] New (feature, EditorContext-driven like the other features' tests): `Command_Next_InvokesNavigatorAndMovesCursor` (with a fake navigator target), `Keybinding_AltF5_ResolvesWhenInDiffEditor`, `Keybinding_AltF5_NotResolvedOutsideDiffEditor`.
+- [x] New (`DiffNavigatorTests`): `Find_Empty_Null`, `Find_Next_FirstAfterCursor`, `Find_Next_AtLastLine_WrapsToFirst`, `Find_Next_NoneAfter_WrapsToFirst`, `Find_Next_CursorOnChangeStart_GoesToTheNextOne`, `Find_Previous_LastBeforeCursor`, `Find_Previous_NoneBefore_WrapsToLast`, `Find_Previous_CursorOnChangeStart_GoesToThePreviousOne`.
+- [x] New (feature, EditorContext-driven like the other features' tests): `Command_Next_InvokesNavigatorAndMovesCursor` (with a fake navigator target), `Keybinding_AltF5_ResolvesWhenInDiffEditor`, `Keybinding_AltF5_NotResolvedOutsideDiffEditor`.
 - [ ] Manual (P9-31's plan): `Alt+F5` cycles through the changes and wraps; a change inside a hidden unchanged region is revealed.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (architecture tests included)
-- [ ] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
-- [ ] `docs/PORTING.md`: `goToDiff`, `revealFirstDiff` (keys from VS Code's workbench, not Monaco)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (architecture tests included)
+- [x] `./eng/Update-PublicApi.ps1 src/LoomEditor.WinUI` run, diff checked
+- [x] `docs/PORTING.md`: `goToDiff`, `revealFirstDiff` (keys from VS Code's workbench, not Monaco)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

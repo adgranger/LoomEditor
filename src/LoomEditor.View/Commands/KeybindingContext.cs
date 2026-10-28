@@ -22,6 +22,7 @@ namespace LoomEditor.View.Commands;
 /// <param name="SuggestWidgetMultipleSuggestions"><c>suggestWidgetMultipleSuggestions</c>: the completion list has several items.</param>
 /// <param name="HasCompletionItemProvider"><c>editorHasCompletionItemProvider</c>: a provider is registered for the language of the model.</param>
 /// <param name="HasDefinitionProvider"><c>editorHasDefinitionProvider</c>: a provider is registered for the language of the model.</param>
+/// <param name="IsInDiffEditor"><c>isInDiffEditor</c>: the editor is a side of a diff editor.</param>
 internal readonly record struct KeybindingContext(
     bool TextInputFocus = false,
     bool EditorTextFocus = false,
@@ -39,4 +40,5 @@ internal readonly record struct KeybindingContext(
     bool SuggestWidgetVisible = false,
     bool SuggestWidgetMultipleSuggestions = false,
     bool HasCompletionItemProvider = false,
-    bool HasDefinitionProvider = false);
+    bool HasDefinitionProvider = false,
+    bool IsInDiffEditor = false);

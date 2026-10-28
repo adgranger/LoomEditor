@@ -9,8 +9,8 @@ namespace LoomEditor.WinUI.Controls;
 // `_adjustOptionsForSubEditor`, `_adjustOptionsForLeftHandSide`, `_adjustOptionsForRightHandSide`.
 public sealed partial class LoomDiffEditor
 {
-    /// <summary>The features of the two editors: the default ones without folding (Monaco turns folding off in a diff editor).</summary>
-    private static readonly IReadOnlyList<Func<IEditorFeature>> SubEditorFeatures = CreateSubEditorFeatures();
+    /// <summary>The features of the two editors: the default ones plus the diff navigation, without folding (Monaco turns folding off in a diff editor).</summary>
+    private IReadOnlyList<Func<IEditorFeature>>? _subEditorFeatures;
 
     /// <summary>Identifies the <see cref="OriginalText"/> dependency property.</summary>
     public static readonly DependencyProperty OriginalTextProperty = DependencyProperty.Register(
@@ -229,11 +229,11 @@ public sealed partial class LoomDiffEditor
         DependencyProperty.Register(
             name, typeof(bool), typeof(LoomDiffEditor), new PropertyMetadata(defaultValue, (d, e) => apply((LoomDiffEditor)d, (bool)e.NewValue)));
 
-    private static List<Func<IEditorFeature>> CreateSubEditorFeatures()
+    private List<Func<IEditorFeature>> CreateSubEditorFeatures()
     {
         // Created once to recognise the folding feature by type: the factories are the only list there is.
         List<Func<IEditorFeature>> features = [];
-        foreach (Func<IEditorFeature> factory in EditorFeatures.Default)
+        foreach (Func<IEditorFeature> factory in EditorFeatures.ForDiffEditor(this))
         {
             if (factory() is not FoldingFeature)
             {
@@ -285,7 +285,8 @@ public sealed partial class LoomDiffEditor
 
         foreach (LoomEditor editor in new[] { original, modified })
         {
-            editor.Features = SubEditorFeatures;
+            editor.Features = _subEditorFeatures ??= CreateSubEditorFeatures();
+            editor.IsInDiffEditor = true;
             editor.MinimapEnabled = false;
             editor.OverviewRulerEnabled = false;
             // Monaco: sticky scroll is turned off for both editors only while unchanged regions are hidden.

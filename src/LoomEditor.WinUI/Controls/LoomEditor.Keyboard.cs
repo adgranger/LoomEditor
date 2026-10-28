@@ -12,6 +12,9 @@ public sealed partial class LoomEditor
 {
     private readonly TextInputBuffer _textInput = new();
 
+    // Set by the diff control for its two editors (Monaco: the `isInDiffEditor` context key).
+    internal bool IsInDiffEditor { get; set; }
+
     // The state the `when` conditions of the keybindings read (Monaco: the editor's context keys).
     private KeybindingContext CreateKeybindingContext()
     {
@@ -33,7 +36,8 @@ public sealed partial class LoomEditor
             SuggestWidgetVisible: _context.SuggestWidgetVisible,
             SuggestWidgetMultipleSuggestions: _context.SuggestWidgetMultipleSuggestions,
             HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()),
-            HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()));
+            HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()),
+            IsInDiffEditor: IsInDiffEditor);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)
