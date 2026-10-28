@@ -880,6 +880,81 @@ Take phase 9 cards in table order (each card's "Depends on" is satisfied by the 
 
 **Deferred on purpose:** moved blocks drawing (the computation is ported), the gutter menu and revert buttons, `diffCodeLens`, the embedded diff editor, `compactMode`, true inline view, the legacy diff computer and algorithm selection, `serializeState`, accessibility sounds, mapping the old diff through edits while a new one is computed, `setModel`, breadcrumbs (**not delivered in phase 9**; details in [phase-9/README.md](phase-9/README.md) and [ADR 0012](../adr/0012-diff-editor.md)).
 
+## Phase 10 — Editor completeness
+
+Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (backlog by theme): [phase-10-editor-completeness.md](../roadmap/phase-10-editor-completeness.md). Design: [ADR 0013](../adr/0013-text-options-and-snippets.md) (written by P10-02).
+**Read [phase-10/README.md](phase-10/README.md) before any phase 10 card** (conventions, Monaco → LoomEditor concepts, what is out of scope).
+
+### Step A — Audit and decisions
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-01](phase-10/P10-01-monaco-audit.md) | Audit: what of Monaco's editor is not in LoomEditor yet | P9-33 | todo |
+| [P10-02](phase-10/P10-02-adr-fonts-whitespace-snippets.md) | ADR 0013: font options, ligatures, zoom, whitespace and snippets | P10-01 | todo |
+
+### Step B — Fonts and zoom
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-03](phase-10/P10-03-font-options.md) | Font options: weight, letter spacing, ligatures, variations (the model) | P10-02 | todo |
+| [P10-04](phase-10/P10-04-directwrite-font-options.md) | Font options in DirectWrite: weight, letter spacing, ligatures | P10-03 | todo |
+| [P10-05](phase-10/P10-05-font-control-properties.md) | Control properties for the font options, and Gallery switches | P10-04 | todo |
+| [P10-06](phase-10/P10-06-editor-zoom.md) | Editor zoom: the state, the three commands and the `ZoomLevel` property | P10-05 | todo |
+| [P10-07](phase-10/P10-07-mouse-wheel-zoom.md) | `Ctrl` + mouse wheel zoom | P10-06 | todo |
+
+### Step C — Whitespace and control characters
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-08](phase-10/P10-08-render-whitespace-computer.md) | `renderWhitespace`: which characters of a line are rendered as whitespace (the logic) | P9-33 | todo |
+| [P10-09](phase-10/P10-09-render-whitespace-drawing.md) | `renderWhitespace`: drawing the dots and arrows, and the control property | P10-08 | todo |
+| [P10-10](phase-10/P10-10-render-control-characters.md) | `renderControlCharacters`: visible control characters | P10-09 | todo |
+
+### Step D — Editing
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-11](phase-10/P10-11-overtype-mode.md) | Overtype mode: the input mode and the overtype edits | P9-33 | todo |
+| [P10-12](phase-10/P10-12-cursor-styles-and-insert-key.md) | Cursor styles, `OvertypeCursorStyle` and the `Insert` key | P10-11 | todo |
+| [P10-13](phase-10/P10-13-selection-anchor-and-expand-line.md) | Selection anchor and `Expand Line Selection` | P9-33 | todo |
+| [P10-14](phase-10/P10-14-cursor-undo.md) | Cursor undo and redo | P10-13 | todo |
+| [P10-15](phase-10/P10-15-move-selected-text.md) | Move selected text one character left or right | P9-33 | todo |
+| [P10-16](phase-10/P10-16-smart-select.md) | Smart select: expand and shrink the selection | P9-33 | todo |
+| [P10-17](phase-10/P10-17-mouse-drag-state.md) | Drag and drop of the selection (1/2): the drag state of the mouse operation | P9-33 | todo |
+| [P10-18](phase-10/P10-18-drag-and-drop-feature.md) | Drag and drop of the selection (2/2): the command, the drop marker and the mouse cursor | P10-17 | todo |
+
+### Step E — Snippets
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-19](phase-10/P10-19-snippet-scanner-and-markers.md) | Snippet syntax (1/3): the scanner and the text, placeholder and choice markers | P10-02 | todo |
+| [P10-20](phase-10/P10-20-snippet-transforms-variables-snippet.md) | Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet` | P10-19 | todo |
+| [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | todo |
+| [P10-22](phase-10/P10-22-snippet-variables.md) | Snippet variables: the resolvers | P10-21 | todo |
+| [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | todo |
+| [P10-24](phase-10/P10-24-snippet-session.md) | `SnippetSession`: insert a snippet at every cursor, merge, next and previous | P10-23 | todo |
+| [P10-25](phase-10/P10-25-snippet-controller.md) | `SnippetController`: the feature, the keys and `InsertSnippet` | P10-24 | todo |
+| [P10-26](phase-10/P10-26-completion-snippets.md) | Completion items that are snippets | P10-25 | todo |
+
+### Step F — Diagnostics navigation
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-27](phase-10/P10-27-marker-list.md) | `MarkerList`: the sorted problems of a model and the "next one" arithmetic | P9-33 | todo |
+| [P10-28](phase-10/P10-28-go-to-problem.md) | Go to next / previous problem (`F8`) | P10-27 | todo |
+
+### Step G — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P10-29](phase-10/P10-29-gallery-demo-and-manual-plan.md) | Gallery: the phase 10 samples and the manual test plan | P10-28 | todo |
+| [P10-30](phase-10/P10-30-native-aot-self-check.md) | Native AOT self-check of the phase 10 logic | P10-29 | todo |
+| [P10-31](phase-10/P10-31-close-phase-10.md) | Close phase 10 | all phase 10 cards | todo |
+
+Take phase 10 cards in table order (each card's "Depends on" is satisfied by the cards above it). P10-17, P10-18 and P10-24 are the riskiest: a card that does not fit in one session stops with a proposed split. Cards with manual checks add them to `docs/testing/phase-10-manual-tests.md` (P10-29 completes it).
+
+**Deferred on purpose ("Later", reasons in [phase-10/README.md](phase-10/README.md)):** unicode highlight, font tokens of themes and custom line heights, semantic highlighting, `fontVariationSettings` beyond `wght`, rich copy, touch, Intl word segmentation, IME on Windows 10, linked editing, format, signature help, references, rename, code actions, document links, workspace symbols, provider based folding, sticky scroll outline, minimap section headers, find history, color picker, CodeLens, inlay hints, inline completions, context menu / command palette / quick access, the marker navigation widget, the diff editor deferred items, accessibility help dialog, `ariaLabel` / `ariaRole`, reduced motion, UIA text edit pattern, zoom shared by the two diff editors, directional formatting characters in `renderControlCharacters`.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:

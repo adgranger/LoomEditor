@@ -3,6 +3,8 @@
 Not scheduled in detail: this file is a **backlog by theme**, built from the "Deferred on purpose" lists of phases 1 to 9 (`docs/tasks/README.md`), the "Not delivered" lists of ADR 0011 and ADR 0012, and the out-of-scope lists of the cards.
 Each theme becomes task cards (`docs/tasks/phase-10/`) when it is picked; the order below is a proposal, the maintainer decides. Phase 11 (Avalonia) stays after it.
 
+Task cards: [docs/tasks/phase-10/](../tasks/phase-10/README.md) (31 cards: themes A, B and parts of C and D; the rest is listed under "Later" in that README).
+
 ## A. Text rendering and fonts (first: this is what the maintainer asked for)
 
 - [ ] **Font ligatures** (`fontLigatures`, `fontFeatureSettings`): a ligature fuses several characters into one glyph, so the character width table of `FontMeasurements` (P2-06) is no longer enough: columns, caret position, selection and hit testing must go through the shaped text. Needs an ADR (shaping through DirectWrite typography features; Monaco itself splits the line into runs and disables ligatures while the caret is inside one)
