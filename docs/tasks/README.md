@@ -906,7 +906,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-08](phase-10/P10-08-render-whitespace-computer.md) | `renderWhitespace`: which characters of a line are rendered as whitespace (the logic) | P9-33 | todo |
+| [P10-08](phase-10/P10-08-render-whitespace-computer.md) | `renderWhitespace`: which characters of a line are rendered as whitespace (the logic) | P9-33 | done |
 | [P10-09](phase-10/P10-09-render-whitespace-drawing.md) | `renderWhitespace`: drawing the dots and arrows, and the control property | P10-08 | todo |
 | [P10-10](phase-10/P10-10-render-control-characters.md) | `renderControlCharacters`: visible control characters | P10-09 | todo |
 

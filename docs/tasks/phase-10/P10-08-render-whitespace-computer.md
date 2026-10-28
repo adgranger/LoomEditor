@@ -1,6 +1,6 @@
 # P10-08 — `renderWhitespace`: which characters of a line are rendered as whitespace (the logic)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** M
 
@@ -38,15 +38,15 @@ A pure function answers, for one view line and one `renderWhitespace` mode (`non
 
 ## Tests
 
-- [ ] Port (names in `// Monaco:` comments): the `renderWhitespace` cases of `viewLineRenderer.test.ts`, as offsets: `boundary` leaves inner single spaces alone and renders leading, trailing and multiple-space runs; `all` renders every space and tab; `trailing` renders only trailing whitespace and a whitespace-only line; `selection` renders only inside the selections
-- [ ] New: `None_ReturnsEmpty`, `Selection_WithoutSelections_ReturnsEmpty`, `Trailing_ContinuesWithWrappedLine_ReturnsEmpty`, `Boundary_ContinuesWithWrappedLine_SingleTrailingSpace_NotRendered`, `Boundary_ContinuesWithWrappedLine_TwoTrailingSpaces_Rendered`, `FauxIndent_NeverRendered`, `Length_CutsTheLine`, `EmptyLine_ReturnsEmpty`, `WhitespaceOnlyLine_Trailing_AllRendered`, `SelectionsOnLine_MultiLineSelection_UsesMinAndMaxColumn`, `SelectionsOnLine_EmptySelection_Skipped`
+- [x] Port (names in `// Monaco:` comments): the `renderWhitespace` cases of `viewLineRenderer.test.ts`, as offsets: `boundary` leaves inner single spaces alone and renders leading, trailing and multiple-space runs; `all` renders every space and tab; `trailing` renders only trailing whitespace and a whitespace-only line; `selection` renders only inside the selections
+- [x] New: `None_ReturnsEmpty`, `Selection_WithoutSelections_ReturnsEmpty`, `Trailing_ContinuesWithWrappedLine_ReturnsEmpty`, `Boundary_ContinuesWithWrappedLine_SingleTrailingSpace_NotRendered`, `Boundary_ContinuesWithWrappedLine_TwoTrailingSpaces_Rendered`, `FauxIndent_NeverRendered`, `Length_CutsTheLine`, `EmptyLine_ReturnsEmpty`, `WhitespaceOnlyLine_Trailing_AllRendered`, `SelectionsOnLine_MultiLineSelection_UsesMinAndMaxColumn`, `SelectionsOnLine_EmptySelection_Skipped`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `viewLineRenderer.ts` row (whitespace decision only) and the "Behavior differences" line (no RTL rule, no parts)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `viewLineRenderer.ts` row (whitespace decision only) and the "Behavior differences" line (no RTL rule, no parts)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
