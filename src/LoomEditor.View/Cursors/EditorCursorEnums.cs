@@ -35,10 +35,3 @@ internal enum MultiCursorPasteMode
     Spread,
     Full,
 }
-
-/// <summary>Whether typing inserts or overwrites (Monaco: <c>InputMode</c>'s <c>'insert' | 'overtype'</c>).</summary>
-internal enum InputMode
-{
-    Insert,
-    Overtype,
-}

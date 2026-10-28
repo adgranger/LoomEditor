@@ -914,7 +914,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-11](phase-10/P10-11-overtype-mode.md) | Overtype mode: the input mode and the overtype edits | P9-33 | todo |
+| [P10-11](phase-10/P10-11-overtype-mode.md) | Overtype mode: the input mode and the overtype edits | P9-33 | done |
 | [P10-12](phase-10/P10-12-cursor-styles-and-insert-key.md) | Cursor styles, `OvertypeCursorStyle` and the `Insert` key | P10-11 | todo |
 | [P10-13](phase-10/P10-13-selection-anchor-and-expand-line.md) | Selection anchor and `Expand Line Selection` | P9-33 | todo |
 | [P10-14](phase-10/P10-14-cursor-undo.md) | Cursor undo and redo | P10-13 | todo |

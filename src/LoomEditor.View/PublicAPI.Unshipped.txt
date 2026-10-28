@@ -70,6 +70,7 @@ const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.InsertCursorBelow
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToNextFindMatch = "editor.action.moveSelectionToNextFindMatch" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToPreviousFindMatch = "editor.action.moveSelectionToPreviousFindMatch" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.SelectHighlights = "editor.action.selectHighlights" -> string!
+const LoomEditor.View.Features.Overtype.OvertypeCommands.ToggleOvertype = "editor.action.toggleOvertype" -> string!
 const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.AcceptSelectedSuggestion = "acceptSelectedSuggestion" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.HideSuggestWidget = "hideSuggestWidget" -> string!
@@ -123,6 +124,9 @@ LoomEditor.View.Commands.EditorCommand.Id.get -> string!
 LoomEditor.View.Controller.MouseWheelZoomGesture
 LoomEditor.View.Controller.MouseWheelZoomGesture.MouseWheelZoomGesture() -> void
 LoomEditor.View.Controller.MouseWheelZoomGesture.OnWheel(double deltaY, bool isPhysicalWheel, bool ctrl, bool shift, bool alt, bool win, long timestampMs, double currentLevel) -> double?
+LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Cursors.EditorInputMode.Insert = 0 -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Cursors.EditorInputMode.Overtype = 1 -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Features.Comment.CommentCommands
 LoomEditor.View.Features.Comment.CommentFeature
 LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
@@ -135,6 +139,9 @@ LoomEditor.View.Features.EditorContext.Dispose() -> void
 LoomEditor.View.Features.EditorContext.DocumentUri.get -> string!
 LoomEditor.View.Features.EditorContext.DocumentUri.set -> void
 LoomEditor.View.Features.EditorContext.EditorContext() -> void
+LoomEditor.View.Features.EditorContext.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Features.EditorContext.InputMode.set -> void
+LoomEditor.View.Features.EditorContext.InputModeChanged -> System.EventHandler?
 LoomEditor.View.Features.EditorContext.IsReadOnly.get -> bool
 LoomEditor.View.Features.EditorContext.IsReadOnly.set -> void
 LoomEditor.View.Features.EditorContext.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
@@ -204,6 +211,12 @@ LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Attach(LoomEditor.View.F
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Dispose() -> void
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Id.get -> string!
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.MultiCursorFeature() -> void
+LoomEditor.View.Features.Overtype.OvertypeCommands
+LoomEditor.View.Features.Overtype.OvertypeFeature
+LoomEditor.View.Features.Overtype.OvertypeFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.Overtype.OvertypeFeature.Dispose() -> void
+LoomEditor.View.Features.Overtype.OvertypeFeature.Id.get -> string!
+LoomEditor.View.Features.Overtype.OvertypeFeature.OvertypeFeature() -> void
 LoomEditor.View.Features.Scheduling.IEditorScheduler
 LoomEditor.View.Features.Scheduling.IEditorScheduler.Schedule(System.TimeSpan delay, System.Action! action) -> System.IDisposable!
 LoomEditor.View.Features.SelectAll.SelectAllCommands

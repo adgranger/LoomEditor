@@ -77,4 +77,7 @@ internal sealed record EditorCursorOptions
     public IReadOnlyList<string> WordSegmenterLocales { get; init; } = [];
 
     public bool OvertypeOnPaste { get; init; } = true;
+
+    /// <summary>Whether typing inserts or overwrites (Monaco: the global <c>InputMode</c>; here per editor).</summary>
+    public EditorInputMode InputMode { get; init; } = EditorInputMode.Insert;
 }

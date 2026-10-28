@@ -245,6 +245,23 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <inheritdoc />
     public event EventHandler? ReadOnlyChanged;
 
+    /// <summary>Whether typing inserts or overwrites (Monaco: the global <c>InputMode</c>; here one per editor).</summary>
+    public EditorInputMode InputMode
+    {
+        get => ViewModel.CursorOptions.InputMode;
+        set
+        {
+            if (ViewModel.CursorOptions.InputMode != value)
+            {
+                ViewModel.SetCursorOptions(ViewModel.CursorOptions with { InputMode = value });
+                InputModeChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>Raised when <see cref="InputMode"/> really changes.</summary>
+    public event EventHandler? InputModeChanged;
+
     /// <summary>
     /// Replaces the whole text. Accepts <c>\r\n</c>, <c>\n</c> and <c>\r</c> line breaks.
     /// The cursor is reset to the start of the document.

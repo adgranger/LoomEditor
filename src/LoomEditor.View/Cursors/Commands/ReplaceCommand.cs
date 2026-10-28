@@ -26,7 +26,7 @@ internal sealed class ReplaceCommand(Range range, string text, bool insertsAutoW
 /// Replaces a range with a text, overwriting as many characters as the text has, and puts the cursor at the end of
 /// the inserted text (Monaco: <c>ReplaceOvertypeCommand</c>).
 /// </summary>
-/// <remarks>Not reachable in phase 3: <c>InputMode</c> is always insert. Threading: UI thread only.</remarks>
+/// <remarks>Threading: UI thread only.</remarks>
 internal sealed class ReplaceOvertypeCommand(Range range, string text, bool insertsAutoWhitespace = false) : IEditCommand
 {
     public bool InsertsAutoWhitespace { get; } = insertsAutoWhitespace;
@@ -114,7 +114,7 @@ internal class ReplaceCommandWithOffsetCursorState(
 /// Deletes, after the range, as many characters as the range has (the characters a composition overwrote) and puts
 /// the cursor at the end of the range (Monaco: <c>ReplaceOvertypeCommandOnCompositionEnd</c>).
 /// </summary>
-/// <remarks>Not reachable in phase 3: <c>InputMode</c> is always insert. Threading: UI thread only.</remarks>
+/// <remarks>Threading: UI thread only.</remarks>
 internal sealed class ReplaceOvertypeCommandOnCompositionEnd(Range range) : IEditCommand
 {
     public bool InsertsAutoWhitespace => false;

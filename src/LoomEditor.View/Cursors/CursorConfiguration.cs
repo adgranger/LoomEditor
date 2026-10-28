@@ -65,6 +65,7 @@ internal sealed class CursorConfiguration
         AutoIndent = options.AutoIndent;
         WordSegmenterLocales = options.WordSegmenterLocales;
         OvertypeOnPaste = options.OvertypeOnPaste;
+        InputMode = options.InputMode;
 
         ShouldAutoCloseBefore = new AutoCloseBeforePredicates(
             GetShouldAutoClose(languageId, AutoClosingQuotes, forQuotes: true),
@@ -152,11 +153,8 @@ internal sealed class CursorConfiguration
             LanguageConfigurationService.GetLanguageConfiguration(_languageId).ElectricCharacter.GetElectricCharacters(),
             StringComparer.Ordinal);
 
-    // Monaco reads a global (InputMode.getInputMode()) that is not ported: overtype mode is out of phase 3 (ADR 0006,
-    // decision 12), so it is always Insert. It stays an instance member, as the operations read it from the configuration.
-    private readonly InputMode _inputMode = InputMode.Insert;
-
-    public InputMode InputMode => _inputMode;
+    /// <summary>The input mode of the editor (Monaco: <c>InputMode.getInputMode()</c>, a global there).</summary>
+    public EditorInputMode InputMode { get; }
 
     /// <summary>Returns the opening bracket type to match indentation with (Monaco: <c>onElectricCharacter</c>).</summary>
     public ElectricAction? OnElectricCharacter(string character, LineTokens context, int column)

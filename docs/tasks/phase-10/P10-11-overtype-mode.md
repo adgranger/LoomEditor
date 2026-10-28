@@ -1,6 +1,6 @@
 # P10-11 — Overtype mode: the input mode and the overtype edits
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** M
 
@@ -42,15 +42,15 @@ An editor has an input mode, `Insert` (default) or `Overtype`. In overtype mode 
 
 ## Tests
 
-- [ ] Port: every test of the `Overtype Mode` suite (`cursor.test.ts` 6818–6996): `simple type`, and the others (the test titles are in the file; keep them in `// Monaco:` comments). Replace `viewModel.type(...)` / `setSelections` by the helpers used by `tests/LoomEditor.View.Tests/Cursors` (see an existing typing test)
-- [ ] New: `Type_OvertypeAtEndOfLine_Appends`, `Type_OvertypeWithSelection_ReplacesTheSelection`, `Type_InsertMode_Inserts`, `Composition_Overtype_ReplacesFollowingCharacters` (use the composition helpers of the existing `CompositionTests`), `Paste_OvertypeOnPasteTrue_Overtypes`, `Paste_OvertypeOnPasteFalse_Inserts`, `ToggleCommand_FlipsModeAndFiresEvent`, `ToggleCommand_ReadOnly_DoesNothing`, `Type_OvertypeMultipleCursors`, `Undo_AfterOvertypeRun_RestoresInOneStep`
+- [x] Port: every test of the `Overtype Mode` suite (`cursor.test.ts` 6818–6996): `simple type`, and the others (the test titles are in the file; keep them in `// Monaco:` comments). Replace `viewModel.type(...)` / `setSelections` by the helpers used by `tests/LoomEditor.View.Tests/Cursors` (see an existing typing test)
+- [x] New: `Type_OvertypeAtEndOfLine_Appends`, `Type_OvertypeWithSelection_ReplacesTheSelection`, `Type_InsertMode_Inserts`, `Composition_Overtype_ReplacesFollowingCharacters` (use the composition helpers of the existing `CompositionTests`), `Paste_OvertypeOnPasteTrue_Overtypes`, `Paste_OvertypeOnPasteFalse_Inserts`, `ToggleCommand_FlipsModeAndFiresEvent`, `ToggleCommand_ReadOnly_DoesNothing`, `Type_OvertypeMultipleCursors`, `Undo_AfterOvertypeRun_RestoresInOneStep`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `inputMode.ts`, `replaceCommand.ts` (overtype commands), `cursorTypeEditOperations.ts` (overtype), and "Behavior differences": per-editor mode, column paste does not overtype
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `inputMode.ts`, `replaceCommand.ts` (overtype commands), `cursorTypeEditOperations.ts` (overtype), and "Behavior differences": per-editor mode, column paste does not overtype
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

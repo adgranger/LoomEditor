@@ -50,7 +50,7 @@ public class CursorConfigurationTests
         Assert.Equal(29, config.PageSize);
         Assert.Equal(WordHelper.UsualWordSeparators, config.WordSeparators);
         Assert.Equal(10000, config.MultiCursorLimit);
-        Assert.Equal(InputMode.Insert, config.InputMode);
+        Assert.Equal(EditorInputMode.Insert, config.InputMode);
         Assert.Equal(4, config.TabSize);
         Assert.Equal(4, config.IndentSize);
         Assert.True(config.InsertSpaces);

@@ -9,6 +9,7 @@ using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Indentation;
 using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
+using LoomEditor.View.Features.Overtype;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.StickyScroll;
 using LoomEditor.View.Features.Suggest;
@@ -49,6 +50,7 @@ public static class EditorFeatures
         () => new SuggestFeature(),
         () => new GotoDefinitionFeature(),
         () => new TabFocusFeature(),
+        () => new OvertypeFeature(),
     ];
 
     /// <summary>The features a diff editor adds to each of its two editors, on top of <see cref="Default"/>.</summary>

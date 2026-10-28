@@ -20,6 +20,12 @@ internal static class AccessibilityMessages
     /// <summary>Announced when Tab inserts the tab character again.</summary>
     public const string TabMovesFocusOff = "Pressing Tab will now insert the tab character";
 
+    /// <summary>Announced when the input mode becomes overtype.</summary>
+    public const string OvertypeModeOn = "Overtype mode";
+
+    /// <summary>Announced when the input mode becomes insert.</summary>
+    public const string InsertModeOn = "Insert mode";
+
     /// <summary>The message of the find widget for a label such as "3 of 5" (Monaco: <c>_getAriaLabel</c>).</summary>
     public static string FindResult(string label, Range? currentMatch, string searchString, TextModel? model)
     {
