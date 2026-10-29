@@ -976,7 +976,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P11-09](phase-11/P11-09-thread-manager-and-widget-zone.md) | Threads in an editor: the `Widget` zone kind and `CommentThreadManager` | P11-01 | todo |
+| [P11-09](phase-11/P11-09-thread-manager-and-widget-zone.md) | Threads in an editor: the `Widget` zone kind and `CommentThreadManager` | P11-01 | done |
 | [P11-10](phase-11/P11-10-comment-threads-controller.md) | `CommentThreadsController` (View), the apply-suggestion path and the `CommentThreads` feature | P11-06, P11-08, P11-09 | todo |
 | [P11-11](phase-11/P11-11-control-public-api.md) | The public API of `LoomEditor`: `AddCommentThread`, `RemoveCommentThread` and the four events | P11-10 | todo |
 

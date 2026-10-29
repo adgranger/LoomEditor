@@ -1,6 +1,6 @@
 # P11-09 — Threads in an editor: the `Widget` zone kind and `CommentThreadManager`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-01
 - **Size:** M
 
@@ -37,14 +37,14 @@ Sources: none (specified in this card; ADR 0014 decisions 3 and 4). Concepts kep
 
 ## Tests
 
-- [ ] Manager (real `TextModel` + `ViewZones`): `Add_CreatesWidgetZoneAfterLine`, `Add_LineOutOfRange_Throws`, `Add_SameLineTwice_TwoZonesInOrder`, `InsertLineAbove_ThreadMovesDown`, `DeleteLineAbove_ThreadMovesUp`, `TypeAtEndOfLine_ThreadStaysOnLine`, `DeleteThreadLine_ThreadStaysAtReplacementLine`, `ReplaceWholeDocument_ClampsToLineCount`, `Moved_UpdatesZoneAfterLineNumber`, `Moved_RaisesThreadMovedOnce`, `Moved_ThenRecompute_ZoneStaysUnderThread`, `SetHeight_UpdatesZoneAndLayout`, `SetHeight_Same_NoLayoutCall`, `SetHeight_Negative_ClampsToZero`, `Moved_ThenWrapChange_ZoneStaysUnderThread`, `Remove_RemovesZoneAndDecoration`, `Remove_Unknown_False`, `LineTextChanged_RaisedWhenContentOfThreadLineChanges`, `LineTextChanged_NotRaisedForOtherLines`, `Dispose_RemovesEverything`, `Threads_KeepCreationOrder`
-- [ ] Rendering: `WidgetZone_DrawsNothing`, `WidgetZone_ReservesHeight` (the next line is drawn lower by the zone height)
+- [x] Manager (real `TextModel` + `ViewZones`): `Add_CreatesWidgetZoneAfterLine`, `Add_LineOutOfRange_Throws`, `Add_SameLineTwice_TwoZonesInOrder`, `InsertLineAbove_ThreadMovesDown`, `DeleteLineAbove_ThreadMovesUp`, `TypeAtEndOfLine_ThreadStaysOnLine`, `DeleteThreadLine_ThreadStaysAtReplacementLine`, `ReplaceWholeDocument_ClampsToLineCount`, `Moved_UpdatesZoneAfterLineNumber`, `Moved_RaisesThreadMovedOnce`, `Moved_ThenRecompute_ZoneStaysUnderThread`, `SetHeight_UpdatesZoneAndLayout`, `SetHeight_Same_NoLayoutCall`, `SetHeight_Negative_ClampsToZero`, `Moved_ThenWrapChange_ZoneStaysUnderThread`, `Remove_RemovesZoneAndDecoration`, `Remove_Unknown_False`, `LineTextChanged_RaisedWhenContentOfThreadLineChanges`, `LineTextChanged_NotRaisedForOtherLines`, `Dispose_RemovesEverything`, `Threads_KeepCreationOrder`
+- [x] Rendering: `WidgetZone_DrawsNothing`, `WidgetZone_ReservesHeight` (the next line is drawn lower by the zone height)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
