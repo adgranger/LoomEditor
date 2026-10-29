@@ -119,7 +119,7 @@ public sealed partial class LoomEditor
         _context.CommentThreads = _commentThreads;
         _commentThreads.CommentSubmitted += (_, e) => CommentSubmitted?.Invoke(this, new CommentSubmittedEventArgs(e.Thread, e.Text));
         _commentThreads.CommentCancelled += (_, t) => CommentCancelled?.Invoke(this, new CommentThreadEventArgs(t));
-        _commentThreads.AddCommentRequested += (_, line) => AddCommentRequested?.Invoke(this, new AddCommentRequestedEventArgs(line));
+        _commentThreads.AddCommentRequested += (_, e) => AddCommentRequested?.Invoke(this, new AddCommentRequestedEventArgs(e.LineNumber));
         _commentThreads.SuggestionApplied += (_, e) => SuggestionApplied?.Invoke(this, new SuggestionAppliedEventArgs(e.Thread, e.Comment, e.LineNumber));
     }
 }

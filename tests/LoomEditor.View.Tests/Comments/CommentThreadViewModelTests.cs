@@ -19,6 +19,16 @@ public class CommentThreadViewModelTests
     public void Title_NoTitle_UsesLine() => Assert.Equal("Comment on line 3", Make().Vm.Title);
 
     [Fact]
+    public void Title_Range_SaysLines()
+    {
+        var t = new CommentThread("t", 2, 4, null);
+        Assert.Equal(CommentStrings.ThreadTitle(2, 4), new CommentThreadViewModel(t, () => "x").Title);
+    }
+
+    [Fact]
+    public void Title_SingleLine_Unchanged() => Assert.Equal("Comment on line 3", Make(null, 3).Vm.Title);
+
+    [Fact]
     public void Title_Set_UsesIt() => Assert.Equal("T", Make("T").Vm.Title);
 
     [Fact]

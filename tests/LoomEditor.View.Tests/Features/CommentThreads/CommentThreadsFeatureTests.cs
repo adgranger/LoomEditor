@@ -23,7 +23,7 @@ public class CommentThreadsFeatureTests
         context.CommentThreads = new CommentThreadsController(context);
         context.Selection = Selection.Collapsed(new Position(3, 2));
         int? line = null;
-        context.CommentThreads.AddCommentRequested += (_, l) => line = l;
+        context.CommentThreads.AddCommentRequested += (_, l) => line = l.LineNumber;
 
         Assert.True(context.Commands.Execute(CommentThreadsCommands.Add));
 
@@ -47,7 +47,7 @@ public class CommentThreadsFeatureTests
         context.CommentThreads = new CommentThreadsController(context);
         context.IsReadOnly = true;
         int? line = null;
-        context.CommentThreads.AddCommentRequested += (_, l) => line = l;
+        context.CommentThreads.AddCommentRequested += (_, l) => line = l.LineNumber;
 
         context.Commands.Execute(CommentThreadsCommands.Add);
 

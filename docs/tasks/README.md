@@ -1033,7 +1033,7 @@ Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); co
 |---|---|---|---|
 | [P12-05](phase-12/P12-05-manager-range-anchor.md) | The manager anchors a thread to a range of lines | P12-04 | done |
 | [P12-06](phase-12/P12-06-range-highlight.md) | Highlight the lines of a multi-line thread | P12-05 | done |
-| [P12-07](phase-12/P12-07-controller-ranges.md) | Controller: add, apply a suggestion and request a thread on a range | P12-06 | todo |
+| [P12-07](phase-12/P12-07-controller-ranges.md) | Controller: add, apply a suggestion and request a thread on a range | P12-06 | done |
 | [P12-08](phase-12/P12-08-add-command-selection.md) | The add command uses a multi-line selection | P12-07 | todo |
 
 ### Step C — Public API and WinUI

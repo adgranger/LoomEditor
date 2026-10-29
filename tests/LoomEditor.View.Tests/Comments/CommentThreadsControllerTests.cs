@@ -175,12 +175,12 @@ public class CommentThreadsControllerTests
     public void RequestAdd_RaisesWithLine()
     {
         (_, CommentThreadsController controller, _) = Create();
-        int? line = null;
+        (int, int)? line = null;
         controller.AddCommentRequested += (_, l) => line = l;
 
         controller.RequestAdd(2);
 
-        Assert.Equal(2, line);
+        Assert.Equal((2, 2), line);
         Assert.Empty(controller.Threads);
     }
 
@@ -191,14 +191,14 @@ public class CommentThreadsControllerTests
         CommentThread thread = controller.Add(2, null, false);
         Comment comment = Suggest("TWO");
         thread.AddComment(comment);
-        (CommentThread Thread, Comment Comment, int LineNumber)? raised = null;
+        (CommentThread Thread, Comment Comment, int StartLineNumber, int LineNumber)? raised = null;
         controller.SuggestionApplied += (_, e) => raised = e;
 
         ApplySuggestionResult result = controller.ApplySuggestion(thread, comment.Id, 0, "two");
 
         Assert.Equal(ApplySuggestionResult.Applied, result);
         Assert.Equal("one\nTWO\nthree", context.Model.GetValue());
-        Assert.Equal((thread, comment, 2), raised);
+        Assert.Equal((thread, comment, 2, 2), raised);
         Assert.Contains(CommentStrings.SuggestionApplied, announcer.Messages);
     }
 
@@ -306,5 +306,125 @@ public class CommentThreadsControllerTests
         context.Model.ApplyEdits([new TextEdit(new Range(1, 1, 1, 1), "zero\n")]);
 
         Assert.Equal(3, thread.LineNumber);
+    }
+
+    [Fact]
+    public void AddRange_ViewModelSeedIsRangeText()
+    {
+        (_, CommentThreadsController controller, _) = Create();
+
+        CommentThread thread = controller.Add(1, 2, null, false);
+
+        Assert.Equal("one\ntwo", controller.GetViewModel(thread).SuggestionSeed);
+    }
+
+    [Fact]
+    public void AddRange_StartComposing_AnnouncesRange()
+    {
+        (_, CommentThreadsController controller, RecordingAnnouncer announcer) = Create();
+
+        controller.Add(1, 3, null, true);
+
+        Assert.Contains(CommentStrings.ThreadAdded(1, 3), announcer.Messages);
+    }
+
+    [Fact]
+    public void AddRange_TitleSaysLines()
+    {
+        (_, CommentThreadsController controller, _) = Create();
+
+        CommentThread thread = controller.Add(1, 3, null, false);
+
+        Assert.Equal(CommentStrings.ThreadTitle(1, 3), controller.GetViewModel(thread).Title);
+    }
+
+    [Fact]
+    public void ApplySuggestion_Range_ReplacesAllLinesInOneUndoStep()
+    {
+        (EditorContext context, CommentThreadsController controller, _) = Create();
+        CommentThread thread = controller.Add(1, 2, null, false);
+        Comment comment = Suggest("X");
+        thread.AddComment(comment);
+
+        Assert.Equal(ApplySuggestionResult.Applied, controller.ApplySuggestion(thread, comment.Id, 0, "one\ntwo"));
+        Assert.Equal("X\nthree", context.Model.GetValue());
+        context.Model.Undo();
+
+        Assert.Equal("one\ntwo\nthree", context.Model.GetValue());
+    }
+
+    [Fact]
+    public void ApplySuggestion_Range_CaretAtStart()
+    {
+        (EditorContext context, CommentThreadsController controller, _) = Create();
+        CommentThread thread = controller.Add(2, 3, null, false);
+        Comment comment = Suggest("X");
+        thread.AddComment(comment);
+
+        controller.ApplySuggestion(thread, comment.Id, 0, null);
+
+        Assert.Equal(Selection.Collapsed(new Position(2, 1)), context.Selection);
+    }
+
+    [Fact]
+    public void ApplySuggestion_Range_StaleWhenALineInsideChanged()
+    {
+        (_, CommentThreadsController controller, _) = Create();
+        CommentThread thread = controller.Add(1, 3, null, false);
+        Comment comment = Suggest("X");
+        thread.AddComment(comment);
+
+        Assert.Equal(ApplySuggestionResult.Stale, controller.ApplySuggestion(thread, comment.Id, 0, "one\nCHANGED\nthree"));
+    }
+
+    [Fact]
+    public void ApplySuggestion_Range_NoOp()
+    {
+        (_, CommentThreadsController controller, _) = Create();
+        CommentThread thread = controller.Add(1, 2, null, false);
+        Comment comment = Suggest("one\ntwo");
+        thread.AddComment(comment);
+
+        Assert.Equal(ApplySuggestionResult.NoOp, controller.ApplySuggestion(thread, comment.Id, 0, "one\ntwo"));
+    }
+
+    [Fact]
+    public void ApplySuggestion_Range_Deletion_RemovesLines()
+    {
+        (EditorContext context, CommentThreadsController controller, _) = Create();
+        CommentThread thread = controller.Add(1, 2, null, false);
+        Comment comment = Comment.Create(Author, "```suggestion\n```");
+        thread.AddComment(comment);
+
+        Assert.Equal(ApplySuggestionResult.Applied, controller.ApplySuggestion(thread, comment.Id, 0, "one\ntwo"));
+        Assert.Equal("three", context.Model.GetValue());
+    }
+
+    [Fact]
+    public void ApplySuggestion_Range_RaisesWithStartAndEndBeforeEdit()
+    {
+        (_, CommentThreadsController controller, _) = Create();
+        CommentThread thread = controller.Add(1, 3, null, false);
+        Comment comment = Suggest("X");
+        thread.AddComment(comment);
+        (CommentThread Thread, Comment Comment, int StartLineNumber, int LineNumber)? raised = null;
+        controller.SuggestionApplied += (_, e) => raised = e;
+
+        controller.ApplySuggestion(thread, comment.Id, 0, null);
+
+        Assert.Equal((thread, comment, 1, 3), raised);
+    }
+
+    [Fact]
+    public void RequestAddRange_RaisesBothLines()
+    {
+        (_, CommentThreadsController controller, _) = Create();
+        (int, int)? lines = null;
+        controller.AddCommentRequested += (_, l) => lines = l;
+
+        controller.RequestAdd(1, 3);
+
+        Assert.Equal((1, 3), lines);
+        Assert.Empty(controller.Threads);
     }
 }

@@ -30,7 +30,7 @@ internal sealed class CommentThreadViewModel : IDisposable
 
     public CommentThread Thread { get; }
 
-    public string Title => Thread.Title ?? CommentStrings.ThreadTitle(Thread.LineNumber);
+    public string Title => Thread.Title ?? CommentStrings.ThreadTitle(Thread.StartLineNumber, Thread.LineNumber);
 
     public bool IsComposing { get; private set; }
 
@@ -45,7 +45,7 @@ internal sealed class CommentThreadViewModel : IDisposable
 
     public bool ReplyVisible => !IsComposing && Thread.State == CommentThreadState.Open;
 
-    /// <summary>The current content of the thread's line.</summary>
+    /// <summary>The current text of the thread's lines (joined with <c>\n</c>).</summary>
     public string SuggestionSeed => _getLineText();
 
     public void StartComposing()

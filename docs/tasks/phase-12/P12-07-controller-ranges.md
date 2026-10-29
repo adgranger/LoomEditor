@@ -1,6 +1,6 @@
 # P12-07 — Controller: add, apply a suggestion and request a thread on a range
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-06
 - **Size:** M
 
@@ -46,21 +46,21 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] `AddRange_ViewModelSeedIsRangeText`, `AddRange_StartComposing_AnnouncesRange`, `AddRange_TitleSaysLines`
-- [ ] `ApplySuggestion_Range_ReplacesAllLinesInOneUndoStep` (apply, then `Undo` once restores the full text), `ApplySuggestion_Range_CaretAtStart`
-- [ ] `ApplySuggestion_Range_StaleWhenALineInsideChanged`, `ApplySuggestion_Range_NoOp`, `ApplySuggestion_Range_Deletion_RemovesLines`
-- [ ] `ApplySuggestion_Range_RaisesWithStartAndEndBeforeEdit`
-- [ ] `RequestAddRange_RaisesBothLines`; the existing `RequestAdd_RaisesWithLine` asserts `(2, 2)`
-- [ ] View model: `Title_Range_SaysLines`, `Title_SingleLine_Unchanged`
-- [ ] Feature tests: adapt the two handlers to the tuple (`l.LineNumber`); behavior unchanged
-- [ ] All other existing tests green
+- [x] `AddRange_ViewModelSeedIsRangeText`, `AddRange_StartComposing_AnnouncesRange`, `AddRange_TitleSaysLines`
+- [x] `ApplySuggestion_Range_ReplacesAllLinesInOneUndoStep` (apply, then `Undo` once restores the full text), `ApplySuggestion_Range_CaretAtStart`
+- [x] `ApplySuggestion_Range_StaleWhenALineInsideChanged`, `ApplySuggestion_Range_NoOp`, `ApplySuggestion_Range_Deletion_RemovesLines`
+- [x] `ApplySuggestion_Range_RaisesWithStartAndEndBeforeEdit`
+- [x] `RequestAddRange_RaisesBothLines`; the existing `RequestAdd_RaisesWithLine` asserts `(2, 2)`
+- [x] View model: `Title_Range_SaysLines`, `Title_SingleLine_Unchanged`
+- [x] Feature tests: adapt the two handlers to the tuple (`l.LineNumber`); behavior unchanged
+- [x] All other existing tests green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No public API change (`PublicAPI.Unshipped.txt` files untouched)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No public API change (`PublicAPI.Unshipped.txt` files untouched)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

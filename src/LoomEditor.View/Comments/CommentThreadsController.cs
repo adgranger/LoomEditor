@@ -1,4 +1,5 @@
 using LoomEditor.Core.Comments;
+using LoomEditor.Core.Diagnostics;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Edits;
 using LoomEditor.Core.Text;
@@ -41,20 +42,23 @@ internal sealed class CommentThreadsController : IDisposable
     /// <summary>Raised when the user cancels a comment box.</summary>
     public event EventHandler<CommentThread>? CommentCancelled;
 
-    /// <summary>Raised when the add-comment command asks for a thread on a line.</summary>
-    public event EventHandler<int>? AddCommentRequested;
+    /// <summary>Raised when the add-comment command asks for a thread on a range of lines.</summary>
+    public event EventHandler<(int StartLineNumber, int LineNumber)>? AddCommentRequested;
 
-    /// <summary>Raised after a suggestion replaced a line.</summary>
-    public event EventHandler<(CommentThread Thread, Comment Comment, int LineNumber)>? SuggestionApplied;
+    /// <summary>Raised after a suggestion replaced the lines of a thread; the lines are those before the edit.</summary>
+    public event EventHandler<(CommentThread Thread, Comment Comment, int StartLineNumber, int LineNumber)>? SuggestionApplied;
 
     public CommentThreadManager Manager { get; }
 
     public IReadOnlyList<CommentThread> Threads => Manager.Threads;
 
     /// <summary>Creates a thread on a line, optionally with its composer open.</summary>
-    public CommentThread Add(int lineNumber, string? title, bool startComposing)
+    public CommentThread Add(int lineNumber, string? title, bool startComposing) => Add(lineNumber, lineNumber, title, startComposing);
+
+    /// <summary>Creates a thread on a range of lines, optionally with its composer open.</summary>
+    public CommentThread Add(int startLineNumber, int endLineNumber, string? title, bool startComposing)
     {
-        CommentThread thread = Manager.Add(lineNumber, title);
+        CommentThread thread = Manager.Add(startLineNumber, endLineNumber, title);
         // Subscribed before the view model: it leaves composing mode on the same event, so read the flag first.
         thread.Changed += (_, e) =>
         {
@@ -63,7 +67,7 @@ internal sealed class CommentThreadsController : IDisposable
                 _context.Announcer.Announce(CommentStrings.CommentPosted);
             }
         };
-        var viewModel = new CommentThreadViewModel(thread, () => _context.Model.GetLineContent(thread.LineNumber));
+        var viewModel = new CommentThreadViewModel(thread, () => GetRangeText(thread));
         _viewModels[thread] = viewModel;
         viewModel.SubmitRequested += (_, text) => CommentSubmitted?.Invoke(this, (thread, text));
         viewModel.CancelRequested += (_, outcome) =>
@@ -77,7 +81,7 @@ internal sealed class CommentThreadsController : IDisposable
         if (startComposing)
         {
             viewModel.StartComposing();
-            _context.Announcer.Announce(CommentStrings.ThreadAdded(lineNumber));
+            _context.Announcer.Announce(CommentStrings.ThreadAdded(startLineNumber, endLineNumber));
         }
 
         ThreadAdded?.Invoke(this, thread);
@@ -104,14 +108,32 @@ internal sealed class CommentThreadsController : IDisposable
             ? viewModel
             : throw new ArgumentException("Unknown thread.", nameof(thread));
 
-    /// <summary>The current content of the thread's line.</summary>
-    public string GetLineText(CommentThread thread) => _context.Model.GetLineContent(thread.LineNumber);
+    /// <summary>The current content of the thread's lines, joined with <c>\n</c>.</summary>
+    public string GetRangeText(CommentThread thread)
+    {
+        (int start, int end) = GetLines(thread);
+        return SuggestionEdit.GetRangeText(_context.Model, start, end);
+    }
 
     /// <summary>Asks the host to add a thread on a line; nothing is added here.</summary>
-    public void RequestAdd(int lineNumber) => AddCommentRequested?.Invoke(this, lineNumber);
+    public void RequestAdd(int lineNumber) => RequestAdd(lineNumber, lineNumber);
 
-    /// <summary>Replaces the thread's line with a suggestion of a comment, as one undo step.</summary>
-    public ApplySuggestionResult ApplySuggestion(CommentThread thread, string commentId, int suggestionIndex, string? renderedLineText)
+    /// <summary>Asks the host to add a thread on a range of lines; nothing is added here.</summary>
+    public void RequestAdd(int startLineNumber, int lineNumber)
+    {
+        Guard.Assert(startLineNumber <= lineNumber);
+        AddCommentRequested?.Invoke(this, (startLineNumber, lineNumber));
+    }
+
+    private (int Start, int End) GetLines(CommentThread thread)
+    {
+        int lineCount = _context.Model.LineCount;
+        int start = Math.Clamp(thread.StartLineNumber, 1, lineCount);
+        return (start, Math.Clamp(thread.LineNumber, start, lineCount));
+    }
+
+    /// <summary>Replaces the thread's lines with a suggestion of a comment, as one undo step.</summary>
+    public ApplySuggestionResult ApplySuggestion(CommentThread thread, string commentId, int suggestionIndex, string? renderedRangeText)
     {
         Comment? comment = thread.Comments.FirstOrDefault(c => c.Id == commentId);
         if (!_viewModels.ContainsKey(thread) || comment is null)
@@ -126,28 +148,28 @@ internal sealed class CommentThreadsController : IDisposable
         }
 
         TextModel model = _context.Model;
-        int line = thread.LineNumber;
+        (int start, int end) = GetLines(thread);
         SuggestionBlock block = blocks[suggestionIndex];
         if (_context.IsReadOnly)
         {
             return ApplySuggestionResult.ReadOnly;
         }
 
-        if (renderedLineText != null && SuggestionEdit.IsStale(model, line, renderedLineText))
+        if (renderedRangeText != null && SuggestionEdit.IsStale(model, start, end, renderedRangeText))
         {
             return ApplySuggestionResult.Stale;
         }
 
-        if (SuggestionEdit.IsNoOp(model, line, block) || SuggestionEdit.Create(model, line, block) is not { } edit)
+        if (SuggestionEdit.IsNoOp(model, start, end, block) || SuggestionEdit.Create(model, start, end, block) is not { } edit)
         {
             return ApplySuggestionResult.NoOp;
         }
 
-        int caretLine = Math.Min(line, model.LineCount);
+        int caretLine = Math.Min(start, model.LineCount);
         model.PushStackElement();
         _context.ViewModel.ExecuteEdits(ApplySource, [new IdentifiedEditOperation(edit.Range, edit.Text)], _ => [new Selection(caretLine, 1, caretLine, 1)]);
         model.PushStackElement();
-        SuggestionApplied?.Invoke(this, (thread, comment, line));
+        SuggestionApplied?.Invoke(this, (thread, comment, start, end));
         _context.Announcer.Announce(CommentStrings.SuggestionApplied);
         return ApplySuggestionResult.Applied;
     }
