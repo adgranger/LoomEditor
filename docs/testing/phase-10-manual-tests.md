@@ -88,6 +88,15 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 1 | Click in three places, press `Ctrl+U` twice: the caret goes back to each place, and the view scrolls back | pending |
 | 2 | Typing text clears the history: `Ctrl+U` then does nothing | pending |
 
+## P10-17 — Drag state of the mouse operation
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Select a word, press inside it and drag: the selection does not change (nothing moves yet: P10-18) | pending |
+| 2 | Press inside the selection and release without moving: the selection stays as it was (P10-18 will collapse it) | pending |
+| 3 | Press outside the selection, double-click, Alt+click: selecting with the mouse is unchanged | pending |
+
+
 ## Findings
 
 | # | Section | Finding | Severity |

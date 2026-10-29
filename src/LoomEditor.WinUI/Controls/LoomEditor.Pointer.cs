@@ -16,10 +16,31 @@ public sealed partial class LoomEditor
 {
     private MouseDownOperation? _mouseDown;
 
+    /// <summary>Identifies the <see cref="DragAndDrop"/> dependency property.</summary>
+    public static readonly DependencyProperty DragAndDropProperty = DependencyProperty.Register(
+        nameof(DragAndDrop), typeof(bool), typeof(LoomEditor), new PropertyMetadata(true, OnDragAndDropChanged));
+
+    /// <summary>
+    /// Whether a press inside a non-empty selection starts a drag of the selection (Monaco: <c>dragAndDrop</c>). When
+    /// <c>false</c>, such a press collapses the selection as any click. Defaults to <c>true</c>.
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    public bool DragAndDrop
+    {
+        get => (bool)GetValue(DragAndDropProperty);
+        set => SetValue(DragAndDropProperty, value);
+    }
+
+    private static void OnDragAndDropChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+        var editor = (LoomEditor)sender;
+        editor._viewModel.SetCursorOptions(editor._viewModel.CursorOptions with { DragAndDrop = (bool)e.NewValue });
+    }
+
     private void InitializePointer()
     {
         _mouseDown = new MouseDownOperation(
-            _viewModel, new ViewController(_viewModel), CreateMouseTarget, ScheduleAtNextAnimationFrame, TimeProvider.System);
+            _viewModel, new ViewController(_viewModel, _context.UserInputEvents), CreateMouseTarget, ScheduleAtNextAnimationFrame, TimeProvider.System);
     }
 
     /// <inheritdoc />

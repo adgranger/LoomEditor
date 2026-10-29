@@ -3,6 +3,7 @@
 
 using LoomEditor.Core.Text;
 using LoomEditor.View.Commands;
+using LoomEditor.View.Cursors;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Controller;
@@ -18,7 +19,8 @@ namespace LoomEditor.View.Controller;
 /// release. The hit test is a delegate so that this class knows no Rendering type.
 /// </para>
 /// <para>
-/// Not ported: the drag-and-drop of the selection (<c>mouseHandler.ts</c> 461–497, ADR 0006, decision 12), view zones
+/// A press inside a non-empty selection starts a drag of the selection instead: this class only reports it (three view
+/// events); moving the text is the drag-and-drop feature. Not ported: view zones
 /// (<c>_helpPositionJumpOverViewZone</c>) and right-to-left lines. Threading: UI thread only.
 /// </para>
 /// </remarks>
@@ -30,6 +32,7 @@ internal sealed class MouseDownOperation : IDisposable
     private readonly MouseDownState _mouseState;
     private readonly TopBottomDragScrolling _topBottomDragScrolling;
     private readonly LeftRightDragScrolling _leftRightDragScrolling;
+    private EditorMouseEvent? _lastMouseEvent;
 
     /// <summary>Creates the operation.</summary>
     /// <param name="viewModel">The view.</param>
@@ -67,6 +70,9 @@ internal sealed class MouseDownOperation : IDisposable
     /// <summary>True between <see cref="Start"/> and the release of the button: the control keeps the pointer captured.</summary>
     public bool IsActive { get; private set; }
 
+    /// <summary>True while the press started a drag of the selection (Monaco: <c>isDragAndDrop</c>).</summary>
+    public bool IsDragAndDrop => _mouseState.IsDragAndDrop;
+
     /// <summary>
     /// Handles the press: counts the click and dispatches it.
     /// </summary>
@@ -88,7 +94,23 @@ internal sealed class MouseDownOperation : IDisposable
 
         _mouseState.TrySetCount(e.Detail, clickPosition);
 
-        // Not ported in phase 3: drag-and-drop of the selection (mouseHandler.ts 461–497).
+        _lastMouseEvent = e;
+        EditorCursorOptions options = _viewModel.CursorOptions;
+        if (!options.ReadOnly
+            && options.DragAndDrop
+            && !options.ColumnSelection
+            && !_mouseState.AltKey // Monaco: we don't support multiple mouse.
+            && e.Detail < 2 // Only a single click on a selection can start a drag.
+            && !IsActive
+            && _viewModel.GetViewSelections()[0] is { IsEmpty: false } currentSelection
+            && targetType == MouseTargetType.ContentText
+            && currentSelection.Range.Contains(clickPosition))
+        {
+            _mouseState.IsDragAndDrop = true;
+            IsActive = true;
+            return;
+        }
+
         DispatchMouse(position, e.ShiftKey, NavigationCommandRevealType.Minimal);
 
         IsActive = true;
@@ -100,11 +122,19 @@ internal sealed class MouseDownOperation : IDisposable
         ArgumentNullException.ThrowIfNull(e);
 
         _mouseState.SetModifiers(e);
+        _lastMouseEvent = e;
 
         MouseTarget? position = FindMousePosition(e);
         if (position is null)
         {
             // Ignoring because position is unknown.
+            return;
+        }
+
+        if (_mouseState.IsDragAndDrop)
+        {
+            // Before the scrolling code, as in Monaco: no edge scrolling during a drag.
+            _viewController.EmitMouseDrag(new EditorMouseEventArgs(e, position));
             return;
         }
 
@@ -130,7 +160,28 @@ internal sealed class MouseDownOperation : IDisposable
     }
 
     /// <summary>The button went up (or the pointer capture was lost): ends the operation.</summary>
-    public void OnPointerUp() => Stop();
+    public void OnPointerUp()
+    {
+        if (IsActive && _mouseState.IsDragAndDrop && _lastMouseEvent is { } last)
+        {
+            _viewController.EmitMouseDrop(new EditorPartialMouseEventArgs(last, FindMousePosition(last)));
+        }
+
+        Stop();
+    }
+
+    /// <summary>
+    /// A key press while <see cref="IsDragAndDrop"/>: cancels the drag. The control passes Escape only, which is stricter than
+    /// Monaco (any key): Ctrl is the copy modifier and must not cancel.
+    /// </summary>
+    public void OnKeyDownWhileDragging()
+    {
+        if (IsActive && _mouseState.IsDragAndDrop)
+        {
+            _viewController.EmitMouseDropCanceled();
+            Stop();
+        }
+    }
 
     /// <summary>The editor was resized: ends the operation (Monaco stops monitoring the pointer).</summary>
     public void OnHeightChanged() => Stop();
@@ -141,6 +192,7 @@ internal sealed class MouseDownOperation : IDisposable
     private void Stop()
     {
         IsActive = false;
+        _mouseState.IsDragAndDrop = false;
         _topBottomDragScrolling.Stop();
         _leftRightDragScrolling.Stop();
     }

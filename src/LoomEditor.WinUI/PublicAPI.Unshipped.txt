@@ -203,3 +203,6 @@ LoomEditor.WinUI.Controls.LoomEditor.InputMode.get -> LoomEditor.View.Cursors.Ed
 static readonly LoomEditor.WinUI.Controls.LoomEditor.CursorStyleProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.OvertypeCursorStyleProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.InputModeProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.LoomEditor.DragAndDrop.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.DragAndDrop.set -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.DragAndDropProperty -> Microsoft.UI.Xaml.DependencyProperty!

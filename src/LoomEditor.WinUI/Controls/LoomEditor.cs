@@ -177,6 +177,14 @@ public sealed partial class LoomEditor : Control
             return;
         }
 
+        if (e.Key == Windows.System.VirtualKey.Escape && _mouseDown is { IsDragAndDrop: true })
+        {
+            _mouseDown.OnKeyDownWhileDragging();
+            ReleasePointerCaptures();
+            e.Handled = true;
+            return;
+        }
+
         if (_keyboard.TryHandle(e.Key, CreateKeybindingContext()))
         {
             e.Handled = true;

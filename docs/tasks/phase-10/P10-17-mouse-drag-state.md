@@ -1,6 +1,6 @@
 # P10-17 — Drag and drop of the selection (1/2): the drag state of the mouse operation
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** M
 
@@ -37,15 +37,15 @@
 
 ## Tests
 
-- [ ] New: `Press_InsideNonEmptySelection_StartsDrag_AndKeepsSelection`, `Press_OutsideSelection_SelectsAsBefore`, `Press_InsideEmptySelection_SelectsAsBefore`, `Press_DragAndDropOff_SelectsAsBefore`, `Press_ReadOnly_SelectsAsBefore`, `Press_ColumnSelection_SelectsAsBefore`, `Press_DoubleClickInSelection_SelectsWord`, `Press_AltInSelection_AddsCursorAsBefore`, `Move_WhileDragging_EmitsMouseDragNotSelection`, `Release_WhileDragging_EmitsMouseDropWithLastTarget`, `Release_WithoutMove_EmitsMouseDropOnSamePosition`, `Escape_WhileDragging_EmitsDropCanceledAndStops`, `Stop_ResetsIsDragAndDrop`
-- [ ] Manual (section "P10-17"): with the option on and nothing else changed, pressing inside a selection and dragging does **not** change the selection (nothing moves yet: P10-18); releasing without moving leaves the selection as it was (P10-18 will collapse it); everything else about selecting with the mouse is unchanged.
+- [x] New: `Press_InsideNonEmptySelection_StartsDrag_AndKeepsSelection`, `Press_OutsideSelection_SelectsAsBefore`, `Press_InsideEmptySelection_SelectsAsBefore`, `Press_DragAndDropOff_SelectsAsBefore`, `Press_ReadOnly_SelectsAsBefore`, `Press_ColumnSelection_SelectsAsBefore`, `Press_DoubleClickInSelection_SelectsWord`, `Press_AltInSelection_AddsCursorAsBefore`, `Move_WhileDragging_EmitsMouseDragNotSelection`, `Release_WhileDragging_EmitsMouseDropWithLastTarget`, `Release_WithoutMove_EmitsMouseDropOnSamePosition`, `Escape_WhileDragging_EmitsDropCanceledAndStops`, `Stop_ResetsIsDragAndDrop`
+- [x] Manual (section "P10-17"): with the option on and nothing else changed, pressing inside a selection and dragging does **not** change the selection (nothing moves yet: P10-18); releasing without moving leaves the selection as it was (P10-18 will collapse it); everything else about selecting with the mouse is unchanged.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `mouseHandler.ts` row (drag branch ported), remove the "not ported" note for it
-- [ ] Public API file updated (`DragAndDrop`); card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `mouseHandler.ts` row (drag branch ported), remove the "not ported" note for it
+- [x] Public API file updated (`DragAndDrop`); card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -7,8 +7,7 @@ namespace LoomEditor.View.Controller;
 
 /// <summary>The state of one mouse-down operation: the modifiers, the buttons and the click count.</summary>
 /// <remarks>
-/// Monaco reads <c>new Date().getTime()</c>; the clock is injected here. Not ported: <c>isDragAndDrop</c>
-/// (drag-and-drop of the selection, ADR 0006, decision 12), which is always <c>false</c>.
+/// Monaco reads <c>new Date().getTime()</c>; the clock is injected here.
 /// Threading: UI thread only.
 /// </remarks>
 internal sealed class MouseDownState(TimeProvider timeProvider)
@@ -32,6 +31,9 @@ internal sealed class MouseDownState(TimeProvider timeProvider)
     public bool MiddleButton { get; private set; }
 
     public bool StartedOnLineNumbers { get; private set; }
+
+    /// <summary>True while the press started a drag of the selection (Monaco: <c>isDragAndDrop</c>).</summary>
+    public bool IsDragAndDrop { get; set; }
 
     /// <summary>The number of consecutive clicks.</summary>
     public int Count { get; private set; }
