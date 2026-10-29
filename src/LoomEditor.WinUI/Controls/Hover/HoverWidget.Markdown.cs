@@ -1,6 +1,5 @@
 using LoomEditor.View.Hover;
 using LoomEditor.View.Markdown;
-using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -8,7 +7,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace LoomEditor.WinUI.Controls.Hover;
 
-// The rows of a marker and of Markdown: Monaco `_renderMarkerHover` and the Markdown renderer, drawn as RichTextBlocks.
+// The rows of a marker (Monaco `_renderMarkerHover`) and of Markdown (built by MarkdownElementBuilder), drawn as RichTextBlocks.
 internal sealed partial class HoverWidget
 {
     private RichTextBlock MarkerRow(MarkerHoverPart part, double fontSize)
@@ -50,89 +49,9 @@ internal sealed partial class HoverWidget
 
     private void AddMarkdownRows(string value, FontFamily codeFont, double fontSize)
     {
-        foreach (MarkdownBlock block in MarkdownParser.Parse(value).Blocks)
+        foreach (UIElement row in _markdown.Build(MarkdownParser.Parse(value), fontSize, codeFont))
         {
-            if (block is MarkdownRule)
-            {
-                AddRow(Separator());
-                continue;
-            }
-
-            RichTextBlock text = NewText(fontSize);
-            switch (block)
-            {
-                case MarkdownParagraph p:
-                    text.Blocks.Add(InlineParagraph(p.Inlines, codeFont, 0));
-                    break;
-                case MarkdownHeading h:
-                    Paragraph heading = InlineParagraph(h.Inlines, codeFont, 0, bold: true);
-                    heading.FontSize = fontSize + Math.Clamp(6 - (2 * h.Level), 0, 4);
-                    text.Blocks.Add(heading);
-                    break;
-                case MarkdownCodeBlock c:
-                    var code = new Paragraph { FontFamily = codeFont, Margin = new Thickness(0, 4, 0, 4) };
-                    code.Inlines.Add(new Run { Text = c.Code });
-                    text.Blocks.Add(code);
-                    break;
-                case MarkdownList l:
-                    for (int i = 0; i < l.Items.Count; i++)
-                    {
-                        Paragraph item = InlineParagraph(l.Items[i], codeFont, 12);
-                        item.Inlines.Insert(0, new Run { Text = l.Ordered ? $"{i + 1}. " : "• " });
-                        text.Blocks.Add(item);
-                    }
-
-                    break;
-            }
-
-            AddRow(text);
+            AddRow(row);
         }
-    }
-
-    private Paragraph InlineParagraph(IReadOnlyList<MarkdownInline> inlines, FontFamily codeFont, double leftMargin, bool bold = false)
-    {
-        var paragraph = new Paragraph { Margin = new Thickness(leftMargin, 0, 0, 0) };
-        foreach (MarkdownInline inline in inlines)
-        {
-            if (inline.IsLineBreak)
-            {
-                paragraph.Inlines.Add(new LineBreak());
-                continue;
-            }
-
-            var run = new Run { Text = inline.Text };
-            if (bold)
-            {
-                run.FontWeight = FontWeights.Bold;
-            }
-            else if (inline.Bold)
-            {
-                run.FontWeight = FontWeights.SemiBold;
-            }
-
-            if (inline.Italic)
-            {
-                run.FontStyle = Windows.UI.Text.FontStyle.Italic;
-            }
-
-            if (inline.Code)
-            {
-                run.FontFamily = codeFont;
-            }
-
-            if (inline.LinkUrl is not null)
-            {
-                run.Foreground = _link;
-                var underline = new Underline();
-                underline.Inlines.Add(run);
-                paragraph.Inlines.Add(underline);
-            }
-            else
-            {
-                paragraph.Inlines.Add(run);
-            }
-        }
-
-        return paragraph;
     }
 }

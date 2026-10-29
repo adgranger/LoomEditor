@@ -1,6 +1,6 @@
 # P11-15 — Share the Markdown → XAML builder between the hover and the comment widget
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-02, P11-14
 - **Size:** M
 
@@ -31,16 +31,29 @@ Sources: none (specified in this card; ADR 0014 decision 5). Read first, complet
 
 ## Tests
 
-- [ ] Automated: none (no WinUI test project); the build and the existing tests prove nothing broke at compile level.
-- [ ] Manual (section "P11-15", Gallery with a language server hover or the marker sample of phase 8): the hover popup of a marker, of a Markdown hover with code, list, heading, link and bold text, and the completion documentation look the same as before the card (compare with a screenshot taken **before** starting the card: take it first and keep it out of the repo).
+- [x] Automated: none (no WinUI test project); the build and the existing tests prove nothing broke at compile level.
+- [x] Manual (section "P11-15", Gallery with a language server hover or the marker sample of phase 8): the hover popup of a marker, of a Markdown hover with code, list, heading, link and bold text, and the completion documentation look the same as before the card (compare with a screenshot taken **before** starting the card: take it first and keep it out of the repo).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (`HoverControllerTests`, `HoverWidget`-adjacent tests, Markdown tests unchanged)
-- [ ] `HoverWidget.Markdown.cs` no longer contains inline / block building code (only `MarkerRow` and calls to the builder)
-- [ ] The manual section is written; the card result says it was not run by the agent
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (`HoverControllerTests`, `HoverWidget`-adjacent tests, Markdown tests unchanged)
+- [x] `HoverWidget.Markdown.cs` no longer contains inline / block building code (only `MarkerRow` and calls to the builder)
+- [x] The manual section is written; the card result says it was not run by the agent
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `MarkdownElementBuilder` (+ `.Inlines.cs`) and `MarkdownTheme` in `Controls/Markdown/`. The block and inline code of `HoverWidget.Markdown.cs` moved
+  unchanged; `HoverWidget` now takes `NewText` and `Separator` from the builder (same prose font, brushes, margins), so the hover output is the same
+  elements with the same values. `HoverWidget.Theme.cs` needed no change: the theme holds the hover's own brushes, which it keeps updating.
+- `MarkdownTheme.CodeBackground` is optional and unused by the default code paragraph (the hover draws code without a background); it is there for
+  callers that draw a code block themselves (P11-19).
+- `Controls/Suggest/` builds no Markdown (only the hover references `MarkdownParser`): unchanged.
+- New: strikethrough / underline runs (`Run.TextDecorations`, `Windows.UI.Text.TextDecorations`; an underlined link keeps its `Underline` span only),
+  blockquotes (3 px `QuoteBar` left border, 8 px padding, rows at opacity 0.8), `MarkdownBuildOptions.CustomCodeBlock`. The hover parses with the
+  default options, so it never sees them.
+- The manual section "P11-15" is written; the agent did **not** run it (no before / after screenshots taken).
 
 ## Out of scope
 

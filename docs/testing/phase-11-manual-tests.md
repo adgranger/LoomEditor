@@ -60,6 +60,17 @@ and the box has the focus. The status line counts `CommentSubmitted` events (the
 | 8 | A Japanese or Chinese IME composes in the box, its candidate window is next to the box; `Win+.` inserts an emoji in the box | pending |
 | 9 | Narrator follows the focus into the box and back | pending |
 
+## P11-15 — The shared Markdown element builder
+
+The hover's Markdown now comes from `MarkdownElementBuilder`; nothing should look different. **Before** checking out this card's commit, take screenshots
+of the popups below with the previous build and keep them out of the repository; then compare with this build.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | The hover of a marker ("Problems" sample, **Add sample problems**): message, dimmed source / code, separators look the same as before | pending |
+| 2 | A Markdown hover with code, a list, a heading, a link and bold text (Gallery **Demo providers: on** or a language server): same fonts, margins, bullet glyph, heading size and link color as before | pending |
+| 3 | The completion documentation (details pane of the suggest widget) looks the same as before | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |
