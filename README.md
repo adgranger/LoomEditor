@@ -9,10 +9,10 @@
 - **Easy to maintain**: one feature = one folder, explicit registration, architecture rules checked by tests.
 - **MIT licensed.**
 
-> **Status: phase 3 done, phase 4 next (pre-alpha).** The text model (piece tree, edits, undo/redo, events) is ported and
-> tested, and the control draws and edits plain text: keyboard, mouse, multi-cursor, clipboard, undo/redo, and IME input
-> on Windows 11, with scrolling that stays fluid on a 100 MB file. There is no syntax highlighting, find or auto-closing yet:
-> not usable for real code editing before phases 4–5. See the roadmap below.
+> **Status: pre-alpha, first release `0.1.0-alpha.1`.** Phases 1 to 12 are built and tested: text model, rendering,
+> editing and IME, TextMate highlighting with VS Code themes, editor features (find, folding, brackets, suggest,
+> snippets…), accessibility, the diff editor and inline comment threads. The API is not stable yet and the manual
+> test plans are not all run. The LSP client (`LoomEditor.Lsp`) is not packaged yet. See the roadmap below.
 
 ## Usage (target API)
 
@@ -36,8 +36,7 @@ editor.SelectionChanged += (_, _) => UpdateStatusBar(editor.Selections);
 editor.Commands.Execute(SelectAllCommands.SelectAll);
 ```
 
-Planned for later phases: `Language="csharp"`, `Theme="Dark Modern"`, two-way binding of `Text`,
-decorations, LSP integration, diff editor.
+See the [how-to guides](docs/how-to/) for languages, themes, snippets, the diff editor and comment threads.
 
 > `LoomEditor.Core.Text.Range` has the same name as `System.Range`. In projects that use it, add
 > `<Using Include="LoomEditor.Core.Text.Range" Alias="Range" />` to your `.csproj`.
@@ -47,7 +46,7 @@ decorations, LSP integration, diff editor.
 - Windows 10 version 2004 (build 19041) or later, x64 or ARM64 (IME input needs Windows 11)
 - .NET 11 SDK (currently RC 2, see `global.json`)
 - Windows App SDK 2.5
-- To build Oniguruma (phase 4): Visual Studio 2022+ with the C++ workload
+- To build Oniguruma from source (the NuGet package ships `onig.dll`): Visual Studio 2022+ with the C++ workload
 
 ## Install
 
@@ -75,12 +74,15 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64  # Native AOT bu
 | 1 | Text model: piece tree, positions, EOL, undo/redo | Monaco model tests ported and green ✅ |
 | 2 | Rendering: plain text, virtualized viewport, gutter, caret, scrolling | A 100 MB file is fluid ✅ |
 | 3 | Editing: selection, multi-cursor, keyboard, mouse, clipboard, IME | Japanese/Chinese IME input works ✅ |
-| **4** | TextMate grammars + VS Code themes | Golden tests green for 10 languages ← **we are here** |
-| 5 | Features: find/replace, folding, brackets, auto-indent, comment | One feature = one documented folder |
-| 6 | Minimap, sticky scroll, word wrap, whitespace, guides | — |
-| 7 | Full UI Automation accessibility | Narrator reads and navigates the content |
-| 8 | LSP client (completion, hover, diagnostics, go-to-definition) | Demo with a real language server |
-| 9 | Diff editor (side by side, inline, overview ruler, accessible viewer) | Gallery diff demo (built and tested; manual plan pending) |
+| 4 | TextMate grammars + VS Code themes | Golden tests green for 10 languages ✅ |
+| 5 | Features: find/replace, folding, brackets, auto-indent, comment | One feature = one documented folder ✅ |
+| 6 | Minimap, sticky scroll, word wrap, whitespace, guides | — ✅ |
+| 7 | Full UI Automation accessibility | Narrator reads and navigates the content ✅ |
+| 8 | LSP client (completion, hover, diagnostics, go-to-definition) | Demo with a real language server ✅ (not packaged yet) |
+| 9 | Diff editor (side by side, inline, overview ruler, accessible viewer) | Gallery diff demo (built and tested; manual plan pending) ✅ |
+| 10 | Editor completeness: fonts, zoom, whitespace, overtype, snippets, drag and drop | Built and tested ✅ |
+| 11 | Inline comment threads (GitHub review style) | Built and tested ✅ |
+| 12 | Comment threads on line ranges or exact selected text | Built and tested ✅ |
 
 Details: [docs/roadmap/](docs/roadmap/).
 
