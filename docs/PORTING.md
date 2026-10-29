@@ -722,7 +722,7 @@ selection anchor, smart select, drag and drop, snippet transforms and variables)
   The Monaco tests of the snippet suites are in `tests/LoomEditor.View.Tests/Features/Snippet/` and `tests/LoomEditor.Core.Tests/Snippets/`; the tests that need `apply(edits)` or the overtyping capturer are not ported.
 - **Not ported** (the audit rows and the "Later" table of the phase README): unicode highlight, font tokens, semantic highlighting, rich copy, linked editing, format, `cursorHeight`, `renderFinalNewline`, `transposeLetters`, the snippet choice list,
   the marker widget of `F8`.
-- **Not verified**: the Native AOT run of the text self-check (the published Gallery crashes at start-up, P10-30), the manual plan.
+- **Not verified**: the manual plan. The Native AOT text self-check passes (10 of 10, P10-30, 2026-10-29) once the start-up crash of the Gallery is fixed (see the roadmap file).
 
 ## Done in phase 9 (diff editor)
 

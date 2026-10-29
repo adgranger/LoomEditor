@@ -152,7 +152,14 @@ public sealed partial class MainWindow : Window
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
-    private void OnControlCharactersToggled(object sender, RoutedEventArgs e) => Editor.RenderControlCharacters = ControlCharactersSwitch.IsOn;
+    // IsOn="True" in XAML raises this handler during InitializeComponent, before Editor exists: the control's default matches.
+    private void OnControlCharactersToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.RenderControlCharacters = ControlCharactersSwitch.IsOn;
+        }
+    }
 
     private void OnCursorStyleChanged(object sender, SelectionChangedEventArgs e)
     {

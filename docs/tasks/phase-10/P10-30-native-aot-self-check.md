@@ -35,7 +35,7 @@ Sources: none (specified in this card; the pattern is `DiffSelfCheck` of P9-32 a
 
 - [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
 - [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds (use the exact command line that `docs/tasks/phase-9/P9-32-diff-self-check-and-benchmarks.md` and its Result section record; the SDK flags differ between .NET 11 previews), and the published exe run with `--text-selfcheck=<file>` ends with `n of n checks passed` and exit code 0 (stated in the card's Result section, with the date)
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds (use the exact command line that `docs/tasks/phase-9/P9-32-diff-self-check-and-benchmarks.md` and its Result section record; the SDK flags differ between .NET 11 previews), and the published exe run with `--text-selfcheck=<file>` ends with `n of n checks passed` and exit code 0 (stated in the card's Result section, with the date)
 - [x] No Gallery process left running
 - [x] Card status and `docs/tasks/README.md` updated
 
@@ -51,6 +51,7 @@ UI automation of the new features, benchmarks.
 
 - Unit tests: `TextSelfCheckTests` (12: one per check, the check list, the report format) pass in the normal test run; the ten checks pass.
 - Native AOT publish: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` **succeeded** (exit 0).
-- Native AOT run: **not verified.** The published exe crashes at start-up, before any check runs, with exception `0xc000027b` in `Microsoft.UI.Xaml.dll` 3.2.3.0 (exit code -1073741189, no report file). The existing `--diff-selfcheck` crashes the same way, and so does a build of `HEAD` without this card (checked in a temporary worktree, since removed), so the cause is outside this card (WinUI start-up of the unpackaged exe in this environment / since a phase 10 card). The run must be repeated by the maintainer: `LoomEditor.Gallery.exe --text-selfcheck=%TEMP%\text-selfcheck.txt` must end with `10 of 10 checks passed` and exit 0.
+- Native AOT run (2026-10-29, after the start-up fix below): `LoomEditor.Gallery.exe --text-selfcheck=%TEMP%\text-selfcheck.txt` on the published exe ended with `10 of 10 checks passed` and exit code 0; `--diff-selfcheck` ended with `SUMMARY: 9 passed, 0 failed`, exit code 0.
+- Start-up crash found on the way: the published exe (and the normal build) exited with `0xc000027b` (`XamlParseException`, "Failed to assign to property ToggleSwitch.IsOn", logged in `%TEMP%\LoomEditor.Gallery.log`). Cause: `OnControlCharactersToggled` (P10-10) used `Editor` while `InitializeComponent` set `IsOn="True"`, before `Editor` existed. Fix: the same `Editor is not null` guard as the other handlers.
 - The report format is the one the card spells out (`LoomEditor text self-check`, `PASS|FAIL name — detail`, `n of m checks passed`), not the `SUMMARY:` line of `DiffSelfCheck`.
 - No Gallery process was left running.

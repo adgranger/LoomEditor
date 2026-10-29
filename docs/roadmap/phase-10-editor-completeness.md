@@ -98,10 +98,10 @@ Copied from the "Later" table of [docs/tasks/phase-10/README.md](../tasks/phase-
 
 ## Status of the done-when line
 
-- **Native AOT**: the Gallery publish (`dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror`) **passes** (P10-30, 2026-10-29). But the published exe **crashes at start-up**
-  (exception `0xc000027b` in `Microsoft.UI.Xaml.dll` 3.2.3.0, exit code -1073741189, before any check runs), so the text self-check (`--text-selfcheck=<file>`, P10-30) has **not run** in the
-  Native AOT build: **NOT verified**. The existing `--diff-selfcheck` crashes the same way, and so does a build of the repository at P10-29 (checked in a temporary worktree). It was **not checked** whether the crash
-  also happens on a build from before phase 10, nor on another machine. See P10-30's Result section ([P10-30](../tasks/phase-10/P10-30-native-aot-self-check.md)).
+- **Native AOT**: the Gallery publish (`dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror`) **passes** (P10-30, 2026-10-29), and the published exe runs both
+  self-checks: `--text-selfcheck=<file>` ends with `10 of 10 checks passed` (exit 0) and `--diff-selfcheck=<file>` with `SUMMARY: 9 passed, 0 failed` (exit 0), 2026-10-29. The Gallery used to crash at start-up
+  (`0xc000027b`, a `XamlParseException`) because the `Toggled` handler of the control characters switch ran during `InitializeComponent` before `Editor` existed (card P10-10); a null guard fixed it. See P10-30's
+  Result section ([P10-30](../tasks/phase-10/P10-30-native-aot-self-check.md)).
 - **The phase 10 logic**: the ten checks of the self-check (snippet parse, regex transform, insertion, whitespace, control characters, font features, zoom, overtype, smart select, marker list) run and pass
   in the normal test run (`TextSelfCheckTests`, JIT build only).
 - **Not verified**: the manual plan ([testing/phase-10-manual-tests.md](../testing/phase-10-manual-tests.md), written by the cards and completed by P10-29; an agent runs none of it), Narrator / NVDA reading

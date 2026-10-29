@@ -330,8 +330,8 @@ Snippet mode: SnippetController (keys Tab / Shift+Tab / Escape, undo and caret t
 ```
 
 **Not delivered in phase 10**: the "Later" table of [tasks/phase-10/README.md](tasks/phase-10/README.md) (unicode highlight, font tokens of themes, semantic highlighting, rich copy, touch, linked editing,
-formatting and the other provider based features), the choice list and snippet text edits, the marker widget of `F8`. **Not verified**: the Native AOT build of the Gallery crashes at start-up
-(P10-30, [roadmap](roadmap/phase-10-editor-completeness.md)), and the manual plan has not been run.
+formatting and the other provider based features), the choice list and snippet text edits, the marker widget of `F8`. The Native AOT text self-check passes (10 of 10, P10-30, 2026-10-29,
+[roadmap](roadmap/phase-10-editor-completeness.md)). **Not verified**: the manual plan has not been run.
 How to use it: [how-to/use-snippets.md](how-to/use-snippets.md), [how-to/font-and-whitespace-options.md](how-to/font-and-whitespace-options.md).
 
 ## Where do I find…?

@@ -56,6 +56,6 @@ Phase 11 (Avalonia), running the manual plan, any code change.
 
 - Documentation only; no code changed. The audit rows were updated only for the rows a phase 10 card named (the other `missing` rows were **not** re-verified against the code, and the audit says so).
 - Test counts: 7,103 in the solution (7,101 passed, 2 skipped, 0 failed), 40 new test files with 503 `[Fact]` / `[Theory]` methods (counted by attribute); the root `README.md` has no feature list for phase 10 and was not changed.
-- **Open point for the maintainer**: the Native AOT Gallery crashes at start-up (`0xc000027b` in `Microsoft.UI.Xaml.dll`), so the AOT text self-check of P10-30 is **NOT verified**. The same crash happens with `--diff-selfcheck` and with a build of the repository at P10-29;
-  it was not checked whether it predates phase 10. No follow-up card was created (cards are the maintainer's to create).
+- **Resolved after the close (2026-10-29)**: the Gallery crashed at start-up (`0xc000027b`) because the `Toggled` handler of the control characters switch (P10-10) ran before `Editor` existed. After the null guard the
+  published Native AOT exe passes both self-checks (text 10 of 10, diff 9 passed, 0 failed). See the roadmap file.
 - Not run by an agent: the manual plan of phase 10, Narrator / NVDA, ligature rendering other than Cascadia Code.
