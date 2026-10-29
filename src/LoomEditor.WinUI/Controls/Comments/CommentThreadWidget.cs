@@ -93,7 +93,7 @@ internal sealed partial class CommentThreadWidget : UserControl
     private void Rebuild()
     {
         // Kept current when the line moves: a move raises Changed.
-        AutomationProperties.SetName(this, CommentStrings.ThreadAutomationName(_viewModel.Thread.LineNumber));
+        AutomationProperties.SetName(this, CommentStrings.ThreadAutomationName(_viewModel.Thread.StartLineNumber, _viewModel.Thread.LineNumber));
         _rows.Children.Clear();
         _rows.Children.Add(Header());
         if (!_viewModel.IsCollapsed)

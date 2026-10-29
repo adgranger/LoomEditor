@@ -1,6 +1,6 @@
 # P12-11 — The widget for a range: title, accessibility and an N-line suggestion block
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-10
 - **Size:** S
 
@@ -44,19 +44,23 @@ the automation name), `CommentThreadWidget.Header.cs` (the title comes from `_vi
 
 ## Tests
 
-- [ ] None automated (no WinUI test project; the logic is covered by P12-03 and P12-07).
-- [ ] Manual: section "P12-11" written (not run by the agent).
+- [x] None automated (no WinUI test project; the logic is covered by P12-03 and P12-07).
+- [x] Manual: section "P12-11" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
 Intra-line highlights, a "show the lines" toggle in the box, any change to the box position or height logic.
+
+## Result
+
+Build and tests green. The manual section "P12-11" in `docs/testing/phase-12-manual-tests.md` was written but **not run** (agents do not run the Gallery UI).
 
 ## Suggested commit message
 

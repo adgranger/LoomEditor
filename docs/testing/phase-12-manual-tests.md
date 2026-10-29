@@ -37,3 +37,18 @@ What unit tests cannot check: the highlight of the lines of a multi-line comment
    Result:
 5. Applying a suggestion on the modified side replaces the range; one `Ctrl+Z` restores it and the diff recomputes.
    Result:
+
+## P12-11 — The widget for a range
+
+1. The box title and Narrator's name read "Comment thread on lines 3 to 6".
+   Result:
+2. **Suggest a change** in the composer of a 4-line thread inserts a block with the 4 lines selected.
+   Result:
+3. A 4-line suggestion that changes line 2 shows `3 context + 1 removed + 1 added` rows, in that order.
+   Result:
+4. **Apply suggestion** replaces the 4 lines; one `Ctrl+Z` restores them.
+   Result:
+5. Edit a line inside the range, then press an old Apply: the "lines changed" tooltip shows and nothing changes.
+   Result:
+6. An empty suggestion block on a range shows all lines removed; Narrator's description ends with "Lines deleted."
+   Result:

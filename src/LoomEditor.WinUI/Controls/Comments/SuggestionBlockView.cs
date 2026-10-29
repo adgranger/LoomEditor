@@ -90,8 +90,8 @@ internal sealed partial class SuggestionBlockView : UserControl
 
     protected override AutomationPeer OnCreateAutomationPeer() => new CommentThreadAutomationPeer(this);
 
-    /// <summary>The line text the diff was computed against (sent back to the controller on Apply to detect a stale block).</summary>
-    public string RenderedLineText { get; init; } = "";
+    /// <summary>The text of the lines the diff was computed against (sent back to the controller on Apply to detect a stale block).</summary>
+    public string RenderedRangeText { get; init; } = "";
 
     private static Grid Row(SuggestionDiffRow row, SuggestionBlockTheme theme)
     {
