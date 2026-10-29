@@ -591,3 +591,9 @@ static LoomEditor.Core.Text.TextEdit.Replace(LoomEditor.Core.Text.Range range, s
 virtual LoomEditor.Core.Model.Events.ModelRawChange.EqualityContract.get -> System.Type!
 virtual LoomEditor.Core.Model.Events.ModelRawChange.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
 virtual LoomEditor.Core.Model.Events.ModelRawChange.PrintMembers(System.Text.StringBuilder! builder) -> bool
+LoomEditor.Core.Languages.Features.CompletionItem.InsertTextRules.get -> LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.CompletionItem.InsertTextRules.set -> void
+LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.InsertTextRules.InsertAsSnippet = 4 -> LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.InsertTextRules.KeepWhitespace = 1 -> LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.InsertTextRules.None = 0 -> LoomEditor.Core.Languages.Features.InsertTextRules

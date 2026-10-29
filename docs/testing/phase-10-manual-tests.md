@@ -121,6 +121,16 @@ Needs the Gallery button of P10-29 (`InsertSnippet`).
 | 5 | A snippet with `${TM_SELECTED_TEXT}` wraps the selected text | pending |
 | 6 | `Ctrl+Z` after the insertion removes the snippet in one step and leaves snippet mode | pending |
 
+## P10-26 — Completion items that are snippets
+
+Needs the Gallery language server demo of phase 8, started with the fake server option `--snippet`.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Type `forlo`: the `forloop` item appears; `Enter` inserts `for (i = 0; i < n; i++) {` with three `i` selected | pending |
+| 2 | `Tab` goes to `n`, `Tab` to the body line, then snippet mode ends | pending |
+| 3 | `Ctrl+Z` removes the whole snippet in one step | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

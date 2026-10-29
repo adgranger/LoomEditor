@@ -11,7 +11,7 @@ namespace LoomEditor.Core.Languages.Features;
 /// </summary>
 /// <remarks>
 /// Threading: not thread-safe; owned by the UI thread once handed to the editor.
-/// Not ported: <c>insertTextRules</c> (snippets), <c>command</c>, <c>action</c>, <c>extensionId</c>, <c>_id</c>.
+/// Not ported: <c>command</c>, <c>action</c>, <c>extensionId</c>, <c>_id</c>.
 /// </remarks>
 public sealed class CompletionItem
 {
@@ -56,8 +56,11 @@ public sealed class CompletionItem
     /// <summary>Select this item when showing.</summary>
     public bool Preselect { get; set; }
 
-    /// <summary>The plain text inserted when the item is accepted (snippets are not supported).</summary>
+    /// <summary>The text inserted when the item is accepted: plain text, or a snippet template when <see cref="InsertTextRules"/> has <see cref="Features.InsertTextRules.InsertAsSnippet"/>.</summary>
     public string InsertText { get; set; }
+
+    /// <summary>How <see cref="InsertText"/> is interpreted (Monaco: <c>insertTextRules</c>).</summary>
+    public InsertTextRules InsertTextRules { get; set; }
 
     /// <summary>The range to edit; null means the provider wants the default range.</summary>
     public CompletionRange? Range { get; set; }

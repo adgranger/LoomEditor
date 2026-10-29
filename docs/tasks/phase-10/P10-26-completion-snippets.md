@@ -1,6 +1,6 @@
 # P10-26 — Completion items that are snippets
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-25
 - **Size:** M
 
@@ -35,17 +35,17 @@ A completion item with `InsertTextRules.InsertAsSnippet` (and every LSP item wit
 
 ## Tests
 
-- [ ] Port: none (the Monaco suggest tests do not run without the widget)
-- [ ] New (View, no server): `Accept_SnippetItem_InsertsTemplateText_AndEntersSnippetMode`, `Accept_SnippetItem_MultiCursor_AllGetSnippet`, `Accept_SnippetItem_ReplacesTypedPrefix` (overwriteBefore), `Accept_SnippetItem_KeepWhitespace_DoesNotReindent`, `Accept_SnippetItem_AdditionalTextEdits_Applied`, `Accept_PlainItem_Unchanged`, `Accept_SnippetItem_OneUndoStep`
-- [ ] New (Lsp): `ToCompletionItem_SnippetFormat_SetsInsertAsSnippetAndKeepsRawText`, `Initialize_DeclaresSnippetSupport`, end-to-end (`tests/LoomEditor.View.Tests/Lsp`): `Completion_SnippetItem_EndToEnd`
-- [ ] Manual (section "P10-26", with the Gallery language server demo of phase 8): accept the snippet item of the fake server, Tab through its placeholders.
+- [x] Port: none (the Monaco suggest tests do not run without the widget)
+- [x] New (View, no server): `Accept_SnippetItem_InsertsTemplateText_AndEntersSnippetMode`, `Accept_SnippetItem_MultiCursor_AllGetSnippet`, `Accept_SnippetItem_ReplacesTypedPrefix` (overwriteBefore), `Accept_SnippetItem_KeepWhitespace_DoesNotReindent`, `Accept_SnippetItem_AdditionalTextEdits_Applied`, `Accept_PlainItem_Unchanged`, `Accept_SnippetItem_OneUndoStep`
+- [x] New (Lsp): `ToCompletionItem_SnippetFormat_SetsInsertAsSnippetAndKeepsRawText`, `Initialize_DeclaresSnippetSupport`, end-to-end (`tests/LoomEditor.View.Tests/Lsp`): `Completion_SnippetItem_EndToEnd`
+- [x] Manual (section "P10-26", with the Gallery language server demo of phase 8): accept the snippet item of the fake server, Tab through its placeholders.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `suggestController.ts` row (snippet branch), `languages.ts` (`CompletionItemInsertTextRule`); ADR 0011's "Not delivered: snippets" line gets a "(delivered in phase 10)" note
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `suggestController.ts` row (snippet branch), `languages.ts` (`CompletionItemInsertTextRule`); ADR 0011's "Not delivered: snippets" line gets a "(delivered in phase 10)" note
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

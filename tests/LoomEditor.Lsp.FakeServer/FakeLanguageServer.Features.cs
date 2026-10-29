@@ -78,6 +78,14 @@ public sealed partial class FakeLanguageServer
             items.Add(item);
         }
 
+        if (options.Snippet)
+        {
+            LspCompletionItem item = NewItem("forloop", LspCompletionItemKind.Snippet);
+            item.InsertText = "for (${1:i} = 0; $1 < ${2:n}; $1++) {\n\t$0\n}";
+            item.InsertTextFormat = LspInsertTextFormat.Snippet;
+            items.Add(item);
+        }
+
         return Serialize(new LspCompletionList { IsIncomplete = options.Incomplete, Items = [.. items] }, LspJsonContext.Default.LspCompletionList);
     }
 

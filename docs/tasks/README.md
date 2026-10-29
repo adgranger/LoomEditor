@@ -934,7 +934,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | done |
 | [P10-24](phase-10/P10-24-snippet-session.md) | `SnippetSession`: insert a snippet at every cursor, merge, next and previous | P10-23 | done |
 | [P10-25](phase-10/P10-25-snippet-controller.md) | `SnippetController`: the feature, the keys and `InsertSnippet` | P10-24 | done |
-| [P10-26](phase-10/P10-26-completion-snippets.md) | Completion items that are snippets | P10-25 | todo |
+| [P10-26](phase-10/P10-26-completion-snippets.md) | Completion items that are snippets | P10-25 | done |
 
 ### Step F — Diagnostics navigation
 
