@@ -19,6 +19,7 @@ internal static class CommentStrings
     public const string ApplySuggestion = "Apply suggestion";
     public const string NoChanges = "No changes";
     public const string ApplyFailedStale = "The line changed. Review the new suggestion and try again.";
+    public const string ApplyFailedStaleLines = "The lines changed. Review the new suggestion and try again.";
     public const string ApplyFailedReadOnly = "The editor is read-only.";
     public const string DescribeRemoved = "Removed: ";
     public const string DescribeAdded = "Added: ";
@@ -34,15 +35,31 @@ internal static class CommentStrings
 
     public static string ThreadTitle(int line) => string.Create(CultureInfo.InvariantCulture, $"Comment on line {line}");
 
+    public static string ThreadTitle(int start, int end) => start == end
+        ? ThreadTitle(start)
+        : string.Create(CultureInfo.InvariantCulture, $"Comment on lines {start} to {end}");
+
     public static string CommentCount(int n) => n == 1 ? "1 comment" : string.Create(CultureInfo.InvariantCulture, $"{n} comments");
 
     public static string ThreadAutomationName(int line) => string.Create(CultureInfo.InvariantCulture, $"Comment thread on line {line}");
+
+    public static string ThreadAutomationName(int start, int end) => start == end
+        ? ThreadAutomationName(start)
+        : string.Create(CultureInfo.InvariantCulture, $"Comment thread on lines {start} to {end}");
 
     public static string CommentAutomationName(string author, string time) => $"{author}, {time}";
 
     public static string AddCommentOnLine(int line) => string.Create(CultureInfo.InvariantCulture, $"Add a comment on line {line}");
 
+    public static string AddCommentOnLines(int start, int end) => start == end
+        ? AddCommentOnLine(start)
+        : string.Create(CultureInfo.InvariantCulture, $"Add a comment on lines {start} to {end}");
+
     public static string ThreadAdded(int line) => string.Create(CultureInfo.InvariantCulture, $"Comment thread added on line {line}");
+
+    public static string ThreadAdded(int start, int end) => start == end
+        ? ThreadAdded(start)
+        : string.Create(CultureInfo.InvariantCulture, $"Comment thread added on lines {start} to {end}");
 
     public static string ToolbarName(MarkdownToolbarAction action) => action switch
     {

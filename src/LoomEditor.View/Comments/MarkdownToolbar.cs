@@ -8,7 +8,7 @@ internal static partial class MarkdownToolbar
     /// <param name="action">The clicked button.</param>
     /// <param name="text">The current text.</param>
     /// <param name="selection">The current selection.</param>
-    /// <param name="suggestionSeed">The text a suggestion block starts with (used by the block actions).</param>
+    /// <param name="suggestionSeed">The text a suggestion block starts with; may hold several lines separated by <c>\n</c> (used by the block actions).</param>
     /// <exception cref="ArgumentOutOfRangeException">The selection is outside the text.</exception>
     public static ToolbarEdit Apply(MarkdownToolbarAction action, string text, ToolbarSelection selection, string? suggestionSeed = null)
     {

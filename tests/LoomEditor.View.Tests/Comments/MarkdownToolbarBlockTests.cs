@@ -107,9 +107,18 @@ public class MarkdownToolbarBlockTests
     public void Suggestion_NoSeed_EmptyBlock() =>
         Assert.Equal("```suggestion\n|\n```", Run(MarkdownToolbarAction.Suggestion, "|"));
 
+    // Phase 12: a range seed has several lines.
     [Fact]
-    public void Suggestion_SeedWithNewline_Throws() =>
-        Assert.Throws<ArgumentException>(() => MarkdownToolbar.Apply(MarkdownToolbarAction.Suggestion, "", new ToolbarSelection(0, 0), "a\nb"));
+    public void Suggestion_MultiLineSeed_InsertsAllLinesSelected() =>
+        Assert.Equal("```suggestion\n|a\nb|\n```", Run(MarkdownToolbarAction.Suggestion, "|", "a\nb"));
+
+    [Fact]
+    public void Suggestion_SecondSeedLineHasFence_UsesLongerFence() =>
+        Assert.Equal("````suggestion\n|a\n```x|\n````", Run(MarkdownToolbarAction.Suggestion, "|", "a\n```x"));
+
+    [Fact]
+    public void Suggestion_SeedWithFiveBackticks_UsesSix() =>
+        Assert.Equal("``````suggestion\n|`````x|\n``````", Run(MarkdownToolbarAction.Suggestion, "|", "`````x"));
 
     [Fact]
     public void Suggestion_SeedWithFence_UsesLongerFence() =>

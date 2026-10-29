@@ -148,12 +148,19 @@ internal static partial class MarkdownToolbar
     private static ToolbarEdit InsertSuggestion(string text, ToolbarSelection sel, string? seed)
     {
         seed ??= string.Empty;
-        if (seed.Contains('\n'))
+        int longest = 0;
+        foreach (string line in seed.Split('\n'))
         {
-            throw new ArgumentException("The suggestion seed must be a single line.", nameof(seed));
+            int run = 0;
+            while (run < line.Length && line[run] == '`')
+            {
+                run++;
+            }
+
+            longest = Math.Max(longest, run >= Fence.Length ? run : 0);
         }
 
-        string fence = seed.StartsWith(Fence, StringComparison.Ordinal) ? Fence + "`" : Fence;
+        string fence = longest == 0 ? Fence : new string('`', longest + 1);
         string head = fence + "suggestion\n";
         return InsertBlock(text, sel, head + seed + "\n" + fence, head.Length, seed.Length);
     }

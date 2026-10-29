@@ -1,6 +1,6 @@
 # P12-04 — Strings for ranges and a multi-line "Suggest a change" seed
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-03
 - **Size:** S
 
@@ -42,15 +42,15 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] Strings: `ThreadTitle_Range_FormatsLines`, `ThreadTitle_RangeOfOne_EqualsSingleLine`, `ThreadAutomationName_Range_FormatsLines`, `ThreadAdded_Range_FormatsLines`, `AddCommentOnLines_Range_FormatsLines`, `AddCommentOnLines_OneLine_EqualsSingleLine`
-- [ ] Toolbar: `Suggestion_MultiLineSeed_InsertsAllLinesSelected`, `Suggestion_SecondSeedLineHasFence_UsesLongerFence`, `Suggestion_SeedWithFiveBackticks_UsesSix`
-- [ ] All other existing toolbar and string tests unchanged and green
+- [x] Strings: `ThreadTitle_Range_FormatsLines`, `ThreadTitle_RangeOfOne_EqualsSingleLine`, `ThreadAutomationName_Range_FormatsLines`, `ThreadAdded_Range_FormatsLines`, `AddCommentOnLines_Range_FormatsLines`, `AddCommentOnLines_OneLine_EqualsSingleLine`
+- [x] Toolbar: `Suggestion_MultiLineSeed_InsertsAllLinesSelected`, `Suggestion_SecondSeedLineHasFence_UsesLongerFence`, `Suggestion_SeedWithFiveBackticks_UsesSix`
+- [x] All other existing toolbar and string tests unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
