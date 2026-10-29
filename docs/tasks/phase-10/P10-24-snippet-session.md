@@ -1,6 +1,6 @@
 # P10-24 — `SnippetSession`: insert a snippet at every cursor, merge, next and previous
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-23
 - **Size:** M
 
@@ -37,15 +37,15 @@
 
 ## Tests
 
-- [ ] Port: all the remaining tests of `snippetSession.test.ts`, with titles in `// Monaco:` comments; tests that use `SnippetSession.createEditsAndSnippetsFromEdits` / `ISnippetEdit` are skipped with `// Monaco: <title> — snippet edits are out of scope (later)`; tests that use `OvertypingCapturer` likewise. `adjustWhitespace` tests are pure and run on a `TextModel`
-- [ ] New: `Insert_AtEveryCursor_OneUndoStep`, `Insert_ReplacesSelection`, `Insert_OverwriteBeforeAfter`, `Insert_AdjustWhitespace_False_KeepsRawTemplate`, `Insert_ResolvesSelectionVariable`, `Insert_NoPlaceholders_EndsAtFinalPosition`, `Insert_WithFinalTabstop_CaretThere`, `Next_Prev_WalkPlaceholders`, `Merge_InsideActivePlaceholder_Nested`, `IsSelectionWithinPlaceholders_OutsideSelection_False`, `GetEnclosingRange_CoversAllSnippets`, `Dispose_RemovesAllDecorations`
+- [x] Port: all the remaining tests of `snippetSession.test.ts`, with titles in `// Monaco:` comments; tests that use `SnippetSession.createEditsAndSnippetsFromEdits` / `ISnippetEdit` are skipped with `// Monaco: <title> — snippet edits are out of scope (later)`; tests that use `OvertypingCapturer` likewise. `adjustWhitespace` tests are pure and run on a `TextModel`
+- [x] New: `Insert_AtEveryCursor_OneUndoStep`, `Insert_ReplacesSelection`, `Insert_OverwriteBeforeAfter`, `Insert_AdjustWhitespace_False_KeepsRawTemplate`, `Insert_ResolvesSelectionVariable`, `Insert_NoPlaceholders_EndsAtFinalPosition`, `Insert_WithFinalTabstop_CaretThere`, `Next_Prev_WalkPlaceholders`, `Merge_InsideActivePlaceholder_Nested`, `IsSelectionWithinPlaceholders_OutsideSelection_False`, `GetEnclosingRange_CoversAllSnippets`, `Dispose_RemovesAllDecorations`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `snippetSession.ts` ✅ except `createEditsAndSnippetsFromEdits`; "Behavior differences": no `OvertypingCapturer`, no snippet edits
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `snippetSession.ts` ✅ except `createEditsAndSnippetsFromEdits`; "Behavior differences": no `OvertypingCapturer`, no snippet edits
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

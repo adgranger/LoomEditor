@@ -8,7 +8,8 @@ one inserted snippet with one model decoration per placeholder (classes `snippet
 
 **Files:**
 - `OneSnippet.cs`, `OneSnippet.Move.cs`, `OneSnippet.Merge.cs` — one snippet: decorations, moving, nested snippets.
-- `SnippetFeature.cs`, `SnippetCommands.cs` — placeholders until the session (P10-24) and the controller (P10-25).
+- `SnippetSession*.cs`, `SnippetSessionInsertOptions.cs` — inserts a template at every cursor, merge, next/prev, selection queries.
+- `SnippetFeature.cs`, `SnippetCommands.cs` — placeholders until the controller (P10-25).
 
 **Tests:** `tests/LoomEditor.View.Tests/Features/Snippet/`.
 
