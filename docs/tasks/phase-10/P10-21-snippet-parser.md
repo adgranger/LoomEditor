@@ -1,6 +1,6 @@
 # P10-21 — Snippet syntax (3/3): `SnippetParser`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-20
 - **Size:** M
 
@@ -33,15 +33,15 @@
 
 ## Tests
 
-- [ ] Port: **every** test of `snippetParser.test.ts` after the scanner test, with its title in a `// Monaco:` comment. Expectations that use `assert.deepStrictEqual(snippet.children[…] instanceof Text, …)` become `Assert.IsType<TextMarker>` or `Assert.Equal`. The ones about `TextmateSnippet#offset`, `#replace`, `#enclosingPlaceholders`, `#insertSnippet`-style helpers use the methods of P10-20: if a test uses a Monaco method that LoomEditor did not port (the diff says which), port that method in this card and mention it in the commit body.
-- [ ] New: `Parse_Empty_ReturnsEmptySnippet`, `Parse_InsertFinalTabstop_AppendsDollarZero`, `Parse_InsertFinalTabstop_ExistingFinalKept`, `Parse_InvalidRegexInTransform_FallsBackToText`, `Parse_UnterminatedPlaceholder_FallsBackToText`, `Escape_Roundtrips`, `GuessNeedsClipboard_True_ForClipboardVariable`
+- [x] Port: **every** test of `snippetParser.test.ts` after the scanner test, with its title in a `// Monaco:` comment. Expectations that use `assert.deepStrictEqual(snippet.children[…] instanceof Text, …)` become `Assert.IsType<TextMarker>` or `Assert.Equal`. The ones about `TextmateSnippet#offset`, `#replace`, `#enclosingPlaceholders`, `#insertSnippet`-style helpers use the methods of P10-20: if a test uses a Monaco method that LoomEditor did not port (the diff says which), port that method in this card and mention it in the commit body.
+- [x] New: `Parse_Empty_ReturnsEmptySnippet`, `Parse_InsertFinalTabstop_AppendsDollarZero`, `Parse_InsertFinalTabstop_ExistingFinalKept`, `Parse_InvalidRegexInTransform_FallsBackToText`, `Parse_UnterminatedPlaceholder_FallsBackToText`, `Escape_Roundtrips`, `GuessNeedsClipboard_True_ForClipboardVariable`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `snippetParser.ts` ✅
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `snippetParser.ts` ✅
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

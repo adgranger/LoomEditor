@@ -11,7 +11,7 @@ namespace LoomEditor.Core.Snippets;
 /// Behavior differences: the pattern is a .NET regular expression, built at run time and interpreted (Native AOT-safe). The flags
 /// <c>i</c>, <c>m</c> and <c>s</c> map to the matching <see cref="RegexOptions"/>, <c>g</c> replaces every match, and <c>u</c>,
 /// <c>v</c>, <c>y</c>, <c>d</c> are accepted and ignored. <see cref="ToTextmateString"/> and <see cref="Clone"/> keep every flag
-/// letter (Monaco keeps <c>i</c> and <c>g</c> only). Named groups are numbered after the unnamed ones by .NET.
+/// letter (Monaco keeps <c>i</c> and <c>g</c> only, in that order). Named groups are numbered after the unnamed ones by .NET.
 /// </para>
 /// <para>Threading: not thread-safe (a snippet is owned by one session).</para>
 /// </remarks>
@@ -23,7 +23,7 @@ internal sealed class Transform : SnippetMarker
     /// <summary>The pattern as written in the snippet.</summary>
     public string Source { get; private set; } = string.Empty;
 
-    /// <summary>The JavaScript flag letters as written in the snippet.</summary>
+    /// <summary>The JavaScript flag letters: <c>i</c> then <c>g</c> (the only ones Monaco serializes), then the others in their order.</summary>
     public string Flags { get; private set; } = string.Empty;
 
     private bool IsGlobal => Flags.Contains('g', StringComparison.Ordinal);
@@ -53,7 +53,10 @@ internal sealed class Transform : SnippetMarker
 
         Regexp = new Regex(source, options);
         Source = source;
-        Flags = flags;
+        Flags = string.Concat(
+            flags.Contains('i', StringComparison.Ordinal) ? "i" : string.Empty,
+            flags.Contains('g', StringComparison.Ordinal) ? "g" : string.Empty,
+            new string(flags.Where(flag => flag is not ('i' or 'g')).Distinct().ToArray()));
     }
 
     /// <summary>Replaces the matches of the pattern (all with <c>g</c>, else the first) by the format.</summary>

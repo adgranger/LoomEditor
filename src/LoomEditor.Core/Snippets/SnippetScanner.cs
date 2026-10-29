@@ -24,8 +24,11 @@ internal sealed class SnippetScanner
 
     private string _value = string.Empty;
 
-    /// <summary>The index of the next character to scan.</summary>
-    public int Pos { get; private set; }
+    /// <summary>The scanned text.</summary>
+    public string Value => _value;
+
+    /// <summary>The index of the next character to scan; the parser sets it to go back to a token.</summary>
+    public int Pos { get; set; }
 
     /// <summary>Monaco: <c>isDigitCharacter</c>.</summary>
     public static bool IsDigitCharacter(int ch) => ch is >= '0' and <= '9';

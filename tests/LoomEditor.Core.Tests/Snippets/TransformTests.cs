@@ -43,7 +43,7 @@ public class TransformTests
 
     [Fact]
     public void Transform_ToTextmateString_RoundTripsSourceAndFlags() =>
-        Assert.Equal("/(a)/${1:/upcase}-/gi", Create("(a)", "gi", new FormatString(1, "upcase"), new TextMarker("-")).ToTextmateString());
+        Assert.Equal("/(a)/${1:/upcase}-/ig", Create("(a)", "gi", new FormatString(1, "upcase"), new TextMarker("-")).ToTextmateString());
 
     [Fact]
     public void Transform_Clone_Independent()

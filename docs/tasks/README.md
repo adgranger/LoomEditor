@@ -929,7 +929,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 |---|---|---|---|
 | [P10-19](phase-10/P10-19-snippet-scanner-and-markers.md) | Snippet syntax (1/3): the scanner and the text, placeholder and choice markers | P10-02 | done |
 | [P10-20](phase-10/P10-20-snippet-transforms-variables-snippet.md) | Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet` | P10-19 | done |
-| [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | todo |
+| [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | done |
 | [P10-22](phase-10/P10-22-snippet-variables.md) | Snippet variables: the resolvers | P10-21 | todo |
 | [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | todo |
 | [P10-24](phase-10/P10-24-snippet-session.md) | `SnippetSession`: insert a snippet at every cursor, merge, next and previous | P10-23 | todo |
