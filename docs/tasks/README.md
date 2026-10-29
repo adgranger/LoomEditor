@@ -1062,7 +1062,7 @@ Design: [phase-12/README.md](phase-12/README.md) section 3 (a thread on the exac
 | [P12-17](phase-12/P12-17-comment-range-and-strings.md) | `CommentRange`: a selection becomes whole lines or exact text; strings for the selected text | P12-16 | done |
 | [P12-18](phase-12/P12-18-manager-text-anchor.md) | The manager anchors a thread to the exact text and keeps its columns | P12-17 | done |
 | [P12-19](phase-12/P12-19-text-highlight.md) | Highlight the exact text of a thread | P12-18 | done |
-| [P12-20](phase-12/P12-20-controller-and-command-text-ranges.md) | Controller and add command: threads and requests on the exact selected text | P12-19 | todo |
+| [P12-20](phase-12/P12-20-controller-and-command-text-ranges.md) | Controller and add command: threads and requests on the exact selected text | P12-19 | done |
 | [P12-21](phase-12/P12-21-public-api-text-ranges.md) | Public API: threads on the exact text in `LoomEditor` and `LoomDiffEditor` | P12-20 | todo |
 | [P12-22](phase-12/P12-22-widget-and-gutter-text-ranges.md) | The box tells screen readers the commented text; the gutter "+" requests the selected text | P12-21 | todo |
 | [P12-23](phase-12/P12-23-gallery-selfcheck-and-manual-plan-text-ranges.md) | Gallery, Native AOT self-check and manual plan for exact text ranges | P12-22 | todo |

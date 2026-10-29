@@ -46,6 +46,37 @@ public class CommentThreadsFeatureTests
     }
 
     [Fact]
+    public void AddCommand_WordSelection_RequestsTextRange()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = new Selection(2, 2, 2, 3);
+        Range? text = null;
+        context.CommentThreads.AddCommentRequested += (_, r) => text = r.TextRange;
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal(new Range(2, 2, 2, 3), text);
+    }
+
+    [Fact]
+    public void AddCommand_ShiftDownLines_RequestsWholeLines()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = new Selection(1, 1, 3, 1);
+        CommentRange? raised = null;
+        context.CommentThreads.AddCommentRequested += (_, r) => raised = r;
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal((1, 2), (raised!.Value.StartLineNumber, raised.Value.LineNumber));
+        Assert.True(raised.Value.IsWholeLines);
+    }
+
+    [Fact]
     public void AddCommand_EmptySelection_RequestsCursorLine()
     {
         using var feature = new CommentThreadsFeature();

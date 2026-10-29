@@ -284,4 +284,24 @@ public class CommentThreadViewModelTests
         t.SetLines(9, 9);
         Assert.Equal(0, n);
     }
+
+    [Fact]
+    public void CommentedText_Text_FollowsEdits()
+    {
+        string text = "value";
+        var vm = new CommentThreadViewModel(new CommentThread("t", new Range(1, 5, 1, 10)), () => "line", () => text);
+        Assert.Equal("value", vm.CommentedText);
+
+        text = "valueX";
+
+        Assert.Equal("valueX", vm.CommentedText);
+    }
+
+    [Fact]
+    public void CommentedText_WholeLines_Null() =>
+        Assert.Null(new CommentThreadViewModel(new CommentThread("t", 1), () => "line", () => "x").CommentedText);
+
+    [Fact]
+    public void CommentedText_NoDelegate_Null() =>
+        Assert.Null(new CommentThreadViewModel(new CommentThread("t", new Range(1, 5, 1, 10)), () => "line").CommentedText);
 }

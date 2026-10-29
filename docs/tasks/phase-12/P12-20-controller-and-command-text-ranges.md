@@ -1,6 +1,6 @@
 # P12-20 — Controller and add command: threads and requests on the exact selected text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-19
 - **Size:** M
 
@@ -50,24 +50,24 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] `AddText_ManagerHasExactDecoration` (`Add(CommentRange.FromRange(model, new Range(1, 5, 1, 10)), null, false)` on `"let value = 1;"`: thread not whole lines,
+- [x] `AddText_ManagerHasExactDecoration` (`Add(CommentRange.FromRange(model, new Range(1, 5, 1, 10)), null, false)` on `"let value = 1;"`: thread not whole lines,
   columns 5–10)
-- [ ] `AddText_StartComposing_AnnouncesSelectedText` (`"Comment thread added on the selected text on line 1"`), `AddText_TitleSaysLine` (`"Comment on line 1"`)
-- [ ] `GetCommentedText_Text_ReturnsTheText` (`"value"`), `GetCommentedText_MultiLine_JoinsWithLf` (CRLF model), `GetCommentedText_WholeLines_Empty`
-- [ ] View model: `CommentedText_Text_FollowsEdits` (type inside the word: the property returns the new text), `CommentedText_WholeLines_Null`, `CommentedText_NoDelegate_Null`
-- [ ] `ApplySuggestion_TextThread_ReplacesTheCoveringLine` (thread on `value`, suggestion `"let total = 2;"`, rendered text `"let value = 1;"` → `Applied`, the line is
+- [x] `AddText_StartComposing_AnnouncesSelectedText` (`"Comment thread added on the selected text on line 1"`), `AddText_TitleSaysLine` (`"Comment on line 1"`)
+- [x] `GetCommentedText_Text_ReturnsTheText` (`"value"`), `GetCommentedText_MultiLine_JoinsWithLf` (CRLF model), `GetCommentedText_WholeLines_Empty`
+- [x] View model: `CommentedText_Text_FollowsEdits` (type inside the word: the property returns the new text), `CommentedText_WholeLines_Null`, `CommentedText_NoDelegate_Null`
+- [x] `ApplySuggestion_TextThread_ReplacesTheCoveringLine` (thread on `value`, suggestion `"let total = 2;"`, rendered text `"let value = 1;"` → `Applied`, the line is
   replaced, one `Undo` restores it), `ApplySuggestion_TextThread_StaleWhenTheLineChangedOutsideTheText`
-- [ ] `RequestAdd_Text_RaisesTheExactRange`; the existing request tests adapt to `CommentRange` (`l.LineNumber`, `(l.StartLineNumber, l.LineNumber)`) and assert
+- [x] `RequestAdd_Text_RaisesTheExactRange`; the existing request tests adapt to `CommentRange` (`l.LineNumber`, `(l.StartLineNumber, l.LineNumber)`) and assert
   `l.TextRange` is `null`
-- [ ] Feature: `AddCommand_WordSelection_RequestsTextRange`, `AddCommand_ShiftDownLines_RequestsWholeLines`; the existing feature tests stay green
-- [ ] All other existing tests green
+- [x] Feature: `AddCommand_WordSelection_RequestsTextRange`, `AddCommand_ShiftDownLines_RequestsWholeLines`; the existing feature tests stay green
+- [x] All other existing tests green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No public API change (`PublicAPI.Unshipped.txt` files untouched); no file under `src/LoomEditor.WinUI` changed
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No public API change (`PublicAPI.Unshipped.txt` files untouched); no file under `src/LoomEditor.WinUI` changed
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

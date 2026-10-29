@@ -22,11 +22,7 @@ public sealed class CommentThreadsFeature : IEditorFeature
 
         _registration = context.Commands.Register(new EditorCommand(
             CommentThreadsCommands.Add,
-            () =>
-            {
-                var (start, line) = CommentLineRange.FromSelection(context.Selection);
-                context.GetCommentThreadsController()?.RequestAdd(start, line);
-            }));
+            () => context.GetCommentThreadsController()?.RequestAdd(CommentRange.FromSelection(context.Model, context.Selection))));
     }
 
     /// <inheritdoc />

@@ -1,5 +1,4 @@
 using LoomEditor.Core.Comments;
-using LoomEditor.Core.Diagnostics;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Model.Edits;
 using LoomEditor.Core.Text;
@@ -42,8 +41,8 @@ internal sealed class CommentThreadsController : IDisposable
     /// <summary>Raised when the user cancels a comment box.</summary>
     public event EventHandler<CommentThread>? CommentCancelled;
 
-    /// <summary>Raised when the add-comment command asks for a thread on a range of lines.</summary>
-    public event EventHandler<(int StartLineNumber, int LineNumber)>? AddCommentRequested;
+    /// <summary>Raised when the add-comment command asks for a thread on whole lines or on the exact text.</summary>
+    public event EventHandler<CommentRange>? AddCommentRequested;
 
     /// <summary>Raised after a suggestion replaced the lines of a thread; the lines are those before the edit.</summary>
     public event EventHandler<(CommentThread Thread, Comment Comment, int StartLineNumber, int LineNumber)>? SuggestionApplied;
@@ -56,9 +55,13 @@ internal sealed class CommentThreadsController : IDisposable
     public CommentThread Add(int lineNumber, string? title, bool startComposing) => Add(lineNumber, lineNumber, title, startComposing);
 
     /// <summary>Creates a thread on a range of lines, optionally with its composer open.</summary>
-    public CommentThread Add(int startLineNumber, int endLineNumber, string? title, bool startComposing)
+    public CommentThread Add(int startLineNumber, int endLineNumber, string? title, bool startComposing) =>
+        Add(CommentRange.Lines(startLineNumber, endLineNumber), title, startComposing);
+
+    /// <summary>Creates a thread on whole lines or on the exact text, optionally with its composer open.</summary>
+    public CommentThread Add(CommentRange range, string? title, bool startComposing)
     {
-        CommentThread thread = Manager.Add(startLineNumber, endLineNumber, title);
+        CommentThread thread = range.TextRange is { } text ? Manager.Add(text, title) : Manager.Add(range.StartLineNumber, range.LineNumber, title);
         // Subscribed before the view model: it leaves composing mode on the same event, so read the flag first.
         thread.Changed += (_, e) =>
         {
@@ -67,7 +70,7 @@ internal sealed class CommentThreadsController : IDisposable
                 _context.Announcer.Announce(CommentStrings.CommentPosted);
             }
         };
-        var viewModel = new CommentThreadViewModel(thread, () => GetRangeText(thread));
+        var viewModel = new CommentThreadViewModel(thread, () => GetRangeText(thread), () => GetCommentedText(thread));
         _viewModels[thread] = viewModel;
         viewModel.SubmitRequested += (_, text) => CommentSubmitted?.Invoke(this, (thread, text));
         viewModel.CancelRequested += (_, outcome) =>
@@ -81,7 +84,9 @@ internal sealed class CommentThreadsController : IDisposable
         if (startComposing)
         {
             viewModel.StartComposing();
-            _context.Announcer.Announce(CommentStrings.ThreadAdded(startLineNumber, endLineNumber));
+            _context.Announcer.Announce(range.IsWholeLines
+                ? CommentStrings.ThreadAdded(range.StartLineNumber, range.LineNumber)
+                : CommentStrings.ThreadAddedOnText(range.StartLineNumber, range.LineNumber));
         }
 
         ThreadAdded?.Invoke(this, thread);
@@ -115,15 +120,21 @@ internal sealed class CommentThreadsController : IDisposable
         return SuggestionEdit.GetRangeText(_context.Model, start, end);
     }
 
+    /// <summary>The current text of an exact-text thread (lines joined with <c>\n</c>); empty for a thread on whole lines.</summary>
+    public string GetCommentedText(CommentThread thread) => thread.IsWholeLines
+        ? ""
+        : _context.Model.GetValueInRange(
+            _context.Model.ValidateRange(new Range(thread.StartLineNumber, thread.StartColumn, thread.LineNumber, thread.EndColumn)),
+            EndOfLinePreference.LF);
+
     /// <summary>Asks the host to add a thread on a line; nothing is added here.</summary>
     public void RequestAdd(int lineNumber) => RequestAdd(lineNumber, lineNumber);
 
     /// <summary>Asks the host to add a thread on a range of lines; nothing is added here.</summary>
-    public void RequestAdd(int startLineNumber, int lineNumber)
-    {
-        Guard.Assert(startLineNumber <= lineNumber);
-        AddCommentRequested?.Invoke(this, (startLineNumber, lineNumber));
-    }
+    public void RequestAdd(int startLineNumber, int lineNumber) => RequestAdd(CommentRange.Lines(startLineNumber, lineNumber));
+
+    /// <summary>Asks the host to add a thread on whole lines or on the exact text; nothing is added here.</summary>
+    public void RequestAdd(CommentRange range) => AddCommentRequested?.Invoke(this, range);
 
     private (int Start, int End) GetLines(CommentThread thread)
     {
