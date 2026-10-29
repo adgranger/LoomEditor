@@ -1,6 +1,6 @@
 # P12-15 — Close phase 12
 
-- **Status:** todo (reopened on 2026-10-29: first done for steps A–D in commit `bb391b5`, reopened when step E — exact text ranges, P12-16 … P12-23 — was added)
+- **Status:** done (reopened on 2026-10-29: first done for steps A–D in commit `bb391b5`, reopened when step E was added; re-done after P12-23)
 - **Depends on:** P12-23 (and so every phase 12 card)
 - **Size:** S
 
@@ -48,16 +48,16 @@ P12-16 … P12-23 and section 3 of [phase-12/README.md](README.md).
 
 ## Tests
 
-- [ ] None (documentation).
+- [x] None (documentation).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
-- [ ] Every relative link in the new and changed docs resolves
-- [ ] The AOT result in the roadmap file cites P12-23, or says `NOT verified`
-- [ ] `grep -rni "character-precise" docs/adr docs/roadmap docs/how-to docs/ARCHITECTURE.md docs/GLOSSARY.md` finds nothing (only `docs/tasks` keeps history notes)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
+- [x] Every relative link in the new and changed docs resolves
+- [x] The AOT result in the roadmap file cites P12-23, or says `NOT verified`
+- [x] `grep -rni "character-precise" docs/adr docs/roadmap docs/how-to docs/ARCHITECTURE.md docs/GLOSSARY.md` finds nothing (only `docs/tasks` keeps history notes)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -66,3 +66,7 @@ Phase 13 (Avalonia), running the manual plan, any code change.
 ## Suggested commit message
 
 `docs: close phase 12 with exact text ranges`
+
+## Result
+
+- Docs revised for step E; test counts re-counted per project (7,498 in all); AOT result cited from P12-23 (17 of 17). Manual plan, Narrator / NVDA, high contrast, word wrap and the diff editor are not verified.

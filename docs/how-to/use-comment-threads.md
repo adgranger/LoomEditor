@@ -29,16 +29,21 @@ const total = items.length;
 
 One `Ctrl+Z` undoes the edit. Apply is refused (the button is disabled or fails with a tooltip) when the editor is read-only or when the line changed since the comment was written.
 
-## Ranges of lines
+## Ranges of lines and exact text
 
-A thread can cover several lines, like GitHub's "lines 12 to 15"; the box sits under the last line and the range is highlighted while the thread is open.
+A thread can cover several lines, like GitHub's "lines 12 to 15", or the exact text you selected; the box sits under the last line and the range or text is highlighted while the thread is open.
 
 ```csharp
-var thread = editor.AddCommentThread(12, 15, title: "Review", startComposing: true);   // StartLineNumber 12, LineNumber 15
-editor.AddCommentRequested += (_, e) => editor.AddCommentThread(e.StartLineNumber, e.LineNumber, startComposing: true);
+var thread = editor.AddCommentThread(12, 15, title: "Review", startComposing: true);   // whole lines 12 to 15
+var word = editor.AddCommentThread(new Range(4, 5, 4, 10));                            // line 4, columns 5 to 10 (end exclusive)
+editor.AddCommentRequested += (_, e) => _ = e.TextRange is { } r
+    ? editor.AddCommentThread(r, startComposing: true)
+    : editor.AddCommentThread(e.StartLineNumber, e.LineNumber, startComposing: true);
 ```
 
-A suggestion in such a thread replaces **all** the lines of the range (an empty block deletes them); it is refused when any of them changed. `AddCommentThread(line)` still works.
+`e.TextRange` is `null` for whole lines. A range over full lines gives a whole-line thread; read `thread.IsWholeLines`, `StartColumn` and `EndColumn` when you save (a change of columns raises no event).
+
+A suggestion replaces **all the lines that contain the range**, never only the selected text (an empty block deletes them); it is refused when any of them changed. `AddCommentThread(line)` still works.
 
 ## Gutter button and diff editor
 
@@ -46,5 +51,5 @@ A suggestion in such a thread replaces **all** the lines of the range (an empty 
 
 ## Limits
 
-Whole lines only (no character ranges, no dragging in the gutter to select lines); no reactions, edit / delete UI, mentions, attachments, avatar images, localization or "commit suggestion"; links are drawn but not opened; no persistence.
+No dragging in the gutter to select lines, no suggestion that replaces only the selected text; no reactions, edit / delete UI, mentions, attachments, avatar images, localization or "commit suggestion"; links are drawn but not opened; no persistence.
 The WinUI widget has not been checked by the agents (manual plans: [phase-11-manual-tests.md](../testing/phase-11-manual-tests.md), [phase-12-manual-tests.md](../testing/phase-12-manual-tests.md)).

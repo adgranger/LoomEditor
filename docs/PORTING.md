@@ -725,10 +725,10 @@ Reused Monaco concepts: the view zone (`Widget` kind added) and the content widg
 
 ## Phase 12 (not a port)
 
-Line ranges for inline comment threads have **no Monaco source**, so there are no rows in the map and no ported tests. New files: `CommentLineRange` (View/Comments), the range members of `CommentThread`, `SuggestionEdit`, `SuggestionDiff`, `CommentThreadManager`, `CommentThreadsController`, the widget and gutter changes in `Controls/Comments`, `docs/testing/phase-12-manual-tests.md`. Deliberate differences: none to document.
+Line and text ranges for inline comment threads have **no Monaco source**, so there are no rows in the map and no ported tests. New files: `CommentRange` (View/Comments, replaces the deleted `CommentLineRange`), the range and column members of `CommentThread`, `SuggestionEdit`, `SuggestionDiff`, `CommentThreadManager`, `CommentThreadsController`, the widget and gutter changes in `Controls/Comments`, the `Range` overloads of `LoomEditor` and `LoomDiffEditor`, `docs/testing/phase-12-manual-tests.md`. Deliberate differences: none to document.
 
-- **Tests**: 80 `[Fact]` / `[Theory]` attributes added across 11 test files, `CommentLineRangeTests` included (counted from `git diff main..HEAD -- tests`: a theory counts once). The solution has 7,437 tests on 2026-10-29 (7,435 passed, 2 skipped on purpose, 0 failed; `dotnet test --solution LoomEditor.slnx -c Release`), against 7,345 at the end of phase 11.
-- **Not verified**: the WinUI part (no test project; the manual plan was not run); the Native AOT self-check of the logic passes (15 of 15, P12-14).
+- **Tests**: counted on 2026-10-29 with `dotnet test --project tests/LoomEditor.<X>.Tests -c Release`: Core 2,214, View 3,756, Rendering 236, Architecture 90, Lsp 475, TextMate 727, so 7,498 tests, all passing, against 7,345 at the end of phase 11. Step E touched 10 test files (`CommentRangeTests` is new, `CommentLineRangeTests` was deleted).
+- **Not verified**: the WinUI part (no test project; the manual plan was not run); the Native AOT self-check of the logic passes (17 of 17, P12-23; 15 of 15 for steps A–D, P12-14).
 
 ## Done in phase 10 (editor completeness)
 

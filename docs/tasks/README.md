@@ -1071,7 +1071,7 @@ Design: [phase-12/README.md](phase-12/README.md) section 3 (a thread on the exac
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 (reopened for step E: the docs must cover column ranges) | P12-23 | todo |
+| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 (reopened for step E: the docs must cover column ranges) | P12-23 | done |
 
 Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it); P12-15 comes last, after P12-23. Every card is written for **Sonnet**;
 none is flagged Opus (the delicate tracking code exists since P11-09 and is extended — step E reuses the same decoration for columns — with every edge case listed as a

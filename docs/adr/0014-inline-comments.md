@@ -122,7 +122,7 @@ positioned over the editor and repositioned when it scrolls). What exists today 
 
 ## What is not delivered (listed for the close card)
 
-Reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button, opening links. Line ranges were added in phase 12 (last section).
+Reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button, opening links. Line and text ranges were added in phase 12 (last section).
 
 ## Changes during implementation (2026-10-29)
 
@@ -138,15 +138,16 @@ Cards 1 to 11 and 24 recorded no change to a decision. The others:
 - **Diff editor** (P11-22): no alignment code change; two zones after one line give two alignment entries whose heights add up.
 - **Gallery** (P11-23): no `--uia-selfcheck` switch exists; the plan uses the button. `--comments-selfcheck` is the new switch (P11-24); the CsWinRT analyzer forbids collection expressions typed `IEnumerable<T>` there.
 
-## Phase 12: line ranges (2026-10-29)
+## Phase 12: line and text ranges (2026-10-29)
 
-A thread can cover a range of whole lines, as a GitHub review does (`start_line` … `line`). Cards P12-01 to P12-14 recorded no change to these decisions.
+A thread covers whole lines (GitHub's `start_line` … `line`) or an exact text range (start line and column to end line and column). Step E superseded the original "lines, not columns" decision: testing showed that selecting one word gave a plain line comment, which loses what the reviewer pointed at.
 
-- **Lines, not columns**: the API takes two line numbers, never a `Range`. `CommentLineRange.FromSelection` is the only place a selection becomes lines (a selection ending at column 1 of a later line drops that line).
-- **`LineNumber` is the last line** (the box and the gutter rule are unchanged); new `StartLineNumber`; equal for a single-line thread. One `Changed` with `LineChanged` when either changes.
-- **Source compatible**: only overloads and added properties (`AddCommentThread(start, end, ...)` on both editors, `StartLineNumber` on the three event args); `1 <= start <= end <= LineCount` else `ArgumentOutOfRangeException`.
-- **Edits**: the same single decoration spans `(start, 1)` to `(end, maxColumn)`, `NeverGrowsWhenTypingAtEdges`; deleting the whole range collapses it to one line; a flush clamps both ends.
-- **Highlight**: the class `comment-thread-range`, theme id `loom.commentThreadRangeBackground`, shown only while the thread is multi-line and open, by switching the options of the same decoration.
-- **Suggestions replace the range**: the old text is the range text (lines joined with `\n`); the diff is a line LCS of N old against M new lines; stale means the range text changed; apply is one undo step, caret at `(start, 1)`. The toolbar seeds the block with the range text.
-- **Native AOT**: `--comments-selfcheck` has four range checks (15 of 15 under AOT, P12-14).
-- **Not delivered**: character-precise ranges, dragging or shift-click in the gutter to select lines, a gutter bar or overview-ruler mark, overlap rules, and the rest of the list above.
+- **`LineNumber` is the last line** (the box and the gutter rule are unchanged); new `StartLineNumber`; one `Changed` with `LineChanged` when either changes.
+- **Two kinds, fixed at creation**: `IsWholeLines`, `StartColumn`, `EndColumn` (end exclusive). `CommentRange.FromRange` / `FromSelection` is the one rule: clamp, a range ending at column 1 of a later line ends on the previous line, an empty range is its whole line, full lines are whole lines, anything else is exact text. `CommentLineRange` was deleted.
+- **Source compatible**: overloads and added properties only (`AddCommentThread(start, end, ...)` and `AddCommentThread(Range, ...)` on both editors, `StartLineNumber` and `TextRange` on the event args); `1 <= start <= end <= LineCount` else `ArgumentOutOfRangeException`.
+- **Edits**: the same single decoration, `NeverGrowsWhenTypingAtEdges`; deleting all the text leaves an empty range, deleting a whole line range collapses it to one line; a flush clamps. A change of columns only raises no event (it would rebuild the box on every keystroke).
+- **Highlight**: `comment-thread-range` (whole lines, multi-line and open only) and `comment-thread-text` (exact text, open and non-empty, also on one line), both with `loom.commentThreadRangeBackground`; options of the same decoration are switched.
+- **Suggestions replace the whole lines that contain the range**, exact or not: old text = range text, line LCS diff, stale check, one undo step, caret at `(start, 1)`. A block replacing only the text would need fragment diffs and stale checks.
+- **Title and accessibility**: the title has no columns; the box of an exact thread gets `AutomationProperties.HelpText` "Commented text: …" (cut at 80 characters).
+- **Native AOT**: `--comments-selfcheck` 17 of 17 (P12-23); the widget is not verified.
+- **Not delivered**: a suggestion that replaces only the selected text, columns in the title, a thread per secondary cursor, switching a thread between kinds, a quote in the box, dragging or shift-click in the gutter to select lines, a gutter bar or overview-ruler mark, overlap rules, and the rest of the list above.
