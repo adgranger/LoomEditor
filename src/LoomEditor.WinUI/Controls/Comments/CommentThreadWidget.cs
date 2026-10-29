@@ -1,6 +1,8 @@
 using LoomEditor.View.Comments;
 using LoomEditor.WinUI.Controls.Markdown;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
@@ -43,6 +45,7 @@ internal sealed partial class CommentThreadWidget : UserControl
         _panel.Children.Add(CreateComposer());
         _border.Child = _panel;
         Content = _border;
+        AutomationProperties.SetAutomationId(this, "LoomEditor.CommentThread");
         _viewModel.Changed += OnChanged;
         Rebuild();
     }
@@ -72,8 +75,13 @@ internal sealed partial class CommentThreadWidget : UserControl
         Rebuild();
     }
 
+    /// <summary>Sends a screen-reader announcement through the editor's announcer. Set by the host.</summary>
+    public Action<string>? Announce { get; set; }
+
     /// <summary>Stops listening to the view model.</summary>
     public void Detach() => _viewModel.Changed -= OnChanged;
+
+    protected override AutomationPeer OnCreateAutomationPeer() => new CommentThreadAutomationPeer(this);
 
     private void OnChanged(object? sender, EventArgs e)
     {
@@ -84,6 +92,8 @@ internal sealed partial class CommentThreadWidget : UserControl
     // No incremental diffing: threads are small. Relative times are computed here only (no timer).
     private void Rebuild()
     {
+        // Kept current when the line moves: a move raises Changed.
+        AutomationProperties.SetName(this, CommentStrings.ThreadAutomationName(_viewModel.Thread.LineNumber));
         _rows.Children.Clear();
         _rows.Children.Add(Header());
         if (!_viewModel.IsCollapsed)

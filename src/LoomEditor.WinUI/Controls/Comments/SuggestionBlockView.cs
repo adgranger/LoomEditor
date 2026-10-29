@@ -2,6 +2,7 @@ using LoomEditor.View.Comments;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
@@ -44,6 +45,7 @@ internal sealed partial class SuggestionBlockView : UserControl
         {
             var button = new Button { Content = CommentStrings.ApplySuggestion, IsEnabled = canApply };
             button.Click += (_, _) => apply();
+            AutomationProperties.SetFullDescription(button, diff.Describe());
             if (applyToolTip is not null)
             {
                 ToolTipService.SetToolTip(button, applyToolTip);
@@ -85,6 +87,8 @@ internal sealed partial class SuggestionBlockView : UserControl
         AutomationProperties.SetName(this, CommentStrings.SuggestedChange);
         AutomationProperties.SetFullDescription(this, diff.Describe());
     }
+
+    protected override AutomationPeer OnCreateAutomationPeer() => new CommentThreadAutomationPeer(this);
 
     /// <summary>The line text the diff was computed against (sent back to the controller on Apply to detect a stale block).</summary>
     public string RenderedLineText { get; init; } = "";

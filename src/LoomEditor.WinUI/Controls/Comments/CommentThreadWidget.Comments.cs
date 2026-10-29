@@ -3,6 +3,7 @@ using LoomEditor.View.Comments;
 using LoomEditor.View.Markdown;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Shapes;
 
@@ -25,9 +26,9 @@ internal sealed partial class CommentThreadWidget
         }
     }
 
-    private Grid CommentRow(Comment comment, DateTimeOffset now)
+    private CommentRowPanel CommentRow(Comment comment, DateTimeOffset now)
     {
-        var grid = new Grid { ColumnSpacing = 8 };
+        var grid = new CommentRowPanel { ColumnSpacing = 8 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
@@ -45,11 +46,13 @@ internal sealed partial class CommentThreadWidget
         string time = RelativeTime.Format(comment.UpdatedAt ?? comment.CreatedAt, now);
         line.Children.Add(Text(comment.UpdatedAt is null ? time : time + CommentStrings.Edited, _dim));
         content.Children.Add(line);
+        AutomationProperties.SetName(grid, CommentStrings.CommentAutomationName(comment.Author.Name, time));
 
         if (comment.Body.Length > 0)
         {
             var body = new StackPanel();
             MarkdownDocument document = MarkdownParser.Parse(comment.Body, MarkdownParserOptions.Extended);
+            AutomationProperties.SetFullDescription(grid, document.ToPlainText());
             foreach (UIElement row in _markdown.Build(document, _fontSize, _codeFont, SuggestionOptions(document, comment.Id)))
             {
                 if (row is RichTextBlock text)

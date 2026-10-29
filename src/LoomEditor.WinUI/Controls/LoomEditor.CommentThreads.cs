@@ -76,12 +76,14 @@ public sealed partial class LoomEditor
 
         canvas.SizeChanged += OnZoneWidgetCanvasSizeChanged;
         _commentZoneHost = new CommentZoneHost(this, new OverlayHost(canvas), _commentThreads);
-        _commentZoneHost.ApplyTheme(EffectiveTheme);
+        _commentZoneHost.ApplyTheme(EffectiveTheme, _systemHighContrastTheme is not null);
     }
 
     // A Canvas does not clip its children: without this a box scrolled half out would draw outside the editor.
     private void OnZoneWidgetCanvasSizeChanged(object sender, SizeChangedEventArgs e) =>
         ((Canvas)sender).Clip = new RectangleGeometry { Rect = new Windows.Foundation.Rect(0, 0, e.NewSize.Width, e.NewSize.Height) };
+
+    internal void Announce(string message) => _context.Announcer.Announce(message);
 
     private void InitializeCommentThreads()
     {

@@ -1,5 +1,6 @@
 using LoomEditor.View.Comments;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
@@ -82,9 +83,17 @@ internal sealed partial class CommentThreadWidget
     {
         _toolbar = new CommentComposerToolbar(ApplyToolbarAction);
         _toolbarSlot.Children.Add(_toolbar);
+        AutomationProperties.SetName(_textBox, CommentStrings.CommentText);
         _cancelButton.Click += (_, _) =>
         {
+            // Escape only cancels an empty draft: only Cancel can discard text.
+            bool discarded = !string.IsNullOrWhiteSpace(_viewModel.Draft);
             _viewModel.Cancel();
+            if (discarded)
+            {
+                Announce?.Invoke(CommentStrings.CommentDiscarded);
+            }
+
             FocusReturnRequested?.Invoke(this, EventArgs.Empty);
         };
         _submitButton.Click += (_, _) => _viewModel.Submit();

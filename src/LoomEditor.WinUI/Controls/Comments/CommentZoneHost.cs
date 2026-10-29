@@ -25,6 +25,7 @@ internal sealed partial class CommentZoneHost : IDisposable
     private readonly HashSet<string> _seen = [];
     private readonly Stopwatch _stopwatch = new();
     private EditorTheme? _theme;
+    private bool _highContrast;
     private int _visible;
     private double _lastArrangeMilliseconds;
 
@@ -53,12 +54,13 @@ internal sealed partial class CommentZoneHost : IDisposable
     public bool Contains(DependencyObject? element) => _layer.Contains(element);
 
     /// <summary>Applies the theme to every widget, and to the ones created later.</summary>
-    public void ApplyTheme(EditorTheme theme)
+    public void ApplyTheme(EditorTheme theme, bool highContrast)
     {
         _theme = theme;
+        _highContrast = highContrast;
         foreach (CommentThreadWidget widget in _widgets.Values)
         {
-            widget.ApplyTheme(theme);
+            widget.ApplyTheme(theme, highContrast);
         }
 
         MarkAllDirty();
@@ -196,10 +198,11 @@ internal sealed partial class CommentZoneHost : IDisposable
         var widget = new CommentThreadWidget(_controller.GetViewModel(thread)) { Visibility = Visibility.Collapsed };
         widget.ApplySuggestion = (commentId, index, lineText) => _controller.ApplySuggestion(thread, commentId, index, lineText);
         widget.IsEditorReadOnly = () => _editor.IsReadOnly;
+        widget.Announce = _editor.Announce;
         widget.ApplyFont(_editor.FontSize, _editor.FontFamily);
         if (_theme is not null)
         {
-            widget.ApplyTheme(_theme);
+            widget.ApplyTheme(_theme, _highContrast);
         }
 
         _widgets[id] = widget;

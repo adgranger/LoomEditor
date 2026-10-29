@@ -19,7 +19,9 @@ internal sealed partial class CommentThreadWidget
     private readonly SolidColorBrush _insertedLine = new();
 
     /// <summary>Takes the colors from the theme (Monaco: <c>editorWidget.*</c>, <c>descriptionForeground</c>, <c>textLink.foreground</c>, ...).</summary>
-    public void ApplyTheme(EditorTheme theme)
+    /// <param name="theme">The editor's effective theme: in Windows high contrast, the system high contrast theme.</param>
+    /// <param name="highContrast">Windows high contrast is on: the text box and buttons get no brush from code, WinUI's own high contrast resources apply.</param>
+    public void ApplyTheme(EditorTheme theme, bool highContrast = false)
     {
         ArgumentNullException.ThrowIfNull(theme);
         ThemeColor? foreground = theme.GetColor("editor.foreground") ?? theme.GetColor("foreground");
@@ -33,23 +35,38 @@ internal sealed partial class CommentThreadWidget
         Set(_codeBackground, theme.GetColor("textCodeBlock.background"));
         ThemeColor? quote = theme.GetColor("textBlockQuote.border");
         Set(_quoteBar, quote ?? dim ?? foreground, quote is null ? 0.5 : 1);
-        // Soft red / green when the theme has no diff colors (the high-contrast defaults have none).
-        Set(_removedLine, theme.GetColor("diffEditor.removedLineBackground") ?? new ThemeColor(0xFF, 0x00, 0x00, 0x33));
-        Set(_insertedLine, theme.GetColor("diffEditor.insertedLineBackground") ?? new ThemeColor(0x00, 0xAA, 0x00, 0x33));
+        // Soft red / green when the theme has no diff colors; none in high contrast (the -/+ markers carry the meaning).
+        ThemeColor? none = highContrast ? default(ThemeColor) : null;
+        Set(_removedLine, theme.GetColor("diffEditor.removedLineBackground") ?? none ?? new ThemeColor(0x33, 0xFF, 0x00, 0x00));
+        Set(_insertedLine, theme.GetColor("diffEditor.insertedLineBackground") ?? none ?? new ThemeColor(0x33, 0x00, 0xAA, 0x00));
 
-        // The composer: a missing id keeps the WinUI default (the brush is cleared, not set).
-        SetOrClear(_textBox, Control.BackgroundProperty, theme.GetColor("input.background"));
-        SetOrClear(_textBox, Control.BorderBrushProperty, theme.GetColor("input.border"));
-        SetOrClear(_textBox, Control.ForegroundProperty, theme.GetColor("input.foreground"));
-        SetOrClear(_submitButton, Control.BackgroundProperty, theme.GetColor("button.background"));
-        SetOrClear(_submitButton, Control.ForegroundProperty, theme.GetColor("button.foreground"));
+        // The composer: a missing id keeps the WinUI default (the brush is cleared, not set); in high contrast nothing is set by code.
+        SetOrClear(_textBox, Control.BackgroundProperty, highContrast ? null : theme.GetColor("input.background"));
+        SetOrClear(_textBox, Control.BorderBrushProperty, highContrast ? null : theme.GetColor("input.border"));
+        SetOrClear(_textBox, Control.ForegroundProperty, highContrast ? null : theme.GetColor("input.foreground"));
+        SetOrClear(_submitButton, Control.BackgroundProperty, highContrast ? null : theme.GetColor("button.background"));
+        SetOrClear(_submitButton, Control.ForegroundProperty, highContrast ? null : theme.GetColor("button.foreground"));
         foreach (Control button in (Control[])[_previewButton, _cancelButton, _replyButton])
         {
-            button.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-            button.Foreground = _foreground;
+            SetPlain(button, highContrast ? null : _foreground);
         }
 
-        _toolbar.SetForeground(_foreground);
+        _toolbar.SetForeground(highContrast ? null : _foreground);
+    }
+
+    /// <summary>A transparent button with this text color; <see langword="null"/> clears both (the WinUI defaults apply).</summary>
+    internal static void SetPlain(Control button, Brush? foreground)
+    {
+        if (foreground is null)
+        {
+            button.ClearValue(Control.BackgroundProperty);
+            button.ClearValue(Control.ForegroundProperty);
+        }
+        else
+        {
+            button.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+            button.Foreground = foreground;
+        }
     }
 
     private static void SetOrClear(Control control, DependencyProperty property, ThemeColor? color)

@@ -156,6 +156,22 @@ three comments — `Use a constant:` + a `suggestion` block `const int Max = 10;
 | 8 | High contrast: the `-` / `+` markers are readable (the soft red / green backgrounds come from the fallback colors) | pending |
 | 9 | A very long suggested line scrolls horizontally inside the block, it does not wrap | pending |
 
+## P11-20 — Accessibility of the comment widget
+
+Narrator and Accessibility Insights for Windows (also NVDA if installed). Use **Add review threads**, **Add suggestions on the caret line** and
+**Start composing on line 5**.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Insights shows each widget under the editor as a group `Comment thread on line N` (AutomationId `LoomEditor.CommentThread`), each comment as a group `author, time` with the body in its full description, and no unnamed focusable element | pending |
+| 2 | Narrator reads `Comment thread on line 13` (or the thread's line) when the focus enters; each toolbar button by name; the text box as "Comment text, edit" | pending |
+| 3 | The Preview toggle reads its state (on / off) | pending |
+| 4 | **Apply suggestion** reads the diff description (e.g. "Removed: int max = 10; Added: const int Max = 10;") | pending |
+| 5 | Announcements, each spoken once: thread added (Start composing), comment posted, suggestion applied, comment discarded (Cancel with text) | pending |
+| 6 | High contrast (Aquatic and Desert): every control readable, focus rectangles visible, the suggestion diff understandable from the `-` / `+` markers | pending |
+| 7 | `Tab` order = visual order (header button of a resolved thread, Reply, toolbar, text box, Preview, Cancel, Comment, Apply) | pending |
+| 8 | The editor's UIA text pattern is unchanged: the Gallery's **UIA self-check** button (phase 7) still passes with comment threads present | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

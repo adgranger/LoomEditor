@@ -1,6 +1,6 @@
 # P11-20 — Accessibility of the comment widget: UIA names, announcements, high contrast
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-19
 - **Size:** M
 
@@ -32,15 +32,33 @@ Sources: none (specified in this card; ADR 0014 decision 8; the pattern of phase
 
 ## Tests
 
-- [ ] Automated: none for WinUI. If the names are built by pure functions (e.g. the comment row name), put them in `CommentStrings` / a View helper with unit tests (`CommentRowName_AuthorAndTime`, `ThreadName_UsesCurrentLine`).
-- [ ] Manual (section "P11-20"; Narrator and Accessibility Insights; also NVDA if installed): (1) Insights shows the widget under the editor with the names above and no unnamed focusable element; (2) Narrator reads "Comment thread on line 13" when focus enters; each toolbar button by name; the text box as "Comment text, edit"; (3) the Preview toggle reads its state; (4) Apply suggestion reads the diff description; (5) the announcements above are spoken once; (6) high contrast (Aquatic and Desert themes): every control readable, focus visible, the diff still understandable without color; (7) `Tab` order = visual order; (8) the UIA text pattern of the **editor** is unchanged (the existing phase 7 self-check `--uia-selfcheck` still passes).
+- [x] Automated: none for WinUI. If the names are built by pure functions (e.g. the comment row name), put them in `CommentStrings` / a View helper with unit tests (`CommentRowName_AuthorAndTime`, `ThreadName_UsesCurrentLine`).
+- [x] Manual (section "P11-20"; Narrator and Accessibility Insights; also NVDA if installed): (1) Insights shows the widget under the editor with the names above and no unnamed focusable element; (2) Narrator reads "Comment thread on line 13" when focus enters; each toolbar button by name; the text box as "Comment text, edit"; (3) the Preview toggle reads its state; (4) Apply suggestion reads the diff description; (5) the announcements above are spoken once; (6) high contrast (Aquatic and Desert themes): every control readable, focus visible, the diff still understandable without color; (7) `Tab` order = visual order; (8) the UIA text pattern of the **editor** is unchanged (the existing phase 7 self-check `--uia-selfcheck` still passes).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written; the card result states that Narrator, NVDA and Insights were **not** run by the agent
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written; the card result states that Narrator, NVDA and Insights were **not** run by the agent
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `CommentThreadAutomationPeer` was needed: the widget and the suggestion block are `UserControl`s and a comment row is a `Grid`, none of which
+  creates an automation peer, so their `AutomationProperties.Name` would not be exposed. The peer is a `FrameworkElementAutomationPeer` with
+  control type `Group`; `CommentRowPanel : Grid` returns it for comment rows. Names and full descriptions stay in `AutomationProperties`.
+- Names: widget `Comment thread on line {N}` (refreshed on every rebuild; a line move raises `Changed`), AutomationId `LoomEditor.CommentThread`;
+  comment rows `{author}, {time}` with the plain text of the body as full description; text box `Comment text`; toolbar buttons (P11-18), Preview,
+  Cancel, Comment, Reply and Apply suggestion by their content; suggestion block `Suggested change` + `diff.Describe()`, also set as the Apply button's
+  full description. Names come from the existing `CommentStrings` functions (already unit tested), so no new test.
+- Announcements: `CommentDiscarded` when Cancel discards a non-blank draft, through `LoomEditor.Announce` (the editor's announcer). The other three
+  are announced by the controller (P11-10).
+- High contrast: the host passes `_systemHighContrastTheme is not null` with the theme; then the text box, buttons and toolbar get no brushes from
+  code (cleared), and the suggestion rows get no background unless the high contrast theme has diff colors.
+- Fixed in passing: the fallback diff colors of P11-19 had the alpha in the wrong `ThemeColor` argument (A, R, G, B order).
+- Not changed: tab order (visual order), focus visuals (defaults), animations (none). `LoomEditorAutomationPeer` does not override
+  `GetChildrenCore`, so the zone-widget layer's elements are UIA children of the editor.
+- Narrator, NVDA and Accessibility Insights were **not** run by the agent; the manual section "P11-20" is written.
 
 ## Out of scope
 

@@ -31,7 +31,6 @@ internal sealed partial class CommentComposerToolbar : StackPanel
                 Height = 28,
                 Padding = new Thickness(0),
                 BorderThickness = new Thickness(0),
-                Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent),
                 IsTabStop = _buttons.Count == 0,
             };
             ToolTipService.SetToolTip(button, name);
@@ -54,12 +53,12 @@ internal sealed partial class CommentComposerToolbar : StackPanel
         }
     }
 
-    /// <summary>Sets the text color of the labels.</summary>
-    public void SetForeground(Brush foreground)
+    /// <summary>Transparent buttons with this label color; <see langword="null"/> (high contrast) leaves the WinUI defaults.</summary>
+    public void SetForeground(Brush? foreground)
     {
         foreach (Button button in _buttons)
         {
-            button.Foreground = foreground;
+            CommentThreadWidget.SetPlain(button, foreground);
         }
     }
 
