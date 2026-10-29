@@ -1,6 +1,6 @@
 # P11-22 — Comment threads in the diff editor (original and modified side)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-21
 - **Size:** M
 
@@ -41,16 +41,29 @@ Sources: none (specified in this card; ADR 0014 decisions 2 and 4; ADR 0012 deci
 
 ## Tests
 
-- [ ] Automated (View): `CommentZone_NotIgnored_CountsAsAdditionalHeight`, `CommentZone_Ignored_NotCounted`, `TwoCommentZonesSameLine_HeightsAdd`, `CommentZoneAndWrappedLine_Combine` (a zone plus wrapping on the same model line: one combined entry)
-- [ ] Manual (section "P11-22"; Gallery diff window, buttons added by this card in `DiffDemoWindow`: **Add on original at caret**, **Add on modified at caret**; P11-23 finalizes them): (1) a thread on original line 10: the modified side shows blank space of the same height after the matching line, and the first line below the box is at the same y on both sides (screenshot, ±1 px); (2) the same from the modified side; (3) scroll: both sides stay level; (4) type ten lines in a composer on each side: the sides stay level after each line; (5) inline view: the modified thread stays, the original thread is not shown; side-by-side again: it is back with its draft; (6) with hidden unchanged regions, `startComposing` on a hidden line expands it and opens the box; (7) Apply suggestion works on the modified side; on the original side (not editable) the button is disabled with the read-only tooltip; (8) the Gallery log shows each event once with the right `GetSide` / `Side`.
+- [x] Automated (View): `CommentZone_NotIgnored_CountsAsAdditionalHeight`, `CommentZone_Ignored_NotCounted`, `TwoCommentZonesSameLine_HeightsAdd`, `CommentZoneAndWrappedLine_Combine` (a zone plus wrapping on the same model line: one combined entry)
+- [x] Manual (section "P11-22"; Gallery diff window, buttons added by this card in `DiffDemoWindow`: **Add on original at caret**, **Add on modified at caret**; P11-23 finalizes them): (1) a thread on original line 10: the modified side shows blank space of the same height after the matching line, and the first line below the box is at the same y on both sides (screenshot, ±1 px); (2) the same from the modified side; (3) scroll: both sides stay level; (4) type ten lines in a composer on each side: the sides stay level after each line; (5) inline view: the modified thread stays, the original thread is not shown; side-by-side again: it is back with its draft; (6) with hidden unchanged regions, `startComposing` on a hidden line expands it and opens the box; (7) Apply suggestion works on the modified side; on the original side (not editable) the button is disabled with the read-only tooltip; (8) the Gallery log shows each event once with the right `GetSide` / `Side`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` lists exactly `DiffSide`, `DiffAddCommentRequestedEventArgs`, and the new `LoomDiffEditor` members
-- [ ] The manual section is written; the card result says the agent did **not** run it
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` lists exactly `DiffSide`, `DiffAddCommentRequestedEventArgs`, and the new `LoomDiffEditor` members
+- [x] The manual section is written; the card result says the agent did **not** run it
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `LoomDiffEditor.CommentThreads.cs` (API and per-editor event forwarding, subscribed in `OnApplyTemplate`, released in `DetachParts`), `DiffSide`,
+  `DiffAddCommentRequestedEventArgs`. Both public types are in the `LoomEditor.WinUI.Controls` namespace like `LoomDiffEditor`. The side of an
+  `AddCommentRequested` comes from the sender editor.
+- Alignment: no code change. `DiffEditorViewZones.Extra` passes only its own zone ids as `ignoredIds`, so a comment zone counts. Tests in
+  `AdditionalLineHeightsCommentZoneTests`. Finding: two zones after the same line come back as **two** entries for that line (the ported Monaco
+  `JoinCombine` only joins a zone with wrapping); `LineRangeAlignment` pads the other side once per entry, so the heights still add up. The test
+  `TwoCommentZonesSameLine_HeightsAdd` checks the per-line sum, not a single entry.
+- Gallery `DiffDemoWindow`: **Add on original at caret**, **Add on modified at caret** and a one-line event log (`DiffDemoWindow.Comments.cs`).
+- `docs/how-to/use-the-diff-editor.md`: section "Comment threads".
+- The manual section "P11-22" is written; the agent did **not** run it.
 
 ## Out of scope
 

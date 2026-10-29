@@ -188,6 +188,22 @@ The Gallery answers `AddCommentRequested` with `AddCommentThread(line, startComp
 | 7 | Leaving the gutter to the text hides the button; moving from the gutter onto the button keeps it | pending |
 | 8 | **Add comment at caret** (the command `loom.commentThreads.add`) opens a composer on the caret line | pending |
 
+## P11-22 — Comment threads in the diff editor
+
+Gallery **Diff editor window**: **Add on original at caret** / **Add on modified at caret** open a composer on the caret line of that side; the
+text after the buttons logs the last event with its side.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | A thread on original line 10: the modified side shows blank space of the same height after the matching line; the first line below the box is at the same y on both sides (screenshot, ±1 px) | pending |
+| 2 | The same from the modified side | pending |
+| 3 | Scroll: both sides stay level | pending |
+| 4 | Type ten lines in a composer on each side: the sides stay level after each line | pending |
+| 5 | Inline view: the modified thread stays, the original one is not shown; side-by-side again: it is back with its draft | pending |
+| 6 | Hide unchanged regions on, caret on a line inside a hidden region (scroll there first with **Show all**, then **Collapse all**), **Add on … at caret**: the region expands and the box opens | pending |
+| 7 | Apply suggestion works on the modified side; on the original side (Original editable off) the button is disabled with the read-only tooltip | pending |
+| 8 | The log shows each event once with the right side (`CommentSubmitted (Modified)`, `AddCommentRequested (Original, line N)` with the gutter button on, ...) | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

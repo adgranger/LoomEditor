@@ -29,6 +29,10 @@
                 <Button Click="OnSwapSides" Content="Swap sides" />
                 <Button Click="OnResetTexts" Content="Reset texts" />
                 <Button Click="OnLargeFiles" Content="Large files" />
+                <!-- Temporary (P11-22): P11-23 finalizes the comment buttons. -->
+                <Button Click="OnAddOnOriginal" Content="Add on original at caret" />
+                <Button Click="OnAddOnModified" Content="Add on modified at caret" />
+                <TextBlock x:Name="CommentLogText" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
             </StackPanel>
         </ScrollViewer>
 

@@ -14,6 +14,13 @@ LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.Thread.get -> LoomEditor.Cor
 LoomEditor.WinUI.Controls.CommentThreadEventArgs
 LoomEditor.WinUI.Controls.CommentThreadEventArgs.CommentThreadEventArgs(LoomEditor.Core.Comments.CommentThread! thread) -> void
 LoomEditor.WinUI.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber) -> void
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.Side.get -> LoomEditor.WinUI.Controls.DiffSide
+LoomEditor.WinUI.Controls.DiffSide
+LoomEditor.WinUI.Controls.DiffSide.Modified = 1 -> LoomEditor.WinUI.Controls.DiffSide
+LoomEditor.WinUI.Controls.DiffSide.Original = 0 -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.EditorAccessibilitySupport
 LoomEditor.WinUI.Controls.EditorAccessibilitySupport.Auto = 0 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
 LoomEditor.WinUI.Controls.EditorAccessibilitySupport.Off = 2 -> LoomEditor.WinUI.Controls.EditorAccessibilitySupport
@@ -39,12 +46,18 @@ LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.CommentCancelled -> System.EventHandler<LoomEditor.WinUI.Controls.CommentThreadEventArgs!>?
+LoomEditor.WinUI.Controls.LoomDiffEditor.CommentSubmitted -> System.EventHandler<LoomEditor.WinUI.Controls.CommentSubmittedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomDiffEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
 LoomEditor.WinUI.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizing.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizing.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.GetSide(LoomEditor.Core.Comments.CommentThread! thread) -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.LoomDiffEditor.GoToNextChange() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.GoToPreviousChange() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegions.get -> bool
@@ -75,6 +88,7 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalText.get -> string!
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicators.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicators.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderOverviewRuler.get -> bool
@@ -83,6 +97,7 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySide.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySide.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.RevealFirstChangeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ShowAllUnchangedRegions() -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.SuggestionApplied -> System.EventHandler<LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.WinUI.Controls.LoomDiffEditor.Theme.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get -> bool

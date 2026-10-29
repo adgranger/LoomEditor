@@ -999,7 +999,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P11-22](phase-11/P11-22-diff-editor-comment-threads.md) | Comment threads in the diff editor (original and modified side) | P11-21 | todo |
+| [P11-22](phase-11/P11-22-diff-editor-comment-threads.md) | Comment threads in the diff editor (original and modified side) | P11-21 | done |
 
 ### Step E — Prove it and close the phase
 

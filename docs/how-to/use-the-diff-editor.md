@@ -46,6 +46,17 @@ apply to both sides.
 - `F7` / `Shift+F7`, or `OpenAccessibleDiffViewer()`: the accessible diff viewer, a list that covers both editors and shows one group of
   changes row by row (arrows, `Enter` / `Space` reveal the line, `Esc` closes). `IsAccessibleDiffViewerOpen` tells whether it is open.
 
+## Comment threads
+
+`AddCommentThread(DiffSide.Original | DiffSide.Modified, line, title, startComposing)` puts a thread under a line of either side; in the
+side-by-side view the other side gets the same blank height, so the lines stay level. `CommentThreads` lists both sides, `GetSide(thread)`
+tells which one a thread is on, `RemoveCommentThread` works for both. `CommentSubmitted`, `CommentCancelled` and `SuggestionApplied` come from
+either side with the same arguments as `LoomEditor` (call `GetSide(e.Thread)`); `AddCommentRequested` carries a `DiffAddCommentRequestedEventArgs`
+with `Side` and `LineNumber`. Threads added through `Original` / `Modified` directly are included. The gutter "+" button is per editor: set
+`CommentGutterButtonEnabled` on `Original` and `Modified`. In the inline view the original side's threads are not shown (they come back, with
+their drafts, in side-by-side). A suggestion cannot be applied on the original side unless `OriginalEditable` is on. When `OriginalText` or
+`ModifiedText` replaces a text, its threads stay, clamped to the new line count.
+
 ## Counting the changes
 
 `ChangeCount` is the number of blocks of changed lines of the last diff; `IsDiffUpToDate` is false from an edit until its new diff is
