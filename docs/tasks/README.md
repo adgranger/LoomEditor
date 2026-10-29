@@ -963,7 +963,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P11-01](phase-11/P11-01-comment-data-model.md) | Comment data model: `Comment`, `CommentAuthor`, `CommentThread` | P10-31 | todo |
+| [P11-01](phase-11/P11-01-comment-data-model.md) | Comment data model: `Comment`, `CommentAuthor`, `CommentThread` | P10-31 | done |
 | [P11-02](phase-11/P11-02-markdown-extended-syntax.md) | Markdown: blockquote, strikethrough and underline (opt-in) | P10-31 | todo |
 | [P11-03](phase-11/P11-03-markdown-toolbar-inline.md) | Markdown toolbar (1/2): inline formats as pure text edits | P11-02 | todo |
 | [P11-04](phase-11/P11-04-markdown-toolbar-blocks.md) | Markdown toolbar (2/2): heading, lists, quote, code block and suggestion | P11-03 | todo |

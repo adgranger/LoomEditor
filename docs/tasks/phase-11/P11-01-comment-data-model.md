@@ -1,6 +1,6 @@
 # P11-01 — Comment data model: `Comment`, `CommentAuthor`, `CommentThread`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-31
 - **Size:** S
 
@@ -39,14 +39,14 @@ Sources: none (specified in this card; ADR 0014 decision 3). Read first: `src/Lo
 
 ## Tests
 
-- [ ] New: `Comment_BlankId_Throws`, `Comment_Create_AssignsIdAndTimestamp`, `Author_BlankName_Throws`, `AddComment_Duplicate_Throws`, `AddComment_RaisesCommentAdded`, `RemoveComment_Unknown_ReturnsFalse`, `RemoveComment_RaisesCommentRemoved`, `ReplaceComment_KeepsOrder`, `ReplaceComment_Unknown_ReturnsFalse`, `State_SameValue_RaisesNothing`, `State_Changed_RaisesStateChanged`, `Title_Changed_RaisesTitleChanged`, `LineNumber_Changed_RaisesLineChanged`, `Constructor_LineZero_Throws`, `Comments_IsNotModifiableByCaller`
+- [x] New: `Comment_BlankId_Throws`, `Comment_Create_AssignsIdAndTimestamp`, `Author_BlankName_Throws`, `AddComment_Duplicate_Throws`, `AddComment_RaisesCommentAdded`, `RemoveComment_Unknown_ReturnsFalse`, `RemoveComment_RaisesCommentRemoved`, `ReplaceComment_KeepsOrder`, `ReplaceComment_Unknown_ReturnsFalse`, `State_SameValue_RaisesNothing`, `State_Changed_RaisesStateChanged`, `Title_Changed_RaisesTitleChanged`, `LineNumber_Changed_RaisesLineChanged`, `Constructor_LineZero_Throws`, `Comments_IsNotModifiableByCaller`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` lists exactly the public members above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` lists exactly the public members above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

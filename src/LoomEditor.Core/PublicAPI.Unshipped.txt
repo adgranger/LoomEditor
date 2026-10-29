@@ -15,6 +15,54 @@
 ~override LoomEditor.Core.Text.TextEdit.Equals(object obj) -> bool
 abstract LoomEditor.Core.Model.Events.ModelRawChange.<Clone>$() -> LoomEditor.Core.Model.Events.ModelRawChange!
 abstract LoomEditor.Core.Model.Events.ModelRawChange.ChangeType.get -> LoomEditor.Core.Model.Events.RawContentChangedType
+LoomEditor.Core.Comments.Comment
+LoomEditor.Core.Comments.Comment.<Clone>$() -> LoomEditor.Core.Comments.Comment!
+LoomEditor.Core.Comments.Comment.Author.get -> LoomEditor.Core.Comments.CommentAuthor!
+LoomEditor.Core.Comments.Comment.Author.init -> void
+LoomEditor.Core.Comments.Comment.Body.get -> string!
+LoomEditor.Core.Comments.Comment.Body.init -> void
+LoomEditor.Core.Comments.Comment.Comment(string! id, LoomEditor.Core.Comments.CommentAuthor! author, string! body, System.DateTimeOffset createdAt, System.DateTimeOffset? updatedAt = null) -> void
+LoomEditor.Core.Comments.Comment.CreatedAt.get -> System.DateTimeOffset
+LoomEditor.Core.Comments.Comment.CreatedAt.init -> void
+LoomEditor.Core.Comments.Comment.Equals(LoomEditor.Core.Comments.Comment? other) -> bool
+LoomEditor.Core.Comments.Comment.Id.get -> string!
+LoomEditor.Core.Comments.Comment.Id.init -> void
+LoomEditor.Core.Comments.Comment.UpdatedAt.get -> System.DateTimeOffset?
+LoomEditor.Core.Comments.Comment.UpdatedAt.init -> void
+LoomEditor.Core.Comments.CommentAuthor
+LoomEditor.Core.Comments.CommentAuthor.<Clone>$() -> LoomEditor.Core.Comments.CommentAuthor!
+LoomEditor.Core.Comments.CommentAuthor.AvatarUrl.get -> string?
+LoomEditor.Core.Comments.CommentAuthor.AvatarUrl.init -> void
+LoomEditor.Core.Comments.CommentAuthor.CommentAuthor(string! name, string? avatarUrl = null) -> void
+LoomEditor.Core.Comments.CommentAuthor.Equals(LoomEditor.Core.Comments.CommentAuthor? other) -> bool
+LoomEditor.Core.Comments.CommentAuthor.Name.get -> string!
+LoomEditor.Core.Comments.CommentAuthor.Name.init -> void
+LoomEditor.Core.Comments.CommentThread
+LoomEditor.Core.Comments.CommentThread.AddComment(LoomEditor.Core.Comments.Comment! comment) -> void
+LoomEditor.Core.Comments.CommentThread.Changed -> System.EventHandler<LoomEditor.Core.Comments.CommentThreadChangedEventArgs!>?
+LoomEditor.Core.Comments.CommentThread.Comments.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.Comment!>!
+LoomEditor.Core.Comments.CommentThread.Id.get -> string!
+LoomEditor.Core.Comments.CommentThread.LineNumber.get -> int
+LoomEditor.Core.Comments.CommentThread.RemoveComment(string! id) -> bool
+LoomEditor.Core.Comments.CommentThread.ReplaceComment(LoomEditor.Core.Comments.Comment! comment) -> bool
+LoomEditor.Core.Comments.CommentThread.State.get -> LoomEditor.Core.Comments.CommentThreadState
+LoomEditor.Core.Comments.CommentThread.State.set -> void
+LoomEditor.Core.Comments.CommentThread.Title.get -> string?
+LoomEditor.Core.Comments.CommentThread.Title.set -> void
+LoomEditor.Core.Comments.CommentThreadChangedEventArgs
+LoomEditor.Core.Comments.CommentThreadChangedEventArgs.Comment.get -> LoomEditor.Core.Comments.Comment?
+LoomEditor.Core.Comments.CommentThreadChangedEventArgs.CommentThreadChangedEventArgs(LoomEditor.Core.Comments.CommentThreadChangeKind kind, LoomEditor.Core.Comments.Comment? comment) -> void
+LoomEditor.Core.Comments.CommentThreadChangedEventArgs.Kind.get -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind.CommentAdded = 0 -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind.CommentRemoved = 1 -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind.CommentReplaced = 2 -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind.LineChanged = 5 -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind.StateChanged = 3 -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadChangeKind.TitleChanged = 4 -> LoomEditor.Core.Comments.CommentThreadChangeKind
+LoomEditor.Core.Comments.CommentThreadState
+LoomEditor.Core.Comments.CommentThreadState.Open = 0 -> LoomEditor.Core.Comments.CommentThreadState
+LoomEditor.Core.Comments.CommentThreadState.Resolved = 1 -> LoomEditor.Core.Comments.CommentThreadState
 LoomEditor.Core.Languages.Features.CompletionContext
 LoomEditor.Core.Languages.Features.CompletionContext.CompletionContext() -> void
 LoomEditor.Core.Languages.Features.CompletionContext.CompletionContext(LoomEditor.Core.Languages.Features.CompletionTriggerKind TriggerKind, string? TriggerCharacter = null) -> void
@@ -38,6 +86,8 @@ LoomEditor.Core.Languages.Features.CompletionItem.FilterText.get -> string?
 LoomEditor.Core.Languages.Features.CompletionItem.FilterText.set -> void
 LoomEditor.Core.Languages.Features.CompletionItem.InsertText.get -> string!
 LoomEditor.Core.Languages.Features.CompletionItem.InsertText.set -> void
+LoomEditor.Core.Languages.Features.CompletionItem.InsertTextRules.get -> LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.CompletionItem.InsertTextRules.set -> void
 LoomEditor.Core.Languages.Features.CompletionItem.Kind.get -> LoomEditor.Core.Languages.Features.CompletionItemKind
 LoomEditor.Core.Languages.Features.CompletionItem.Kind.set -> void
 LoomEditor.Core.Languages.Features.CompletionItem.Label.get -> string!
@@ -124,6 +174,10 @@ LoomEditor.Core.Languages.Features.IDefinitionProvider
 LoomEditor.Core.Languages.Features.IDefinitionProvider.ProvideDefinitionAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Languages.Features.LocationLink!>?>!
 LoomEditor.Core.Languages.Features.IHoverProvider
 LoomEditor.Core.Languages.Features.IHoverProvider.ProvideHoverAsync(LoomEditor.Core.Model.TextModel! model, LoomEditor.Core.Text.Position position, System.Threading.CancellationToken token) -> System.Threading.Tasks.Task<LoomEditor.Core.Languages.Features.Hover?>!
+LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.InsertTextRules.InsertAsSnippet = 4 -> LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.InsertTextRules.KeepWhitespace = 1 -> LoomEditor.Core.Languages.Features.InsertTextRules
+LoomEditor.Core.Languages.Features.InsertTextRules.None = 0 -> LoomEditor.Core.Languages.Features.InsertTextRules
 LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>
 LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.All(string! languageId) -> System.Collections.Generic.IReadOnlyList<T!>!
 LoomEditor.Core.Languages.Features.LanguageFeatureRegistry<T>.AllNoModel() -> System.Collections.Generic.IReadOnlyList<T!>!
@@ -464,6 +518,12 @@ LoomEditor.Core.Text.TextEdit.Range.get -> LoomEditor.Core.Text.Range
 LoomEditor.Core.Text.TextEdit.Text.get -> string!
 LoomEditor.Core.Text.TextEdit.TextEdit() -> void
 LoomEditor.Core.Text.TextEdit.TextEdit(LoomEditor.Core.Text.Range range, string! text) -> void
+override LoomEditor.Core.Comments.Comment.Equals(object? obj) -> bool
+override LoomEditor.Core.Comments.Comment.GetHashCode() -> int
+override LoomEditor.Core.Comments.Comment.ToString() -> string!
+override LoomEditor.Core.Comments.CommentAuthor.Equals(object? obj) -> bool
+override LoomEditor.Core.Comments.CommentAuthor.GetHashCode() -> int
+override LoomEditor.Core.Comments.CommentAuthor.ToString() -> string!
 override LoomEditor.Core.Languages.Features.CompletionContext.GetHashCode() -> int
 override LoomEditor.Core.Languages.Features.CompletionRange.GetHashCode() -> int
 override LoomEditor.Core.Languages.Features.Hover.Equals(object? obj) -> bool
@@ -527,6 +587,11 @@ override sealed LoomEditor.Core.Model.Events.ModelRawFlush.Equals(LoomEditor.Cor
 override sealed LoomEditor.Core.Model.Events.ModelRawLineChanged.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
 override sealed LoomEditor.Core.Model.Events.ModelRawLinesDeleted.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
 override sealed LoomEditor.Core.Model.Events.ModelRawLinesInserted.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
+static LoomEditor.Core.Comments.Comment.Create(LoomEditor.Core.Comments.CommentAuthor! author, string! body, System.DateTimeOffset? createdAt = null) -> LoomEditor.Core.Comments.Comment!
+static LoomEditor.Core.Comments.Comment.operator !=(LoomEditor.Core.Comments.Comment? left, LoomEditor.Core.Comments.Comment? right) -> bool
+static LoomEditor.Core.Comments.Comment.operator ==(LoomEditor.Core.Comments.Comment? left, LoomEditor.Core.Comments.Comment? right) -> bool
+static LoomEditor.Core.Comments.CommentAuthor.operator !=(LoomEditor.Core.Comments.CommentAuthor? left, LoomEditor.Core.Comments.CommentAuthor? right) -> bool
+static LoomEditor.Core.Comments.CommentAuthor.operator ==(LoomEditor.Core.Comments.CommentAuthor? left, LoomEditor.Core.Comments.CommentAuthor? right) -> bool
 static LoomEditor.Core.Languages.Features.CompletionContext.operator !=(LoomEditor.Core.Languages.Features.CompletionContext left, LoomEditor.Core.Languages.Features.CompletionContext right) -> bool
 static LoomEditor.Core.Languages.Features.CompletionContext.operator ==(LoomEditor.Core.Languages.Features.CompletionContext left, LoomEditor.Core.Languages.Features.CompletionContext right) -> bool
 static LoomEditor.Core.Languages.Features.CompletionRange.FromRange(LoomEditor.Core.Text.Range range) -> LoomEditor.Core.Languages.Features.CompletionRange
@@ -591,9 +656,3 @@ static LoomEditor.Core.Text.TextEdit.Replace(LoomEditor.Core.Text.Range range, s
 virtual LoomEditor.Core.Model.Events.ModelRawChange.EqualityContract.get -> System.Type!
 virtual LoomEditor.Core.Model.Events.ModelRawChange.Equals(LoomEditor.Core.Model.Events.ModelRawChange? other) -> bool
 virtual LoomEditor.Core.Model.Events.ModelRawChange.PrintMembers(System.Text.StringBuilder! builder) -> bool
-LoomEditor.Core.Languages.Features.CompletionItem.InsertTextRules.get -> LoomEditor.Core.Languages.Features.InsertTextRules
-LoomEditor.Core.Languages.Features.CompletionItem.InsertTextRules.set -> void
-LoomEditor.Core.Languages.Features.InsertTextRules
-LoomEditor.Core.Languages.Features.InsertTextRules.InsertAsSnippet = 4 -> LoomEditor.Core.Languages.Features.InsertTextRules
-LoomEditor.Core.Languages.Features.InsertTextRules.KeepWhitespace = 1 -> LoomEditor.Core.Languages.Features.InsertTextRules
-LoomEditor.Core.Languages.Features.InsertTextRules.None = 0 -> LoomEditor.Core.Languages.Features.InsertTextRules
