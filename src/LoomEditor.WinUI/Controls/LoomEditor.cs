@@ -78,6 +78,7 @@ public sealed partial class LoomEditor : Control
         DefaultStyleKey = typeof(LoomEditor);
         _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System, new DispatcherQueueUiDispatcher(DispatcherQueue), new DispatcherQueueEditorScheduler(DispatcherQueue));
         _viewModel = _context.ViewModel;
+        InitializeCommentThreads();
         _clipboardCommands = ClipboardCommands.Register(_context.Commands, _viewModel, new WindowsClipboardService());
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
         _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;

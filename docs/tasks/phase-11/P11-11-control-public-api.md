@@ -1,6 +1,6 @@
 # P11-11 — The public API of `LoomEditor`: `AddCommentThread`, `RemoveCommentThread` and the four events
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-10
 - **Size:** S
 
@@ -29,15 +29,15 @@ Sources: none (specified in this card; ADR 0014 decision 2). Read first: `src/Lo
 
 ## Tests
 
-- [ ] Automated: none new (no WinUI test project; the controller is covered by P11-10). The build proves the public surface (`PublicAPI` analyzer).
-- [ ] Manual: none in this card (nothing is visible yet).
+- [x] Automated: none new (no WinUI test project; the controller is covered by P11-10). The build proves the public surface (`PublicAPI` analyzer).
+- [x] Manual: none in this card (nothing is visible yet).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) lists exactly the members and args classes above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (WinUI) lists exactly the members and args classes above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

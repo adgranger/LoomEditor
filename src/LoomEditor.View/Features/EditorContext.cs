@@ -373,6 +373,7 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>Stops the background tokenizer and releases the grammars.</summary>
     public void Dispose()
     {
+        CommentThreads?.Dispose();
         MarkerDecorations.Dispose();
         Highlighter.Dispose();
         _coreCommands.Dispose();
