@@ -1,5 +1,6 @@
 using LoomEditor.Core.Comments;
 using LoomEditor.View.DiffEditor;
+using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -50,16 +51,42 @@ public sealed partial class LoomDiffEditor
         ArgumentOutOfRangeException.ThrowIfGreaterThan(startLineNumber, editor.Model.LineCount);
         ArgumentOutOfRangeException.ThrowIfLessThan(endLineNumber, startLineNumber);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(endLineNumber, editor.Model.LineCount);
-        if (startComposing && HideUnchangedRegions && _viewModel is { } viewModel)
-        {
-            Reveal(viewModel, side, startLineNumber);
-            if (endLineNumber != startLineNumber)
-            {
-                Reveal(viewModel, side, endLineNumber);
-            }
-        }
+        RevealForComposing(side, startLineNumber, endLineNumber, startComposing);
 
         return editor.AddCommentThread(startLineNumber, endLineNumber, title, startComposing);
+    }
+
+    /// <summary>
+    /// Adds a comment thread anchored to the exact text of a range of one side; a range over whole lines, or an empty range, gives a
+    /// thread on whole lines.
+    /// </summary>
+    /// <param name="side">The side of the text.</param>
+    /// <param name="range">The text to comment on, in that side's text; it is clamped to it.</param>
+    /// <param name="title">An optional title.</param>
+    /// <param name="startComposing">Opens the comment box at once.</param>
+    /// <exception cref="ArgumentOutOfRangeException">The lines of <paramref name="range"/> are outside that side's text.</exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters", Justification = "Phase 12: the single-line overload stays source compatible.")]
+    public CommentThread AddCommentThread(DiffSide side, Range range, string? title = null, bool startComposing = false)
+    {
+        LoomEditor editor = EditorOf(side);
+        ArgumentOutOfRangeException.ThrowIfLessThan(range.StartLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(range.StartLineNumber, editor.Model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(range.EndLineNumber, editor.Model.LineCount);
+        RevealForComposing(side, range.StartLineNumber, range.EndLineNumber, startComposing);
+
+        return editor.AddCommentThread(range, title, startComposing);
+    }
+
+    private void RevealForComposing(DiffSide side, int start, int end, bool startComposing)
+    {
+        if (startComposing && HideUnchangedRegions && _viewModel is { } viewModel)
+        {
+            Reveal(viewModel, side, start);
+            if (end != start)
+            {
+                Reveal(viewModel, side, end);
+            }
+        }
     }
 
     private static void Reveal(DiffEditorViewModel viewModel, DiffSide side, int lineNumber)
@@ -130,5 +157,8 @@ public sealed partial class LoomDiffEditor
     private void OnSideSuggestionApplied(object? sender, SuggestionAppliedEventArgs e) => SuggestionApplied?.Invoke(this, e);
 
     private void OnSideAddCommentRequested(object? sender, AddCommentRequestedEventArgs e) =>
-        AddCommentRequested?.Invoke(this, new DiffAddCommentRequestedEventArgs(ReferenceEquals(sender, _original) ? DiffSide.Original : DiffSide.Modified, e.StartLineNumber, e.LineNumber));
+        AddCommentRequested?.Invoke(this, Request(ReferenceEquals(sender, _original) ? DiffSide.Original : DiffSide.Modified, e));
+
+    private static DiffAddCommentRequestedEventArgs Request(DiffSide side, AddCommentRequestedEventArgs e) =>
+        e.TextRange is { } text ? new DiffAddCommentRequestedEventArgs(side, text) : new DiffAddCommentRequestedEventArgs(side, e.StartLineNumber, e.LineNumber);
 }

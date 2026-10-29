@@ -256,3 +256,9 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> M
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.ZoomLevelProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!

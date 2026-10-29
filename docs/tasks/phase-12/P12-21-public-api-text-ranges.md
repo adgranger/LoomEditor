@@ -1,6 +1,6 @@
 # P12-21 — Public API: threads on the exact text in `LoomEditor` and `LoomDiffEditor`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-20
 - **Size:** S
 
@@ -58,16 +58,16 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] None automated (no WinUI test project). P12-17 and P12-20 cover the logic; the build checks the API file.
-- [ ] Manual: section "P12-21" written (not run by the agent).
+- [x] None automated (no WinUI test project). P12-17 and P12-20 cover the logic; the build checks the API file.
+- [x] Manual: section "P12-21" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the six members; no earlier line changed
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the six members; no earlier line changed
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -76,3 +76,8 @@ The widget and the gutter button (P12-22), Gallery buttons (P12-23), a `Range` o
 ## Suggested commit message
 
 `feat(winui): add comment threads on the exact text to the editor and diff editor APIs`
+
+## Result
+
+- Manual section "P12-21" written in `docs/testing/phase-12-manual-tests.md`; **not run** (no WinUI test project, the Gallery buttons come with P12-23).
+- Deviation: no `ArgumentNullException.ThrowIfNull(range)` (`Range` is a struct). The WinUI project has no global `Range` alias, so each touched file has `using Range = LoomEditor.Core.Text.Range;`.

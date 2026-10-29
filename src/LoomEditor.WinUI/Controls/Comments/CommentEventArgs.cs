@@ -1,4 +1,5 @@
 using LoomEditor.Core.Comments;
+using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -55,11 +56,26 @@ public sealed class AddCommentRequestedEventArgs : EventArgs
         LineNumber = lineNumber;
     }
 
+    /// <summary>Creates the arguments for the exact text of a range.</summary>
+    /// <param name="textRange">The text the user asked to comment on.</param>
+    public AddCommentRequestedEventArgs(Range textRange)
+    {
+        StartLineNumber = textRange.StartLineNumber;
+        LineNumber = textRange.EndLineNumber;
+        TextRange = textRange;
+    }
+
     /// <summary>The first line of the requested range; equals <see cref="LineNumber"/> for one line.</summary>
     public int StartLineNumber { get; }
 
     /// <summary>The last line of the requested range (1-based); the line the user wants to comment for one line.</summary>
     public int LineNumber { get; }
+
+    /// <summary>
+    /// The exact text the user asked to comment on; <see langword="null"/> when the request is for whole lines
+    /// (<see cref="StartLineNumber"/> to <see cref="LineNumber"/>). Pass it to <c>AddCommentThread(Range, …)</c>.
+    /// </summary>
+    public Range? TextRange { get; }
 }
 
 /// <summary>Data of <c>SuggestionApplied</c>.</summary>

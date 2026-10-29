@@ -1,3 +1,5 @@
+using Range = LoomEditor.Core.Text.Range;
+
 namespace LoomEditor.WinUI.Controls;
 
 /// <summary>Data of <see cref="LoomDiffEditor.AddCommentRequested"/>: the side and lines a thread was asked for.</summary>
@@ -24,6 +26,17 @@ public sealed class DiffAddCommentRequestedEventArgs : EventArgs
         LineNumber = lineNumber;
     }
 
+    /// <summary>Creates the arguments for the exact text of a range.</summary>
+    /// <param name="side">The side of the text.</param>
+    /// <param name="textRange">The text the user asked to comment on, in that side's text.</param>
+    public DiffAddCommentRequestedEventArgs(DiffSide side, Range textRange)
+    {
+        Side = side;
+        StartLineNumber = textRange.StartLineNumber;
+        LineNumber = textRange.EndLineNumber;
+        TextRange = textRange;
+    }
+
     /// <summary>The side of the lines.</summary>
     public DiffSide Side { get; }
 
@@ -32,4 +45,10 @@ public sealed class DiffAddCommentRequestedEventArgs : EventArgs
 
     /// <summary>The last line of the requested range (1-based, in that side's text).</summary>
     public int LineNumber { get; }
+
+    /// <summary>
+    /// The exact text the user asked to comment on; <see langword="null"/> when the request is for whole lines
+    /// (<see cref="StartLineNumber"/> to <see cref="LineNumber"/>). Pass it to <c>AddCommentThread(DiffSide, Range, …)</c>.
+    /// </summary>
+    public Range? TextRange { get; }
 }

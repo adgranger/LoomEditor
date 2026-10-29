@@ -70,6 +70,21 @@ selection) and the **Gutter "+" button** box. **Self-check:** the logic of this 
 5. Narrator reads "Add a comment on lines 3 to 6" on the button inside the selection.
    Result:
 
+## P12-21 — Exact text in the public API
+
+Controls for this section are added by P12-23 (Gallery buttons).
+
+1. Select `value` on a line, **Comment on selection**: the log shows `AddCommentRequested, line N, text N:a–N:b` and the box opens under line N with only the word tinted.
+   Result:
+2. **Add on selection (Range API)** with a full line selected by mouse drag: a whole-line thread (no tint on a single line, the log shows no `text`).
+   Result:
+3. **Add text out of document (error)**: the log shows `ArgumentOutOfRangeException`.
+   Result:
+4. In the diff window, select a word on the modified side, **Add on modified**: only that word is tinted, the original side is padded by the box height.
+   Result:
+5. **Add range 3–6** still gives a whole-line thread with all 4 lines tinted.
+   Result:
+
 ## End-to-end A — Range review (editor)
 
 | # | Step | Result |
