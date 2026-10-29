@@ -1,6 +1,6 @@
 # P10-19 — Snippet syntax (1/3): the scanner and the text, placeholder and choice markers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-02
 - **Size:** M
 
@@ -37,15 +37,15 @@ The tokenizer of the TextMate snippet syntax and the first part of its tree exis
 
 ## Tests
 
-- [ ] Port: `Scanner` (`snippetParser.test.ts` 13–127), asserting every token (the file shows the pattern: scan, assert type and position)
-- [ ] New: `TextMarker_Escape_EscapesBackslashDollarBrace`, `TextMarker_ToTextmateString_Escapes`, `Placeholder_CompareByIndex_FinalTabstopLast` (Monaco: `0` sorts after the others), `Placeholder_Clone_IsDeepAndEqual`, `Choice_ToString_FirstOption`, `Choice_ToTextmateString_JoinsWithComma`, `Marker_Replace_ReparentsChildren`, `Marker_Snippet_ReturnsRoot`, `Marker_Ids_AreUnique`
+- [x] Port: `Scanner` (`snippetParser.test.ts` 13–127), asserting every token (the file shows the pattern: scan, assert type and position)
+- [x] New: `TextMarker_Escape_EscapesBackslashDollarBrace`, `TextMarker_ToTextmateString_Escapes`, `Placeholder_CompareByIndex_FinalTabstopLast` (Monaco: `0` sorts after the others), `Placeholder_Clone_IsDeepAndEqual`, `Choice_ToString_FirstOption`, `Choice_ToTextmateString_JoinsWithComma`, `Marker_Replace_ReparentsChildren`, `Marker_Snippet_ReturnsRoot`, `Marker_Ids_AreUnique`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `snippetParser.ts` row (scanner, markers; the file is `🔶` until P10-21)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `snippetParser.ts` row (scanner, markers; the file is `🔶` until P10-21)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

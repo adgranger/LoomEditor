@@ -927,7 +927,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-19](phase-10/P10-19-snippet-scanner-and-markers.md) | Snippet syntax (1/3): the scanner and the text, placeholder and choice markers | P10-02 | todo |
+| [P10-19](phase-10/P10-19-snippet-scanner-and-markers.md) | Snippet syntax (1/3): the scanner and the text, placeholder and choice markers | P10-02 | done |
 | [P10-20](phase-10/P10-20-snippet-transforms-variables-snippet.md) | Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet` | P10-19 | todo |
 | [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | todo |
 | [P10-22](phase-10/P10-22-snippet-variables.md) | Snippet variables: the resolvers | P10-21 | todo |
