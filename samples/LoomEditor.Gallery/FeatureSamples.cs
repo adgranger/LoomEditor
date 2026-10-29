@@ -37,7 +37,7 @@ internal static class FeatureSamples
         };
 
         samples.AddRange(Phase10Samples.All);
-        samples.Add(new("Comment threads (P11-12)", "plaintext", NumberedLines(200), 1, 1, "Temporary: the \"Comment threads (P11-12)\" buttons add boxes over their zones; scroll, wrap, fold, zoom"));
+        samples.Add(CommentSamples.Sample);
 
         foreach (string id in BlockLanguages)
         {
@@ -48,10 +48,6 @@ internal static class FeatureSamples
 
         return samples;
     }
-
-    // Blocks of ten lines (one header, nine indented) so the indentation folding has something to collapse.
-    private static string NumberedLines(int count) =>
-        string.Join('\n', Enumerable.Range(1, count).Select(i => string.Create(CultureInfo.InvariantCulture, $"{(i % 10 == 1 ? "" : "    ")}Line {i}")));
 
     private const string FindText = """
         using System;

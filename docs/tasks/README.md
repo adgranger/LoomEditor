@@ -1005,7 +1005,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P11-23](phase-11/P11-23-gallery-demo-and-manual-plan.md) | Gallery: the comment threads demo and the manual test plan | P11-22 | todo |
+| [P11-23](phase-11/P11-23-gallery-demo-and-manual-plan.md) | Gallery: the comment threads demo and the manual test plan | P11-22 | done |
 | [P11-24](phase-11/P11-24-native-aot-self-check.md) | Native AOT self-check of the phase 11 logic | P11-23 | todo |
 | [P11-25](phase-11/P11-25-close-phase-11.md) | Close phase 11 | all phase 11 cards | todo |
 

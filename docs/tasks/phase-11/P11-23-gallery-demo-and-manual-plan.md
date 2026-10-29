@@ -1,6 +1,6 @@
 # P11-23 — Gallery: the comment threads demo and the manual test plan
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-22
 - **Size:** M
 
@@ -38,16 +38,30 @@ Sources: none (specified in this card). Pattern: `samples/LoomEditor.Gallery/Pha
 
 ## Tests
 
-- [ ] Automated: none new (Gallery code); `dotnet build` of the solution proves it compiles.
-- [ ] Manual: the whole plan (not run by the agent).
+- [x] Automated: none new (Gallery code); `dotnet build` of the solution proves it compiles.
+- [x] Manual: the whole plan (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Every card of this phase that has a manual section (P11-12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22) has a section in the plan, and each step is runnable with the Gallery as it is
-- [ ] The temporary sample of P11-12 (and the buttons added to it by P11-13 … P11-21) is gone; the diff window buttons of P11-22 are kept and finished
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Every card of this phase that has a manual section (P11-12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22) has a section in the plan, and each step is runnable with the Gallery as it is
+- [x] The temporary sample of P11-12 (and the buttons added to it by P11-13 … P11-21) is gone; the diff window buttons of P11-22 are kept and finished
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `CommentSamples.cs` (sample text, its modified version for the diff, the three threads through a `Func<int, string?, CommentThread>`; Core
+  types only), `MainWindow.Comments.cs` rewritten (handlers, buttons, `Ctrl+Alt+M` accelerator, diagnostics line kept for P11-12 / P11-13),
+  the "Comment threads" Expander and picker entry; `DiffDemoWindow.Comments.cs` finished (**Comment sample**, **Add on original** /
+  **Add on modified**, the gutter box applied to both editors, the same handlers with the side in the log).
+- Removed: the temporary "Comment threads (P11-12)" sample and every temporary button of P11-12 … P11-21. Loading any picker sample removes the
+  current threads first; loading **Comment threads** adds its three.
+- New handlers are guarded with `Editor is null` / `DiffEditor is null` checks.
+- `docs/testing/phase-11-manual-tests.md` is rewritten as the complete plan: setup, the self-check line, every card section (P11-12 … P11-22,
+  their steps moved to the final Gallery), end-to-end A and B, C robustness, D keyboard, E screen reader, Findings.
+- The Gallery has no `--uia-selfcheck` command-line switch (only the **UIA self-check** button); the plan refers to the button.
+- Not run by the agent: the Gallery UI and the manual plan (only the build and the tests).
 
 ## Out of scope
 

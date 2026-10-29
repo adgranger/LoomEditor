@@ -4,20 +4,27 @@ using Microsoft.UI.Xaml;
 
 namespace LoomEditor.Gallery;
 
-// Temporary (P11-22): comment threads on either side of the diff; the log shows each event with its side. P11-23 finalizes this.
+// Comment threads on both sides of the diff (phase 11): the same host handlers as the main window, with the side in the log.
 public sealed partial class DiffDemoWindow
 {
-    private static readonly CommentAuthor Reviewer = new("Gallery");
-
     private void InitializeComments()
     {
+        if (DiffEditor is null)
+        {
+            return;
+        }
+
         DiffEditor.CommentSubmitted += (_, e) =>
         {
-            Log($"CommentSubmitted ({DiffEditor.GetSide(e.Thread)})");
-            e.Thread.AddComment(Comment.Create(Reviewer, e.Text));
+            Log($"CommentSubmitted ({DiffEditor.GetSide(e.Thread)}, line {e.Thread.LineNumber})");
+            e.Thread.AddComment(Comment.Create(CommentSamples.You, e.Text));
         };
-        DiffEditor.CommentCancelled += (_, e) => Log($"CommentCancelled ({SideOrRemoved(e.Thread)})");
-        DiffEditor.SuggestionApplied += (_, e) => Log($"SuggestionApplied ({DiffEditor.GetSide(e.Thread)}, line {e.LineNumber})");
+        DiffEditor.CommentCancelled += (_, e) => Log($"CommentCancelled ({SideOrRemoved(e.Thread)}, line {e.Thread.LineNumber})");
+        DiffEditor.SuggestionApplied += (_, e) =>
+        {
+            Log($"SuggestionApplied ({DiffEditor.GetSide(e.Thread)}, line {e.LineNumber})");
+            e.Thread.State = CommentThreadState.Resolved;
+        };
         DiffEditor.AddCommentRequested += (_, e) =>
         {
             Log($"AddCommentRequested ({e.Side}, line {e.LineNumber})");
@@ -30,6 +37,29 @@ public sealed partial class DiffDemoWindow
 
     private void OnAddOnModified(object sender, RoutedEventArgs e) =>
         DiffEditor.AddCommentThread(DiffSide.Modified, DiffEditor.Modified.Selections[0].PositionLineNumber, startComposing: true);
+
+    // The gutter "+" is a property of each editor, not of the diff editor.
+    private void OnCommentGutterChanged(object sender, RoutedEventArgs e)
+    {
+        bool on = CommentGutterBox.IsChecked == true;
+        DiffEditor.Original.CommentGutterButtonEnabled = on;
+        DiffEditor.Modified.CommentGutterButtonEnabled = on;
+    }
+
+    // Two versions of the comment sample, with its threads on the modified side and one on the original side.
+    private void OnLoadCommentSample(object sender, RoutedEventArgs e)
+    {
+        foreach (CommentThread thread in DiffEditor.CommentThreads)
+        {
+            DiffEditor.RemoveCommentThread(thread);
+        }
+
+        DiffEditor.OriginalText = CommentSamples.Sample.Text;
+        DiffEditor.ModifiedText = CommentSamples.ModifiedText;
+        CommentSamples.AddThreads((line, title) => DiffEditor.AddCommentThread(DiffSide.Original, line, title));
+        DiffEditor.AddCommentThread(DiffSide.Modified, CommentSamples.MaxLine, "On the new constant")
+            .AddComment(Comment.Create(new CommentAuthor("Linus"), "Better.", DateTimeOffset.UtcNow.AddMinutes(-5)));
+    }
 
     // Cancel on an empty thread removes it after the event: the side may already be unknown.
     private string SideOrRemoved(CommentThread thread) =>

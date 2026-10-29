@@ -53,7 +53,7 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         PopulatePickers();
-        InitializeCommentZonesStatus();
+        InitializeComments();
         Editor.LanguageId = "csharp";
         LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
         Editor.Text = SampleText.HelloWorld;
@@ -410,6 +410,7 @@ public sealed partial class MainWindow : Window
         Editor.Text = sample.Text;
         Editor.SetSelections(new[] { Selection.Collapsed(new Position(sample.Line, sample.Column)) });
         FeatureHintText.Text = sample.Hint;
+        OnFeatureSampleLoaded(sample);
         Editor.Focus(FocusState.Programmatic);
     }
 

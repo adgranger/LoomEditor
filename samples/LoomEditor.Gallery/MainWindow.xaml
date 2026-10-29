@@ -139,21 +139,16 @@
                     </StackPanel>
                 </Expander>
 
-                <!-- Temporary (P11-12): replaced by the comment threads demo of P11-23. -->
-                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Comment threads (P11-12)">
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Comment threads">
                     <StackPanel Spacing="6">
-                        <Button HorizontalAlignment="Stretch" Click="OnAddThreadAtCaret" Content="Add thread at caret" />
-                        <Button HorizontalAlignment="Stretch" Click="OnAddThreeThreads" Content="Add 3 threads (lines 5, 6, 40)" />
-                        <Button HorizontalAlignment="Stretch" Click="OnAdd200Threads" Content="Add 200 threads" />
-                        <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all" />
-                        <Button HorizontalAlignment="Stretch" Click="OnStartComposingOnLine5" Content="Start composing on line 5" />
-                        <ToggleSwitch x:Name="CommentGutterSwitch" Toggled="OnCommentGutterToggled" OffContent="Gutter + button" OnContent="Gutter + button" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddCommentAtCaret" Content="Add comment at caret" />
-                        <Button HorizontalAlignment="Stretch" Click="OnAddReviewThreads" Content="Add review threads (lines 3, 12, 25, 33)" />
-                        <Button HorizontalAlignment="Stretch" Click="OnAddSuggestionThread" Content="Add suggestions on the caret line" />
-                        <Button HorizontalAlignment="Stretch" Click="OnAddCommentToFirstThread" Content="Add a comment to the first thread" />
-                        <Button HorizontalAlignment="Stretch" Click="OnToggleLongTitle" Content="Toggle a long title" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAdd20Threads" Content="Add 20 threads" />
+                        <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all threads" />
+                        <Button HorizontalAlignment="Stretch" Click="OnResolveFirstThread" Content="Resolve first thread" />
+                        <ToggleSwitch x:Name="CommentGutterSwitch" Toggled="OnCommentGutterToggled" OffContent="Gutter &quot;+&quot; button" OnContent="Gutter &quot;+&quot; button" />
                         <TextBlock x:Name="CommentZonesStatus" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                        <TextBlock Text="Log events" Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock x:Name="CommentLog" MaxHeight="120" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
                     </StackPanel>
                 </Expander>
 
