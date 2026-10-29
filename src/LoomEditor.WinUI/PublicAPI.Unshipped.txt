@@ -56,8 +56,6 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.LoomDiffEditor() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
-LoomEditor.WinUI.Controls.LoomDiffEditor.MinimapEnabled.get -> bool
-LoomEditor.WinUI.Controls.LoomDiffEditor.MinimapEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.Modified.get -> LoomEditor.WinUI.Controls.LoomEditor!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedText.get -> string!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedText.set -> void
@@ -164,7 +162,6 @@ static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespacePro
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMsProperty -> Microsoft.UI.Xaml.DependencyProperty!
-static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.MinimapEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedTextProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditableProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalTextProperty -> Microsoft.UI.Xaml.DependencyProperty!

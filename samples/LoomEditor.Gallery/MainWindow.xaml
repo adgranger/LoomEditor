@@ -21,7 +21,6 @@
                         <ToggleSwitch x:Name="DiffSideBySideSwitch" IsOn="True" Toggled="OnDiffOptionToggled" OffContent="Inline view" OnContent="Side by side" />
                         <ToggleSwitch x:Name="DiffHideUnchangedSwitch" Toggled="OnDiffOptionToggled" OffContent="Hide unchanged regions" OnContent="Hide unchanged regions" />
                         <ToggleSwitch x:Name="DiffIgnoreWhitespaceSwitch" IsOn="True" Toggled="OnDiffOptionToggled" OffContent="Ignore trim whitespace" OnContent="Ignore trim whitespace" />
-                        <ToggleSwitch x:Name="DiffMinimapSwitch" IsOn="True" Toggled="OnDiffOptionToggled" OffContent="Minimaps" OnContent="Minimaps" />
                         <ToggleSwitch x:Name="DiffReadOnlySwitch" Toggled="OnDiffOptionToggled" OffContent="Read-only" OnContent="Read-only" />
                         <Button HorizontalAlignment="Stretch" Click="OnDiffCollapseAll" Content="Collapse all unchanged regions" />
                         <Button HorizontalAlignment="Stretch" Click="OnDiffShowAll" Content="Show all unchanged regions" />

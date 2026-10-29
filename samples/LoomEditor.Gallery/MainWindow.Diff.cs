@@ -50,7 +50,6 @@ public sealed partial class MainWindow
         DiffEditor.HideUnchangedRegions = DiffHideUnchangedSwitch.IsOn;
         DiffEditor.IgnoreTrimWhitespace = DiffIgnoreWhitespaceSwitch.IsOn;
         DiffEditor.IsReadOnly = DiffReadOnlySwitch.IsOn;
-        DiffEditor.MinimapEnabled = DiffMinimapSwitch.IsOn;
     }
 
     private void OnDiffCollapseAll(object sender, RoutedEventArgs e) => DiffEditor.CollapseAllUnchangedRegions();
