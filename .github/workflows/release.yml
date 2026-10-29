@@ -161,7 +161,7 @@ jobs:
         env:
           NUGET_USER: ${{ secrets.NUGET_USER }}
         run: |
-          if ([string]::IsNullOrEmpty($env:NUGET_USER)) { throw 'The secret NUGET_USER is not set in the environment "nuget" (see docs/RELEASING.md).' }
+          if ([string]::IsNullOrEmpty($env:NUGET_USER)) { throw 'The secret NUGET_USER is not set (Settings > Secrets and variables > Actions; see docs/RELEASING.md).' }
 
       # Trusted Publishing: exchanges the OIDC token for an API key valid one hour, so it runs right before the push.
       - name: NuGet login (OIDC)

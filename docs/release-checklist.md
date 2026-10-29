@@ -52,7 +52,7 @@ On a Windows 11 machine or VM without Visual Studio, outside the repository:
 - [ ] **HUMAN:** ID prefix reservation `LoomEditor.` requested (optional)
 - [ ] **HUMAN:** Trusted Publishing policy created (owner `adgranger`, repository `LoomEditor`, workflow
   `release.yml`, environment `nuget`, scope "Push new packages and package versions"); no API key exists
-- [ ] **HUMAN:** GitHub environment `nuget` with a required reviewer and the secret `NUGET_USER` (nuget.org profile
+- [ ] **HUMAN:** GitHub environment `nuget` with a required reviewer; repository secret `NUGET_USER` (nuget.org profile
   name)
 - [ ] **HUMAN:** tag ruleset on `v*`
 - [ ] **HUMAN:** branch ruleset on `main`

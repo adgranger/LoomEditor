@@ -42,7 +42,7 @@ nuget.org:
 GitHub:
 
 - [ ] **You:** Settings → Environments → `nuget`: required reviewer = you; deployment branches/tags limited to `v*`.
-- [ ] **You:** add the secret `NUGET_USER` **to that environment**: your nuget.org profile name (the user name, not
+- [ ] **You:** add the repository secret `NUGET_USER` (Settings → Secrets and variables → Actions): your nuget.org profile name (the user name, not
   your e-mail address). It is the only value the workflow needs; there is no key to store or rotate.
 - [ ] **You:** Settings → Rules → Rulesets: a tag ruleset on `v*` (restrict creation to admins, block deletion and
   force-push).
@@ -138,7 +138,7 @@ dotnet new console && dotnet add package LoomEditor.Core --prerelease && dotnet 
 | 409 on push | The version already exists; harmless with `--skip-duplicate`. |
 | "points to a commit that is not on main" | The tag was created on another branch: delete it (case (a)) and tag `main`. |
 | "CHANGELOG.md has no (or an empty) section [x.y.z]" | Rename `[Unreleased]` first (section 3). |
-| "The secret NUGET_USER is not set in the environment "nuget"" | Add it to the environment, not to the repository (section 2). |
+| "The secret NUGET_USER is not set" | Add it as a repository secret (section 2). It is a plain profile name, not a key. |
 | "validation failed" mail from nuget.org | Read the mail. Missing README or license fields would already have failed `eng/Pack.ps1`. |
 | AOT test fails only on the runner | Re-run once; if it persists, run `./eng/Test-Packages.ps1` locally. |
 
