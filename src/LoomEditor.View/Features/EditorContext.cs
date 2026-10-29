@@ -194,6 +194,21 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>True while the completion list has several items (Monaco: <c>suggestWidgetMultipleSuggestions</c>); set by the suggest feature.</summary>
     internal bool SuggestWidgetMultipleSuggestions { get; set; }
 
+    /// <summary>The snippet controller, set by <c>SnippetFeature</c> while it is attached (Monaco: <c>SnippetController2.get(editor)</c>).</summary>
+    internal LoomEditor.View.Features.Snippet.SnippetController? SnippetController { get; set; }
+
+    /// <summary>Supplies the file, workspace and clipboard variables of snippets; set by the host.</summary>
+    internal LoomEditor.Core.Snippets.ISnippetVariableHost SnippetVariableHost { get; set; } = LoomEditor.Core.Snippets.ISnippetVariableHost.None;
+
+    /// <summary>True while a snippet with tab stops is active (Monaco: <c>inSnippetMode</c>); set by the snippet controller.</summary>
+    internal bool InSnippetMode { get; set; }
+
+    /// <summary>True while the active snippet has a next tab stop (Monaco: <c>hasNextTabstop</c>); set by the snippet controller.</summary>
+    internal bool HasNextTabstop { get; set; }
+
+    /// <summary>True while the active snippet has a previous tab stop (Monaco: <c>hasPrevTabstop</c>); set by the snippet controller.</summary>
+    internal bool HasPrevTabstop { get; set; }
+
     /// <summary>True while the selection anchor exists (Monaco: <c>selectionAnchorSet</c>); set by the selection anchor feature.</summary>
     internal bool SelectionAnchorSet { get; set; }
 

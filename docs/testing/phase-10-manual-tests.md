@@ -108,6 +108,19 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 5 | One `Ctrl+Z` undoes a move | pending |
 | 6 | A plain click inside a selection collapses it to the click position | pending |
 
+## P10-25 — Snippet mode
+
+Needs the Gallery button of P10-29 (`InsertSnippet`).
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Insert `for (${1:i} = 0; $1 < ${2:n}; $1++) {\n\t$0\n}`: the three `i` are selected; typing replaces them all | pending |
+| 2 | `Tab` goes to `n`, `Tab` again to the line between the braces (`$0`) and snippet mode ends | pending |
+| 3 | `Shift+Tab` goes back to the previous tab stop | pending |
+| 4 | `Escape` leaves snippet mode and keeps only the primary cursor; the text stays | pending |
+| 5 | A snippet with `${TM_SELECTED_TEXT}` wraps the selected text | pending |
+| 6 | `Ctrl+Z` after the insertion removes the snippet in one step and leaves snippet mode | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

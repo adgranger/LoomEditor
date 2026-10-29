@@ -206,3 +206,5 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.InputModeProperty -> Micros
 LoomEditor.WinUI.Controls.LoomEditor.DragAndDrop.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.DragAndDrop.set -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.DragAndDropProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.LoomEditor.InsertSnippet(string! template) -> void
+LoomEditor.WinUI.Controls.LoomEditor.InsertSnippet(string! template, int overwriteBefore, int overwriteAfter) -> void

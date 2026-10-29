@@ -10,6 +10,7 @@ using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.Overtype;
 using LoomEditor.View.Features.SelectionAnchor;
 using LoomEditor.View.Features.SmartSelect;
+using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
@@ -235,6 +236,14 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.None, KeyCode.Enter, SuggestCommands.AcceptSelectedSuggestion, WhenClauses.SuggestVisible, SuggestWeight);
         Add(KeyModifiers.None, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
         Add(KeyModifiers.Shift, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
+
+        // snippetController2.ts (Contrib, +30): Tab and Shift+Tab move between the tab stops, Escape leaves snippet mode. The suggest rules (+90) win
+        // on Tab and Escape. Not ported: the Shift+Tab rule of snippet choices (+91).
+        const int SnippetWeight = KeybindingWeight.EditorContrib + 30;
+        Add(KeyModifiers.None, KeyCode.Tab, SnippetCommands.JumpToNextSnippetPlaceholder, WhenClauses.SnippetNext, SnippetWeight);
+        Add(KeyModifiers.Shift, KeyCode.Tab, SnippetCommands.JumpToPrevSnippetPlaceholder, WhenClauses.SnippetPrev, SnippetWeight);
+        Add(KeyModifiers.None, KeyCode.Escape, SnippetCommands.LeaveSnippet, WhenClauses.InSnippet, SnippetWeight);
+        Add(KeyModifiers.Shift, KeyCode.Escape, SnippetCommands.LeaveSnippet, WhenClauses.InSnippet, SnippetWeight);
 
         // anchorSelect.ts and lineSelection.ts: Ctrl+K Ctrl+B, Ctrl+K Ctrl+K and Ctrl+L. Escape has the lowest weight of the Escape rules (Monaco: EditorContrib) so the widgets close first.
         rules.Add(new KeybindingRule(

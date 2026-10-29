@@ -1,6 +1,6 @@
 # P10-25 — `SnippetController`: the feature, the keys and `InsertSnippet`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-24
 - **Size:** M
 
@@ -42,16 +42,16 @@ Snippets work in the editor: `LoomEditor.InsertSnippet("for (${1:i} = 0; …$0")
 
 ## Tests
 
-- [ ] Port: the tests of `snippetController2.test.ts` that use `insert` / `next` / `prev` / `cancel` / `finish` and the context keys; titles in `// Monaco:` comments. Skipped (with a comment): choice completion, `apply(edits)`, anything needing the suggest widget
-- [ ] New: `Insert_PlainText_NoSnippetMode`, `Insert_WithTabstops_EntersSnippetMode_SelectsFirstPlaceholder`, `Tab_JumpsToNextPlaceholder_ThenLeavesAtFinal`, `ShiftTab_GoesBack`, `Escape_LeavesSnippet_KeepsText`, `Undo_AfterInsert_LeavesSnippetMode`, `CaretOutsidePlaceholders_LeavesSnippetMode`, `Tab_NotInSnippetMode_InsertsTab`, `Tab_WithSuggestWidgetVisible_AcceptsSuggestion`, `ContextKeys_HasNextHasPrev`, `Insert_MultiCursor_AllGetPlaceholders`, `Insert_ReadOnly_DoesNothing`, `Insert_Nested_MergesIntoActivePlaceholder`, `ClipboardVariable_UsesClipboardService`
-- [ ] Manual (section "P10-25", needs P10-29's Gallery button): insert `for (${1:i} = 0; $1 < ${2:n}; $1++) {\n\t$0\n}`, type to replace `i` (the second and third `i` follow after Tab), Tab, Tab, Tab ends at `$0`; Shift+Tab goes back; Escape leaves; a snippet with `${TM_SELECTED_TEXT}` wraps the selection.
+- [x] Port: the tests of `snippetController2.test.ts` that use `insert` / `next` / `prev` / `cancel` / `finish` and the context keys; titles in `// Monaco:` comments. Skipped (with a comment): choice completion, `apply(edits)`, anything needing the suggest widget
+- [x] New: `Insert_PlainText_NoSnippetMode`, `Insert_WithTabstops_EntersSnippetMode_SelectsFirstPlaceholder`, `Tab_JumpsToNextPlaceholder_ThenLeavesAtFinal`, `ShiftTab_GoesBack`, `Escape_LeavesSnippet_KeepsText`, `Undo_AfterInsert_LeavesSnippetMode`, `CaretOutsidePlaceholders_LeavesSnippetMode`, `Tab_NotInSnippetMode_InsertsTab`, `Tab_WithSuggestWidgetVisible_AcceptsSuggestion`, `ContextKeys_HasNextHasPrev`, `Insert_MultiCursor_AllGetPlaceholders`, `Insert_ReadOnly_DoesNothing`, `Insert_Nested_MergesIntoActivePlaceholder`, `ClipboardVariable_UsesClipboardService`
+- [x] Manual (section "P10-25", needs P10-29's Gallery button): insert `for (${1:i} = 0; $1 < ${2:n}; $1++) {\n\t$0\n}`, type to replace `i` (the second and third `i` follow after Tab), Tab, Tab, Tab ends at `$0`; Shift+Tab goes back; Escape leaves; a snippet with `${TM_SELECTED_TEXT}` wraps the selection.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `snippetController2.ts` 🔶 (choices, `apply` not ported)
-- [ ] Public API file updated; card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `snippetController2.ts` 🔶 (choices, `apply` not ported)
+- [x] Public API file updated; card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -38,7 +38,10 @@ public sealed partial class LoomEditor
             HasCompletionItemProvider: _context.LanguageFeatures.CompletionProviders.Has(_context.GetLanguageId()),
             HasDefinitionProvider: _context.LanguageFeatures.DefinitionProviders.Has(_context.GetLanguageId()),
             IsInDiffEditor: IsInDiffEditor,
-            SelectionAnchorSet: _context.SelectionAnchorSet);
+            SelectionAnchorSet: _context.SelectionAnchorSet,
+            InSnippetMode: _context.InSnippetMode,
+            HasNextTabstop: _context.HasNextTabstop,
+            HasPrevTabstop: _context.HasPrevTabstop);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)
