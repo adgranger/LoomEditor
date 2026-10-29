@@ -3,6 +3,10 @@
 What unit tests cannot check: text rendering options, input and snippets under a real UI.
 Fill the **Result** column (`pass` / `fail` + a note, or `pending`) and the **Findings** table at the end.
 
+**Machine:** Windows 11, Cascadia Code installed, a mouse with a wheel and (optional) a touchpad. About 20 minutes in total.
+Pick the sample of each section in the Gallery "Features" picker (its hint says what to try); the **Insert snippet**, **Insert snippet around selection** and
+**Add sample problems** buttons are in the same Expander as **Inject text**.
+
 - Windows build:
 - Gallery build kind (Debug / Release / Native AOT):
 - Display scale:
@@ -110,30 +114,31 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 
 ## P10-25 — Snippet mode
 
-Needs the Gallery button of P10-29 (`InsertSnippet`).
+Sample "Snippets", button **Insert snippet** (template `for (let ${1:i} = 0; $1 < ${2:array}.length; $1++) {\n\tconst ${3:element} = $2[$1];\n\t$0\n}`).
 
 | # | Check | Result |
 |---|---|---|
-| 1 | Insert `for (${1:i} = 0; $1 < ${2:n}; $1++) {\n\t$0\n}`: the three `i` are selected; typing replaces them all | pending |
-| 2 | `Tab` goes to `n`, `Tab` again to the line between the braces (`$0`) and snippet mode ends | pending |
+| 1 | Click **Insert snippet**: the four `i` are selected; typing replaces them all | pending |
+| 2 | `Tab` goes to `array`, `Tab` to `element`, `Tab` to the line between the braces (`$0`) and snippet mode ends | pending |
 | 3 | `Shift+Tab` goes back to the previous tab stop | pending |
 | 4 | `Escape` leaves snippet mode and keeps only the primary cursor; the text stays | pending |
-| 5 | A snippet with `${TM_SELECTED_TEXT}` wraps the selected text | pending |
+| 5 | Select `foo` then click **Insert snippet around selection**: `console.log('foo', foo);` replaces it | pending |
 | 6 | `Ctrl+Z` after the insertion removes the snippet in one step and leaves snippet mode | pending |
 
 ## P10-26 — Completion items that are snippets
 
-Needs the Gallery language server demo of phase 8, started with the fake server option `--snippet`.
+Language server demo of phase 8 with the fake server as the server: set `LOOMEDITOR_LSP_COMMAND` to the `LoomEditor.Lsp.FakeServer` executable with the argument `--snippet`
+before starting the Gallery (see `tests/LoomEditor.Lsp.FakeServer/README.md`).
 
 | # | Check | Result |
 |---|---|---|
-| 1 | Type `forlo`: the `forloop` item appears; `Enter` inserts `for (i = 0; i < n; i++) {` with three `i` selected | pending |
+| 1 | Type `forlo`: the `forloop` item appears; `Enter` inserts `for (i = 0; i < n; i++) {` with three `i` selected (the second and third follow while typing) | pending |
 | 2 | `Tab` goes to `n`, `Tab` to the body line, then snippet mode ends | pending |
 | 3 | `Ctrl+Z` removes the whole snippet in one step | pending |
 
 ## P10-28 — Go to next / previous problem
 
-Needs the Gallery language server demo or the diagnostics sample of P10-29.
+Sample "Problems", button **Add sample problems** (2 errors, 2 warnings, 1 info).
 
 | # | Check | Result |
 |---|---|---|

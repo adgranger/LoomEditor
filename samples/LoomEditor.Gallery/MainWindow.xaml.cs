@@ -194,6 +194,25 @@ public sealed partial class MainWindow : Window
         _injectedTextIds.Clear();
     }
 
+    private void OnInsertSnippet(object sender, RoutedEventArgs e)
+    {
+        Editor.InsertSnippet(Phase10Samples.ForLoopSnippet);
+        Editor.Focus(FocusState.Programmatic);
+    }
+
+    private void OnInsertSnippetAroundSelection(object sender, RoutedEventArgs e)
+    {
+        Editor.InsertSnippet(Phase10Samples.LogSelectionSnippet);
+        Editor.Focus(FocusState.Programmatic);
+    }
+
+    // The positions fit the "Problems" sample; on another text the markers are clamped by the model.
+    private void OnAddSampleProblems(object sender, RoutedEventArgs e)
+    {
+        Editor.Markers.Change(Phase10Samples.ProblemsOwner, Phase10Samples.SampleProblems);
+        Editor.Focus(FocusState.Programmatic);
+    }
+
     private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;
 
     // Three cursors on three lines: type, delete, indent and paste show the multi-cursor behavior.

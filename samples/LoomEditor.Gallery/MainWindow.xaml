@@ -45,6 +45,9 @@
                         <Button HorizontalAlignment="Stretch" Click="OnReset" Content="Reset" />
                         <Button HorizontalAlignment="Stretch" Click="OnInjectText" Content="Inject text" />
                         <Button HorizontalAlignment="Stretch" Click="OnClearInjectedText" Content="Clear injected text" />
+                        <Button HorizontalAlignment="Stretch" Click="OnInsertSnippet" Content="Insert snippet" />
+                        <Button HorizontalAlignment="Stretch" Click="OnInsertSnippetAroundSelection" Content="Insert snippet around selection" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddSampleProblems" Content="Add sample problems" />
                         <Button HorizontalAlignment="Stretch" x:Name="MultiCursorButton" Click="OnMultiCursorSample" Content="Sample: multi-cursor" />
                     </StackPanel>
                 </Expander>

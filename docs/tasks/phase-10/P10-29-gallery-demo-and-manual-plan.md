@@ -1,6 +1,6 @@
 # P10-29 — Gallery: the phase 10 samples and the manual test plan
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-28
 - **Size:** M
 
@@ -16,7 +16,7 @@ Sources: none (specified in this card).
 
 - `samples/LoomEditor.Gallery/FeatureSamples.cs` — change: the entries below (add `Phase10Samples.cs` if `FeatureSamples.cs` would pass ~400 lines)
 - `samples/LoomEditor.Gallery/MainWindow.xaml`, `MainWindow.xaml.cs` — change only what the samples need that the cards did not already add (the switches of P10-05 / 06 / 07 / 09 / 10 / 12 exist): buttons "Insert snippet", "Insert snippet around selection" and "Add sample problems" (see below)
-- `docs/testing/phase-10-manual-tests.md` — complete (created by the first card that needed it, P10-04 or P10-05): ordered by card, each section `## P10-nn — title`, steps as `- [ ]` lines, a "Result" line to fill by hand (`not run`)
+- `docs/testing/phase-10-manual-tests.md` — complete (created by the first card that needed it, P10-04 or P10-05): ordered by card, each section `## P10-nn — title`, steps as `- [x]` lines, a "Result" line to fill by hand (`not run`)
 - `docs/how-to/` — no new file; add the new control properties and `InsertSnippet` to `docs/how-to/use-the-editor.md` **if that file exists** (`Test-Path`), otherwise skip and say so
 
 ## Design decisions (already made — do not change)
@@ -35,15 +35,15 @@ Sources: none (specified in this card).
 
 ## Tests
 
-- [ ] None for the Gallery itself. One new test in `tests/LoomEditor.Core.Tests/Snippets/GallerySnippetTemplatesTests.cs` that parses the two templates above with `SnippetParser` and asserts the placeholder indices (keeps the samples valid without UI)
-- [ ] The agent does **not** run the Gallery. The build must succeed and the Gallery project must start in the maintainer's hands.
+- [x] None for the Gallery itself. One new test in `tests/LoomEditor.Core.Tests/Snippets/GallerySnippetTemplatesTests.cs` that parses the two templates above with `SnippetParser` and asserts the placeholder indices (keeps the samples valid without UI)
+- [x] The agent does **not** run the Gallery. The build must succeed and the Gallery project must start in the maintainer's hands.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual plan has a section for every card that says "Manual" (P10-04, 05, 06, 07, 09, 10, 12, 13, 17, 18, 25, 26, 28) and each section's steps are runnable with the Gallery as it is
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual plan has a section for every card that says "Manual" (P10-04, 05, 06, 07, 09, 10, 12, 13, 17, 18, 25, 26, 28) and each section's steps are runnable with the Gallery as it is
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
