@@ -351,8 +351,9 @@ WinUI:  Controls/Comments: CommentZoneHost puts one CommentThreadWidget over eac
 - **Key routing**: while a child of the widget has the focus, `HasFocus` is false, so the editor runs no keybinding, inserts no character and the caret stops blinking. Pointer events from the layer are ignored (`IsFromOverlay`).
 - **Diff editor**: `LoomDiffEditor.AddCommentThread(DiffSide, line, …)`; a comment zone counts in the alignment, so the other side gets the same blank height. The inline view does not show original-side threads.
 - Threads follow their line through edits (decorations); the host stores them (no persistence).
-- **Not delivered**: the list of ADR 0014 (multi-line ranges, reactions, edit / delete UI, mentions, attachments, avatar images, localization, "commit suggestion", a comments panel, opening links).
-- **Not verified**: the manual plan has not been run (no WinUI test project); Narrator / NVDA, IME in the widget, high contrast. The Native AOT self-check of the logic passes (11 of 11, P11-24, 2026-10-29, [roadmap](roadmap/phase-11-inline-comments.md)); it does not reach the WinUI widget.
+- **Ranges (phase 12)**: a thread covers `StartLineNumber` … `LineNumber` (whole lines, equal for one line); the box stays under the last line, `LineNumber`. The same decoration spans the range and takes the class `comment-thread-range` (highlight) while the thread is multi-line and open. `CommentLineRange.FromSelection` turns a selection into lines; a suggestion replaces the whole range.
+- **Not delivered**: the list of ADR 0014 (reactions, edit / delete UI, mentions, attachments, avatar images, localization, "commit suggestion", a comments panel, opening links).
+- **Not verified**: the manual plan has not been run (no WinUI test project); Narrator / NVDA, IME in the widget, high contrast. The Native AOT self-check of the logic passes (15 of 15, P12-14, 2026-10-29, [roadmap](roadmap/phase-12-comment-ranges.md)); it does not reach the WinUI widget.
 How to use it: [how-to/use-comment-threads.md](how-to/use-comment-threads.md).
 
 ## Where do I find…?

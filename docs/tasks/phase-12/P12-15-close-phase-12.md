@@ -1,6 +1,6 @@
 # P12-15 — Close phase 12
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all phase 12 cards
 - **Size:** S
 
@@ -39,15 +39,15 @@ Sources: none (documentation only). Pattern: `docs/tasks/phase-11/P11-25-close-p
 
 ## Tests
 
-- [ ] None (documentation).
+- [x] None (documentation).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
-- [ ] Every relative link in the new and changed docs resolves
-- [ ] The AOT result in the roadmap file cites P12-14, or says `NOT verified`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
+- [x] Every relative link in the new and changed docs resolves
+- [x] The AOT result in the roadmap file cites P12-14, or says `NOT verified`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

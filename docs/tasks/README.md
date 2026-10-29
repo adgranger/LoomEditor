@@ -1051,11 +1051,13 @@ Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); co
 |---|---|---|---|
 | [P12-13](phase-12/P12-13-gallery-demo-and-manual-plan.md) | Gallery: the range demo and the complete manual test plan | P12-12 | done |
 | [P12-14](phase-12/P12-14-native-aot-self-check.md) | Native AOT self-check of the phase 12 logic | P12-13 | done |
-| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 | all phase 12 cards | todo |
+| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 | all phase 12 cards | done |
 
 Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it). Every card is written for **Sonnet**; none is flagged Opus (the delicate
 tracking code exists since P11-09 and is extended, with every edge case listed as a test). A card that does not fit in one session stops with a proposed split. The WinUI cards
 (P12-09 … P12-12) are verified by the build, the tests and a written manual section; agents do not run the Gallery UI.
+
+**Deferred on purpose (phase 12):** character-precise ranges, dragging from or shift-clicking the gutter "+" button to select lines, a gutter bar or overview-ruler mark for a range, overlap rules between ranges, and everything phase 11 deferred (reactions, edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence).
 
 ## How to run a card with a coding agent (Claude Code)
 

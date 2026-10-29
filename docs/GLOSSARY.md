@@ -180,3 +180,7 @@ user leaves the line without typing anything, the editor removes it (`trimAutoWh
 **Suggestion block** — A fenced code block whose info string is `suggestion` inside a comment. It replaces the thread's line; it is drawn as a red / green diff with an **Apply suggestion** button. An empty block deletes the line.
 
 **Composer** — The part of the comment widget where the user writes: Markdown toolbar, text box, Preview toggle, Cancel and Comment buttons.
+
+**Comment range** — The whole lines a comment thread covers, `StartLineNumber` … `LineNumber` (inclusive; equal for one line). The box is under the last line; a suggestion replaces all of them.
+
+**Range text** — The content of the lines of a comment range joined with `\n` (never the model's end of line). It is the "old text" of a suggestion.

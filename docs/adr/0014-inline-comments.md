@@ -122,7 +122,7 @@ positioned over the editor and repositioned when it scrolls). What exists today 
 
 ## What is not delivered (listed for the close card)
 
-Multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button, opening links.
+Reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button, opening links. Line ranges were added in phase 12 (last section).
 
 ## Changes during implementation (2026-10-29)
 
@@ -137,3 +137,16 @@ Cards 1 to 11 and 24 recorded no change to a decision. The others:
 - **Gutter button** (P11-21): hit test reuses the `MouseTarget` of `OnPointerMoved`; `CommentGutterButtonEnabled` is a public dependency property.
 - **Diff editor** (P11-22): no alignment code change; two zones after one line give two alignment entries whose heights add up.
 - **Gallery** (P11-23): no `--uia-selfcheck` switch exists; the plan uses the button. `--comments-selfcheck` is the new switch (P11-24); the CsWinRT analyzer forbids collection expressions typed `IEnumerable<T>` there.
+
+## Phase 12: line ranges (2026-10-29)
+
+A thread can cover a range of whole lines, as a GitHub review does (`start_line` … `line`). Cards P12-01 to P12-14 recorded no change to these decisions.
+
+- **Lines, not columns**: the API takes two line numbers, never a `Range`. `CommentLineRange.FromSelection` is the only place a selection becomes lines (a selection ending at column 1 of a later line drops that line).
+- **`LineNumber` is the last line** (the box and the gutter rule are unchanged); new `StartLineNumber`; equal for a single-line thread. One `Changed` with `LineChanged` when either changes.
+- **Source compatible**: only overloads and added properties (`AddCommentThread(start, end, ...)` on both editors, `StartLineNumber` on the three event args); `1 <= start <= end <= LineCount` else `ArgumentOutOfRangeException`.
+- **Edits**: the same single decoration spans `(start, 1)` to `(end, maxColumn)`, `NeverGrowsWhenTypingAtEdges`; deleting the whole range collapses it to one line; a flush clamps both ends.
+- **Highlight**: the class `comment-thread-range`, theme id `loom.commentThreadRangeBackground`, shown only while the thread is multi-line and open, by switching the options of the same decoration.
+- **Suggestions replace the range**: the old text is the range text (lines joined with `\n`); the diff is a line LCS of N old against M new lines; stale means the range text changed; apply is one undo step, caret at `(start, 1)`. The toolbar seeds the block with the range text.
+- **Native AOT**: `--comments-selfcheck` has four range checks (15 of 15 under AOT, P12-14).
+- **Not delivered**: character-precise ranges, dragging or shift-click in the gutter to select lines, a gutter bar or overview-ruler mark, overlap rules, and the rest of the list above.
