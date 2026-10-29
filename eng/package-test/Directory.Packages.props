@@ -1,0 +1,3 @@
+<Project>
+  <!-- Intentionally empty: no central package management here, versions are in the csproj. -->
+</Project>
