@@ -1,6 +1,6 @@
 # P12-08 — The add command uses a multi-line selection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-07
 - **Size:** S
 
@@ -37,15 +37,15 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decision 
 
 ## Tests
 
-- [ ] Helper: `FromSelection_Empty_CursorLine`, `FromSelection_SingleLineNonEmpty_ThatLine`, `FromSelection_ThreeLines_StartToEnd`, `FromSelection_EndsAtColumnOne_ExcludesLastLine`,
+- [x] Helper: `FromSelection_Empty_CursorLine`, `FromSelection_SingleLineNonEmpty_ThatLine`, `FromSelection_ThreeLines_StartToEnd`, `FromSelection_EndsAtColumnOne_ExcludesLastLine`,
   `FromSelection_TwoLinesEndingAtColumnOne_IsOneLine`, `FromSelection_RightToLeft_SameAsLeftToRight`
-- [ ] Feature: `AddCommand_MultiLineSelection_RequestsRange`, `AddCommand_EmptySelection_RequestsCursorLine` (the existing single-line test keeps passing)
+- [x] Feature: `AddCommand_MultiLineSelection_RequestsRange`, `AddCommand_EmptySelection_RequestsCursorLine` (the existing single-line test keeps passing)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

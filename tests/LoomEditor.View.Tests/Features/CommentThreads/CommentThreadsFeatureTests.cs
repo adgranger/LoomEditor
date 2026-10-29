@@ -31,6 +31,36 @@ public class CommentThreadsFeatureTests
     }
 
     [Fact]
+    public void AddCommand_MultiLineSelection_RequestsRange()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = new Selection(1, 2, 3, 2);
+        (int Start, int End)? lines = null;
+        context.CommentThreads.AddCommentRequested += (_, l) => lines = (l.StartLineNumber, l.LineNumber);
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal((1, 3), lines);
+    }
+
+    [Fact]
+    public void AddCommand_EmptySelection_RequestsCursorLine()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = Selection.Collapsed(new Position(2, 1));
+        (int Start, int End)? lines = null;
+        context.CommentThreads.AddCommentRequested += (_, l) => lines = (l.StartLineNumber, l.LineNumber);
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal((2, 2), lines);
+    }
+
+    [Fact]
     public void AddCommand_NoController_DoesNothing()
     {
         using var feature = new CommentThreadsFeature();
