@@ -1,6 +1,6 @@
 # P12-05 — The manager anchors a thread to a range of lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-04
 - **Size:** M
 
@@ -42,19 +42,19 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] `AddRange_CreatesZoneAfterLastLine`, `AddRange_EndBeforeStart_Throws`, `AddRange_EndPastLastLine_Throws`, `AddRange_StartEqualsEnd_SameAsSingleLine`
-- [ ] `Range_InsertLineAbove_BothEndsMoveDown`, `Range_InsertLineInside_GrowsAndZoneMoves`, `Range_DeleteLineInside_ShrinksAndZoneMoves`
-- [ ] `Range_EnterAtStartOfFirstLine_MovesWholeRange`, `Range_EnterAtEndOfLastLine_DoesNotGrow`, `Range_TypeAtEdges_DoesNotGrow`
-- [ ] `Range_DeleteWholeRange_CollapsesToOneLine`, `Range_ReplaceWholeDocument_ClampsBothEnds`
-- [ ] `Range_DeleteFirstLineOfRange_ShrinksFromTop` (range 3–5, delete `(3, 1)` → `(4, 1)`: range 3–4, `ThreadMoved` raised once), `Range_Moved_ThenRecompute_ZoneStaysUnderLastLine`
-- [ ] `RangeTextChanged_EditInsideRange_Raised`, `RangeTextChanged_EditOutsideRange_NotRaised`
-- [ ] All existing `CommentThreadManagerTests` unchanged and green
+- [x] `AddRange_CreatesZoneAfterLastLine`, `AddRange_EndBeforeStart_Throws`, `AddRange_EndPastLastLine_Throws`, `AddRange_StartEqualsEnd_SameAsSingleLine`
+- [x] `Range_InsertLineAbove_BothEndsMoveDown`, `Range_InsertLineInside_GrowsAndZoneMoves`, `Range_DeleteLineInside_ShrinksAndZoneMoves`
+- [x] `Range_EnterAtStartOfFirstLine_MovesWholeRange`, `Range_EnterAtEndOfLastLine_DoesNotGrow`, `Range_TypeAtEdges_DoesNotGrow`
+- [x] `Range_DeleteWholeRange_CollapsesToOneLine`, `Range_ReplaceWholeDocument_ClampsBothEnds`
+- [x] `Range_DeleteFirstLineOfRange_ShrinksFromTop` (range 3–5, delete `(3, 1)` → `(4, 1)`: range 3–4, `ThreadMoved` raised once), `Range_Moved_ThenRecompute_ZoneStaysUnderLastLine`
+- [x] `RangeTextChanged_EditInsideRange_Raised`, `RangeTextChanged_EditOutsideRange_NotRaised`
+- [x] All existing `CommentThreadManagerTests` unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -272,4 +272,174 @@ public class CommentThreadManagerTests
 
         Assert.Equal([a, b, c], manager.Threads);
     });
+
+    private static void AssertRange(CommentThread thread, int start, int end)
+    {
+        Assert.Equal(start, thread.StartLineNumber);
+        Assert.Equal(end, thread.LineNumber);
+    }
+
+    [Fact]
+    public void AddRange_CreatesZoneAfterLastLine() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+
+        AssertRange(thread, 2, 4);
+        Assert.Equal(4, Zone(editor, manager, thread).AfterLineNumber);
+        Assert.Equal(4, Whitespace(editor, manager.GetZoneId(thread)!).AfterLineNumber);
+    });
+
+    [Fact]
+    public void AddRange_EndBeforeStart_Throws() => With((_, manager) =>
+        Assert.Throws<ArgumentOutOfRangeException>("endLineNumber", () => manager.Add(3, 2)));
+
+    [Fact]
+    public void AddRange_EndPastLastLine_Throws() => With((_, manager) =>
+        Assert.Throws<ArgumentOutOfRangeException>("endLineNumber", () => manager.Add(3, 6)));
+
+    [Fact]
+    public void AddRange_StartEqualsEnd_SameAsSingleLine() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 2);
+
+        AssertRange(thread, 2, 2);
+        Assert.Equal(2, Zone(editor, manager, thread).AfterLineNumber);
+    });
+
+    [Fact]
+    public void Range_InsertLineAbove_BothEndsMoveDown() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+
+        Edit(editor, new Range(1, 1, 1, 1), "new\n");
+
+        AssertRange(thread, 3, 4);
+        Assert.Equal(4, Zone(editor, manager, thread).AfterLineNumber);
+    });
+
+    [Fact]
+    public void Range_InsertLineInside_GrowsAndZoneMoves() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+
+        Edit(editor, new Range(3, 1, 3, 1), "new\n");
+
+        AssertRange(thread, 2, 5);
+        Assert.Equal(5, Zone(editor, manager, thread).AfterLineNumber);
+        Assert.Equal(5, Whitespace(editor, manager.GetZoneId(thread)!).AfterLineNumber);
+    });
+
+    [Fact]
+    public void Range_DeleteLineInside_ShrinksAndZoneMoves() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+
+        Edit(editor, new Range(3, 1, 4, 1), "");
+
+        AssertRange(thread, 2, 3);
+        Assert.Equal(3, Zone(editor, manager, thread).AfterLineNumber);
+    });
+
+    [Fact]
+    public void Range_EnterAtStartOfFirstLine_MovesWholeRange() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+
+        Edit(editor, new Range(2, 1, 2, 1), "\n");
+
+        AssertRange(thread, 3, 4);
+    });
+
+    [Fact]
+    public void Range_EnterAtEndOfLastLine_DoesNotGrow() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+
+        Edit(editor, new Range(3, 3, 3, 3), "\n");
+
+        AssertRange(thread, 2, 3);
+    });
+
+    [Fact]
+    public void Range_TypeAtEdges_DoesNotGrow() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+
+        Edit(editor, new Range(2, 1, 2, 1), "abc");
+        Edit(editor, new Range(3, 6, 3, 6), "xyz");
+
+        AssertRange(thread, 2, 3);
+    });
+
+    [Fact]
+    public void Range_DeleteWholeRange_CollapsesToOneLine() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+
+        Edit(editor, new Range(2, 1, 5, 1), "");
+
+        AssertRange(thread, 2, 2);
+        Assert.Equal(2, Zone(editor, manager, thread).AfterLineNumber);
+    });
+
+    [Fact]
+    public void Range_ReplaceWholeDocument_ClampsBothEnds() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(4, 5);
+
+        editor.Model.SetValue("a\nb");
+
+        AssertRange(thread, 2, 2);
+        Assert.Equal(2, Zone(editor, manager, thread).AfterLineNumber);
+        Assert.Single(manager.Threads);
+    });
+
+    [Fact]
+    public void Range_DeleteFirstLineOfRange_ShrinksFromTop() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(3, 5);
+        List<CommentThread> moved = [];
+        manager.ThreadMoved += (_, t) => moved.Add(t);
+
+        Edit(editor, new Range(3, 1, 4, 1), "");
+
+        AssertRange(thread, 3, 4);
+        Assert.Equal([thread], moved);
+    });
+
+    [Fact]
+    public void Range_Moved_ThenRecompute_ZoneStaysUnderLastLine() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+        Edit(editor, new Range(1, 1, 1, 1), "new\n");
+
+        editor.ViewModel.ViewZones.RecomputeWhitespaceProps();
+
+        Assert.Equal(4, Whitespace(editor, manager.GetZoneId(thread)!).AfterLineNumber);
+    });
+
+    [Fact]
+    public void RangeTextChanged_EditInsideRange_Raised() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+        List<CommentThread> raised = [];
+        manager.ThreadLineTextChanged += (_, t) => raised.Add(t);
+
+        Edit(editor, new Range(3, 1, 3, 1), "x");
+
+        Assert.Equal([thread], raised);
+    });
+
+    [Fact]
+    public void RangeTextChanged_EditOutsideRange_NotRaised() => With((editor, manager) =>
+    {
+        manager.Add(2, 4);
+        int raised = 0;
+        manager.ThreadLineTextChanged += (_, _) => raised++;
+
+        Edit(editor, new Range(5, 1, 5, 1), "x");
+        Edit(editor, new Range(1, 1, 1, 1), "new\n");
+
+        Assert.Equal(0, raised);
+    });
 }

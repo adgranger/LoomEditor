@@ -45,10 +45,10 @@ internal sealed class CommentThreadManager : IDisposable
     /// <summary>Raised after a thread was added or removed.</summary>
     public event EventHandler? ThreadsChanged;
 
-    /// <summary>Raised once per thread whose line changed because of an edit.</summary>
+    /// <summary>Raised once per thread whose lines changed because of an edit.</summary>
     public event EventHandler<CommentThread>? ThreadMoved;
 
-    /// <summary>Raised when the content of a thread's line changed.</summary>
+    /// <summary>Raised when the text of a thread's lines changed.</summary>
     public event EventHandler<CommentThread>? ThreadLineTextChanged;
 
     /// <summary>The threads, in creation order.</summary>
@@ -56,15 +56,21 @@ internal sealed class CommentThreadManager : IDisposable
 
     /// <summary>Creates a thread on a line.</summary>
     /// <exception cref="ArgumentOutOfRangeException">The line is not in <c>1..LineCount</c>.</exception>
-    public CommentThread Add(int lineNumber, string? title = null)
-    {
-        ArgumentOutOfRangeException.ThrowIfLessThan(lineNumber, 1);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(lineNumber, _model.LineCount);
+    public CommentThread Add(int lineNumber, string? title = null) => Add(lineNumber, lineNumber, title);
 
-        var thread = new CommentThread(Guid.NewGuid().ToString("N"), lineNumber, title);
+    /// <summary>Creates a thread on lines <paramref name="startLineNumber"/> to <paramref name="endLineNumber"/>, inclusive; its zone sits after the last line.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">The range is not <c>1 &lt;= start &lt;= end &lt;= LineCount</c>.</exception>
+    public CommentThread Add(int startLineNumber, int endLineNumber, string? title = null)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(startLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(startLineNumber, _model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfLessThan(endLineNumber, startLineNumber);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(endLineNumber, _model.LineCount);
+
+        var thread = new CommentThread(Guid.NewGuid().ToString("N"), startLineNumber, endLineNumber, title);
         var zone = new ViewZone
         {
-            AfterLineNumber = lineNumber,
+            AfterLineNumber = endLineNumber,
             HeightInPx = DefaultHeight,
             Kind = ViewZoneKind.Widget,
             SuppressMouseDown = true,
@@ -78,7 +84,7 @@ internal sealed class CommentThreadManager : IDisposable
         try
         {
             _model.ChangeDecorations(_ownerId, accessor =>
-                decorationId = accessor.AddDecoration(new Range(lineNumber, 1, lineNumber, _model.GetLineMaxColumn(lineNumber)), AnchorOptions));
+                decorationId = accessor.AddDecoration(new Range(startLineNumber, 1, endLineNumber, _model.GetLineMaxColumn(endLineNumber)), AnchorOptions));
             _zones.Change(accessor => accessor.AddZone(zone));
         }
         finally
@@ -86,7 +92,7 @@ internal sealed class CommentThreadManager : IDisposable
             _busy = false;
         }
 
-        _entries.Add(new Entry(thread, decorationId, zone, _model.GetLineContent(lineNumber)));
+        _entries.Add(new Entry(thread, decorationId, zone, SuggestionEdit.GetRangeText(_model, startLineNumber, endLineNumber)));
         ThreadsChanged?.Invoke(this, EventArgs.Empty);
         return thread;
     }
@@ -184,10 +190,11 @@ internal sealed class CommentThreadManager : IDisposable
         SyncLines();
         foreach (Entry entry in _entries.ToArray())
         {
-            string text = _model.GetLineContent(Math.Clamp(entry.Thread.LineNumber, 1, _model.LineCount));
-            if (text != entry.LineText)
+            int start = Math.Clamp(entry.Thread.StartLineNumber, 1, _model.LineCount);
+            string text = SuggestionEdit.GetRangeText(_model, start, Math.Clamp(entry.Thread.LineNumber, start, _model.LineCount));
+            if (text != entry.RangeText)
             {
-                entry.LineText = text;
+                entry.RangeText = text;
                 ThreadLineTextChanged?.Invoke(this, entry.Thread);
             }
         }
@@ -204,11 +211,13 @@ internal sealed class CommentThreadManager : IDisposable
         List<Entry> moved = [];
         foreach (Entry entry in _entries)
         {
-            int line = Math.Clamp(_model.GetDecorationRange(entry.DecorationId)?.StartLineNumber ?? entry.Thread.LineNumber, 1, _model.LineCount);
-            if (line != entry.Thread.LineNumber)
+            Range? range = _model.GetDecorationRange(entry.DecorationId);
+            int start = Math.Clamp(range?.StartLineNumber ?? entry.Thread.StartLineNumber, 1, _model.LineCount);
+            int end = Math.Clamp(range?.EndLineNumber ?? entry.Thread.LineNumber, start, _model.LineCount);
+            if (start != entry.Thread.StartLineNumber || end != entry.Thread.LineNumber)
             {
-                entry.Thread.SetLines(line, line);
-                entry.Zone.AfterLineNumber = line;
+                entry.Thread.SetLines(start, end);
+                entry.Zone.AfterLineNumber = end;
                 moved.Add(entry);
             }
         }
@@ -240,7 +249,7 @@ internal sealed class CommentThreadManager : IDisposable
         }
     }
 
-    private sealed class Entry(CommentThread thread, string decorationId, ViewZone zone, string lineText)
+    private sealed class Entry(CommentThread thread, string decorationId, ViewZone zone, string rangeText)
     {
         public CommentThread Thread { get; } = thread;
 
@@ -248,6 +257,6 @@ internal sealed class CommentThreadManager : IDisposable
 
         public ViewZone Zone { get; } = zone;
 
-        public string LineText { get; set; } = lineText;
+        public string RangeText { get; set; } = rangeText;
     }
 }
