@@ -5,7 +5,7 @@
 Checklist ticked 2026-10-29 = built and covered by automated tests (the last card, P10-31). A ticked line with a note says what part was taken.
 
 Not scheduled in detail: this file is a **backlog by theme**, built from the "Deferred on purpose" lists of phases 1 to 9 (`docs/tasks/README.md`), the "Not delivered" lists of ADR 0011 and ADR 0012, and the out-of-scope lists of the cards.
-Each theme becomes task cards (`docs/tasks/phase-10/`) when it is picked; the order below is a proposal, the maintainer decides. Phase 11 (Avalonia) stays after it.
+Each theme becomes task cards (`docs/tasks/phase-10/`) when it is picked; the order below is a proposal, the maintainer decides. Phase 11 (inline comments) and phase 12 (Avalonia) come after it.
 
 Task cards: [docs/tasks/phase-10/](../tasks/phase-10/README.md) (31 cards: themes A, B and parts of C and D; the rest is listed under "Later" in that README).
 
@@ -86,7 +86,7 @@ Copied from the "Later" table of [docs/tasks/phase-10/README.md](../tasks/phase-
 | Semantic highlighting, tree-sitter | needs LSP semantic tokens and theme rules; separate theme |
 | `fontVariationSettings` beyond `wght` | Win2D has no API for variation axes |
 | Rich (HTML) copy, touch gestures, Intl word segmentation, IME on Windows 10 (TSF) | each is a platform integration of its own |
-| Linked editing, format document / selection / on type, signature help, references, rename, code actions, document links, workspace symbols | each needs a provider contract in Core, a widget and an LSP binding: one theme per feature (phase 12 proposal) |
+| Linked editing, format document / selection / on type, signature help, references, rename, code actions, document links, workspace symbols | each needs a provider contract in Core, a widget and an LSP binding: one theme per feature (a later phase, after phase 12) |
 | Syntax folding from a provider, sticky scroll outline model, minimap section headers, find history | need provider contracts or the outline model |
 | Color decorators and picker, CodeLens, inlay hints, inline completions (ghost text) | each needs a provider contract and new widgets |
 | Context menu, command palette, quick access | host UI: needs an ADR to decide whether the control owns them |

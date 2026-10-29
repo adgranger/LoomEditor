@@ -46,7 +46,7 @@ Sources: none (documentation only).
 
 ## Out of scope
 
-Phase 11 (Avalonia), running the manual plan, any code change.
+Phases 11 (inline comments) and 12 (Avalonia), running the manual plan, any code change.
 
 ## Suggested commit message
 

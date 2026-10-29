@@ -955,6 +955,60 @@ Take phase 10 cards in table order (each card's "Depends on" is satisfied by the
 
 **Deferred on purpose ("Later", reasons in [phase-10/README.md](phase-10/README.md)):** unicode highlight, font tokens of themes and custom line heights, semantic highlighting, `fontVariationSettings` beyond `wght`, rich copy, touch, Intl word segmentation, IME on Windows 10, linked editing, format, signature help, references, rename, code actions, document links, workspace symbols, provider based folding, sticky scroll outline, minimap section headers, find history, color picker, CodeLens, inlay hints, inline completions, context menu / command palette / quick access, the marker navigation widget, the diff editor deferred items, accessibility help dialog, `ariaLabel` / `ariaRole`, reduced motion, UIA text edit pattern, zoom shared by the two diff editors, directional formatting characters in `renderControlCharacters`.
 
+## Phase 11 — Inline comment threads
+
+Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/README.md](phase-11/README.md). **Not a port** (Monaco has no comment widget): cards say "Sources: none" and have no Monaco header.
+
+### Step A — Logic, no UI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-01](phase-11/P11-01-comment-data-model.md) | Comment data model: `Comment`, `CommentAuthor`, `CommentThread` | P10-31 | todo |
+| [P11-02](phase-11/P11-02-markdown-extended-syntax.md) | Markdown: blockquote, strikethrough and underline (opt-in) | P10-31 | todo |
+| [P11-03](phase-11/P11-03-markdown-toolbar-inline.md) | Markdown toolbar (1/2): inline formats as pure text edits | P11-02 | todo |
+| [P11-04](phase-11/P11-04-markdown-toolbar-blocks.md) | Markdown toolbar (2/2): heading, lists, quote, code block and suggestion | P11-03 | todo |
+| [P11-05](phase-11/P11-05-suggestion-extract-and-edit.md) | Suggestion blocks (1/2): extraction and the model edit | P11-02 | todo |
+| [P11-06](phase-11/P11-06-suggestion-diff.md) | Suggestion blocks (2/2): the red / green diff rows | P11-05 | todo |
+| [P11-07](phase-11/P11-07-thread-view-model.md) | Thread view model: draft, preview, submit and cancel; strings and relative time | P11-01, P11-04, P11-06 | todo |
+
+### Step B — Threads in the editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-08](phase-11/P11-08-thread-manager-and-widget-zone.md) | Threads in an editor: the `Widget` zone kind and `CommentThreadManager` | P11-01 | todo |
+| [P11-09](phase-11/P11-09-comment-threads-feature-and-api.md) | The `CommentThreads` feature and the public API of `LoomEditor` | P11-05, P11-07, P11-08 | todo |
+
+### Step C — The widget
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-10](phase-11/P11-10-overlay-hosting-of-the-widget.md) | Hosting: a WinUI element over each `Widget` zone, height follows content (**Opus**) | P11-09 | todo |
+| [P11-11](phase-11/P11-11-focus-and-key-routing.md) | Focus and key routing: the editor must not steal the widget's keys (**Opus**) | P11-10 | todo |
+| [P11-12](phase-11/P11-12-shared-markdown-element-builder.md) | Share the Markdown → XAML builder between the hover and the comment widget | P11-02, P11-11 | todo |
+| [P11-13](phase-11/P11-13-widget-read-mode.md) | The widget (1/3): header, comments and the collapsed "Resolved" state | P11-12 | todo |
+| [P11-14](phase-11/P11-14-widget-composer.md) | The widget (2/3): the composer with the Markdown toolbar, the text box and Preview | P11-13 | todo |
+| [P11-15](phase-11/P11-15-widget-suggestion-block.md) | The widget (3/3): the "Suggested change" block and Apply suggestion | P11-14 | todo |
+| [P11-16](phase-11/P11-16-widget-accessibility.md) | Accessibility of the comment widget: UIA names, announcements, high contrast | P11-15 | todo |
+| [P11-17](phase-11/P11-17-gutter-add-comment-button.md) | The "+" button in the gutter and the add-comment request | P11-16 | todo |
+
+### Step D — Diff editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-18](phase-11/P11-18-diff-editor-comment-threads.md) | Comment threads in the diff editor (original and modified side) | P11-17 | todo |
+
+### Step E — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-19](phase-11/P11-19-gallery-demo-and-manual-plan.md) | Gallery: the comment threads demo and the manual test plan | P11-18 | todo |
+| [P11-20](phase-11/P11-20-native-aot-self-check.md) | Native AOT self-check of the phase 11 logic | P11-19 | todo |
+| [P11-21](phase-11/P11-21-close-phase-11.md) | Close phase 11 | all phase 11 cards | todo |
+
+Take phase 11 cards in table order (each card's "Depends on" is satisfied by the cards above it). P11-10 and P11-11 are flagged **Recommended model: Opus**; the others are written for Sonnet. A card that does not fit in one session stops with a proposed split.
+
+**Deferred on purpose (reasons in [phase-11/README.md](phase-11/README.md)):** multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence, a WinUI test project.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
