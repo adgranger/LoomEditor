@@ -1,6 +1,6 @@
 # P12-02 — Suggestion edit for a range of lines, the stale check and the range text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-01
 - **Size:** S
 
@@ -40,18 +40,18 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) §1 "rang
 
 ## Tests
 
-- [ ] `GetRangeText_ThreeLines_JoinsWithLf` (on a CRLF model too: still `\n`), `GetRangeText_OneLine_IsLineContent`
-- [ ] `CreateRange_ReplacesAllLines` (apply with `ApplyEdits`, compare the full text, LF and CRLF), `CreateRange_FewerNewLines_ShrinksDocument`, `CreateRange_MoreNewLines_GrowsDocument`
-- [ ] `CreateRange_Deletion_MiddleRange_RemovesLinesAndOneEol`, `CreateRange_Deletion_RangeAtEnd_RemovesPreviousEol`, `CreateRange_Deletion_WholeDocument_EmptiesIt`
-- [ ] `CreateRange_EndBeforeStart_ReturnsNull`, `CreateRange_EndPastLastLine_ReturnsNull`
-- [ ] `IsStaleRange_LineInsideChanged_ReturnsTrue`, `IsStaleRange_SameText_ReturnsFalse`, `IsNoOpRange_SameLines_ReturnsTrue`
-- [ ] All existing `SuggestionEditTests` unchanged and green
+- [x] `GetRangeText_ThreeLines_JoinsWithLf` (on a CRLF model too: still `\n`), `GetRangeText_OneLine_IsLineContent`
+- [x] `CreateRange_ReplacesAllLines` (apply with `ApplyEdits`, compare the full text, LF and CRLF), `CreateRange_FewerNewLines_ShrinksDocument`, `CreateRange_MoreNewLines_GrowsDocument`
+- [x] `CreateRange_Deletion_MiddleRange_RemovesLinesAndOneEol`, `CreateRange_Deletion_RangeAtEnd_RemovesPreviousEol`, `CreateRange_Deletion_WholeDocument_EmptiesIt`
+- [x] `CreateRange_EndBeforeStart_ReturnsNull`, `CreateRange_EndPastLastLine_ReturnsNull`
+- [x] `IsStaleRange_LineInsideChanged_ReturnsTrue`, `IsStaleRange_SameText_ReturnsFalse`, `IsNoOpRange_SameLines_ReturnsTrue`
+- [x] All existing `SuggestionEditTests` unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
