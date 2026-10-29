@@ -11,6 +11,12 @@ namespace LoomEditor.View.Controller;
 /// <remarks>Threading: immutable.</remarks>
 internal sealed record EditorMouseEventArgs(EditorMouseEvent Event, MouseTarget Target);
 
+/// <summary>A key event as the features need it (Monaco: <c>IKeyboardEvent</c>, reduced to the Ctrl key).</summary>
+/// <param name="CtrlKey">Whether Ctrl is down after the event (so <c>false</c> on the release of Ctrl).</param>
+/// <param name="IsCtrlKey">Whether the key of the event is Ctrl itself.</param>
+/// <remarks>Threading: immutable.</remarks>
+internal sealed record EditorKeyEventArgs(bool CtrlKey, bool IsCtrlKey);
+
 /// <summary>A mouse event whose target may be unknown (Monaco: <c>IPartialEditorMouseEvent</c>).</summary>
 /// <param name="Event">The mouse event.</param>
 /// <param name="Target">The target, or <c>null</c> when the position under the pointer is unknown.</param>
@@ -22,7 +28,7 @@ internal sealed record EditorPartialMouseEventArgs(EditorMouseEvent Event, Mouse
 /// coordinates (Monaco: <c>ViewUserInputEvents</c>, without view zones).
 /// </summary>
 /// <remarks>
-/// Not ported: the other events (wheel, key, context menu).
+/// Not ported: the other events (wheel, context menu); the key events only carry the Ctrl state.
 /// Threading: UI thread only.
 /// </remarks>
 internal sealed class ViewUserInputEvents(ICoordinatesConverter coordinatesConverter)
@@ -51,6 +57,12 @@ internal sealed class ViewUserInputEvents(ICoordinatesConverter coordinatesConve
     /// <summary>Monaco: <c>onMouseDropCanceled</c>: a key press ended the drag of the selection.</summary>
     public event EventHandler? MouseDropCanceled;
 
+    /// <summary>Monaco: <c>onKeyDown</c>.</summary>
+    public event EventHandler<EditorKeyEventArgs>? KeyDown;
+
+    /// <summary>Monaco: <c>onKeyUp</c>.</summary>
+    public event EventHandler<EditorKeyEventArgs>? KeyUp;
+
     /// <summary>Monaco: <c>emitMouseDown</c>.</summary>
     public void EmitMouseDown(EditorMouseEventArgs e) => MouseDown?.Invoke(this, Convert(e));
 
@@ -69,6 +81,12 @@ internal sealed class ViewUserInputEvents(ICoordinatesConverter coordinatesConve
 
     /// <summary>Monaco: <c>emitMouseDropCanceled</c>.</summary>
     public void EmitMouseDropCanceled() => MouseDropCanceled?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>Monaco: <c>emitKeyDown</c>.</summary>
+    public void EmitKeyDown(EditorKeyEventArgs e) => KeyDown?.Invoke(this, e);
+
+    /// <summary>Monaco: <c>emitKeyUp</c>.</summary>
+    public void EmitKeyUp(EditorKeyEventArgs e) => KeyUp?.Invoke(this, e);
 
     /// <summary>Monaco: <c>emitMouseLeave</c>.</summary>
     public void EmitMouseLeave() => MouseLeave?.Invoke(this, EventArgs.Empty);

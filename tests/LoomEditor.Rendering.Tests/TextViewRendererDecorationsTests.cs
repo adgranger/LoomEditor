@@ -289,6 +289,16 @@ public class TextViewRendererDecorationsTests
     }
 
     [Fact]
+    public void Render_DndTarget_DrawsA2DipRightBar()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 3, 1, 3), new ModelDecorationOptionsData { Description = "dnd-target", ClassName = "dnd-target" });
+
+        // The caret is drawn with the same color: the bar is the fill at the end of the (empty) range.
+        Assert.Contains(Fills(harness, harness.Render(), "editorCursor.foreground"), fill => fill is { Width: 2, Y: 0 } && fill.X == harness.LayoutInfo.ContentLeft + 2 * CharacterWidth && fill.Height == LineHeight);
+    }
+
+    [Fact]
     public void Render_InlineDeletedText_DrawsAStrikeThroughOverItsBackground()
     {
         using ViewHarness harness = CreateHarness("hello world");

@@ -265,6 +265,25 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>Raised when <see cref="InputMode"/> really changes.</summary>
     public event EventHandler? InputModeChanged;
 
+    /// <summary>The mouse cursor over the text (Monaco: <c>updateOptions({ mouseStyle })</c>).</summary>
+    internal EditorMouseStyle MouseStyle
+    {
+        get => _mouseStyle;
+        set
+        {
+            if (_mouseStyle != value)
+            {
+                _mouseStyle = value;
+                MouseStyleChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>Raised when <see cref="MouseStyle"/> really changes.</summary>
+    internal event EventHandler? MouseStyleChanged;
+
+    private EditorMouseStyle _mouseStyle;
+
     /// <summary>
     /// Replaces the whole text. Accepts <c>\r\n</c>, <c>\n</c> and <c>\r</c> line breaks.
     /// The cursor is reset to the start of the document.

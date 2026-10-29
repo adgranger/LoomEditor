@@ -18,6 +18,7 @@ namespace LoomEditor.View.Layout;
 /// <param name="Underline">The underline drawn at the bottom of the decorated range (the squiggles of markers).</param>
 /// <param name="UnderlineColorId">The color of <paramref name="Underline"/>.</param>
 /// <param name="LeftBorderWidth">The width of a border drawn on the left edge only, in DIPs, in <paramref name="BorderColorId"/>.</param>
+/// <param name="RightBorderWidth">The width of a border drawn on the right edge only, in DIPs, in <paramref name="BorderColorId"/>.</param>
 /// <param name="StrikeThrough">A line drawn through the middle of the decorated text (CSS <c>text-decoration: line-through</c>).</param>
 /// <param name="BackgroundFallbackColorId">The color used when <paramref name="BackgroundColorId"/> resolves to nothing.</param>
 /// <param name="AlwaysVisible">The icon is drawn even when the margin is not hovered (<c>alwaysShowFoldIcons</c>, collapsed regions).</param>
@@ -37,7 +38,8 @@ internal sealed record DecorationStyle(
     string? UnderlineColorId = null,
     float LeftBorderWidth = 0,
     bool StrikeThrough = false,
-    string? BackgroundFallbackColorId = null);
+    string? BackgroundFallbackColorId = null,
+    float RightBorderWidth = 0);
 
 /// <summary>The underlines of a decoration (Monaco: the <c>squiggly-*</c> CSS classes).</summary>
 internal enum UnderlineStyle

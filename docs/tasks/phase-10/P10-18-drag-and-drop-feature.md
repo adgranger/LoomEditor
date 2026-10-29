@@ -1,6 +1,6 @@
 # P10-18 — Drag and drop of the selection (2/2): the command, the drop marker and the mouse cursor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-17
 - **Size:** M
 
@@ -36,16 +36,16 @@ Dragging a selection with the mouse moves its text to where it is dropped (`Ctrl
 
 ## Tests
 
-- [ ] Port: no upstream test exists for `dnd`; the following are new and cover every branch of `computeCursorState`: `Move_Down_SelectionFollowsText`, `Move_Up_SelectionFollowsText`, `Move_WithinSameLine_Right`, `Move_WithinSameLine_Left`, `Move_MultiLineSelection_Down`, `Copy_SingleLine_SelectsCopy`, `Copy_MultiLine_SelectsCopy`, `Drop_InsideSelection_DoesNothing`, `Copy_DropAtSelectionEnd_Allowed`, `Copy_DropAtSelectionStart_Allowed`
-- [ ] New (controller, with a fake view events source): `Drag_ShowsDecorationAtTarget_RemovedWhenInsideSelection`, `Drop_OutsideSelection_MovesText_OneUndoStep`, `Drop_WithCtrl_CopiesText`, `Drop_InsideSelection_CollapsesToDropPosition`, `Drop_Shift_ExtendsPrimarySelection`, `Drop_OnGutter_Works`, `Drop_OnScrollBarOrOutside_DoesNothing`, `Escape_Cancels_NoEdit`, `Blur_ResetsState`, `Ctrl_WhileDragging_SetsCopyMouseStyle`, `Release_ResetsMouseStyleToText`, `DragAndDropOff_NoDecorationNoEdit`, `ColumnSelection_KeyHandlersIgnored`
+- [x] Port: no upstream test exists for `dnd`; the following are new and cover every branch of `computeCursorState`: `Move_Down_SelectionFollowsText`, `Move_Up_SelectionFollowsText`, `Move_WithinSameLine_Right`, `Move_WithinSameLine_Left`, `Move_MultiLineSelection_Down`, `Copy_SingleLine_SelectsCopy`, `Copy_MultiLine_SelectsCopy`, `Drop_InsideSelection_DoesNothing`, `Copy_DropAtSelectionEnd_Allowed`, `Copy_DropAtSelectionStart_Allowed`
+- [x] New (controller, with a fake view events source): `Drag_ShowsDecorationAtTarget_RemovedWhenInsideSelection`, `Drop_OutsideSelection_MovesText_OneUndoStep`, `Drop_WithCtrl_CopiesText`, `Drop_InsideSelection_CollapsesToDropPosition`, `Drop_Shift_ExtendsPrimarySelection`, `Drop_OnGutter_Works`, `Drop_OnScrollBarOrOutside_DoesNothing`, `Escape_Cancels_NoEdit`, `Blur_ResetsState`, `Ctrl_WhileDragging_SetsCopyMouseStyle`, `Release_ResetsMouseStyleToText`, `DragAndDropOff_NoDecorationNoEdit`, `ColumnSelection_KeyHandlersIgnored`
 - [ ] Manual (section "P10-18"): select a word, drag it elsewhere in the line, to another line, below the viewport end (it scrolls to reveal the target), with `Ctrl` (copy), with `Escape` (cancel: no change); a dotted/solid bar follows the pointer; one `Ctrl+Z` undoes the move; a plain click inside a selection collapses it.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `dnd.ts`, `dragAndDropCommand.ts`, `dnd.css` rows; "Behavior differences": solid drop marker, no copy cursor, no `Alt` trigger
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `dnd.ts`, `dragAndDropCommand.ts`, `dnd.css` rows; "Behavior differences": solid drop marker, no copy cursor, no `Alt` trigger
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

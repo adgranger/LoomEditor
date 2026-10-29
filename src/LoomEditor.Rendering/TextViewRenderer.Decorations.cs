@@ -250,6 +250,11 @@ internal sealed partial class TextViewRenderer
             {
                 surface.FillRectangle(left, top, style.LeftBorderWidth, height, border);
             }
+
+            if (style.RightBorderWidth > 0)
+            {
+                surface.FillRectangle(left + width, top, style.RightBorderWidth, height, border);
+            }
         }
 
         if (style.StrikeThrough && Theme.Foreground is var strike)

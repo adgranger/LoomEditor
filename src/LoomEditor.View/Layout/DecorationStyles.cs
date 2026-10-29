@@ -70,6 +70,8 @@ internal static class DecorationStyles
         ["char-delete diff-range-empty"] = new(BorderColorId: "diffEditor.removedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
         // anchorSelect.css 5-8: the anchor is a 2 px bar
         ["selection-anchor"] = new(BorderColorId: "loom.selectionAnchor", BorderWidth: 0, LeftBorderWidth: 2),
+        // dnd.css 5-25: the drop target is a 2 px bar (dotted in Monaco, solid here) after the empty range
+        ["dnd-target"] = new(BorderColorId: "editorCursor.foreground", BorderWidth: 0, RightBorderWidth: 2),
         ["gutter-insert"] = new("diffEditorGutter.insertedLineBackground", BackgroundFallbackColorId: "diffEditor.insertedLineBackground"),
         ["gutter-delete"] = new("diffEditorGutter.removedLineBackground", BackgroundFallbackColorId: "diffEditor.removedLineBackground"),
         ["inline-deleted-text"] = new("diffEditor.removedTextBackground", StrikeThrough: true),

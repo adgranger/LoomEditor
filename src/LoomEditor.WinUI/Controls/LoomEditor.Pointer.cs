@@ -1,4 +1,5 @@
 using LoomEditor.View.Controller;
+using LoomEditor.View.Features;
 using LoomEditor.View.Features.StickyScroll;
 using LoomEditor.View.Layout;
 using LoomEditor.WinUI.Input;
@@ -41,6 +42,7 @@ public sealed partial class LoomEditor
     {
         _mouseDown = new MouseDownOperation(
             _viewModel, new ViewController(_viewModel, _context.UserInputEvents), CreateMouseTarget, ScheduleAtNextAnimationFrame, TimeProvider.System);
+        _context.MouseStyleChanged += (_, _) => ProtectedCursor = CreateTextAreaCursor(false);
     }
 
     /// <inheritdoc />
@@ -313,9 +315,13 @@ public sealed partial class LoomEditor
         bool overGutter = mouseEvent.X < _viewModel.LayoutInfo.ContentLeft;
         bool overScrollBar = IsFromScrollBar(e.OriginalSource);
         SetMarginHovered(overGutter);
-        ProtectedCursor = InputSystemCursor.Create(
-            overGutter || overScrollBar ? InputSystemCursorShape.Arrow : InputSystemCursorShape.IBeam);
+        ProtectedCursor = CreateTextAreaCursor(overGutter || overScrollBar);
     }
+
+    // The mouse style is `Text` outside a drag of the selection. `Copy` is an arrow too: WinUI 3 has no built-in copy cursor.
+    private InputSystemCursor CreateTextAreaCursor(bool arrow) =>
+        InputSystemCursor.Create(
+            arrow || _context.MouseStyle != EditorMouseStyle.Text ? InputSystemCursorShape.Arrow : InputSystemCursorShape.IBeam);
 
     // The folding chevrons of the gutter show while the mouse is over it.
     private void SetMarginHovered(bool hovered)

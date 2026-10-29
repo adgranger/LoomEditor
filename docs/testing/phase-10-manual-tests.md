@@ -97,6 +97,17 @@ Needs Cascadia Code (installed on every Windows 11) and the Gallery switches add
 | 3 | Press outside the selection, double-click, Alt+click: selecting with the mouse is unchanged | pending |
 
 
+## P10-18 — Drag and drop of the selection
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Select a word and drag it elsewhere in the line, then to another line: the text moves and stays selected | pending |
+| 2 | While dragging, a bar follows the pointer and the cursor is an arrow; with `Ctrl` held the text is copied instead | pending |
+| 3 | Drag below the viewport end: the view scrolls to reveal the target | pending |
+| 4 | `Escape` during a drag cancels it: no change | pending |
+| 5 | One `Ctrl+Z` undoes a move | pending |
+| 6 | A plain click inside a selection collapses it to the click position | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |
