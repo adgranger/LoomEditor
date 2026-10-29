@@ -142,5 +142,5 @@ real server the Gallery shows.
 
 ## Changes during implementation
 
-- **Snippets are flattened, not refused (decision 7).** `snippetSupport = false` is advertised, but a server may still send snippet text; `LspSnippet.ToPlainText` reduces it to plain text (tab stops vanish, placeholders keep their default, choices keep the first option). Card P8-31.
+- **Snippets are flattened, not refused (decision 7)** (superseded in phase 10: `snippetSupport = true` and `LspSnippet` is deleted, P10-26). `snippetSupport = false` was advertised, but a server may still send snippet text; `LspSnippet.ToPlainText` reduces it to plain text (tab stops vanish, placeholders keep their default, choices keep the first option). Card P8-31.
 - **The Gallery window close waits for the session (decision 9).** The `Closed` handler cancels the close, waits at most 3 s for the session to stop and closes again, because the session needs the UI thread to finish stopping. Card P8-37.

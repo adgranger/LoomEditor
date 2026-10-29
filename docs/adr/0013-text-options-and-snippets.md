@@ -62,6 +62,18 @@ found and that fit in small cards. Three flows need a design decision before any
 - **A process-wide zoom and input mode, as in Monaco.** Rejected: two editors in one window would change each other.
 - **Variable fonts through a native DirectWrite call.** Rejected for phase 10: Win2D has no API, and a second text stack is out of proportion for one axis.
 
+## Changes during implementation (2026-10-29, P10-31)
+
+Only the changes that cards P10-22 to P10-30 recorded are listed here. The other cards (P10-03 to P10-21) record theirs in their own file and in the "Behavior differences" rows of
+[PORTING.md](../PORTING.md); they were not re-read for this section.
+
+- **Decision 10, the host interface** is named `ISnippetVariableHost` (not `ISnippetVariableSource`) and also gives the workspace name and folder; the time comes from a `TimeProvider` and `RANDOM` from a `Random` (P10-22).
+- **Decision 10, the clipboard.** The clipboard can only be read asynchronously on Windows, so `LoomEditor.InsertSnippet` reads it first when the template mentions `CLIPBOARD` and passes the text as an option; the host the control gives returns `null` (P10-25).
+- **Decision 10, tab stops.** `Placeholder.Index` is an `int`, so the fractional indices Monaco gives nested snippets live in a local table until the renumbering (P10-23); `SnippetSession` has no overtyping capturer and no snippet edits (P10-24).
+- **Decision 10, keys.** `Tab` / `Shift+Tab` / `Escape` of snippet mode use Monaco's weight `EditorContrib + 30`, and `Escape` of the problem navigation `EditorContrib + 50` (P10-28), as Monaco does; the task cards had described the relative order with the find widget differently (P10-25, P10-28).
+- **Decision 11.** `LspSnippet.cs` and its tests were deleted and the client declares `snippetSupport: true` (P10-26); a snippet item is inserted as plain text when no snippet controller is attached.
+- **Not in the ADR at all.** `F8` navigation (P10-27, P10-28) selects the marker and announces it with no widget; the Native AOT self-check of P10-30 could not be run (the published Gallery crashes at start-up, see the [roadmap](../roadmap/phase-10-editor-completeness.md)).
+
 ## Not delivered
 
 Taken from the "Later" table of [docs/tasks/phase-10/README.md](../tasks/phase-10/README.md):
@@ -76,6 +88,7 @@ Taken from the "Later" table of [docs/tasks/phase-10/README.md](../tasks/phase-1
 - Color decorators and picker, CodeLens, inlay hints, inline completions.
 - Context menu, command palette, quick access (host UI: needs an ADR).
 - The marker navigation widget (the peek-like box of `F8`): phase 10 selects the marker and announces its message.
+- The choice list of snippets, snippet text edits (`apply`) and the overtyping capturer.
 - Diff editor deferred items ([ADR 0012](0012-diff-editor.md)).
 - Accessibility help dialog, `ariaLabel` / `ariaRole`, reduced motion, UIA text edit pattern.
 - Zoom shared between the two editors of `LoomDiffEditor`.

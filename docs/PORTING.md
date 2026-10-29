@@ -713,6 +713,17 @@ No phase 7 test is ported: there is no upstream test for UI Automation, and ever
 | The legacy diff computer and algorithm selection, `serializeState`, accessibility sounds, mapping the old diff through edits, `setModel`, breadcrumbs of unchanged regions | **not delivered in phase 9** (ADR 0012 decisions 4, 5, 9) |
 | The accessible view of the diff editor (cut point of phase 7, ADR 0010) | done in phase 9 (P9-29, P9-30) |
 
+## Done in phase 10 (editor completeness)
+
+Every file ported in phase 10 has a row in the map above (search the card ids `P10-03` to `P10-28`), and every deliberate difference a row in "Behavior differences we accept" (fonts, zoom, whitespace and control characters, overtype,
+selection anchor, smart select, drag and drop, snippet transforms and variables). The cards that are new code with no Monaco counterpart (P10-05, P10-09 drawing, P10-29, P10-30) are not in the map.
+
+- **Tests**: 40 test files were added in phase 10 (503 `[Fact]` / `[Theory]` methods, counted by attribute: a theory counts once); the solution has 7,103 tests on 2026-10-29 (7,101 passed, 2 skipped on purpose), against 6,527 at the end of phase 9.
+  The Monaco tests of the snippet suites are in `tests/LoomEditor.View.Tests/Features/Snippet/` and `tests/LoomEditor.Core.Tests/Snippets/`; the tests that need `apply(edits)` or the overtyping capturer are not ported.
+- **Not ported** (the audit rows and the "Later" table of the phase README): unicode highlight, font tokens, semantic highlighting, rich copy, linked editing, format, `cursorHeight`, `renderFinalNewline`, `transposeLetters`, the snippet choice list,
+  the marker widget of `F8`.
+- **Not verified**: the Native AOT run of the text self-check (the published Gallery crashes at start-up, P10-30), the manual plan.
+
 ## Done in phase 9 (diff editor)
 
 The step-by-step cards are in **[docs/tasks/phase-9/](tasks/phase-9/)** (P9-01 … P9-33); the design is [ADR 0012](adr/0012-diff-editor.md). Every file ported in

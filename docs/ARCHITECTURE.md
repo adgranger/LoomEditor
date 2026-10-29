@@ -261,7 +261,7 @@ and their `Task` may complete anywhere: View code never uses `await` on it, only
 **The fake language server** (`tests/LoomEditor.Lsp.FakeServer`) is a deterministic server (completion, resolve, hover, definition, diagnostics). Tests run it in
 process over in-memory pipes (`tests/LoomEditor.Lsp.Tests`, and the end-to-end tests of the real features in `tests/LoomEditor.View.Tests/Lsp`); a few start it as a child process; the Gallery self-check runs it published with Native AOT. No automated test needs a real server.
 
-Deliberately not delivered in phase 8: snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, folding ranges from the server, peek definition.
+Deliberately not delivered in phase 8: snippets (delivered in phase 10), signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, folding ranges from the server, peek definition.
 
 ## Diff editor (phase 9)
 
@@ -319,6 +319,20 @@ Snippets:   LoomEditor.Core/Snippets (scanner, SnippetParser, TextmateSnippet, v
 ```
 
 The input mode (insert / overtype) is `EditorContext.InputMode`, one per editor.
+
+Editing features added in phase 10, each a folder of `LoomEditor.View/Features/` (feature, commands, README): `SelectionAnchor`, `LineSelection`, `CursorUndo`, `CaretOperations`
+(move selected text), `SmartSelect`, `DragAndDrop` (the drag state lives in the mouse operation of `LoomEditor.View/Controller/`), `Overtype`, `FontZoom`, `Snippet` and `GotoError`.
+A key that depends on a state of the editor reads a field of `KeybindingContext` (`InSnippetMode`, `HasNextTabstop`, `MarkersNavigationVisible`…), filled by the control.
+
+```
+Problems:   MarkerService → MarkerList (sorted, wraps around) → MarkerController (F8: caret, reveal, announcement; Escape ends the session)
+Snippet mode: SnippetController (keys Tab / Shift+Tab / Escape, undo and caret tracking) → SnippetSession (every cursor) → OneSnippet (decorations)
+```
+
+**Not delivered in phase 10**: the "Later" table of [tasks/phase-10/README.md](tasks/phase-10/README.md) (unicode highlight, font tokens of themes, semantic highlighting, rich copy, touch, linked editing,
+formatting and the other provider based features), the choice list and snippet text edits, the marker widget of `F8`. **Not verified**: the Native AOT build of the Gallery crashes at start-up
+(P10-30, [roadmap](roadmap/phase-10-editor-completeness.md)), and the manual plan has not been run.
+How to use it: [how-to/use-snippets.md](how-to/use-snippets.md), [how-to/font-and-whitespace-options.md](how-to/font-and-whitespace-options.md).
 
 ## Where do I find…?
 
@@ -395,5 +409,9 @@ The input mode (insert / overtype) is `EditorContext.InputMode`, one per editor.
 | run the diff demo, the diff self-check or the diff benchmarks | `samples/LoomEditor.Gallery/DiffDemoWindow.xaml`, `DiffSelfCheck.cs` (`--diff-selfcheck=<file>`), `tests/LoomEditor.Benchmarks/DiffBenchmarks.cs`, [testing/phase-9-manual-tests.md](testing/phase-9-manual-tests.md) |
 | change font options, ligatures, letter spacing or zoom | `src/LoomEditor.View/Layout/` (`EditorFontOptions`, `EditorZoomState`, `BareFontInfo`), DirectWrite side in `src/LoomEditor.Rendering/Win2D/` ([ADR 0013](adr/0013-text-options-and-snippets.md)) |
 | change whitespace or control character rendering | `src/LoomEditor.View/Layout/` (`RenderWhitespaceComputer`), drawing in `src/LoomEditor.Rendering/TextViewRenderer*.cs` |
-| change snippets (syntax, variables, session, tab stops) | `src/LoomEditor.Core/Snippets/` (parser), `src/LoomEditor.View/Features/Snippet/` (session, controller) |
+| change snippets (syntax, variables, session, tab stops) | `src/LoomEditor.Core/Snippets/` (parser), `src/LoomEditor.View/Features/Snippet/` (`OneSnippet`, `SnippetSession`, `SnippetController`; [how-to](how-to/use-snippets.md)) |
+| change go to next / previous problem | `src/LoomEditor.View/Features/GotoError/` (`MarkerList`, `MarkerController`), the message in `AccessibilityMessages.MarkerNavigation` |
+| change selection commands (anchor, cursor undo, smart select, move selected text) | `src/LoomEditor.View/Features/` (`SelectionAnchor`, `LineSelection`, `CursorUndo`, `SmartSelect`, `CaretOperations`) |
+| change drag and drop of the selection | `src/LoomEditor.View/Features/DragAndDrop/`, the drag state in `src/LoomEditor.View/Controller/` |
+| run the text self-check (Native AOT) | `samples/LoomEditor.Gallery/TextSelfCheck.cs` (`--text-selfcheck=<file>`), [testing/phase-10-manual-tests.md](testing/phase-10-manual-tests.md) |
 | change the input mode (overtype) or the cursor style | `EditorContext.InputMode`, `src/LoomEditor.View/Cursors/`, caret drawing in `src/LoomEditor.Rendering/` |
