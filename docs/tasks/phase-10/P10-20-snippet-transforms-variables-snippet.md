@@ -1,6 +1,6 @@
 # P10-20 — Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-19
 - **Size:** M
 
@@ -35,18 +35,18 @@ The rest of the snippet tree exists: `Transform`, `FormatString`, `Variable`, `I
 
 ## Tests
 
-- [ ] Port: none directly (the upstream tests of these classes go through the parser and are ported in P10-21)
-- [ ] New: `Transform_Resolve_ReplacesFirstMatchWithoutG`, `Transform_Resolve_ReplacesAllWithG`, `Transform_Resolve_IgnoreCase`, `Transform_Resolve_NoMatch_ElseBranch`, `Transform_Resolve_NoMatch_NoElse_ReturnsInput`, `Transform_ToTextmateString_RoundTripsSourceAndFlags`, `Transform_Clone_Independent`
-- [ ] New: `FormatString_Upcase`, `_Downcase`, `_Capitalize`, `_Pascalcase` (`"foo-bar baz"` → `"FooBarBaz"`), `_Camelcase`, `_Kebabcase`, `_Snakecase`, `_IfValue_WhenGroupMatched`, `_ElseValue_WhenGroupEmpty`, `_PlainGroup`, `_ToTextmateString_AllForms`
-- [ ] New: `Variable_Resolve_Known_ReplacesChildren`, `Variable_Resolve_Unknown_KeepsDefaultChildren`, `Variable_Resolve_AppliesTransform`, `Variable_ToTextmateString_WithAndWithoutDefault`
-- [ ] New: `TextmateSnippet_Placeholders_SortedWithFinalLast`, `_Offset_OfNestedPlaceholder`, `_FullLength`, `_EnclosingPlaceholders_Nested`, `_Replace_InvalidatesPlaceholders`, `_Clone_IsDeep`, `_ToTextmateString_RoundTrip` (built by hand with the marker classes)
+- [x] Port: none directly (the upstream tests of these classes go through the parser and are ported in P10-21)
+- [x] New: `Transform_Resolve_ReplacesFirstMatchWithoutG`, `Transform_Resolve_ReplacesAllWithG`, `Transform_Resolve_IgnoreCase`, `Transform_Resolve_NoMatch_ElseBranch`, `Transform_Resolve_NoMatch_NoElse_ReturnsInput`, `Transform_ToTextmateString_RoundTripsSourceAndFlags`, `Transform_Clone_Independent`
+- [x] New: `FormatString_Upcase`, `_Downcase`, `_Capitalize`, `_Pascalcase` (`"foo-bar baz"` → `"FooBarBaz"`), `_Camelcase`, `_Kebabcase`, `_Snakecase`, `_IfValue_WhenGroupMatched`, `_ElseValue_WhenGroupEmpty`, `_PlainGroup`, `_ToTextmateString_AllForms`
+- [x] New: `Variable_Resolve_Known_ReplacesChildren`, `Variable_Resolve_Unknown_KeepsDefaultChildren`, `Variable_Resolve_AppliesTransform`, `Variable_ToTextmateString_WithAndWithoutDefault`
+- [x] New: `TextmateSnippet_Placeholders_SortedWithFinalLast`, `_Offset_OfNestedPlaceholder`, `_FullLength`, `_EnclosingPlaceholders_Nested`, `_Replace_InvalidatesPlaceholders`, `_Clone_IsDeep`, `_ToTextmateString_RoundTrip` (built by hand with the marker classes)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (no `Regex` analyzer warning left: a dynamic pattern is the documented exception; if the build raises `SYSLIB1045` for the constructor call, the call site is the one in `Transform`, and you suppress it with a one-line `[SuppressMessage]` + comment, never a `NoWarn`)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: "Behavior differences": snippet transform regexes use .NET regex syntax (JavaScript-only constructs such as `(?<name>)` are the same, `\p{…}` / lookbehind are supported, sticky and unicode-set flags are ignored)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (no `Regex` analyzer warning left: a dynamic pattern is the documented exception; if the build raises `SYSLIB1045` for the constructor call, the call site is the one in `Transform`, and you suppress it with a one-line `[SuppressMessage]` + comment, never a `NoWarn`)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: "Behavior differences": snippet transform regexes use .NET regex syntax (JavaScript-only constructs such as `(?<name>)` are the same, `\p{…}` / lookbehind are supported, sticky and unicode-set flags are ignored)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

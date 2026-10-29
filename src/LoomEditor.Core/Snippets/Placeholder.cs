@@ -4,12 +4,8 @@
 namespace LoomEditor.Core.Snippets;
 
 /// <summary>A tabstop, with or without a default value (Monaco: <c>Placeholder</c>).</summary>
-/// <remarks>
-/// The <c>transform</c> of <c>TransformableMarker</c> is not ported yet (P10-20: <c>Transform</c> does not exist), so
-/// <see cref="ToTextmateString"/> and <see cref="Clone"/> ignore it for now.
-/// Threading: not thread-safe (a snippet is owned by one session).
-/// </remarks>
-internal sealed class Placeholder(int index) : SnippetMarker
+/// <remarks>Threading: not thread-safe (a snippet is owned by one session).</remarks>
+internal sealed class Placeholder(int index) : TransformableMarker
 {
     /// <summary>The tabstop number; <c>0</c> is the final tabstop.</summary>
     public int Index { get; set; } = index;
@@ -47,23 +43,34 @@ internal sealed class Placeholder(int index) : SnippetMarker
     /// <inheritdoc />
     public override string ToTextmateString()
     {
-        if (ChildList.Count == 0)
+        string transformString = Transform?.ToTextmateString() ?? string.Empty;
+        if (ChildList.Count == 0 && Transform is null)
         {
             return $"${Index}";
         }
 
-        if (Choice is { } choice)
+        if (ChildList.Count == 0)
         {
-            return $"${{{Index}|{choice.ToTextmateString()}|}}";
+            return $"${{{Index}{transformString}}}";
         }
 
-        return $"${{{Index}:{string.Concat(ChildList.Select(child => child.ToTextmateString()))}}}";
+        if (Choice is { } choice)
+        {
+            return $"${{{Index}|{choice.ToTextmateString()}|{transformString}}}";
+        }
+
+        return $"${{{Index}:{string.Concat(ChildList.Select(child => child.ToTextmateString()))}{transformString}}}";
     }
 
     /// <inheritdoc />
     public override SnippetMarker Clone()
     {
         var clone = new Placeholder(Index);
+        if (Transform is { } transform)
+        {
+            clone.Transform = (Transform)transform.Clone();
+        }
+
         foreach (SnippetMarker child in ChildList)
         {
             SnippetMarker childClone = child.Clone();

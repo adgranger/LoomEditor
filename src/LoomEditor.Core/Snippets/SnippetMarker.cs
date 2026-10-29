@@ -23,21 +23,23 @@ internal abstract class SnippetMarker
     /// <summary>The deepest last descendant, or this marker if it has no child (Monaco: <c>rightMostDescendant</c>).</summary>
     public SnippetMarker RightMostDescendant => ChildList.Count > 0 ? ChildList[^1].RightMostDescendant : this;
 
-    /// <summary>
-    /// The root of the tree this marker is in (Monaco: <c>snippet</c>, the <c>TextmateSnippet</c> found by walking up).
-    /// </summary>
-    // P10-20: TextmateSnippet narrows this to the snippet itself.
-    public SnippetMarker Snippet
+    /// <summary>The snippet this marker is in, or <see langword="null"/> (Monaco: <c>snippet</c>).</summary>
+    public TextmateSnippet? Snippet
     {
         get
         {
-            SnippetMarker candidate = this;
-            while (candidate.Parent is { } parent)
+            SnippetMarker? candidate = this;
+            while (candidate is not null)
             {
-                candidate = parent;
+                if (candidate is TextmateSnippet snippet)
+                {
+                    return snippet;
+                }
+
+                candidate = candidate.Parent;
             }
 
-            return candidate;
+            return null;
         }
     }
 
@@ -78,6 +80,29 @@ internal abstract class SnippetMarker
         parent.ChildList = newChildren;
 
         FixParent(others, parent);
+    }
+
+    /// <summary>Visits <paramref name="markers"/> and their descendants depth first; stops when <paramref name="visitor"/> returns <see langword="false"/>.</summary>
+    public static void Walk(IEnumerable<SnippetMarker> markers, Func<SnippetMarker, bool> visitor)
+    {
+        ArgumentNullException.ThrowIfNull(markers);
+        ArgumentNullException.ThrowIfNull(visitor);
+
+        var stack = new Stack<SnippetMarker>(markers.Reverse());
+        while (stack.Count > 0)
+        {
+            SnippetMarker marker = stack.Pop();
+            if (!visitor(marker))
+            {
+                break;
+            }
+
+            // The children are read after the visit: a visitor may replace them (variable resolution).
+            foreach (SnippetMarker child in marker.Children.Reverse())
+            {
+                stack.Push(child);
+            }
+        }
     }
 
     private static void FixParent(IReadOnlyList<SnippetMarker> children, SnippetMarker parent)

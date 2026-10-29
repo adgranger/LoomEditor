@@ -130,7 +130,7 @@ public class SnippetMarkerTests
     [Fact]
     public void Marker_Snippet_ReturnsRoot()
     {
-        var root = new Placeholder(1);
+        var root = new TextmateSnippet();
         var middle = new Placeholder(2);
         var leaf = new TextMarker("x");
         root.AppendChild(middle);
@@ -139,6 +139,7 @@ public class SnippetMarkerTests
         Assert.Same(root, leaf.Snippet);
         Assert.Same(root, root.Snippet);
         Assert.Same(leaf, root.RightMostDescendant);
+        Assert.Null(new TextMarker("loose").Snippet);
     }
 
     [Fact]
