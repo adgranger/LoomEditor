@@ -12,6 +12,12 @@ internal static class CommentSamples
     /// <summary>The line of <c>int max = 10;</c>, the target of the suggestion.</summary>
     public const int MaxLine = 10;
 
+    /// <summary>The first line of the range thread: the <c>for</c> loop of <c>Sum</c>.</summary>
+    public const int RangeStart = 12;
+
+    /// <summary>The last line of the range thread (the closing brace of the loop).</summary>
+    public const int RangeEnd = 15;
+
     /// <summary>The author of the comments the user posts.</summary>
     public static CommentAuthor You { get; } = new("You");
 
@@ -31,9 +37,11 @@ internal static class CommentSamples
     /// (<c>int max = 10;</c> → <c>const int Max = 10;</c>); a resolved thread with two comments.
     /// </summary>
     /// <param name="addThread">Adds a thread on a line with a title (the editor's or one side of the diff editor's <c>AddCommentThread</c>).</param>
-    public static void AddThreads(Func<int, string?, CommentThread> addThread)
+    /// <param name="addRangeThread">Adds a thread on a range of lines with a title; used for the 4-line thread with a multi-line suggestion.</param>
+    public static void AddThreads(Func<int, string?, CommentThread> addThread, Func<int, int, string?, CommentThread> addRangeThread)
     {
         ArgumentNullException.ThrowIfNull(addThread);
+        ArgumentNullException.ThrowIfNull(addRangeThread);
         DateTimeOffset now = DateTimeOffset.UtcNow;
         var ada = new CommentAuthor("Ada Lovelace");
         var grace = new CommentAuthor("Grace Hopper");
@@ -46,6 +54,12 @@ internal static class CommentSamples
         suggestion.AddComment(Comment.Create(linus, "Why is the limit a local?", now.AddMinutes(-50)));
         suggestion.AddComment(Comment.Create(
             grace, "Make it a constant:\n\n```suggestion\nconst int Max = 10;\n```", now.AddMinutes(-20)));
+
+        // Four lines in, four lines out: the diff shows three context rows around the changed one.
+        addRangeThread(RangeStart, RangeEnd, null).AddComment(Comment.Create(
+            grace,
+            "Guard against overflow:\n\n```suggestion\n        for (int i = 0; i < max && i < values.Count; i++)\n        {\n            total = checked(total + values[i]);\n        }\n```",
+            now.AddMinutes(-10)));
 
         CommentThread resolved = addThread(24, null);
         resolved.AddComment(Comment.Create(grace, "This line is too long to read in a review.", now.AddDays(-1)));

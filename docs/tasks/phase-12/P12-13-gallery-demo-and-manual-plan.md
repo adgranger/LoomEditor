@@ -1,6 +1,6 @@
 # P12-13 — Gallery: the range demo and the complete manual test plan
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-12
 - **Size:** S
 
@@ -45,15 +45,15 @@ Sources: none (specified in this card). Read first: `samples/LoomEditor.Gallery/
 
 ## Tests
 
-- [ ] `tests/LoomEditor.View.Tests/Comments/CommentsSelfCheckTests.cs` and every other test still green (the Gallery compiles; the samples have no unit tests).
-- [ ] Manual: the plan is complete (not run by the agent).
+- [x] `tests/LoomEditor.View.Tests/Comments/CommentsSelfCheckTests.cs` and every other test still green (the Gallery compiles; the samples have no unit tests).
+- [x] Manual: the plan is complete (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Every control named in `docs/testing/phase-12-manual-tests.md` exists in the Gallery XAML (grep each name)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Every control named in `docs/testing/phase-12-manual-tests.md` exists in the Gallery XAML (grep each name)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -62,3 +62,7 @@ Running the plan, screenshots, a new Gallery page.
 ## Suggested commit message
 
 `feat(gallery): demo multi-line comment threads and complete the phase 12 manual plan`
+
+## Result
+
+Build and tests green. The manual plan is complete but was not run (agents do not run the Gallery UI).

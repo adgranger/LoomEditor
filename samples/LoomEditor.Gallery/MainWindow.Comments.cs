@@ -20,19 +20,19 @@ public sealed partial class MainWindow
 
         Editor.CommentSubmitted += (_, e) =>
         {
-            LogComment($"CommentSubmitted, line {e.Thread.LineNumber}: {e.Text}");
+            LogComment($"CommentSubmitted, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)}: {e.Text}");
             // The composer closes by itself when the comment is added.
             e.Thread.AddComment(Comment.Create(CommentSamples.You, e.Text));
         };
-        Editor.CommentCancelled += (_, e) => LogComment($"CommentCancelled, line {e.Thread.LineNumber}");
+        Editor.CommentCancelled += (_, e) => LogComment($"CommentCancelled, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)}");
         Editor.AddCommentRequested += (_, e) =>
         {
-            LogComment($"AddCommentRequested, line {e.LineNumber}");
-            Editor.AddCommentThread(e.LineNumber, startComposing: true);
+            LogComment($"AddCommentRequested, {Lines(e.StartLineNumber, e.LineNumber)}");
+            Editor.AddCommentThread(e.StartLineNumber, e.LineNumber, startComposing: true);
         };
         Editor.SuggestionApplied += (_, e) =>
         {
-            LogComment($"SuggestionApplied, line {e.LineNumber}");
+            LogComment($"SuggestionApplied, {Lines(e.StartLineNumber, e.LineNumber)}");
             e.Thread.State = CommentThreadState.Resolved;
         };
 
@@ -60,7 +60,7 @@ public sealed partial class MainWindow
         RemoveAllThreads();
         if (sample.Name == CommentSamples.Name)
         {
-            CommentSamples.AddThreads((line, title) => Editor.AddCommentThread(line, title));
+            CommentSamples.AddThreads((line, title) => Editor.AddCommentThread(line, title), (start, end, title) => Editor.AddCommentThread(start, end, title));
         }
     }
 
@@ -74,6 +74,22 @@ public sealed partial class MainWindow
 
     private void OnAddCommentAtCaret(object sender, RoutedEventArgs e) =>
         Editor?.AddCommentThread(Editor.Selections[0].PositionLineNumber, startComposing: true);
+
+    private void OnCommentOnSelection(object sender, RoutedEventArgs e) => Editor?.Commands.Execute(CommentThreadsCommands.Add);
+
+    private void OnAddRange36(object sender, RoutedEventArgs e) => Editor?.AddCommentThread(3, 6, startComposing: true);
+
+    private void OnAddRange63(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Editor?.AddCommentThread(6, 3);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            LogComment($"ArgumentOutOfRangeException: {ex.ParamName}");
+        }
+    }
 
     // Stress: a thread every 3 lines, 20 at most.
     private void OnAdd20Threads(object sender, RoutedEventArgs e)
@@ -106,6 +122,8 @@ public sealed partial class MainWindow
             Editor!.RemoveCommentThread(thread);
         }
     }
+
+    private static string Lines(int start, int end) => start == end ? $"line {end}" : $"lines {start}\u2013{end}";
 
     private void LogComment(string message) => CommentLog.Text = $"{DateTime.Now:HH:mm:ss} {message}\n{CommentLog.Text}";
 }

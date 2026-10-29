@@ -1,4 +1,5 @@
 using LoomEditor.Core.Comments;
+using LoomEditor.View.Comments;
 using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 
@@ -16,27 +17,35 @@ public sealed partial class DiffDemoWindow
 
         DiffEditor.CommentSubmitted += (_, e) =>
         {
-            Log($"CommentSubmitted ({DiffEditor.GetSide(e.Thread)}, line {e.Thread.LineNumber})");
+            Log($"CommentSubmitted ({DiffEditor.GetSide(e.Thread)}, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)})");
             e.Thread.AddComment(Comment.Create(CommentSamples.You, e.Text));
         };
-        DiffEditor.CommentCancelled += (_, e) => Log($"CommentCancelled ({SideOrRemoved(e.Thread)}, line {e.Thread.LineNumber})");
+        DiffEditor.CommentCancelled += (_, e) => Log($"CommentCancelled ({SideOrRemoved(e.Thread)}, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)})");
         DiffEditor.SuggestionApplied += (_, e) =>
         {
-            Log($"SuggestionApplied ({DiffEditor.GetSide(e.Thread)}, line {e.LineNumber})");
+            Log($"SuggestionApplied ({DiffEditor.GetSide(e.Thread)}, {Lines(e.StartLineNumber, e.LineNumber)})");
             e.Thread.State = CommentThreadState.Resolved;
         };
         DiffEditor.AddCommentRequested += (_, e) =>
         {
-            Log($"AddCommentRequested ({e.Side}, line {e.LineNumber})");
-            DiffEditor.AddCommentThread(e.Side, e.LineNumber, startComposing: true);
+            Log($"AddCommentRequested ({e.Side}, {Lines(e.StartLineNumber, e.LineNumber)})");
+            DiffEditor.AddCommentThread(e.Side, e.StartLineNumber, e.LineNumber, startComposing: true);
         };
     }
 
-    private void OnAddOnOriginal(object sender, RoutedEventArgs e) =>
-        DiffEditor.AddCommentThread(DiffSide.Original, DiffEditor.Original.Selections[0].PositionLineNumber, startComposing: true);
+    private void OnAddOnOriginal(object sender, RoutedEventArgs e) => AddOnSelection(DiffSide.Original, DiffEditor.Original);
 
-    private void OnAddOnModified(object sender, RoutedEventArgs e) =>
-        DiffEditor.AddCommentThread(DiffSide.Modified, DiffEditor.Modified.Selections[0].PositionLineNumber, startComposing: true);
+    private void OnAddOnModified(object sender, RoutedEventArgs e) => AddOnSelection(DiffSide.Modified, DiffEditor.Modified);
+
+    // The lines of the side's selection (the cursor line when empty), like the add command.
+    private void AddOnSelection(DiffSide side, LoomEditor.WinUI.Controls.LoomEditor editor)
+    {
+        (int start, int end) = CommentLineRange.FromSelection(editor.Selections[0]);
+        DiffEditor.AddCommentThread(side, start, end, startComposing: true);
+    }
+
+    private static string Lines(int start, int end) => start == end ? $"line {end}" : $"lines {start}\u2013{end}";
+
 
     // The gutter "+" is a property of each editor, not of the diff editor.
     private void OnCommentGutterChanged(object sender, RoutedEventArgs e)
@@ -56,7 +65,9 @@ public sealed partial class DiffDemoWindow
 
         DiffEditor.OriginalText = CommentSamples.Sample.Text;
         DiffEditor.ModifiedText = CommentSamples.ModifiedText;
-        CommentSamples.AddThreads((line, title) => DiffEditor.AddCommentThread(DiffSide.Original, line, title));
+        CommentSamples.AddThreads(
+            (line, title) => DiffEditor.AddCommentThread(DiffSide.Original, line, title),
+            (start, end, title) => DiffEditor.AddCommentThread(DiffSide.Original, start, end, title));
         DiffEditor.AddCommentThread(DiffSide.Modified, CommentSamples.MaxLine, "On the new constant")
             .AddComment(Comment.Create(new CommentAuthor("Linus"), "Better.", DateTimeOffset.UtcNow.AddMinutes(-5)));
     }

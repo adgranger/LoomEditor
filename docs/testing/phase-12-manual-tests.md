@@ -1,35 +1,39 @@
-# Phase 12 � manual test list
+# Phase 12 — manual test list
 
 What unit tests cannot check: the highlight of the lines of a multi-line comment thread, the box under the last line, the selection gestures
 (add command, gutter "+" button) and the N-line suggestion block, under a real UI. Fill the **Result** line of each check (`pass` / `fail` + a note, or `pending`).
 
 **Machine:** Windows 11, a mouse with a wheel. About 30 minutes in total.
 
-**Gallery setup:** the Gallery controls for ranges are added by P12-13. Until then, the checks that need a Gallery button are `pending`.
+**Gallery setup:** pick **Comment threads** in the "Features" picker: the phase 11 threads (lines 8, 10, 24) plus a 4-line thread on lines 12–15 (the `for` loop of `Sum`)
+whose comment by Grace Hopper holds a suggestion that rewrites line 14 and keeps the other three. In the **Comment threads** Expander: **Comment on selection**
+(the add command, also `Ctrl+Alt+M`), **Add range 3–6**, **Add range 6–3 (error)**, **Add comment at caret**, the **Gutter "+" button** switch and the event log. The
+diff window (**Diff demo**) has **Comment sample** (the same threads on the original side), **Add on original**, **Add on modified** (both use the lines of that side's
+selection) and the **Gutter "+" button** box. **Self-check:** the logic of this phase also runs without a UI in the Native AOT self-check (P12-14).
 
 - Windows build:
 - Gallery build kind (Debug / Release / Native AOT):
 - Display scale:
 - Date and tester:
 
-## P12-09 � Public API
+## P12-09 — Public API
 
-1. `AddCommentThread(3, 6)` (Gallery button, P12-13): the box is under line 6 and its title reads "Comment on lines 3 to 6".
+1. `AddCommentThread(3, 6)` (**Add range 3–6**): the box is under line 6 and its title reads "Comment on lines 3 to 6".
    Result:
 2. `AddCommentThread(4)` still opens a box titled "Comment on line 4".
    Result:
-3. `AddCommentThread(6, 3)` throws: the Gallery log shows `ArgumentOutOfRangeException`.
+3. `AddCommentThread(6, 3)` throws (**Add range 6–3 (error)**): the Gallery log shows `ArgumentOutOfRangeException`.
    Result:
-4. After the add command with a 4-line selection, the event log shows `AddCommentRequested, lines 3�6`.
+4. After **Comment on selection** with a 4-line selection, the event log shows `AddCommentRequested, lines 3–6`.
    Result:
-5. After applying a range suggestion, the log shows `SuggestionApplied, lines 3�6`.
+5. After applying a range suggestion, the log shows `SuggestionApplied, lines 3–6`.
    Result:
 
-## P12-10 � Diff editor API
+## P12-10 — Diff editor API
 
-1. A range thread on the modified side (Gallery, P12-13): the box is under the last line, the lines are highlighted, the original side is padded by the box height (the line after the box is level on both sides, �1 px).
+1. A range thread on the modified side (select 4 lines in the modified editor, **Add on modified**): the box is under the last line, the lines are highlighted, the original side is padded by the box height (the line after the box is level on both sides, ±1 px).
    Result:
-2. The same on the original side in side-by-side view.
+2. The same on the original side in side-by-side view (**Add on original**, or the 12–15 thread of **Comment sample**).
    Result:
 3. Inline view: an original-side range thread is not shown (phase 11 rule).
    Result:
@@ -38,7 +42,7 @@ What unit tests cannot check: the highlight of the lines of a multi-line comment
 5. Applying a suggestion on the modified side replaces the range; one `Ctrl+Z` restores it and the diff recomputes.
    Result:
 
-## P12-11 � The widget for a range
+## P12-11 — The widget for a range
 
 1. The box title and Narrator's name read "Comment thread on lines 3 to 6".
    Result:
@@ -65,3 +69,48 @@ What unit tests cannot check: the highlight of the lines of a multi-line comment
    Result:
 5. Narrator reads "Add a comment on lines 3 to 6" on the button inside the selection.
    Result:
+
+## End-to-end A — Range review (editor)
+
+| # | Step | Result |
+|---|---|---|
+| 1 | Select 4 lines (for example 12–15), **Comment on selection**: the box opens under line 15, titled "Comment on lines 12 to 15", the 4 lines are highlighted | pending |
+| 2 | Type `Please`, select it, **B**; then `±` (suggest a change): a block holding the 4 lines appears, edit one line | pending |
+| 3 | **Preview** shows bold text and the suggested change as `3 context + 1 removed + 1 added` rows; back to the box | pending |
+| 4 | **Comment**: the comment appears with the block and an **Apply suggestion** button; the log shows `CommentSubmitted, lines 12–15` | pending |
+| 5 | **Apply suggestion**: the 4 lines are replaced, the log shows `SuggestionApplied, lines 12–15`, the thread is resolved; `Ctrl+Z` restores the 4 lines in one step | pending |
+
+## End-to-end B — Range review (diff)
+
+| # | Step | Result |
+|---|---|---|
+| 1 | **Comment sample**, side by side: the 12–15 thread on the original side is highlighted, the modified side is padded, both sides stay level | pending |
+| 2 | Select 4 lines in the modified editor, **Add on modified**: write and post a comment; the log shows the side and `lines …` | pending |
+| 3 | Apply a suggestion on the modified side: the 4 lines change, the diff updates, `Ctrl+Z` restores them | pending |
+| 4 | Inline view, then side by side: threads, drafts and alignment come back | pending |
+
+## C — Robustness
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Type inside the range of the 12–15 thread: the range grows and the highlight follows | pending |
+| 2 | Type above the range (a new line, then Enter): the thread and its highlight move down with it | pending |
+| 3 | Type below the range: nothing changes | pending |
+| 4 | Delete the whole range (select 12–15, Delete): the thread follows the Phase 11 rule for a deleted line, with no exception | pending |
+| 5 | Load a sample with fewer lines (the Features picker) while range threads exist: no exception, the threads are removed | pending |
+| 6 | **Resolve first thread**, then reopen it in the box: the highlight follows the state | pending |
+| 7 | Word wrap on: the highlight covers every row of every line of the range | pending |
+
+## D — Keyboard only
+
+| # | Check | Result |
+|---|---|---|
+| 1 | `Shift+Down` ×3 from line 12, `Ctrl+Alt+M`: a thread opens on 12–14 (not 12–15) with the focus in the composer | pending |
+| 2 | `Esc` cancels an empty thread and removes it; the focus returns to the text | pending |
+| 3 | Tab through the box: the toolbar, **Comment**, **Cancel**, **Apply suggestion**; the gutter "+" is not a tab stop | pending |
+
+## Findings
+
+| # | Section | Finding | Severity |
+|---|---|---|---|
+| | | | |
