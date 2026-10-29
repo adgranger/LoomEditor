@@ -40,6 +40,7 @@ namespace LoomEditor.WinUI.Controls;
 [TemplatePart(Name = HorizontalScrollBarPartName, Type = typeof(ScrollBar))]
 [TemplatePart(Name = FindWidgetPartName, Type = typeof(FindWidget))]
 [TemplatePart(Name = OverlayCanvasPartName, Type = typeof(Canvas))]
+[TemplatePart(Name = ZoneWidgetCanvasPartName, Type = typeof(Canvas))]
 #pragma warning disable CA1724 // Type name matches the root namespace on purpose: see remarks above.
 #pragma warning disable CA1001 // WinUI controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomEditor : Control
@@ -49,6 +50,7 @@ public sealed partial class LoomEditor : Control
     private const string CanvasPartName = "PART_Canvas";
     private const string FindWidgetPartName = "PART_FindWidget";
     private const string OverlayCanvasPartName = "PART_OverlayCanvas";
+    private const string ZoneWidgetCanvasPartName = "PART_ZoneWidgetCanvas";
 
     /// <summary>Identifies the <see cref="Text"/> dependency property.</summary>
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -158,6 +160,7 @@ public sealed partial class LoomEditor : Control
         AttachScrollBars();
         _findWidget = GetTemplateChild(FindWidgetPartName) as FindWidget;
         InitializeOverlayWidgets(GetTemplateChild(OverlayCanvasPartName) as Canvas);
+        InitializeCommentZoneHost(GetTemplateChild(ZoneWidgetCanvasPartName) as Canvas);
     }
 
     /// <inheritdoc />
@@ -274,6 +277,7 @@ public sealed partial class LoomEditor : Control
 
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!, _bitmapCache);
         _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
+        _commentZoneHost?.Arrange();
         ApplyPendingHorizontalReveal();
     }
 

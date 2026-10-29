@@ -50,6 +50,10 @@ public sealed partial class LoomEditor
     /// <remarks>Threading: UI thread only.</remarks>
     internal EditorLayoutInfo LayoutInfo => _viewModel.LayoutInfo;
 
+    internal IReadOnlyList<ViewWhitespaceViewportData> GetWhitespaceViewportData() => _viewModel.ViewLayout.GetWhitespaceViewportData();
+
+    internal void InvalidateCanvas() => _canvas?.Invalidate();
+
     /// <summary>The whitespaces of the layout, the view zones included (Monaco: <c>getWhitespaces</c>).</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal IReadOnlyList<IEditorWhitespace> GetWhitespaces() => _viewModel.ViewLayout.GetWhitespaces();

@@ -1,6 +1,6 @@
 # P11-12 — The zone-widget layer: a WinUI element over each `Widget` zone, positioned in the draw pass
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-11
 - **Size:** M
 - **Recommended model:** Opus (first XAML element placed over a view zone in this code base; template part order, canvas coordinates, clipping and frame synchronization with the Win2D draw only show at runtime. On failure — the box drifts from its gap during scroll, covers the find widget or the gutter, or is not clipped at the edges — stop, do not commit, report what you saw, the numbers of the diagnostics line below at that moment, and what you tried.)
@@ -45,8 +45,8 @@ Sources: none (specified in this card; ADR 0014 decision 4). **There is no exist
 
 ## Tests
 
-- [ ] Automated: none for WinUI (no WinUI test project). The build proves the template part compiles.
-- [ ] Manual (section "P11-12"). The card adds the **temporary** Gallery sample "Comment threads (P11-12)" in `FeatureSamples.cs`: 200 numbered lines, buttons **Add thread at caret** (`AddCommentThread(caretLine)`), **Add 3 threads (lines 5, 6, 40)**, **Add 200 threads**, **Remove all**, and a `TextBlock` that shows `CommentZoneHost.Diagnostics` refreshed every 500 ms. P11-23 replaces this sample. Checks, each with a measurable expectation:
+- [x] Automated: none for WinUI (no WinUI test project). The build proves the template part compiles.
+- [x] Manual (section "P11-12"). The card adds the **temporary** Gallery sample "Comment threads (P11-12)" in `FeatureSamples.cs`: 200 numbered lines, buttons **Add thread at caret** (`AddCommentThread(caretLine)`), **Add 3 threads (lines 5, 6, 40)**, **Add 200 threads**, **Remove all**, and a `TextBlock` that shows `CommentZoneHost.Diagnostics` refreshed every 500 ms. P11-23 replaces this sample. Checks, each with a measurable expectation:
   1. a thread on line 5: the box's top edge touches the bottom of line 5 and line 6 starts 120 px lower (use the Gallery's zoom 100 %, compare with a screenshot ruler or the line numbers);
   2. scroll by wheel and by dragging the scroll bar for 10 s: the box never separates from line 5 by more than 1 px in any screenshot taken (Win+Shift+S) during the scroll;
   3. scroll line 5 above the top edge: the box is cut at the editor's top edge, nothing is drawn above the editor; the same at the bottom edge and above the horizontal scroll bar;
@@ -60,11 +60,20 @@ Sources: none (specified in this card; ADR 0014 decision 4). **There is no exist
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The template has the new part between `PART_Canvas` and `PART_FindWidget`, and `IsFromOverlay` covers it
-- [ ] The manual section is written with the ten checks; the card result says the agent did **not** run them
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The template has the new part between `PART_Canvas` and `PART_FindWidget`, and `IsFromOverlay` covers it
+- [x] The manual section is written with the ten checks; the card result says the agent did **not** run them
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- The manual section "P11-12" of `docs/testing/phase-11-manual-tests.md` is written with the ten checks; the agent did **not** run them (no UI run in this session).
+- Deviation: `Border` is sealed in WinUI 3, so `CommentThreadWidget` is a `UserControl` whose content is the bordered box (same name, constructor and `ApplyTheme`).
+  It cannot implement `IDisposable` either (CsWinRT maps it to `IClosable`): `Detach()` unsubscribes from the view model.
+- Additions the card did not list: `OverlayHost.Remove` (a removed thread's box leaves the canvas), `LoomEditor.InvalidateCanvas()` (a new thread is
+  arranged at once), `LoomEditor.CommentZonesDiagnostics` and `InternalsVisibleTo LoomEditor.Gallery` in the WinUI project (the Gallery reads the diagnostics line).
+- The temporary Gallery sample is an Expander "Comment threads (P11-12)" plus a picker entry with 200 lines in indented blocks of ten (so check 10 has folds).
 
 ## Out of scope
 

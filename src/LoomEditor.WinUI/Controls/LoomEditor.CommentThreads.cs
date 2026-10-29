@@ -1,5 +1,10 @@
 using LoomEditor.Core.Comments;
 using LoomEditor.View.Comments;
+using LoomEditor.WinUI.Controls.Comments;
+using LoomEditor.WinUI.Controls.Overlay;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -7,6 +12,11 @@ namespace LoomEditor.WinUI.Controls;
 public sealed partial class LoomEditor
 {
     private CommentThreadsController _commentThreads = null!;
+    private CommentZoneHost? _commentZoneHost;
+    private Canvas? _zoneWidgetCanvas;
+
+    /// <summary>The zone-widget layer status line, for the Gallery's manual test.</summary>
+    internal string CommentZonesDiagnostics => _commentZoneHost?.Diagnostics ?? "no zone-widget layer";
 
     /// <summary>The comment threads of this editor, in creation order.</summary>
     public IReadOnlyList<CommentThread> CommentThreads => _commentThreads.Threads;
@@ -41,6 +51,31 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(thread);
         return _commentThreads.Remove(thread);
     }
+
+    // The optional PART_ZoneWidgetCanvas hosts a box over each comment thread's zone; without the part the zones are only gaps.
+    private void InitializeCommentZoneHost(Canvas? canvas)
+    {
+        _commentZoneHost?.Dispose();
+        _commentZoneHost = null;
+        if (_zoneWidgetCanvas is not null)
+        {
+            _zoneWidgetCanvas.SizeChanged -= OnZoneWidgetCanvasSizeChanged;
+        }
+
+        _zoneWidgetCanvas = canvas;
+        if (canvas is null)
+        {
+            return;
+        }
+
+        canvas.SizeChanged += OnZoneWidgetCanvasSizeChanged;
+        _commentZoneHost = new CommentZoneHost(this, new OverlayHost(canvas), _commentThreads);
+        _commentZoneHost.ApplyTheme(EffectiveTheme);
+    }
+
+    // A Canvas does not clip its children: without this a box scrolled half out would draw outside the editor.
+    private void OnZoneWidgetCanvasSizeChanged(object sender, SizeChangedEventArgs e) =>
+        ((Canvas)sender).Clip = new RectangleGeometry { Rect = new Windows.Foundation.Rect(0, 0, e.NewSize.Width, e.NewSize.Height) };
 
     private void InitializeCommentThreads()
     {

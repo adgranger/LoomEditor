@@ -52,6 +52,13 @@ internal sealed class OverlayHost(Canvas canvas)
         element.Visibility = Visibility.Visible;
     }
 
+    /// <summary>Removes the element from the canvas.</summary>
+    public void Remove(FrameworkElement element)
+    {
+        ArgumentNullException.ThrowIfNull(element);
+        canvas.Children.Remove(element);
+    }
+
     /// <summary>Collapses the element.</summary>
     public static void Hide(FrameworkElement element)
     {

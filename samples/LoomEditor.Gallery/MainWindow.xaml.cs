@@ -53,6 +53,7 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         PopulatePickers();
+        InitializeCommentZonesStatus();
         Editor.LanguageId = "csharp";
         LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
         Editor.Text = SampleText.HelloWorld;

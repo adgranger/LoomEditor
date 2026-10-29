@@ -351,7 +351,7 @@ public sealed partial class LoomEditor
     }
 
     // The widgets of the overlay layer are children of the control: their pointer events must not reach the text.
-    private bool IsFromOverlay(object? source) => _overlay?.Contains(source as DependencyObject) == true;
+    private bool IsFromOverlay(object? source) => _overlay?.Contains(source as DependencyObject) == true || _commentZoneHost?.Contains(source as DependencyObject) == true;
 
     private bool IsFromScrollBar(object? source)
     {

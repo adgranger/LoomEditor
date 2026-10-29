@@ -139,6 +139,17 @@
                     </StackPanel>
                 </Expander>
 
+                <!-- Temporary (P11-12): replaced by the comment threads demo of P11-23. -->
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Comment threads (P11-12)">
+                    <StackPanel Spacing="6">
+                        <Button HorizontalAlignment="Stretch" Click="OnAddThreadAtCaret" Content="Add thread at caret" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddThreeThreads" Content="Add 3 threads (lines 5, 6, 40)" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAdd200Threads" Content="Add 200 threads" />
+                        <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all" />
+                        <TextBlock x:Name="CommentZonesStatus" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Expander>
+
                 <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Language server">
                     <StackPanel Spacing="6">
                         <Button HorizontalAlignment="Stretch" x:Name="StartLspButton" Click="OnStartLsp" Content="Start language server" />
