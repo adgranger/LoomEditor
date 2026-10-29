@@ -140,9 +140,9 @@ public class CommentThreadTests
     public void LineNumber_Changed_RaisesLineChanged()
     {
         CommentThread t = NewThread(out var events);
-        t.LineNumber = 3;
+        t.SetLines(3, 3);
         Assert.Empty(events);
-        t.LineNumber = 5;
+        t.SetLines(5, 5);
         Assert.Equal(CommentThreadChangeKind.LineChanged, Assert.Single(events).Kind);
         Assert.Equal(5, t.LineNumber);
     }
@@ -161,5 +161,55 @@ public class CommentThreadTests
         Assert.IsNotType<List<Comment>>(t.Comments);
         Assert.True(((System.Collections.IList)t.Comments).IsReadOnly);
         Assert.Same(t.Comments, t.Comments);
+    }
+
+    [Fact]
+    public void Ctor_SingleLine_StartEqualsLine()
+    {
+        var t = new CommentThread("a", 4);
+        Assert.Equal(4, t.StartLineNumber);
+        Assert.Equal(4, t.LineNumber);
+    }
+
+    [Fact]
+    public void Ctor_Range_SetsBothLines()
+    {
+        var t = new CommentThread("a", 3, 5);
+        Assert.Equal(3, t.StartLineNumber);
+        Assert.Equal(5, t.LineNumber);
+    }
+
+    [Fact]
+    public void Ctor_EndBeforeStart_Throws() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() => new CommentThread("a", 5, 3));
+
+    [Fact]
+    public void Ctor_StartZero_Throws() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() => new CommentThread("a", 0, 3));
+
+    [Fact]
+    public void SetLines_ChangesBoth_RaisesLineChangedOnce()
+    {
+        CommentThread t = NewThread(out var events);
+        t.SetLines(1, 6);
+        Assert.Equal((1, 6), (t.StartLineNumber, t.LineNumber));
+        Assert.Equal(CommentThreadChangeKind.LineChanged, Assert.Single(events).Kind);
+    }
+
+    [Fact]
+    public void SetLines_OnlyStartChanges_RaisesLineChanged()
+    {
+        CommentThread t = NewThread(out var events);
+        t.SetLines(2, 3);
+        Assert.Equal(2, t.StartLineNumber);
+        Assert.Single(events);
+    }
+
+    [Fact]
+    public void SetLines_Same_RaisesNothing()
+    {
+        CommentThread t = NewThread(out var events);
+        t.SetLines(3, 3);
+        Assert.Empty(events);
     }
 }

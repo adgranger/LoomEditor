@@ -1,6 +1,6 @@
 # P12-01 — `CommentThread` covers a range of lines: `StartLineNumber`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-25
 - **Size:** S
 
@@ -43,16 +43,16 @@ internal constructor and of the `LineNumber` setter).
 
 ## Tests
 
-- [ ] `Ctor_SingleLine_StartEqualsLine`, `Ctor_Range_SetsBothLines`, `Ctor_EndBeforeStart_Throws`, `Ctor_StartZero_Throws`
-- [ ] `SetLines_ChangesBoth_RaisesLineChangedOnce`, `SetLines_OnlyStartChanges_RaisesLineChanged`, `SetLines_Same_RaisesNothing`
-- [ ] The existing `CommentThreadTests` and `tests/LoomEditor.View.Tests/Comments/CommentThreadManagerTests.cs` still pass unchanged
+- [x] `Ctor_SingleLine_StartEqualsLine`, `Ctor_Range_SetsBothLines`, `Ctor_EndBeforeStart_Throws`, `Ctor_StartZero_Throws`
+- [x] `SetLines_ChangesBoth_RaisesLineChangedOnce`, `SetLines_OnlyStartChanges_RaisesLineChanged`, `SetLines_Same_RaisesNothing`
+- [x] The existing `CommentThreadTests` and `tests/LoomEditor.View.Tests/Comments/CommentThreadManagerTests.cs` still pass unchanged
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (Core) lists `StartLineNumber`; no other public change
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (Core) lists `StartLineNumber`; no other public change
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

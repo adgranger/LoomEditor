@@ -45,6 +45,7 @@ LoomEditor.Core.Comments.CommentThread.Id.get -> string!
 LoomEditor.Core.Comments.CommentThread.LineNumber.get -> int
 LoomEditor.Core.Comments.CommentThread.RemoveComment(string! id) -> bool
 LoomEditor.Core.Comments.CommentThread.ReplaceComment(LoomEditor.Core.Comments.Comment! comment) -> bool
+LoomEditor.Core.Comments.CommentThread.StartLineNumber.get -> int
 LoomEditor.Core.Comments.CommentThread.State.get -> LoomEditor.Core.Comments.CommentThreadState
 LoomEditor.Core.Comments.CommentThread.State.set -> void
 LoomEditor.Core.Comments.CommentThread.Title.get -> string?

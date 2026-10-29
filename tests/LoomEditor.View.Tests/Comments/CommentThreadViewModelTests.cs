@@ -27,7 +27,7 @@ public class CommentThreadViewModelTests
         var (t, vm) = Make();
         int n = 0;
         vm.Changed += (_, _) => n++;
-        t.LineNumber = 7;
+        t.SetLines(7, 7);
         Assert.Equal(1, n);
         Assert.Equal("Comment on line 7", vm.Title);
     }
@@ -271,7 +271,7 @@ public class CommentThreadViewModelTests
         vm.Changed += (_, _) => n++;
         vm.Dispose();
         vm.Dispose();
-        t.LineNumber = 9;
+        t.SetLines(9, 9);
         Assert.Equal(0, n);
     }
 }

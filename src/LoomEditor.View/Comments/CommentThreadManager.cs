@@ -207,7 +207,7 @@ internal sealed class CommentThreadManager : IDisposable
             int line = Math.Clamp(_model.GetDecorationRange(entry.DecorationId)?.StartLineNumber ?? entry.Thread.LineNumber, 1, _model.LineCount);
             if (line != entry.Thread.LineNumber)
             {
-                entry.Thread.LineNumber = line;
+                entry.Thread.SetLines(line, line);
                 entry.Zone.AfterLineNumber = line;
                 moved.Add(entry);
             }

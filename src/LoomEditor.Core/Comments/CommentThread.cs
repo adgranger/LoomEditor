@@ -1,23 +1,32 @@
+using LoomEditor.Core.Diagnostics;
 using System.Collections.ObjectModel;
 
 namespace LoomEditor.Core.Comments;
 
-/// <summary>A discussion anchored on a line: an ordered list of comments, a title and a state.</summary>
+/// <summary>A discussion anchored on a line or a range of lines: an ordered list of comments, a title and a state.</summary>
 /// <remarks>Threading: UI thread only. <see cref="Changed"/> is raised synchronously on the caller's thread, after the
 /// state changed; exceptions thrown by handlers are not caught.</remarks>
 public sealed class CommentThread
 {
     private readonly List<Comment> _comments = [];
     private readonly ReadOnlyCollection<Comment> _view;
+    private int _startLineNumber;
     private int _lineNumber;
     private string? _title;
     private CommentThreadState _state;
 
     internal CommentThread(string id, int lineNumber, string? title = null)
+        : this(id, lineNumber, lineNumber, title)
+    {
+    }
+
+    internal CommentThread(string id, int startLineNumber, int lineNumber, string? title = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
-        ArgumentOutOfRangeException.ThrowIfLessThan(lineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfLessThan(startLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfLessThan(lineNumber, startLineNumber);
         Id = id;
+        _startLineNumber = startLineNumber;
         _lineNumber = lineNumber;
         _title = title;
         _view = new ReadOnlyCollection<Comment>(_comments);
@@ -29,18 +38,25 @@ public sealed class CommentThread
     /// <summary>The identifier of the thread.</summary>
     public string Id { get; }
 
-    /// <summary>The 1-based line the thread is anchored on.</summary>
-    public int LineNumber
+    /// <summary>The first 1-based line the thread covers; equal to <see cref="LineNumber"/> for a single-line thread.
+    /// Maintained by the editor.</summary>
+    public int StartLineNumber => _startLineNumber;
+
+    /// <summary>The 1-based line the thread's box is under: the last line of its range (GitHub's <c>line</c>).
+    /// Maintained by the editor.</summary>
+    public int LineNumber => _lineNumber;
+
+    internal void SetLines(int startLineNumber, int lineNumber)
     {
-        get => _lineNumber;
-        internal set
+        Guard.Assert(1 <= startLineNumber && startLineNumber <= lineNumber);
+        if (startLineNumber == _startLineNumber && lineNumber == _lineNumber)
         {
-            if (value != _lineNumber)
-            {
-                _lineNumber = value;
-                Raise(CommentThreadChangeKind.LineChanged, null);
-            }
+            return;
         }
+
+        _startLineNumber = startLineNumber;
+        _lineNumber = lineNumber;
+        Raise(CommentThreadChangeKind.LineChanged, null);
     }
 
     /// <summary>An optional title.</summary>
