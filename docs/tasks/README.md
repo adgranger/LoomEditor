@@ -1013,6 +1013,50 @@ Take phase 11 cards in table order (each card's "Depends on" is satisfied by the
 
 **Deferred on purpose (reasons in [phase-11/README.md](phase-11/README.md)):** multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence, a WinUI test project.
 
+## Phase 12 — Multi-line ranges for inline comment threads
+
+Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); conventions and design decisions: [phase-12/README.md](phase-12/README.md) (read phase-11/README.md first).
+**Not a port** (as phase 11): cards say "Sources: none" and have no Monaco header.
+
+### Step A — Logic, no UI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-01](phase-12/P12-01-comment-thread-line-range.md) | `CommentThread` covers a range of lines: `StartLineNumber` | P11-25 | todo |
+| [P12-02](phase-12/P12-02-suggestion-edit-range.md) | Suggestion edit for a range of lines, the stale check and the range text | P12-01 | todo |
+| [P12-03](phase-12/P12-03-suggestion-diff-range.md) | Suggestion diff rows for N old lines | P12-02 | todo |
+| [P12-04](phase-12/P12-04-strings-and-multiline-seed.md) | Strings for ranges and a multi-line "Suggest a change" seed | P12-03 | todo |
+
+### Step B — Ranges in the editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-05](phase-12/P12-05-manager-range-anchor.md) | The manager anchors a thread to a range of lines | P12-04 | todo |
+| [P12-06](phase-12/P12-06-range-highlight.md) | Highlight the lines of a multi-line thread | P12-05 | todo |
+| [P12-07](phase-12/P12-07-controller-ranges.md) | Controller: add, apply a suggestion and request a thread on a range | P12-06 | todo |
+| [P12-08](phase-12/P12-08-add-command-selection.md) | The add command uses a multi-line selection | P12-07 | todo |
+
+### Step C — Public API and WinUI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-09](phase-12/P12-09-editor-public-api.md) | Public API of `LoomEditor`: a thread on a range of lines | P12-08 | todo |
+| [P12-10](phase-12/P12-10-diff-editor-public-api.md) | Public API of `LoomDiffEditor`: a thread on a range of lines of one side | P12-09 | todo |
+| [P12-11](phase-12/P12-11-widget-range.md) | The widget for a range: title, accessibility and an N-line suggestion block | P12-10 | todo |
+| [P12-12](phase-12/P12-12-gutter-button-selection.md) | The gutter "+" button requests the selected lines | P12-11 | todo |
+
+### Step D — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-13](phase-12/P12-13-gallery-demo-and-manual-plan.md) | Gallery: the range demo and the complete manual test plan | P12-12 | todo |
+| [P12-14](phase-12/P12-14-native-aot-self-check.md) | Native AOT self-check of the phase 12 logic | P12-13 | todo |
+| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 | all phase 12 cards | todo |
+
+Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it). Every card is written for **Sonnet**; none is flagged Opus (the delicate
+tracking code exists since P11-09 and is extended, with every edge case listed as a test). A card that does not fit in one session stops with a proposed split. The WinUI cards
+(P12-09 … P12-12) are verified by the build, the tests and a written manual section; agents do not run the Gallery UI.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
