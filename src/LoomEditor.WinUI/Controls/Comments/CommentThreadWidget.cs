@@ -32,6 +32,22 @@ internal sealed partial class CommentThreadWidget : UserControl
         Rebuild();
     }
 
+    /// <summary>Raised after the content was rebuilt from the view model.</summary>
+    public event EventHandler? ContentChanged;
+
+    /// <summary>The thread shown by this widget.</summary>
+    public Core.Comments.CommentThread Thread => _viewModel.Thread;
+
+    /// <summary>
+    /// The height, in whole pixels, the content needs at <paramref name="width"/>. The bordered box is measured, not this control: the
+    /// control has the zone's height and would answer with it.
+    /// </summary>
+    public int MeasureContentHeight(double width)
+    {
+        _border.Measure(new Windows.Foundation.Size(width, double.PositiveInfinity));
+        return (int)Math.Ceiling(_border.DesiredSize.Height);
+    }
+
     /// <summary>Takes the colors from the theme (Monaco: <c>editorWidget.*</c>, falling back to the hover's).</summary>
     public void ApplyTheme(EditorTheme theme)
     {
@@ -50,12 +66,16 @@ internal sealed partial class CommentThreadWidget : UserControl
         brush.Color = Windows.UI.Color.FromArgb(c.A, c.R, c.G, c.B);
     }
 
-    private void OnChanged(object? sender, EventArgs e) => Rebuild();
+    private void OnChanged(object? sender, EventArgs e)
+    {
+        Rebuild();
+        ContentChanged?.Invoke(this, EventArgs.Empty);
+    }
 
     private void Rebuild()
     {
         _panel.Children.Clear();
-        _panel.Children.Add(new TextBlock { Text = _viewModel.Title, FontWeight = FontWeights.SemiBold, Foreground = _foreground });
+        _panel.Children.Add(new TextBlock { Text = _viewModel.Title, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap, Foreground = _foreground });
         foreach (Core.Comments.Comment comment in _viewModel.Thread.Comments)
         {
             _panel.Children.Add(new TextBlock { Text = $"{comment.Author.Name}: {comment.Body}", TextWrapping = TextWrapping.Wrap, Foreground = _foreground });

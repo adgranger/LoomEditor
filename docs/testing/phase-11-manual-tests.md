@@ -30,6 +30,19 @@ The text-area origin is the origin of the zone-widget canvas (both fill the same
 | 9 | **Add 200 threads**: scrolling stays smooth; `lastArrange` stays under 1 ms (write the measured value here) | pending |
 | 10 | Collapse a fold that contains a thread's line: its box disappears (`visible` drops); expand: it returns | pending |
 
+## P11-13 — The zone height follows the widget's content
+
+Start from **Add 3 threads**. The diagnostics line now also shows `heightPasses {n} heightLimitHits {m}`. A new thread's gap shrinks from 120 px to its title row.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | **Add a comment to the first thread**: the box and its gap grow together; the line below the box touches its bottom edge (no gap, no overlap: 0 px in a screenshot) | pending |
+| 2 | After check 1, `heightPasses` increased by 1 or 2 and `heightLimitHits` = 0 | pending |
+| 3 | Narrow the window so the comment wraps on more rows: the gap follows within one frame after the resize stops | pending |
+| 4 | **Toggle a long title** repeatedly (narrow window so the title wraps): no flicker, `heightLimitHits` stays 0 | pending |
+| 5 | **Add 200 threads**, resize the window: no freeze longer than a visible hitch, `heightLimitHits` = 0 | pending |
+| 6 | Zoom in and out (`Ctrl` + wheel, A− / A+): the heights follow the font size. The placeholder text uses the XAML default font, so until P11-16 only the text lines move; write what you see | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

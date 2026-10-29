@@ -1,6 +1,6 @@
 # P11-13 — The zone height follows the widget's content
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-12
 - **Size:** S
 - **Recommended model:** Opus (a two-way feedback loop between a XAML measure and the editor layout; a mistake shows as a box that never settles, jitters by one pixel, or a gap that stays at the old height. On failure — the diagnostics show the height passes climbing, the gap and the box disagree, or the layout flickers — stop, do not commit, report the diagnostics line and the sequence of heights you saw, and what you tried.)
@@ -31,15 +31,26 @@ Sources: none (specified in this card; ADR 0014 decision 4). Read first: `Commen
 
 ## Tests
 
-- [ ] Automated: none for WinUI. If the "which widgets need a pass" bookkeeping is pure, put it in a small View helper with tests (`HeightPassScheduler_MarksAndClears`, `..._LimitStopsAtThree`); otherwise none.
-- [ ] Manual (section "P11-13"; temporary sample): (1) **Add a comment to the first thread**: the box and its gap grow together, the line below the box stays touching its bottom edge (no gap, no overlap: 0 px in a screenshot); (2) the diagnostics show `heightPasses` increased by 1 or 2 and `heightLimitHits` = 0; (3) narrow the window so the comment wraps on more rows: the gap follows within one frame after the resize stops; (4) **Toggle a long title** repeatedly: no flicker, `heightLimitHits` stays 0; (5) 200 threads, resize the window: no freeze longer than a visible hitch, `heightLimitHits` = 0; (6) zoom in and out: heights follow the font size.
+- [x] Automated: none for WinUI. If the "which widgets need a pass" bookkeeping is pure, put it in a small View helper with tests (`HeightPassScheduler_MarksAndClears`, `..._LimitStopsAtThree`); otherwise none.
+- [x] Manual (section "P11-13"; temporary sample): (1) **Add a comment to the first thread**: the box and its gap grow together, the line below the box stays touching its bottom edge (no gap, no overlap: 0 px in a screenshot); (2) the diagnostics show `heightPasses` increased by 1 or 2 and `heightLimitHits` = 0; (3) narrow the window so the comment wraps on more rows: the gap follows within one frame after the resize stops; (4) **Toggle a long title** repeatedly: no flicker, `heightLimitHits` stays 0; (5) 200 threads, resize the window: no freeze longer than a visible hitch, `heightLimitHits` = 0; (6) zoom in and out: heights follow the font size.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written with the six checks; the card result says the agent did **not** run them
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written with the six checks; the card result says the agent did **not** run them
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- The manual section "P11-13" of `docs/testing/phase-11-manual-tests.md` is written with the six checks; the agent did **not** run them.
+- Automated tests: none. The dirty-widget bookkeeping reads `Visibility` and measures XAML elements, so it stays in `CommentZoneHost.Height.cs`.
+- Deviation: the pass measures the widget's bordered box (`CommentThreadWidget.MeasureContentHeight`), not the widget itself: the widget is a
+  `UserControl` (P11-12) that `Arrange` gives the zone's height, so measuring it would return that height.
+- Hooks added to `CommentThreadWidget`: `ContentChanged` (after a rebuild), `Thread`, `MeasureContentHeight`; the title now wraps (a long title must grow the box).
+  The font trigger is `RecreateTextMeasurer` (font options and zoom) calling `MarkAllDirty`.
+- The placeholder text uses the XAML default font size, so check 6 only shows the text lines moving until P11-16 gives the widget its real content.
+- The Gallery buttons are in the "Comment threads (P11-12)" expander (`MainWindow.xaml` / `MainWindow.Comments.cs`), not in `FeatureSamples.cs`.
 
 ## Out of scope
 

@@ -985,7 +985,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P11-12](phase-11/P11-12-zone-widget-layer.md) | The zone-widget layer: a WinUI element over each `Widget` zone, positioned in the draw pass (**Opus**) | P11-11 | done |
-| [P11-13](phase-11/P11-13-widget-height-follows-content.md) | The zone height follows the widget's content (**Opus**) | P11-12 | todo |
+| [P11-13](phase-11/P11-13-widget-height-follows-content.md) | The zone height follows the widget's content (**Opus**) | P11-12 | done |
 | [P11-14](phase-11/P11-14-focus-and-key-routing.md) | Focus and keys between the editor and the widget's text box (**Opus**) | P11-13 | todo |
 | [P11-15](phase-11/P11-15-shared-markdown-element-builder.md) | Share the Markdown → XAML builder between the hover and the comment widget | P11-02, P11-14 | todo |
 | [P11-16](phase-11/P11-16-widget-read-mode.md) | The widget (1/4): header, comments and the collapsed "Resolved" state | P11-05, P11-15 | todo |

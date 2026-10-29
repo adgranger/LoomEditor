@@ -12,7 +12,7 @@ namespace LoomEditor.WinUI.Controls.Comments;
 
 /// <summary>Keeps one <see cref="CommentThreadWidget"/> over the <c>Widget</c> view zone of every thread, positioned in the draw pass.</summary>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class CommentZoneHost : IDisposable
+internal sealed partial class CommentZoneHost : IDisposable
 {
     // The box is inset from the content edges so it does not touch the line numbers or the scroll bar.
     private const int HorizontalInset = 4;
@@ -46,7 +46,7 @@ internal sealed class CommentZoneHost : IDisposable
     }
 
     /// <summary>A short status line for the Gallery's manual test.</summary>
-    public string Diagnostics => string.Create(CultureInfo.InvariantCulture, $"zones {_widgets.Count} visible {_visible} lastArrange {_lastArrangeMilliseconds:0.00} ms");
+    public string Diagnostics => string.Create(CultureInfo.InvariantCulture, $"zones {_widgets.Count} visible {_visible} lastArrange {_lastArrangeMilliseconds:0.00} ms heightPasses {_heightPasses} heightLimitHits {_heightLimitHits}");
 
     /// <summary>True when the element is inside the zone-widget layer.</summary>
     public bool Contains(DependencyObject? element) => _layer.Contains(element);
@@ -59,6 +59,8 @@ internal sealed class CommentZoneHost : IDisposable
         {
             widget.ApplyTheme(theme);
         }
+
+        MarkAllDirty();
     }
 
     /// <summary>Puts every widget over its zone, or collapses it when its zone is not in the viewport. Called right after the text is drawn.</summary>
@@ -80,10 +82,15 @@ internal sealed class CommentZoneHost : IDisposable
             _visible++;
             double left = layout.ContentLeft + HorizontalInset;
             double top = zone.VerticalOffset - scrollTop;
-            double width = Math.Max(0, layout.ContentWidth - (2 * HorizontalInset));
+            double width = BoxWidth(layout);
             if (widget.Visibility != Visibility.Visible || Canvas.GetLeft(widget) != left || Canvas.GetTop(widget) != top
                 || widget.Width != width || widget.Height != zone.Height)
             {
+                if (widget.Width != width)
+                {
+                    MarkDirty(widget);
+                }
+
                 widget.Width = width;
                 widget.Height = zone.Height;
                 _layer.Show(widget, new OverlayRect(left, top, width, zone.Height));
@@ -104,16 +111,19 @@ internal sealed class CommentZoneHost : IDisposable
     /// <summary>Stops listening and releases the widgets.</summary>
     public void Dispose()
     {
+        _disposed = true;
         _controller.ThreadAdded -= OnThreadAdded;
         _controller.ThreadRemoving -= OnThreadRemoving;
         foreach (CommentThreadWidget widget in _widgets.Values)
         {
+            Unsubscribe(widget);
             widget.Detach();
             _layer.Remove(widget);
         }
 
         _widgets.Clear();
         _zoneIds.Clear();
+        _dirty.Clear();
     }
 
     private void OnThreadAdded(object? sender, CommentThread thread)
@@ -126,6 +136,8 @@ internal sealed class CommentZoneHost : IDisposable
     {
         if (_zoneIds.Remove(thread, out string? id) && _widgets.Remove(id, out CommentThreadWidget? widget))
         {
+            Unsubscribe(widget);
+            _dirty.Remove(widget);
             widget.Detach();
             _layer.Remove(widget);
         }
@@ -146,5 +158,8 @@ internal sealed class CommentZoneHost : IDisposable
 
         _widgets[id] = widget;
         _zoneIds[thread] = id;
+        widget.SizeChanged += OnWidgetSizeChanged;
+        widget.ContentChanged += OnWidgetContentChanged;
+        MarkDirty(widget);
     }
 }
