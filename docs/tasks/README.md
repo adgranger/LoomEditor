@@ -969,7 +969,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 | [P11-04](phase-11/P11-04-markdown-toolbar-blocks.md) | Markdown toolbar (2/2): heading, lists, quote, code block and suggestion | P11-03 | done |
 | [P11-05](phase-11/P11-05-strings-relative-time-initials.md) | `CommentStrings`, relative time and avatar initials | P11-03 | done |
 | [P11-06](phase-11/P11-06-suggestion-extract-and-edit.md) | Suggestion blocks (1/2): extraction and the model edit | P11-02 | done |
-| [P11-07](phase-11/P11-07-suggestion-diff.md) | Suggestion blocks (2/2): the red / green diff rows | P11-05, P11-06 | todo |
+| [P11-07](phase-11/P11-07-suggestion-diff.md) | Suggestion blocks (2/2): the red / green diff rows | P11-05, P11-06 | done |
 | [P11-08](phase-11/P11-08-thread-view-model.md) | Thread view model: draft, preview, submit, cancel and Escape | P11-01, P11-05 | todo |
 
 ### Step B — Threads in the editor

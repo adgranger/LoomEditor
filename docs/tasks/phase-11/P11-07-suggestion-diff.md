@@ -1,6 +1,6 @@
 # P11-07 — Suggestion blocks (2/2): the red / green diff rows
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-05, P11-06
 - **Size:** S
 
@@ -32,13 +32,13 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `Sugges
 
 ## Tests
 
-- [ ] New: `Compute_OneNewLine_RemovedThenAdded`, `Compute_ManyNewLines_RemovedThenAllAdded`, `Compute_Deletion_OnlyRemoved`, `Compute_SameLine_IsNoOp`, `Compute_NewLineAroundOld_KeepsContext`, `Compute_WhitespaceOnlyChange_IsNotNoOp`, `Describe_Replacement`, `Describe_Deletion`, `Describe_NoOp`, `Describe_EmptyLine_SaysEmpty`, `Marker_MatchesKind`
+- [x] New: `Compute_OneNewLine_RemovedThenAdded`, `Compute_ManyNewLines_RemovedThenAllAdded`, `Compute_Deletion_OnlyRemoved`, `Compute_SameLine_IsNoOp`, `Compute_NewLineAroundOld_KeepsContext`, `Compute_WhitespaceOnlyChange_IsNotNoOp`, `Describe_Replacement`, `Describe_Deletion`, `Describe_NoOp`, `Describe_EmptyLine_SaysEmpty`, `Marker_MatchesKind`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
