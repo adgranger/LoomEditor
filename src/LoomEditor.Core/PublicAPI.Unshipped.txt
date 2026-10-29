@@ -41,10 +41,13 @@ LoomEditor.Core.Comments.CommentThread
 LoomEditor.Core.Comments.CommentThread.AddComment(LoomEditor.Core.Comments.Comment! comment) -> void
 LoomEditor.Core.Comments.CommentThread.Changed -> System.EventHandler<LoomEditor.Core.Comments.CommentThreadChangedEventArgs!>?
 LoomEditor.Core.Comments.CommentThread.Comments.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.Comment!>!
+LoomEditor.Core.Comments.CommentThread.EndColumn.get -> int
 LoomEditor.Core.Comments.CommentThread.Id.get -> string!
+LoomEditor.Core.Comments.CommentThread.IsWholeLines.get -> bool
 LoomEditor.Core.Comments.CommentThread.LineNumber.get -> int
 LoomEditor.Core.Comments.CommentThread.RemoveComment(string! id) -> bool
 LoomEditor.Core.Comments.CommentThread.ReplaceComment(LoomEditor.Core.Comments.Comment! comment) -> bool
+LoomEditor.Core.Comments.CommentThread.StartColumn.get -> int
 LoomEditor.Core.Comments.CommentThread.StartLineNumber.get -> int
 LoomEditor.Core.Comments.CommentThread.State.get -> LoomEditor.Core.Comments.CommentThreadState
 LoomEditor.Core.Comments.CommentThread.State.set -> void

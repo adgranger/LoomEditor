@@ -1,6 +1,6 @@
 # P12-16 — `CommentThread` knows its columns: `StartColumn`, `EndColumn`, `IsWholeLines`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-14
 - **Size:** S
 
@@ -31,7 +31,7 @@ constructors, `SetLines`), `src/LoomEditor.Core/Text/Range.cs` (the constructor 
   - `public int EndColumn => _endColumn;` — "The 1-based column just after the commented text, on <see cref="LineNumber"/> (exclusive, as in <see cref="Range"/>); for
     a thread on whole lines, the end of its last line. Maintained by the editor; a change of columns alone raises no <see cref="Changed"/> event."
   - `public bool IsWholeLines { get; }` — "Whether the thread covers whole lines (<see langword="true"/>) or an exact text range; fixed at creation."
-- New **internal** constructor `CommentThread(string id, Range textRange, string? title = null)`: an exact thread. `ArgumentNullException.ThrowIfNull(textRange)`,
+- New **internal** constructor `CommentThread(string id, Range textRange, string? title = null)`: an exact thread. (`Range` is a struct: no null check)
   `ArgumentOutOfRangeException.ThrowIfLessThan(textRange.StartLineNumber, 1)`, `ThrowIfLessThan(textRange.StartColumn, 1)`; lines and columns from the range;
   `IsWholeLines = false`. It chains to a private constructor shared with the line constructors (no duplicated validation).
 - The existing internal constructors keep their signatures and set `IsWholeLines = true`, `StartColumn = 1`, `EndColumn = 1` (the editor sets the real end column right
@@ -46,18 +46,18 @@ constructors, `SetLines`), `src/LoomEditor.Core/Text/Range.cs` (the constructor 
 
 ## Tests
 
-- [ ] `Ctor_Lines_IsWholeLinesWithColumnOne`, `Ctor_TextRange_SetsLinesAndColumns`, `Ctor_TextRange_IsNotWholeLines`, `Ctor_TextRangeNull_Throws`
-- [ ] `Ctor_TextRange_RightToLeftRange_IsOrdered` (`new Range(4, 9, 4, 5)` gives start column 5, end column 9)
-- [ ] `SetRange_ColumnsOnly_RaisesNothing` (the columns are updated), `SetRange_LineChanged_RaisesLineChangedOnce`, `SetRange_Same_RaisesNothing`
-- [ ] `SetLines_KeepsColumns` (an exact thread keeps its columns when `SetLines` moves it)
-- [ ] All existing `CommentThreadTests` and every View test unchanged and green
+- [x] `Ctor_Lines_IsWholeLinesWithColumnOne`, `Ctor_TextRange_SetsLinesAndColumns`, `Ctor_TextRange_IsNotWholeLines`
+- [x] `Ctor_TextRange_RightToLeftRange_IsOrdered` (`new Range(4, 9, 4, 5)` gives start column 5, end column 9)
+- [x] `SetRange_ColumnsOnly_RaisesNothing` (the columns are updated), `SetRange_LineChanged_RaisesLineChangedOnce`, `SetRange_Same_RaisesNothing`
+- [x] `SetLines_KeepsColumns` (an exact thread keeps its columns when `SetLines` moves it)
+- [x] All existing `CommentThreadTests` and every View test unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (Core) gains exactly the three lines; no other public change
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (Core) gains exactly the three lines; no other public change
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

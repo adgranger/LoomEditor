@@ -212,4 +212,70 @@ public class CommentThreadTests
         t.SetLines(3, 3);
         Assert.Empty(events);
     }
+
+    [Fact]
+    public void Ctor_Lines_IsWholeLinesWithColumnOne()
+    {
+        var t = new CommentThread("a", 3, 5);
+        Assert.True(t.IsWholeLines);
+        Assert.Equal(1, t.StartColumn);
+        Assert.Equal(1, t.EndColumn);
+    }
+
+    [Fact]
+    public void Ctor_TextRange_SetsLinesAndColumns()
+    {
+        var t = new CommentThread("a", new Range(2, 4, 5, 9));
+        Assert.Equal(2, t.StartLineNumber);
+        Assert.Equal(5, t.LineNumber);
+        Assert.Equal(4, t.StartColumn);
+        Assert.Equal(9, t.EndColumn);
+    }
+
+    [Fact]
+    public void Ctor_TextRange_IsNotWholeLines() =>
+        Assert.False(new CommentThread("a", new Range(2, 4, 5, 9)).IsWholeLines);
+
+    [Fact]
+    public void Ctor_TextRange_RightToLeftRange_IsOrdered()
+    {
+        var t = new CommentThread("a", new Range(4, 9, 4, 5));
+        Assert.Equal(5, t.StartColumn);
+        Assert.Equal(9, t.EndColumn);
+    }
+
+    [Fact]
+    public void SetRange_ColumnsOnly_RaisesNothing()
+    {
+        CommentThread t = NewThread(out var events);
+        t.SetRange(3, 2, 3, 8);
+        Assert.Empty(events);
+        Assert.Equal(2, t.StartColumn);
+        Assert.Equal(8, t.EndColumn);
+    }
+
+    [Fact]
+    public void SetRange_LineChanged_RaisesLineChangedOnce()
+    {
+        CommentThread t = NewThread(out var events);
+        t.SetRange(2, 4, 6, 9);
+        Assert.Equal(CommentThreadChangeKind.LineChanged, Assert.Single(events).Kind);
+    }
+
+    [Fact]
+    public void SetRange_Same_RaisesNothing()
+    {
+        CommentThread t = NewThread(out var events);
+        t.SetRange(3, 1, 3, 1);
+        Assert.Empty(events);
+    }
+
+    [Fact]
+    public void SetLines_KeepsColumns()
+    {
+        var t = new CommentThread("a", new Range(3, 4, 3, 9));
+        t.SetLines(5, 5);
+        Assert.Equal(4, t.StartColumn);
+        Assert.Equal(9, t.EndColumn);
+    }
 }
