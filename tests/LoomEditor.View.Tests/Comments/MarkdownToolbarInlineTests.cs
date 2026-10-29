@@ -94,14 +94,6 @@ public class MarkdownToolbarInlineTests
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             MarkdownToolbar.Apply(MarkdownToolbarAction.Bold, "abc", new ToolbarSelection(start, end)));
 
-    // P11-04 replaces this test.
-    [Fact]
-    public void Apply_BlockAction_ReturnsInputUnchanged()
-    {
-        var sel = new ToolbarSelection(1, 2);
-        Assert.Equal(new ToolbarEdit("abc", sel), MarkdownToolbar.Apply(MarkdownToolbarAction.Quote, "abc", sel));
-    }
-
     [Theory]
     [InlineData(1)]
     [InlineData(3)]

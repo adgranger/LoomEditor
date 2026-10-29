@@ -26,7 +26,9 @@ internal static partial class MarkdownToolbar
             MarkdownToolbarAction.Strikethrough => ToggleInline(text, selection, "~~", "~~"),
             MarkdownToolbarAction.InlineCode => ToggleInline(text, selection, "`", "`"),
             MarkdownToolbarAction.Link => InsertLink(text, selection),
-            _ => new ToolbarEdit(text, selection), // P11-04
+            MarkdownToolbarAction.CodeBlock => ToggleCodeBlock(text, selection),
+            MarkdownToolbarAction.Suggestion => InsertSuggestion(text, selection, suggestionSeed),
+            _ => ToggleLinePrefix(action, text, selection),
         };
     }
 }

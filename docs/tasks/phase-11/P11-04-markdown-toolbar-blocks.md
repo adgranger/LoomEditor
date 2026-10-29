@@ -1,6 +1,6 @@
 # P11-04 — Markdown toolbar (2/2): heading, lists, quote, code block and suggestion
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-03
 - **Size:** M
 
@@ -30,14 +30,14 @@ Sources: none (specified in this card; ADR 0014). Read first: `MarkdownToolbar.c
 
 ## Tests
 
-- [ ] New (one test per bullet): `Heading_AddsPrefix`, `Heading_SamePrefix_Removes`, `Heading_OtherLevel_Replaces`, `Bullet_MultiLine_PrefixesNonBlankLines`, `Bullet_AllHavePrefix_Removes`, `Bullet_SomeHavePrefix_AddsToTheOthers`, `Bullet_SelectionEndsAtLineStart_ExcludesLastLine`, `Numbered_CountsNonBlankLines`, `Numbered_ReplacesBulletPrefix`, `Numbered_AllNumbered_Removes`, `Quote_AddsAndRemoves`, `LinePrefix_EmptySelection_CaretKeepsRelativePosition`, `CodeBlock_Selection_WrapsInFences`, `CodeBlock_Empty_CaretOnMiddleLine`, `CodeBlock_NotAtLineStart_AddsNewlineBefore`, `CodeBlock_Fenced_Removes`, `Suggestion_InsertsBlockWithSeedSelected`, `Suggestion_NoSeed_EmptyBlock`, `Suggestion_SeedWithNewline_Throws`, `Suggestion_SeedWithFence_UsesLongerFence`, `Suggestion_MidLine_StartsOnNewLine`
-- [ ] Round trip (`[Theory]`, with `MarkdownParser.Parse(text, Extended)`): bullet → `MarkdownList { Ordered: false }`, numbered → `Ordered: true`, quote → `MarkdownQuote`, heading → `MarkdownHeading { Level: 3 }`, code block → `MarkdownCodeBlock`, suggestion → `MarkdownCodeBlock { Language: "suggestion", Code: <seed> }`
+- [x] New (one test per bullet): `Heading_AddsPrefix`, `Heading_SamePrefix_Removes`, `Heading_OtherLevel_Replaces`, `Bullet_MultiLine_PrefixesNonBlankLines`, `Bullet_AllHavePrefix_Removes`, `Bullet_SomeHavePrefix_AddsToTheOthers`, `Bullet_SelectionEndsAtLineStart_ExcludesLastLine`, `Numbered_CountsNonBlankLines`, `Numbered_ReplacesBulletPrefix`, `Numbered_AllNumbered_Removes`, `Quote_AddsAndRemoves`, `LinePrefix_EmptySelection_CaretKeepsRelativePosition`, `CodeBlock_Selection_WrapsInFences`, `CodeBlock_Empty_CaretOnMiddleLine`, `CodeBlock_NotAtLineStart_AddsNewlineBefore`, `CodeBlock_Fenced_Removes`, `Suggestion_InsertsBlockWithSeedSelected`, `Suggestion_NoSeed_EmptyBlock`, `Suggestion_SeedWithNewline_Throws`, `Suggestion_SeedWithFence_UsesLongerFence`, `Suggestion_MidLine_StartsOnNewLine`
+- [x] Round trip (`[Theory]`, with `MarkdownParser.Parse(text, Extended)`): bullet → `MarkdownList { Ordered: false }`, numbered → `Ordered: true`, quote → `MarkdownQuote`, heading → `MarkdownHeading { Level: 3 }`, code block → `MarkdownCodeBlock`, suggestion → `MarkdownCodeBlock { Language: "suggestion", Code: <seed> }`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
