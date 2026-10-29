@@ -6,7 +6,9 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int lineNumber) -> void
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int startLineNumber, int lineNumber) -> void
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, string! text) -> void
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.Text.get -> string!
@@ -16,8 +18,10 @@ LoomEditor.WinUI.Controls.CommentThreadEventArgs.CommentThreadEventArgs(LoomEdit
 LoomEditor.WinUI.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber) -> void
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int lineNumber) -> void
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.Side.get -> LoomEditor.WinUI.Controls.DiffSide
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Modified = 1 -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Original = 0 -> LoomEditor.WinUI.Controls.DiffSide
@@ -48,6 +52,7 @@ LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
@@ -108,6 +113,7 @@ LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.WinU
 LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
@@ -197,7 +203,9 @@ LoomEditor.WinUI.Controls.LoomEditor.ZoomLevel.set -> void
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.Comment.get -> LoomEditor.Core.Comments.Comment!
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int lineNumber) -> void
+LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int startLineNumber, int lineNumber) -> void
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void
@@ -248,3 +256,9 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> M
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.ZoomLevelProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!

@@ -7,15 +7,17 @@ namespace LoomEditor.View.Comments;
 internal sealed class CommentThreadViewModel : IDisposable
 {
     private readonly Func<string> _getLineText;
+    private readonly Func<string>? _getCommentedText;
     private bool _expandedWhileResolved;
     private bool _disposed;
 
-    public CommentThreadViewModel(CommentThread thread, Func<string> getLineText)
+    public CommentThreadViewModel(CommentThread thread, Func<string> getLineText, Func<string>? getCommentedText = null)
     {
         ArgumentNullException.ThrowIfNull(thread);
         ArgumentNullException.ThrowIfNull(getLineText);
         Thread = thread;
         _getLineText = getLineText;
+        _getCommentedText = getCommentedText;
         thread.Changed += OnThreadChanged;
     }
 
@@ -30,7 +32,7 @@ internal sealed class CommentThreadViewModel : IDisposable
 
     public CommentThread Thread { get; }
 
-    public string Title => Thread.Title ?? CommentStrings.ThreadTitle(Thread.LineNumber);
+    public string Title => Thread.Title ?? CommentStrings.ThreadTitle(Thread.StartLineNumber, Thread.LineNumber);
 
     public bool IsComposing { get; private set; }
 
@@ -45,8 +47,11 @@ internal sealed class CommentThreadViewModel : IDisposable
 
     public bool ReplyVisible => !IsComposing && Thread.State == CommentThreadState.Open;
 
-    /// <summary>The current content of the thread's line.</summary>
+    /// <summary>The current text of the thread's lines (joined with <c>\n</c>).</summary>
     public string SuggestionSeed => _getLineText();
+
+    /// <summary>The current text of an exact-text thread (lines joined with <c>\n</c>); <see langword="null"/> for a thread on whole lines.</summary>
+    public string? CommentedText => Thread.IsWholeLines || _getCommentedText is null ? null : _getCommentedText();
 
     public void StartComposing()
     {

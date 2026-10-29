@@ -32,7 +32,7 @@ Everything below stays in the backlog file, unchecked. A reason is given when it
 | Semantic highlighting, tree-sitter | needs LSP semantic tokens and theme rules; separate theme |
 | `fontVariationSettings` beyond `wght` | Win2D has no API for variation axes |
 | Rich (HTML) copy, touch gestures, Intl word segmentation, IME on Windows 10 (TSF) | each is a platform integration of its own |
-| Linked editing, format document / selection / on type, signature help, references, rename, code actions, document links, workspace symbols | each needs a provider contract in Core, a widget and an LSP binding: one theme per feature (a later phase, after phase 12) |
+| Linked editing, format document / selection / on type, signature help, references, rename, code actions, document links, workspace symbols | each needs a provider contract in Core, a widget and an LSP binding: one theme per feature (a later phase, after phase 13) |
 | Syntax folding from a provider, sticky scroll outline model, minimap section headers, find history | need provider contracts or the outline model |
 | Color decorators and picker, CodeLens, inlay hints, inline completions (ghost text) | each needs a provider contract and new widgets |
 | Context menu, command palette, quick access | host UI: needs an ADR to decide whether the control owns them |

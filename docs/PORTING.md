@@ -723,6 +723,13 @@ Reused Monaco concepts: the view zone (`Widget` kind added) and the content widg
   The solution has 7,345 tests on 2026-10-29 (7,343 passed, 2 skipped on purpose, 0 failed), against 7,103 at the end of phase 10.
 - **Not verified**: the WinUI widget (no test project; the manual plan was not run); the Native AOT self-check of the logic passes (11 of 11, P11-24).
 
+## Phase 12 (not a port)
+
+Line and text ranges for inline comment threads have **no Monaco source**, so there are no rows in the map and no ported tests. New files: `CommentRange` (View/Comments, replaces the deleted `CommentLineRange`), the range and column members of `CommentThread`, `SuggestionEdit`, `SuggestionDiff`, `CommentThreadManager`, `CommentThreadsController`, the widget and gutter changes in `Controls/Comments`, the `Range` overloads of `LoomEditor` and `LoomDiffEditor`, `docs/testing/phase-12-manual-tests.md`. Deliberate differences: none to document.
+
+- **Tests**: counted on 2026-10-29 with `dotnet test --project tests/LoomEditor.<X>.Tests -c Release`: Core 2,214, View 3,756, Rendering 236, Architecture 90, Lsp 475, TextMate 727, so 7,498 tests, all passing, against 7,345 at the end of phase 11. Step E touched 10 test files (`CommentRangeTests` is new, `CommentLineRangeTests` was deleted).
+- **Not verified**: the WinUI part (no test project; the manual plan was not run); the Native AOT self-check of the logic passes (17 of 17, P12-23; 15 of 15 for steps A–D, P12-14).
+
 ## Done in phase 10 (editor completeness)
 
 Every file ported in phase 10 has a row in the map above (search the card ids `P10-03` to `P10-28`), and every deliberate difference a row in "Behavior differences we accept" (fonts, zoom, whitespace and control characters, overtype,

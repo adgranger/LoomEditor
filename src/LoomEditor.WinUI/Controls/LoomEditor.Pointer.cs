@@ -116,6 +116,8 @@ public sealed partial class LoomEditor
 
         if (IsFromFindWidget(e.OriginalSource) || IsFromOverlay(e.OriginalSource))
         {
+            // The widgets inherit this control's cursor: without this they keep the I-beam of the text.
+            ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
             return;
         }
 

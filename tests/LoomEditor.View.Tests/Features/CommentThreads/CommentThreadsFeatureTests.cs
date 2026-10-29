@@ -23,11 +23,72 @@ public class CommentThreadsFeatureTests
         context.CommentThreads = new CommentThreadsController(context);
         context.Selection = Selection.Collapsed(new Position(3, 2));
         int? line = null;
-        context.CommentThreads.AddCommentRequested += (_, l) => line = l;
+        context.CommentThreads.AddCommentRequested += (_, l) => line = l.LineNumber;
 
         Assert.True(context.Commands.Execute(CommentThreadsCommands.Add));
 
         Assert.Equal(3, line);
+    }
+
+    [Fact]
+    public void AddCommand_MultiLineSelection_RequestsRange()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = new Selection(1, 2, 3, 2);
+        (int Start, int End)? lines = null;
+        context.CommentThreads.AddCommentRequested += (_, l) => lines = (l.StartLineNumber, l.LineNumber);
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal((1, 3), lines);
+    }
+
+    [Fact]
+    public void AddCommand_WordSelection_RequestsTextRange()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = new Selection(2, 2, 2, 3);
+        Range? text = null;
+        context.CommentThreads.AddCommentRequested += (_, r) => text = r.TextRange;
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal(new Range(2, 2, 2, 3), text);
+    }
+
+    [Fact]
+    public void AddCommand_ShiftDownLines_RequestsWholeLines()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = new Selection(1, 1, 3, 1);
+        CommentRange? raised = null;
+        context.CommentThreads.AddCommentRequested += (_, r) => raised = r;
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal((1, 2), (raised!.Value.StartLineNumber, raised.Value.LineNumber));
+        Assert.True(raised.Value.IsWholeLines);
+    }
+
+    [Fact]
+    public void AddCommand_EmptySelection_RequestsCursorLine()
+    {
+        using var feature = new CommentThreadsFeature();
+        EditorContext context = Attached(feature);
+        context.CommentThreads = new CommentThreadsController(context);
+        context.Selection = Selection.Collapsed(new Position(2, 1));
+        (int Start, int End)? lines = null;
+        context.CommentThreads.AddCommentRequested += (_, l) => lines = (l.StartLineNumber, l.LineNumber);
+
+        context.Commands.Execute(CommentThreadsCommands.Add);
+
+        Assert.Equal((2, 2), lines);
     }
 
     [Fact]
@@ -47,7 +108,7 @@ public class CommentThreadsFeatureTests
         context.CommentThreads = new CommentThreadsController(context);
         context.IsReadOnly = true;
         int? line = null;
-        context.CommentThreads.AddCommentRequested += (_, l) => line = l;
+        context.CommentThreads.AddCommentRequested += (_, l) => line = l.LineNumber;
 
         context.Commands.Execute(CommentThreadsCommands.Add);
 

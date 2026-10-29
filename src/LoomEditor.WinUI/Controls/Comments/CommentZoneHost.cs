@@ -196,7 +196,7 @@ internal sealed partial class CommentZoneHost : IDisposable
         }
 
         var widget = new CommentThreadWidget(_controller.GetViewModel(thread)) { Visibility = Visibility.Collapsed };
-        widget.ApplySuggestion = (commentId, index, lineText) => _controller.ApplySuggestion(thread, commentId, index, lineText);
+        widget.ApplySuggestion = (commentId, index, rangeText) => _controller.ApplySuggestion(thread, commentId, index, rangeText);
         widget.IsEditorReadOnly = () => _editor.IsReadOnly;
         widget.Announce = _editor.Announce;
         widget.ApplyFont(_editor.FontSize, _editor.FontFamily);

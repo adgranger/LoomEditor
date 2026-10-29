@@ -28,6 +28,12 @@ internal static class DecorationStyles
         // editor.css 32–39
         ["rangeHighlight"] = new("editor.rangeHighlightBackground", "editor.rangeHighlightBorder"),
 
+        // LoomEditor's own class (phase 12): the lines of a multi-line comment thread
+        ["comment-thread-range"] = new("loom.commentThreadRangeBackground", "editor.rangeHighlightBorder"),
+
+        // LoomEditor's own class (phase 12): the exact text of a comment thread
+        ["comment-thread-text"] = new("loom.commentThreadRangeBackground", "editor.rangeHighlightBorder"),
+
         // highlightDecorations.css 6–40 (`.focused .selectionHighlight`)
         ["selectionHighlight"] = new("editor.selectionHighlightBackground", "editor.selectionHighlightBorder"),
         ["wordHighlight"] = new("editor.wordHighlightBackground", "editor.wordHighlightBorder"),

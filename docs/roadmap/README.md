@@ -16,4 +16,5 @@ One file per phase. Each file is written so it can be pasted as a GitHub issue (
 | 9 | [phase-9-diff-editor.md](phase-9-diff-editor.md) |
 | 10 | [phase-10-editor-completeness.md](phase-10-editor-completeness.md) |
 | 11 | [phase-11-inline-comments.md](phase-11-inline-comments.md) |
-| 12 | [phase-12-avalonia.md](phase-12-avalonia.md) |
+| 12 | [phase-12-comment-ranges.md](phase-12-comment-ranges.md) |
+| 13 | [phase-13-avalonia.md](phase-13-avalonia.md) |

@@ -1,4 +1,5 @@
 using LoomEditor.Core.Comments;
+using LoomEditor.Core.Text;
 using LoomEditor.Themes;
 using LoomEditor.View.Comments;
 using LoomEditor.View.Controller;
@@ -31,6 +32,7 @@ internal sealed class CommentGutterController : IDisposable
     private int _hitLine;
     private int _candidateLine;
     private int _shownLine;
+    private CommentRange _request;
 
     public CommentGutterController(LoomEditor editor, OverlayHost layer, CommentThreadsController controller, Func<double, double, MouseTarget> hitTest)
     {
@@ -116,6 +118,7 @@ internal sealed class CommentGutterController : IDisposable
             // One box per line from the gutter; looked up only when the hovered line changes, not on every move.
             _candidateLine = line;
             _shownLine = line > 0 && !HasThreadOn(line) ? line : 0;
+            _request = _shownLine > 0 ? TargetOf(_shownLine) : default;
         }
 
         if (_shownLine == 0)
@@ -126,8 +129,24 @@ internal sealed class CommentGutterController : IDisposable
 
         EditorLayoutInfo layout = _editor.LayoutInfo;
         double top = _editor.GetTopForLineNumber(_shownLine) - _editor.ScrollTop + ((_editor.LineHeight - CommentGutterButton.Size) / 2);
-        _button.SetLine(_shownLine);
+        _button.SetTarget(_request);
         _layer.Show(_button, new OverlayRect(layout.LineNumbersLeft, top, CommentGutterButton.Size, CommentGutterButton.Size));
+    }
+
+    // The selected text or lines when the hovered line is inside a selection; the box still sits under the last line.
+    private CommentRange TargetOf(int hoveredLine)
+    {
+        Selection selection = _editor.Selections[0];
+        if (!selection.IsEmpty)
+        {
+            CommentRange range = CommentRange.FromSelection(_editor.Model, selection);
+            if (range.StartLineNumber <= hoveredLine && hoveredLine <= range.LineNumber)
+            {
+                return range;
+            }
+        }
+
+        return CommentRange.Lines(hoveredLine, hoveredLine);
     }
 
     private bool HasThreadOn(int line)
@@ -153,7 +172,7 @@ internal sealed class CommentGutterController : IDisposable
     {
         if (_shownLine > 0)
         {
-            _controller.RequestAdd(_shownLine);
+            _controller.RequestAdd(_request);
         }
     }
 

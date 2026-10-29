@@ -351,8 +351,9 @@ WinUI:  Controls/Comments: CommentZoneHost puts one CommentThreadWidget over eac
 - **Key routing**: while a child of the widget has the focus, `HasFocus` is false, so the editor runs no keybinding, inserts no character and the caret stops blinking. Pointer events from the layer are ignored (`IsFromOverlay`).
 - **Diff editor**: `LoomDiffEditor.AddCommentThread(DiffSide, line, …)`; a comment zone counts in the alignment, so the other side gets the same blank height. The inline view does not show original-side threads.
 - Threads follow their line through edits (decorations); the host stores them (no persistence).
-- **Not delivered**: the list of ADR 0014 (multi-line ranges, reactions, edit / delete UI, mentions, attachments, avatar images, localization, "commit suggestion", a comments panel, opening links).
-- **Not verified**: the manual plan has not been run (no WinUI test project); Narrator / NVDA, IME in the widget, high contrast. The Native AOT self-check of the logic passes (11 of 11, P11-24, 2026-10-29, [roadmap](roadmap/phase-11-inline-comments.md)); it does not reach the WinUI widget.
+- **Ranges (phase 12)**: a thread covers whole lines or exact text: `StartLineNumber` … `LineNumber` plus `StartColumn` / `EndColumn` / `IsWholeLines`; the box stays under the last line. The same decoration spans the range; while the thread is open it takes `comment-thread-range` (whole lines, multi-line) or `comment-thread-text` (exact, non-empty). `CommentRange.FromRange` / `FromSelection` is the one rule that turns a selection into either kind; a suggestion replaces the whole lines that contain the range. Columns change without raising an event.
+- **Not delivered**: the list of ADR 0014 (reactions, edit / delete UI, mentions, attachments, avatar images, localization, "commit suggestion", a comments panel, opening links).
+- **Not verified**: the manual plan has not been run (no WinUI test project); Narrator / NVDA, IME in the widget, high contrast. The Native AOT self-check of the logic passes (17 of 17, P12-23, 2026-10-29, [roadmap](roadmap/phase-12-comment-ranges.md)); it does not reach the WinUI widget.
 How to use it: [how-to/use-comment-threads.md](how-to/use-comment-threads.md).
 
 ## Where do I find…?

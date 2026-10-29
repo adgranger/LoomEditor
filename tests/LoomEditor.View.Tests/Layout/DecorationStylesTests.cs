@@ -14,6 +14,24 @@ public class DecorationStylesTests
     }
 
     [Fact]
+    public void Get_CommentThreadRange_HasBackgroundAndBorderIds()
+    {
+        DecorationStyle? style = DecorationStyles.Get("comment-thread-range");
+
+        Assert.Equal("loom.commentThreadRangeBackground", style?.BackgroundColorId);
+        Assert.Equal("editor.rangeHighlightBorder", style?.BorderColorId);
+    }
+
+    [Fact]
+    public void Get_CommentThreadText_HasBackgroundAndBorderIds()
+    {
+        DecorationStyle? style = DecorationStyles.Get("comment-thread-text");
+
+        Assert.Equal("loom.commentThreadRangeBackground", style?.BackgroundColorId);
+        Assert.Equal("editor.rangeHighlightBorder", style?.BorderColorId);
+    }
+
+    [Fact]
     public void Get_ClassList_ReturnsTheFirstKnownClass()
     {
         DecorationStyle? style = DecorationStyles.Get("unknown  wordHighlight findMatch");

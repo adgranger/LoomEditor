@@ -29,7 +29,7 @@ internal static class CommentsSelfCheck
 
     /// <summary>The names of the checks, in run order.</summary>
     public static IReadOnlyList<string> Names { get; } =
-        (string[])["thread-model", "markdown-extended", "toolbar-inline", "toolbar-block", "suggestion-extract", "suggestion-edit", "suggestion-diff", "view-model", "relative-time", "thread-manager", "controller"];
+        (string[])["thread-model", "markdown-extended", "toolbar-inline", "toolbar-block", "suggestion-extract", "suggestion-edit", "suggestion-diff", "view-model", "relative-time", "thread-manager", "controller", "range-suggestion-edit", "range-suggestion-diff", "range-manager", "range-controller", "text-range", "text-controller"];
 
     /// <summary>Runs every check; an exception is a failed check, never a crash.</summary>
     public static IReadOnlyList<CommentsCheckResult> Run()
@@ -59,6 +59,12 @@ internal static class CommentsSelfCheck
         Check("relative-time", RelativeTimeCheck);
         Check("thread-manager", ThreadManager);
         Check("controller", Controller);
+        Check("range-suggestion-edit", RangeSuggestionEdit);
+        Check("range-suggestion-diff", RangeSuggestionDiff);
+        Check("range-manager", RangeManager);
+        Check("range-controller", RangeController);
+        Check("text-range", TextRangeCheck);
+        Check("text-controller", TextControllerCheck);
         return results;
     }
 
@@ -296,6 +302,116 @@ internal static class CommentsSelfCheck
         context.Model.Undo();
         Require(context.Model.GetValue() == "one\ntwo\nthree", $"text '{Escape(context.Model.GetValue())}' after one undo");
         return "ApplySuggestion returns Applied; one undo restores the text";
+    }
+
+    private static string RangeSuggestionEdit()
+    {
+        var model = new TextModel("a\nb\nc\nd");
+        TextEdit edit = SuggestionEdit.Create(model, 2, 3, new SuggestionBlock(0, "X")) ?? throw new CheckFailedException("no edit");
+        model.ApplyEdits(new[] { edit });
+        Require(model.GetValue() == "a\nX\nd", $"range edit gave '{Escape(model.GetValue())}'");
+
+        var crlf = new TextModel("a\r\nb\r\nc");
+        string text = SuggestionEdit.GetRangeText(crlf, 1, 2);
+        Require(text == "a\nb", $"GetRangeText gave '{Escape(text)}'");
+        return "two lines are replaced by one; the range text of a CRLF model uses LF";
+    }
+
+    private static string RangeSuggestionDiff()
+    {
+        string[] oldLines = ["a", "b", "c"];
+        SuggestionDiffResult diff = SuggestionDiff.Compute(oldLines, new SuggestionBlock(0, "a\nX\nc"));
+        string kinds = string.Join(',', diff.Rows.Select(r => r.Kind));
+        Require(kinds == "Context,Removed,Added,Context", $"rows {kinds}");
+        return "a changed middle line keeps its context rows: Context, Removed, Added, Context";
+    }
+
+    private static string RangeManager()
+    {
+        using var context = new EditorContext();
+        context.SetText("l1\nl2\nl3\nl4");
+        using var manager = new CommentThreadManager(context.Model, context.ViewModel.ViewZones, context.Id);
+        CommentThread thread = manager.Add(2, 3);
+
+        context.Model.ApplyEdits(new[] { new TextEdit(new TextRange(1, 1, 1, 1), "new\n") });
+        Require(thread.StartLineNumber == 3 && thread.LineNumber == 4, $"the thread is on {thread.StartLineNumber}-{thread.LineNumber} after an insertion above, expected 3-4");
+
+        ViewZone zone = context.ViewModel.ViewZones.GetZone(manager.GetZoneId(thread)!) ?? throw new CheckFailedException("no zone");
+        Require(zone.AfterLineNumber == 4, $"zone after line {zone.AfterLineNumber}, expected 4");
+
+        string id = manager.GetDecorationId(thread) ?? throw new CheckFailedException("no decoration");
+        Require(context.Model.GetDecorationOptions(id)?.ClassName == "comment-thread-range", "the open range thread has no comment-thread-range class");
+
+        thread.State = CommentThreadState.Resolved;
+        Require(context.Model.GetDecorationOptions(id)?.ClassName is null, "the resolved thread keeps the range class");
+        return "the range follows an inserted line, its zone sits after the last line, the highlight class goes away when resolved";
+    }
+
+    private static string RangeController()
+    {
+        using var context = new EditorContext();
+        context.SetText("one\ntwo\nthree\nfour");
+        using var controller = new CommentThreadsController(context);
+        CommentThread thread = controller.Add(2, 3, null, false);
+        Comment comment = Suggest("X");
+        thread.AddComment(comment);
+
+        ApplySuggestionResult result = controller.ApplySuggestion(thread, comment.Id, 0, "two\nthree");
+        Require(result == ApplySuggestionResult.Applied, $"ApplySuggestion gave {result}");
+        Require(context.Model.GetValue() == "one\nX\nfour", $"text '{Escape(context.Model.GetValue())}' after apply");
+
+        context.Model.Undo();
+        Require(context.Model.GetValue() == "one\ntwo\nthree\nfour", $"text '{Escape(context.Model.GetValue())}' after one undo");
+
+        CommentRange range = CommentRange.FromSelection(context.Model, new Selection(2, 1, 4, 1));
+        Require(range.StartLineNumber == 2 && range.LineNumber == 3 && range.IsWholeLines, $"FromSelection gave {range}, expected whole lines 2-3");
+        return "a two-line range is replaced by one line, one undo restores it; a selection ending at column 1 excludes its last line";
+    }
+
+    private static string TextRangeCheck()
+    {
+        using var context = new EditorContext();
+        context.SetText("let value = 1;\nsecond\nthird");
+        CommentRange word = CommentRange.FromSelection(context.Model, new Selection(1, 5, 1, 10));
+        Require(word.TextRange == new TextRange(1, 5, 1, 10), $"the word gave {word}");
+        CommentRange lines = CommentRange.FromSelection(context.Model, new Selection(2, 1, 3, 1));
+        Require(lines.IsWholeLines && lines.StartLineNumber == 2 && lines.LineNumber == 2, $"(2,1)-(3,1) gave {lines}");
+
+        using var manager = new CommentThreadManager(context.Model, context.ViewModel.ViewZones, context.Id);
+        CommentThread thread = manager.Add(new TextRange(1, 5, 1, 10));
+        bool moved = false;
+        thread.Changed += (_, e) => moved |= e.Kind == CommentThreadChangeKind.LineChanged;
+        context.Model.ApplyEdits(new[] { new TextEdit(new TextRange(1, 1, 1, 1), "x") });
+        Require(thread.StartColumn == 6 && thread.EndColumn == 11, $"columns {thread.StartColumn}-{thread.EndColumn} after an insertion before the word, expected 6-11");
+        Require(!moved, "a same-line insertion raised LineChanged");
+
+        string id = manager.GetDecorationId(thread) ?? throw new CheckFailedException("no decoration");
+        Require(context.Model.GetDecorationOptions(id)?.ClassName == "comment-thread-text", "the text thread has no comment-thread-text class");
+
+        context.Model.ApplyEdits(new[] { new TextEdit(new TextRange(1, 6, 1, 11), "") });
+        Require(thread.StartColumn == thread.EndColumn, $"columns {thread.StartColumn}-{thread.EndColumn} after deleting the word, expected an empty range");
+        Require(context.Model.GetDecorationOptions(id)?.ClassName is null, "the emptied thread keeps the text class");
+        return "a word is an exact range, whole lines are not; the columns follow an edit before the word; deleting the word empties the range and removes the class";
+    }
+
+    private static string TextControllerCheck()
+    {
+        using var context = new EditorContext();
+        context.SetText("let value = 1;");
+        using var controller = new CommentThreadsController(context);
+        CommentThread thread = controller.Add(CommentRange.FromRange(context.Model, new TextRange(1, 5, 1, 10)), null, false);
+        string text = controller.GetCommentedText(thread);
+        Require(text == "value", $"GetCommentedText gave '{text}'");
+
+        Comment comment = Suggest("let total = 1;");
+        thread.AddComment(comment);
+        ApplySuggestionResult result = controller.ApplySuggestion(thread, comment.Id, 0, "let value = 1;");
+        Require(result == ApplySuggestionResult.Applied, $"ApplySuggestion gave {result}");
+        Require(context.Model.GetValue() == "let total = 1;", $"text '{Escape(context.Model.GetValue())}' after apply");
+
+        context.Model.Undo();
+        Require(context.Model.GetValue() == "let value = 1;", $"text '{Escape(context.Model.GetValue())}' after one undo");
+        return "the commented text is the word; a suggestion replaces the covering line and one undo restores it";
     }
 
     private sealed class CheckFailedException(string message) : Exception(message);

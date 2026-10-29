@@ -14,7 +14,7 @@ public enum CommentThreadChangeKind
     StateChanged,
     /// <summary>The title changed.</summary>
     TitleChanged,
-    /// <summary>The line number changed.</summary>
+    /// <summary>The line or the range of lines changed.</summary>
     LineChanged,
 }
 

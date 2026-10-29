@@ -1,4 +1,5 @@
 using LoomEditor.View.Commands;
+using LoomEditor.View.Comments;
 
 namespace LoomEditor.View.Features.CommentThreads;
 
@@ -21,7 +22,7 @@ public sealed class CommentThreadsFeature : IEditorFeature
 
         _registration = context.Commands.Register(new EditorCommand(
             CommentThreadsCommands.Add,
-            () => context.GetCommentThreadsController()?.RequestAdd(context.Selection.PositionLineNumber)));
+            () => context.GetCommentThreadsController()?.RequestAdd(CommentRange.FromSelection(context.Model, context.Selection))));
     }
 
     /// <inheritdoc />

@@ -5,6 +5,7 @@ using LoomEditor.WinUI.Controls.Overlay;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using Range = LoomEditor.Core.Text.Range;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -48,16 +49,61 @@ public sealed partial class LoomEditor
     /// <summary>Raised after a suggestion of a comment replaced a line.</summary>
     public event EventHandler<SuggestionAppliedEventArgs>? SuggestionApplied;
 
-    /// <summary>Adds a comment thread anchored to a line.</summary>
+    /// <summary>Adds a comment thread anchored to a line. Use the overload with two lines for a range.</summary>
     /// <param name="lineNumber">The 1-based line.</param>
     /// <param name="title">An optional title.</param>
     /// <param name="startComposing">Opens the comment box at once.</param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="lineNumber"/> is outside the document.</exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters", Justification = "Phase 12: the single-line overload stays source compatible.")]
     public CommentThread AddCommentThread(int lineNumber, string? title = null, bool startComposing = false)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(lineNumber, 1);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(lineNumber, Model.LineCount);
         CommentThread thread = _commentThreads.Add(lineNumber, title, startComposing);
+        if (startComposing)
+        {
+            _commentZoneHost?.FocusComposer(thread);
+        }
+
+        return thread;
+    }
+
+    /// <summary>Adds a comment thread anchored to a range of lines; its box sits under the last line.</summary>
+    /// <param name="startLineNumber">The 1-based first line.</param>
+    /// <param name="endLineNumber">The 1-based last line, not before <paramref name="startLineNumber"/>.</param>
+    /// <param name="title">An optional title.</param>
+    /// <param name="startComposing">Opens the comment box at once.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="startLineNumber"/> is outside the document, or <paramref name="endLineNumber"/> is outside it or before the start.</exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters", Justification = "Phase 12: the single-line overload stays source compatible.")]
+    public CommentThread AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(startLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(startLineNumber, Model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfLessThan(endLineNumber, startLineNumber);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(endLineNumber, Model.LineCount);
+        CommentThread thread = _commentThreads.Add(startLineNumber, endLineNumber, title, startComposing);
+        if (startComposing)
+        {
+            _commentZoneHost?.FocusComposer(thread);
+        }
+
+        return thread;
+    }
+
+    /// <summary>
+    /// Adds a comment thread anchored to the exact text of a range; a range over whole lines, or an empty range, gives a thread on whole lines.
+    /// </summary>
+    /// <param name="range">The text to comment on; it is clamped to the document.</param>
+    /// <param name="title">An optional title.</param>
+    /// <param name="startComposing">Opens the comment box at once.</param>
+    /// <exception cref="ArgumentOutOfRangeException">The lines of <paramref name="range"/> are outside the document.</exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters", Justification = "Phase 12: the single-line overload stays source compatible.")]
+    public CommentThread AddCommentThread(Range range, string? title = null, bool startComposing = false)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(range.StartLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(range.StartLineNumber, Model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(range.EndLineNumber, Model.LineCount);
+        CommentThread thread = _commentThreads.Add(CommentRange.FromRange(Model, range), title, startComposing);
         if (startComposing)
         {
             _commentZoneHost?.FocusComposer(thread);
@@ -119,7 +165,7 @@ public sealed partial class LoomEditor
         _context.CommentThreads = _commentThreads;
         _commentThreads.CommentSubmitted += (_, e) => CommentSubmitted?.Invoke(this, new CommentSubmittedEventArgs(e.Thread, e.Text));
         _commentThreads.CommentCancelled += (_, t) => CommentCancelled?.Invoke(this, new CommentThreadEventArgs(t));
-        _commentThreads.AddCommentRequested += (_, line) => AddCommentRequested?.Invoke(this, new AddCommentRequestedEventArgs(line));
-        _commentThreads.SuggestionApplied += (_, e) => SuggestionApplied?.Invoke(this, new SuggestionAppliedEventArgs(e.Thread, e.Comment, e.LineNumber));
+        _commentThreads.AddCommentRequested += (_, e) => AddCommentRequested?.Invoke(this, e.TextRange is { } text ? new AddCommentRequestedEventArgs(text) : new AddCommentRequestedEventArgs(e.StartLineNumber, e.LineNumber));
+        _commentThreads.SuggestionApplied += (_, e) => SuggestionApplied?.Invoke(this, new SuggestionAppliedEventArgs(e.Thread, e.Comment, e.StartLineNumber, e.LineNumber));
     }
 }

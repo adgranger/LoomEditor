@@ -1013,6 +1013,73 @@ Take phase 11 cards in table order (each card's "Depends on" is satisfied by the
 
 **Deferred on purpose (reasons in [phase-11/README.md](phase-11/README.md)):** multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence, a WinUI test project.
 
+## Phase 12 — Multi-line ranges for inline comment threads
+
+Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); conventions and design decisions: [phase-12/README.md](phase-12/README.md) (read phase-11/README.md first).
+**Not a port** (as phase 11): cards say "Sources: none" and have no Monaco header.
+
+### Step A — Logic, no UI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-01](phase-12/P12-01-comment-thread-line-range.md) | `CommentThread` covers a range of lines: `StartLineNumber` | P11-25 | done |
+| [P12-02](phase-12/P12-02-suggestion-edit-range.md) | Suggestion edit for a range of lines, the stale check and the range text | P12-01 | done |
+| [P12-03](phase-12/P12-03-suggestion-diff-range.md) | Suggestion diff rows for N old lines | P12-02 | done |
+| [P12-04](phase-12/P12-04-strings-and-multiline-seed.md) | Strings for ranges and a multi-line "Suggest a change" seed | P12-03 | done |
+
+### Step B — Ranges in the editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-05](phase-12/P12-05-manager-range-anchor.md) | The manager anchors a thread to a range of lines | P12-04 | done |
+| [P12-06](phase-12/P12-06-range-highlight.md) | Highlight the lines of a multi-line thread | P12-05 | done |
+| [P12-07](phase-12/P12-07-controller-ranges.md) | Controller: add, apply a suggestion and request a thread on a range | P12-06 | done |
+| [P12-08](phase-12/P12-08-add-command-selection.md) | The add command uses a multi-line selection | P12-07 | done |
+
+### Step C — Public API and WinUI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-09](phase-12/P12-09-editor-public-api.md) | Public API of `LoomEditor`: a thread on a range of lines | P12-08 | done |
+| [P12-10](phase-12/P12-10-diff-editor-public-api.md) | Public API of `LoomDiffEditor`: a thread on a range of lines of one side | P12-09 | done |
+| [P12-11](phase-12/P12-11-widget-range.md) | The widget for a range: title, accessibility and an N-line suggestion block | P12-10 | done |
+| [P12-12](phase-12/P12-12-gutter-button-selection.md) | The gutter "+" button requests the selected lines | P12-11 | done |
+
+### Step D — Prove it
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-13](phase-12/P12-13-gallery-demo-and-manual-plan.md) | Gallery: the range demo and the complete manual test plan | P12-12 | done |
+| [P12-14](phase-12/P12-14-native-aot-self-check.md) | Native AOT self-check of the phase 12 logic | P12-13 | done |
+
+### Step E — Exact text ranges (columns), added 2026-10-29
+
+Design: [phase-12/README.md](phase-12/README.md) section 3 (a thread on the exact selected text; suggestions still replace the whole lines that contain it).
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-16](phase-12/P12-16-comment-thread-columns.md) | `CommentThread` knows its columns: `StartColumn`, `EndColumn`, `IsWholeLines` | P12-14 | done |
+| [P12-17](phase-12/P12-17-comment-range-and-strings.md) | `CommentRange`: a selection becomes whole lines or exact text; strings for the selected text | P12-16 | done |
+| [P12-18](phase-12/P12-18-manager-text-anchor.md) | The manager anchors a thread to the exact text and keeps its columns | P12-17 | done |
+| [P12-19](phase-12/P12-19-text-highlight.md) | Highlight the exact text of a thread | P12-18 | done |
+| [P12-20](phase-12/P12-20-controller-and-command-text-ranges.md) | Controller and add command: threads and requests on the exact selected text | P12-19 | done |
+| [P12-21](phase-12/P12-21-public-api-text-ranges.md) | Public API: threads on the exact text in `LoomEditor` and `LoomDiffEditor` | P12-20 | done |
+| [P12-22](phase-12/P12-22-widget-and-gutter-text-ranges.md) | The box tells screen readers the commented text; the gutter "+" requests the selected text | P12-21 | done |
+| [P12-23](phase-12/P12-23-gallery-selfcheck-and-manual-plan-text-ranges.md) | Gallery, Native AOT self-check and manual plan for exact text ranges | P12-22 | done |
+
+### Close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 (reopened for step E: the docs must cover column ranges) | P12-23 | done |
+
+Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it); P12-15 comes last, after P12-23. Every card is written for **Sonnet**;
+none is flagged Opus (the delicate tracking code exists since P11-09 and is extended — step E reuses the same decoration for columns — with every edge case listed as a
+test). A card that does not fit in one session stops with a proposed split. The WinUI cards (P12-09 … P12-12, P12-21, P12-22) are verified by the build, the tests and a
+written manual section; agents do not run the Gallery UI.
+
+**Deferred on purpose (phase 12):** a suggestion that replaces only the selected text (it replaces the lines that contain it), columns in the thread title, dragging from or shift-clicking the gutter "+" button to select lines, a gutter bar or overview-ruler mark for a range, overlap rules between ranges, and everything phase 11 deferred (reactions, edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence).
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:

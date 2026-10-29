@@ -15,6 +15,9 @@ public sealed class SmartSelectTests : IDisposable
 {
     private static readonly Regex WordPattern = new(@"(-?\d*\.\d\w*)|([^\`\~\!\@\#\$\%\^\&\*\(\)\=\+\[\{\]\}\\\;\:\'\""\,\.\<\>\/\?\s]+)");
 
+    // The provider gives up after 60 ms of wall clock (as Monaco does): a loaded CI machine must not truncate the ranges.
+    private static readonly TimeSpan NoTimeout = TimeSpan.FromMinutes(1);
+
     private readonly EditorContext _context = new();
     private readonly SmartSelectFeature _feature = new();
 
@@ -45,7 +48,9 @@ public sealed class SmartSelectTests : IDisposable
     private void AssertGetRangesToPosition(string[] text, int lineNumber, int column, Range[] ranges, bool selectLeadingAndTrailingWhitespace = true)
     {
         TextModel model = SetText(string.Join("\n", text));
-        List<Range> actual = SmartSelectRanges.Provide(model, [new Position(lineNumber, column)], new SmartSelectOptions(selectLeadingAndTrailingWhitespace, true))[0];
+        var options = new SmartSelectOptions(selectLeadingAndTrailingWhitespace, true);
+        ISelectionRangeProvider[] providers = [new BracketSelectionRangeProvider { MaxDuration = NoTimeout }, new WordSelectionRangeProvider(options.SelectSubwords)];
+        List<Range> actual = SmartSelectRanges.Provide(model, [new Position(lineNumber, column)], options, providers)[0];
         Assert.Equal(ranges.Reverse(), actual);
     }
 
@@ -203,7 +208,7 @@ public sealed class SmartSelectTests : IDisposable
     [Fact]
     public void BracketSelection()
     {
-        var provider = new BracketSelectionRangeProvider();
+        var provider = new BracketSelectionRangeProvider { MaxDuration = NoTimeout };
         AssertRanges(provider, "(|)", new Range(1, 2, 1, 2), new Range(1, 1, 1, 3));
 
         AssertRanges(
@@ -249,7 +254,7 @@ public sealed class SmartSelectTests : IDisposable
     [Fact]
     public void BracketWithLeadingTrailing()
     {
-        var provider = new BracketSelectionRangeProvider();
+        var provider = new BracketSelectionRangeProvider { MaxDuration = NoTimeout };
         AssertRanges(
             provider,
             "for(a of b){\n  foo(|);\n}",
