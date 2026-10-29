@@ -1,5 +1,4 @@
 using LoomEditor.Core.Comments;
-using LoomEditor.View.Comments;
 using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 
@@ -17,10 +16,10 @@ public sealed partial class DiffDemoWindow
 
         DiffEditor.CommentSubmitted += (_, e) =>
         {
-            Log($"CommentSubmitted ({DiffEditor.GetSide(e.Thread)}, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)})");
+            Log($"CommentSubmitted ({DiffEditor.GetSide(e.Thread)}, {Where(e.Thread.StartLineNumber, e.Thread.LineNumber, TextOf(e.Thread))})");
             e.Thread.AddComment(Comment.Create(CommentSamples.You, e.Text));
         };
-        DiffEditor.CommentCancelled += (_, e) => Log($"CommentCancelled ({SideOrRemoved(e.Thread)}, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)})");
+        DiffEditor.CommentCancelled += (_, e) => Log($"CommentCancelled ({SideOrRemoved(e.Thread)}, {Where(e.Thread.StartLineNumber, e.Thread.LineNumber, TextOf(e.Thread))})");
         DiffEditor.SuggestionApplied += (_, e) =>
         {
             Log($"SuggestionApplied ({DiffEditor.GetSide(e.Thread)}, {Lines(e.StartLineNumber, e.LineNumber)})");
@@ -28,8 +27,15 @@ public sealed partial class DiffDemoWindow
         };
         DiffEditor.AddCommentRequested += (_, e) =>
         {
-            Log($"AddCommentRequested ({e.Side}, {Lines(e.StartLineNumber, e.LineNumber)})");
-            DiffEditor.AddCommentThread(e.Side, e.StartLineNumber, e.LineNumber, startComposing: true);
+            Log($"AddCommentRequested ({e.Side}, {Where(e.StartLineNumber, e.LineNumber, e.TextRange)})");
+            if (e.TextRange is { } text)
+            {
+                DiffEditor.AddCommentThread(e.Side, text, startComposing: true);
+            }
+            else
+            {
+                DiffEditor.AddCommentThread(e.Side, e.StartLineNumber, e.LineNumber, startComposing: true);
+            }
         };
     }
 
@@ -37,15 +43,17 @@ public sealed partial class DiffDemoWindow
 
     private void OnAddOnModified(object sender, RoutedEventArgs e) => AddOnSelection(DiffSide.Modified, DiffEditor.Modified);
 
-    // The lines of the side's selection (the cursor line when empty), like the add command.
-    private void AddOnSelection(DiffSide side, LoomEditor.WinUI.Controls.LoomEditor editor)
-    {
-        (int start, int end) = CommentLineRange.FromSelection(editor.Selections[0]);
-        DiffEditor.AddCommentThread(side, start, end, startComposing: true);
-    }
+    // The text of the side's selection (the cursor line when empty), like the add command.
+    private void AddOnSelection(DiffSide side, LoomEditor.WinUI.Controls.LoomEditor editor) =>
+        DiffEditor.AddCommentThread(side, editor.Selections[0].Range, startComposing: true);
 
     private static string Lines(int start, int end) => start == end ? $"line {end}" : $"lines {start}\u2013{end}";
 
+    private static Range? TextOf(CommentThread thread) =>
+        thread.IsWholeLines ? null : new Range(thread.StartLineNumber, thread.StartColumn, thread.LineNumber, thread.EndColumn);
+
+    private static string Where(int start, int end, Range? text) =>
+        text is { } t ? $"{Lines(start, end)}, text {t.StartLineNumber}:{t.StartColumn}\u2013{t.EndLineNumber}:{t.EndColumn}" : Lines(start, end);
 
     // The gutter "+" is a property of each editor, not of the diff editor.
     private void OnCommentGutterChanged(object sender, RoutedEventArgs e)
@@ -67,7 +75,8 @@ public sealed partial class DiffDemoWindow
         DiffEditor.ModifiedText = CommentSamples.ModifiedText;
         CommentSamples.AddThreads(
             (line, title) => DiffEditor.AddCommentThread(DiffSide.Original, line, title),
-            (start, end, title) => DiffEditor.AddCommentThread(DiffSide.Original, start, end, title));
+            (start, end, title) => DiffEditor.AddCommentThread(DiffSide.Original, start, end, title),
+            (range, title) => DiffEditor.AddCommentThread(DiffSide.Original, range, title));
         DiffEditor.AddCommentThread(DiffSide.Modified, CommentSamples.MaxLine, "On the new constant")
             .AddComment(Comment.Create(new CommentAuthor("Linus"), "Better.", DateTimeOffset.UtcNow.AddMinutes(-5)));
     }

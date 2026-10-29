@@ -145,6 +145,8 @@
                         <Button HorizontalAlignment="Stretch" Click="OnCommentOnSelection" Content="Comment on selection" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddRange36" Content="Add range 3–6" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddRange63" Content="Add range 6–3 (error)" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddOnSelection" Content="Add on selection (Range API)" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddTextOutOfDocument" Content="Add text out of document (error)" />
                         <Button HorizontalAlignment="Stretch" Click="OnAdd20Threads" Content="Add 20 threads" />
                         <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all threads" />
                         <Button HorizontalAlignment="Stretch" Click="OnResolveFirstThread" Content="Resolve first thread" />

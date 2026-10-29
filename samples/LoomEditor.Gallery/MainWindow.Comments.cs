@@ -20,15 +20,22 @@ public sealed partial class MainWindow
 
         Editor.CommentSubmitted += (_, e) =>
         {
-            LogComment($"CommentSubmitted, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)}: {e.Text}");
+            LogComment($"CommentSubmitted, {Where(e.Thread.StartLineNumber, e.Thread.LineNumber, TextOf(e.Thread))}: {e.Text}");
             // The composer closes by itself when the comment is added.
             e.Thread.AddComment(Comment.Create(CommentSamples.You, e.Text));
         };
-        Editor.CommentCancelled += (_, e) => LogComment($"CommentCancelled, {Lines(e.Thread.StartLineNumber, e.Thread.LineNumber)}");
+        Editor.CommentCancelled += (_, e) => LogComment($"CommentCancelled, {Where(e.Thread.StartLineNumber, e.Thread.LineNumber, TextOf(e.Thread))}");
         Editor.AddCommentRequested += (_, e) =>
         {
-            LogComment($"AddCommentRequested, {Lines(e.StartLineNumber, e.LineNumber)}");
-            Editor.AddCommentThread(e.StartLineNumber, e.LineNumber, startComposing: true);
+            LogComment($"AddCommentRequested, {Where(e.StartLineNumber, e.LineNumber, e.TextRange)}");
+            if (e.TextRange is { } text)
+            {
+                Editor.AddCommentThread(text, startComposing: true);
+            }
+            else
+            {
+                Editor.AddCommentThread(e.StartLineNumber, e.LineNumber, startComposing: true);
+            }
         };
         Editor.SuggestionApplied += (_, e) =>
         {
@@ -60,7 +67,8 @@ public sealed partial class MainWindow
         RemoveAllThreads();
         if (sample.Name == CommentSamples.Name)
         {
-            CommentSamples.AddThreads((line, title) => Editor.AddCommentThread(line, title), (start, end, title) => Editor.AddCommentThread(start, end, title));
+            CommentSamples.AddThreads((line, title) => Editor.AddCommentThread(line, title), (start, end, title) => Editor.AddCommentThread(start, end, title),
+                (range, title) => Editor.AddCommentThread(range, title));
         }
     }
 
@@ -84,6 +92,20 @@ public sealed partial class MainWindow
         try
         {
             Editor?.AddCommentThread(6, 3);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            LogComment($"ArgumentOutOfRangeException: {ex.ParamName}");
+        }
+    }
+
+    private void OnAddOnSelection(object sender, RoutedEventArgs e) => Editor?.AddCommentThread(Editor.Selections[0].Range, startComposing: true);
+
+    private void OnAddTextOutOfDocument(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Editor?.AddCommentThread(new Range(Editor.Model.LineCount + 1, 1, Editor.Model.LineCount + 1, 2));
         }
         catch (ArgumentOutOfRangeException ex)
         {
@@ -124,6 +146,12 @@ public sealed partial class MainWindow
     }
 
     private static string Lines(int start, int end) => start == end ? $"line {end}" : $"lines {start}\u2013{end}";
+
+    private static Range? TextOf(CommentThread thread) =>
+        thread.IsWholeLines ? null : new Range(thread.StartLineNumber, thread.StartColumn, thread.LineNumber, thread.EndColumn);
+
+    private static string Where(int start, int end, Range? text) =>
+        text is { } t ? $"{Lines(start, end)}, text {t.StartLineNumber}:{t.StartColumn}\u2013{t.EndLineNumber}:{t.EndColumn}" : Lines(start, end);
 
     private void LogComment(string message) => CommentLog.Text = $"{DateTime.Now:HH:mm:ss} {message}\n{CommentLog.Text}";
 }

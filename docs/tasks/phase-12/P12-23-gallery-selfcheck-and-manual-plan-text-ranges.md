@@ -1,6 +1,6 @@
 # P12-23 — Gallery, Native AOT self-check and manual plan for exact text ranges
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-22
 - **Size:** M
 
@@ -66,18 +66,18 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) section 3
 
 ## Tests
 
-- [ ] `CommentsSelfCheckTests` green with the two new checks (it runs `Run()` in-process); every other test green after deleting `CommentLineRangeTests`
-- [ ] Native AOT publish succeeds with `-warnaserror`; the exe prints `17 of 17 checks passed` (result copied in the card)
-- [ ] Manual: the plan is complete (not run by the agent)
+- [x] `CommentsSelfCheckTests` green with the two new checks (it runs `Run()` in-process); every other test green after deleting `CommentLineRangeTests`
+- [x] Native AOT publish succeeds with `-warnaserror`; the exe prints `17 of 17 checks passed` (result copied in the card)
+- [x] Manual: the plan is complete (not run by the agent)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds; `--comments-selfcheck` exits 0 with `17 of 17 checks passed`
-- [ ] `grep -rn CommentLineRange src samples tests` finds nothing
-- [ ] Every control named in `docs/testing/phase-12-manual-tests.md` exists in the Gallery XAML (grep each name)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds; `--comments-selfcheck` exits 0 with `17 of 17 checks passed`
+- [x] `grep -rn CommentLineRange src samples tests` finds nothing
+- [x] Every control named in `docs/testing/phase-12-manual-tests.md` exists in the Gallery XAML (grep each name)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -86,3 +86,13 @@ Running the manual plan, screenshots, a new Gallery page, closing the phase (P12
 ## Suggested commit message
 
 `feat(gallery): demo exact-text comment threads and extend the phase 12 checks`
+
+## Result
+
+- Native AOT publish: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` **succeeded**.
+- Native AOT run (2026-10-29), published exe, all with exit code 0:
+  - `--comments-selfcheck`: `17 of 17 checks passed`
+  - `--text-selfcheck`: `10 of 10 checks passed`
+  - `--diff-selfcheck`: `SUMMARY: 9 passed, 0 failed`
+- The manual plan (sections P12-21, P12-22, E, F and C 8–15) is written; **not run** by the agent. The exact-text sample thread is on line 29, the word `best`.
+- `CommentLineRange` and its tests are deleted (`CommentRange` replaces them).

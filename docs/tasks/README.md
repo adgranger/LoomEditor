@@ -1065,7 +1065,7 @@ Design: [phase-12/README.md](phase-12/README.md) section 3 (a thread on the exac
 | [P12-20](phase-12/P12-20-controller-and-command-text-ranges.md) | Controller and add command: threads and requests on the exact selected text | P12-19 | done |
 | [P12-21](phase-12/P12-21-public-api-text-ranges.md) | Public API: threads on the exact text in `LoomEditor` and `LoomDiffEditor` | P12-20 | done |
 | [P12-22](phase-12/P12-22-widget-and-gutter-text-ranges.md) | The box tells screen readers the commented text; the gutter "+" requests the selected text | P12-21 | done |
-| [P12-23](phase-12/P12-23-gallery-selfcheck-and-manual-plan-text-ranges.md) | Gallery, Native AOT self-check and manual plan for exact text ranges | P12-22 | todo |
+| [P12-23](phase-12/P12-23-gallery-selfcheck-and-manual-plan-text-ranges.md) | Gallery, Native AOT self-check and manual plan for exact text ranges | P12-22 | done |
 
 ### Close the phase
 

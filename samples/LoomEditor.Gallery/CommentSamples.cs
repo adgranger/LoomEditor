@@ -18,6 +18,12 @@ internal static class CommentSamples
     /// <summary>The last line of the range thread (the closing brace of the loop).</summary>
     public const int RangeEnd = 15;
 
+    /// <summary>The line of the exact-text thread: <c>int best = int.MinValue;</c> of <c>Max</c>, which no other sample thread covers.</summary>
+    public const int TextLine = 29;
+
+    /// <summary>The identifier the exact-text thread is anchored to (on <see cref="TextLine"/>).</summary>
+    public const string TextWord = "best";
+
     /// <summary>The author of the comments the user posts.</summary>
     public static CommentAuthor You { get; } = new("You");
 
@@ -38,10 +44,15 @@ internal static class CommentSamples
     /// </summary>
     /// <param name="addThread">Adds a thread on a line with a title (the editor's or one side of the diff editor's <c>AddCommentThread</c>).</param>
     /// <param name="addRangeThread">Adds a thread on a range of lines with a title; used for the 4-line thread with a multi-line suggestion.</param>
-    public static void AddThreads(Func<int, string?, CommentThread> addThread, Func<int, int, string?, CommentThread> addRangeThread)
+    /// <param name="addTextThread">Adds a thread on the exact text of a range with a title; used for the thread on <see cref="TextWord"/>.</param>
+    public static void AddThreads(
+        Func<int, string?, CommentThread> addThread,
+        Func<int, int, string?, CommentThread> addRangeThread,
+        Func<Range, string?, CommentThread> addTextThread)
     {
         ArgumentNullException.ThrowIfNull(addThread);
         ArgumentNullException.ThrowIfNull(addRangeThread);
+        ArgumentNullException.ThrowIfNull(addTextThread);
         DateTimeOffset now = DateTimeOffset.UtcNow;
         var ada = new CommentAuthor("Ada Lovelace");
         var grace = new CommentAuthor("Grace Hopper");
@@ -60,6 +71,12 @@ internal static class CommentSamples
             grace,
             "Guard against overflow:\n\n```suggestion\n        for (int i = 0; i < max && i < values.Count; i++)\n        {\n            total = checked(total + values[i]);\n        }\n```",
             now.AddMinutes(-10)));
+
+        // One identifier of a line: only the word is tinted; the suggestion still rewrites the whole line.
+        string line = Text.Split('\n')[TextLine - 1];
+        int start = line.IndexOf(TextWord, StringComparison.Ordinal) + 1;
+        addTextThread(new Range(TextLine, start, TextLine, start + TextWord.Length), null).AddComment(Comment.Create(
+            grace, "A clearer name:\n\n```suggestion\n        int largest = int.MinValue;\n```", now.AddMinutes(-5)));
 
         CommentThread resolved = addThread(24, null);
         resolved.AddComment(Comment.Create(grace, "This line is too long to read in a review.", now.AddDays(-1)));

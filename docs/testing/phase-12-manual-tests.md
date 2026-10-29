@@ -6,10 +6,12 @@ What unit tests cannot check: the highlight of the lines of a multi-line comment
 **Machine:** Windows 11, a mouse with a wheel. About 30 minutes in total.
 
 **Gallery setup:** pick **Comment threads** in the "Features" picker: the phase 11 threads (lines 8, 10, 24) plus a 4-line thread on lines 12–15 (the `for` loop of `Sum`)
-whose comment by Grace Hopper holds a suggestion that rewrites line 14 and keeps the other three. In the **Comment threads** Expander: **Comment on selection**
-(the add command, also `Ctrl+Alt+M`), **Add range 3–6**, **Add range 6–3 (error)**, **Add comment at caret**, the **Gutter "+" button** switch and the event log. The
+whose comment by Grace Hopper holds a suggestion that rewrites line 14 and keeps the other three, and a thread on the exact word `best` of line 29
+(`int best = int.MinValue;`) whose suggestion rewrites the whole line. In the **Comment threads** Expander: **Comment on selection**
+(the add command, also `Ctrl+Alt+M`), **Add range 3–6**, **Add range 6–3 (error)**, **Add on selection (Range API)**, **Add text out of document (error)**,
+**Add comment at caret**, the **Gutter "+" button** switch and the event log. The
 diff window (**Diff demo**) has **Comment sample** (the same threads on the original side), **Add on original**, **Add on modified** (both use the lines of that side's
-selection) and the **Gutter "+" button** box. **Self-check:** the logic of this phase also runs without a UI in the Native AOT self-check (P12-14).
+selection) and the **Gutter "+" button** box. **Self-check:** the logic of this phase also runs without a UI in the Native AOT self-check (P12-14, P12-23: `17 of 17`).
 
 - Windows build:
 - Gallery build kind (Debug / Release / Native AOT):
@@ -119,6 +121,23 @@ Controls for this section are those of P12-23 (Gallery buttons).
 | 3 | Apply a suggestion on the modified side: the 4 lines change, the diff updates, `Ctrl+Z` restores them | pending |
 | 4 | Inline view, then side by side: threads, drafts and alignment come back | pending |
 
+## End-to-end E — Word review (editor)
+
+| # | Step | Result |
+|---|---|---|
+| 1 | Select a word (for example `total` on line 11), `Ctrl+Alt+M`: the box opens under line 11, only the word is tinted; the log shows `AddCommentRequested, line 11, text 11:a–11:b` | pending |
+| 2 | Type a comment, then `±` (suggest a change): the seed is the **whole line**, not only the word | pending |
+| 3 | **Comment**: the comment appears with the block and an **Apply suggestion** button; the log shows `CommentSubmitted, line 11, text …` | pending |
+| 4 | **Apply suggestion**: the whole line is replaced, the log shows `SuggestionApplied, line 11`, the thread is resolved; one `Ctrl+Z` restores the line | pending |
+
+## End-to-end F — Word review (diff)
+
+| # | Step | Result |
+|---|---|---|
+| 1 | **Comment sample**, side by side: the `best` thread on the original side has only the word tinted; the modified side is padded, both sides stay level | pending |
+| 2 | Select a word in the modified editor, **Add on modified**: only that word is tinted; write and post a comment; the log shows the side and `text …` | pending |
+| 3 | Apply a suggestion on the modified side: the whole line changes, the diff updates, `Ctrl+Z` restores it; the sides stay aligned | pending |
+
 ## C — Robustness
 
 | # | Check | Result |
@@ -130,6 +149,14 @@ Controls for this section are those of P12-23 (Gallery buttons).
 | 5 | Load a sample with fewer lines (the Features picker) while range threads exist: no exception, the threads are removed | pending |
 | 6 | **Resolve first thread**, then reopen it in the box: the highlight follows the state | pending |
 | 7 | Word wrap on: the highlight covers every row of every line of the range | pending |
+| 8 | On the `best` thread (line 29): type just before the word, then just after it, then inside it: the tint stays on the word (grows only when typing inside), no exception | pending |
+| 9 | Delete the word: the tint disappears, the box stays under the line | pending |
+| 10 | Press `Enter` inside the word: the tint covers the two partial lines and the box moves down one line | pending |
+| 11 | Select from mid-line to column 1 of a later line, **Comment on selection**: the tint ends at the end of the previous line | pending |
+| 12 | Load a sample with shorter lines (the Features picker) while a text thread exists: no exception, the thread is removed | pending |
+| 13 | **Resolve first thread** on a text thread, then reopen it in the box: the tint goes away and comes back | pending |
+| 14 | Word wrap on, a text thread on a long line: the tint covers only the word's fragment on its visual row | pending |
+| 15 | Windows high contrast on: the tint's border is visible | pending |
 
 ## D — Keyboard only
 
