@@ -686,4 +686,55 @@ public class CommentThreadManagerTests
 
         Assert.Equal([t], raised);
     }, TextModel);
+
+    private static bool TextHighlighted(TestCodeEditor editor, CommentThreadManager manager, CommentThread thread) =>
+        editor.Model.GetDecorationOptions(manager.GetDecorationId(thread)!)?.ClassName == "comment-thread-text";
+
+    [Fact]
+    public void HighlightText_Open_UsesTextClass() => With((editor, manager) =>
+        Assert.True(TextHighlighted(editor, manager, manager.Add(new Range(1, 5, 2, 3)))), TextModel);
+
+    [Fact]
+    public void HighlightText_SingleLine_IsHighlighted() => With((editor, manager) =>
+        Assert.True(TextHighlighted(editor, manager, manager.Add(Value))), TextModel);
+
+    [Fact]
+    public void HighlightText_Resolved_Removed_ThenReopened_Restored() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(Value);
+
+        thread.State = CommentThreadState.Resolved;
+        Assert.False(TextHighlighted(editor, manager, thread));
+
+        thread.State = CommentThreadState.Open;
+        Assert.True(TextHighlighted(editor, manager, thread));
+    }, TextModel);
+
+    [Fact]
+    public void HighlightText_AllTextDeleted_Removed() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(Value);
+
+        Edit(editor, Value, "");
+
+        Assert.False(TextHighlighted(editor, manager, thread));
+    }, TextModel);
+
+    [Fact]
+    public void HighlightText_SwitchOptions_KeepsTrackedRange() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(Value);
+        string id = manager.GetDecorationId(thread)!;
+
+        thread.State = CommentThreadState.Resolved;
+
+        Assert.Equal(Value, editor.Model.GetDecorationRange(id));
+    }, TextModel);
+
+    [Fact]
+    public void HighlightLines_Unchanged() => With((editor, manager) =>
+    {
+        Assert.Null(editor.Model.GetDecorationOptions(manager.GetDecorationId(manager.Add(1))!)?.ClassName);
+        Assert.True(Highlighted(editor, manager, manager.Add(1, 2)));
+    }, TextModel);
 }

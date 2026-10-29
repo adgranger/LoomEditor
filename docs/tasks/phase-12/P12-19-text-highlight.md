@@ -1,6 +1,6 @@
 # P12-19 — Highlight the exact text of a thread
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-18
 - **Size:** S
 
@@ -45,22 +45,22 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decision 
 
 ## Tests
 
-- [ ] Manager: `HighlightText_Open_UsesTextClass` (options read back with `TextModel.GetDecorationOptions(GetDecorationId(t))`, like P12-06), `HighlightText_SingleLine_IsHighlighted`
-- [ ] `HighlightText_Resolved_Removed_ThenReopened_Restored`, `HighlightText_AllTextDeleted_Removed`, `HighlightText_SwitchOptions_KeepsTrackedRange`
-- [ ] `HighlightLines_Unchanged` (a single whole-line thread still has no class; a 2-line whole-line thread still uses `comment-thread-range`)
-- [ ] `DecorationStyles`: `Get_CommentThreadText_HasBackgroundAndBorderIds`
-- [ ] Rendering: `Render_CommentThreadText_OneLine_FillsOnlyTheText` (`"abcdef"`, `Range(1, 2, 1, 5)`: one fill of `loom.commentThreadRangeBackground` at
+- [x] Manager: `HighlightText_Open_UsesTextClass` (options read back with `TextModel.GetDecorationOptions(GetDecorationId(t))`, like P12-06), `HighlightText_SingleLine_IsHighlighted`
+- [x] `HighlightText_Resolved_Removed_ThenReopened_Restored`, `HighlightText_AllTextDeleted_Removed`, `HighlightText_SwitchOptions_KeepsTrackedRange`
+- [x] `HighlightLines_Unchanged` (a single whole-line thread still has no class; a 2-line whole-line thread still uses `comment-thread-range`)
+- [x] `DecorationStyles`: `Get_CommentThreadText_HasBackgroundAndBorderIds`
+- [x] Rendering: `Render_CommentThreadText_OneLine_FillsOnlyTheText` (`"abcdef"`, `Range(1, 2, 1, 5)`: one fill of `loom.commentThreadRangeBackground` at
   `contentLeft + CharacterWidth`, width `3 * CharacterWidth`)
-- [ ] Rendering: `Render_CommentThreadText_ThreeLines_PartialFirstAndLastLines` (`"abcd\nefgh\nijkl"`, `Range(1, 3, 3, 2)`: three fills; line 1 starts at
+- [x] Rendering: `Render_CommentThreadText_ThreeLines_PartialFirstAndLastLines` (`"abcd\nefgh\nijkl"`, `Range(1, 3, 3, 2)`: three fills; line 1 starts at
   `contentLeft + 2 * CharacterWidth`, line 2 starts at `contentLeft`, line 3 starts at `contentLeft` with width `CharacterWidth`). The theme of `CreateHarness` must define
   `loom.commentThreadRangeBackground` (add it to the test theme JSON next to `editor.rangeHighlightBackground` if `Fills` needs it).
-- [ ] All existing tests unchanged and green
+- [x] All existing tests unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

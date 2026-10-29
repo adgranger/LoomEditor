@@ -32,6 +32,14 @@ internal sealed class CommentThreadManager : IDisposable
             IsWholeLine = true,
         });
 
+    private static readonly ModelDecorationOptions TextAnchorOptions = ModelDecorationOptions.Register(
+        new ModelDecorationOptionsData
+        {
+            Description = "comment-thread-text",
+            Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
+            ClassName = "comment-thread-text",
+        });
+
     private readonly TextModel _model;
     private readonly ViewZones _zones;
     private readonly int _ownerId;
@@ -194,8 +202,21 @@ internal sealed class CommentThreadManager : IDisposable
         Release(all);
     }
 
-    private static ModelDecorationOptions OptionsFor(CommentThread thread) =>
-        thread.StartLineNumber < thread.LineNumber && thread.State == CommentThreadState.Open ? RangeAnchorOptions : AnchorOptions;
+    private static ModelDecorationOptions OptionsFor(CommentThread thread)
+    {
+        if (thread.State != CommentThreadState.Open)
+        {
+            return AnchorOptions;
+        }
+
+        if (thread.IsWholeLines)
+        {
+            return thread.StartLineNumber < thread.LineNumber ? RangeAnchorOptions : AnchorOptions;
+        }
+
+        bool empty = thread.StartLineNumber == thread.LineNumber && thread.EndColumn <= thread.StartColumn;
+        return empty ? AnchorOptions : TextAnchorOptions;
+    }
 
     private Entry? FindEntry(CommentThread thread) => _entries.FirstOrDefault(e => e.Thread == thread);
 

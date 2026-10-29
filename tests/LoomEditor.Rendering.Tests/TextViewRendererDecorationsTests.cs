@@ -19,6 +19,7 @@ public class TextViewRendererDecorationsTests
           "colors": {
             "editor.rangeHighlightBackground": "#110000",
             "editor.rangeHighlightBorder": "#220000",
+            "loom.commentThreadRangeBackground": "#443300",
             "editor.wordHighlightBackground": "#003300",
             "editor.findMatchHighlightBackground": "#000044",
             "editor.selectionBackground": "#555555",
@@ -123,6 +124,32 @@ public class TextViewRendererDecorationsTests
         Assert.Equal(2, fills.Count);
         Assert.Equal((contentLeft + CharacterWidth, 0f, CharacterWidth), (fills[0].X, fills[0].Y, fills[0].Width));
         Assert.Equal((contentLeft, LineHeight, 2 * CharacterWidth), (fills[1].X, fills[1].Y, fills[1].Width));
+    }
+
+    [Fact]
+    public void Render_CommentThreadText_OneLine_FillsOnlyTheText()
+    {
+        using ViewHarness harness = CreateHarness("abcdef");
+        AddDecoration(harness, new Range(1, 2, 1, 5), "comment-thread-text");
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "loom.commentThreadRangeBackground"));
+
+        Assert.Equal((harness.LayoutInfo.ContentLeft + CharacterWidth, 3 * CharacterWidth), (fill.X, fill.Width));
+    }
+
+    [Fact]
+    public void Render_CommentThreadText_ThreeLines_PartialFirstAndLastLines()
+    {
+        using ViewHarness harness = CreateHarness("abcd\nefgh\nijkl");
+        AddDecoration(harness, new Range(1, 3, 3, 2), "comment-thread-text");
+
+        List<FillRectangleCall> fills = Fills(harness, harness.Render(), "loom.commentThreadRangeBackground");
+
+        int contentLeft = harness.LayoutInfo.ContentLeft;
+        Assert.Equal(3, fills.Count);
+        Assert.Equal(contentLeft + 2 * CharacterWidth, fills[0].X);
+        Assert.Equal(contentLeft, fills[1].X);
+        Assert.Equal((contentLeft, CharacterWidth), (fills[2].X, fills[2].Width));
     }
 
     [Fact]
