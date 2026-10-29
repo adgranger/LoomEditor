@@ -48,6 +48,8 @@ apply to both sides.
 
 ## Comment threads
 
+The single-editor API, the events and a suggestion example are in [use-comment-threads.md](use-comment-threads.md).
+
 `AddCommentThread(DiffSide.Original | DiffSide.Modified, line, title, startComposing)` puts a thread under a line of either side; in the
 side-by-side view the other side gets the same blank height, so the lines stay level. `CommentThreads` lists both sides, `GetSide(thread)`
 tells which one a thread is on, `RemoveCommentThread` works for both. `CommentSubmitted`, `CommentCancelled` and `SuggestionApplied` come from

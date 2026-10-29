@@ -90,7 +90,7 @@ Copied from the "Later" table of [docs/tasks/phase-10/README.md](../tasks/phase-
 | Syntax folding from a provider, sticky scroll outline model, minimap section headers, find history | need provider contracts or the outline model |
 | Color decorators and picker, CodeLens, inlay hints, inline completions (ghost text) | each needs a provider contract and new widgets |
 | Context menu, command palette, quick access | host UI: needs an ADR to decide whether the control owns them |
-| Marker navigation **widget** (the peek-like box of `F8`) | needs zone widgets (`peekView`); phase 10 selects the marker and announces its message |
+| Marker navigation **widget** (the peek-like box of `F8`) | needs zone widgets (`peekView`) (zone widgets exist since phase 11, ADR 0014); phase 10 selects the marker and announces its message |
 | Diff editor deferred items (moved blocks, revert buttons, embedded diff editor…) | see [ADR 0012](../adr/0012-diff-editor.md) |
 | Accessibility help dialog, `ariaLabel` / `ariaRole`, reduced motion, UIA text edit pattern | see the roadmap, section F |
 | Zoom shared between the two editors of `LoomDiffEditor` | a diff editor option of its own |

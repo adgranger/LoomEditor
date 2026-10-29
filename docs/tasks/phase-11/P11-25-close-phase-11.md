@@ -1,6 +1,6 @@
 # P11-25 — Close phase 11
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** all phase 11 cards
 - **Size:** S
 
@@ -35,15 +35,15 @@ Sources: none (documentation only). Pattern: `docs/tasks/phase-10/P10-31-close-p
 
 ## Tests
 
-- [ ] None (documentation).
+- [x] None (documentation).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
-- [ ] Every relative link in the new and changed docs resolves
-- [ ] The AOT result in the roadmap file cites P11-24, or says `NOT verified`; never ticked if not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (unchanged)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (unchanged)
+- [x] Every relative link in the new and changed docs resolves
+- [x] The AOT result in the roadmap file cites P11-24, or says `NOT verified`; never ticked if not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -52,3 +52,9 @@ Phase 12 (Avalonia), running the manual plan, any code change.
 ## Suggested commit message
 
 `docs: close phase 11`
+
+## Result (2026-10-29)
+
+- Documentation only; no code changed. Counts: 16 test files / 206 `[Fact]` / `[Theory]` methods for phase 11; the solution has 7,345 tests (7,343 passed, 2 skipped, 0 failed).
+- The AOT result is cited from P11-24 (11 of 11); the WinUI widget, the manual plan, Narrator / NVDA, IME and high contrast are listed as **not verified**.
+- The root `README.md` has no feature list for phase 11 and was not changed; `src/LoomEditor.View/Markdown/README.md` already matches P11-02.

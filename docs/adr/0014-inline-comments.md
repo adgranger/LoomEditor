@@ -124,6 +124,16 @@ positioned over the editor and repositioned when it scrolls). What exists today 
 
 Multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button, opening links.
 
-## Changes during implementation
+## Changes during implementation (2026-10-29)
 
-None yet. The close card (P11-25) appends the list.
+Cards 1 to 11 and 24 recorded no change to a decision. The others:
+
+- **`Border` is sealed in WinUI 3** (P11-12, P11-19): `CommentThreadWidget` and `SuggestionBlockView` are `UserControl`s whose content is the bordered box, and `CommentAvatar` is a static factory. They cannot implement `IDisposable` (CsWinRT maps it to `IClosable`): `CommentThreadWidget.Detach()` unsubscribes.
+- **Keys read in `PreviewKeyDown`** (P11-14, P11-17, P11-18), not `KeyDown` as decision 7 says: the WinUI `TextBox` handles `Enter` and some shortcuts first. Escape, `Ctrl+Enter`, `Ctrl+B` / `I` / `K` are read there.
+- **No routing code was added** (P11-14): all six paths of decision 7 were already correct (`HasFocus` is false while a child has the focus). After Submit / Cancel / Escape the widget raises `FocusReturnRequested` and the host calls `ReturnFocusToEditor`.
+- **Height** (P11-13): the pass measures the widget's bordered box (`MeasureContentHeight`), not the widget.
+- **Colors** (P11-16, P11-17, P11-19, P11-20): ids missing from the built-in defaults use fallbacks; the fallback diff colors had a wrong alpha argument, fixed in P11-20.
+- **Accessibility** (P11-20): a `CommentThreadAutomationPeer` (control type `Group`) was needed, since `UserControl` and `Grid` create no peer.
+- **Gutter button** (P11-21): hit test reuses the `MouseTarget` of `OnPointerMoved`; `CommentGutterButtonEnabled` is a public dependency property.
+- **Diff editor** (P11-22): no alignment code change; two zones after one line give two alignment entries whose heights add up.
+- **Gallery** (P11-23): no `--uia-selfcheck` switch exists; the plan uses the button. `--comments-selfcheck` is the new switch (P11-24); the CsWinRT analyzer forbids collection expressions typed `IEnumerable<T>` there.

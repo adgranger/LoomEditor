@@ -1007,7 +1007,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 |---|---|---|---|
 | [P11-23](phase-11/P11-23-gallery-demo-and-manual-plan.md) | Gallery: the comment threads demo and the manual test plan | P11-22 | done |
 | [P11-24](phase-11/P11-24-native-aot-self-check.md) | Native AOT self-check of the phase 11 logic | P11-23 | done |
-| [P11-25](phase-11/P11-25-close-phase-11.md) | Close phase 11 | all phase 11 cards | todo |
+| [P11-25](phase-11/P11-25-close-phase-11.md) | Close phase 11 | all phase 11 cards | done |
 
 Take phase 11 cards in table order (each card's "Depends on" is satisfied by the cards above it). P11-12, P11-13 and P11-14 are flagged **Recommended model: Opus**; the others are written for Sonnet. A card that does not fit in one session stops with a proposed split. The WinUI cards (P11-12 … P11-22) are verified by the build, the tests and a written manual section; agents do not run the Gallery UI.
 
