@@ -1040,7 +1040,7 @@ Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); co
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P12-09](phase-12/P12-09-editor-public-api.md) | Public API of `LoomEditor`: a thread on a range of lines | P12-08 | todo |
+| [P12-09](phase-12/P12-09-editor-public-api.md) | Public API of `LoomEditor`: a thread on a range of lines | P12-08 | done |
 | [P12-10](phase-12/P12-10-diff-editor-public-api.md) | Public API of `LoomDiffEditor`: a thread on a range of lines of one side | P12-09 | todo |
 | [P12-11](phase-12/P12-11-widget-range.md) | The widget for a range: title, accessibility and an N-line suggestion block | P12-10 | todo |
 | [P12-12](phase-12/P12-12-gutter-button-selection.md) | The gutter "+" button requests the selected lines | P12-11 | todo |

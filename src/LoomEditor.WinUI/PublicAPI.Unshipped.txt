@@ -6,7 +6,9 @@
 ~LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.GetXmlnsDefinitions() -> Microsoft.UI.Xaml.Markup.XmlnsDefinition[]
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int lineNumber) -> void
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int startLineNumber, int lineNumber) -> void
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, string! text) -> void
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.Text.get -> string!
@@ -108,6 +110,7 @@ LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.WinU
 LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
@@ -197,7 +200,9 @@ LoomEditor.WinUI.Controls.LoomEditor.ZoomLevel.set -> void
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.Comment.get -> LoomEditor.Core.Comments.Comment!
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int lineNumber) -> void
+LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int startLineNumber, int lineNumber) -> void
 LoomEditor.WinUI.Controls.SuggestionAppliedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider
 LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaDataProvider() -> void

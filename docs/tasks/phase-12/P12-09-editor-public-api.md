@@ -1,6 +1,6 @@
 # P12-09 — Public API of `LoomEditor`: a thread on a range of lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-08
 - **Size:** S
 
@@ -49,20 +49,24 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] None automated (no WinUI test project). The View tests of P12-07 cover the logic; the build checks the API file.
-- [ ] Manual: section "P12-09" written (not run by the agent).
+- [x] None automated (no WinUI test project). The View tests of P12-07 cover the logic; the build checks the API file.
+- [x] Manual: section "P12-09" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) lists the five new members; no phase 11 line changed
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (WinUI) lists the five new members; no phase 11 line changed
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
 `LoomDiffEditor` (P12-10), the widget (P12-11), the gutter (P12-12), Gallery buttons (P12-13).
+
+## Result
+
+Build and tests green. The manual section "P12-09" in `docs/testing/phase-12-manual-tests.md` was written but **not run** (agents do not run the Gallery UI).
 
 ## Suggested commit message
 
