@@ -45,7 +45,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/adgranger/LoomEditor</PackageProjectUrl>
     <RepositoryUrl>https://github.com/adgranger/LoomEditor</RepositoryUrl>
-    <!-- Pre-release until phase 1 is done. -->
+    <PackageReleaseNotes>https://github.com/adgranger/LoomEditor/releases</PackageReleaseNotes>
+    <!-- Version of local builds only; a release passes -p:Version=<tag without v> (docs/RELEASING.md). -->
     <VersionPrefix>0.1.0</VersionPrefix>
     <VersionSuffix>alpha</VersionSuffix>
     <PackageTags>editor;code-editor;monaco;winui;winui3;windows-app-sdk;textmate</PackageTags>

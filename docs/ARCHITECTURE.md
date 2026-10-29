@@ -437,6 +437,4 @@ How to use it: [how-to/use-comment-threads.md](how-to/use-comment-threads.md).
 | change drag and drop of the selection | `src/LoomEditor.View/Features/DragAndDrop/`, the drag state in `src/LoomEditor.View/Controller/` |
 | run the text self-check (Native AOT) | `samples/LoomEditor.Gallery/TextSelfCheck.cs` (`--text-selfcheck=<file>`), [testing/phase-10-manual-tests.md](testing/phase-10-manual-tests.md) |
 | change the input mode (overtype) or the cursor style | `EditorContext.InputMode`, `src/LoomEditor.View/Cursors/`, caret drawing in `src/LoomEditor.Rendering/` |
-| change the comment thread data or the thread / suggestion logic | `src/LoomEditor.Core/Comments/`, `src/LoomEditor.View/Comments/` |
-| change the comment widget, its zone host or the gutter "+" button | `src/LoomEditor.WinUI/Controls/Comments/` |
-| change the Markdown → XAML drawing (hover and comments) | `src/LoomEditor.WinUI/Controls/Markdown/` |
+| release the NuGet packages (tag, gates, trusted publishing) | [docs/RELEASING.md](RELEASING.md), `.github/workflows/release.yml`, `eng/Pack.ps1`, `eng/Test-Packages.ps1` |

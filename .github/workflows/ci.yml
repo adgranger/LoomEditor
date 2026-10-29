@@ -56,6 +56,43 @@ jobs:
           name: coverage
           path: artifacts/test-results/**/*.cobertura.xml
 
+  pack:
+    name: Pack NuGet packages
+    # Not on pull requests: the release workflow (dry run) packs and tests the packages.
+    if: github.event_name != 'pull_request'
+    runs-on: windows-latest
+    needs: [build-and-test, native]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      # Both architectures, so that the TextMate package carries runtimes/win-x64 and runtimes/win-arm64.
+      - name: Download onig.dll
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
+
+      - name: Self-test the release scripts
+        shell: pwsh
+        run: |
+          ./eng/Get-ReleaseVersion.ps1 -SelfTest
+          ./eng/Get-ReleaseNotes.ps1 -SelfTest
+
+      # Packages are built but NOT published: publishing is a manual, reviewed step (docs/RELEASING.md).
+      - name: Pack and test the packages
+        shell: pwsh
+        run: ./eng/Test-Packages.ps1
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nuget-packages
+          path: artifacts/packages
+
   native:
     name: Oniguruma (${{ matrix.arch }})
     runs-on: windows-latest

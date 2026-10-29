@@ -1,11 +1,16 @@
-# Release: runs when a version tag is pushed (v1.2.3, v1.2.3-beta.1). It runs the whole CI first, then packs the
-# NuGet packages and creates the GitHub release. A tag with a hyphen (v1.2.3-beta.1) makes a pre-release.
-# Packages are attached to the release but NOT pushed to nuget.org: publishing stays a manual, reviewed step.
+# Release: a v* tag runs every gate, then publishes the six packages to nuget.org and creates a GitHub Release.
+# Started by hand with a version, it runs the gates only (dry run): nothing is published.
 name: Release
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Dry run: version to build (for example 0.1.0-alpha.1). Nothing is published.'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -15,19 +20,49 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_CLI_UI_LANGUAGE: en
 
-jobs:
-  ci:
-    name: CI
-    uses: ./.github/workflows/ci.yml
+concurrency:
+  group: release
+  cancel-in-progress: false
 
-  release:
-    name: Pack and release
-    needs: [ci]
+jobs:
+  # onig.dll for win-x64 and win-arm64 (cached by the hash of its build script, as in ci.yml).
+  native:
+    name: Oniguruma (${{ matrix.arch }})
     runs-on: windows-latest
-    permissions:
-      contents: write
+    strategy:
+      matrix:
+        arch: [x64, ARM64]
     steps:
       - uses: actions/checkout@v7
+
+      - name: Cache onig.dll
+        id: cache
+        uses: actions/cache@v6
+        with:
+          path: artifacts/native
+          key: oniguruma-${{ matrix.arch }}-${{ hashFiles('src/native/oniguruma/build.ps1') }}
+
+      - name: Build onig.dll
+        if: steps.cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: ./src/native/oniguruma/build.ps1 -Architecture ${{ matrix.arch }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: oniguruma-${{ matrix.arch }}
+          path: artifacts/native
+
+  build:
+    name: Gates and packages
+    runs-on: windows-latest
+    needs: native
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-dotnet@v6
         with:
@@ -41,21 +76,126 @@ jobs:
           path: artifacts/native
           merge-multiple: true
 
-      - name: Pack
+      # The raw value (a tag name is attacker-controllable text) goes through env, never into the script text.
+      - name: Resolve the version
+        id: version
+        shell: pwsh
+        env:
+          RAW: ${{ github.event_name == 'push' && github.ref_name || inputs.version }}
+        run: ./eng/Get-ReleaseVersion.ps1 $env:RAW -GitHubOutput
+
+      - name: Check the tag is on main
+        if: github.event_name == 'push'
         shell: pwsh
         run: |
-          $version = '${{ github.ref_name }}'.TrimStart('v')
-          foreach ($project in 'Core', 'TextMate', 'Themes', 'View', 'Rendering', 'WinUI') {
-            dotnet pack "src/LoomEditor.$project" -c Release -o artifacts/packages -p:Version=$version
-            if ($LASTEXITCODE -ne 0) { throw "Packing $project failed." }
+          git merge-base --is-ancestor $env:GITHUB_SHA origin/main
+          if ($LASTEXITCODE -ne 0) { throw "Tag $env:GITHUB_REF_NAME points to a commit that is not on main." }
+
+      # A stable release without a changelog section fails here, before anything is published.
+      # The version output is safe to interpolate: it was validated by the regex of Get-ReleaseVersion.ps1.
+      - name: Extract the release notes
+        if: github.event_name == 'push'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          ./eng/Get-ReleaseNotes.ps1 -Version ${{ steps.version.outputs.version }} -OutFile artifacts/release-notes.md ${{ steps.version.outputs.prerelease == 'true' && '-AllowMissing' || '' }}
+
+      - name: Release build
+        shell: pwsh
+        run: ./eng/Invoke-ReleaseBuild.ps1 -Version ${{ steps.version.outputs.version }}
+
+      - name: Upload the packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: nuget-packages
+          path: artifacts/packages
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload the release notes
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-notes
+          path: artifacts/release-notes.md
+          if-no-files-found: error
+
+      - name: Summary
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          "Version: $env:VERSION" >> $env:GITHUB_STEP_SUMMARY
+          Get-ChildItem artifacts/packages | ForEach-Object { "- $($_.Name)" } >> $env:GITHUB_STEP_SUMMARY
+          if ($env:EVENT -eq 'workflow_dispatch') { 'Dry run: nothing was published.' >> $env:GITHUB_STEP_SUMMARY }
+
+  publish:
+    name: Publish to nuget.org and GitHub
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+    environment: nuget
+    permissions:
+      contents: write
+      id-token: write # the OIDC token that NuGet/login exchanges for a temporary nuget.org API key
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - uses: actions/download-artifact@v7
+        with:
+          name: nuget-packages
+          path: artifacts/packages
+
+      - uses: actions/download-artifact@v7
+        with:
+          name: release-notes
+          path: artifacts
+
+      - name: Check the nuget.org user name
+        shell: pwsh
+        env:
+          NUGET_USER: ${{ secrets.NUGET_USER }}
+        run: |
+          if ([string]::IsNullOrEmpty($env:NUGET_USER)) { throw 'The secret NUGET_USER is not set in the environment "nuget" (see docs/RELEASING.md).' }
+
+      # Trusted Publishing: exchanges the OIDC token for an API key valid one hour, so it runs right before the push.
+      - name: NuGet login (OIDC)
+        id: login
+        uses: NuGet/login@v1.2.0
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      # Dependencies first. Pushing a .nupkg also pushes its sibling .snupkg. --skip-duplicate makes a re-run safe.
+      - name: Push to nuget.org
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          foreach ($id in 'LoomEditor.Core', 'LoomEditor.TextMate', 'LoomEditor.Themes', 'LoomEditor.View', 'LoomEditor.Rendering', 'LoomEditor.WinUI') {
+            dotnet nuget push "artifacts/packages/$id.$env:VERSION.nupkg" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+            if ($LASTEXITCODE -ne 0) { throw "Pushing $id $env:VERSION failed." }
           }
 
-      - name: Create the GitHub release
+      - name: Create the GitHub Release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          PRERELEASE: ${{ needs.build.outputs.prerelease }}
         run: |
-          $tag = '${{ github.ref_name }}'
-          $flags = @()
-          if ($tag.Contains('-')) { $flags += '--prerelease' }
-          gh release create $tag artifacts/packages/* --title $tag --generate-notes @flags
+          $files = Get-ChildItem artifacts/packages/* | ForEach-Object FullName
+          gh release view $env:TAG *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $env:TAG $files --clobber
+          } else {
+            $flags = @()
+            if ($env:PRERELEASE -eq 'true') { $flags += '--prerelease' }
+            gh release create $env:TAG $files --verify-tag --title $env:TAG --notes-file artifacts/release-notes.md --generate-notes @flags
+          }
+          if ($LASTEXITCODE -ne 0) { throw "Creating or updating the GitHub Release $env:TAG failed." }

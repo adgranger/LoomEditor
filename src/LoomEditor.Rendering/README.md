@@ -1,6 +1,17 @@
-# Rendering
+# LoomEditor.Rendering
 
-**Phase 2.** Draws the viewport of a `ViewModel` on an `IRenderSurface`. It knows Win2D (through `Win2D/`) but nothing
+## Install
+
+```powershell
+dotnet add package LoomEditor.Rendering --prerelease
+```
+
+`--prerelease` is needed while the version has a suffix (for example `0.1.0-alpha.1`). Most applications want
+`LoomEditor.WinUI`, which brings this package and the others.
+
+## What it is
+
+Draws the viewport of a `ViewModel` on an `IRenderSurface`. It knows Win2D (through `Win2D/`) but nothing
 about XAML controls: the `LoomEditor` control in `LoomEditor.WinUI` owns the canvas, the timer and the focus.
 
 ## What is here (phase 2)
@@ -23,4 +34,4 @@ about XAML controls: the `LoomEditor` control in `LoomEditor.WinUI` owns the can
 - Everything here runs on the UI thread. The classes say so in their `<remarks>`.
 
 Monaco sources: `src/vs/editor/browser/viewParts/` (`viewLines`, `lineNumbers`, `currentLineHighlight`,
-`viewCursors`). The Monaco → LoomEditor map is in [docs/PORTING.md](../../docs/PORTING.md).
+`viewCursors`). The Monaco → LoomEditor map is in [docs/PORTING.md](https://github.com/adgranger/LoomEditor/blob/main/docs/PORTING.md).

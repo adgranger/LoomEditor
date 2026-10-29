@@ -49,6 +49,15 @@ decorations, LSP integration, diff editor.
 - Windows App SDK 2.5
 - To build Oniguruma (phase 4): Visual Studio 2022+ with the C++ workload
 
+## Install
+
+```powershell
+dotnet add package LoomEditor.WinUI --prerelease
+```
+
+Packages are published to nuget.org when a `vX.Y.Z` tag is pushed (first version: `0.1.0-alpha.1`); see
+[docs/RELEASING.md](docs/RELEASING.md) and [CHANGELOG.md](CHANGELOG.md).
+
 ## Build, test, run
 
 ```powershell
