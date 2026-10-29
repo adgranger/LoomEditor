@@ -5,6 +5,7 @@ const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.
 const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.RemoveCommentLine = "editor.action.removeCommentLine" -> string!
+const LoomEditor.View.Features.CommentThreads.CommentThreadsCommands.Add = "loom.commentThreads.add" -> string!
 const LoomEditor.View.Features.CursorUndo.CursorUndoCommands.CursorRedo = "cursorRedo" -> string!
 const LoomEditor.View.Features.CursorUndo.CursorUndoCommands.CursorUndo = "cursorUndo" -> string!
 const LoomEditor.View.Features.Find.FindCommands.CloseFindWidgetCommand = "closeFindWidget" -> string!
@@ -150,6 +151,12 @@ LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.
 LoomEditor.View.Features.Comment.CommentFeature.CommentFeature() -> void
 LoomEditor.View.Features.Comment.CommentFeature.Dispose() -> void
 LoomEditor.View.Features.Comment.CommentFeature.Id.get -> string!
+LoomEditor.View.Features.CommentThreads.CommentThreadsCommands
+LoomEditor.View.Features.CommentThreads.CommentThreadsFeature
+LoomEditor.View.Features.CommentThreads.CommentThreadsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.CommentThreads.CommentThreadsFeature.CommentThreadsFeature() -> void
+LoomEditor.View.Features.CommentThreads.CommentThreadsFeature.Dispose() -> void
+LoomEditor.View.Features.CommentThreads.CommentThreadsFeature.Id.get -> string!
 LoomEditor.View.Features.CursorUndo.CursorUndoCommands
 LoomEditor.View.Features.CursorUndo.CursorUndoFeature
 LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void

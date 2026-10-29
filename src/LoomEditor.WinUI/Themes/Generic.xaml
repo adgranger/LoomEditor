@@ -23,6 +23,7 @@
                         CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid>
                             <win2d:CanvasControl x:Name="PART_Canvas" />
+                            <Canvas x:Name="PART_ZoneWidgetCanvas" />
                             <find:FindWidget
                                 x:Name="PART_FindWidget"
                                 Margin="0,0,14,0"

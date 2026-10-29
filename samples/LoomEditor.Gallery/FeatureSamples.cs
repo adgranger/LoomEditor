@@ -37,6 +37,7 @@ internal static class FeatureSamples
         };
 
         samples.AddRange(Phase10Samples.All);
+        samples.Add(CommentSamples.Sample);
 
         foreach (string id in BlockLanguages)
         {

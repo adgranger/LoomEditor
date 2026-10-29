@@ -16,6 +16,9 @@ internal enum ViewZoneKind
 
     /// <summary>The collapsed bar of hidden unchanged regions.</summary>
     Collapsed,
+
+    /// <summary>A gap covered by a host element; the renderer paints nothing.</summary>
+    Widget,
 }
 
 /// <summary>

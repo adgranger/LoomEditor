@@ -4,7 +4,7 @@ namespace LoomEditor.Architecture.Tests;
 
 /// <summary>
 /// The four UI-independent projects must stay portable (for example to an Avalonia backend on macOS and Linux):
-/// their source files do not use Windows or WinUI namespaces or APIs. See docs/roadmap/phase-11-avalonia.md.
+/// their source files do not use Windows or WinUI namespaces or APIs. See docs/roadmap/phase-12-avalonia.md.
 /// </summary>
 public partial class PlatformNeutralSourceTests
 {

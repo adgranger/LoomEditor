@@ -139,6 +139,19 @@
                     </StackPanel>
                 </Expander>
 
+                <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Comment threads">
+                    <StackPanel Spacing="6">
+                        <Button HorizontalAlignment="Stretch" Click="OnAddCommentAtCaret" Content="Add comment at caret" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAdd20Threads" Content="Add 20 threads" />
+                        <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all threads" />
+                        <Button HorizontalAlignment="Stretch" Click="OnResolveFirstThread" Content="Resolve first thread" />
+                        <ToggleSwitch x:Name="CommentGutterSwitch" Toggled="OnCommentGutterToggled" OffContent="Gutter &quot;+&quot; button" OnContent="Gutter &quot;+&quot; button" />
+                        <TextBlock x:Name="CommentZonesStatus" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                        <TextBlock Text="Log events" Style="{StaticResource CaptionTextBlockStyle}" />
+                        <TextBlock x:Name="CommentLog" MaxHeight="120" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Expander>
+
                 <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Language server">
                     <StackPanel Spacing="6">
                         <Button HorizontalAlignment="Stretch" x:Name="StartLspButton" Click="OnStartLsp" Content="Start language server" />

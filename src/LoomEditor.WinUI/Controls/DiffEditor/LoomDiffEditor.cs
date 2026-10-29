@@ -131,6 +131,7 @@ public sealed partial class LoomDiffEditor : Control
         ApplyText(_modified, ModifiedText);
         _original.Model.ContentChanged += OnOriginalContentChanged;
         _modified.Model.ContentChanged += OnModifiedContentChanged;
+        AttachCommentEvents();
         ApplyLayout();
         if (IsLoaded)
         {
@@ -147,6 +148,7 @@ public sealed partial class LoomDiffEditor : Control
     private void DetachParts()
     {
         DestroyAccessibleViewer();
+        DetachCommentEvents();
         DisconnectOverview();
         if (_sash is not null)
         {

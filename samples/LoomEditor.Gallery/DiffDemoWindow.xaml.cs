@@ -18,6 +18,7 @@ public sealed partial class DiffDemoWindow : Window
         OnResetTexts(this, new RoutedEventArgs());
         OnOptionChanged(this, new RoutedEventArgs());
         OnDiffChanged(this, EventArgs.Empty);
+        InitializeComments();
         Closed += (_, _) => DiffEditor.DiffChanged -= OnDiffChanged;
     }
 

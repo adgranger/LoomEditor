@@ -114,6 +114,7 @@ public sealed partial class LoomEditor
 
         ScrollToLine(firstLine);
         UpdateScrollBars();
+        _commentZoneHost?.OnFontChanged();
         _canvas.Invalidate();
     }
 

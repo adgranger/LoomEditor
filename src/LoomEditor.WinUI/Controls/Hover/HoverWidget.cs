@@ -1,4 +1,5 @@
 using LoomEditor.View.Hover;
+using LoomEditor.WinUI.Controls.Markdown;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -11,16 +12,16 @@ namespace LoomEditor.WinUI.Controls.Hover;
 /// <remarks>Threading: UI thread only.</remarks>
 internal sealed partial class HoverWidget : UserControl
 {
-    private static readonly FontFamily ProseFont = new("Segoe UI Variable, Segoe UI");
-
     private readonly SolidColorBrush _background = new();
     private readonly SolidColorBrush _foreground = new();
     private readonly SolidColorBrush _border = new();
     private readonly SolidColorBrush _link = new();
     private readonly StackPanel _rows = new() { Orientation = Orientation.Vertical };
+    private readonly MarkdownElementBuilder _markdown;
 
     public HoverWidget()
     {
+        _markdown = new MarkdownElementBuilder(new MarkdownTheme { Foreground = _foreground, LinkBrush = _link, QuoteBar = _border, Separator = _border });
         IsTabStop = false;
         AllowFocusOnInteraction = false;
         Visibility = Visibility.Collapsed;
@@ -90,14 +91,7 @@ internal sealed partial class HoverWidget : UserControl
         _rows.Children.Add(row);
     }
 
-    private Rectangle Separator() => new() { Height = 1, Fill = _border, Margin = new Thickness(0, 4, 0, 4) };
+    private Rectangle Separator() => _markdown.Separator();
 
-    private RichTextBlock NewText(double fontSize) => new()
-    {
-        IsTextSelectionEnabled = false,
-        TextWrapping = TextWrapping.Wrap,
-        FontFamily = ProseFont,
-        FontSize = fontSize,
-        Foreground = _foreground,
-    };
+    private RichTextBlock NewText(double fontSize) => _markdown.NewText(fontSize);
 }

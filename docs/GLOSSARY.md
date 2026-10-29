@@ -172,3 +172,11 @@ peek views (`EditorWhitespace` in `LinesLayout`). It adds to the height of the d
 **XBF** — Compiled (binary) XAML.
 **Auto whitespace** — Whitespace the editor inserted by itself (for example the indentation of a new line). If the
 user leaves the line without typing anything, the editor removes it (`trimAutoWhitespace`).
+
+**Comment thread** — A conversation attached to one line: an optional title, a list of comments and a state (open / resolved). Plain data in `LoomEditor.Core/Comments`; the host owns it and stores it (ADR 0014).
+
+**View zone (widget kind)** — A view zone of kind `Widget`: the renderer only reserves its height; a XAML element (the comment widget) is placed over it in the `PART_ZoneWidgetCanvas` layer.
+
+**Suggestion block** — A fenced code block whose info string is `suggestion` inside a comment. It replaces the thread's line; it is drawn as a red / green diff with an **Apply suggestion** button. An empty block deletes the line.
+
+**Composer** — The part of the comment widget where the user writes: Markdown toolbar, text box, Preview toggle, Cancel and Comment buttons.

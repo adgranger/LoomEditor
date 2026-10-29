@@ -955,6 +955,64 @@ Take phase 10 cards in table order (each card's "Depends on" is satisfied by the
 
 **Deferred on purpose ("Later", reasons in [phase-10/README.md](phase-10/README.md)):** unicode highlight, font tokens of themes and custom line heights, semantic highlighting, `fontVariationSettings` beyond `wght`, rich copy, touch, Intl word segmentation, IME on Windows 10, linked editing, format, signature help, references, rename, code actions, document links, workspace symbols, provider based folding, sticky scroll outline, minimap section headers, find history, color picker, CodeLens, inlay hints, inline completions, context menu / command palette / quick access, the marker navigation widget, the diff editor deferred items, accessibility help dialog, `ariaLabel` / `ariaRole`, reduced motion, UIA text edit pattern, zoom shared by the two diff editors, directional formatting characters in `renderControlCharacters`.
 
+## Phase 11 — Inline comment threads
+
+Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/README.md](phase-11/README.md). **Not a port** (Monaco has no comment widget): cards say "Sources: none" and have no Monaco header.
+
+### Step A — Logic, no UI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-01](phase-11/P11-01-comment-data-model.md) | Comment data model: `Comment`, `CommentAuthor`, `CommentThread` | P10-31 | done |
+| [P11-02](phase-11/P11-02-markdown-extended-syntax.md) | Markdown: blockquote, strikethrough and underline (opt-in) | P10-31 | done |
+| [P11-03](phase-11/P11-03-markdown-toolbar-inline.md) | Markdown toolbar (1/2): inline formats as pure text edits | P11-02 | done |
+| [P11-04](phase-11/P11-04-markdown-toolbar-blocks.md) | Markdown toolbar (2/2): heading, lists, quote, code block and suggestion | P11-03 | done |
+| [P11-05](phase-11/P11-05-strings-relative-time-initials.md) | `CommentStrings`, relative time and avatar initials | P11-03 | done |
+| [P11-06](phase-11/P11-06-suggestion-extract-and-edit.md) | Suggestion blocks (1/2): extraction and the model edit | P11-02 | done |
+| [P11-07](phase-11/P11-07-suggestion-diff.md) | Suggestion blocks (2/2): the red / green diff rows | P11-05, P11-06 | done |
+| [P11-08](phase-11/P11-08-thread-view-model.md) | Thread view model: draft, preview, submit, cancel and Escape | P11-01, P11-05 | done |
+
+### Step B — Threads in the editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-09](phase-11/P11-09-thread-manager-and-widget-zone.md) | Threads in an editor: the `Widget` zone kind and `CommentThreadManager` | P11-01 | done |
+| [P11-10](phase-11/P11-10-comment-threads-controller.md) | `CommentThreadsController` (View), the apply-suggestion path and the `CommentThreads` feature | P11-06, P11-08, P11-09 | done |
+| [P11-11](phase-11/P11-11-control-public-api.md) | The public API of `LoomEditor`: `AddCommentThread`, `RemoveCommentThread` and the four events | P11-10 | done |
+
+### Step C — The widget
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-12](phase-11/P11-12-zone-widget-layer.md) | The zone-widget layer: a WinUI element over each `Widget` zone, positioned in the draw pass (**Opus**) | P11-11 | done |
+| [P11-13](phase-11/P11-13-widget-height-follows-content.md) | The zone height follows the widget's content (**Opus**) | P11-12 | done |
+| [P11-14](phase-11/P11-14-focus-and-key-routing.md) | Focus and keys between the editor and the widget's text box (**Opus**) | P11-13 | done |
+| [P11-15](phase-11/P11-15-shared-markdown-element-builder.md) | Share the Markdown → XAML builder between the hover and the comment widget | P11-02, P11-14 | done |
+| [P11-16](phase-11/P11-16-widget-read-mode.md) | The widget (1/4): header, comments and the collapsed "Resolved" state | P11-05, P11-15 | done |
+| [P11-17](phase-11/P11-17-widget-composer.md) | The widget (2/4): the composer — text box, Preview, Cancel / Comment, Reply | P11-16 | done |
+| [P11-18](phase-11/P11-18-composer-toolbar.md) | The widget (3/4): the Markdown toolbar of the composer and its shortcuts | P11-17 | done |
+| [P11-19](phase-11/P11-19-widget-suggestion-block.md) | The widget (4/4): the "Suggested change" block and **Apply suggestion** | P11-18 | done |
+| [P11-20](phase-11/P11-20-widget-accessibility.md) | Accessibility of the comment widget: UIA names, announcements, high contrast | P11-19 | done |
+| [P11-21](phase-11/P11-21-gutter-add-comment-button.md) | The "+" button in the gutter and the add-comment request | P11-20 | done |
+
+### Step D — Diff editor
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-22](phase-11/P11-22-diff-editor-comment-threads.md) | Comment threads in the diff editor (original and modified side) | P11-21 | done |
+
+### Step E — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P11-23](phase-11/P11-23-gallery-demo-and-manual-plan.md) | Gallery: the comment threads demo and the manual test plan | P11-22 | done |
+| [P11-24](phase-11/P11-24-native-aot-self-check.md) | Native AOT self-check of the phase 11 logic | P11-23 | done |
+| [P11-25](phase-11/P11-25-close-phase-11.md) | Close phase 11 | all phase 11 cards | done |
+
+Take phase 11 cards in table order (each card's "Depends on" is satisfied by the cards above it). P11-12, P11-13 and P11-14 are flagged **Recommended model: Opus**; the others are written for Sonnet. A card that does not fit in one session stops with a proposed split. The WinUI cards (P11-12 … P11-22) are verified by the build, the tests and a written manual section; agents do not run the Gallery UI.
+
+**Deferred on purpose (reasons in [phase-11/README.md](phase-11/README.md)):** multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence, a WinUI test project.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:

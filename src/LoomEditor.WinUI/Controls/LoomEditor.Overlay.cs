@@ -36,5 +36,7 @@ public sealed partial class LoomEditor
     {
         _hoverPresenter?.ApplyTheme(theme);
         _suggestPresenter?.ApplyTheme(theme);
+        _commentZoneHost?.ApplyTheme(theme, _systemHighContrastTheme is not null);
+        _commentGutter?.ApplyTheme(theme);
     }
 }

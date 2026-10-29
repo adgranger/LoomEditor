@@ -713,6 +713,16 @@ No phase 7 test is ported: there is no upstream test for UI Automation, and ever
 | The legacy diff computer and algorithm selection, `serializeState`, accessibility sounds, mapping the old diff through edits, `setModel`, breadcrumbs of unchanged regions | **not delivered in phase 9** (ADR 0012 decisions 4, 5, 9) |
 | The accessible view of the diff editor (cut point of phase 7, ADR 0010) | done in phase 9 (P9-29, P9-30) |
 
+## Phase 11 (not a port)
+
+Inline comment threads have **no Monaco source** (VS Code's Comments API lives in the workbench), so there are no rows in the Monaco → LoomEditor map and no ported tests. New folders: `src/LoomEditor.Core/Comments/`, `src/LoomEditor.View/Comments/`,
+`src/LoomEditor.View/Features/CommentThreads/`, `src/LoomEditor.WinUI/Controls/Comments/`, `src/LoomEditor.WinUI/Controls/Markdown/` (the builder moved out of `HoverWidget`), the extended mode of `src/LoomEditor.View/Markdown/`, `docs/testing/phase-11-manual-tests.md`.
+Reused Monaco concepts: the view zone (`Widget` kind added) and the content widget. Deliberate differences: none to document (nothing to differ from).
+
+- **Tests**: 16 test files with 206 `[Fact]` / `[Theory]` methods (counted by attribute: a theory counts once) cover phase 11: `tests/LoomEditor.Core.Tests/Comments`, `tests/LoomEditor.View.Tests/Comments`, `Features/CommentThreads`, `Markdown/MarkdownExtendedTests`, `DiffEditor/AdditionalLineHeightsCommentZoneTests`.
+  The solution has 7,345 tests on 2026-10-29 (7,343 passed, 2 skipped on purpose, 0 failed), against 7,103 at the end of phase 10.
+- **Not verified**: the WinUI widget (no test project; the manual plan was not run); the Native AOT self-check of the logic passes (11 of 11, P11-24).
+
 ## Done in phase 10 (editor completeness)
 
 Every file ported in phase 10 has a row in the map above (search the card ids `P10-03` to `P10-28`), and every deliberate difference a row in "Behavior differences we accept" (fonts, zoom, whitespace and control characters, overtype,

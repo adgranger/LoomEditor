@@ -334,6 +334,27 @@ formatting and the other provider based features), the choice list and snippet t
 [roadmap](roadmap/phase-10-editor-completeness.md)). **Not verified**: the manual plan has not been run.
 How to use it: [how-to/use-snippets.md](how-to/use-snippets.md), [how-to/font-and-whitespace-options.md](how-to/font-and-whitespace-options.md).
 
+## Inline comment threads (phase 11)
+
+Decisions in [ADR 0014](adr/0014-inline-comments.md). Not a port: Monaco has no comment widget in `src/vs/editor`. It reuses the **view zone** and the **content widget** ideas.
+
+```
+Core:   LoomEditor.Core/Comments (Comment, CommentAuthor, CommentThread, CommentThreadState; plain data, Changed event)
+View:   LoomEditor.View/Comments (CommentThreadManager: one decoration per thread + a `Widget` view zone; CommentThreadViewModel: draft, preview, submit / cancel;
+        CommentThreadsController: apply suggestion as one undo step, events; SuggestionExtractor / SuggestionDiff / SuggestionEdit; MarkdownToolbar*; CommentStrings)
+        + Features/CommentThreads (command `loom.commentThreads.add`, no default key)
+WinUI:  Controls/Comments: CommentZoneHost puts one CommentThreadWidget over each zone in the canvas PART_ZoneWidgetCanvas (positioned in the draw pass, height measured
+        back into the zone), CommentGutterController draws the "+" button; Controls/Markdown: MarkdownElementBuilder (shared with the hover) draws the Markdown
+```
+
+- The zone has kind `Widget`: the renderer reserves the height, the control draws nothing in it; the XAML element sits in the overlay layer.
+- **Key routing**: while a child of the widget has the focus, `HasFocus` is false, so the editor runs no keybinding, inserts no character and the caret stops blinking. Pointer events from the layer are ignored (`IsFromOverlay`).
+- **Diff editor**: `LoomDiffEditor.AddCommentThread(DiffSide, line, …)`; a comment zone counts in the alignment, so the other side gets the same blank height. The inline view does not show original-side threads.
+- Threads follow their line through edits (decorations); the host stores them (no persistence).
+- **Not delivered**: the list of ADR 0014 (multi-line ranges, reactions, edit / delete UI, mentions, attachments, avatar images, localization, "commit suggestion", a comments panel, opening links).
+- **Not verified**: the manual plan has not been run (no WinUI test project); Narrator / NVDA, IME in the widget, high contrast. The Native AOT self-check of the logic passes (11 of 11, P11-24, 2026-10-29, [roadmap](roadmap/phase-11-inline-comments.md)); it does not reach the WinUI widget.
+How to use it: [how-to/use-comment-threads.md](how-to/use-comment-threads.md).
+
 ## Where do I find…?
 
 | I want to… | Go to |
@@ -415,3 +436,6 @@ How to use it: [how-to/use-snippets.md](how-to/use-snippets.md), [how-to/font-an
 | change drag and drop of the selection | `src/LoomEditor.View/Features/DragAndDrop/`, the drag state in `src/LoomEditor.View/Controller/` |
 | run the text self-check (Native AOT) | `samples/LoomEditor.Gallery/TextSelfCheck.cs` (`--text-selfcheck=<file>`), [testing/phase-10-manual-tests.md](testing/phase-10-manual-tests.md) |
 | change the input mode (overtype) or the cursor style | `EditorContext.InputMode`, `src/LoomEditor.View/Cursors/`, caret drawing in `src/LoomEditor.Rendering/` |
+| change the comment thread data or the thread / suggestion logic | `src/LoomEditor.Core/Comments/`, `src/LoomEditor.View/Comments/` |
+| change the comment widget, its zone host or the gutter "+" button | `src/LoomEditor.WinUI/Controls/Comments/` |
+| change the Markdown → XAML drawing (hover and comments) | `src/LoomEditor.WinUI/Controls/Markdown/` |

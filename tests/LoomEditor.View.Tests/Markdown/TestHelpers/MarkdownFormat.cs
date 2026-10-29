@@ -26,7 +26,7 @@ internal static class MarkdownFormat
     public static string Format(MarkdownInline i) =>
         i.IsLineBreak
             ? "<br>"
-            : $"{{{(i.Bold ? "b" : "")}{(i.Italic ? "i" : "")}{(i.Code ? "c" : "")}{(i.LinkUrl is null ? "" : "@" + i.LinkUrl)}:{i.Text}}}";
+            : $"{{{(i.Bold ? "b" : "")}{(i.Italic ? "i" : "")}{(i.Code ? "c" : "")}{(i.Strikethrough ? "s" : "")}{(i.Underline ? "u" : "")}{(i.LinkUrl is null ? "" : "@" + i.LinkUrl)}:{i.Text}}}";
 
     public static string Format(MarkdownDocument doc) => string.Join("\n", doc.Blocks.Select(Format));
 
@@ -37,6 +37,7 @@ internal static class MarkdownFormat
         MarkdownCodeBlock c => $"CODE({c.Language ?? "null"})<{c.Code}>",
         MarkdownList l => $"{(l.Ordered ? "OL" : "UL")}[{string.Join(" | ", l.Items.Select(Format))}]",
         MarkdownRule => "HR",
+        MarkdownQuote q => $"Q[{string.Join(" / ", q.Blocks.Select(Format))}]",
         _ => throw new ArgumentOutOfRangeException(nameof(block)),
     };
 }

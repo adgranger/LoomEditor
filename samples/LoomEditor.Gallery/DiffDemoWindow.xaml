@@ -16,6 +16,7 @@
                 <CheckBox x:Name="OriginalEditableBox" Click="OnOptionChanged" Content="Original editable" />
                 <CheckBox x:Name="ReadOnlyBox" Click="OnOptionChanged" Content="Read-only modified" />
                 <CheckBox x:Name="OverviewRulerBox" IsChecked="True" Click="OnOptionChanged" Content="Overview ruler" />
+                <CheckBox x:Name="CommentGutterBox" Click="OnCommentGutterChanged" Content="Gutter &quot;+&quot; button" />
             </StackPanel>
         </ScrollViewer>
 
@@ -29,6 +30,10 @@
                 <Button Click="OnSwapSides" Content="Swap sides" />
                 <Button Click="OnResetTexts" Content="Reset texts" />
                 <Button Click="OnLargeFiles" Content="Large files" />
+                <Button Click="OnLoadCommentSample" Content="Comment sample" />
+                <Button Click="OnAddOnOriginal" Content="Add on original" />
+                <Button Click="OnAddOnModified" Content="Add on modified" />
+                <TextBlock x:Name="CommentLogText" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
             </StackPanel>
         </ScrollViewer>
 
