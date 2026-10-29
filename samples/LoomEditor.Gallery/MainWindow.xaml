@@ -147,6 +147,8 @@
                         <Button HorizontalAlignment="Stretch" Click="OnAdd200Threads" Content="Add 200 threads" />
                         <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all" />
                         <Button HorizontalAlignment="Stretch" Click="OnStartComposingOnLine5" Content="Start composing on line 5" />
+                        <ToggleSwitch x:Name="CommentGutterSwitch" Toggled="OnCommentGutterToggled" OffContent="Gutter + button" OnContent="Gutter + button" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddCommentAtCaret" Content="Add comment at caret" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddReviewThreads" Content="Add review threads (lines 3, 12, 25, 33)" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddSuggestionThread" Content="Add suggestions on the caret line" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddCommentToFirstThread" Content="Add a comment to the first thread" />

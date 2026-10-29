@@ -97,6 +97,8 @@ LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.C
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.WinUI.Controls.LoomEditor.CommentCancelled -> System.EventHandler<LoomEditor.WinUI.Controls.CommentThreadEventArgs!>?
+LoomEditor.WinUI.Controls.LoomEditor.CommentGutterButtonEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.CommentGutterButtonEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.CommentSubmitted -> System.EventHandler<LoomEditor.WinUI.Controls.CommentSubmittedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
 LoomEditor.WinUI.Controls.LoomEditor.CursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
@@ -202,6 +204,7 @@ static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySidePropert
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupportProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.CommentGutterButtonEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.CursorStyleProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.DragAndDropProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.FontFeatureSettingsProperty -> Microsoft.UI.Xaml.DependencyProperty!

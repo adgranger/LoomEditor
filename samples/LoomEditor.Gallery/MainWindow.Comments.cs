@@ -1,4 +1,5 @@
 using LoomEditor.Core.Comments;
+using LoomEditor.View.Features.CommentThreads;
 using Microsoft.UI.Xaml;
 
 namespace LoomEditor.Gallery;
@@ -16,10 +17,17 @@ public sealed partial class MainWindow
             _commentsSubmitted++;
             e.Thread.AddComment(Comment.Create(SampleAuthor, e.Text));
         };
+        // The editor never adds a thread by itself: the gutter "+" and the command only ask.
+        Editor.AddCommentRequested += (_, e) => Editor.AddCommentThread(e.LineNumber, startComposing: true);
         var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
         timer.Tick += (_, _) => CommentZonesStatus.Text = $"{Editor.CommentZonesDiagnostics} · CommentSubmitted {_commentsSubmitted}";
         timer.Start();
     }
+
+    private void OnCommentGutterToggled(object sender, RoutedEventArgs e) => Editor.CommentGutterButtonEnabled = CommentGutterSwitch.IsOn;
+
+    // The command loom.commentThreads.add, as a keyboard binding would run it.
+    private void OnAddCommentAtCaret(object sender, RoutedEventArgs e) => Editor.Commands.Execute(CommentThreadsCommands.Add);
 
     private void OnStartComposingOnLine5(object sender, RoutedEventArgs e)
     {

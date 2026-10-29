@@ -278,6 +278,7 @@ public sealed partial class LoomEditor : Control
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!, _bitmapCache);
         _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
         _commentZoneHost?.Arrange();
+        _commentGutter?.Arrange();
         ApplyPendingHorizontalReveal();
     }
 

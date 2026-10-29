@@ -172,6 +172,22 @@ Narrator and Accessibility Insights for Windows (also NVDA if installed). Use **
 | 7 | `Tab` order = visual order (header button of a resolved thread, Reply, toolbar, text box, Preview, Cancel, Comment, Apply) | pending |
 | 8 | The editor's UIA text pattern is unchanged: the Gallery's **UIA self-check** button (phase 7) still passes with comment threads present | pending |
 
+## P11-21 — The gutter "+" button
+
+The Gallery answers `AddCommentRequested` with `AddCommentThread(line, startComposing: true)`. The **Gutter + button** switch sets
+`CommentGutterButtonEnabled`.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Switch off: nothing appears over the line numbers. On: hovering the line numbers shows **+** on the hovered line only | pending |
+| 2 | Moving the pointer down the gutter moves the button line by line without flicker | pending |
+| 3 | Wheel scrolling with the pointer still in the gutter: the button follows the line under the pointer | pending |
+| 4 | Clicking **+** opens a composer on that line; the caret and the selection did not move | pending |
+| 5 | A line that already has a thread shows no button | pending |
+| 6 | Word wrap on: on a wrapped line the button sits at the line's first row, whichever row is hovered | pending |
+| 7 | Leaving the gutter to the text hides the button; moving from the gutter onto the button keeps it | pending |
+| 8 | **Add comment at caret** (the command `loom.commentThreads.add`) opens a composer on the caret line | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

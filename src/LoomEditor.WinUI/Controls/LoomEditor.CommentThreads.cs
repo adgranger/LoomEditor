@@ -11,12 +11,27 @@ namespace LoomEditor.WinUI.Controls;
 /// <remarks>Threading: UI thread only (not checked).</remarks>
 public sealed partial class LoomEditor
 {
+    /// <summary>Identifies the <see cref="CommentGutterButtonEnabled"/> dependency property.</summary>
+    public static readonly DependencyProperty CommentGutterButtonEnabledProperty = DependencyProperty.Register(
+        nameof(CommentGutterButtonEnabled), typeof(bool), typeof(LoomEditor), new PropertyMetadata(false, OnCommentGutterButtonEnabledChanged));
+
     private CommentThreadsController _commentThreads = null!;
     private CommentZoneHost? _commentZoneHost;
+    private CommentGutterController? _commentGutter;
     private Canvas? _zoneWidgetCanvas;
 
     /// <summary>The zone-widget layer status line, for the Gallery's manual test.</summary>
     internal string CommentZonesDiagnostics => _commentZoneHost?.Diagnostics ?? "no zone-widget layer";
+
+    /// <summary>
+    /// Whether hovering the line numbers shows a "+" button that raises <see cref="AddCommentRequested"/> for that line. Defaults to
+    /// <see langword="false"/>. Needs the template part <c>PART_ZoneWidgetCanvas</c>.
+    /// </summary>
+    public bool CommentGutterButtonEnabled
+    {
+        get => (bool)GetValue(CommentGutterButtonEnabledProperty);
+        set => SetValue(CommentGutterButtonEnabledProperty, value);
+    }
 
     /// <summary>The comment threads of this editor, in creation order.</summary>
     public IReadOnlyList<CommentThread> CommentThreads => _commentThreads.Threads;
@@ -63,6 +78,8 @@ public sealed partial class LoomEditor
     {
         _commentZoneHost?.Dispose();
         _commentZoneHost = null;
+        _commentGutter?.Dispose();
+        _commentGutter = null;
         if (_zoneWidgetCanvas is not null)
         {
             _zoneWidgetCanvas.SizeChanged -= OnZoneWidgetCanvasSizeChanged;
@@ -75,8 +92,19 @@ public sealed partial class LoomEditor
         }
 
         canvas.SizeChanged += OnZoneWidgetCanvasSizeChanged;
-        _commentZoneHost = new CommentZoneHost(this, new OverlayHost(canvas), _commentThreads);
+        var layer = new OverlayHost(canvas);
+        _commentZoneHost = new CommentZoneHost(this, layer, _commentThreads);
         _commentZoneHost.ApplyTheme(EffectiveTheme, _systemHighContrastTheme is not null);
+        _commentGutter = new CommentGutterController(this, layer, _commentThreads, CreateMouseTarget) { Enabled = CommentGutterButtonEnabled };
+        _commentGutter.ApplyTheme(EffectiveTheme);
+    }
+
+    private static void OnCommentGutterButtonEnabledChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (((LoomEditor)sender)._commentGutter is { } gutter)
+        {
+            gutter.Enabled = (bool)e.NewValue;
+        }
     }
 
     // A Canvas does not clip its children: without this a box scrolled half out would draw outside the editor.

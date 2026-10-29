@@ -1,6 +1,6 @@
 # P11-21 — The "+" button in the gutter and the add-comment request
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-20
 - **Size:** M
 
@@ -35,16 +35,32 @@ Sources: none (specified in this card; ADR 0014 decision 2). Read first: `LoomEd
 
 ## Tests
 
-- [ ] Automated: if the line-from-position computation is extracted as a pure helper in View (`GutterHitTest.TryGetLine(double x, double y, …)`), tests for it: `InGutter_ReturnsModelLine`, `InContent_ReturnsNone`, `PastLastLine_ReturnsNone`, `WrappedLine_ReturnsFirstRowLine`. The element code is manual.
-- [ ] Manual (section "P11-21"): (1) property off: nothing appears; on: hovering the line numbers shows **+** on the hovered line only; (2) moving the pointer down the gutter moves the button without flicker; (3) scrolling with the wheel while hovering keeps the button on the right line; (4) clicking raises the event (Gallery: opens a composer on that line); the caret did not move; (5) a line that already has a thread shows no button; (6) word wrap on: the button is at the first row of a wrapped line; (7) leaving the gutter to the text hides the button; (8) the command (Gallery button "Add comment at caret") works from the keyboard.
+- [x] Automated: if the line-from-position computation is extracted as a pure helper in View (`GutterHitTest.TryGetLine(double x, double y, …)`), tests for it: `InGutter_ReturnsModelLine`, `InContent_ReturnsNone`, `PastLastLine_ReturnsNone`, `WrappedLine_ReturnsFirstRowLine`. The element code is manual.
+- [x] Manual (section "P11-21"): (1) property off: nothing appears; on: hovering the line numbers shows **+** on the hovered line only; (2) moving the pointer down the gutter moves the button without flicker; (3) scrolling with the wheel while hovering keeps the button on the right line; (4) clicking raises the event (Gallery: opens a composer on that line); the caret did not move; (5) a line that already has a thread shows no button; (6) word wrap on: the button is at the first row of a wrapped line; (7) leaving the gutter to the text hides the button; (8) the command (Gallery button "Add comment at caret") works from the keyboard.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` lists `CommentGutterButtonEnabled` and its dependency property field
-- [ ] The manual section is written; the card result says it was not run by the agent
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` lists `CommentGutterButtonEnabled` and its dependency property field
+- [x] The manual section is written; the card result says it was not run by the agent
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `CommentGutterButton` (a `Button`, 22 × 22, "+", not a tab stop, automation name `CommentStrings.AddCommentOnLine`, which already existed)
+  and `CommentGutterController` live in the zone-widget layer (the same `OverlayHost` as `CommentZoneHost`, so `IsFromOverlay` covers the button).
+- The line comes from the `MouseTarget` that `OnPointerMoved` already computes for `EmitMouseMove` (no second hit test, no extra allocation per
+  move): gutter target types, not `IsAfterLines`, model line of `Position` (a wrapped line's rows all map to it, so the button sits at its first
+  row through `GetTopForLineNumber`). The thread lookup runs only when the hovered line changes. No pure helper was extracted, so no new tests.
+- Scrolling under a still pointer: `CommentGutterController.Arrange()` runs after each draw (next to `CommentZoneHost.Arrange`) and hit-tests
+  the last pointer position again while the pointer is over the gutter.
+- Hidden on: property off, no template part, thread on the line, drag selection (the drag branch of `OnPointerMoved`), pointer leaving both
+  the gutter and the button (`PointerEntered` / `PointerExited` of the button, `OnPointerExited` of the editor).
+- Theme: `button.background` / `button.foreground` when the theme has both, else the application's `AccentButtonStyle`.
+- Gallery: **Gutter + button** switch, **Add comment at caret** (runs the command), and the `AddCommentRequested` handler.
+- `PublicAPI.Unshipped.txt`: the property and its dependency property field.
+- The manual section "P11-21" is written; the agent did **not** run it.
 
 ## Out of scope
 
