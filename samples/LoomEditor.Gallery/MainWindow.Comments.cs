@@ -70,6 +70,20 @@ public sealed partial class MainWindow
         ```
         """;
 
+    // P11-19: type `int max = 10;` on a line first. One-line, empty (deletes the line) and two-line suggestions.
+    private void OnAddSuggestionThread(object sender, RoutedEventArgs e)
+    {
+        CommentThread thread = Editor.AddCommentThread(Editor.Selections[0].PositionLineNumber, "Suggestions");
+        var grace = new CommentAuthor("Grace Hopper");
+        thread.AddComment(Comment.Create(grace, SuggestionMarkdown("const int Max = 10;", "Use a constant:")));
+        thread.AddComment(Comment.Create(grace, SuggestionMarkdown("", "Or delete the line:")));
+        thread.AddComment(Comment.Create(grace, SuggestionMarkdown("// The largest count.\nconst int Max = 10;", "Or document it:")));
+    }
+
+    // An empty code makes an empty block (no line between the fences): the suggestion deletes the line.
+    private static string SuggestionMarkdown(string code, string intro) =>
+        code.Length == 0 ? $"{intro}\n\n```suggestion\n```" : $"{intro}\n\n```suggestion\n{code}\n```";
+
     private void OnAddThreadAtCaret(object sender, RoutedEventArgs e) => Editor.AddCommentThread(Editor.Selections[0].PositionLineNumber);
 
     private void OnAddThreeThreads(object sender, RoutedEventArgs e)

@@ -49,7 +49,8 @@ internal sealed partial class CommentThreadWidget
         if (comment.Body.Length > 0)
         {
             var body = new StackPanel();
-            foreach (UIElement row in _markdown.Build(MarkdownParser.Parse(comment.Body, MarkdownParserOptions.Extended), _fontSize, _codeFont))
+            MarkdownDocument document = MarkdownParser.Parse(comment.Body, MarkdownParserOptions.Extended);
+            foreach (UIElement row in _markdown.Build(document, _fontSize, _codeFont, SuggestionOptions(document, comment.Id)))
             {
                 if (row is RichTextBlock text)
                 {

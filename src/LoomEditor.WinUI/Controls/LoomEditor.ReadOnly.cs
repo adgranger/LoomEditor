@@ -29,6 +29,7 @@ public sealed partial class LoomEditor
         editor._context.IsReadOnly = readOnly;
         editor._cursorBlinking.Update(editor.HasFocus, readOnly);
         editor._findWidget?.OnReadOnlyChanged();
+        editor._commentZoneHost?.OnReadOnlyChanged();
         if (readOnly && editor.IsComposing && editor.HasFocus)
         {
             // Leaving and re-entering the focus makes the text services end the composition.

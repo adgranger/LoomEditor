@@ -139,6 +139,23 @@ Expected texts come from the P11-03 / P11-04 unit tests (`MarkdownToolbarInlineT
 | 27 | The toolbar is disabled while **Preview** is on | pending |
 | 28 | With Narrator, each button reads its name (`Heading`, `Bold`, …) and the tooltip shows it | pending |
 
+## P11-19 — The widget (4/4): the suggestion block
+
+On a line of the sample, type `int max = 10;` (replace its text), keep the caret there and click **Add suggestions on the caret line**: a thread with
+three comments — `Use a constant:` + a `suggestion` block `const int Max = 10;`; an empty suggestion; a two-line suggestion.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | The first comment shows a "Suggested change" block with one red `-` row `int max = 10;` and one green `+` row `const int Max = 10;` | pending |
+| 2 | **Apply suggestion** replaces the line; `Ctrl+Z` in the editor restores it; after the apply (before the undo) the block reads "No changes" with no button | pending |
+| 3 | The empty suggestion shows the removed row only; Apply deletes the line | pending |
+| 4 | The two-line suggestion adds a line (`// The largest count.` above `const int Max = 10;`) | pending |
+| 5 | Edit the commented line by hand: the blocks redraw against the new text while typing | pending |
+| 6 | Gallery **Read-only** on: the Apply buttons are disabled (their tooltip says the editor is read-only, when WinUI shows tooltips of disabled buttons); off: enabled again | pending |
+| 7 | Start composing, type a `suggestion` block, toggle **Preview**: the block is drawn without a button | pending |
+| 8 | High contrast: the `-` / `+` markers are readable (the soft red / green backgrounds come from the fallback colors) | pending |
+| 9 | A very long suggested line scrolls horizontally inside the block, it does not wrap | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

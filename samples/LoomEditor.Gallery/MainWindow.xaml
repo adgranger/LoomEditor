@@ -148,6 +148,7 @@
                         <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all" />
                         <Button HorizontalAlignment="Stretch" Click="OnStartComposingOnLine5" Content="Start composing on line 5" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddReviewThreads" Content="Add review threads (lines 3, 12, 25, 33)" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddSuggestionThread" Content="Add suggestions on the caret line" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddCommentToFirstThread" Content="Add a comment to the first thread" />
                         <Button HorizontalAlignment="Stretch" Click="OnToggleLongTitle" Content="Toggle a long title" />
                         <TextBlock x:Name="CommentZonesStatus" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />

@@ -1,6 +1,6 @@
 # P11-19 — The widget (4/4): the "Suggested change" block and **Apply suggestion**
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-18
 - **Size:** M
 
@@ -34,15 +34,30 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `Sugges
 
 ## Tests
 
-- [ ] Automated: none new (the apply results are tested in P11-10, the rows in P11-07).
-- [ ] Manual (section "P11-19"; sample: a comment whose body is the text `Use a constant:` followed by a fenced block with the info string `suggestion` containing `const int Max = 10;`, on the line `int max = 10;`): (1) a "Suggested change" block with one red `-` row and one green `+` row; (2) **Apply suggestion** replaces the line, `Ctrl+Z` in the editor restores it, the block then reads "No changes"; (3) an **empty** suggestion shows the removed row only and deletes the line; (4) a two-line suggestion adds a line; (5) edit the commented line by hand: the block redraws against the new text; (6) a read-only editor: the button is disabled with its tooltip; (7) in Preview the block is drawn without a button; (8) in high contrast the `-` / `+` markers are still readable; (9) a very long line scrolls inside the block.
+- [x] Automated: none new (the apply results are tested in P11-10, the rows in P11-07).
+- [x] Manual (section "P11-19"; sample: a comment whose body is the text `Use a constant:` followed by a fenced block with the info string `suggestion` containing `const int Max = 10;`, on the line `int max = 10;`): (1) a "Suggested change" block with one red `-` row and one green `+` row; (2) **Apply suggestion** replaces the line, `Ctrl+Z` in the editor restores it, the block then reads "No changes"; (3) an **empty** suggestion shows the removed row only and deletes the line; (4) a two-line suggestion adds a line; (5) edit the commented line by hand: the block redraws against the new text; (6) a read-only editor: the button is disabled with its tooltip; (7) in Preview the block is drawn without a button; (8) in high contrast the `-` / `+` markers are still readable; (9) a very long line scrolls inside the block.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written; the card result says it was not run by the agent
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written; the card result says it was not run by the agent
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `SuggestionBlockView` is a `UserControl` (WinUI's `Border` is sealed) whose content is the bordered block; its constructor takes, besides the
+  card's `(diff, canApply, apply)`, a `SuggestionBlockTheme` (brushes, code font and size) and the Apply tooltip. `RenderedLineText` keeps the line
+  text of the diff.
+- Index: `MarkdownElementBuilder` calls the hook for code blocks inside a quote too, so `CommentThreadWidget.Suggestions.cs` counts the document's
+  top-level suggestion blocks and finds the block by reference; a nested block keeps the default drawing (as `SuggestionExtractor` skips it).
+- The host gives each widget `ApplySuggestion` (→ `controller.ApplySuggestion`) and `IsEditorReadOnly` (→ `LoomEditor.IsReadOnly`), forwards
+  `Manager.ThreadLineTextChanged` (one rebuild per dispatcher tick) and the read-only change (`LoomEditor.ReadOnly.cs` calls
+  `CommentZoneHost.OnReadOnlyChanged`). A failed Apply keeps its reason as the button's tooltip until the line changes.
+- Colors: `diffEditor.removedLineBackground` / `insertedLineBackground`, fallback `#33FF0000` / `#3300AA00` (the high-contrast defaults have none).
+- A disabled WinUI button may not show its tooltip on hover: the read-only tooltip is set, the manual check says so.
+- Gallery: **Add suggestions on the caret line** (one-line, empty and two-line suggestions).
+- The manual section "P11-19" is written; the agent did **not** run it.
 
 ## Out of scope
 

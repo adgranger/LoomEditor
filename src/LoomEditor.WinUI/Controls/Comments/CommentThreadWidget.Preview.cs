@@ -42,7 +42,9 @@ internal sealed partial class CommentThreadWidget
             return;
         }
 
-        foreach (UIElement row in _markdown.Build(MarkdownParser.Parse(_viewModel.Draft, MarkdownParserOptions.Extended), _fontSize, _codeFont))
+        // In the Preview a suggestion block has no Apply button (no comment id).
+        MarkdownDocument document = MarkdownParser.Parse(_viewModel.Draft, MarkdownParserOptions.Extended);
+        foreach (UIElement row in _markdown.Build(document, _fontSize, _codeFont, SuggestionOptions(document, commentId: null)))
         {
             _preview.Children.Add(row);
         }

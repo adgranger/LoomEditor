@@ -42,6 +42,7 @@ internal sealed partial class CommentZoneHost : IDisposable
         }
 
         controller.ThreadAdded += OnThreadAdded;
+        controller.Manager.ThreadLineTextChanged += OnThreadLineTextChanged;
         controller.ThreadRemoving += OnThreadRemoving;
     }
 
@@ -114,6 +115,7 @@ internal sealed partial class CommentZoneHost : IDisposable
         _disposed = true;
         _controller.ThreadAdded -= OnThreadAdded;
         _controller.ThreadRemoving -= OnThreadRemoving;
+        _controller.Manager.ThreadLineTextChanged -= OnThreadLineTextChanged;
         foreach (CommentThreadWidget widget in _widgets.Values)
         {
             Unsubscribe(widget);
@@ -150,6 +152,23 @@ internal sealed partial class CommentZoneHost : IDisposable
         _editor.RevealRange(new Core.Text.Range(line, 1, line, 1));
     }
 
+    /// <summary>The editor's read-only state changed: redraw the Apply buttons.</summary>
+    public void OnReadOnlyChanged()
+    {
+        foreach (CommentThreadWidget widget in _widgets.Values)
+        {
+            widget.Refresh();
+        }
+    }
+
+    private void OnThreadLineTextChanged(object? sender, CommentThread thread)
+    {
+        if (_zoneIds.TryGetValue(thread, out string? id) && _widgets.TryGetValue(id, out CommentThreadWidget? widget))
+        {
+            widget.OnLineTextChanged();
+        }
+    }
+
     private void OnThreadRemoving(object? sender, CommentThread thread)
     {
         if (_zoneIds.Remove(thread, out string? id) && _widgets.Remove(id, out CommentThreadWidget? widget))
@@ -175,6 +194,8 @@ internal sealed partial class CommentZoneHost : IDisposable
         }
 
         var widget = new CommentThreadWidget(_controller.GetViewModel(thread)) { Visibility = Visibility.Collapsed };
+        widget.ApplySuggestion = (commentId, index, lineText) => _controller.ApplySuggestion(thread, commentId, index, lineText);
+        widget.IsEditorReadOnly = () => _editor.IsReadOnly;
         widget.ApplyFont(_editor.FontSize, _editor.FontFamily);
         if (_theme is not null)
         {
