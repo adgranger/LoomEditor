@@ -1,6 +1,6 @@
 # P12-22 — The box tells screen readers the commented text; the gutter "+" requests the selected text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-21
 - **Size:** S
 
@@ -56,16 +56,16 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] None automated (no WinUI test project; `CommentRange` is tested by P12-17, `CommentedText` by P12-20).
-- [ ] Manual: section "P12-22" written (not run by the agent).
+- [x] None automated (no WinUI test project; `CommentRange` is tested by P12-17, `CommentedText` by P12-20).
+- [x] Manual: section "P12-22" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `grep -rn CommentLineRange src` finds only `src/LoomEditor.View/Comments/CommentLineRange.cs`
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `grep -rn CommentLineRange src` finds only `src/LoomEditor.View/Comments/CommentLineRange.cs`
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -74,3 +74,8 @@ A quote of the commented text drawn in the box, columns in the title or the auto
 ## Suggested commit message
 
 `feat(winui): describe the commented text and let the gutter button request it`
+
+## Result
+
+- Manual section "P12-22" written in `docs/testing/phase-12-manual-tests.md`; **not run** (no WinUI test project, the Gallery buttons come with P12-23).
+- `CommentLineRange` is now only referenced by its own file in `src` (the Gallery still uses it until P12-23).

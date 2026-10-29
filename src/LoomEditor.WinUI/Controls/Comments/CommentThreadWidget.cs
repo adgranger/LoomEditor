@@ -102,5 +102,10 @@ internal sealed partial class CommentThreadWidget : UserControl
         }
 
         UpdateComposer();
+        UpdateCommentedText();
     }
+
+    // The exact text of an exact-text thread, for UI Automation; the name and the title stay the same (README decision 20).
+    private void UpdateCommentedText() =>
+        AutomationProperties.SetHelpText(this, _viewModel.CommentedText is { Length: > 0 } text ? CommentStrings.CommentedText(text) : string.Empty);
 }

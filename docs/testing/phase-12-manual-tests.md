@@ -85,6 +85,21 @@ Controls for this section are added by P12-23 (Gallery buttons).
 5. **Add range 3–6** still gives a whole-line thread with all 4 lines tinted.
    Result:
 
+## P12-22 — Exact text: box and gutter
+
+Controls for this section are those of P12-23 (Gallery buttons).
+
+1. On the box of a thread on `value`, Accessibility Insights for Windows shows the name "Comment thread on line N" and the `HelpText` "Commented text: value".
+   Result:
+2. Type inside the word: the `HelpText` follows.
+   Result:
+3. Select `value`, hover the gutter of that line, click **+**: the log shows `AddCommentRequested, line N, text N:a–N:b`; the button's name is "Add a comment on the selected text on line N".
+   Result:
+4. Select lines 3–6 with `Shift+Down`, click **+** on line 4: request `lines 3–6`, no `text` (P12-12 unchanged).
+   Result:
+5. Hover a line outside the selection: the request is for that line only.
+   Result:
+
 ## End-to-end A — Range review (editor)
 
 | # | Step | Result |

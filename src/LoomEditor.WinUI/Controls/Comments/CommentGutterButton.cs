@@ -27,20 +27,28 @@ internal sealed partial class CommentGutterButton : Button
         Visibility = Visibility.Collapsed;
     }
 
+    private View.Comments.CommentRange _target;
+
     /// <summary>The model line the button is shown on; 0 when hidden.</summary>
     public int LineNumber { get; private set; }
 
     /// <summary>The first line the click requests a thread on; equals <see cref="LineNumber"/> for one line.</summary>
     public int StartLineNumber { get; private set; }
 
-    /// <summary>Sets the requested lines and the automation name <c>Add a comment on line {N}</c> / <c>on lines {S} to {E}</c>.</summary>
-    public void SetLines(int startLineNumber, int lineNumber)
+    /// <summary>
+    /// Sets the requested range and the automation name <c>Add a comment on line {N}</c> / <c>on lines {S} to {E}</c>, or
+    /// <c>on the selected text</c> for an exact-text range.
+    /// </summary>
+    public void SetTarget(View.Comments.CommentRange range)
     {
-        if (LineNumber != lineNumber || StartLineNumber != startLineNumber)
+        if (_target != range)
         {
-            StartLineNumber = startLineNumber;
-            LineNumber = lineNumber;
-            AutomationProperties.SetName(this, View.Comments.CommentStrings.AddCommentOnLines(startLineNumber, lineNumber));
+            _target = range;
+            StartLineNumber = range.StartLineNumber;
+            LineNumber = range.LineNumber;
+            AutomationProperties.SetName(this, range.IsWholeLines
+                ? View.Comments.CommentStrings.AddCommentOnLines(range.StartLineNumber, range.LineNumber)
+                : View.Comments.CommentStrings.AddCommentOnSelectedText(range.StartLineNumber, range.LineNumber));
         }
     }
 

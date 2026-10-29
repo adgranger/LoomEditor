@@ -23,6 +23,7 @@ internal sealed partial class CommentThreadWidget
     public void OnLineTextChanged()
     {
         _applyToolTips.Clear();
+        UpdateCommentedText();
         ScheduleRebuild();
     }
 
