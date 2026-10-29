@@ -948,7 +948,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P10-29](phase-10/P10-29-gallery-demo-and-manual-plan.md) | Gallery: the phase 10 samples and the manual test plan | P10-28 | done |
-| [P10-30](phase-10/P10-30-native-aot-self-check.md) | Native AOT self-check of the phase 10 logic | P10-29 | todo |
+| [P10-30](phase-10/P10-30-native-aot-self-check.md) | Native AOT self-check of the phase 10 logic | P10-29 | done |
 | [P10-31](phase-10/P10-31-close-phase-10.md) | Close phase 10 | all phase 10 cards | todo |
 
 Take phase 10 cards in table order (each card's "Depends on" is satisfied by the cards above it). P10-17, P10-18 and P10-24 are the riskiest: a card that does not fit in one session stops with a proposed split. Cards with manual checks add them to `docs/testing/phase-10-manual-tests.md` (P10-29 completes it).

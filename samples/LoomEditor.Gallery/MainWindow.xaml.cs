@@ -66,6 +66,7 @@ public sealed partial class MainWindow : Window
         RefreshStatus();
         InitializeLsp();
         InitializeDiffSelfCheck();
+        InitializeTextSelfCheck();
     }
 
     private void OnInsertHeader(object sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);

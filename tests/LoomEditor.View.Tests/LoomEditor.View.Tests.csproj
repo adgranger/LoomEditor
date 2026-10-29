@@ -23,7 +23,7 @@
     <!-- Pure (WinUI-free) layout code of the diff editor control. -->
     <Compile Include="..\..\src\LoomEditor.WinUI\Controls\DiffEditor\SashLayout.cs" Link="DiffEditor\SashLayout.cs" />
     <!-- The WinUI-free diff samples of the Gallery (P9-31). -->
-    <Compile Include="..\..\samples\LoomEditor.Gallery\DiffSamples.cs;..\..\samples\LoomEditor.Gallery\DiffSelfCheck.cs" Link="Gallery\%(Filename)%(Extension)" />
+    <Compile Include="..\..\samples\LoomEditor.Gallery\DiffSamples.cs;..\..\samples\LoomEditor.Gallery\DiffSelfCheck.cs;..\..\samples\LoomEditor.Gallery\TextSelfCheck.cs" Link="Gallery\%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

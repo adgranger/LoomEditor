@@ -7,6 +7,9 @@ Fill the **Result** column (`pass` / `fail` + a note, or `pending`) and the **Fi
 Pick the sample of each section in the Gallery "Features" picker (its hint says what to try); the **Insert snippet**, **Insert snippet around selection** and
 **Add sample problems** buttons are in the same Expander as **Inject text**.
 
+**Self-check (no human needed):** publish the Gallery with Native AOT (`dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror`) and run
+`LoomEditor.Gallery.exe --text-selfcheck=%TEMP%\text-selfcheck.txt`: the report ends with `n of n checks passed` and the exit code is 0.
+
 - Windows build:
 - Gallery build kind (Debug / Release / Native AOT):
 - Display scale:

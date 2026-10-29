@@ -1,6 +1,6 @@
 # P10-30 — Native AOT self-check of the phase 10 logic
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-29
 - **Size:** M
 
@@ -28,16 +28,16 @@ Sources: none (specified in this card; the pattern is `DiffSelfCheck` of P9-32 a
 
 ## Tests
 
-- [ ] New: `TextSelfCheckTests` runs every check and asserts all pass; one test per check name so a failure names the check
-- [ ] Manual: none (the self-check is the check)
+- [x] New: `TextSelfCheckTests` runs every check and asserts all pass; one test per check name so a failure names the check
+- [x] Manual: none (the self-check is the check)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds (use the exact command line that `docs/tasks/phase-9/P9-32-diff-self-check-and-benchmarks.md` and its Result section record; the SDK flags differ between .NET 11 previews), and the published exe run with `--text-selfcheck=<file>` ends with `n of n checks passed` and exit code 0 (stated in the card's Result section, with the date)
-- [ ] No Gallery process left running
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] No Gallery process left running
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -46,3 +46,11 @@ UI automation of the new features, benchmarks.
 ## Suggested commit message
 
 `test(gallery): add the Native AOT self-check of the phase 10 logic`
+
+## Result
+
+- Unit tests: `TextSelfCheckTests` (12: one per check, the check list, the report format) pass in the normal test run; the ten checks pass.
+- Native AOT publish: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` **succeeded** (exit 0).
+- Native AOT run: **not verified.** The published exe crashes at start-up, before any check runs, with exception `0xc000027b` in `Microsoft.UI.Xaml.dll` 3.2.3.0 (exit code -1073741189, no report file). The existing `--diff-selfcheck` crashes the same way, and so does a build of `HEAD` without this card (checked in a temporary worktree, since removed), so the cause is outside this card (WinUI start-up of the unpackaged exe in this environment / since a phase 10 card). The run must be repeated by the maintainer: `LoomEditor.Gallery.exe --text-selfcheck=%TEMP%\text-selfcheck.txt` must end with `10 of 10 checks passed` and exit 0.
+- The report format is the one the card spells out (`LoomEditor text self-check`, `PASS|FAIL name — detail`, `n of m checks passed`), not the `SUMMARY:` line of `DiffSelfCheck`.
+- No Gallery process was left running.
