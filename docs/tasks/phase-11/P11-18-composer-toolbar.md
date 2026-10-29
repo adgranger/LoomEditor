@@ -1,6 +1,6 @@
 # P11-18 — The widget (3/4): the Markdown toolbar of the composer and its shortcuts
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-17
 - **Size:** S
 
@@ -29,15 +29,25 @@ Sources: none (specified in this card; ADR 0014 decision 7). Read first: `Markdo
 
 ## Tests
 
-- [ ] Automated: none for WinUI (the edits are tested in P11-03 / P11-04).
-- [ ] Manual (section "P11-18"): for **each** of the twelve buttons, with a word selected and with an empty selection, the result matches the expected text written in the plan (the plan lists the twelve × 2 expected texts, copied from the P11-03 / P11-04 tests); `Ctrl+B` / `Ctrl+I` / `Ctrl+K` match their buttons; **Suggest a change** on line `int max = 10;` inserts a `suggestion` block containing that line, with the line selected; `Tab` enters the toolbar once and leaves it on the next `Tab`; arrows move between buttons; the toolbar is disabled in Preview; with Narrator each button reads its name.
+- [x] Automated: none for WinUI (the edits are tested in P11-03 / P11-04).
+- [x] Manual (section "P11-18"): for **each** of the twelve buttons, with a word selected and with an empty selection, the result matches the expected text written in the plan (the plan lists the twelve × 2 expected texts, copied from the P11-03 / P11-04 tests); `Ctrl+B` / `Ctrl+I` / `Ctrl+K` match their buttons; **Suggest a change** on line `int max = 10;` inserts a `suggestion` block containing that line, with the line selected; `Tab` enters the toolbar once and leaves it on the next `Tab`; arrows move between buttons; the toolbar is disabled in Preview; with Narrator each button reads its name.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written; the card result says the agent did **not** run it
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written; the card result says the agent did **not** run it
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `CommentComposerToolbar` (twelve text buttons in enum order, tooltips and automation names from `CommentStrings.ToolbarName`, roving focus with
+  `Left` / `Right` wrapping, `Home` / `End`) sits in the composer's toolbar slot; `ApplyToolbarAction` follows the card (the undo-history limit is in
+  its XML remark).
+- Deviations: a `Panel` has no `IsEnabled` in WinUI, so the toolbar has `SetEnabled(bool)` (each button) called with `!viewModel.IsPreview`.
+  `Ctrl+B` / `Ctrl+I` / `Ctrl+K` are read in the text box's `PreviewKeyDown`, next to `Escape` / `Ctrl+Enter` (P11-14 moved them there because the
+  `TextBox` handles some keys before `KeyDown`).
+- The manual section "P11-18" lists the 24 expected texts (12 buttons × selection / caret) and the four other checks; the agent did **not** run it.
 
 ## Out of scope
 

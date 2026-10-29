@@ -990,7 +990,7 @@ Design: [ADR 0014](../adr/0014-inline-comments.md); conventions: [phase-11/READM
 | [P11-15](phase-11/P11-15-shared-markdown-element-builder.md) | Share the Markdown → XAML builder between the hover and the comment widget | P11-02, P11-14 | done |
 | [P11-16](phase-11/P11-16-widget-read-mode.md) | The widget (1/4): header, comments and the collapsed "Resolved" state | P11-05, P11-15 | done |
 | [P11-17](phase-11/P11-17-widget-composer.md) | The widget (2/4): the composer — text box, Preview, Cancel / Comment, Reply | P11-16 | done |
-| [P11-18](phase-11/P11-18-composer-toolbar.md) | The widget (3/4): the Markdown toolbar of the composer and its shortcuts | P11-17 | todo |
+| [P11-18](phase-11/P11-18-composer-toolbar.md) | The widget (3/4): the Markdown toolbar of the composer and its shortcuts | P11-17 | done |
 | [P11-19](phase-11/P11-19-widget-suggestion-block.md) | The widget (4/4): the "Suggested change" block and **Apply suggestion** | P11-18 | todo |
 | [P11-20](phase-11/P11-20-widget-accessibility.md) | Accessibility of the comment widget: UIA names, announcements, high contrast | P11-19 | todo |
 | [P11-21](phase-11/P11-21-gutter-add-comment-button.md) | The "+" button in the gutter and the add-comment request | P11-20 | todo |

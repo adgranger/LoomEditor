@@ -43,6 +43,8 @@ internal sealed partial class CommentThreadWidget
             button.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
             button.Foreground = _foreground;
         }
+
+        _toolbar.SetForeground(_foreground);
     }
 
     private static void SetOrClear(Control control, DependencyProperty property, ThemeColor? color)

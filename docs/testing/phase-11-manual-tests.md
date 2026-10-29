@@ -100,6 +100,45 @@ Use **Add review threads** and **Start composing on line 5**. The status line co
 | 7 | Type 30 lines: the box stops growing at 280 px and scrolls; the gap under the line follows (no overlap with the next line) | pending |
 | 8 | The `Escape` rules of P11-14 still hold (empty box: closes and the focus returns; with text: nothing) | pending |
 
+## P11-18 — The widget (3/4): the Markdown toolbar
+
+Open a composer (**Start composing on line 5**) and type the "Start" text. `«…»` marks a selected range and `‸` the caret; `⏎` is a line break.
+Expected texts come from the P11-03 / P11-04 unit tests (`MarkdownToolbarInlineTests`, `MarkdownToolbarBlockTests`).
+
+| # | Button | Start | Expected | Result |
+|---|---|---|---|---|
+| 1 | `H` Heading | «a b» | «### a b» | pending |
+| 2 | `H` Heading | a‸b | ### a‸b (the caret keeps its place in the line) | pending |
+| 3 | `B` Bold | x «a» y | x «\*\*a\*\*» y | pending |
+| 4 | `B` Bold | x‸y | x\*\*‸\*\*y | pending |
+| 5 | `I` Italic | «a» | «\_a\_» | pending |
+| 6 | `I` Italic | x‸y | x\_‸\_y | pending |
+| 7 | `U` Underline | «a» | «`<u>a</u>`» | pending |
+| 8 | `U` Underline | x‸y | x`<u>`‸`</u>`y | pending |
+| 9 | `S` Strikethrough | «a» | «\~\~a\~\~» | pending |
+| 10 | `S` Strikethrough | x‸y | x\~\~‸\~\~y | pending |
+| 11 | `<>` Inline code | «a» | «\`a\`» | pending |
+| 12 | `<>` Inline code | x‸y | x\`‸\`y | pending |
+| 13 | `{ }` Code block | «a⏎b» | \`\`\`⏎«a⏎b»⏎\`\`\` | pending |
+| 14 | `{ }` Code block | empty box | \`\`\`⏎‸⏎\`\`\` | pending |
+| 15 | `Link` | «abc» | \[abc\](«url») (`url` selected) | pending |
+| 16 | `Link` | a‸b | a\[‸\](url)b | pending |
+| 17 | `•` Bulleted list | «a⏎⏎b» | «- a⏎⏎- b» | pending |
+| 18 | `•` Bulleted list | x⏎a‸b | x⏎- a‸b | pending |
+| 19 | `1.` Numbered list | «a⏎⏎b» | «1. a⏎⏎2. b» | pending |
+| 20 | `1.` Numbered list | x⏎a‸b | x⏎1. a‸b | pending |
+| 21 | `"` Quote | «a⏎b» | «> a⏎> b» | pending |
+| 22 | `"` Quote | x⏎a‸b | x⏎> a‸b | pending |
+| 23 | `±` Suggest a change, on a thread whose line is `int max = 10;` | empty box | \`\`\`suggestion⏎«int max = 10;»⏎\`\`\` (the line selected) | pending |
+| 24 | `±` Suggest a change | ab‸cd | ab⏎\`\`\`suggestion⏎«the line»⏎\`\`\`⏎cd (the block starts on a new line) | pending |
+
+| # | Check | Result |
+|---|---|---|
+| 25 | `Ctrl+B`, `Ctrl+I`, `Ctrl+K` give the same results as **B**, **I**, **Link** | pending |
+| 26 | `Tab` from the document side enters the toolbar once and the next `Tab` leaves it for the text box; `Left` / `Right` (wrapping), `Home` / `End` move between buttons; after moving to `Link`, `Shift+Tab` back into the toolbar lands on `Link` | pending |
+| 27 | The toolbar is disabled while **Preview** is on | pending |
+| 28 | With Narrator, each button reads its name (`Heading`, `Bold`, …) and the tooltip shows it | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

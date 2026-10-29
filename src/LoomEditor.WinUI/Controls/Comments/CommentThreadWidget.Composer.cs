@@ -14,6 +14,7 @@ internal sealed partial class CommentThreadWidget
 {
     private readonly StackPanel _composer = new() { Spacing = 6 };
     private readonly StackPanel _toolbarSlot = new() { Orientation = Orientation.Horizontal };
+    private CommentComposerToolbar _toolbar = null!;
     private readonly TextBox _textBox = new()
     {
         AcceptsReturn = true,
@@ -79,6 +80,8 @@ internal sealed partial class CommentThreadWidget
 
     private StackPanel CreateComposer()
     {
+        _toolbar = new CommentComposerToolbar(ApplyToolbarAction);
+        _toolbarSlot.Children.Add(_toolbar);
         _cancelButton.Click += (_, _) =>
         {
             _viewModel.Cancel();
@@ -127,6 +130,7 @@ internal sealed partial class CommentThreadWidget
         _replyButton.Visibility = _viewModel.ReplyVisible ? Visibility.Visible : Visibility.Collapsed;
         _submitButton.IsEnabled = _viewModel.CanSubmit;
         _previewButton.IsChecked = _viewModel.IsPreview;
+        _toolbar.SetEnabled(!_viewModel.IsPreview);
         // Compare in the view model's form, or each key press would write the text back and reset the caret. Covers the draft cleared on post.
         if (FromTextBox(_textBox.Text) != _viewModel.Draft)
         {
@@ -136,6 +140,18 @@ internal sealed partial class CommentThreadWidget
         UpdatePreview();
     }
 
+    /// <summary>Applies a toolbar action to the text box's text and selection, then gives the focus back to the box.</summary>
+    /// <remarks>Known limit: assigning <see cref="TextBox.Text"/> clears the text box's own undo history.</remarks>
+    private void ApplyToolbarAction(MarkdownToolbarAction action)
+    {
+        string text = FromTextBox(_textBox.Text);
+        var selection = new ToolbarSelection(_textBox.SelectionStart, _textBox.SelectionStart + _textBox.SelectionLength);
+        ToolbarEdit edit = MarkdownToolbar.Apply(action, text, selection, _viewModel.SuggestionSeed);
+        _textBox.Text = ToTextBox(edit.Text);
+        _textBox.Select(edit.Selection.Start, edit.Selection.Length);
+        _textBox.Focus(FocusState.Programmatic);
+    }
+
     private void OnTextBoxLoaded(object sender, RoutedEventArgs e)
     {
         _textBox.Loaded -= OnTextBoxLoaded;
@@ -143,7 +159,7 @@ internal sealed partial class CommentThreadWidget
         FocusComposer();
     }
 
-    // Only these two keys are handled, and only when they did something; everything else stays the text box's.
+    // Escape and Ctrl+Enter are handled only when they did something; Ctrl+B / I / K run their toolbar button; everything else stays the text box's.
     private void OnTextBoxPreviewKeyDown(object sender, KeyRoutedEventArgs e)
     {
         if (e.Key == VirtualKey.Escape)
@@ -157,6 +173,17 @@ internal sealed partial class CommentThreadWidget
         else if (e.Key == VirtualKey.Enter && IsCtrlDown())
         {
             e.Handled = _viewModel.Submit() is not null;
+        }
+        else if (IsCtrlDown() && e.Key switch
+        {
+            VirtualKey.B => MarkdownToolbarAction.Bold,
+            VirtualKey.I => MarkdownToolbarAction.Italic,
+            VirtualKey.K => MarkdownToolbarAction.Link,
+            _ => (MarkdownToolbarAction?)null,
+        } is { } action)
+        {
+            ApplyToolbarAction(action);
+            e.Handled = true;
         }
     }
 
