@@ -209,6 +209,12 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>True while the active snippet has a previous tab stop (Monaco: <c>hasPrevTabstop</c>); set by the snippet controller.</summary>
     internal bool HasPrevTabstop { get; set; }
 
+    /// <summary>The go to problem controller, set by <c>GotoErrorFeature</c> while it is attached (Monaco: <c>MarkerController.get(editor)</c>).</summary>
+    internal LoomEditor.View.Features.GotoError.MarkerController? MarkerController { get; set; }
+
+    /// <summary>True while a go to problem session is active (Monaco: <c>markersNavigationVisible</c>); set by the marker controller.</summary>
+    internal bool MarkersNavigationVisible { get; set; }
+
     /// <summary>True while the selection anchor exists (Monaco: <c>selectionAnchorSet</c>); set by the selection anchor feature.</summary>
     internal bool SelectionAnchorSet { get; set; }
 

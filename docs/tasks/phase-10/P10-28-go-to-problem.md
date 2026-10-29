@@ -1,6 +1,6 @@
 # P10-28 — Go to next / previous problem (`F8`)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-27
 - **Size:** S
 
@@ -37,16 +37,16 @@
 
 ## Tests
 
-- [ ] Port: none (no upstream test for the controller without the widget)
-- [ ] New: `F8_MovesCaretToNextMarkerAndRevealsIt`, `ShiftF8_GoesToPreviousWrapping`, `F8_NoMarkers_DoesNothing`, `F8_Announces_LineContentSeverityMessagePositionAndIndex`, `F8_CaretInsideMarker_KeepsCaret`, `F8_CaretOutside_MovesToMarkerStart_NoTextSelected`, `AltF8_SameAsF8`, `Escape_EndsSession_AndResetsContextKey`, `CaretMoveOutsideMarker_ResetsIndex`, `MarkersChanged_ResetsIndex`, `Navigation_StartsFromCaretPosition`, `Keybindings_ResolveToTheFourActions`, `Escape_NotInSession_DoesNotResolveToClose`
-- [ ] Manual (section "P10-28", with the Gallery language server demo or the diagnostics sample of P10-29): `F8` cycles through the problems with the caret on each one and Narrator reads the message; `Escape` stops.
+- [x] Port: none (no upstream test for the controller without the widget)
+- [x] New: `F8_MovesCaretToNextMarkerAndRevealsIt`, `ShiftF8_GoesToPreviousWrapping`, `F8_NoMarkers_DoesNothing`, `F8_Announces_LineContentSeverityMessagePositionAndIndex`, `F8_CaretInsideMarker_KeepsCaret`, `F8_CaretOutside_MovesToMarkerStart_NoTextSelected`, `AltF8_SameAsF8`, `Escape_EndsSession_AndResetsContextKey`, `CaretMoveOutsideMarker_ResetsIndex`, `MarkersChanged_ResetsIndex`, `Navigation_StartsFromCaretPosition`, `Keybindings_ResolveToTheFourActions`, `Escape_NotInSession_DoesNotResolveToClose`
+- [x] Manual (section "P10-28", with the Gallery language server demo or the diagnostics sample of P10-29): `F8` cycles through the problems with the caret on each one and Narrator reads the message; `Escape` stops.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `gotoError.ts` 🔶 (no widget, no multi-file); `gotoErrorWidget.ts` listed as not ported
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `gotoError.ts` 🔶 (no widget, no multi-file); `gotoErrorWidget.ts` listed as not ported
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

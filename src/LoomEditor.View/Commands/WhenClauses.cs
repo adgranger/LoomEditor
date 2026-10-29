@@ -70,6 +70,9 @@ internal static class WhenClauses
     /// <summary><c>editorHasDefinitionProvider AND editorTextFocus</c> (<c>editor.action.revealDefinition</c>).</summary>
     public static bool GotoDefinition(KeybindingContext c) => c.EditorTextFocus && c.HasDefinitionProvider;
 
+    /// <summary><c>markersNavigationVisible AND editorFocus</c> (Escape ends the go to problem session).</summary>
+    public static bool MarkersNavigationVisible(KeybindingContext c) => c.MarkersNavigationVisible && c.EditorFocus;
+
     /// <summary><c>inSnippetMode AND hasNextTabstop AND textInputFocus</c> (Tab).</summary>
     public static bool SnippetNext(KeybindingContext c) => c.InSnippetMode && c.HasNextTabstop && c.TextInputFocus;
 

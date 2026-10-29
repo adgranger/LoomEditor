@@ -131,6 +131,17 @@ Needs the Gallery language server demo of phase 8, started with the fake server 
 | 2 | `Tab` goes to `n`, `Tab` to the body line, then snippet mode ends | pending |
 | 3 | `Ctrl+Z` removes the whole snippet in one step | pending |
 
+## P10-28 — Go to next / previous problem
+
+Needs the Gallery language server demo or the diagnostics sample of P10-29.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | `F8` moves the caret to each problem in turn (errors first), wrapping around; `Shift+F8` goes back | pending |
+| 2 | Narrator reads the line, the severity, the message, the position and "n of m problems" on each move | pending |
+| 3 | `Escape` stops the navigation; the next `F8` starts again from the caret | pending |
+| 4 | Moving the caret away from the current problem, then `F8`, goes to the next problem after the caret | pending |
+
 ## Findings
 
 | # | Section | Finding | Severity |

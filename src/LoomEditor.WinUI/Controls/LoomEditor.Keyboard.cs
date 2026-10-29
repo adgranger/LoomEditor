@@ -41,7 +41,8 @@ public sealed partial class LoomEditor
             SelectionAnchorSet: _context.SelectionAnchorSet,
             InSnippetMode: _context.InSnippetMode,
             HasNextTabstop: _context.HasNextTabstop,
-            HasPrevTabstop: _context.HasPrevTabstop);
+            HasPrevTabstop: _context.HasPrevTabstop,
+            MarkersNavigationVisible: _context.MarkersNavigationVisible);
     }
 
     private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)

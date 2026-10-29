@@ -10,6 +10,7 @@ using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.Overtype;
 using LoomEditor.View.Features.SelectionAnchor;
 using LoomEditor.View.Features.SmartSelect;
+using LoomEditor.View.Features.GotoError;
 using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
@@ -244,6 +245,14 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Shift, KeyCode.Tab, SnippetCommands.JumpToPrevSnippetPlaceholder, WhenClauses.SnippetPrev, SnippetWeight);
         Add(KeyModifiers.None, KeyCode.Escape, SnippetCommands.LeaveSnippet, WhenClauses.InSnippet, SnippetWeight);
         Add(KeyModifiers.Shift, KeyCode.Escape, SnippetCommands.LeaveSnippet, WhenClauses.InSnippet, SnippetWeight);
+
+        // gotoError.ts: F8 / Shift+F8 (in files) and Alt+F8 / Shift+Alt+F8 behave the same with one model; Escape ends the session (+50, above the snippet Escape).
+        Add(KeyModifiers.None, KeyCode.F8, GotoErrorCommands.NextInFiles, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift, KeyCode.F8, GotoErrorCommands.PrevInFiles, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Alt, KeyCode.F8, GotoErrorCommands.Next, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.F8, GotoErrorCommands.Prev, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.Escape, GotoErrorCommands.Close, WhenClauses.MarkersNavigationVisible, KeybindingWeight.EditorContrib + 50);
+        Add(KeyModifiers.Shift, KeyCode.Escape, GotoErrorCommands.Close, WhenClauses.MarkersNavigationVisible, KeybindingWeight.EditorContrib + 50);
 
         // anchorSelect.ts and lineSelection.ts: Ctrl+K Ctrl+B, Ctrl+K Ctrl+K and Ctrl+L. Escape has the lowest weight of the Escape rules (Monaco: EditorContrib) so the widgets close first.
         rules.Add(new KeybindingRule(

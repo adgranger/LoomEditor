@@ -24,6 +24,7 @@ namespace LoomEditor.View.Commands;
 /// <param name="HasDefinitionProvider"><c>editorHasDefinitionProvider</c>: a provider is registered for the language of the model.</param>
 /// <param name="IsInDiffEditor"><c>isInDiffEditor</c>: the editor is a side of a diff editor.</param>
 /// <param name="SelectionAnchorSet"><c>selectionAnchorSet</c>: the selection anchor exists.</param>
+/// <param name="MarkersNavigationVisible"><c>markersNavigationVisible</c>: a go to problem session is active.</param>
 /// <param name="InSnippetMode"><c>inSnippetMode</c>: a snippet with tab stops is active.</param>
 /// <param name="HasNextTabstop"><c>hasNextTabstop</c>: the active snippet has a next tab stop.</param>
 /// <param name="HasPrevTabstop"><c>hasPrevTabstop</c>: the active snippet has a previous tab stop.</param>
@@ -49,4 +50,5 @@ internal readonly record struct KeybindingContext(
     bool SelectionAnchorSet = false,
     bool InSnippetMode = false,
     bool HasNextTabstop = false,
-    bool HasPrevTabstop = false);
+    bool HasPrevTabstop = false,
+    bool MarkersNavigationVisible = false);
