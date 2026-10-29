@@ -87,6 +87,10 @@ public sealed partial class LoomDiffEditor
     public static readonly DependencyProperty RenderOverviewRulerProperty = Register(
         nameof(RenderOverviewRuler), true, (editor, value) => editor._options.RenderOverviewRuler = value);
 
+    /// <summary>Identifies the <see cref="MinimapEnabled"/> dependency property.</summary>
+    public static readonly DependencyProperty MinimapEnabledProperty = Register(
+        nameof(MinimapEnabled), false, (editor, _) => editor.ConfigureEditors());
+
     /// <summary>Identifies the <see cref="MaxComputationTimeMs"/> dependency property.</summary>
     public static readonly DependencyProperty MaxComputationTimeMsProperty = DependencyProperty.Register(
         nameof(MaxComputationTimeMs), typeof(int), typeof(LoomDiffEditor),
@@ -214,6 +218,13 @@ public sealed partial class LoomDiffEditor
         set => SetValue(RenderOverviewRulerProperty, value);
     }
 
+    /// <summary>Whether each of the two editors shows its minimap (Monaco turns it off in a diff editor by default). Defaults to <c>false</c>.</summary>
+    public bool MinimapEnabled
+    {
+        get => (bool)GetValue(MinimapEnabledProperty);
+        set => SetValue(MinimapEnabledProperty, value);
+    }
+
     /// <summary>The time budget of a diff computation, in milliseconds. Defaults to 5000.</summary>
     public int MaxComputationTimeMs
     {
@@ -289,7 +300,7 @@ public sealed partial class LoomDiffEditor
         {
             editor.Features = _subEditorFeatures ??= CreateSubEditorFeatures();
             editor.IsInDiffEditor = true;
-            editor.MinimapEnabled = false;
+            editor.MinimapEnabled = MinimapEnabled;
             editor.OverviewRulerEnabled = false;
             // Monaco: sticky scroll is turned off for both editors only while unchanged regions are hidden.
             editor.StickyScrollEnabled = !HideUnchangedRegions;
