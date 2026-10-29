@@ -31,24 +31,47 @@ public sealed partial class LoomDiffEditor
     /// <param name="title">An optional title.</param>
     /// <param name="startComposing">Opens the comment box at once.</param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="lineNumber"/> is outside that side's text.</exception>
-    public CommentThread AddCommentThread(DiffSide side, int lineNumber, string? title = null, bool startComposing = false)
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters", Justification = "Phase 12: the single-line overload stays source compatible.")]
+    public CommentThread AddCommentThread(DiffSide side, int lineNumber, string? title = null, bool startComposing = false) =>
+        AddCommentThread(side, lineNumber, lineNumber, title, startComposing);
+
+    /// <summary>Adds a comment thread anchored to a range of lines of one side; its box sits under the last line.</summary>
+    /// <param name="side">The side of the lines.</param>
+    /// <param name="startLineNumber">The 1-based first line in that side's text.</param>
+    /// <param name="endLineNumber">The 1-based last line, not before <paramref name="startLineNumber"/>.</param>
+    /// <param name="title">An optional title.</param>
+    /// <param name="startComposing">Opens the comment box at once.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="startLineNumber"/> is outside that side's text, or <paramref name="endLineNumber"/> is outside it or before the start.</exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("ApiDesign", "RS0026:Do not add multiple public overloads with optional parameters", Justification = "Phase 12: the single-line overload stays source compatible.")]
+    public CommentThread AddCommentThread(DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false)
     {
         LoomEditor editor = EditorOf(side);
-        ArgumentOutOfRangeException.ThrowIfLessThan(lineNumber, 1);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(lineNumber, editor.Model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfLessThan(startLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(startLineNumber, editor.Model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfLessThan(endLineNumber, startLineNumber);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(endLineNumber, editor.Model.LineCount);
         if (startComposing && HideUnchangedRegions && _viewModel is { } viewModel)
         {
-            if (side == DiffSide.Original)
+            Reveal(viewModel, side, startLineNumber);
+            if (endLineNumber != startLineNumber)
             {
-                viewModel.EnsureOriginalLineIsVisible(lineNumber, RevealPreference.FromCloserSide);
-            }
-            else
-            {
-                viewModel.EnsureModifiedLineIsVisible(lineNumber, RevealPreference.FromCloserSide);
+                Reveal(viewModel, side, endLineNumber);
             }
         }
 
-        return editor.AddCommentThread(lineNumber, title, startComposing);
+        return editor.AddCommentThread(startLineNumber, endLineNumber, title, startComposing);
+    }
+
+    private static void Reveal(DiffEditorViewModel viewModel, DiffSide side, int lineNumber)
+    {
+        if (side == DiffSide.Original)
+        {
+            viewModel.EnsureOriginalLineIsVisible(lineNumber, RevealPreference.FromCloserSide);
+        }
+        else
+        {
+            viewModel.EnsureModifiedLineIsVisible(lineNumber, RevealPreference.FromCloserSide);
+        }
     }
 
     /// <summary>Removes a thread of either side; <see langword="false"/> when it belongs to neither.</summary>
@@ -107,5 +130,5 @@ public sealed partial class LoomDiffEditor
     private void OnSideSuggestionApplied(object? sender, SuggestionAppliedEventArgs e) => SuggestionApplied?.Invoke(this, e);
 
     private void OnSideAddCommentRequested(object? sender, AddCommentRequestedEventArgs e) =>
-        AddCommentRequested?.Invoke(this, new DiffAddCommentRequestedEventArgs(ReferenceEquals(sender, _original) ? DiffSide.Original : DiffSide.Modified, e.LineNumber));
+        AddCommentRequested?.Invoke(this, new DiffAddCommentRequestedEventArgs(ReferenceEquals(sender, _original) ? DiffSide.Original : DiffSide.Modified, e.StartLineNumber, e.LineNumber));
 }

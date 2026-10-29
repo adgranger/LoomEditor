@@ -18,8 +18,10 @@ LoomEditor.WinUI.Controls.CommentThreadEventArgs.CommentThreadEventArgs(LoomEdit
 LoomEditor.WinUI.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber) -> void
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int lineNumber) -> void
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.Side.get -> LoomEditor.WinUI.Controls.DiffSide
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Modified = 1 -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Original = 0 -> LoomEditor.WinUI.Controls.DiffSide
@@ -50,6 +52,7 @@ LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void

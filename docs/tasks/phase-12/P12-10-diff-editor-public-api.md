@@ -1,6 +1,6 @@
 # P12-10 — Public API of `LoomDiffEditor`: a thread on a range of lines of one side
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-09
 - **Size:** S
 
@@ -43,20 +43,24 @@ alignment: a comment zone is a foreign zone, so the other side is padded — not
 
 ## Tests
 
-- [ ] None automated (no WinUI test project).
-- [ ] Manual: section "P12-10" written (not run by the agent).
+- [x] None automated (no WinUI test project).
+- [x] Manual: section "P12-10" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) lists the three new members; no phase 11 line removed
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (WinUI) lists the three new members; no phase 11 line removed
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
 Original-side threads in the inline view, any alignment change, the widget (P12-11).
+
+## Result
+
+Build and tests green. The manual section "P12-10" in `docs/testing/phase-12-manual-tests.md` was written but **not run** (agents do not run the Gallery UI).
 
 ## Suggested commit message
 

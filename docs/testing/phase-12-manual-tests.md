@@ -24,3 +24,16 @@ What unit tests cannot check: the highlight of the lines of a multi-line comment
    Result:
 5. After applying a range suggestion, the log shows `SuggestionApplied, lines 3–6`.
    Result:
+
+## P12-10 — Diff editor API
+
+1. A range thread on the modified side (Gallery, P12-13): the box is under the last line, the lines are highlighted, the original side is padded by the box height (the line after the box is level on both sides, ±1 px).
+   Result:
+2. The same on the original side in side-by-side view.
+   Result:
+3. Inline view: an original-side range thread is not shown (phase 11 rule).
+   Result:
+4. With hidden unchanged regions, `startComposing` on a range whose start is hidden reveals it.
+   Result:
+5. Applying a suggestion on the modified side replaces the range; one `Ctrl+Z` restores it and the diff recomputes.
+   Result:
