@@ -6,7 +6,7 @@
 
 ## Goal
 
-`MarkdownToolbar.Apply(...)` turns "the user clicked **B** with this selection in this text" into the new text and selection, for bold, italic, underline, strikethrough, inline code and link. Pure string work: the WinUI text box only calls it (P11-14).
+`MarkdownToolbar.Apply(...)` turns "the user clicked **B** with this selection in this text" into the new text and selection, for bold, italic, underline, strikethrough, inline code and link. Pure string work: the WinUI text box only calls it (P11-17).
 
 ## Sources
 
@@ -25,7 +25,7 @@ Sources: none (specified in this card; ADR 0014). The behavior is that of the Gi
 - `enum MarkdownToolbarAction { Heading, Bold, Italic, Underline, Strikethrough, InlineCode, CodeBlock, Link, BulletList, NumberedList, Quote, Suggestion }` (the order of the toolbar).
 - `readonly record struct ToolbarSelection(int Start, int End)` — 0-based UTF-16 offsets into the text, `0 <= Start <= End <= text.Length` (validated: `ArgumentOutOfRangeException`). `Length => End - Start`; `IsEmpty`.
 - `readonly record struct ToolbarEdit(string Text, ToolbarSelection Selection)` — the **whole** new text and the new selection.
-- `static ToolbarEdit MarkdownToolbar.Apply(MarkdownToolbarAction action, string text, ToolbarSelection selection, string? suggestionSeed = null)`. The text uses `\n` only (the widget converts WinUI's `\r`, P11-14). In this card the **block** actions (`Heading`, `CodeBlock`, `BulletList`, `NumberedList`, `Quote`, `Suggestion`) return `new ToolbarEdit(text, selection)` unchanged, with a `// P11-04` comment; P11-04 replaces that branch.
+- `static ToolbarEdit MarkdownToolbar.Apply(MarkdownToolbarAction action, string text, ToolbarSelection selection, string? suggestionSeed = null)`. The text uses `\n` only (the widget converts WinUI's `\r`, P11-17). In this card the **block** actions (`Heading`, `CodeBlock`, `BulletList`, `NumberedList`, `Quote`, `Suggestion`) return `new ToolbarEdit(text, selection)` unchanged, with a `// P11-04` comment; P11-04 replaces that branch.
 - **Markers:** bold `**`, italic `_`, underline `<u>` … `</u>`, strikethrough `~~`, inline code `` ` ``.
 - **Wrap (non-empty selection):**
   1. Leading and trailing spaces / tabs of the selection stay **outside** the markers (`" a "` → `" **a** "`); a selection of only blanks is treated as empty.
@@ -49,7 +49,7 @@ Sources: none (specified in this card; ADR 0014). The behavior is that of the Gi
 
 ## Out of scope
 
-Block formats (P11-04), the buttons and the text box (P11-14), keyboard shortcuts, undo of a toolbar edit.
+Block formats (P11-04), the buttons and the text box (P11-17), keyboard shortcuts, undo of a toolbar edit.
 
 ## Suggested commit message
 

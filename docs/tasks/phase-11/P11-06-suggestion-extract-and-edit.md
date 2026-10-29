@@ -1,4 +1,4 @@
-# P11-05 — Suggestion blocks (1/2): extraction and the model edit
+# P11-06 — Suggestion blocks (1/2): extraction and the model edit
 
 - **Status:** todo
 - **Depends on:** P11-02
@@ -10,7 +10,7 @@ From a comment body, `SuggestionExtractor` lists its ` ```suggestion ` blocks; `
 
 ## Sources
 
-Sources: none (specified in this card; ADR 0014 decision 6). Read first: `src/LoomEditor.Core/Text/TextEdit.cs`, `src/LoomEditor.Core/Model/TextModel.Edits.cs` (`ApplyEdits`), how the model exposes its end of line (`grep -n "EOL\|EndOfLine" src/LoomEditor.Core/Model/TextModel*.cs`), `tests/LoomEditor.Core.Tests` or `View.Tests` helpers that build a `TextModel` from a string.
+Sources: none (specified in this card; ADR 0014 decision 6). Read first: `src/LoomEditor.Core/Text/TextEdit.cs`, `src/LoomEditor.Core/Model/TextModel.Edits.cs` (`ApplyEdits`), `TextModel.Eol` (the model's end of line sequence, `TextModel.cs`), `tests/LoomEditor.Core.Tests` or `View.Tests` helpers that build a `TextModel` from a string.
 
 ## Files to create or change
 
@@ -23,12 +23,12 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `src/Lo
 - `sealed record SuggestionBlock(int Index, string Text)`: `Index` is the 0-based order among the **suggestion** blocks of the body; `Text` is the code of the block exactly as the parser returns it (no trailing newline). `IReadOnlyList<string> Lines` is `Text.Split('\n')`, or an **empty** list when `Text` is empty. `IsDeletion => Text.Length == 0`.
 - `static IReadOnlyList<SuggestionBlock> SuggestionExtractor.Extract(string? body)`: `MarkdownParser.Parse(body, MarkdownParserOptions.Extended)`, then the **top-level** `MarkdownCodeBlock` blocks whose `Language` equals `"suggestion"` (ordinal, case-sensitive: that is GitHub's syntax). Suggestions inside a quote are ignored. `null` / empty → empty list. A block that is not closed is what the parser makes of it (no special rule). `\r` in the body is normalized to `\n` by the parser already.
 - **An empty block means "delete the line"** (GitHub does the same). Replacing a line by a *blank* line is therefore not expressible in phase 11 (documented in the XML doc and in the README of the folder, a known limit).
-- `static TextEdit? SuggestionEdit.Create(TextModel model, int lineNumber, SuggestionBlock block)` — `null` when `lineNumber` is outside `1..LineCount`. The text uses the model's **own EOL sequence** between lines.
+- `static TextEdit? SuggestionEdit.Create(TextModel model, int lineNumber, SuggestionBlock block)` — `null` when `lineNumber` is outside `1..LineCount`. The text uses `model.Eol` between lines.
   - Non-deletion: the range is the whole content of the line (`lineNumber, 1` → `lineNumber, maxColumn`), the text is `string.Join(eol, block.Lines)`.
   - Deletion: if a next line exists, the range is `(lineNumber, 1)` → `(lineNumber + 1, 1)` with empty text; else if `lineNumber > 1`, the range is the end of the previous line → the end of this line; else (the only line) the range is the whole line, empty text.
 - `static bool SuggestionEdit.IsStale(TextModel model, int lineNumber, string expectedLineContent)` — `true` when the line no longer exists or its content differs (ordinal).
 - `static bool SuggestionEdit.IsNoOp(TextModel model, int lineNumber, SuggestionBlock block)` — the replacement would not change the model.
-- The apply path (undo stop, read-only check, event) is **P11-09**, not here.
+- The apply path (undo stop, read-only check, event) is **P11-10**, not here.
 
 ## Tests
 
@@ -43,7 +43,7 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `src/Lo
 
 ## Out of scope
 
-The diff rows (P11-06), applying through the editor with undo (P11-09), suggestions that replace a range of lines.
+The diff rows (P11-07), applying through the editor with undo (P11-10), suggestions that replace a range of lines.
 
 ## Suggested commit message
 

@@ -1,7 +1,7 @@
 # ADR 0014 — Inline comment threads: data model, hosting, Markdown, suggestions, keyboard, accessibility
 
 - **Status:** accepted
-- **Date:** 2026-10-29
+- **Date:** 2026-10-29 (reviewed the same day against the code: decisions 4, 7 and 11 were corrected before any card started)
 
 ## Context
 
@@ -10,10 +10,21 @@ editor, or on either side of the diff editor) a bubble with a title ("Comment on
 "Cancel" buttons. Once a thread has comments, they are shown as Markdown. A fenced block ` ```suggestion ` is shown as a small red / green diff ("Suggested change") with an
 **Apply suggestion** button that edits the model.
 
-Monaco has **no** such widget in `src/vs/editor` (VS Code's Comments API lives in `src/vs/workbench/contrib/comments`, on top of the editor's view zones and content widgets).
+Monaco has **no** such widget in `src/vs/editor` (VS Code's Comments API lives in `src/vs/workbench/contrib/comments`, on top of the editor's view zones and zone widgets).
 This is therefore a LoomEditor feature, **not a port**: cards say "Sources: none (specified in this card)", have no Monaco header and no "port the tests first" rule. Two Monaco
 concepts are kept because they fit: the **view zone** (a gap in the text layout that reserves vertical space, ADR 0012 decision 6) and the **content widget** (an element
-positioned over the editor and repositioned when it scrolls).
+positioned over the editor and repositioned when it scrolls). What exists today and what does not (checked in the code):
+
+- View zones exist (`ViewZone`, `ViewZones`, `IViewZoneChangeAccessor`, all `internal`, `src/LoomEditor.View/Layout/`), but **every zone today is painted by the renderer**
+  (`ViewZoneKind.Empty`, `DeletedLines`, `Collapsed`; `TextViewRenderer.ViewZones.cs`). **No code places a XAML element over a zone yet**: phase 11 is the first.
+- The visible zones and their positions are available as `ViewLayout.GetWhitespaceViewportData()` → `ViewWhitespaceViewportData(Id, AfterLineNumber, VerticalOffset, Height)`;
+  a zone's `Id` **is** its whitespace id (`ViewZones.AddZone`).
+- The control template (`src/LoomEditor.WinUI/Themes/Generic.xaml`) is one `Grid` cell, in this order: `PART_Canvas` (Win2D text), `PART_FindWidget`, `PART_OverlayCanvas`
+  (hover, completion list), the two scroll bars. The overlay canvas is **above** the find widget.
+- Keys: `LoomEditor.OnKeyDown` and `OnCharacterReceived` already do nothing when the control itself is not focused (`HasFocus => FocusState != Unfocused`): the find widget's
+  text boxes rely on this. The IME (`LoomEditor.Ime.cs`) only enters on `GotFocus` when `HasFocus`.
+- The list of features of an editor is public and replaceable (`LoomEditor.Features`, and `LoomDiffEditor` passes its own list to its two editors).
+- `IEditorContext` is a **public** interface; per-editor controllers are internal properties of `EditorContext` reached through `EditorContextExtensions` (e.g. `SnippetController`, `GetSnippetController()`).
 
 ## Decisions
 
@@ -21,92 +32,98 @@ positioned over the editor and repositioned when it scrolls).
 
    | What | Where |
    |---|---|
-   | public data types `Comment`, `CommentAuthor`, `CommentThread`, `CommentThreadState` | `LoomEditor.Core/Comments/` (namespace `LoomEditor.Core.Comments`, **public**) |
-   | Markdown extensions, the Markdown toolbar edits, suggestion extraction, suggestion edit, suggestion diff rows, the thread view model, relative time, UI strings | `LoomEditor.View/Comments/` and `LoomEditor.View/Markdown/` (internal, pure, no UI) |
-   | thread tracking over a model (`CommentThreadManager`), the `Widget` zone kind | `LoomEditor.View/Comments/`, `LoomEditor.View/Layout/` |
-   | the feature (commands, context wiring) | `LoomEditor.View/Features/CommentThreads/` (`CommentThreadsFeature`, listed in `EditorFeatures.cs`) |
-   | the WinUI widget, the hosting in the overlay layer, the gutter button | `LoomEditor.WinUI/Controls/Comments/` |
-   | the public API of the editor and of the diff editor | `LoomEditor.CommentThreads.cs`, `LoomDiffEditor.CommentThreads.cs` (partial files of the controls) |
+   | public data types `Comment`, `CommentAuthor`, `CommentThread`, `CommentThreadState`, `CommentThreadChangeKind`, `CommentThreadChangedEventArgs` | `LoomEditor.Core/Comments/` (namespace `LoomEditor.Core.Comments`, **public**) |
+   | Markdown extensions | `LoomEditor.View/Markdown/` (internal) |
+   | toolbar edits, suggestion extraction / edit / diff rows, strings, relative time, avatar initials, the thread view model, `CommentThreadManager`, `CommentThreadsController` | `LoomEditor.View/Comments/` (internal) |
+   | the `Widget` zone kind | `LoomEditor.View/Layout/ViewZone.cs` |
+   | the command `loom.commentThreads.add` | `LoomEditor.View/Features/CommentThreads/` (`CommentThreadsFeature`, listed in `EditorFeatures.cs`). Not `Features/Comment/`: that folder is *Toggle Line Comment*. |
+   | the WinUI widget, its host, the gutter button | `LoomEditor.WinUI/Controls/Comments/` |
+   | the Markdown → XAML builder shared with the hover | `LoomEditor.WinUI/Controls/Markdown/` |
+   | the public API of the controls | `LoomEditor.CommentThreads.cs`, `DiffEditor/LoomDiffEditor.CommentThreads.cs` (partial files) |
 
    The layering rule is unchanged: `WinUI → Rendering → View → Core`. Everything that is not a public API type is `internal`. The data types are public in Core because a host
-   application builds them (it maps its own review system to `Comment` objects), exactly like the language feature contracts of phase 8.
+   builds them (it maps its own review system to `Comment` objects), like the language feature contracts of phase 8.
 
-2. **Public API shape.** All methods are on the control, and mirror each other on `LoomDiffEditor`.
+2. **Public API shape.**
 
    ```csharp
    // LoomEditor (control)
    public CommentThread AddCommentThread(int lineNumber, string? title = null, bool startComposing = false);
    public bool RemoveCommentThread(CommentThread thread);
    public IReadOnlyList<CommentThread> CommentThreads { get; }
-   public event EventHandler<CommentSubmittedEventArgs> CommentSubmitted;      // Thread, Text (Markdown)
-   public event EventHandler<CommentThreadEventArgs> CommentCancelled;         // Thread (draft discarded)
-   public event EventHandler<AddCommentRequestedEventArgs> AddCommentRequested; // gutter button / command; LineNumber
-   public event EventHandler<SuggestionAppliedEventArgs> SuggestionApplied;    // Thread, Comment, LineNumber
-   public bool CommentGutterButtonEnabled { get; set; }                        // default false
+   public event EventHandler<CommentSubmittedEventArgs>? CommentSubmitted;        // Thread, Text (Markdown)
+   public event EventHandler<CommentThreadEventArgs>? CommentCancelled;           // Thread
+   public event EventHandler<AddCommentRequestedEventArgs>? AddCommentRequested;  // LineNumber (gutter button, command)
+   public event EventHandler<SuggestionAppliedEventArgs>? SuggestionApplied;      // Thread, Comment, LineNumber
+   public bool CommentGutterButtonEnabled { get; set; }                           // default false (P11-21)
 
-   // LoomDiffEditor
+   // LoomDiffEditor (P11-22)
    public CommentThread AddCommentThread(DiffSide side, int lineNumber, string? title = null, bool startComposing = false);
    public bool RemoveCommentThread(CommentThread thread);
-   public IReadOnlyList<CommentThread> CommentThreads { get; }                 // both sides
+   public IReadOnlyList<CommentThread> CommentThreads { get; }                    // original's, then modified's
    public DiffSide GetSide(CommentThread thread);
-   // the same four events, raised for threads of either side (args carry the thread; the side comes from GetSide)
+   public event EventHandler<CommentSubmittedEventArgs>? CommentSubmitted;        // same args; side through GetSide
+   public event EventHandler<CommentThreadEventArgs>? CommentCancelled;
+   public event EventHandler<DiffAddCommentRequestedEventArgs>? AddCommentRequested; // Side, LineNumber (own class, no inheritance)
+   public event EventHandler<SuggestionAppliedEventArgs>? SuggestionApplied;
    public enum DiffSide { Original, Modified }
    ```
 
-   - **The control never invents a comment.** On "Comment" it raises `CommentSubmitted` with the text; the host (which knows the user, talks to its server) calls
-     `thread.AddComment(new Comment(...))`. This is how GitHub's flow works (post, then the comment appears) and it keeps authentication out of the control. `startComposing: true` opens the composer.
-   - "Cancel" on a thread that has **no comments** removes the thread; on a thread with comments it only closes the composer. Both raise `CommentCancelled` first.
+   - **The control never invents a comment.** On "Comment" it raises `CommentSubmitted` with the text; the host (which knows the user and talks to its server) calls
+     `thread.AddComment(Comment.Create(...))`. This keeps authentication and persistence out of the control.
+   - "Cancel" on a thread that has **no comments** removes the thread; on a thread with comments it only closes the composer. `CommentCancelled` is raised before the removal.
    - Line numbers are **model** line numbers, 1-based. A thread follows its line when text is edited above it (decision 3).
-   - Public members are listed in `PublicAPI.Unshipped.txt` (Core and WinUI). `AddCommentRequested` carries `AddCommentRequestedEventArgs(int LineNumber)`; the host usually answers with `AddCommentThread(line, startComposing: true)`.
+   - **The API works whatever the feature list is.** The `CommentThreadsController` is created by the control itself (not by a feature) and stored in `EditorContext` (internal property, as `SnippetController`); the feature only registers the command. A host that passes a custom `Features` list without `CommentThreadsFeature` still has `AddCommentThread`; only the command is missing.
+   - Public members are listed in `PublicAPI.Unshipped.txt` (Core and WinUI). `IEditorContext` (public) is **not** changed.
 
 3. **Data model.** All in `LoomEditor.Core.Comments`:
 
-   - `CommentAuthor(string Name, string? AvatarUrl = null)` (record). The avatar is optional; the widget draws the initials in a circle when there is no image (an image is **not** loaded in phase 11: no network code; `AvatarUrl` is stored and exposed for a later card).
-   - `Comment` (immutable record): `string Id`, `CommentAuthor Author`, `string Body` (Markdown), `DateTimeOffset CreatedAt`, `DateTimeOffset? UpdatedAt`.
+   - `CommentAuthor(string Name, string? AvatarUrl = null)` (record). The widget draws the initials in a circle; an image is **not** loaded in phase 11 (no network code).
+   - `Comment` (immutable record): `Id`, `Author`, `Body` (Markdown), `CreatedAt`, `UpdatedAt?`; `Comment.Create(author, body, createdAt?)` makes the id.
    - `CommentThreadState`: `Open`, `Resolved`.
-   - `CommentThread` (class): `Id`, `Title` (nullable: the widget shows "Comment on line N" when `null`), `LineNumber` (read-only for the host, maintained by the editor), `State` (settable; `Resolved` collapses the widget to one line),
-     `Comments` (`IReadOnlyList<Comment>`), `AddComment(Comment)`, `RemoveComment(string id)`, `ReplaceComment(Comment)` (same id), and one `Changed` event (`EventHandler<CommentThreadChangedEventArgs>` with a `Kind` enum). No `INotifyPropertyChanged`, no `ObservableCollection` (AOT-safe, no binding).
-   - A thread belongs to **one** editor; adding it to another is not supported (it is created by `AddCommentThread`, whose constructor is `internal`).
-   - **Anchoring.** The manager keeps one **model decoration** per thread: the whole line range, `NeverGrowsWhenTypingAtEdges`, the same mechanism as Monaco's tracked ranges. When the line moves the decoration moves and the thread's `LineNumber` and its view zone follow. When the line is deleted the decoration collapses and the thread stays at the line that took its place (it is never deleted by an edit).
-   - Not stored in the thread (UI state, lost when the thread is removed): the draft text, the Preview toggle, the scroll position of the widget.
-   - Out of scope in phase 11: multi-line ranges (a thread has **one** line; the suggestion replaces that line by one or more lines), reactions, edit / delete buttons on comments (the host removes or replaces a comment through the thread; a card can add buttons), `@mentions`, attachments.
+   - `CommentThread` (class): `Id`, `Title` (nullable: "Comment on line N" when `null`), `LineNumber` (read-only for the host, maintained by the editor), `State` (settable; `Resolved` collapses the widget),
+     `Comments`, `AddComment`, `RemoveComment(id)`, `ReplaceComment(comment)`, one `Changed` event with a `Kind`. No `INotifyPropertyChanged`, no `ObservableCollection` (no binding, AOT).
+   - A thread belongs to **one** editor; its constructor is `internal` (created by `AddCommentThread`).
+   - **Anchoring.** `CommentThreadManager` keeps one **model decoration** per thread (whole line, `NeverGrowsWhenTypingAtEdges`), like Monaco's zone widgets keep a tracked range. On `TextModel.DecorationsChanged` it moves the thread (`LineNumber`) and its zone (`AfterLineNumber` + `LayoutZone`). This is required: `ViewZones` re-derives a zone's position from `ViewZone.AfterLineNumber` when the line mapping changes (`RecomputeWhitespaceProps`), so a zone whose field is not updated would jump back. A deleted line collapses the decoration; the thread stays at the line that took its place (never deleted by an edit).
+   - Not stored in the thread (UI state): the draft, the Preview toggle.
 
-4. **Where the widget lives: a view zone that reserves the height, and a WinUI element in the overlay layer.**
+4. **Where the widget lives: a view zone that reserves the height, and a WinUI element in a dedicated zone-widget layer.**
 
-   - For each thread the manager adds a `ViewZone` with the new kind `ViewZoneKind.Widget` after the thread's line (`AfterLineNumber = LineNumber`, `ShowInHiddenAreas = false`, `SuppressMouseDown = true`). The renderer paints **nothing** for this kind (the element covers the gap). `HeightInPx` is the height of the element, so the text below is pushed down.
-   - The element (`CommentThreadWidget`, a `Border` with the toolbar, text box, etc.) is a child of `PART_OverlayCanvas` (`OverlayHost`, ADR 0011 decision 10), **not** of the text surface. `CommentZoneHost` positions it: `Canvas.Top = zone top − ScrollTop`, `Canvas.Left = gutter width` (`LayoutInfo.ContentLeft`), `Width = content width − vertical scroll bar − 8` (a thread does not scroll horizontally with the text: it stays at the left of the content area, as in VS Code). It listens to `HostScrollChanged`, `HostLayoutChanged` and `ViewZones.ZonesChanged`, and **collapses** (`Visibility.Collapsed`) the elements whose zone is outside the viewport (no virtualization of the XAML; threads are few).
-   - **Height follows the content.** After a change of the element's size (text typed, Preview toggled, comment added) the host measures it with the available width and, if the integer height differs from the zone's, sets `HeightInPx` and calls `LayoutZone`. A pass limit (3 per tick, as `DiffEditorViewZones.MaxPasses`) ends any feedback loop; a pass that changes nothing is skipped.
-   - **Not in the zone**: the element does not take pointer input through the zone events. `IsFromOverlay` (already used for the hover popup) keeps the editor from treating a press on the widget as a text click. The mouse wheel over a widget scrolls the editor (the host forwards it) unless the widget's own `ScrollViewer` (the text box) can scroll in that direction.
-   - **Diff editor.** The comment zone of a thread is a *foreign* zone for `DiffEditorViewZones` (it is not in `_originalOwn` / `_modifiedOwn`), so the existing alignment code pads the other side by the same height; P11-18 verifies this with tests and fixes what the verification finds. In the **inline view** only the modified editor is shown: original-side threads are **not shown** there (decision recorded, shown again in side-by-side view). Threads inside a hidden unchanged region are hidden with it.
-   - **Rejected alternatives.** (a) A widget drawn by the renderer like the diff zones: no text box, no IME, no accessibility: rejected. (b) The widget as a child of the editor's text area: the text surface is a Win2D control that clips and redraws everything; XAML children of the overlay canvas are the pattern already used by the hover popup and the completion list. (c) A `Popup`: floats above the window, does not clip with the editor, has its own focus rules: rejected.
+   - For each thread the manager adds a `ViewZone` of the new kind `ViewZoneKind.Widget` after the thread's line (`ShowInHiddenAreas = false`, `SuppressMouseDown = true`, `Data` = the thread). The renderer paints **nothing** for it (its `DrawViewZones` already skips unknown kinds; a test pins it). `HeightInPx` is the element's height, so the text below is pushed down.
+   - **A new optional template part `PART_ZoneWidgetCanvas`** (a `Canvas`) is declared in `Generic.xaml` **between `PART_Canvas` and `PART_FindWidget`**. Reason: `PART_OverlayCanvas` is above the find widget; a comment box scrolled to the top would cover the find widget. In the new layer the widgets sit above the text and **below** the find widget, the hover, the completion list and the scroll bars. The layer canvas is clipped to its own bounds (`Clip` = a `RectangleGeometry` updated on `SizeChanged`; a `Canvas` does not clip its children). It reuses the existing `OverlayHost` class (it is not hover-specific: `Show`, `Measure`, `Hide`, `Contains`). The pointer guard (`IsFromOverlay`) covers both layers.
+   - **Position:** from `ViewLayout.GetWhitespaceViewportData()` (only the zones in the viewport): `Top = VerticalOffset − ScrollTop`, `Left = LayoutInfo.ContentLeft`, `Width = LayoutInfo.ContentWidth` minus a margin (Monaco's `contentWidth` already excludes the minimap and the vertical scroll bar). A widget whose zone is not in that list is `Collapsed`. The widget does **not** follow the horizontal scroll. Positions are applied **from the control's draw pass** (`OnCanvasDraw`), so text and widgets move in the same frame; scroll and layout events only request a redraw.
+   - **Height follows the content.** After the element's size changes the host measures it (`Measure(width, ∞)`) and, when `ceil(DesiredSize.Height)` differs from the zone height, calls `CommentThreadManager.SetHeight` (→ `LayoutZone`). A pass that changes nothing does nothing; at most 3 height passes per dispatcher tick (as `DiffEditorViewZones.MaxPasses`).
+   - **Wheel:** `LoomEditor.OnPointerWheelChanged` already receives wheel events that bubble from children; a text box that scrolls itself marks the event handled. Nothing to forward; the cards verify it.
+   - **Diff editor.** A comment zone is a *foreign* zone for `DiffEditorViewZones` (not in its own id sets), and `AdditionalLineHeights.Compute` counts foreign zones, so the other side is padded by the same height. In the **inline view** the original editor is `Collapsed`, so original-side threads are not shown (shown again in side-by-side). Threads inside a hidden unchanged region are hidden with it; `startComposing: true` reveals the line first (`DiffEditorViewModel.EnsureOriginalLineIsVisible` / `EnsureModifiedLineIsVisible`).
+   - **Rejected alternatives.** (a) A widget drawn by the renderer like the diff zones: no text box, no IME, no accessibility. (b) Reusing `PART_OverlayCanvas`: covers the find widget (above). (c) A `Popup`: does not clip with the editor and has its own focus rules.
 
-5. **Markdown rendering reuse.** `MarkdownParser` (phase 8, `LoomEditor.View/Markdown`) gets an **options** object. With `MarkdownParserOptions.Extended` (comments) it also parses blockquotes (`> x`), strikethrough (`~~x~~`) and underline (`<u>x</u>` and `<ins>x</ins>`, the two tags GitHub accepts) and nested-free lists as before; without it (the hover) the output is byte-identical to today. The XAML builder that `HoverWidget.Markdown.cs` contains is **extracted** to `LoomEditor.WinUI/Controls/Markdown/MarkdownElementBuilder.cs` (P11-12) and used by both widgets, so a Markdown fix lands once. No HTML engine, no images, no tables, no task lists (shown as text, listed in the README of the Markdown folder). Raw HTML other than the two underline tags is shown as text. Links are drawn as `Hyperlink`; opening one raises nothing (the platform default `Launcher` is **not** called: the link text is selectable and the host may add handling later; documented limit).
+5. **Markdown rendering reuse.** `MarkdownParser.Parse(text, options)` gets `MarkdownParserOptions.Extended` (comments): blockquotes (`> x`), strikethrough (`~~x~~`), underline (`<u>x</u>`, `<ins>x</ins>`). Without it (the hover) the output is identical to today. The XAML building code of `HoverWidget.Markdown.cs` moves to `MarkdownElementBuilder` (P11-15) and serves both widgets. No HTML engine, no images, no tables, no task lists. Links are drawn as today in the hover; nothing opens them (documented limit).
 
 6. **Suggestion blocks.**
-   - **Syntax**: a fenced code block whose info string is exactly `suggestion` (GitHub's syntax). The parser already gives `MarkdownCodeBlock(Language: "suggestion", Code)`; `SuggestionExtractor` lists them with their index in the comment body. The `Code` has no trailing newline; an **empty** block means "delete this line".
-   - **Diff rows** (`SuggestionDiff`): the old text is the thread's current line content; rows are `Removed` lines then `Added` lines (GitHub shows exactly this, no context lines). A suggestion equal to the old line is flagged `IsNoOp` (shown as "No changes"). No intra-line highlighting in phase 11.
-   - **Apply suggestion**: the button of the widget calls the command `loom.commentThreads.applySuggestion` (arguments: thread id, comment id, suggestion index) which creates **one** edit: replace the full line (and its end of line, when the replacement is empty) by the block's text, written with the model's EOL, through the same path as typing (`PushEditOperations` with an undo stop: one `Ctrl+Z` undoes it). It is refused (command returns `false`, the button is disabled) when the editor is read-only, in the **original** side of a diff editor (read-only), or when the line content at the moment of the click differs from the content the suggestion was rendered against (a stale suggestion: the diff is recomputed and the user clicks again). It raises `SuggestionApplied`. The host decides what to do with the thread (usually mark it `Resolved`); the control does not.
-   - Out of scope: multi-line suggestions that replace a **range** of original lines (needs multi-line threads), "commit suggestion" to a repository, batching several suggestions.
+   - **Syntax**: a fenced code block whose info string is exactly `suggestion`. The parser already gives `MarkdownCodeBlock(Language: "suggestion", Code)`; `SuggestionExtractor` lists them with their index. An **empty** block means "delete this line" (replacing a line by a blank line is not expressible in phase 11).
+   - **Diff rows** (`SuggestionDiff`): the old text is the thread's current line. Rows: `Removed(old)` then one `Added` per new line; when a new line equals the old one it is shown as a `Context` row between the added ones; a suggestion equal to the old line is `IsNoOp` ("No changes"). No intra-line highlighting.
+   - **Apply suggestion** is a method of `CommentThreadsController` (commands in this code base take no arguments: `EditorCommand(string id, Action execute)`), not a command. It builds **one** `TextEdit` (whole line content, or the line and its end of line for a deletion; the model's `Eol` between lines) and applies it between two undo stops (`Model.PushStackElement()`, `ViewModel.ExecuteEdits(...)`, `Model.PushStackElement()`, as `CoreEditingCommands` does), so one `Ctrl+Z` undoes it. It returns an `ApplySuggestionResult` (`Applied`, `ReadOnly`, `Stale`, `NoOp`, `NotFound`): refused when the editor is read-only (`IEditorContext.IsReadOnly`; the original side of a diff editor is read-only unless `OriginalEditable`), or when the line differs from the text the suggestion was drawn against. It raises `SuggestionApplied`. The host decides what to do with the thread.
 
-7. **Keyboard and focus.** The widget contains real WinUI controls (`TextBox`, `Button`s), so the editor must not steal their keys.
-   - The editor's `OnKeyDown` and `OnCharacterReceived` ignore events whose `OriginalSource` is inside the overlay layer (`IsFromOverlay`): this covers keys that bubble from the text box to the control. The editor's own focus state is unchanged (`HasFocus` stays `false` while a child has the focus, so typed characters are not inserted into the text; the caret stops blinking, as for the find widget).
-   - **Tab** inside the text box moves the focus to the next control (`AcceptsTab = false`: it is a review comment box, not an editor), `Shift+Tab` to the previous one; the Tab order is: Heading → Bold → … → Suggestion (toolbar), text box, Preview, Cancel, Comment (the toolbar is **one** tab stop with arrow-key navigation, a WinUI `CommandBar`-style roving focus is not used: the toolbar buttons are `IsTabStop = false` except the first, and `Left`/`Right` move between them).
-   - **Escape** in the composer: when the draft is **empty** it cancels (same as the Cancel button, focus returns to the editor with the caret on the thread's line); when the draft is **not empty** it does nothing, so typed text is never lost by a stray key: the user presses Cancel. Decision final.
-   - **Ctrl+Enter** submits (the "Comment" button); `Enter` inserts a newline. The Comment button is disabled while the text is blank.
-   - **Ctrl+B / Ctrl+I / Ctrl+K** in the text box apply bold / italic / link (the toolbar actions); no other global shortcut is handled in the widget. The editor's own shortcuts (`Ctrl+F`, `F12`, …) are **not** active while the focus is in the widget.
-   - Opening a thread with `startComposing: true` moves the focus into the text box once the widget is laid out (dispatcher low priority).
-   - No keybinding context key is added. The commands of the feature (`loom.commentThreads.add` at the cursor line, `loom.commentThreads.applySuggestion`) are registered **without a default key** (Monaco's `primary: 0` rule of phase 10 README §3.2; the host binds keys if it wants).
+7. **Keyboard and focus.**
+   - **Already true in the code**: while a child of the control has the focus, `HasFocus` is `false`, so `OnKeyDown` hands the key to the base class without running a keybinding, `OnCharacterReceived` inserts nothing, the caret stops blinking and the IME context stays inactive. This is how the find widget's text boxes work. Phase 11 keeps it and **adds tests-by-checklist, not new routing**: the card verifies each path and adds the explicit `IsFromOverlay`-style guard only where a path does not check `HasFocus` (pointer moved / released over a widget, access keys).
+   - **Tab / Shift+Tab** move between the widget's controls by standard XAML focus navigation (a WinUI `TextBox` never inserts a tab; there is no `AcceptsTab` property). The toolbar is one tab stop with arrow-key (roving) focus.
+   - **Escape** in the composer: with an **empty** draft it cancels (as the Cancel button; the focus returns to the editor, caret on the thread's line); with a non-empty draft it does nothing. **Ctrl+Enter** submits; `Enter` inserts a newline. **Ctrl+B / Ctrl+I / Ctrl+K** apply bold / italic / link. The widget handles these keys in its own `KeyDown` and marks only them handled.
+   - **Focus out of a removed widget:** before a widget that holds the focus is removed (Cancel on an empty thread, `RemoveCommentThread`), the focus is moved to the editor first; otherwise XAML moves it to an arbitrary element.
+   - `startComposing: true` moves the focus into the text box once the widget is in the visual tree.
+   - The command `loom.commentThreads.add` has **no default key** (phase 10 README §3.2); no keybinding context key is added.
 
-8. **Accessibility.** Each part gets a UI Automation name set with `AutomationProperties.Name`: the widget `"Comment thread on line {N}"` (`Group`-like landmark through `AutomationProperties.LocalizedLandmarkType` is **not** used), each comment `"{author}, {relative time}"` (a `ListItem`-like element whose content is read as text), the toolbar buttons `Heading`, `Bold`, `Italic`, `Underline`, `Strikethrough`, `Inline code`, `Code block`, `Link`, `Bulleted list`, `Numbered list`, `Quote`, `Suggest a change`; the text box `"Comment text"`, the toggle `"Preview"`; the diff block `"Suggested change"` with a plain-text description ("Removed: …; Added: …") and the button `"Apply suggestion"`. Adding a thread, posting a comment and applying a suggestion are announced through `AutomationAnnouncer` (ADR 0010, UIA notifications). High contrast: the widget uses the system colors like the find widget does (P7-23). The text of the suggestion diff does **not** rely on red and green alone: rows start with `-` / `+`.
+8. **Accessibility.** UIA names with `AutomationProperties.Name` (strings in `CommentStrings`): the widget `"Comment thread on line {N}"`, each comment `"{author}, {relative time}"`, the twelve toolbar buttons, the text box `"Comment text"`, `"Preview"`, `"Suggested change"` (with `FullDescription` = the diff described in words) and `"Apply suggestion"`. Adding a thread with `startComposing`, posting a comment and applying a suggestion are announced through the existing announcer (`EditorContext.Announcer`, `IEditorAnnouncer.Announce(string)`, which raises a UIA notification). High contrast uses the system colors as the find widget does (P7-23). The suggestion diff does not rely on color alone: rows start with `-` / `+`.
 
-9. **Native AOT.** Nothing new: no reflection, no `dynamic`, no reflection-based JSON, no new `Regex` (the existing `[GeneratedRegex]` of the Markdown parser stays; the new Markdown code, the toolbar edits and the suggestion code are hand written with `string` / `Span`). The data types are plain classes and records. Timestamps are formatted by a pure `RelativeTime` function (no `Intl`, no culture data beyond `DateTime`). The self-check P11-20 proves it on the published exe.
+9. **Native AOT.** No reflection, no `dynamic`, no `x:Bind` / `{Binding}` to view models (elements are built in code, like the hover and the completion list), no reflection-based JSON, no new `Regex` (the existing `[GeneratedRegex]` of the Markdown parser stays). The self-check P11-24 runs the logic in the published exe; the **WinUI widget itself is not covered** by it (manual plan only).
 
-10. **Strings.** All user-visible English strings of the widget are in one internal class `CommentStrings` (View). Localization is out of scope; the class is where a later card plugs a resource loader. The reference screenshot of this feature is French ("Commentaire sur Ligne 13"); the Gallery does not translate it.
+10. **Strings.** All user-visible English strings are in `CommentStrings` (View). Localization is out of scope. The reference screenshot is French ("Commentaire sur Ligne 13"); the Gallery does not translate it.
+
+11. **What is verified by machines, and what is not.** Logic (steps A and B of the phase) is unit tested. There is no WinUI test project: every WinUI card has **measurable** manual checks (positions in pixels, counts, event logs shown by the Gallery) in `docs/testing/phase-11-manual-tests.md`, and the Gallery shows a small diagnostics line (zone height vs widget height, height passes) so a mismatch is visible, not guessed. Agents do not run the Gallery UI; the close card must say so.
 
 ## What is not delivered (listed for the close card)
 
-Multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button.
+Multi-line thread ranges, reactions, comment edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel / list, persistence (the host stores threads), drag to select a range with the "+" button, opening links.
 
 ## Changes during implementation
 
-None yet. The close card (P11-21) appends the list.
+None yet. The close card (P11-25) appends the list.

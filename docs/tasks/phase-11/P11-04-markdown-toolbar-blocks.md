@@ -25,7 +25,7 @@ Sources: none (specified in this card; ADR 0014). Read first: `MarkdownToolbar.c
 - **Toggle:** if **every non-blank** affected line already has the prefix (for numbered: matches `digits + ". "`), remove it from all; otherwise add it to every non-blank line that lacks it (for numbered: a line that has another list prefix — `- ` or a different number — has that prefix **replaced**, and all lines are renumbered from 1). Blank lines are never touched. Heading: a line starting with one to six `#` and a space has that prefix **replaced** by `### ` (a different level is changed, `### ` is removed).
 - **Selection after a line prefix edit:** non-empty selection → it covers the whole affected region (start of the first line to the end of the last line); empty selection → the caret keeps its position relative to the text of its line (it moves by the length of the prefix added or removed, never before the start of the line).
 - **Code block:** the selection is replaced by a fenced block ``` on its own lines: `"```\n" + selectedText + "\n```"`; the block starts at a line start (a `\n` is added before it when the selection does not start at one) and is followed by a `\n` when text follows on the same line. Empty selection → `"```\n\n```"` with the caret on the empty middle line. Non-empty → the selection covers the inner text. Toggle: if the selected lines are exactly a fence, an inner text and a fence, the fences are removed.
-- **Suggestion:** inserts `"```suggestion\n" + (suggestionSeed ?? "") + "\n```"` replacing the selection, at a line start (same newline rule as the code block). The new selection covers the seed text inside the block, so typing replaces it. `suggestionSeed == null` behaves as an empty seed. The seed is the content of the commented line (P11-07 supplies it). The seed must not contain `\n` (a `\n` in it is an `ArgumentException`). If the seed contains a line that starts with three backticks, the fence of the block is four backticks instead of three (rare; keep the rule, test it).
+- **Suggestion:** inserts `"```suggestion\n" + (suggestionSeed ?? "") + "\n```"` replacing the selection, at a line start (same newline rule as the code block). The new selection covers the seed text inside the block, so typing replaces it. `suggestionSeed == null` behaves as an empty seed. The seed is the content of the commented line (P11-08 supplies it). The seed must not contain `\n` (a `\n` in it is an `ArgumentException`). If the seed contains a line that starts with three backticks, the fence of the block is four backticks instead of three (rare; keep the rule, test it).
 - Nothing else changes in the inline code.
 
 ## Tests
@@ -41,7 +41,7 @@ Sources: none (specified in this card; ADR 0014). Read first: `MarkdownToolbar.c
 
 ## Out of scope
 
-The buttons and the text box (P11-14), the `\r` conversion of WinUI (done by the widget), keyboard shortcuts.
+The buttons and the text box (P11-17), the `\r` conversion of WinUI (done by the widget), keyboard shortcuts.
 
 ## Suggested commit message
 

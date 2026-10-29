@@ -1,12 +1,12 @@
-# P11-12 — Share the Markdown → XAML builder between the hover and the comment widget
+# P11-15 — Share the Markdown → XAML builder between the hover and the comment widget
 
 - **Status:** todo
-- **Depends on:** P11-02, P11-11
+- **Depends on:** P11-02, P11-14
 - **Size:** M
 
 ## Goal
 
-The code that turns a `MarkdownDocument` into XAML rows moves out of `HoverWidget` into `MarkdownElementBuilder`, which the hover **and** the comment widget use. It also draws the new inline flags (strikethrough, underline) and blockquotes, and lets the caller draw a code block itself (the suggestion block, P11-15). The hover looks and behaves exactly as before.
+The code that turns a `MarkdownDocument` into XAML rows moves out of `HoverWidget` into `MarkdownElementBuilder`, which the hover **and** the comment widget use. It also draws the new inline flags (strikethrough, underline) and blockquotes, and lets the caller draw a code block itself (the suggestion block, P11-19). The hover looks and behaves exactly as before.
 
 ## Sources
 
@@ -17,7 +17,7 @@ Sources: none (specified in this card; ADR 0014 decision 5). Read first, complet
 - `src/LoomEditor.WinUI/Controls/Markdown/MarkdownElementBuilder.cs`, `MarkdownElementBuilder.Inlines.cs`, `MarkdownTheme.cs` — create
 - `src/LoomEditor.WinUI/Controls/Hover/HoverWidget.Markdown.cs`, `HoverWidget.cs`, `HoverWidget.Theme.cs` — change: use the builder; keep marker rows where they are
 - `src/LoomEditor.WinUI/Controls/Suggest/*` — change only if it duplicates the same code (then use the builder too)
-- `docs/testing/phase-11-manual-tests.md` — change: section "P11-12"
+- `docs/testing/phase-11-manual-tests.md` — change: section "P11-15"
 
 ## Design decisions (already made — do not change)
 
@@ -32,7 +32,7 @@ Sources: none (specified in this card; ADR 0014 decision 5). Read first, complet
 ## Tests
 
 - [ ] Automated: none (no WinUI test project); the build and the existing tests prove nothing broke at compile level.
-- [ ] Manual (section "P11-12", Gallery with a language server hover or the marker sample of phase 8): the hover popup of a marker, of a Markdown hover with code, list, heading, link and bold text, and the completion documentation look the same as before the card (compare with a screenshot taken **before** starting the card: take it first and keep it out of the repo).
+- [ ] Manual (section "P11-15", Gallery with a language server hover or the marker sample of phase 8): the hover popup of a marker, of a Markdown hover with code, list, heading, link and bold text, and the completion documentation look the same as before the card (compare with a screenshot taken **before** starting the card: take it first and keep it out of the repo).
 
 ## Acceptance criteria
 
@@ -44,7 +44,7 @@ Sources: none (specified in this card; ADR 0014 decision 5). Read first, complet
 
 ## Out of scope
 
-Any comment widget code (P11-13), images, tables, selectable text in the hover, opening links.
+Any comment widget code (P11-16), images, tables, selectable text in the hover, opening links.
 
 ## Suggested commit message
 

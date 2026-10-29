@@ -22,7 +22,7 @@ Sources: none (specified in this card; ADR 0014 decision 3). Read first: `src/Lo
 
 - Namespace `LoomEditor.Core.Comments`. File-scoped, XML doc on every public member, `<remarks>Threading: …</remarks>` on every class.
 - `public sealed record CommentAuthor(string Name, string? AvatarUrl = null)`; `Name` must not be null or blank (`ArgumentException`).
-- `public sealed record Comment`: `string Id`, `CommentAuthor Author`, `string Body` (Markdown), `DateTimeOffset CreatedAt`, `DateTimeOffset? UpdatedAt = null`. A positional record with validation in a primary-constructor-free form: use an explicit constructor that throws `ArgumentException` for a blank `Id` and `ArgumentNullException` for `Author` / `Body`. `Body` may be empty.
+- `public sealed record Comment`: `string Id`, `CommentAuthor Author`, `string Body` (Markdown), `DateTimeOffset CreatedAt`, `DateTimeOffset? UpdatedAt = null`. Not a positional record: write an explicit constructor (so it can validate) that throws `ArgumentException` for a blank `Id` and `ArgumentNullException` for `Author` / `Body`. `Body` may be empty.
 - `public static Comment Comment.Create(CommentAuthor author, string body, DateTimeOffset? createdAt = null)` — `Id = Guid.NewGuid().ToString("N")`, `CreatedAt = createdAt ?? DateTimeOffset.UtcNow`.
 - `public enum CommentThreadState { Open, Resolved }`.
 - `public sealed class CommentThread`:
@@ -50,7 +50,7 @@ Sources: none (specified in this card; ADR 0014 decision 3). Read first: `src/Lo
 
 ## Out of scope
 
-Anchoring to a line (P11-08), the editor API (P11-09), any UI, edit / delete of comments by the user, reactions.
+Anchoring to a line (P11-09), the editor API (P11-10), any UI, edit / delete of comments by the user, reactions.
 
 ## Suggested commit message
 

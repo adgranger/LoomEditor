@@ -45,7 +45,7 @@ Sources: none (specified in this card; ADR 0014 decision 5). Read first, complet
 
 ## Out of scope
 
-Drawing (P11-12), nested lists, tables, task lists, images, autolinks, raw HTML other than the two underline tags.
+Drawing (P11-15), nested lists, tables, task lists, images, autolinks, raw HTML other than the two underline tags.
 
 ## Suggested commit message
 

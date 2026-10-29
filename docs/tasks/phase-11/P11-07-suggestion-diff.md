@@ -1,7 +1,7 @@
-# P11-06 — Suggestion blocks (2/2): the red / green diff rows
+# P11-07 — Suggestion blocks (2/2): the red / green diff rows
 
 - **Status:** todo
-- **Depends on:** P11-05
+- **Depends on:** P11-05, P11-06
 - **Size:** S
 
 ## Goal
@@ -10,7 +10,7 @@
 
 ## Sources
 
-Sources: none (specified in this card; ADR 0014 decision 6). Read first: `SuggestionBlock.cs` (P11-05).
+Sources: none (specified in this card; ADR 0014 decision 6). Read first: `SuggestionBlock.cs` (P11-06), `CommentStrings.cs` (P11-05).
 
 ## Files to create or change
 
@@ -27,7 +27,7 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `Sugges
   - Otherwise, when some new line equals `oldLine` (the **first** such line): rows = `Added` for the lines before it, `Context(oldLine)`, `Added` for the lines after it (the user added lines around the old one).
   - Otherwise: rows = `Removed(oldLine)` followed by one `Added` per new line.
   - Lines are compared ordinally. Trailing whitespace counts.
-- `Describe()` (UIA text, English, strings in `CommentStrings` once P11-07 exists; until then literals): `"Removed: <text>. Added: <text 1>; <text 2>."`; a row list without removed lines omits that part; deletion gives `"Removed: <text>. Line deleted."`; no-op gives `"No changes."`. Empty lines are described as `(empty)`.
+- `Describe()` (the UIA text), built only from `CommentStrings` pieces (P11-05): `"Removed: <old>. Added: <new 1>; <new 2>."`; a result without a removed row omits that part; a deletion gives `"Removed: <old>. Line deleted."`; a no-op gives `CommentStrings.NoChanges + "."`. An empty line is written `(empty)`.
 - No intra-line (character) highlighting, no use of `DefaultLinesDiffComputer` (a single old line does not need it).
 
 ## Tests
@@ -42,7 +42,7 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `Sugges
 
 ## Out of scope
 
-Drawing the rows (P11-15), intra-line highlights, multi-line old text.
+Drawing the rows (P11-19), intra-line highlights, multi-line old text.
 
 ## Suggested commit message
 

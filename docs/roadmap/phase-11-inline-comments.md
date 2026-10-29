@@ -6,26 +6,28 @@ a Preview toggle and Comment / Cancel buttons; submitted comments are shown as r
 — **Not started.**
 
 Not a port: Monaco has no comment widget in `src/vs/editor` (VS Code's Comments API is in the workbench). It reuses two Monaco concepts: the **view zone** and the **content widget**.
-Design: [ADR 0014](../adr/0014-inline-comments.md). Task cards: [docs/tasks/phase-11/](../tasks/phase-11/README.md) (21 cards).
+Design: [ADR 0014](../adr/0014-inline-comments.md). Task cards: [docs/tasks/phase-11/](../tasks/phase-11/README.md) (25 cards).
 
 ## Checklist
 
 - [ ] Public data model: `Comment`, `CommentAuthor`, `CommentThread`, `CommentThreadState` (P11-01)
 - [ ] Markdown extensions for comments: blockquote, strikethrough, underline (P11-02)
-- [ ] Markdown toolbar as pure text edits: bold, italic, underline, strikethrough, inline code, link, heading, lists, quote, code block, suggestion (P11-03, P11-04)
-- [ ] Suggestion blocks: extraction, the model edit, the red / green diff rows (P11-05, P11-06)
-- [ ] Thread view model: draft, preview, submit / cancel, relative time, strings (P11-07)
-- [ ] Thread tracking in the editor: decorations, `Widget` view zones, heights (P11-08)
-- [ ] Control API and the `CommentThreads` feature (`AddCommentThread`, events, commands) (P11-09)
-- [ ] Overlay hosting of the widget, repositioned on scroll, height follows content (P11-10)
-- [ ] Focus and key routing (Tab, Escape, `Ctrl+Enter`) (P11-11)
-- [ ] The widget: shared Markdown builder, comments list, composer, suggestion block (P11-12 … P11-15)
-- [ ] Accessibility: UIA names, announcements, high contrast (P11-16)
-- [ ] "+" button in the gutter (P11-17)
-- [ ] Diff editor: threads on the original and the modified side, level alignment (P11-18)
-- [ ] Gallery demo and manual test plan (P11-19)
-- [ ] Native AOT self-check of the phase 11 logic (P11-20)
-- [ ] Close the phase (P11-21)
+- [ ] Markdown toolbar as pure text edits (P11-03, P11-04)
+- [ ] Strings, relative time, avatar initials (P11-05)
+- [ ] Suggestion blocks: extraction, the model edit, the red / green diff rows (P11-06, P11-07)
+- [ ] Thread view model: draft, preview, submit / cancel / Escape (P11-08)
+- [ ] Thread tracking in the editor: decorations, `Widget` view zones, heights (P11-09)
+- [ ] Controller with the apply-suggestion path, the add command, the control API (P11-10, P11-11)
+- [ ] Zone-widget layer: an element over each zone, positioned in the draw pass (P11-12)
+- [ ] Zone height follows the content (P11-13)
+- [ ] Focus and keys (Tab, Escape, `Ctrl+Enter`, IME) (P11-14)
+- [ ] The widget: shared Markdown builder, comments, composer, toolbar, suggestion block (P11-15 … P11-19)
+- [ ] Accessibility: UIA names, announcements, high contrast (P11-20)
+- [ ] "+" button in the gutter (P11-21)
+- [ ] Diff editor: threads on the original and the modified side, level alignment (P11-22)
+- [ ] Gallery demo and manual test plan (P11-23)
+- [ ] Native AOT self-check of the phase 11 logic (P11-24; the WinUI widget is covered by the manual plan only)
+- [ ] Close the phase (P11-25)
 
 ## Not delivered (ADR 0014)
 
