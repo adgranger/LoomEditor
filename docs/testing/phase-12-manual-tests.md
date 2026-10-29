@@ -52,3 +52,16 @@ What unit tests cannot check: the highlight of the lines of a multi-line comment
    Result:
 6. An empty suggestion block on a range shows all lines removed; Narrator's description ends with "Lines deleted."
    Result:
+
+## P12-12 — The gutter "+" button requests the selected lines
+
+1. Select lines 3–6 (mouse drag in the text), hover the gutter of line 4, click **+**: the log shows `AddCommentRequested, lines 3–6` and the box opens under line 6.
+   Result:
+2. Select lines 3–6 with `Shift+Down` from line 3 (the selection ends at column 1 of line 7): the request is 3–6, not 3–7.
+   Result:
+3. Hover line 9 (outside the selection), click: the request is line 9 only.
+   Result:
+4. No selection: phase 11 behavior.
+   Result:
+5. Narrator reads "Add a comment on lines 3 to 6" on the button inside the selection.
+   Result:

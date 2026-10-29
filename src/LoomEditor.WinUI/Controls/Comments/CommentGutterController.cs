@@ -31,6 +31,8 @@ internal sealed class CommentGutterController : IDisposable
     private int _hitLine;
     private int _candidateLine;
     private int _shownLine;
+    private int _requestStartLine;
+    private int _requestLine;
 
     public CommentGutterController(LoomEditor editor, OverlayHost layer, CommentThreadsController controller, Func<double, double, MouseTarget> hitTest)
     {
@@ -116,6 +118,7 @@ internal sealed class CommentGutterController : IDisposable
             // One box per line from the gutter; looked up only when the hovered line changes, not on every move.
             _candidateLine = line;
             _shownLine = line > 0 && !HasThreadOn(line) ? line : 0;
+            (_requestStartLine, _requestLine) = _shownLine > 0 ? TargetOf(_shownLine) : (0, 0);
         }
 
         if (_shownLine == 0)
@@ -126,8 +129,15 @@ internal sealed class CommentGutterController : IDisposable
 
         EditorLayoutInfo layout = _editor.LayoutInfo;
         double top = _editor.GetTopForLineNumber(_shownLine) - _editor.ScrollTop + ((_editor.LineHeight - CommentGutterButton.Size) / 2);
-        _button.SetLine(_shownLine);
+        _button.SetLines(_requestStartLine, _requestLine);
         _layer.Show(_button, new OverlayRect(layout.LineNumbersLeft, top, CommentGutterButton.Size, CommentGutterButton.Size));
+    }
+
+    // The selected lines when the hovered line is inside a multi-line selection; the box still sits under the last line.
+    private (int Start, int Line) TargetOf(int hoveredLine)
+    {
+        (int s, int e) = CommentLineRange.FromSelection(_editor.Selections[0]);
+        return s < e && s <= hoveredLine && hoveredLine <= e ? (s, e) : (hoveredLine, hoveredLine);
     }
 
     private bool HasThreadOn(int line)
@@ -153,7 +163,7 @@ internal sealed class CommentGutterController : IDisposable
     {
         if (_shownLine > 0)
         {
-            _controller.RequestAdd(_shownLine);
+            _controller.RequestAdd(_requestStartLine, _requestLine);
         }
     }
 

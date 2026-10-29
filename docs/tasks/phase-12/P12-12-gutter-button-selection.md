@@ -1,6 +1,6 @@
 # P12-12 — The gutter "+" button requests the selected lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-11
 - **Size:** S
 
@@ -37,15 +37,15 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decision 
 
 ## Tests
 
-- [ ] None automated (the rule is `CommentLineRange`, tested in P12-08).
-- [ ] Manual: section "P12-12" written (not run by the agent).
+- [x] None automated (the rule is `CommentLineRange`, tested in P12-08).
+- [x] Manual: section "P12-12" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -54,3 +54,7 @@ Dragging from the button to select lines, shift-click in the gutter, showing the
 ## Suggested commit message
 
 `feat(winui): let the gutter button request the selected lines`
+
+## Result
+
+Build and tests green. The manual section "P12-12" is written; it was not run (agents do not run the Gallery UI).

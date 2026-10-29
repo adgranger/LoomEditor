@@ -30,13 +30,17 @@ internal sealed partial class CommentGutterButton : Button
     /// <summary>The model line the button is shown on; 0 when hidden.</summary>
     public int LineNumber { get; private set; }
 
-    /// <summary>Sets the line and the automation name <c>Add a comment on line {N}</c>.</summary>
-    public void SetLine(int lineNumber)
+    /// <summary>The first line the click requests a thread on; equals <see cref="LineNumber"/> for one line.</summary>
+    public int StartLineNumber { get; private set; }
+
+    /// <summary>Sets the requested lines and the automation name <c>Add a comment on line {N}</c> / <c>on lines {S} to {E}</c>.</summary>
+    public void SetLines(int startLineNumber, int lineNumber)
     {
-        if (LineNumber != lineNumber)
+        if (LineNumber != lineNumber || StartLineNumber != startLineNumber)
         {
+            StartLineNumber = startLineNumber;
             LineNumber = lineNumber;
-            AutomationProperties.SetName(this, View.Comments.CommentStrings.AddCommentOnLine(lineNumber));
+            AutomationProperties.SetName(this, View.Comments.CommentStrings.AddCommentOnLines(startLineNumber, lineNumber));
         }
     }
 
