@@ -176,6 +176,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     private bool _tabMovesFocus;
 
+    /// <summary>The comment threads of the editor; set by the control (P11-11), null until then.</summary>
+    internal LoomEditor.View.Comments.CommentThreadsController? CommentThreads { get; set; }
+
     /// <summary>The folding feature, set by <c>FoldingFeature</c> while it is attached (Monaco: <c>FoldingController.get(editor)</c>).</summary>
     internal FoldingFeature? FoldingFeature { get; set; }
 

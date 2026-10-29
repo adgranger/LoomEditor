@@ -28,6 +28,9 @@ internal static class EditorContextExtensions
     /// <summary>The snippet controller of the editor, or null when the Snippet feature is not attached.</summary>
     public static SnippetController? GetSnippetController(this IEditorContext context) => (context as EditorContext)?.SnippetController;
 
+    /// <summary>The comment threads controller of the editor, or null when the control has not created one.</summary>
+    public static LoomEditor.View.Comments.CommentThreadsController? GetCommentThreadsController(this IEditorContext context) => (context as EditorContext)?.CommentThreads;
+
     /// <summary>The folding feature of the editor, or null when the Folding feature is not attached.</summary>
     public static FoldingFeature? GetFoldingFeature(this IEditorContext context) => (context as EditorContext)?.FoldingFeature;
 

@@ -1,6 +1,6 @@
 # P11-10 — `CommentThreadsController` (View), the apply-suggestion path and the `CommentThreads` feature
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-06, P11-08, P11-09
 - **Size:** M
 
@@ -50,16 +50,16 @@ Sources: none (specified in this card; ADR 0014 decisions 2 and 6). Read first:
 
 ## Tests
 
-- [ ] Controller: `Add_ReturnsThreadOnLine`, `Add_StartComposing_ViewModelIsComposing`, `Add_RaisesThreadAdded`, `Add_StartComposing_Announces`, `Add_Silent_DoesNotAnnounce`, `Remove_RaisesThreadRemovingBeforeRemoval`, `Remove_DisposesViewModel`, `Submit_RaisesCommentSubmittedWithText`, `Cancel_NoComments_RemovesThread`, `Cancel_WithComments_KeepsThread`, `Cancel_HandlerRemovesThread_NoException`, `CommentAdded_WhileComposing_AnnouncesPosted`, `RequestAdd_RaisesWithLine`, `ApplySuggestion_ReplacesLineAndRaisesEvent`, `ApplySuggestion_OneUndoRestoresText`, `ApplySuggestion_PutsCursorAtLineStart`, `ApplySuggestion_ReadOnly_ReturnsReadOnly`, `ApplySuggestion_StaleLine_ReturnsStale`, `ApplySuggestion_NoOp_ReturnsNoOp`, `ApplySuggestion_UnknownComment_ReturnsNotFound`, `ApplySuggestion_BadIndex_ReturnsNotFound`, `ApplySuggestion_Deletion_RemovesLine`, `ThreadsFollowEdits_ThroughController`
-- [ ] Feature: `AddCommand_RaisesAddRequestedForCursorLine`, `AddCommand_NoController_DoesNothing`, `AddCommand_ReadOnly_StillRaises`
-- [ ] Architecture tests pass (the new feature folder)
+- [x] Controller: `Add_ReturnsThreadOnLine`, `Add_StartComposing_ViewModelIsComposing`, `Add_RaisesThreadAdded`, `Add_StartComposing_Announces`, `Add_Silent_DoesNotAnnounce`, `Remove_RaisesThreadRemovingBeforeRemoval`, `Remove_DisposesViewModel`, `Submit_RaisesCommentSubmittedWithText`, `Cancel_NoComments_RemovesThread`, `Cancel_WithComments_KeepsThread`, `Cancel_HandlerRemovesThread_NoException`, `CommentAdded_WhileComposing_AnnouncesPosted`, `RequestAdd_RaisesWithLine`, `ApplySuggestion_ReplacesLineAndRaisesEvent`, `ApplySuggestion_OneUndoRestoresText`, `ApplySuggestion_PutsCursorAtLineStart`, `ApplySuggestion_ReadOnly_ReturnsReadOnly`, `ApplySuggestion_StaleLine_ReturnsStale`, `ApplySuggestion_NoOp_ReturnsNoOp`, `ApplySuggestion_UnknownComment_ReturnsNotFound`, `ApplySuggestion_BadIndex_ReturnsNotFound`, `ApplySuggestion_Deletion_RemovesLine`, `ThreadsFollowEdits_ThroughController`
+- [x] Feature: `AddCommand_RaisesAddRequestedForCursorLine`, `AddCommand_NoController_DoesNothing`, `AddCommand_ReadOnly_StillRaises`
+- [x] Architecture tests pass (the new feature folder)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` of View unchanged except `CommentThreadsFeature` / `CommentThreadsCommands` if they are public like their neighbours (check: other `XxxFeature` / `XxxCommands` are public; follow them and run `./eng/Update-PublicApi.ps1 src/LoomEditor.View`)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` of View unchanged except `CommentThreadsFeature` / `CommentThreadsCommands` if they are public like their neighbours (check: other `XxxFeature` / `XxxCommands` are public; follow them and run `./eng/Update-PublicApi.ps1 src/LoomEditor.View`)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
