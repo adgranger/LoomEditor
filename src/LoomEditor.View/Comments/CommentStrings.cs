@@ -23,6 +23,7 @@ internal static class CommentStrings
     public const string DescribeRemoved = "Removed: ";
     public const string DescribeAdded = "Added: ";
     public const string DescribeLineDeleted = "Line deleted.";
+    public const string DescribeLinesDeleted = "Lines deleted.";
     public const string DescribeEmpty = "(empty)";
 
     public const string CommentText = "Comment text";

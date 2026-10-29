@@ -1024,7 +1024,7 @@ Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); co
 |---|---|---|---|
 | [P12-01](phase-12/P12-01-comment-thread-line-range.md) | `CommentThread` covers a range of lines: `StartLineNumber` | P11-25 | done |
 | [P12-02](phase-12/P12-02-suggestion-edit-range.md) | Suggestion edit for a range of lines, the stale check and the range text | P12-01 | done |
-| [P12-03](phase-12/P12-03-suggestion-diff-range.md) | Suggestion diff rows for N old lines | P12-02 | todo |
+| [P12-03](phase-12/P12-03-suggestion-diff-range.md) | Suggestion diff rows for N old lines | P12-02 | done |
 | [P12-04](phase-12/P12-04-strings-and-multiline-seed.md) | Strings for ranges and a multi-line "Suggest a change" seed | P12-03 | todo |
 
 ### Step B — Ranges in the editor

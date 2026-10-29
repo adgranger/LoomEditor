@@ -72,4 +72,85 @@ public class SuggestionDiffTests
         Assert.Equal('-', new SuggestionDiffRow(SuggestionDiffRowKind.Removed, "").Marker);
         Assert.Equal('+', new SuggestionDiffRow(SuggestionDiffRowKind.Added, "").Marker);
     }
+
+    private static SuggestionDiffResult ComputeRange(string[] old, string text) => SuggestionDiff.Compute(old, new SuggestionBlock(0, text));
+
+    [Fact]
+    public void Compute_ThreeLinesOneChanged_ContextRemovedAddedContext() =>
+        Assert.Equal(
+            [
+                (SuggestionDiffRowKind.Context, "a"), (SuggestionDiffRowKind.Removed, "b"),
+                (SuggestionDiffRowKind.Added, "X"), (SuggestionDiffRowKind.Context, "c"),
+            ],
+            Rows(ComputeRange(["a", "b", "c"], "a\nX\nc")));
+
+    [Fact]
+    public void Compute_RangeDeletion_AllRemovedAndIsDeletion()
+    {
+        var r = ComputeRange(["a", "b"], "");
+        Assert.Equal([(SuggestionDiffRowKind.Removed, "a"), (SuggestionDiffRowKind.Removed, "b")], Rows(r));
+        Assert.True(r.IsDeletion);
+        Assert.False(r.IsNoOp);
+    }
+
+    [Fact]
+    public void Compute_RangeIdentical_IsNoOpAllContext()
+    {
+        var r = ComputeRange(["a", "b"], "a\nb");
+        Assert.Equal([(SuggestionDiffRowKind.Context, "a"), (SuggestionDiffRowKind.Context, "b")], Rows(r));
+        Assert.True(r.IsNoOp);
+    }
+
+    [Fact]
+    public void Compute_LinesInserted_AddedBetweenContext() =>
+        Assert.Equal(
+            [(SuggestionDiffRowKind.Context, "a"), (SuggestionDiffRowKind.Added, "b"), (SuggestionDiffRowKind.Context, "c")],
+            Rows(ComputeRange(["a", "c"], "a\nb\nc")));
+
+    [Fact]
+    public void Compute_AllDifferent_RemovedThenAdded() =>
+        Assert.Equal(
+            [
+                (SuggestionDiffRowKind.Removed, "a"), (SuggestionDiffRowKind.Removed, "b"),
+                (SuggestionDiffRowKind.Added, "x"), (SuggestionDiffRowKind.Added, "y"),
+            ],
+            Rows(ComputeRange(["a", "b"], "x\ny")));
+
+    [Theory]
+    [InlineData("a", "b")]
+    [InlineData("a", "")]
+    [InlineData("a", "b\na\nc")]
+    [InlineData("a", "a\na")]
+    public void Compute_SingleOldLine_SameRowsAsPhase11(string old, string text)
+    {
+        var one = SuggestionDiff.Compute(old, new SuggestionBlock(0, text));
+        var list = ComputeRange([old], text);
+        Assert.Equal(Rows(one), Rows(list));
+        Assert.Equal(one.IsNoOp, list.IsNoOp);
+        Assert.Equal(one.IsDeletion, list.IsDeletion);
+    }
+
+    [Fact]
+    public void Compute_SingleOldLine_FirstEqualLineIsContext() =>
+        Assert.Equal(
+            [(SuggestionDiffRowKind.Added, "b"), (SuggestionDiffRowKind.Context, "a"), (SuggestionDiffRowKind.Added, "a")],
+            Rows(ComputeRange(["a"], "b\na\na")));
+
+    [Fact]
+    public void Compute_HugeInput_FallsBackWithoutContext()
+    {
+        string[] old = [.. Enumerable.Range(0, 600).Select(i => "l" + i)];
+        var r = ComputeRange(old, string.Join('\n', old.Select(l => l + "x")));
+        Assert.DoesNotContain(r.Rows, x => x.Kind == SuggestionDiffRowKind.Context);
+        Assert.Equal(1200, r.Rows.Count);
+        Assert.False(r.IsNoOp);
+    }
+
+    [Fact]
+    public void Compute_EmptyOldLines_Throws() =>
+        Assert.Throws<ArgumentException>(() => ComputeRange([], "a"));
+
+    [Fact]
+    public void Describe_RangeDeletion_SaysLinesDeleted() =>
+        Assert.EndsWith("Lines deleted.", ComputeRange(["a", "b"], "").Describe());
 }

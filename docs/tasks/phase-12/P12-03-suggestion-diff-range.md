@@ -1,6 +1,6 @@
 # P12-03 — Suggestion diff rows for N old lines
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-02
 - **Size:** S
 
@@ -41,20 +41,20 @@ removed first, the **first** equal new line is `Context`), `tests/LoomEditor.Vie
 
 ## Tests
 
-- [ ] `Compute_ThreeLinesOneChanged_ContextRemovedAddedContext` (old `a b c`, new `a X c` → `a`, `-b`, `+X`, `c`)
-- [ ] `Compute_RangeDeletion_AllRemovedAndIsDeletion`, `Compute_RangeIdentical_IsNoOpAllContext`
-- [ ] `Compute_LinesInserted_AddedBetweenContext` (old `a c`, new `a b c`), `Compute_AllDifferent_RemovedThenAdded`
-- [ ] `Compute_SingleOldLine_SameRowsAsPhase11` (the string overload and the list overload give equal rows for 4 inputs)
-- [ ] `Compute_HugeInput_FallsBackWithoutContext` (n = 600, m = 600)
-- [ ] `Compute_EmptyOldLines_Throws`
-- [ ] `Describe_RangeDeletion_SaysLinesDeleted`
-- [ ] All existing `SuggestionDiffTests` unchanged and green
+- [x] `Compute_ThreeLinesOneChanged_ContextRemovedAddedContext` (old `a b c`, new `a X c` → `a`, `-b`, `+X`, `c`)
+- [x] `Compute_RangeDeletion_AllRemovedAndIsDeletion`, `Compute_RangeIdentical_IsNoOpAllContext`
+- [x] `Compute_LinesInserted_AddedBetweenContext` (old `a c`, new `a b c`), `Compute_AllDifferent_RemovedThenAdded`
+- [x] `Compute_SingleOldLine_SameRowsAsPhase11` (the string overload and the list overload give equal rows for 4 inputs)
+- [x] `Compute_HugeInput_FallsBackWithoutContext` (n = 600, m = 600)
+- [x] `Compute_EmptyOldLines_Throws`
+- [x] `Describe_RangeDeletion_SaysLinesDeleted`
+- [x] All existing `SuggestionDiffTests` unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
