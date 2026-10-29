@@ -299,6 +299,30 @@ public class TextViewRendererDecorationsTests
     }
 
     [Fact]
+    public void Render_SnippetPlaceholder_DrawsItsBackground()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "snippet-placeholder");
+
+        FillRectangleCall fill = Assert.Single(Fills(harness, harness.Render(), "editor.snippetTabstopHighlightBackground"));
+
+        Assert.Equal(new FillRectangleCall(harness.LayoutInfo.ContentLeft, 0, 5 * CharacterWidth, LineHeight, fill.Color), fill);
+    }
+
+    [Fact]
+    public void Render_FinishSnippetPlaceholder_DrawsA1DipBorder()
+    {
+        using ViewHarness harness = CreateHarness("hello world");
+        AddDecoration(harness, new Range(1, 1, 1, 6), "finish-snippet-placeholder");
+
+        RecordingRenderSurface surface = harness.Render();
+
+        ThemeColor border = Color(harness, "editor.snippetFinalTabstopHighlightBorder");
+        DrawRectangleCall call = Assert.Single(surface.Calls.OfType<DrawRectangleCall>(), c => c.Color == border);
+        Assert.Equal(new DrawRectangleCall(harness.LayoutInfo.ContentLeft + 0.5f, 0.5f, 5 * CharacterWidth - 1, LineHeight - 1, border, 1), call);
+    }
+
+    [Fact]
     public void Render_InlineDeletedText_DrawsAStrikeThroughOverItsBackground()
     {
         using ViewHarness harness = CreateHarness("hello world");

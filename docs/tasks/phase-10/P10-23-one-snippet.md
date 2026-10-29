@@ -1,6 +1,6 @@
 # P10-23 — `OneSnippet`: tab stops, placeholders and moving between them
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-22
 - **Size:** M
 
@@ -38,16 +38,16 @@ An inserted snippet is tracked in the model by one decoration per placeholder; `
 
 ## Tests
 
-- [ ] Port: the tests of `snippetSession.test.ts` (969 lines, 47 tests) that exercise `OneSnippet` directly or through a session helper that **only moves between placeholders**: titles such as "snippets, repeated tabstops", "snippets, just text", "snippets, selections and snippet ranges", "snippets, nested sessions" … — read the file, take the ones that do not call `SnippetSession.insert` with several cursors / `adjustWhitespace` (P10-24 ports those). Use a helper that builds the `TextmateSnippet` with `SnippetParser`, inserts its text into a model at an offset, calls `Initialize` and `Move`
-- [ ] New: `Move_Forward_VisitsPlaceholdersInOrderThenFinal`, `Move_Backward_AtFirst_StaysAtFirst`, `Move_SameIndexPlaceholders_SelectedTogether`, `Move_AppliesTransformOfLeftPlaceholder`, `Move_EmptyPlaceholder_ReturnsCaret`, `Typing_InActivePlaceholder_GrowsDecoration`, `Typing_AfterInactivePlaceholder_DoesNotGrowIt`, `Merge_NestedSnippet_RenumbersPlaceholders`, `IsTrivialSnippet_OnlyFinalTabstop_True`, `ActiveChoice_OnChoicePlaceholder`, `Dispose_RemovesDecorations`
-- [ ] New (Rendering): `snippet-placeholder` draws a 1 px border and background (recording surface)
+- [x] Port: the tests of `snippetSession.test.ts` (969 lines, 47 tests) that exercise `OneSnippet` directly or through a session helper that **only moves between placeholders**: titles such as "snippets, repeated tabstops", "snippets, just text", "snippets, selections and snippet ranges", "snippets, nested sessions" … — read the file, take the ones that do not call `SnippetSession.insert` with several cursors / `adjustWhitespace` (P10-24 ports those). Use a helper that builds the `TextmateSnippet` with `SnippetParser`, inserts its text into a model at an offset, calls `Initialize` and `Move`
+- [x] New: `Move_Forward_VisitsPlaceholdersInOrderThenFinal`, `Move_Backward_AtFirst_StaysAtFirst`, `Move_SameIndexPlaceholders_SelectedTogether`, `Move_AppliesTransformOfLeftPlaceholder`, `Move_EmptyPlaceholder_ReturnsCaret`, `Typing_InActivePlaceholder_GrowsDecoration`, `Typing_AfterInactivePlaceholder_DoesNotGrowIt`, `Merge_NestedSnippet_RenumbersPlaceholders`, `IsTrivialSnippet_OnlyFinalTabstop_True`, `ActiveChoice_OnChoicePlaceholder`, `Dispose_RemovesDecorations`
+- [x] New (Rendering): `snippet-placeholder` draws a 1 px border and background (recording surface)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `snippetSession.ts` (OneSnippet) 🔶, `snippetSession.css`, the four theme colors
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `snippetSession.ts` (OneSnippet) 🔶, `snippetSession.css`, the four theme colors
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

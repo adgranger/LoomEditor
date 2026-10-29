@@ -14,6 +14,7 @@ using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.View.Features.DragAndDrop;
 using LoomEditor.View.Features.Overtype;
+using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Features.SelectAll;
 using LoomEditor.View.Features.SelectionAnchor;
 using LoomEditor.View.Features.SmartSelect;
@@ -63,6 +64,7 @@ public static class EditorFeatures
         () => new LineSelectionFeature(),
         () => new SmartSelectFeature(),
         () => new DragAndDropFeature(),
+        () => new SnippetFeature(),
     ];
 
     /// <summary>The features a diff editor adds to each of its two editors, on top of <see cref="Default"/>.</summary>

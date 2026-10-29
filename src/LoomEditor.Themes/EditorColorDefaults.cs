@@ -76,6 +76,12 @@ internal static class EditorColorDefaults
         // editorColorRegistry.ts:16
         ["editor.lineHighlightBorder"] = ("#282828", "#eeeeee", "#f38518", "contrastBorder"),
 
+        // editorColors.ts:248-262 (rgba(124,124,124,0.3) and rgba(10,50,100,0.2 / 0.5))
+        ["editor.snippetTabstopHighlightBackground"] = ("#7C7C7C4D", "#0A326433", "#7C7C7C4D", "#0A326433"),
+        ["editor.snippetTabstopHighlightBorder"] = (null, null, null, null),
+        ["editor.snippetFinalTabstopHighlightBackground"] = (null, null, null, null),
+        ["editor.snippetFinalTabstopHighlightBorder"] = ("#525252", "#0A326480", "#525252", "#292929"),
+
         // editorColorRegistry.ts:17
         ["editor.rangeHighlightBackground"] = ("#ffffff0b", "#fdff0033", null, null),
 

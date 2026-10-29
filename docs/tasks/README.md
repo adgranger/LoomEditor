@@ -931,7 +931,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 | [P10-20](phase-10/P10-20-snippet-transforms-variables-snippet.md) | Snippet syntax (2/3): transforms, format strings, variables and `TextmateSnippet` | P10-19 | done |
 | [P10-21](phase-10/P10-21-snippet-parser.md) | Snippet syntax (3/3): `SnippetParser` | P10-20 | done |
 | [P10-22](phase-10/P10-22-snippet-variables.md) | Snippet variables: the resolvers | P10-21 | done |
-| [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | todo |
+| [P10-23](phase-10/P10-23-one-snippet.md) | `OneSnippet`: tab stops, placeholders and moving between them | P10-22 | done |
 | [P10-24](phase-10/P10-24-snippet-session.md) | `SnippetSession`: insert a snippet at every cursor, merge, next and previous | P10-23 | todo |
 | [P10-25](phase-10/P10-25-snippet-controller.md) | `SnippetController`: the feature, the keys and `InsertSnippet` | P10-24 | todo |
 | [P10-26](phase-10/P10-26-completion-snippets.md) | Completion items that are snippets | P10-25 | todo |
