@@ -1,6 +1,6 @@
 # P11-24 — Native AOT self-check of the phase 11 logic
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-23
 - **Size:** M
 
@@ -30,16 +30,16 @@ Sources: none (specified in this card; the pattern is `TextSelfCheck` of P10-30:
 
 ## Tests
 
-- [ ] New: `CommentsSelfCheckTests` runs every check and asserts all pass; one test per check name so a failure names the check; a test for the report format
-- [ ] Manual: none (the self-check is the check)
+- [x] New: `CommentsSelfCheckTests` runs every check and asserts all pass; one test per check name so a failure names the check; a test for the report format
+- [x] Manual: none (the self-check is the check)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` (the exact command line of P10-30's Result section) succeeds, and the published exe run with `--comments-selfcheck=<file>` ends with `n of n checks passed` and exit code 0 (stated in the card's Result section, with the date)
-- [ ] No Gallery process left running
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` (the exact command line of P10-30's Result section) succeeds, and the published exe run with `--comments-selfcheck=<file>` ends with `n of n checks passed` and exit code 0 (stated in the card's Result section, with the date)
+- [x] No Gallery process left running
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -48,3 +48,10 @@ The WinUI widget (layer, height, focus, composer, toolbar, suggestion view, acce
 ## Suggested commit message
 
 `test(gallery): add the Native AOT self-check of the phase 11 logic`
+
+## Result
+
+- Native AOT publish: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` **succeeded**.
+- Native AOT run (2026-10-29): `LoomEditor.Gallery.exe --comments-selfcheck=%TEMP%\comments-selfcheck.txt` on the published exe ended with `11 of 11 checks passed` and exit code 0; `--text-selfcheck` ended with `10 of 10 checks passed` and `--diff-selfcheck` with `SUMMARY: 9 passed, 0 failed` (both exit code 0). No Gallery process left running.
+- Not covered by this self-check: the WinUI widget (layer, height, focus, composer, toolbar, suggestion view, accessibility); it stays on the manual plan.
+- AOT note: the Gallery's CsWinRT analyzer (CsWinRT1032) rejects collection expressions targeting `IEnumerable<T>` / `IReadOnlyList<T>`, so `CommentsSelfCheck` uses `new[] { ... }` arguments.
