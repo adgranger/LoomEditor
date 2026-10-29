@@ -1,6 +1,6 @@
 # P12-14 — Native AOT self-check of the phase 12 logic
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-13
 - **Size:** S
 
@@ -38,16 +38,16 @@ run commands, and how its Result section reports them).
 
 ## Tests
 
-- [ ] `CommentsSelfCheckTests` green with the four new checks (it runs `Run()` in-process)
-- [ ] Native AOT publish succeeds with `-warnaserror`; the exe prints `15 of 15 checks passed` (result copied in the card)
+- [x] `CommentsSelfCheckTests` green with the four new checks (it runs `Run()` in-process)
+- [x] Native AOT publish succeeds with `-warnaserror`; the exe prints `15 of 15 checks passed` (result copied in the card)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds
-- [ ] The published exe's `--comments-selfcheck` exits 0 with `15 of 15 checks passed`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds
+- [x] The published exe's `--comments-selfcheck` exits 0 with `15 of 15 checks passed`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -56,3 +56,12 @@ Checking the WinUI widget under AOT (manual plan only), a new self-check switch.
 ## Suggested commit message
 
 `test(gallery): add the phase 12 range checks to the comments self-check`
+
+## Result
+
+- Native AOT publish: `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` **succeeded**.
+- Native AOT run (2026-10-29), published exe, all with exit code 0:
+  - `--comments-selfcheck`: `15 of 15 checks passed`
+  - `--text-selfcheck`: `10 of 10 checks passed`
+  - `--diff-selfcheck`: `SUMMARY: 9 passed, 0 failed`
+- Not covered: the WinUI widget (manual plan). No Gallery process left running.

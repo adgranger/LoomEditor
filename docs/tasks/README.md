@@ -1050,7 +1050,7 @@ Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); co
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P12-13](phase-12/P12-13-gallery-demo-and-manual-plan.md) | Gallery: the range demo and the complete manual test plan | P12-12 | done |
-| [P12-14](phase-12/P12-14-native-aot-self-check.md) | Native AOT self-check of the phase 12 logic | P12-13 | todo |
+| [P12-14](phase-12/P12-14-native-aot-self-check.md) | Native AOT self-check of the phase 12 logic | P12-13 | done |
 | [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 | all phase 12 cards | todo |
 
 Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it). Every card is written for **Sonnet**; none is flagged Opus (the delicate
