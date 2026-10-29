@@ -1,4 +1,6 @@
 using LoomEditor.Themes;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace LoomEditor.WinUI.Controls.Comments;
@@ -29,6 +31,30 @@ internal sealed partial class CommentThreadWidget
         Set(_codeBackground, theme.GetColor("textCodeBlock.background"));
         ThemeColor? quote = theme.GetColor("textBlockQuote.border");
         Set(_quoteBar, quote ?? dim ?? foreground, quote is null ? 0.5 : 1);
+
+        // The composer: a missing id keeps the WinUI default (the brush is cleared, not set).
+        SetOrClear(_textBox, Control.BackgroundProperty, theme.GetColor("input.background"));
+        SetOrClear(_textBox, Control.BorderBrushProperty, theme.GetColor("input.border"));
+        SetOrClear(_textBox, Control.ForegroundProperty, theme.GetColor("input.foreground"));
+        SetOrClear(_submitButton, Control.BackgroundProperty, theme.GetColor("button.background"));
+        SetOrClear(_submitButton, Control.ForegroundProperty, theme.GetColor("button.foreground"));
+        foreach (Control button in (Control[])[_previewButton, _cancelButton, _replyButton])
+        {
+            button.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+            button.Foreground = _foreground;
+        }
+    }
+
+    private static void SetOrClear(Control control, DependencyProperty property, ThemeColor? color)
+    {
+        if (color is { } c)
+        {
+            control.SetValue(property, new SolidColorBrush(Windows.UI.Color.FromArgb(c.A, c.R, c.G, c.B)));
+        }
+        else
+        {
+            control.ClearValue(property);
+        }
     }
 
     private static void Set(SolidColorBrush brush, ThemeColor? color, double alpha = 1)

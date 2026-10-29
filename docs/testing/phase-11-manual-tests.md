@@ -85,6 +85,21 @@ resolved thread, line 33 a comment with a very long line.
 | 4 | Light, dark and high-contrast themes (Gallery theme switch) recolor the widget: background, border, text, dimmed text, link | pending |
 | 5 | **Add a comment to the first thread**: the widget grows and the text below moves; the long line of line 33 wraps inside the box | pending |
 
+## P11-17 — The widget (2/4): the composer
+
+Use **Add review threads** and **Start composing on line 5**. The status line counts `CommentSubmitted` (the Gallery adds each submitted comment).
+
+| # | Check | Result |
+|---|---|---|
+| 1 | **Reply** under the comments of line 12 opens the composer and the caret is in the box | pending |
+| 2 | The placeholder `Leave a comment` shows while the box is empty | pending |
+| 3 | **Comment** is disabled for an empty or blank box and enabled after one letter | pending |
+| 4 | Type `**bold** and [a link](http://x)`, toggle **Preview**: bold text and a link; the height does not jump; toggle back: the caret is where it was | pending |
+| 5 | **Comment** and `Ctrl+Enter` each raise exactly one `CommentSubmitted`; after the Gallery adds the comment the composer closes and the box is empty | pending |
+| 6 | **Cancel** on a new thread (line 5) removes it and the focus is in the document on line 5; on a thread with comments it only closes the composer | pending |
+| 7 | Type 30 lines: the box stops growing at 280 px and scrolls; the gap under the line follows (no overlap with the next line) | pending |
+| 8 | The `Escape` rules of P11-14 still hold (empty box: closes and the focus returns; with text: nothing) | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

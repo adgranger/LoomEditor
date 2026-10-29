@@ -1,6 +1,6 @@
 # P11-17 — The widget (2/4): the composer — text box, Preview, Cancel / Comment, Reply
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-16
 - **Size:** M
 
@@ -31,16 +31,29 @@ Sources: none (specified in this card; ADR 0014 decisions 2 and 7). Read first: 
 
 ## Tests
 
-- [ ] Automated: none for WinUI (the rules are in `CommentThreadViewModel`, P11-08).
-- [ ] Manual (section "P11-17"): (1) **Reply** opens the composer and the caret is in the box; (2) the placeholder shows when empty; (3) Comment is disabled for an empty or blank box and enabled after one letter; (4) `**bold** and [a link](http://x)` in Preview shows bold text and a link; the box height does not jump when toggling; back to the box the caret is where it was; (5) Comment and `Ctrl+Enter` each raise exactly one `CommentSubmitted` (Gallery log); after the Gallery adds the comment the composer closes and the box is empty; (6) Cancel on a new thread removes it and the focus is in the document on its line; on a thread with comments it only closes the composer; (7) type 30 lines: the box stops growing at 280 px and scrolls; the gap under the line follows (no overlap with the next line); (8) `Escape` rules of P11-14 still hold.
+- [x] Automated: none for WinUI (the rules are in `CommentThreadViewModel`, P11-08).
+- [x] Manual (section "P11-17"): (1) **Reply** opens the composer and the caret is in the box; (2) the placeholder shows when empty; (3) Comment is disabled for an empty or blank box and enabled after one letter; (4) `**bold** and [a link](http://x)` in Preview shows bold text and a link; the box height does not jump when toggling; back to the box the caret is where it was; (5) Comment and `Ctrl+Enter` each raise exactly one `CommentSubmitted` (Gallery log); after the Gallery adds the comment the composer closes and the box is empty; (6) Cancel on a new thread removes it and the focus is in the document on its line; on a thread with comments it only closes the composer; (7) type 30 lines: the box stops growing at 280 px and scrolls; the gap under the line follows (no overlap with the next line); (8) `Escape` rules of P11-14 still hold.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No temporary control of P11-14 remains
-- [ ] The manual section is written; the card result says the agent did **not** run it
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No temporary control of P11-14 remains
+- [x] The manual section is written; the card result says the agent did **not** run it
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `CommentThreadWidget.Composer.cs` now holds the real composer (toolbar slot `_toolbarSlot`, text box, preview, Preview / Cancel / Comment, Reply);
+  `CommentThreadWidget.Preview.cs` renders the draft. The temporary controls of P11-14 are gone. `CommentThreadWidget.cs` needed no change (it
+  already stacked the rows and the composer area).
+- Keys: `Escape` and `Ctrl+Enter` are read in the text box's `PreviewKeyDown`, not `KeyDown` (kept from P11-14: the WinUI `TextBox` handles
+  `Enter` itself, so `KeyDown` never sees `Ctrl+Enter`).
+- Reply calls the widget's own `FocusComposer()` (what `CommentZoneHost.FocusComposer` calls). A composer just made visible is not laid out yet
+  and can refuse the focus: `FocusComposer` then retries once on the dispatcher.
+- Comment button: `AccentButtonStyle` from the application resources when present. `button.background` / `button.foreground` are not in the built-in
+  defaults, so the accent style stays unless a theme defines them; `input.*` ids exist. A missing id clears the brush (WinUI default).
+- The manual section "P11-17" is written; the agent did **not** run it.
 
 ## Out of scope
 
