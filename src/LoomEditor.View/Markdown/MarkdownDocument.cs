@@ -22,6 +22,7 @@ internal sealed record MarkdownDocument(IReadOnlyList<MarkdownBlock> Blocks)
                 MarkdownHeading h => InlinesToText(h.Inlines),
                 MarkdownCodeBlock c => c.Code,
                 MarkdownList l => ListToText(l),
+                MarkdownQuote q => new MarkdownDocument(q.Blocks).ToPlainText(),
                 _ => string.Empty,
             });
         }
@@ -84,6 +85,11 @@ internal sealed record MarkdownCodeBlock(string? Language, string Code) : Markdo
 /// <param name="Items">The inline runs of each item.</param>
 internal sealed record MarkdownList(bool Ordered, IReadOnlyList<IReadOnlyList<MarkdownInline>> Items) : MarkdownBlock;
 
+/// <summary>A blockquote (only produced with <see cref="MarkdownParserOptions.Extended"/>).</summary>
+/// <remarks>Threading: immutable, safe to share between threads.</remarks>
+/// <param name="Blocks">The quoted blocks.</param>
+internal sealed record MarkdownQuote(IReadOnlyList<MarkdownBlock> Blocks) : MarkdownBlock;
+
 /// <summary>A horizontal rule.</summary>
 /// <remarks>Threading: immutable, safe to share between threads.</remarks>
 internal sealed record MarkdownRule : MarkdownBlock;
@@ -96,4 +102,6 @@ internal sealed record MarkdownRule : MarkdownBlock;
 /// <param name="Code">Inline code.</param>
 /// <param name="LinkUrl">The link target, or null.</param>
 /// <param name="IsLineBreak">A hard line break (<see cref="Text"/> is empty).</param>
-internal sealed record MarkdownInline(string Text, bool Bold = false, bool Italic = false, bool Code = false, string? LinkUrl = null, bool IsLineBreak = false);
+/// <param name="Strikethrough">Struck through (only with <see cref="MarkdownParserOptions.Extended"/>).</param>
+/// <param name="Underline">Underlined (only with <see cref="MarkdownParserOptions.Extended"/>).</param>
+internal sealed record MarkdownInline(string Text, bool Bold = false, bool Italic = false, bool Code = false, string? LinkUrl = null, bool IsLineBreak = false, bool Strikethrough = false, bool Underline = false);

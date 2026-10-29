@@ -1,6 +1,6 @@
 # P11-02 — Markdown: blockquote, strikethrough and underline (opt-in)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-31
 - **Size:** M
 
@@ -34,14 +34,14 @@ Sources: none (specified in this card; ADR 0014 decision 5). Read first, complet
 
 ## Tests
 
-- [ ] New: `Quote_SingleLine_IsQuoteWithParagraph`, `Quote_MultiLine_JoinsLines`, `Quote_WithList_ParsesListInside`, `Quote_Nested_UpToDepthThree`, `Quote_InsideFence_IsCode`, `Quote_EndsAtBlankLine`, `Quote_NotExtended_IsParagraph`, `Strikethrough_Simple`, `Strikethrough_InsideBold_InheritsFlags`, `Strikethrough_Unclosed_IsLiteral`, `Strikethrough_NotExtended_IsLiteral`, `Underline_U_And_Ins`, `Underline_CaseInsensitive`, `Underline_Unmatched_IsLiteral`, `Underline_OtherHtml_IsLiteral`, `Extended_SuggestionFence_ParsedAsCodeBlockWithLanguage` (` ```suggestion ` gives `MarkdownCodeBlock { Language: "suggestion" }`), `Default_SameOutputAsBefore` (a few inputs: every existing hover test still passes)
+- [x] New: `Quote_SingleLine_IsQuoteWithParagraph`, `Quote_MultiLine_JoinsLines`, `Quote_WithList_ParsesListInside`, `Quote_Nested_UpToDepthThree`, `Quote_InsideFence_IsCode`, `Quote_EndsAtBlankLine`, `Quote_NotExtended_IsParagraph`, `Strikethrough_Simple`, `Strikethrough_InsideBold_InheritsFlags`, `Strikethrough_Unclosed_IsLiteral`, `Strikethrough_NotExtended_IsLiteral`, `Underline_U_And_Ins`, `Underline_CaseInsensitive`, `Underline_Unmatched_IsLiteral`, `Underline_OtherHtml_IsLiteral`, `Extended_SuggestionFence_ParsedAsCodeBlockWithLanguage` (` ```suggestion ` gives `MarkdownCodeBlock { Language: "suggestion" }`), `Default_SameOutputAsBefore` (a few inputs: every existing hover test still passes)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (the existing Markdown and hover tests unchanged and passing)
-- [ ] README of the folder updated
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (the existing Markdown and hover tests unchanged and passing)
+- [x] README of the folder updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -50,3 +50,7 @@ Drawing (P11-15), nested lists, tables, task lists, images, autolinks, raw HTML 
 ## Suggested commit message
 
 `feat(view): add blockquote, strikethrough and underline to the Markdown subset`
+
+## Deviation
+
+The static `MarkdownParserOptions.Extended` could not coexist with a bool property of the same name (CS0102), so the record's property is `IsExtended`; the `Default` / `Extended` statics are as specified.

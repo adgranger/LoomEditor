@@ -7,15 +7,22 @@ namespace LoomEditor.View.Markdown;
 internal static partial class MarkdownParser
 {
     /// <summary>Parses <paramref name="markdown"/>; null or empty gives a document with no blocks.</summary>
-    public static MarkdownDocument Parse(string? markdown)
+    public static MarkdownDocument Parse(string? markdown, MarkdownParserOptions? options = null)
     {
-        var blocks = new List<MarkdownBlock>();
         if (string.IsNullOrEmpty(markdown))
         {
-            return new MarkdownDocument(blocks);
+            return new MarkdownDocument([]);
         }
 
         string[] lines = markdown.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+        return new MarkdownDocument(ParseLines(lines, options ?? MarkdownParserOptions.Default, 0));
+    }
+
+    private const int MaxQuoteDepth = 3;
+
+    private static List<MarkdownBlock> ParseLines(string[] lines, MarkdownParserOptions options, int quoteDepth)
+    {
+        var blocks = new List<MarkdownBlock>();
         var paragraph = new List<string>();
         List<string>? items = null;
         bool ordered = false;
@@ -24,7 +31,7 @@ internal static partial class MarkdownParser
         {
             if (paragraph.Count > 0)
             {
-                IReadOnlyList<MarkdownInline> inlines = MarkdownInlineParser.Parse(string.Join("\n", paragraph).TrimEnd(' '));
+                IReadOnlyList<MarkdownInline> inlines = MarkdownInlineParser.Parse(string.Join("\n", paragraph).TrimEnd(' '), options);
                 if (inlines.Count > 0)
                 {
                     blocks.Add(new MarkdownParagraph(inlines));
@@ -41,7 +48,7 @@ internal static partial class MarkdownParser
                 var parsed = new List<IReadOnlyList<MarkdownInline>>(items.Count);
                 foreach (string item in items)
                 {
-                    parsed.Add(MarkdownInlineParser.Parse(item));
+                    parsed.Add(MarkdownInlineParser.Parse(item, options));
                 }
 
                 blocks.Add(new MarkdownList(ordered, parsed));
@@ -69,7 +76,21 @@ internal static partial class MarkdownParser
             }
 
             Match m;
-            if (RuleRegex().IsMatch(line))
+            if (options.IsExtended && quoteDepth < MaxQuoteDepth && IsQuoteLine(line))
+            {
+                FlushParagraph();
+                FlushList();
+                var quoted = new List<string>();
+                for (; i < lines.Length && IsQuoteLine(lines[i]); i++)
+                {
+                    string rest = lines[i].TrimStart(' ')[1..];
+                    quoted.Add(rest.StartsWith(' ') ? rest[1..] : rest);
+                }
+
+                i--;
+                blocks.Add(new MarkdownQuote(ParseLines([.. quoted], options, quoteDepth + 1)));
+            }
+            else if (RuleRegex().IsMatch(line))
             {
                 FlushParagraph();
                 FlushList();
@@ -79,7 +100,7 @@ internal static partial class MarkdownParser
             {
                 FlushParagraph();
                 FlushList();
-                blocks.Add(new MarkdownHeading(m.Groups[1].Length, MarkdownInlineParser.Parse(m.Groups[2].Value)));
+                blocks.Add(new MarkdownHeading(m.Groups[1].Length, MarkdownInlineParser.Parse(m.Groups[2].Value, options)));
             }
             else if ((m = ListItemRegex().Match(line)).Success)
             {
@@ -104,7 +125,13 @@ internal static partial class MarkdownParser
 
         FlushParagraph();
         FlushList();
-        return new MarkdownDocument(blocks);
+        return blocks;
+    }
+
+    private static bool IsQuoteLine(string line)
+    {
+        string trimmed = line.TrimStart(' ');
+        return line.Length - trimmed.Length <= 3 && trimmed.StartsWith('>');
     }
 
     /// <summary>Reads the code of the fence opened at <paramref name="start"/>; returns the index of its last line.</summary>

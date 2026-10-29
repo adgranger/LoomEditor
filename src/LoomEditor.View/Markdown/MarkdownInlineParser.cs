@@ -14,15 +14,15 @@ internal static class MarkdownInlineParser
     ];
 
     /// <summary>Parses <paramref name="text"/>; a <c>\n</c> in it is a soft break (a space).</summary>
-    public static IReadOnlyList<MarkdownInline> Parse(string text)
+    public static IReadOnlyList<MarkdownInline> Parse(string text, MarkdownParserOptions? options = null)
     {
         var result = new List<MarkdownInline>();
-        ParseInto(text, new MarkdownInline(string.Empty), result);
+        ParseInto(text, new MarkdownInline(string.Empty), result, options?.IsExtended ?? false);
         return result;
     }
 
     // style carries the flags (and link url) the produced inlines inherit.
-    private static void ParseInto(string text, MarkdownInline style, List<MarkdownInline> result)
+    private static void ParseInto(string text, MarkdownInline style, List<MarkdownInline> result, bool extended)
     {
         var plain = new StringBuilder();
 
@@ -81,7 +81,7 @@ internal static class MarkdownInlineParser
                     i = close + n;
                 }
             }
-            else if ((c == '*' || c == '_') && TryEmphasis(text, i, c, style, result, Flush, out end))
+            else if ((c == '*' || c == '_') && TryEmphasis(text, i, c, style, result, extended, Flush, out end))
             {
                 i = end;
             }
@@ -91,7 +91,23 @@ internal static class MarkdownInlineParser
                 plain.Append(c, n);
                 i += n;
             }
-            else if (c == '[' && TryLink(text, i, style, result, Flush, out end))
+            else if (extended && c == '~' && i + 1 < text.Length && text[i + 1] == '~')
+            {
+                if (TryStrikethrough(text, i, style, result, Flush, out end))
+                {
+                    i = end;
+                }
+                else
+                {
+                    plain.Append("~~");
+                    i += 2;
+                }
+            }
+            else if (extended && c == '<' && TryUnderline(text, i, style, result, Flush, out end))
+            {
+                i = end;
+            }
+            else if (c == '[' && TryLink(text, i, style, result, extended, Flush, out end))
             {
                 i = end;
             }
@@ -119,7 +135,8 @@ internal static class MarkdownInlineParser
         }
 
         if (result.Count > 0 && result[^1] is { IsLineBreak: false } last && !inline.IsLineBreak
-            && last.Bold == inline.Bold && last.Italic == inline.Italic && last.Code == inline.Code && last.LinkUrl == inline.LinkUrl)
+            && last.Bold == inline.Bold && last.Italic == inline.Italic && last.Code == inline.Code
+            && last.Strikethrough == inline.Strikethrough && last.Underline == inline.Underline && last.LinkUrl == inline.LinkUrl)
         {
             result[^1] = last with { Text = last.Text + inline.Text };
             return;
@@ -201,7 +218,7 @@ internal static class MarkdownInlineParser
         return content;
     }
 
-    private static bool TryEmphasis(string text, int i, char c, MarkdownInline style, List<MarkdownInline> result, Action flush, out int end)
+    private static bool TryEmphasis(string text, int i, char c, MarkdownInline style, List<MarkdownInline> result, bool extended, Action flush, out int end)
     {
         end = i;
         int k = Math.Min(RunLength(text, i, c), 3);
@@ -232,7 +249,7 @@ internal static class MarkdownInlineParser
             {
                 flush();
                 MarkdownInline inner = style with { Bold = style.Bold || k >= 2, Italic = style.Italic || k != 2 };
-                ParseInto(text.Substring(start, j - start), inner, result);
+                ParseInto(text.Substring(start, j - start), inner, result, extended);
                 end = j + k;
                 return true;
             }
@@ -243,7 +260,58 @@ internal static class MarkdownInlineParser
         return false;
     }
 
-    private static bool TryLink(string text, int i, MarkdownInline style, List<MarkdownInline> result, Action flush, out int end)
+    // Extended only. Mirrors the bold handling: the closing "~~" is the next unescaped one; unclosed is literal.
+    private static bool TryStrikethrough(string text, int i, MarkdownInline style, List<MarkdownInline> result, Action flush, out int end)
+    {
+        end = i;
+        int start = i + 2;
+        for (int j = start; j + 1 < text.Length; j++)
+        {
+            if (text[j] == '\\')
+            {
+                j++;
+            }
+            else if (text[j] == '~' && text[j + 1] == '~' && j > start)
+            {
+                flush();
+                ParseInto(text.Substring(start, j - start), style with { Strikethrough = true }, result, extended: true);
+                end = j + 2;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Extended only: the exact tags <u>/<ins> (ASCII case-insensitive); an unmatched tag is literal.
+    private static bool TryUnderline(string text, int i, MarkdownInline style, List<MarkdownInline> result, Action flush, out int end)
+    {
+        end = i;
+        foreach (string name in (ReadOnlySpan<string>)["u", "ins"])
+        {
+            string open = "<" + name + ">";
+            if (string.Compare(text, i, open, 0, open.Length, StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                continue;
+            }
+
+            int start = i + open.Length;
+            int close = text.IndexOf("</" + name + ">", start, StringComparison.OrdinalIgnoreCase);
+            if (close < 0)
+            {
+                return false;
+            }
+
+            flush();
+            ParseInto(text.Substring(start, close - start), style with { Underline = true }, result, extended: true);
+            end = close + name.Length + 3;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static bool TryLink(string text, int i, MarkdownInline style, List<MarkdownInline> result, bool extended, Action flush, out int end)
     {
         end = i;
         int depth = 0;
@@ -321,7 +389,7 @@ internal static class MarkdownInlineParser
         }
 
         flush();
-        ParseInto(text.Substring(i + 1, close - i - 1), style with { LinkUrl = url }, result);
+        ParseInto(text.Substring(i + 1, close - i - 1), style with { LinkUrl = url }, result, extended);
         end = urlEnd + 1;
         return true;
     }
