@@ -1045,19 +1045,40 @@ Roadmap: [phase-12-comment-ranges.md](../roadmap/phase-12-comment-ranges.md); co
 | [P12-11](phase-12/P12-11-widget-range.md) | The widget for a range: title, accessibility and an N-line suggestion block | P12-10 | done |
 | [P12-12](phase-12/P12-12-gutter-button-selection.md) | The gutter "+" button requests the selected lines | P12-11 | done |
 
-### Step D — Prove it and close the phase
+### Step D — Prove it
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P12-13](phase-12/P12-13-gallery-demo-and-manual-plan.md) | Gallery: the range demo and the complete manual test plan | P12-12 | done |
 | [P12-14](phase-12/P12-14-native-aot-self-check.md) | Native AOT self-check of the phase 12 logic | P12-13 | done |
-| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 | all phase 12 cards | done |
 
-Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it). Every card is written for **Sonnet**; none is flagged Opus (the delicate
-tracking code exists since P11-09 and is extended, with every edge case listed as a test). A card that does not fit in one session stops with a proposed split. The WinUI cards
-(P12-09 … P12-12) are verified by the build, the tests and a written manual section; agents do not run the Gallery UI.
+### Step E — Exact text ranges (columns), added 2026-10-29
 
-**Deferred on purpose (phase 12):** character-precise ranges, dragging from or shift-clicking the gutter "+" button to select lines, a gutter bar or overview-ruler mark for a range, overlap rules between ranges, and everything phase 11 deferred (reactions, edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence).
+Design: [phase-12/README.md](phase-12/README.md) section 3 (a thread on the exact selected text; suggestions still replace the whole lines that contain it).
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-16](phase-12/P12-16-comment-thread-columns.md) | `CommentThread` knows its columns: `StartColumn`, `EndColumn`, `IsWholeLines` | P12-14 | todo |
+| [P12-17](phase-12/P12-17-comment-range-and-strings.md) | `CommentRange`: a selection becomes whole lines or exact text; strings for the selected text | P12-16 | todo |
+| [P12-18](phase-12/P12-18-manager-text-anchor.md) | The manager anchors a thread to the exact text and keeps its columns | P12-17 | todo |
+| [P12-19](phase-12/P12-19-text-highlight.md) | Highlight the exact text of a thread | P12-18 | todo |
+| [P12-20](phase-12/P12-20-controller-and-command-text-ranges.md) | Controller and add command: threads and requests on the exact selected text | P12-19 | todo |
+| [P12-21](phase-12/P12-21-public-api-text-ranges.md) | Public API: threads on the exact text in `LoomEditor` and `LoomDiffEditor` | P12-20 | todo |
+| [P12-22](phase-12/P12-22-widget-and-gutter-text-ranges.md) | The box tells screen readers the commented text; the gutter "+" requests the selected text | P12-21 | todo |
+| [P12-23](phase-12/P12-23-gallery-selfcheck-and-manual-plan-text-ranges.md) | Gallery, Native AOT self-check and manual plan for exact text ranges | P12-22 | todo |
+
+### Close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P12-15](phase-12/P12-15-close-phase-12.md) | Close phase 12 (reopened for step E: the docs must cover column ranges) | P12-23 | todo |
+
+Take phase 12 cards in table order (each card's "Depends on" is satisfied by the cards above it); P12-15 comes last, after P12-23. Every card is written for **Sonnet**;
+none is flagged Opus (the delicate tracking code exists since P11-09 and is extended — step E reuses the same decoration for columns — with every edge case listed as a
+test). A card that does not fit in one session stops with a proposed split. The WinUI cards (P12-09 … P12-12, P12-21, P12-22) are verified by the build, the tests and a
+written manual section; agents do not run the Gallery UI.
+
+**Deferred on purpose (phase 12):** a suggestion that replaces only the selected text (it replaces the lines that contain it), columns in the thread title, dragging from or shift-clicking the gutter "+" button to select lines, a gutter bar or overview-ruler mark for a range, overlap rules between ranges, and everything phase 11 deferred (reactions, edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence).
 
 ## How to run a card with a coding agent (Claude Code)
 

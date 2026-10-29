@@ -6,6 +6,8 @@
 
 **Recommended model:** Sonnet
 
+**Note (2026-10-29, step E):** P12-23 replaces the Gallery's `CommentLineRange` calls and the `Lines` log helper, and adds the exact-text demo, buttons and manual sections.
+
 ## Goal
 
 The Gallery shows a multi-line thread with a multi-line suggestion in the "Comment threads" sample and in the diff window, answers add requests with the requested range,

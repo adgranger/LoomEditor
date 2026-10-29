@@ -6,6 +6,8 @@
 
 **Recommended model:** Sonnet
 
+**Note (2026-10-29, step E):** P12-22 changes `TargetOf` to `CommentRange` (a partial selection requests the exact text) and `SetLines` to `SetTarget`; the whole-line behavior of this card is kept.
+
 ## Goal
 
 With several lines selected, clicking the gutter **+** on any of those lines requests a thread on the whole selected range (GitHub: select lines, then click **+**). Elsewhere

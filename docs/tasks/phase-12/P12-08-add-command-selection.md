@@ -6,6 +6,8 @@
 
 **Recommended model:** Sonnet
 
+**Note (2026-10-29, step E):** superseded in part. `CommentRange.FromSelection` (P12-17) replaces `CommentLineRange` and the command uses it (P12-20): a partial selection now requests the exact text; whole-line selections keep this card's rule. `CommentLineRange` is deleted by P12-23.
+
 ## Goal
 
 `loom.commentThreads.add` asks for a thread on the **lines of the primary selection** when it spans several lines, and on the cursor line otherwise. The rule that turns a
