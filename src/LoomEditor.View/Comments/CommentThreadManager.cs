@@ -23,6 +23,15 @@ internal sealed class CommentThreadManager : IDisposable
     private static readonly ModelDecorationOptions AnchorOptions = ModelDecorationOptions.Register(
         new ModelDecorationOptionsData { Description = "comment-thread-anchor", Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges });
 
+    private static readonly ModelDecorationOptions RangeAnchorOptions = ModelDecorationOptions.Register(
+        new ModelDecorationOptionsData
+        {
+            Description = "comment-thread-range",
+            Stickiness = TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
+            ClassName = "comment-thread-range",
+            IsWholeLine = true,
+        });
+
     private readonly TextModel _model;
     private readonly ViewZones _zones;
     private readonly int _ownerId;
@@ -84,7 +93,7 @@ internal sealed class CommentThreadManager : IDisposable
         try
         {
             _model.ChangeDecorations(_ownerId, accessor =>
-                decorationId = accessor.AddDecoration(new Range(startLineNumber, 1, endLineNumber, _model.GetLineMaxColumn(endLineNumber)), AnchorOptions));
+                decorationId = accessor.AddDecoration(new Range(startLineNumber, 1, endLineNumber, _model.GetLineMaxColumn(endLineNumber)), OptionsFor(thread)));
             _zones.Change(accessor => accessor.AddZone(zone));
         }
         finally
@@ -92,7 +101,16 @@ internal sealed class CommentThreadManager : IDisposable
             _busy = false;
         }
 
-        _entries.Add(new Entry(thread, decorationId, zone, SuggestionEdit.GetRangeText(_model, startLineNumber, endLineNumber)));
+        var entry = new Entry(thread, decorationId, zone, SuggestionEdit.GetRangeText(_model, startLineNumber, endLineNumber), OptionsFor(thread));
+        entry.OnChanged = (_, e) =>
+        {
+            if (e.Kind == CommentThreadChangeKind.StateChanged)
+            {
+                UpdateOptions([entry]);
+            }
+        };
+        thread.Changed += entry.OnChanged;
+        _entries.Add(entry);
         ThreadsChanged?.Invoke(this, EventArgs.Empty);
         return thread;
     }
@@ -114,6 +132,9 @@ internal sealed class CommentThreadManager : IDisposable
 
     /// <summary>The thread with this id, or <see langword="null"/>.</summary>
     public CommentThread? Find(string id) => _entries.FirstOrDefault(e => e.Thread.Id == id)?.Thread;
+
+    /// <summary>The id of the thread's decoration, or <see langword="null"/> when unknown.</summary>
+    public string? GetDecorationId(CommentThread thread) => FindEntry(thread)?.DecorationId;
 
     /// <summary>The id of the thread's view zone, or <see langword="null"/> when unknown.</summary>
     public string? GetZoneId(CommentThread thread) => FindEntry(thread)?.Zone.Id;
@@ -155,10 +176,18 @@ internal sealed class CommentThreadManager : IDisposable
         Release(all);
     }
 
+    private static ModelDecorationOptions OptionsFor(CommentThread thread) =>
+        thread.StartLineNumber < thread.LineNumber && thread.State == CommentThreadState.Open ? RangeAnchorOptions : AnchorOptions;
+
     private Entry? FindEntry(CommentThread thread) => _entries.FirstOrDefault(e => e.Thread == thread);
 
     private void Release(Entry[] entries)
     {
+        foreach (Entry entry in entries)
+        {
+            entry.Thread.Changed -= entry.OnChanged;
+        }
+
         _busy = true;
         try
         {
@@ -243,14 +272,46 @@ internal sealed class CommentThreadManager : IDisposable
             _busy = false;
         }
 
+        UpdateOptions(moved);
         foreach (Entry entry in moved)
         {
             ThreadMoved?.Invoke(this, entry.Thread);
         }
     }
 
-    private sealed class Entry(CommentThread thread, string decorationId, ViewZone zone, string rangeText)
+    // Switching the options keeps the tracked range.
+    private void UpdateOptions(IEnumerable<Entry> entries)
     {
+        Entry[] changed = [.. entries.Where(e => OptionsFor(e.Thread) != e.Options)];
+        if (changed.Length == 0)
+        {
+            return;
+        }
+
+        _busy = true;
+        try
+        {
+            _model.ChangeDecorations(_ownerId, accessor =>
+            {
+                foreach (Entry entry in changed)
+                {
+                    entry.Options = OptionsFor(entry.Thread);
+                    accessor.ChangeDecorationOptions(entry.DecorationId, entry.Options);
+                }
+            });
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+
+    private sealed class Entry(CommentThread thread, string decorationId, ViewZone zone, string rangeText, ModelDecorationOptions options)
+    {
+        public ModelDecorationOptions Options { get; set; } = options;
+
+        public EventHandler<CommentThreadChangedEventArgs> OnChanged { get; set; } = null!;
+
         public CommentThread Thread { get; } = thread;
 
         public string DecorationId { get; } = decorationId;

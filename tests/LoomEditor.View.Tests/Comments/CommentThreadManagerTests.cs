@@ -279,6 +279,74 @@ public class CommentThreadManagerTests
         Assert.Equal(end, thread.LineNumber);
     }
 
+    private static bool Highlighted(TestCodeEditor editor, CommentThreadManager manager, CommentThread thread) =>
+        editor.Model.GetDecorationOptions(manager.GetDecorationId(thread)!)?.ClassName == "comment-thread-range";
+
+    [Fact]
+    public void Highlight_MultiLineOpen_UsesRangeClass() => With((editor, manager) =>
+        Assert.True(Highlighted(editor, manager, manager.Add(2, 3))));
+
+    [Fact]
+    public void Highlight_SingleLine_NoClass() => With((editor, manager) =>
+        Assert.False(Highlighted(editor, manager, manager.Add(2))));
+
+    [Fact]
+    public void Highlight_Resolved_RemovedThenReopened_Restored() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+
+        thread.State = CommentThreadState.Resolved;
+        Assert.False(Highlighted(editor, manager, thread));
+
+        thread.State = CommentThreadState.Open;
+        Assert.True(Highlighted(editor, manager, thread));
+    });
+
+    [Fact]
+    public void Highlight_RangeCollapsesToOneLine_Removed() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+
+        Edit(editor, new Range(2, 1, 5, 1), "");
+
+        AssertRange(thread, 2, 2);
+        Assert.False(Highlighted(editor, manager, thread));
+    });
+
+    [Fact]
+    public void Highlight_SingleLineGrowsToRange_Added() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(3, 3);
+
+        Edit(editor, new Range(3, 2, 3, 2), "x\n");
+
+        AssertRange(thread, 3, 4);
+        Assert.True(Highlighted(editor, manager, thread));
+    });
+
+    [Fact]
+    public void Highlight_SwitchOptions_KeepsTrackedRange() => With((editor, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 4);
+        string id = manager.GetDecorationId(thread)!;
+        Range? before = editor.Model.GetDecorationRange(id);
+
+        thread.State = CommentThreadState.Resolved;
+
+        Assert.Equal(before, editor.Model.GetDecorationRange(id));
+    });
+
+    [Fact]
+    public void Remove_UnsubscribesFromThreadChanged() => With((_, manager) =>
+    {
+        CommentThread thread = manager.Add(2, 3);
+        manager.Remove(thread);
+
+        thread.State = CommentThreadState.Resolved;
+
+        Assert.Empty(manager.Threads);
+    });
+
     [Fact]
     public void AddRange_CreatesZoneAfterLastLine() => With((editor, manager) =>
     {

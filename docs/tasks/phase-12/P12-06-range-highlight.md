@@ -1,6 +1,6 @@
 # P12-06 — Highlight the lines of a multi-line thread
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-05
 - **Size:** S
 
@@ -44,19 +44,19 @@ color id is declared), `src/LoomEditor.Core/Decorations/IModelDecorationsChangeA
 
 ## Tests
 
-- [ ] `Highlight_MultiLineOpen_UsesRangeClass` (read the options back with the internal `TextModel.GetDecorationOptions(id)`; the id comes from a new manager method `string? GetDecorationId(CommentThread thread)`, like `GetZoneId`)
-- [ ] `Highlight_SingleLine_NoClass`, `Highlight_Resolved_RemovedThenReopened_Restored`
-- [ ] `Highlight_RangeCollapsesToOneLine_Removed`, `Highlight_SingleLineGrowsToRange_Added` (`Add(3, 3)`, then insert `"x\n"` at `(3, 2)`: the range becomes 3–4 and is highlighted)
-- [ ] `Highlight_SwitchOptions_KeepsTrackedRange`
-- [ ] `Remove_UnsubscribesFromThreadChanged` (resolving a removed thread changes nothing and does not throw)
-- [ ] `DecorationStyles`: `Get_CommentThreadRange_HasBackgroundAndBorderIds`
-- [ ] All existing tests unchanged and green
+- [x] `Highlight_MultiLineOpen_UsesRangeClass` (read the options back with the internal `TextModel.GetDecorationOptions(id)`; the id comes from a new manager method `string? GetDecorationId(CommentThread thread)`, like `GetZoneId`)
+- [x] `Highlight_SingleLine_NoClass`, `Highlight_Resolved_RemovedThenReopened_Restored`
+- [x] `Highlight_RangeCollapsesToOneLine_Removed`, `Highlight_SingleLineGrowsToRange_Added` (`Add(3, 3)`, then insert `"x\n"` at `(3, 2)`: the range becomes 3–4 and is highlighted)
+- [x] `Highlight_SwitchOptions_KeepsTrackedRange`
+- [x] `Remove_UnsubscribesFromThreadChanged` (resolving a removed thread changes nothing and does not throw)
+- [x] `DecorationStyles`: `Get_CommentThreadRange_HasBackgroundAndBorderIds`
+- [x] All existing tests unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

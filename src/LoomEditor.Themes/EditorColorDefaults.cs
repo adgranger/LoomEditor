@@ -300,6 +300,9 @@ internal static class EditorColorDefaults
         // LoomEditor's own id: Monaco hard-codes the color of the selection anchor in anchorSelect.css.
         ["loom.selectionAnchor"] = ("#007ACC", "#007ACC", "#007ACC", "#007ACC"),
 
+        // LoomEditor's own id (phase 12): GitHub's tint of the commented lines.
+        ["loom.commentThreadRangeBackground"] = ("#BB800933", "#D4A72C33", null, null),
+
         // editorColors.ts:264–335 (diff editor). defaultInsertColor = rgba(155,185,85,0.2), defaultRemoveColor = rgba(255,0,0,0.2).
         ["diffEditor.insertedTextBackground"] = ("#9ccc2c33", "#9ccc2c40", null, null),
         ["diffEditor.removedTextBackground"] = ("#ff000033", "#ff000033", null, null),
