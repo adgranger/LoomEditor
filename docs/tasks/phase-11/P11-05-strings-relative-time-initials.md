@@ -1,6 +1,6 @@
 # P11-05 — `CommentStrings`, relative time and avatar initials
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-03
 - **Size:** S
 
@@ -31,15 +31,15 @@ Sources: none (specified in this card; ADR 0014 decisions 8 and 10). Read first:
 
 ## Tests
 
-- [ ] `RelativeTime`: `Format_UnderMinute_JustNow`, `Format_Future_JustNow`, `Format_OneMinute_Singular`, `Format_Minutes`, `Format_OneHour_Singular`, `Format_Hours`, `Format_PreviousDay_Yesterday`, `Format_YesterdayAcrossMidnight`, `Format_Days`, `Format_OverThirtyDays_IsoDate`
-- [ ] `AvatarInitials`: `Get_TwoWords_TwoLetters`, `Get_ThreeWords_FirstTwo`, `Get_OneWord_OneLetter`, `Get_Blank_QuestionMark`, `Get_LowerCase_UpperCased`, `Get_SurrogatePair_NotSplit`, `PaletteIndex_SameName_SameIndex`, `PaletteIndex_InRange` (100 names), `PaletteIndex_ZeroSize_Throws`
-- [ ] `CommentStrings`: `ThreadTitle_FormatsLine`, `CommentCount_SingularAndPlural`, `ToolbarName_EveryActionHasAName` (all enum values), `ToolbarName_Unknown_Throws`
+- [x] `RelativeTime`: `Format_UnderMinute_JustNow`, `Format_Future_JustNow`, `Format_OneMinute_Singular`, `Format_Minutes`, `Format_OneHour_Singular`, `Format_Hours`, `Format_PreviousDay_Yesterday`, `Format_YesterdayAcrossMidnight`, `Format_Days`, `Format_OverThirtyDays_IsoDate`
+- [x] `AvatarInitials`: `Get_TwoWords_TwoLetters`, `Get_ThreeWords_FirstTwo`, `Get_OneWord_OneLetter`, `Get_Blank_QuestionMark`, `Get_LowerCase_UpperCased`, `Get_SurrogatePair_NotSplit`, `PaletteIndex_SameName_SameIndex`, `PaletteIndex_InRange` (100 names), `PaletteIndex_ZeroSize_Throws`
+- [x] `CommentStrings`: `ThreadTitle_FormatsLine`, `CommentCount_SingularAndPlural`, `ToolbarName_EveryActionHasAName` (all enum values), `ToolbarName_Unknown_Throws`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
