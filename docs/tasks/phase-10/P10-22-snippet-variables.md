@@ -1,6 +1,6 @@
 # P10-22 — Snippet variables: the resolvers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P10-21
 - **Size:** M
 
@@ -41,15 +41,15 @@
 
 ## Tests
 
-- [ ] Port: `snippetVariables.test.ts` (names in `// Monaco:` comments). Tests that need a `ResolverService` / `IWorkspaceContextService` mock become tests of `ISnippetVariableHost` doubles; tests about localized month names expect the English ones
-- [ ] New: `Time_CurrentYear_Short_Month_Date_Hour_Minute_Second_Millisecond_PaddedTwoOrThree` (one test per value with a fixed `TimeProvider`), `Time_TimezoneOffset_Positive_And_Negative`, `Time_Unix_Seconds_And_Millis`, `Random_Is6Digits`, `RandomHex_Is6HexDigits`, `Uuid_IsAGuid`, `Composite_FirstNonNullWins`, `Composite_EmptyStringWins`, `Model_NoHost_AllNull`, `Selection_Multiline_ReindentsAgainstVariableIndent`, `Selection_Empty_ReturnsNull`, `Comment_NoCommentRules_Null`
+- [x] Port: `snippetVariables.test.ts` (names in `// Monaco:` comments). Tests that need a `ResolverService` / `IWorkspaceContextService` mock become tests of `ISnippetVariableHost` doubles; tests about localized month names expect the English ones
+- [x] New: `Time_CurrentYear_Short_Month_Date_Hour_Minute_Second_Millisecond_PaddedTwoOrThree` (one test per value with a fixed `TimeProvider`), `Time_TimezoneOffset_Positive_And_Negative`, `Time_Unix_Seconds_And_Millis`, `Random_Is6Digits`, `RandomHex_Is6HexDigits`, `Uuid_IsAGuid`, `Composite_FirstNonNullWins`, `Composite_EmptyStringWins`, `Model_NoHost_AllNull`, `Selection_Multiline_ReindentsAgainstVariableIndent`, `Selection_Empty_ReturnsNull`, `Comment_NoCommentRules_Null`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `snippetVariables.ts` row; "Behavior differences": English names, host interface, no overtyping capture
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `snippetVariables.ts` row; "Behavior differences": English names, host interface, no overtyping capture
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
