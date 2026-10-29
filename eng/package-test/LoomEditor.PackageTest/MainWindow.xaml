@@ -1,0 +1,9 @@
+<Window
+    x:Class="LoomEditor.PackageTest.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loom="using:LoomEditor.WinUI.Controls"
+    Title="LoomEditor Package Test">
+
+    <loom:LoomEditor x:Name="Editor" />
+</Window>

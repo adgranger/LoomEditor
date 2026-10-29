@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Throwaway app outside LoomEditor.slnx: references only the packed .nupkg files (see eng/Test-Packages.ps1). -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net11.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWinUI>true</UseWinUI>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <PublishAot>true</PublishAot>
+    <!-- SDK 11 rc.2 optimized AOT publish runs PrepareResources before ResolveReferences: WMC1007. Remove when fixed. -->
+    <UseOptimizedPublish>false</UseOptimizedPublish>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <LoomEditorVersion Condition="'$(LoomEditorVersion)' == ''">0.1.0-alpha</LoomEditorVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LoomEditor.WinUI" Version="$(LoomEditorVersion)" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+  </ItemGroup>
+</Project>

@@ -11,10 +11,16 @@
   <PropertyGroup Label="Packaging">
     <IsPackable>true</IsPackable>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- The project's own README when it has one, else the repository's. -->
+    <LoomPackageReadme>$(MSBuildThisFileDirectory)..\README.md</LoomPackageReadme>
+    <LoomPackageReadme Condition="Exists('$(MSBuildProjectDirectory)\README.md')">$(MSBuildProjectDirectory)\README.md</LoomPackageReadme>
   </PropertyGroup>
 
   <ItemGroup Label="Packaging">
-    <None Include="$(MSBuildThisFileDirectory)../README.md" Pack="true" PackagePath="/" Visible="false" />
+    <None Include="$(LoomPackageReadme)" Pack="true" PackagePath="README.md" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)../NOTICE.md" Pack="true" PackagePath="/" Visible="false" />
   </ItemGroup>
 
   <ItemGroup Label="Public API tracking">

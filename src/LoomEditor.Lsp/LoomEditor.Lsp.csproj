@@ -6,6 +6,8 @@
   <PropertyGroup>
     <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
     <RootNamespace>LoomEditor.Lsp</RootNamespace>
+    <!-- Not published yet: no release package depends on it (docs/RELEASING.md). -->
+    <IsPackable>false</IsPackable>
     <Description>Language Server Protocol client of LoomEditor: JSON-RPC over stdio, document sync and the mapping to the editor's language features, independent of any UI framework.</Description>
   </PropertyGroup>
 
