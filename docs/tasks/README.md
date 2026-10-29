@@ -1059,7 +1059,7 @@ Design: [phase-12/README.md](phase-12/README.md) section 3 (a thread on the exac
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P12-16](phase-12/P12-16-comment-thread-columns.md) | `CommentThread` knows its columns: `StartColumn`, `EndColumn`, `IsWholeLines` | P12-14 | done |
-| [P12-17](phase-12/P12-17-comment-range-and-strings.md) | `CommentRange`: a selection becomes whole lines or exact text; strings for the selected text | P12-16 | todo |
+| [P12-17](phase-12/P12-17-comment-range-and-strings.md) | `CommentRange`: a selection becomes whole lines or exact text; strings for the selected text | P12-16 | done |
 | [P12-18](phase-12/P12-18-manager-text-anchor.md) | The manager anchors a thread to the exact text and keeps its columns | P12-17 | todo |
 | [P12-19](phase-12/P12-19-text-highlight.md) | Highlight the exact text of a thread | P12-18 | todo |
 | [P12-20](phase-12/P12-20-controller-and-command-text-ranges.md) | Controller and add command: threads and requests on the exact selected text | P12-19 | todo |

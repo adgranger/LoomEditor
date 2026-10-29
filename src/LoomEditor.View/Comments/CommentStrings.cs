@@ -61,6 +61,22 @@ internal static class CommentStrings
         ? ThreadAdded(start)
         : string.Create(CultureInfo.InvariantCulture, $"Comment thread added on lines {start} to {end}");
 
+    public const int MaxCommentedTextLength = 80;
+
+    public static string CommentedText(string text)
+    {
+        string flat = text.Replace("\r\n", " ").Replace('\n', ' ');
+        return "Commented text: " + (flat.Length > MaxCommentedTextLength ? flat[..MaxCommentedTextLength] + "…" : flat);
+    }
+
+    public static string AddCommentOnSelectedText(int start, int end) => start == end
+        ? string.Create(CultureInfo.InvariantCulture, $"Add a comment on the selected text on line {start}")
+        : string.Create(CultureInfo.InvariantCulture, $"Add a comment on the selected text on lines {start} to {end}");
+
+    public static string ThreadAddedOnText(int start, int end) => start == end
+        ? string.Create(CultureInfo.InvariantCulture, $"Comment thread added on the selected text on line {start}")
+        : string.Create(CultureInfo.InvariantCulture, $"Comment thread added on the selected text on lines {start} to {end}");
+
     public static string ToolbarName(MarkdownToolbarAction action) => action switch
     {
         MarkdownToolbarAction.Heading => "Heading",

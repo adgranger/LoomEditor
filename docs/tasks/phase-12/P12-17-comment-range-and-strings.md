@@ -1,6 +1,6 @@
 # P12-17 — `CommentRange`: a selection becomes whole lines or exact text; strings for the selected text
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-16
 - **Size:** S
 
@@ -55,23 +55,23 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] `FromSelection_Empty_CursorLine`, `FromSelection_Word_ExactText` (`"let value = 1;"`, select `value`: `TextRange == (1, 5, 1, 10)`, lines 1–1)
-- [ ] `FromSelection_RightToLeft_SameAsLeftToRight`
-- [ ] `FromSelection_ShiftDownLines_WholeLines` (`(2, 1) → (4, 1)` gives `Lines(2, 3)`, same as `CommentLineRange`), `FromSelection_TwoLinesEndingAtColumnOne_IsOneLine`
-- [ ] `FromSelection_FullLineDrag_WholeLine` (`(3, 1) → (3, maxColumn)`), `FromSelection_FullLinesDrag_WholeLines` (`(2, 1) → (4, maxColumn(4))`)
-- [ ] `FromSelection_MidLineToColumnOneOfNextLine_EndsAtPreviousLineEnd` (`(2, 3) → (3, 1)` gives exact `(2, 3, 2, maxColumn(2))`)
-- [ ] `FromSelection_OnlyTheLineBreak_IsWholeLine` (`(2, maxColumn(2)) → (3, 1)` gives `Lines(2, 2)`)
-- [ ] `FromSelection_MultiLinePartial_ExactText` (`(2, 3) → (4, 2)`)
-- [ ] `FromRange_ColumnPastLineEnd_IsClamped` (`(1, 5, 1, 999)` on `"abcdefgh"` gives exact `(1, 5, 1, 9)`), `FromRange_EmptyLine_IsWholeLine`
-- [ ] Strings: `CommentedText_Short_Prefixed`, `CommentedText_LineBreaks_BecomeSpaces`, `CommentedText_Long_CutWithEllipsis` (81 chars → 80 + `…`), `AddCommentOnSelectedText_OneLine`,
+- [x] `FromSelection_Empty_CursorLine`, `FromSelection_Word_ExactText` (`"let value = 1;"`, select `value`: `TextRange == (1, 5, 1, 10)`, lines 1–1)
+- [x] `FromSelection_RightToLeft_SameAsLeftToRight`
+- [x] `FromSelection_ShiftDownLines_WholeLines` (`(2, 1) → (4, 1)` gives `Lines(2, 3)`, same as `CommentLineRange`), `FromSelection_TwoLinesEndingAtColumnOne_IsOneLine`
+- [x] `FromSelection_FullLineDrag_WholeLine` (`(3, 1) → (3, maxColumn)`), `FromSelection_FullLinesDrag_WholeLines` (`(2, 1) → (4, maxColumn(4))`)
+- [x] `FromSelection_MidLineToColumnOneOfNextLine_EndsAtPreviousLineEnd` (`(2, 3) → (3, 1)` gives exact `(2, 3, 2, maxColumn(2))`)
+- [x] `FromSelection_OnlyTheLineBreak_IsWholeLine` (`(2, maxColumn(2)) → (3, 1)` gives `Lines(2, 2)`)
+- [x] `FromSelection_MultiLinePartial_ExactText` (`(2, 3) → (4, 2)`)
+- [x] `FromRange_ColumnPastLineEnd_IsClamped` (`(1, 5, 1, 999)` on `"abcdefgh"` gives exact `(1, 5, 1, 9)`), `FromRange_EmptyLine_IsWholeLine`
+- [x] Strings: `CommentedText_Short_Prefixed`, `CommentedText_LineBreaks_BecomeSpaces`, `CommentedText_Long_CutWithEllipsis` (81 chars → 80 + `…`), `AddCommentOnSelectedText_OneLine`,
   `AddCommentOnSelectedText_Lines`, `ThreadAddedOnText_OneLine`, `ThreadAddedOnText_Lines`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No public API change
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No public API change
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
