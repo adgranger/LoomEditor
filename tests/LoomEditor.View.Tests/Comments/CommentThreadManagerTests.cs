@@ -510,4 +510,180 @@ public class CommentThreadManagerTests
 
         Assert.Equal(0, raised);
     });
+
+    private const string TextModel = "let value = 1;\nsecond line\nthird";
+
+    private static readonly Range Value = new(1, 5, 1, 10);
+
+    private static void AssertColumns(CommentThread thread, int startColumn, int endColumn)
+    {
+        Assert.Equal(startColumn, thread.StartColumn);
+        Assert.Equal(endColumn, thread.EndColumn);
+    }
+
+    [Fact]
+    public void AddText_DecorationIsTheExactRange() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        Assert.Equal(Value, editor.Model.GetDecorationRange(manager.GetDecorationId(t)!));
+        AssertColumns(t, 5, 10);
+    }, TextModel);
+
+    [Fact]
+    public void AddText_ZoneAfterLastLine() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(new Range(1, 5, 2, 3));
+
+        Assert.Equal(2, Zone(editor, manager, t).AfterLineNumber);
+    }, TextModel);
+
+    [Fact]
+    public void AddText_IsNotWholeLines() => With((_, manager) =>
+        Assert.False(manager.Add(Value).IsWholeLines), TextModel);
+
+    [Theory]
+    [InlineData(0, 4)]
+    [InlineData(4, 4)]
+    public void AddText_LineOutOfDocument_Throws(int line, int endLine) => With((_, manager) =>
+        Assert.Throws<ArgumentOutOfRangeException>(() => manager.Add(new Range(line, 1, endLine, 1))), TextModel);
+
+    [Fact]
+    public void AddText_ColumnPastLineEnd_IsClamped() => With((_, manager) =>
+    {
+        CommentThread t = manager.Add(new Range(1, 5, 1, 99));
+
+        AssertColumns(t, 5, 15);
+    }, TextModel);
+
+    [Fact]
+    public void AddLines_EndColumnIsMaxColumnOfLastLine() => With((_, manager) =>
+    {
+        CommentThread t = manager.Add(1, 2);
+
+        Assert.True(t.IsWholeLines);
+        AssertColumns(t, 1, 12);
+    }, TextModel);
+
+    [Fact]
+    public void Text_TypeBeforeOnSameLine_ColumnsShift_NoEvents() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+        int events = 0;
+        t.Changed += (_, _) => events++;
+        manager.ThreadMoved += (_, _) => events++;
+
+        Edit(editor, new Range(1, 1, 1, 1), "x");
+
+        AssertColumns(t, 6, 11);
+        Assert.Equal(0, events);
+    }, TextModel);
+
+    [Fact]
+    public void Text_TypeAtStartEdge_DoesNotGrow() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        Edit(editor, new Range(1, 5, 1, 5), "x");
+
+        AssertColumns(t, 6, 11);
+    }, TextModel);
+
+    [Fact]
+    public void Text_TypeAtEndEdge_DoesNotGrow() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        Edit(editor, new Range(1, 10, 1, 10), "x");
+
+        AssertColumns(t, 5, 10);
+    }, TextModel);
+
+    [Fact]
+    public void Text_TypeInside_Grows() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        Edit(editor, new Range(1, 7, 1, 7), "x");
+
+        AssertColumns(t, 5, 11);
+    }, TextModel);
+
+    [Fact]
+    public void Text_DeleteAllItsText_BecomesEmpty_ThreadKept() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        Edit(editor, Value, "");
+
+        AssertColumns(t, 5, 5);
+        Assert.Contains(t, manager.Threads);
+    }, TextModel);
+
+    [Fact]
+    public void Text_EnterInside_BecomesMultiLine_ZoneMoves() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+        int moved = 0;
+        manager.ThreadMoved += (_, _) => moved++;
+
+        Edit(editor, new Range(1, 7, 1, 7), "\n");
+
+        Assert.Equal(1, t.StartLineNumber);
+        Assert.Equal(2, t.LineNumber);
+        AssertColumns(t, 5, 4);
+        Assert.Equal(2, Zone(editor, manager, t).AfterLineNumber);
+        Assert.Equal(1, moved);
+    }, TextModel);
+
+    [Fact]
+    public void Text_EnterAtStartOfLine_MovesDown() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        Edit(editor, new Range(1, 1, 1, 1), "\n");
+
+        Assert.Equal(2, t.StartLineNumber);
+        Assert.Equal(2, t.LineNumber);
+        AssertColumns(t, 5, 10);
+    }, TextModel);
+
+    [Fact]
+    public void Text_ReplaceWholeDocument_ClampsLinesAndColumns() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+
+        editor.Model.SetValue("ab");
+
+        Assert.Equal(1, t.StartLineNumber);
+        Assert.Equal(1, t.LineNumber);
+        Assert.InRange(t.StartColumn, 1, 3);
+        Assert.InRange(t.EndColumn, 1, 3);
+        Assert.True(t.StartColumn <= t.EndColumn);
+    }, TextModel);
+
+    [Fact]
+    public void Lines_TypeAtEndOfLastLine_EndColumnFollows_NoEvents() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(2);
+        int events = 0;
+        t.Changed += (_, _) => events++;
+
+        Edit(editor, new Range(2, 12, 2, 12), "xy");
+
+        AssertColumns(t, 1, 14);
+        Assert.Equal(0, events);
+    }, TextModel);
+
+    [Fact]
+    public void RangeText_TextThread_EditOutsideTheTextOnItsLine_RaisesLineTextChanged() => With((editor, manager) =>
+    {
+        CommentThread t = manager.Add(Value);
+        List<CommentThread> raised = [];
+        manager.ThreadLineTextChanged += (_, x) => raised.Add(x);
+
+        Edit(editor, new Range(1, 13, 1, 13), "z");
+
+        Assert.Equal([t], raised);
+    }, TextModel);
 }

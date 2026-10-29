@@ -6,7 +6,7 @@ using LoomEditor.View.Layout;
 namespace LoomEditor.View.Comments;
 
 /// <summary>
-/// Owns the comment threads of one model: a tracked decoration per thread so it follows its line, and a
+/// Owns the comment threads of one model: a tracked decoration per thread so it follows its lines or its exact text, and a
 /// <see cref="ViewZoneKind.Widget"/> view zone after that line (the gap a host element covers).
 /// </summary>
 /// <remarks>
@@ -54,7 +54,7 @@ internal sealed class CommentThreadManager : IDisposable
     /// <summary>Raised after a thread was added or removed.</summary>
     public event EventHandler? ThreadsChanged;
 
-    /// <summary>Raised once per thread whose lines changed because of an edit.</summary>
+    /// <summary>Raised once per thread whose lines changed because of an edit (not for a change of columns only).</summary>
     public event EventHandler<CommentThread>? ThreadMoved;
 
     /// <summary>Raised when the text of a thread's lines changed.</summary>
@@ -77,9 +77,27 @@ internal sealed class CommentThreadManager : IDisposable
         ArgumentOutOfRangeException.ThrowIfGreaterThan(endLineNumber, _model.LineCount);
 
         var thread = new CommentThread(Guid.NewGuid().ToString("N"), startLineNumber, endLineNumber, title);
+        int endColumn = _model.GetLineMaxColumn(endLineNumber);
+        thread.SetRange(startLineNumber, 1, endLineNumber, endColumn);
+        return AddCore(thread, new Range(startLineNumber, 1, endLineNumber, endColumn));
+    }
+
+    /// <summary>Creates a thread on the exact text <paramref name="textRange"/> (columns are clamped to the document); its zone sits after the last line.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">A line of the range is not in <c>1..LineCount</c>.</exception>
+    public CommentThread Add(Range textRange, string? title = null)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(textRange.StartLineNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(textRange.StartLineNumber, _model.LineCount);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(textRange.EndLineNumber, _model.LineCount);
+        Range r = _model.ValidateRange(textRange);
+        return AddCore(new CommentThread(Guid.NewGuid().ToString("N"), r, title), r);
+    }
+
+    private CommentThread AddCore(CommentThread thread, Range decorationRange)
+    {
         var zone = new ViewZone
         {
-            AfterLineNumber = endLineNumber,
+            AfterLineNumber = thread.LineNumber,
             HeightInPx = DefaultHeight,
             Kind = ViewZoneKind.Widget,
             SuppressMouseDown = true,
@@ -93,7 +111,7 @@ internal sealed class CommentThreadManager : IDisposable
         try
         {
             _model.ChangeDecorations(_ownerId, accessor =>
-                decorationId = accessor.AddDecoration(new Range(startLineNumber, 1, endLineNumber, _model.GetLineMaxColumn(endLineNumber)), OptionsFor(thread)));
+                decorationId = accessor.AddDecoration(decorationRange, OptionsFor(thread)));
             _zones.Change(accessor => accessor.AddZone(zone));
         }
         finally
@@ -101,7 +119,7 @@ internal sealed class CommentThreadManager : IDisposable
             _busy = false;
         }
 
-        var entry = new Entry(thread, decorationId, zone, SuggestionEdit.GetRangeText(_model, startLineNumber, endLineNumber), OptionsFor(thread));
+        var entry = new Entry(thread, decorationId, zone, SuggestionEdit.GetRangeText(_model, thread.StartLineNumber, thread.LineNumber), OptionsFor(thread));
         entry.OnChanged = (_, e) =>
         {
             if (e.Kind == CommentThreadChangeKind.StateChanged)
@@ -238,41 +256,64 @@ internal sealed class CommentThreadManager : IDisposable
         }
 
         List<Entry> moved = [];
+        List<Entry> changed = [];
         foreach (Entry entry in _entries)
         {
+            CommentThread thread = entry.Thread;
             Range? range = _model.GetDecorationRange(entry.DecorationId);
-            int start = Math.Clamp(range?.StartLineNumber ?? entry.Thread.StartLineNumber, 1, _model.LineCount);
-            int end = Math.Clamp(range?.EndLineNumber ?? entry.Thread.LineNumber, start, _model.LineCount);
-            if (start != entry.Thread.StartLineNumber || end != entry.Thread.LineNumber)
+            int start = Math.Clamp(range?.StartLineNumber ?? thread.StartLineNumber, 1, _model.LineCount);
+            int end = Math.Clamp(range?.EndLineNumber ?? thread.LineNumber, start, _model.LineCount);
+            int startColumn = 1;
+            int endColumn = _model.GetLineMaxColumn(end);
+            if (!thread.IsWholeLines)
             {
-                entry.Thread.SetLines(start, end);
+                startColumn = Math.Clamp(range?.StartColumn ?? thread.StartColumn, 1, _model.GetLineMaxColumn(start));
+                endColumn = Math.Clamp(range?.EndColumn ?? thread.EndColumn, 1, endColumn);
+                if (start == end && endColumn < startColumn)
+                {
+                    endColumn = startColumn;
+                }
+            }
+
+            bool linesMoved = start != thread.StartLineNumber || end != thread.LineNumber;
+            if (linesMoved || startColumn != thread.StartColumn || endColumn != thread.EndColumn)
+            {
+                thread.SetRange(start, startColumn, end, endColumn);
+                changed.Add(entry);
+            }
+
+            if (linesMoved)
+            {
                 entry.Zone.AfterLineNumber = end;
                 moved.Add(entry);
             }
         }
 
-        if (moved.Count == 0)
+        if (changed.Count == 0)
         {
             return;
         }
 
-        _busy = true;
-        try
+        if (moved.Count > 0)
         {
-            _zones.Change(accessor =>
+            _busy = true;
+            try
             {
-                foreach (Entry entry in moved)
+                _zones.Change(accessor =>
                 {
-                    accessor.LayoutZone(entry.Zone.Id);
-                }
-            });
-        }
-        finally
-        {
-            _busy = false;
+                    foreach (Entry entry in moved)
+                    {
+                        accessor.LayoutZone(entry.Zone.Id);
+                    }
+                });
+            }
+            finally
+            {
+                _busy = false;
+            }
         }
 
-        UpdateOptions(moved);
+        UpdateOptions(changed);
         foreach (Entry entry in moved)
         {
             ThreadMoved?.Invoke(this, entry.Thread);

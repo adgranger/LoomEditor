@@ -1,6 +1,6 @@
 # P12-18 — The manager anchors a thread to the exact text and keeps its columns
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-17
 - **Size:** M
 
@@ -49,26 +49,26 @@ Sources: none (specified in this card; [phase-12/README.md](README.md) decisions
 
 Model for the exact tests: `"let value = 1;\nsecond line\nthird"`, thread on `value` = `(1, 5) → (1, 10)`.
 
-- [ ] `AddText_DecorationIsTheExactRange` (`GetDecorationRange(GetDecorationId(t))` equals the range), `AddText_ZoneAfterLastLine`, `AddText_IsNotWholeLines`
-- [ ] `AddText_LineOutOfDocument_Throws`, `AddText_ColumnPastLineEnd_IsClamped`, `AddText_Null_Throws`
-- [ ] `AddLines_EndColumnIsMaxColumnOfLastLine` (and `StartColumn == 1`)
-- [ ] `Text_TypeBeforeOnSameLine_ColumnsShift_NoEvents` (insert `"x"` at `(1, 1)`: columns 6–11; no `ThreadMoved`, no `CommentThread.Changed`)
-- [ ] `Text_TypeAtStartEdge_DoesNotGrow` (insert at `(1, 5)`: columns 6–11), `Text_TypeAtEndEdge_DoesNotGrow` (insert at `(1, 10)`: columns 5–10), `Text_TypeInside_Grows`
+- [x] `AddText_DecorationIsTheExactRange` (`GetDecorationRange(GetDecorationId(t))` equals the range), `AddText_ZoneAfterLastLine`, `AddText_IsNotWholeLines`
+- [x] `AddText_LineOutOfDocument_Throws`, `AddText_ColumnPastLineEnd_IsClamped`, `AddText_Null_Throws`
+- [x] `AddLines_EndColumnIsMaxColumnOfLastLine` (and `StartColumn == 1`)
+- [x] `Text_TypeBeforeOnSameLine_ColumnsShift_NoEvents` (insert `"x"` at `(1, 1)`: columns 6–11; no `ThreadMoved`, no `CommentThread.Changed`)
+- [x] `Text_TypeAtStartEdge_DoesNotGrow` (insert at `(1, 5)`: columns 6–11), `Text_TypeAtEndEdge_DoesNotGrow` (insert at `(1, 10)`: columns 5–10), `Text_TypeInside_Grows`
   (insert at `(1, 7)`: columns 5–11)
-- [ ] `Text_DeleteAllItsText_BecomesEmpty_ThreadKept` (delete `(1, 5) → (1, 10)`: `StartColumn == EndColumn == 5`, the thread is still in `Threads`)
-- [ ] `Text_EnterInside_BecomesMultiLine_ZoneMoves` (insert `"\n"` at `(1, 7)`: lines 1–2, columns 5 → 4, zone `AfterLineNumber == 2`, `ThreadMoved` once)
-- [ ] `Text_EnterAtStartOfLine_MovesDown` (insert `"\n"` at `(1, 1)`: lines 2–2, same columns)
-- [ ] `Text_ReplaceWholeDocument_ClampsLinesAndColumns` (`SetValue("ab")`: line 1, columns within `1..3`, `StartColumn <= EndColumn`)
-- [ ] `Lines_TypeAtEndOfLastLine_EndColumnFollows_NoEvents` (whole-line thread on line 2: type at its end; `EndColumn` is the new max column; no `Changed`)
-- [ ] `RangeText_TextThread_EditOutsideTheTextOnItsLine_RaisesLineTextChanged` (edit `(1, 13)`: `ThreadLineTextChanged` raised — the covering line changed)
-- [ ] All existing `CommentThreadManagerTests` unchanged and green
+- [x] `Text_DeleteAllItsText_BecomesEmpty_ThreadKept` (delete `(1, 5) → (1, 10)`: `StartColumn == EndColumn == 5`, the thread is still in `Threads`)
+- [x] `Text_EnterInside_BecomesMultiLine_ZoneMoves` (insert `"\n"` at `(1, 7)`: lines 1–2, columns 5 → 4, zone `AfterLineNumber == 2`, `ThreadMoved` once)
+- [x] `Text_EnterAtStartOfLine_MovesDown` (insert `"\n"` at `(1, 1)`: lines 2–2, same columns)
+- [x] `Text_ReplaceWholeDocument_ClampsLinesAndColumns` (`SetValue("ab")`: line 1, columns within `1..3`, `StartColumn <= EndColumn`)
+- [x] `Lines_TypeAtEndOfLastLine_EndColumnFollows_NoEvents` (whole-line thread on line 2: type at its end; `EndColumn` is the new max column; no `Changed`)
+- [x] `RangeText_TextThread_EditOutsideTheTextOnItsLine_RaisesLineTextChanged` (edit `(1, 13)`: `ThreadLineTextChanged` raised — the covering line changed)
+- [x] All existing `CommentThreadManagerTests` unchanged and green
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No public API change
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No public API change
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
