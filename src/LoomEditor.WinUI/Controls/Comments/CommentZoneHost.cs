@@ -175,6 +175,7 @@ internal sealed partial class CommentZoneHost : IDisposable
         }
 
         var widget = new CommentThreadWidget(_controller.GetViewModel(thread)) { Visibility = Visibility.Collapsed };
+        widget.ApplyFont(_editor.FontSize, _editor.FontFamily);
         if (_theme is not null)
         {
             widget.ApplyTheme(_theme);

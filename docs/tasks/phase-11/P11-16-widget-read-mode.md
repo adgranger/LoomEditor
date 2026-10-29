@@ -1,6 +1,6 @@
 # P11-16 — The widget (1/4): header, comments and the collapsed "Resolved" state
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-05, P11-15
 - **Size:** M
 
@@ -32,15 +32,28 @@ Sources: none (specified in this card; ADR 0014 decisions 3, 5, 8). Read first: 
 
 ## Tests
 
-- [ ] Automated: none for WinUI (initials and palette index are `AvatarInitials`, tested in P11-05).
-- [ ] Manual (section "P11-16", Gallery sample with threads built by code: one comment, three comments with Markdown (bold, italic, strike, underline, inline code, a link, a bullet list, a quote, a fenced block), a resolved thread, a thread with a very long line): (1) text and layout look like a review comment; (2) strike and underline are drawn; (3) the resolved thread is one line and expands on click; (4) light and dark themes and the Gallery theme switch recolor the widget; (5) the widget grows when a comment is added from code and the text below moves.
+- [x] Automated: none for WinUI (initials and palette index are `AvatarInitials`, tested in P11-05).
+- [x] Manual (section "P11-16", Gallery sample with threads built by code: one comment, three comments with Markdown (bold, italic, strike, underline, inline code, a link, a bullet list, a quote, a fenced block), a resolved thread, a thread with a very long line): (1) text and layout look like a review comment; (2) strike and underline are drawn; (3) the resolved thread is one line and expands on click; (4) light and dark themes and the Gallery theme switch recolor the widget; (5) the widget grows when a comment is added from code and the text below moves.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] The manual section is written; the card result says it was not run by the agent
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] The manual section is written; the card result says it was not run by the agent
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `CommentThreadWidget.cs` is the shell (rows panel + composer panel, rebuild, font); `.Header.cs`, `.Comments.cs`, `.Theme.cs` and `CommentAvatar.cs`
+  were added. `CommentAvatar` is a static factory returning a `Border`: WinUI's `Border` is sealed, it cannot be subclassed.
+- Color ids: `descriptionForeground` and `textBlockQuote.border` are not in the built-in defaults (`EditorColorDefaults`); a theme that defines
+  them is used, otherwise the dim text is the text color at 70 % and the quote bar the dim color at 50 %. No theme data was added.
+- Font: the host gives each widget the editor's `FontSize` and `FontFamily` (the hover's size and code font) through `ApplyFont`, at creation and in
+  `CommentZoneHost.OnFontChanged` (called where P11-13 marked the widgets dirty on a font change).
+- Rebuild on `viewModel.Changed` only: the view model already raises it for every `thread.Changed`.
+- Body text is selectable on the top-level `RichTextBlock` rows (quotes keep the builder's non-selectable text).
+- Gallery: button **Add review threads (lines 3, 12, 25, 33)** in the temporary expander.
+- The manual section "P11-16" is written; the agent did **not** run it.
 
 ## Out of scope
 

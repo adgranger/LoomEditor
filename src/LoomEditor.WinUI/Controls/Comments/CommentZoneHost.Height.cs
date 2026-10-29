@@ -16,6 +16,17 @@ internal sealed partial class CommentZoneHost
     private int _heightPasses;
     private int _heightLimitHits;
 
+    /// <summary>Gives every widget the editor's current font and measures them again.</summary>
+    public void OnFontChanged()
+    {
+        foreach (CommentThreadWidget widget in _widgets.Values)
+        {
+            widget.ApplyFont(_editor.FontSize, _editor.FontFamily);
+        }
+
+        MarkAllDirty();
+    }
+
     /// <summary>Marks every widget for a new measure (theme or font change).</summary>
     public void MarkAllDirty()
     {

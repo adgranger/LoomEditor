@@ -71,6 +71,20 @@ of the popups below with the previous build and keep them out of the repository;
 | 2 | A Markdown hover with code, a list, a heading, a link and bold text (Gallery **Demo providers: on** or a language server): same fonts, margins, bullet glyph, heading size and link color as before | pending |
 | 3 | The completion documentation (details pane of the suggest widget) looks the same as before | pending |
 
+## P11-16 — The widget (1/4): header, comments and the resolved state
+
+Load the "Comment threads (P11-12)" sample and click **Add review threads (lines 3, 12, 25, 33)**: line 3 has one comment, line 12 three comments
+with Markdown (bold, italic, strike, underline, inline code, a link, a list, a quote, a fenced block; the second comment is edited), line 25 is a
+resolved thread, line 33 a comment with a very long line.
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Text and layout look like a review comment: bold title, avatar circles with initials, author in semi-bold, dimmed relative time (`(edited)` on the edited comment), a 1 px line between comments, corner radius 6 | pending |
+| 2 | Strike and underline are drawn (line 12); the link is colored and underlined; the quote has a bar on its left and dimmed text | pending |
+| 3 | The resolved thread (line 25) is one line: `▸`, title, `Resolved` badge, `Typo in the name… · 2 comments`; a click expands it (`▾`, the comments), a click collapses it | pending |
+| 4 | Light, dark and high-contrast themes (Gallery theme switch) recolor the widget: background, border, text, dimmed text, link | pending |
+| 5 | **Add a comment to the first thread**: the widget grows and the text below moves; the long line of line 33 wraps inside the box | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |

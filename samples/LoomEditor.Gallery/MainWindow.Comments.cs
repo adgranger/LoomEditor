@@ -29,6 +29,47 @@ public sealed partial class MainWindow
         }
     }
 
+    // P11-16: one comment; three comments with Markdown; a resolved thread; a very long line.
+    private void OnAddReviewThreads(object sender, RoutedEventArgs e)
+    {
+        if (Editor.Model.LineCount < 33)
+        {
+            return;
+        }
+
+        DateTimeOffset now = DateTimeOffset.UtcNow;
+        var ada = new CommentAuthor("Ada Lovelace");
+        var linus = new CommentAuthor("Linus");
+        var grace = new CommentAuthor("Grace Hopper");
+
+        Editor.AddCommentThread(3).AddComment(Comment.Create(ada, "Should this line be `const`?", now.AddMinutes(-5)));
+
+        CommentThread review = Editor.AddCommentThread(12, "Review of the loop");
+        review.AddComment(Comment.Create(linus, ReviewMarkdown, now.AddHours(-3)));
+        review.AddComment(Comment.Create(ada, "Agreed, **but** keep the _old_ name in a comment.", now.AddHours(-2)) with { UpdatedAt = now.AddHours(-1) });
+        review.AddComment(Comment.Create(grace, "Done.", now.AddMinutes(-30)));
+
+        CommentThread resolved = Editor.AddCommentThread(25);
+        resolved.AddComment(Comment.Create(grace, "Typo in the **name**.\nSecond line, hidden when collapsed.", now.AddDays(-2)));
+        resolved.AddComment(Comment.Create(ada, "Fixed.", now.AddDays(-1)));
+        resolved.State = CommentThreadState.Resolved;
+
+        Editor.AddCommentThread(33).AddComment(Comment.Create(linus, string.Concat(Enumerable.Repeat("a-very-long-line-without-spaces ", 20)), now.AddSeconds(-20)));
+    }
+
+    private const string ReviewMarkdown = """
+        This loop does **bold**, *italic*, ~~strike~~, <u>underline</u>, `inline code` and a [link](https://example.com).
+
+        - first point
+        - second point
+
+        > A quote with a remark.
+
+        ```csharp
+        for (int i = 0; i < n; i++) { }
+        ```
+        """;
+
     private void OnAddThreadAtCaret(object sender, RoutedEventArgs e) => Editor.AddCommentThread(Editor.Selections[0].PositionLineNumber);
 
     private void OnAddThreeThreads(object sender, RoutedEventArgs e)
