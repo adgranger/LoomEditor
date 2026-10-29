@@ -940,7 +940,7 @@ Monaco reference commit: `0c9c0a4295a9222e12a605537738719455ae3056`. Roadmap (ba
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P10-27](phase-10/P10-27-marker-list.md) | `MarkerList`: the sorted problems of a model and the "next one" arithmetic | P9-33 | todo |
+| [P10-27](phase-10/P10-27-marker-list.md) | `MarkerList`: the sorted problems of a model and the "next one" arithmetic | P9-33 | done |
 | [P10-28](phase-10/P10-28-go-to-problem.md) | Go to next / previous problem (`F8`) | P10-27 | todo |
 
 ### Step G — Prove it and close the phase

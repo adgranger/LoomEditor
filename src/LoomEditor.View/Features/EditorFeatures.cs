@@ -7,6 +7,7 @@ using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.FontZoom;
 using LoomEditor.View.Features.GotoDefinition;
+using LoomEditor.View.Features.GotoError;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Indentation;
 using LoomEditor.View.Features.LineSelection;
@@ -65,6 +66,7 @@ public static class EditorFeatures
         () => new SmartSelectFeature(),
         () => new DragAndDropFeature(),
         () => new SnippetFeature(),
+        () => new GotoErrorFeature(),
     ];
 
     /// <summary>The features a diff editor adds to each of its two editors, on top of <see cref="Default"/>.</summary>

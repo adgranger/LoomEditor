@@ -1,6 +1,6 @@
 # P10-27 — `MarkerList`: the sorted problems of a model and the "next one" arithmetic
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P9-33
 - **Size:** S
 
@@ -31,15 +31,15 @@ A `MarkerList` over the editor's `MarkerService` holds the errors, warnings and 
 
 ## Tests
 
-- [ ] Port: none (no upstream test of `MarkerList` exists)
-- [ ] New: `Constructor_SortsBySeverityThenPosition`, `Constructor_PositionOrder_SortsByPositionThenSeverity`, `Constructor_ExcludesHints`, `Move_Forward_FromPositionBeforeFirst_SelectsFirst`, `Move_Forward_Repeatedly_WrapsAround`, `Move_Backward_FromPositionAfterAll_SelectsLast`, `Move_Backward_Wraps`, `Move_PositionInsideMarker_ForwardSelectsThatMarker`, `Move_Backward_WentPast_GoesOneBack`, `Move_EmptyMarkerRange_UsesWordAtPosition`, `Move_NoMarkers_ReturnsFalse`, `Selected_HasIndexAndTotal`, `Find_ReturnsMarkerContainingPosition`, `Changed_FiresWhenMarkersChange_AndResetsIndex`, `Changed_DoesNotFireWhenSameMarkersReSet`, `Dispose_StopsListening`
+- [x] Port: none (no upstream test of `MarkerList` exists)
+- [x] New: `Constructor_SortsBySeverityThenPosition`, `Constructor_PositionOrder_SortsByPositionThenSeverity`, `Constructor_ExcludesHints`, `Move_Forward_FromPositionBeforeFirst_SelectsFirst`, `Move_Forward_Repeatedly_WrapsAround`, `Move_Backward_FromPositionAfterAll_SelectsLast`, `Move_Backward_Wraps`, `Move_PositionInsideMarker_ForwardSelectsThatMarker`, `Move_Backward_WentPast_GoesOneBack`, `Move_EmptyMarkerRange_UsesWordAtPosition`, `Move_NoMarkers_ReturnsFalse`, `Selected_HasIndexAndTotal`, `Find_ReturnsMarkerContainingPosition`, `Changed_FiresWhenMarkersChange_AndResetsIndex`, `Changed_DoesNotFireWhenSameMarkersReSet`, `Dispose_StopsListening`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `docs/PORTING.md`: `markerNavigationService.ts` 🔶 (single resource, no service)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `docs/PORTING.md`: `markerNavigationService.ts` 🔶 (single resource, no service)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
