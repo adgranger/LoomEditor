@@ -42,6 +42,9 @@ internal sealed partial class ViewModel
     /// <summary>The tokens of a view line, ready for the renderer (<c>getViewLineData(…).tokens</c>).</summary>
     public IViewLineTokens GetViewLineTokens(int viewLineNumber) => _lines.GetViewLineData(viewLineNumber).Tokens;
 
+    /// <summary>Whether a view line continues with a wrapped line (<c>getViewLineData(…).continuesWithWrappedLine</c>).</summary>
+    public bool GetViewLineContinuesWithWrappedLine(int viewLineNumber) => _lines.GetViewLineData(viewLineNumber).ContinuesWithWrappedLine;
+
     /// <summary>
     /// <c>visibleLinesStabilized</c>: the visible lines will not change for a while, so the model may tokenize them
     /// right away. The view model calls it itself, one animation frame after the viewport changed.

@@ -13,7 +13,7 @@ public class ViewModelWordWrapTests
     private readonly FakeTimeProvider _clock = new();
     private readonly FakeFrameScheduler _frames = new();
 
-    private static readonly FontInfo Font = new(1, "Consolas", "normal", 14, LineHeight, 0, true, 8, 16, true, 8, 8, 8, 8);
+    private static readonly FontInfo Font = new(1, "Consolas", "normal", 14, LineHeight, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 8, 16, true, 8, 8, 8, 8);
 
     private ViewModel CreateViewModel(string text, bool wordWrap = true, int width = 400)
     {

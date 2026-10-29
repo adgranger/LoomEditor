@@ -45,6 +45,9 @@
                         <Button HorizontalAlignment="Stretch" Click="OnReset" Content="Reset" />
                         <Button HorizontalAlignment="Stretch" Click="OnInjectText" Content="Inject text" />
                         <Button HorizontalAlignment="Stretch" Click="OnClearInjectedText" Content="Clear injected text" />
+                        <Button HorizontalAlignment="Stretch" Click="OnInsertSnippet" Content="Insert snippet" />
+                        <Button HorizontalAlignment="Stretch" Click="OnInsertSnippetAroundSelection" Content="Insert snippet around selection" />
+                        <Button HorizontalAlignment="Stretch" Click="OnAddSampleProblems" Content="Add sample problems" />
                         <Button HorizontalAlignment="Stretch" x:Name="MultiCursorButton" Click="OnMultiCursorSample" Content="Sample: multi-cursor" />
                     </StackPanel>
                 </Expander>
@@ -59,14 +62,46 @@
                         <NumberBox x:Name="FontSizeBox" Header="Font size" Minimum="8" Maximum="40" SpinButtonPlacementMode="Inline" Value="14" ValueChanged="OnFontSizeChanged" />
                         <ComboBox HorizontalAlignment="Stretch" x:Name="FontFamilyBox" Header="Font family" SelectedIndex="0" SelectionChanged="OnFontFamilyChanged">
                             <ComboBoxItem Content="Cascadia Mono" />
+                            <ComboBoxItem Content="Cascadia Code" />
                             <ComboBoxItem Content="Consolas" />
                             <ComboBoxItem Content="Segoe UI" />
                         </ComboBox>
+                        <ToggleSwitch x:Name="FontLigaturesSwitch" Toggled="OnFontLigaturesToggled" OffContent="Ligatures" OnContent="Ligatures" />
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="FontWeightBox" Header="Font weight" SelectedIndex="0" SelectionChanged="OnFontWeightChanged">
+                            <ComboBoxItem Content="Normal (400)" />
+                            <ComboBoxItem Content="Medium (500)" />
+                            <ComboBoxItem Content="SemiBold (600)" />
+                            <ComboBoxItem Content="Bold (700)" />
+                        </ComboBox>
+                        <Slider x:Name="LetterSpacingSlider" Header="Letter spacing" Minimum="0" Maximum="5" StepFrequency="0.5" Value="0" ValueChanged="OnLetterSpacingChanged" />
+                        <ToggleSwitch x:Name="WheelZoomSwitch" Toggled="OnWheelZoomToggled" OffContent="Ctrl + wheel zoom" OnContent="Ctrl + wheel zoom" />
+                        <ToggleSwitch x:Name="ControlCharactersSwitch" IsOn="True" Toggled="OnControlCharactersToggled" OffContent="Control characters" OnContent="Control characters" />
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Button x:Name="ZoomOutButton" Content="A−" Click="OnZoomOutClick" />
+                            <Button x:Name="ZoomInButton" Content="A+" Click="OnZoomInClick" />
+                            <Button x:Name="ZoomResetButton" Content="100 %" Click="OnZoomResetClick" />
+                        </StackPanel>
                         <ComboBox HorizontalAlignment="Stretch" x:Name="GuidesBox" Header="Guides" SelectedIndex="0" SelectionChanged="OnGuidesChanged">
                             <ComboBoxItem Content="Indent only" />
                             <ComboBoxItem Content="Indent + bracket pairs" />
                             <ComboBoxItem Content="None" />
                         </ComboBox>
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="WhitespaceBox" Header="Render whitespace" SelectedIndex="0" SelectionChanged="OnWhitespaceChanged">
+                            <ComboBoxItem Content="None" />
+                            <ComboBoxItem Content="Selection" />
+                            <ComboBoxItem Content="Boundary" />
+                            <ComboBoxItem Content="Trailing" />
+                            <ComboBoxItem Content="All" />
+                        </ComboBox>
+                        <ComboBox HorizontalAlignment="Stretch" x:Name="CursorStyleBox" Header="Cursor style" SelectedIndex="0" SelectionChanged="OnCursorStyleChanged">
+                            <ComboBoxItem Content="Line" />
+                            <ComboBoxItem Content="Block" />
+                            <ComboBoxItem Content="Underline" />
+                            <ComboBoxItem Content="LineThin" />
+                            <ComboBoxItem Content="BlockOutline" />
+                            <ComboBoxItem Content="UnderlineThin" />
+                        </ComboBox>
+                        <ToggleSwitch x:Name="OvertypeSwitch" IsEnabled="False" OffContent="Overtype (Insert key)" OnContent="Overtype (Insert key)" />
                         <NumberBox x:Name="TabSizeBox" Header="Tab size" Minimum="1" Maximum="16" SpinButtonPlacementMode="Inline" Value="4" ValueChanged="OnTabSizeChanged" />
                     </StackPanel>
                 </Expander>

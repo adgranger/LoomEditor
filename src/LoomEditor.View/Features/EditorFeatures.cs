@@ -1,14 +1,24 @@
 using LoomEditor.View.Features.BracketMatching;
+using LoomEditor.View.Features.CaretOperations;
 using LoomEditor.View.Features.Comment;
+using LoomEditor.View.Features.CursorUndo;
 using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
+using LoomEditor.View.Features.FontZoom;
 using LoomEditor.View.Features.GotoDefinition;
+using LoomEditor.View.Features.GotoError;
 using LoomEditor.View.Features.Hover;
 using LoomEditor.View.Features.Indentation;
+using LoomEditor.View.Features.LineSelection;
 using LoomEditor.View.Features.LinesOperations;
 using LoomEditor.View.Features.MultiCursor;
+using LoomEditor.View.Features.DragAndDrop;
+using LoomEditor.View.Features.Overtype;
+using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Features.SelectAll;
+using LoomEditor.View.Features.SelectionAnchor;
+using LoomEditor.View.Features.SmartSelect;
 using LoomEditor.View.Features.StickyScroll;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
@@ -31,7 +41,9 @@ public static class EditorFeatures
     /// <summary>The features enabled by default, in the order they are attached.</summary>
     public static IReadOnlyList<Func<IEditorFeature>> Default { get; } =
     [
+        () => new CursorUndoFeature(),
         () => new SelectAllFeature(),
+        () => new FontZoomFeature(),
         () => new WordOperationsFeature(),
         () => new FindFeature(),
         () => new MultiCursorFeature(),
@@ -40,6 +52,7 @@ public static class EditorFeatures
         () => new CommentFeature(),
         () => new IndentationFeature(),
         () => new LinesOperationsFeature(),
+        () => new CaretOperationsFeature(),
         () => new FoldingFeature(),
         () => new StickyScrollFeature(),
         () => new WordHighlighterFeature(),
@@ -47,6 +60,13 @@ public static class EditorFeatures
         () => new SuggestFeature(),
         () => new GotoDefinitionFeature(),
         () => new TabFocusFeature(),
+        () => new OvertypeFeature(),
+        () => new SelectionAnchorFeature(),
+        () => new LineSelectionFeature(),
+        () => new SmartSelectFeature(),
+        () => new DragAndDropFeature(),
+        () => new SnippetFeature(),
+        () => new GotoErrorFeature(),
     ];
 
     /// <summary>The features a diff editor adds to each of its two editors, on top of <see cref="Default"/>.</summary>

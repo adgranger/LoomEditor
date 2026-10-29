@@ -76,6 +76,12 @@ internal static class EditorColorDefaults
         // editorColorRegistry.ts:16
         ["editor.lineHighlightBorder"] = ("#282828", "#eeeeee", "#f38518", "contrastBorder"),
 
+        // editorColors.ts:248-262 (rgba(124,124,124,0.3) and rgba(10,50,100,0.2 / 0.5))
+        ["editor.snippetTabstopHighlightBackground"] = ("#7C7C7C4D", "#0A326433", "#7C7C7C4D", "#0A326433"),
+        ["editor.snippetTabstopHighlightBorder"] = (null, null, null, null),
+        ["editor.snippetFinalTabstopHighlightBackground"] = (null, null, null, null),
+        ["editor.snippetFinalTabstopHighlightBorder"] = ("#525252", "#0A326480", "#525252", "#292929"),
+
         // editorColorRegistry.ts:17
         ["editor.rangeHighlightBackground"] = ("#ffffff0b", "#fdff0033", null, null),
 
@@ -290,6 +296,9 @@ internal static class EditorColorDefaults
 
         // baseColors.ts:33
         ["icon.foreground"] = ("#C5C5C5", "#424242", "#FFFFFF", "#292929"),
+
+        // LoomEditor's own id: Monaco hard-codes the color of the selection anchor in anchorSelect.css.
+        ["loom.selectionAnchor"] = ("#007ACC", "#007ACC", "#007ACC", "#007ACC"),
 
         // editorColors.ts:264–335 (diff editor). defaultInsertColor = rgba(155,185,85,0.2), defaultRemoveColor = rgba(255,0,0,0.2).
         ["diffEditor.insertedTextBackground"] = ("#9ccc2c33", "#9ccc2c40", null, null),

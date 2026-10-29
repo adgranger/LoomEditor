@@ -3,6 +3,8 @@ using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
+using LoomEditor.View.Features.FontZoom;
+using LoomEditor.View.Layout;
 using LoomEditor.Themes;
 using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
@@ -58,11 +60,13 @@ public sealed partial class MainWindow : Window
         // A load detects the indentation: show the tab size it chose.
         Editor.Model.OptionsChanged += (_, _) => TabSizeBox.Value = Editor.Model.Options.TabSize;
         Editor.SelectionChanged += (_, _) => RefreshStatus();
+        Editor.RegisterPropertyChangedCallback(LoomEditorControl.InputModeProperty, (_, _) => OvertypeSwitch.IsOn = Editor.InputMode == LoomEditor.View.Cursors.EditorInputMode.Overtype);
         // Ctrl+M toggles the property from the keyboard: keep the switch in sync.
         Editor.RegisterPropertyChangedCallback(LoomEditorControl.TabMovesFocusProperty, (_, _) => TabFocusSwitch.IsOn = Editor.TabMovesFocus);
         RefreshStatus();
         InitializeLsp();
         InitializeDiffSelfCheck();
+        InitializeTextSelfCheck();
     }
 
     private void OnInsertHeader(object sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);
@@ -148,6 +152,31 @@ public sealed partial class MainWindow : Window
 
     private void OnWordWrapToggled(object sender, RoutedEventArgs e) => Editor.WordWrap = WordWrapSwitch.IsOn ? EditorWordWrap.On : EditorWordWrap.Off;
 
+    // IsOn="True" in XAML raises this handler during InitializeComponent, before Editor exists: the control's default matches.
+    private void OnControlCharactersToggled(object sender, RoutedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.RenderControlCharacters = ControlCharactersSwitch.IsOn;
+        }
+    }
+
+    private void OnCursorStyleChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.CursorStyle = (TextEditorCursorStyle)CursorStyleBox.SelectedIndex;
+        }
+    }
+
+    private void OnWhitespaceChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.RenderWhitespace = (RenderWhitespace)WhitespaceBox.SelectedIndex;
+        }
+    }
+
     private void OnGuidesChanged(object sender, SelectionChangedEventArgs e)
     {
         if (Editor is null)
@@ -171,6 +200,25 @@ public sealed partial class MainWindow : Window
     {
         ModelDemoActions.ClearInjectedText(Editor.Model, _injectedTextIds);
         _injectedTextIds.Clear();
+    }
+
+    private void OnInsertSnippet(object sender, RoutedEventArgs e)
+    {
+        Editor.InsertSnippet(Phase10Samples.ForLoopSnippet);
+        Editor.Focus(FocusState.Programmatic);
+    }
+
+    private void OnInsertSnippetAroundSelection(object sender, RoutedEventArgs e)
+    {
+        Editor.InsertSnippet(Phase10Samples.LogSelectionSnippet);
+        Editor.Focus(FocusState.Programmatic);
+    }
+
+    // The positions fit the "Problems" sample; on another text the markers are clamped by the model.
+    private void OnAddSampleProblems(object sender, RoutedEventArgs e)
+    {
+        Editor.Markers.Change(Phase10Samples.ProblemsOwner, Phase10Samples.SampleProblems);
+        Editor.Focus(FocusState.Programmatic);
     }
 
     private void OnReadOnlyToggled(object sender, RoutedEventArgs e) => Editor.IsReadOnly = ReadOnlySwitch.IsOn;
@@ -293,7 +341,9 @@ public sealed partial class MainWindow : Window
 
     // Same order as the items of FontFamilyBox. SelectedItem is not read: under Native AOT it comes back as a plain
     // ContentControl, not a ComboBoxItem, so a type test on it (or on its Content) never matches.
-    private static readonly string[] FontFamilies = ["Cascadia Mono", "Consolas", "Segoe UI"];
+    private static readonly string[] FontFamilies = ["Cascadia Mono", "Cascadia Code", "Consolas", "Segoe UI"];
+
+    private static readonly ushort[] FontWeights = [400, 500, 600, 700];
 
     private void OnFontFamilyChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -301,6 +351,33 @@ public sealed partial class MainWindow : Window
         if (Editor is not null && index >= 0 && index < FontFamilies.Length)
         {
             Editor.FontFamily = new FontFamily(FontFamilies[index]);
+        }
+    }
+
+    private void OnFontLigaturesToggled(object sender, RoutedEventArgs e) => Editor.FontLigatures = FontLigaturesSwitch.IsOn;
+
+    private void OnFontWeightChanged(object sender, SelectionChangedEventArgs e)
+    {
+        int index = FontWeightBox.SelectedIndex;
+        if (Editor is not null && index >= 0 && index < FontWeights.Length)
+        {
+            Editor.FontWeight = new Windows.UI.Text.FontWeight { Weight = FontWeights[index] };
+        }
+    }
+
+    private void OnWheelZoomToggled(object sender, RoutedEventArgs e) => Editor.MouseWheelZoom = WheelZoomSwitch.IsOn;
+
+    private void OnZoomOutClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomOut);
+
+    private void OnZoomInClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomIn);
+
+    private void OnZoomResetClick(object sender, RoutedEventArgs e) => Editor.Commands.Execute(FontZoomCommands.FontZoomReset);
+
+    private void OnLetterSpacingChanged(object sender, Microsoft.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+    {
+        if (Editor is not null)
+        {
+            Editor.LetterSpacing = e.NewValue;
         }
     }
 
@@ -341,6 +418,7 @@ public sealed partial class MainWindow : Window
         if (Editor is not null && index >= 0 && index < EditorTheme.BuiltIn.Count)
         {
             Editor.Theme = EditorTheme.BuiltIn[index];
+            DiffEditor.Theme = Editor.Theme;
         }
     }
 

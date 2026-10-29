@@ -8,13 +8,14 @@ using LoomEditor.Core.Text;
 using LoomEditor.View.Accessibility;
 using LoomEditor.View.Features;
 using LoomEditor.View.Features.Scheduling;
+using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.View.Suggest;
 
-// Accepting an item: a plain-text port of _insertSuggestion. Behavior differences from Monaco: only the primary cursor is edited (Monaco snippet
-// insertion edits every cursor) and the inserted text is not re-indented (adjustWhitespace belongs to snippets). Not ported: item commands,
-// memory, OvertypingCapturer, SnippetController2, telemetry, onWillInsertSuggestItem, alternatives, LineSuffix.
+// Accepting an item: a port of _insertSuggestion. Behavior differences from Monaco: a plain-text item edits only the primary cursor and is not
+// re-indented; an item with InsertTextRules.InsertAsSnippet goes through the snippet controller, which edits every cursor and re-indents unless
+// KeepWhitespace is set. Not ported: item commands, memory, OvertypingCapturer, telemetry, onWillInsertSuggestItem, alternatives, LineSuffix.
 internal sealed partial class SuggestController
 {
     /// <summary>
@@ -78,11 +79,28 @@ internal sealed partial class SuggestController
         Position cursor2 = _context.Selection.Position;
         int startColumn = Math.Max(1, cursor2.Column - overwriteBefore);
         int endColumn = Math.Min(model.GetLineMaxColumn(cursor2.LineNumber), cursor2.Column + overwriteAfter);
-        var mainRange = new Range(cursor2.LineNumber, startColumn, cursor2.LineNumber, endColumn);
-        vm.ExecuteEdits(
-            "suggest",
-            [new IdentifiedEditOperation(mainRange, item.Completion.InsertText)],
-            undoEdits => [Selection.Collapsed(undoEdits[0].Range.End)]);
+        if (item.Completion.InsertTextRules.HasFlag(InsertTextRules.InsertAsSnippet) && _context.GetSnippetController() is { } snippets)
+        {
+            // Monaco: SnippetController2.insert; the undo stops are pushed by this method, and the snippet session edits every cursor.
+            snippets.Insert(
+                item.Completion.InsertText,
+                new SnippetInsertOptions
+                {
+                    OverwriteBefore = overwriteBefore,
+                    OverwriteAfter = overwriteAfter,
+                    AdjustWhitespace = !item.Completion.InsertTextRules.HasFlag(InsertTextRules.KeepWhitespace),
+                    UndoStopBefore = false,
+                    UndoStopAfter = false,
+                });
+        }
+        else
+        {
+            var mainRange = new Range(cursor2.LineNumber, startColumn, cursor2.LineNumber, endColumn);
+            vm.ExecuteEdits(
+                "suggest",
+                [new IdentifiedEditOperation(mainRange, item.Completion.InsertText)],
+                undoEdits => [Selection.Collapsed(undoEdits[0].Range.End)]);
+        }
 
         if (!noAfterUndoStop)
         {

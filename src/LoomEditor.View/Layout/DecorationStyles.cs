@@ -68,6 +68,14 @@ internal static class DecorationStyles
         ["char-delete"] = new("diffEditor.removedTextBackground", "diffEditor.removedTextBorder"),
         ["char-insert diff-range-empty"] = new(BorderColorId: "diffEditor.insertedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
         ["char-delete diff-range-empty"] = new(BorderColorId: "diffEditor.removedTextBackground", BorderWidth: 0, LeftBorderWidth: 3),
+        // anchorSelect.css 5-8: the anchor is a 2 px bar
+        ["selection-anchor"] = new(BorderColorId: "loom.selectionAnchor", BorderWidth: 0, LeftBorderWidth: 2),
+        // snippetSession.css 5-19: the CSS outline is drawn as the 1 px border; min-width: 2px is not ported
+        ["snippet-placeholder"] = new("editor.snippetTabstopHighlightBackground", "editor.snippetTabstopHighlightBorder", BorderWidth: 1),
+        ["finish-snippet-placeholder"] = new("editor.snippetFinalTabstopHighlightBackground", "editor.snippetFinalTabstopHighlightBorder", BorderWidth: 1),
+
+        // dnd.css 5-25: the drop target is a 2 px bar (dotted in Monaco, solid here) after the empty range
+        ["dnd-target"] = new(BorderColorId: "editorCursor.foreground", BorderWidth: 0, RightBorderWidth: 2),
         ["gutter-insert"] = new("diffEditorGutter.insertedLineBackground", BackgroundFallbackColorId: "diffEditor.insertedLineBackground"),
         ["gutter-delete"] = new("diffEditorGutter.removedLineBackground", BackgroundFallbackColorId: "diffEditor.removedLineBackground"),
         ["inline-deleted-text"] = new("diffEditor.removedTextBackground", StrikeThrough: true),

@@ -30,10 +30,6 @@ internal static partial class LspConvert
     {
         (LspRange? insert, LspRange? replace, string? newText) = LspUnions.ParseTextEdit(item.TextEdit);
         string text = newText ?? item.InsertText ?? item.Label;
-        if (item.InsertTextFormat == LspInsertTextFormat.Snippet)
-        {
-            text = LspSnippet.ToPlainText(text);
-        }
 
         string? documentation = LspUnions.ParseDocumentation(item.Documentation, out bool isMarkdown);
 
@@ -44,6 +40,7 @@ internal static partial class LspConvert
             Detail = item.Detail,
             SortText = item.SortText,
             FilterText = item.FilterText,
+            InsertTextRules = item.InsertTextFormat == LspInsertTextFormat.Snippet ? InsertTextRules.InsertAsSnippet : InsertTextRules.None,
             Preselect = item.Preselect == true,
             ProviderData = item,
             Range = newText is null ? null : new CompletionRange(ToRangeUnvalidated(insert!), ToRangeUnvalidated(replace!)),

@@ -4,7 +4,7 @@ A deterministic language server (test double) that speaks the real LSP over stdi
 never needs a real language server. It keeps **one** open document. Standard output carries protocol frames only; human
 diagnostics go to standard error.
 
-Run it: `LoomEditor.Lsp.FakeServer [--sync=none|full|incremental] [--delay=<ms>] [--exit-on=<method>] [--stderr=<text>] [--incomplete] [--chatty] [--echo-env=<name>] [--echo-cwd]`.
+Run it: `LoomEditor.Lsp.FakeServer [--sync=none|full|incremental] [--delay=<ms>] [--exit-on=<method>] [--stderr=<text>] [--incomplete] [--snippet] [--chatty] [--echo-env=<name>] [--echo-cwd]`.
 `--selftest` checks the protocol types and prints `ok`. In process: `new FakeLanguageServer(input, output, options).RunAsync(token)`.
 
 ## Lifecycle
@@ -28,7 +28,9 @@ A change for another uri or with a version `<=` the current one is ignored and r
 
 - **Completion**: `{ isIncomplete: --incomplete, items }`. With trigger character `.` the member items (`Length`, `Count` kind 10; `ToString`, `Equals` kind 2 with
   commit character `(`; each with an insert/replace `textEdit`) come first, then, always, the distinct words of the document of two characters or more
-  (ordinal order, kind 1, `insertText`, without the occurrence that ends at the cursor) and the keywords `if` (preselected), `else`, `for`, `class`. Every item has `sortText = label` and `data { label, n: 1 }`.
+  (ordinal order, kind 1, `insertText`, without the occurrence that ends at the cursor) and the keywords `if` (preselected), `else`, `for`, `class`. Every item has `sortText = label` and `data { label, n: 1 }`. With `--snippet` one more item, `forloop` (kind 15, `insertTextFormat` 2): `for (${1:i} = 0; $1 < ${2:n}; $1++) {
+	$0
+}`.
 - **Resolve**: adds `detail` and markdown `documentation`; `Length` also gets an additional edit; `data` unchanged.
 - **Hover**: the identifier at the position (its end counts), markdown contents, its range; none: `null`.
 - **Definition**: the word `external` gives a `Location` in `file:///other/file.txt`; `def <word>` a `Location`; `class <word>` a `LocationLink[]`; otherwise `null`.

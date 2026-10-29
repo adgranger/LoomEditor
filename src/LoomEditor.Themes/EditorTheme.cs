@@ -62,6 +62,7 @@ public sealed record EditorTheme
             Background = Color("editor.background"),
             Foreground = Color("editor.foreground"),
             LineNumberForeground = Color("editorLineNumber.foreground"),
+            WhitespaceForeground = Color("editorWhitespace.foreground"),
             LineNumberActiveForeground = Color("editorLineNumber.activeForeground"),
             LineHighlightBackground = theme.GetColor("editor.lineHighlightBackground"),
             LineHighlightBorder = theme.GetColor("editor.lineHighlightBorder"),
@@ -106,6 +107,9 @@ public sealed record EditorTheme
 
     /// <summary>Line numbers in the gutter (<c>editorLineNumber.foreground</c>).</summary>
     public ThemeColor LineNumberForeground { get; init; }
+
+    /// <summary>The dots and arrows drawn over whitespace (<c>editorWhitespace.foreground</c>).</summary>
+    public ThemeColor WhitespaceForeground { get; init; }
 
     /// <summary>Line number of the cursor line (<c>editorLineNumber.activeForeground</c>).</summary>
     public ThemeColor LineNumberActiveForeground { get; init; }

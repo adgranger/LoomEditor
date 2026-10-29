@@ -23,7 +23,7 @@ public class LspClientInitializeTests
     }
 
     [Fact]
-    public async Task Initialize_SendsTheClientCapabilities()
+    public async Task Initialize_DeclaresSnippetSupport()
     {
         await using FakeServerHost host = FakeServerHost.StartInProcess();
         await using LspClient client = new(host.Connection, Options);
@@ -35,7 +35,7 @@ public class LspClientInitializeTests
         Assert.Equal("LoomEditor", p.GetProperty("clientInfo").GetProperty("name").GetString());
         Assert.Equal("file:///root", p.GetProperty("rootUri").GetString());
         JsonElement capabilities = p.GetProperty("capabilities");
-        Assert.False(capabilities.GetProperty("textDocument").GetProperty("completion").GetProperty("completionItem").GetProperty("snippetSupport").GetBoolean());
+        Assert.True(capabilities.GetProperty("textDocument").GetProperty("completion").GetProperty("completionItem").GetProperty("snippetSupport").GetBoolean());
         Assert.Equal("utf-16", Assert.Single(capabilities.GetProperty("general").GetProperty("positionEncodings").EnumerateArray()).GetString());
     }
 

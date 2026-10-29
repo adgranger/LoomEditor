@@ -103,6 +103,9 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>The providers of completion, hover and definition of this editor.</summary>
     public LanguageFeaturesService LanguageFeatures { get; } = new();
 
+    /// <summary>The zoom level of this editor (Monaco: the global EditorZoom; here one per editor).</summary>
+    public EditorZoomState Zoom { get; } = new();
+
     /// <summary>The markers of this editor; each one becomes a squiggle decoration.</summary>
     public MarkerService Markers { get; } = new();
 
@@ -191,6 +194,30 @@ public sealed class EditorContext : IEditorContext, IDisposable
     /// <summary>True while the completion list has several items (Monaco: <c>suggestWidgetMultipleSuggestions</c>); set by the suggest feature.</summary>
     internal bool SuggestWidgetMultipleSuggestions { get; set; }
 
+    /// <summary>The snippet controller, set by <c>SnippetFeature</c> while it is attached (Monaco: <c>SnippetController2.get(editor)</c>).</summary>
+    internal LoomEditor.View.Features.Snippet.SnippetController? SnippetController { get; set; }
+
+    /// <summary>Supplies the file, workspace and clipboard variables of snippets; set by the host.</summary>
+    internal LoomEditor.Core.Snippets.ISnippetVariableHost SnippetVariableHost { get; set; } = LoomEditor.Core.Snippets.ISnippetVariableHost.None;
+
+    /// <summary>True while a snippet with tab stops is active (Monaco: <c>inSnippetMode</c>); set by the snippet controller.</summary>
+    internal bool InSnippetMode { get; set; }
+
+    /// <summary>True while the active snippet has a next tab stop (Monaco: <c>hasNextTabstop</c>); set by the snippet controller.</summary>
+    internal bool HasNextTabstop { get; set; }
+
+    /// <summary>True while the active snippet has a previous tab stop (Monaco: <c>hasPrevTabstop</c>); set by the snippet controller.</summary>
+    internal bool HasPrevTabstop { get; set; }
+
+    /// <summary>The go to problem controller, set by <c>GotoErrorFeature</c> while it is attached (Monaco: <c>MarkerController.get(editor)</c>).</summary>
+    internal LoomEditor.View.Features.GotoError.MarkerController? MarkerController { get; set; }
+
+    /// <summary>True while a go to problem session is active (Monaco: <c>markersNavigationVisible</c>); set by the marker controller.</summary>
+    internal bool MarkersNavigationVisible { get; set; }
+
+    /// <summary>True while the selection anchor exists (Monaco: <c>selectionAnchorSet</c>); set by the selection anchor feature.</summary>
+    internal bool SelectionAnchorSet { get; set; }
+
     /// <summary>Opens the definitions that are in another document; null (the default) announces them instead.</summary>
     public LoomEditor.View.Features.GotoDefinition.ILocationOpener? LocationOpener { get; set; }
 
@@ -241,6 +268,42 @@ public sealed class EditorContext : IEditorContext, IDisposable
 
     /// <inheritdoc />
     public event EventHandler? ReadOnlyChanged;
+
+    /// <summary>Whether typing inserts or overwrites (Monaco: the global <c>InputMode</c>; here one per editor).</summary>
+    public EditorInputMode InputMode
+    {
+        get => ViewModel.CursorOptions.InputMode;
+        set
+        {
+            if (ViewModel.CursorOptions.InputMode != value)
+            {
+                ViewModel.SetCursorOptions(ViewModel.CursorOptions with { InputMode = value });
+                InputModeChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>Raised when <see cref="InputMode"/> really changes.</summary>
+    public event EventHandler? InputModeChanged;
+
+    /// <summary>The mouse cursor over the text (Monaco: <c>updateOptions({ mouseStyle })</c>).</summary>
+    internal EditorMouseStyle MouseStyle
+    {
+        get => _mouseStyle;
+        set
+        {
+            if (_mouseStyle != value)
+            {
+                _mouseStyle = value;
+                MouseStyleChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>Raised when <see cref="MouseStyle"/> really changes.</summary>
+    internal event EventHandler? MouseStyleChanged;
+
+    private EditorMouseStyle _mouseStyle;
 
     /// <summary>
     /// Replaces the whole text. Accepts <c>\r\n</c>, <c>\n</c> and <c>\r</c> line breaks.

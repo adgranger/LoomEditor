@@ -23,8 +23,17 @@ namespace LoomEditor.View.Controller;
 /// </para>
 /// <para>Threading: UI thread only.</para>
 /// </remarks>
-internal sealed class ViewController(ViewModel viewModel)
+internal sealed class ViewController(ViewModel viewModel, ViewUserInputEvents? userInputEvents = null)
 {
+    /// <summary>Monaco: <c>emitMouseDrag</c>.</summary>
+    public void EmitMouseDrag(EditorMouseEventArgs e) => userInputEvents?.EmitMouseDrag(e);
+
+    /// <summary>Monaco: <c>emitMouseDrop</c>.</summary>
+    public void EmitMouseDrop(EditorPartialMouseEventArgs e) => userInputEvents?.EmitMouseDrop(e);
+
+    /// <summary>Monaco: <c>emitMouseDropCanceled</c>.</summary>
+    public void EmitMouseDropCanceled() => userInputEvents?.EmitMouseDropCanceled();
+
     /// <summary>Monaco: <c>dispatchMouse</c>, the whole decision table.</summary>
     public void DispatchMouse(MouseDispatchData data)
     {

@@ -126,6 +126,7 @@ internal sealed partial class TextViewRenderer : IDisposable
         uint defaultForeground = LineStyle.ToArgb(Theme.Foreground);
         var layouts = new ILineLayout[lineCount];
         var labels = new ILineLayout?[lineCount];
+        var controlCharacters = new List<int>?[lineCount];
         double widestLine = 1;
         for (int i = 0; i < lineCount; i++)
         {
@@ -133,14 +134,21 @@ internal sealed partial class TextViewRenderer : IDisposable
             int lineLength = viewModel.GetLineLength(lineNumber);
             bool isOverflowing = lineLength > StopRenderingLineAfter;
             // Never read a whole very long line during a frame: only the part that is drawn.
-            string text = isOverflowing
+            string content = isOverflowing
                 ? viewModel.GetLineContent(lineNumber)[..StopRenderingLineAfter]
                 : viewModel.GetLineContent(lineNumber);
 
+            // Same length as the content: only the layout is substituted, never the model text.
+            string text = ControlCharacters.Substitute(content, RenderControlCharacters);
+            List<StyleOverride>? overrides = GetLineOverrides(viewModel, data, selections, lineNumber, text.Length);
+            if (!ReferenceEquals(text, content))
+            {
+                overrides = AddControlCharacterOverrides(text, overrides, out controlCharacters[i]);
+            }
+
             // The renderer only reads tokens: the model or the background worker tokenizes.
             LineStyle style = LineStyle.Create(
-                data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground,
-                GetLineOverrides(viewModel, data, selections, lineNumber, text.Length));
+                data.GetTokens(lineNumber), text.Length, viewModel.TokenColorMap, defaultForeground, overrides);
             layouts[i] = _cache.Get(text, style);
             double width = layouts[i].Width;
             if (isOverflowing)
@@ -184,6 +192,7 @@ internal sealed partial class TextViewRenderer : IDisposable
         // Monaco: the decorations overlay is after the selections overlay, under the text.
         DrawDecorations(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawGuides(surface, viewModel, data, selections, layouts, layoutInfo, scrollLeft, topShift, font);
+        DrawControlCharacterCells(surface, data, controlCharacters, layouts, layoutInfo, scrollLeft, topShift, font);
 
         for (int i = 0; i < lineCount; i++)
         {
@@ -196,6 +205,7 @@ internal sealed partial class TextViewRenderer : IDisposable
             }
         }
 
+        DrawWhitespace(surface, viewModel, data, selections, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawAfterContents(surface, data, layouts, layoutInfo, scrollLeft, topShift, font);
         DrawCompositionUnderlines(surface, viewModel, data, layouts, layoutInfo, scrollLeft, topShift, font);
 
@@ -255,34 +265,6 @@ internal sealed partial class TextViewRenderer : IDisposable
             _maxLineWidth = lineWidth;
             viewModel.ViewLayout.SetMaxLineWidth(_maxLineWidth);
         }
-    }
-
-    // Monaco: `ViewCursor._prepareRender` for `TextEditorCursorStyle.Line`.
-    private void DrawCaret(
-        IRenderSurface surface, Selection selection, ILineLayout layout, EditorLayoutInfo layoutInfo,
-        double scrollLeft, float top, FontInfo font)
-    {
-        int offset = selection.PositionColumn - 1;
-        if (offset > layout.Text.Length)
-        {
-            // The layout of a very long line is cut: the caret is outside of the rendered line.
-            return;
-        }
-
-        double lineCursorWidth = Math.Min(CursorWidth, font.TypicalHalfwidthCharacterWidth);
-        // Monaco: `dom.computeScreenAwareSize`.
-        double requested = lineCursorWidth > 0 ? lineCursorWidth : 2;
-        double width = Math.Max(1, Math.Floor(requested * font.PixelRatio)) / font.PixelRatio;
-
-        double left = layout.GetCharacterX(offset) - scrollLeft;
-        if (width >= 2 && left >= 1)
-        {
-            // Shift the caret a bit between the characters.
-            left -= 1;
-        }
-
-        surface.FillRectangle(
-            (float)(layoutInfo.ContentLeft + left), top, (float)width, font.LineHeight, Theme.CursorForeground);
     }
 
     private void DrawSelection(

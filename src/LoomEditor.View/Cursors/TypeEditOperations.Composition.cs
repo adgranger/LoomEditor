@@ -13,7 +13,7 @@ internal static class CompositionEndOvertypeOperation
 {
     public static EditOperationResult? GetEdits(CursorConfiguration config, IReadOnlyList<CompositionOutcome> compositions)
     {
-        if (config.InputMode != InputMode.Overtype)
+        if (config.InputMode != EditorInputMode.Overtype)
         {
             return null;
         }

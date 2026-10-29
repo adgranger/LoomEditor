@@ -54,8 +54,7 @@ internal static class FontMeasurements
             Measure(s, CharacterStyle.Bold, true);
         }
 
-        // LoomEditor has no ligature option yet, so the monospace test starts at `true`.
-        bool isMonospace = true;
+        bool isMonospace = bare.FontFeatureSettings == EditorFontOptions.LigaturesOff;
         double referenceWidth = monospace[0];
         for (int i = 1; i < monospace.Count; i++)
         {
@@ -93,6 +92,7 @@ internal static class FontMeasurements
 
         return new FontInfo(
             pixelRatio, bare.FontFamily, bare.FontWeight, bare.FontSize, bare.LineHeight, bare.LetterSpacing,
+            bare.FontFeatureSettings, bare.FontVariationSettings,
             isMonospace, typicalHalfwidth, typicalFullwidth, canUseHalfwidthRightwardsArrow,
             space, middot, wsmiddot, maxDigitWidth);
     }

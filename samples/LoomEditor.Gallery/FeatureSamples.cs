@@ -36,6 +36,8 @@ internal static class FeatureSamples
             new("Injected text", "typescript", InjectedText, 2, 12, "Put the cursor after a variable and click \"Inject text\"; move the cursor across it"),
         };
 
+        samples.AddRange(Phase10Samples.All);
+
         foreach (string id in BlockLanguages)
         {
             samples.Add(new(

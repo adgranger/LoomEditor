@@ -32,6 +32,8 @@ LoomEditor.Themes.EditorTheme.TokenColors.get -> System.Collections.Generic.IRea
 LoomEditor.Themes.EditorTheme.TokenColors.init -> void
 LoomEditor.Themes.EditorTheme.Type.get -> LoomEditor.Themes.ThemeType
 LoomEditor.Themes.EditorTheme.Type.init -> void
+LoomEditor.Themes.EditorTheme.WhitespaceForeground.get -> LoomEditor.Themes.ThemeColor
+LoomEditor.Themes.EditorTheme.WhitespaceForeground.init -> void
 LoomEditor.Themes.ThemeColor
 LoomEditor.Themes.ThemeColor.A.get -> byte
 LoomEditor.Themes.ThemeColor.A.init -> void

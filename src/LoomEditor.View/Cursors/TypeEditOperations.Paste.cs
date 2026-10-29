@@ -8,7 +8,7 @@ namespace LoomEditor.View.Cursors;
 
 /// <summary>Paste at every cursor (Monaco: <c>PasteOperation</c>).</summary>
 /// <remarks>
-/// Overtype branches are kept: they are never taken in phase 3 (<see cref="InputMode"/> is always insert).
+/// Overtype branches are taken when <see cref="EditorInputMode.Overtype"/> is set.
 /// Threading: stateless; UI thread only.
 /// </remarks>
 internal static class PasteOperation
@@ -43,7 +43,7 @@ internal static class PasteOperation
     private static EditOperationResult BlockPaste(CursorConfiguration config, Selection selection, string text)
     {
         string[] lines = Strings.SplitLines(text);
-        bool shouldOvertypeOnPaste = config.OvertypeOnPaste && config.InputMode == InputMode.Overtype;
+        bool shouldOvertypeOnPaste = config.OvertypeOnPaste && config.InputMode == EditorInputMode.Overtype;
         var command = new ColumnSelectionPasteCommand(selection, lines, config.TabSize, shouldOvertypeOnPaste);
         return new EditOperationResult(EditOperationType.Other, [command], true, true);
     }
@@ -100,7 +100,7 @@ internal static class PasteOperation
         var commands = new List<IEditCommand?>(selections.Count);
         for (int i = 0; i < selections.Count; i++)
         {
-            bool shouldOvertypeOnPaste = config.OvertypeOnPaste && config.InputMode == InputMode.Overtype;
+            bool shouldOvertypeOnPaste = config.OvertypeOnPaste && config.InputMode == EditorInputMode.Overtype;
             commands.Add(shouldOvertypeOnPaste
                 ? new ReplaceOvertypeCommand(selections[i].Range, text[i])
                 : new ReplaceCommand(selections[i].Range, text[i]));
@@ -135,7 +135,7 @@ internal static class PasteOperation
             }
             else
             {
-                bool shouldOvertypeOnPaste = config.OvertypeOnPaste && config.InputMode == InputMode.Overtype;
+                bool shouldOvertypeOnPaste = config.OvertypeOnPaste && config.InputMode == EditorInputMode.Overtype;
                 commands.Add(shouldOvertypeOnPaste
                     ? new ReplaceOvertypeCommand(selection.Range, text)
                     : new ReplaceCommand(selection.Range, text));

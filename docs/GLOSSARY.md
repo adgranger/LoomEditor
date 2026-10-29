@@ -63,6 +63,8 @@ It can be several UTF-16 units; the cursor moves over a whole cluster (`Grapheme
 **IME** — Input Method Editor: how people type Chinese, Japanese, Korean… (a candidate window turns key strokes
 into characters). Needs special support from the editor (phase 3).
 
+**Input mode (overtype)** — The way typing works: *insert* (the default) pushes the text after the caret to the right, *overtype* replaces the character under the caret. The `Insert` key toggles it; `EditorContext.InputMode` holds it, one per editor, and `OvertypeCursorStyle` draws the caret.
+
 **Interval tree** — A tree that quickly finds all ranges overlapping a given range. Used to store decorations.
 
 **Keybinding / `when` clause** — A key combination bound to a command id. A `when` clause says in which state the
@@ -73,6 +75,8 @@ scrollbars (`EditorLayoutInfo`, computed from the editor size and the font). `Co
 
 **Leftover visible columns** — When the cursor moves up or down through shorter lines, it remembers the column it
 started from (the "leftover") to return to it on a longer line.
+
+**Ligature** — Several characters drawn as one glyph by a font (`=>` as an arrow in Cascadia Code). The editor turns them on with `FontLigatures` or `FontFeatureSettings`; the caret still crosses one character at a time, sharing the glyph width equally.
 
 **Line layout cache** — A least-recently-used cache of laid-out lines (`LineLayoutCache`), keyed by the text of the
 line. A line that did not change keeps its layout while the user scrolls or edits other lines. It is cleared when the
@@ -95,6 +99,8 @@ binary tree (a red-black tree) so that finding a line or inserting text is fast 
 
 **Pixel ratio** — The number of physical pixels in one DIP (1 at 100 % scale, 1.5 at 150 %). Fonts are measured with it,
 and the caret width is rounded to whole physical pixels.
+
+**Placeholder** — A *tab stop* of a snippet with a default text (`${1:i}`). It is selected when reached, so typing replaces the default; the same number elsewhere is a mirror and follows. In code, `Placeholder`.
 
 **Position** — A (line number, column) pair, both starting at 1.
 
@@ -120,10 +126,14 @@ leaving empty space below it (`ViewLayoutOptions.ScrollBeyondLastLine`).
 **Snapshot** — A frozen view of the text of a model, read in chunks (`TextModel.CreateSnapshot`), safe to read while
 the model keeps changing. Used for saving files.
 
+**Snippet** — A text template with *tab stops*, *placeholders* and variables (`for (${1:i} = 0; …$0`), in the TextMate syntax. Inserted at every cursor by `InsertSnippet`; see [how-to/use-snippets.md](how-to/use-snippets.md).
+
 **Source generator** — Code that runs at compile time and writes more C# code. Replaces reflection.
 
 **Stickiness** — What a tracked range does when text is inserted exactly at one of its ends: grow to include it or stay
 outside (`TrackedRangeStickiness`).
+
+**Tab stop** — A place of a *snippet* that `Tab` jumps to, in numeric order; `$0` is the last one, where the caret ends. Tracked by a model decoration, so it moves with the text.
 
 **Token** — A piece of a line with one meaning and one color (a keyword, a string, a comment…).
 
@@ -131,6 +141,8 @@ outside (`TrackedRangeStickiness`).
 
 **Tracked range** — A range the model keeps up to date through edits (stored in the interval tree). The cursor uses
 them to follow the selections during a command.
+
+**Typography feature** — An OpenType switch of a font, named by a four letter tag (`liga`, `calt`, `ss01`…) and a value, set with `FontFeatureSettings` in the CSS syntax `'ss01' 1, "calt" 0`. Applied through DirectWrite typography.
 
 **Unchanged region** — A block of lines that did not change in a diff, longer than the context kept around the changes. The diff editor can collapse it behind a bar "N hidden lines" (`UnchangedRegion`, `HideUnchangedRegions`).
 

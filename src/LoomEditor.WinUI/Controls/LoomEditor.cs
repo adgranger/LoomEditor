@@ -177,6 +177,16 @@ public sealed partial class LoomEditor : Control
             return;
         }
 
+        _context.UserInputEvents.EmitKeyDown(CreateKeyEventArgs(e.Key));
+
+        if (e.Key == Windows.System.VirtualKey.Escape && _mouseDown is { IsDragAndDrop: true })
+        {
+            _mouseDown.OnKeyDownWhileDragging();
+            ReleasePointerCaptures();
+            e.Handled = true;
+            return;
+        }
+
         if (_keyboard.TryHandle(e.Key, CreateKeybindingContext()))
         {
             e.Handled = true;
@@ -185,6 +195,25 @@ public sealed partial class LoomEditor : Control
 
         base.OnKeyDown(e);
     }
+
+    /// <inheritdoc />
+    protected override void OnKeyUp(KeyRoutedEventArgs e)
+    {
+        ArgumentNullException.ThrowIfNull(e);
+
+        if (HasFocus)
+        {
+            _context.UserInputEvents.EmitKeyUp(CreateKeyEventArgs(e.Key));
+        }
+
+        base.OnKeyUp(e);
+    }
+
+    private static EditorKeyEventArgs CreateKeyEventArgs(Windows.System.VirtualKey key) =>
+        new(
+            Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control)
+                .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down),
+            key is Windows.System.VirtualKey.Control or Windows.System.VirtualKey.LeftControl or Windows.System.VirtualKey.RightControl);
 
     /// <inheritdoc />
     protected override AutomationPeer OnCreateAutomationPeer() => new LoomEditorAutomationPeer(this);
@@ -290,6 +319,9 @@ public sealed partial class LoomEditor : Control
         _renderer = new TextViewRenderer(_measurer, _context.Scheduler, () => _canvas?.Invalidate());
         _renderer.MinimapSampleDataProvider = fontFamily => Win2DMinimapFontSampler.CreateSampleData(canvas.Device, fontFamily);
         _renderer.Theme = Theme;
+        _renderer.RenderWhitespace = RenderWhitespace;
+        _renderer.RenderControlCharacters = RenderControlCharacters;
+        SyncCaretStyle();
 
         _viewModel.SetFontInfo(_measurer.FontInfo);
         _viewModel.SetViewportSize((int)canvas.ActualWidth, (int)canvas.ActualHeight);

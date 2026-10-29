@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using System.Globalization;
+using LoomEditor.Core.Markers;
 using LoomEditor.Core.Model;
 using LoomEditor.View.DiffEditor;
 
@@ -19,6 +20,12 @@ internal static class AccessibilityMessages
 
     /// <summary>Announced when Tab inserts the tab character again.</summary>
     public const string TabMovesFocusOff = "Pressing Tab will now insert the tab character";
+
+    /// <summary>Announced when the input mode becomes overtype.</summary>
+    public const string OvertypeModeOn = "Overtype mode";
+
+    /// <summary>Announced when the input mode becomes insert.</summary>
+    public const string InsertModeOn = "Insert mode";
 
     /// <summary>The message of the find widget for a label such as "3 of 5" (Monaco: <c>_getAriaLabel</c>).</summary>
     public static string FindResult(string label, Range? currentMatch, string searchString, TextModel? model)
@@ -51,6 +58,27 @@ internal static class AccessibilityMessages
     /// <summary>The message of a word highlight move; <paramref name="index"/> is 1-based (Monaco: <c>moveNext</c>).</summary>
     public static string WordHighlightPosition(string lineContent, int index, int count, string word) =>
         string.Create(CultureInfo.InvariantCulture, $"{lineContent}, {index} of {count} for '{word}'");
+
+    /// <summary>
+    /// The message of a go to problem move (Monaco: <c>getAriaLabel</c> of the marker widget, then the <c>problems</c> title);
+    /// <paramref name="lineContent"/> is the text of the marker line, or <see langword="null"/> when it has none.
+    /// </summary>
+    public static string MarkerNavigation(string? lineContent, MarkerSeverity severity, string message, int index, int total, int line, int column)
+    {
+        string label = severity switch
+        {
+            MarkerSeverity.Error => "Error",
+            MarkerSeverity.Warning => "Warning",
+            MarkerSeverity.Info => "Info",
+            _ => "Hint",
+        };
+        string prefix = lineContent is null ? string.Empty : $"{lineContent}, ";
+        return string.Create(CultureInfo.InvariantCulture, $"{prefix}{label}: {message} at {line}:{column}. {index} of {total} {(total > 1 ? "problems" : "problem")}");
+    }
+
+    /// <summary>The message when the selection anchor is set (Monaco: <c>anchorSet</c>).</summary>
+    public static string AnchorSet(int lineNumber, int column) =>
+        string.Create(CultureInfo.InvariantCulture, $"Anchor set at {lineNumber}:{column}");
 
     /// <summary>The message when go to definition finds nothing (Monaco: <c>noResultWord</c> / <c>generic.noResult</c>).</summary>
     public static string NoDefinitionFound(string? word) =>

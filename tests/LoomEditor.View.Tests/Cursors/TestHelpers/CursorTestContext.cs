@@ -15,7 +15,7 @@ internal static class CursorTestContext
 {
     public static CursorContext Create(TextModel model, EditorCursorOptions? options = null)
     {
-        var font = new FontInfo(1, "Consolas", "normal", 14, 19, 0, true, 8, 16, true, 8, 8, 8, 8);
+        var font = new FontInfo(1, "Consolas", "normal", 14, 19, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, 8, 16, true, 8, 8, 8, 8);
         var layout = new EditorLayoutInfo(
             Width: 800,
             Height: 600,

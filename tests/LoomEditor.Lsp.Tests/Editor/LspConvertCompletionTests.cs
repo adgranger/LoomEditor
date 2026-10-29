@@ -78,8 +78,14 @@ public class LspConvertCompletionTests
     }
 
     [Fact]
-    public void Item_SnippetFormat_ConvertedToPlainText()
-        => Assert.Equal("f(x)", Item("{\"label\":\"f\",\"insertText\":\"f(${1:x})$0\",\"insertTextFormat\":2}").InsertText);
+    public void ToCompletionItem_SnippetFormat_SetsInsertAsSnippetAndKeepsRawText()
+    {
+        CompletionItem item = Item("{\"label\":\"f\",\"insertText\":\"f(${1:x})$0\",\"insertTextFormat\":2}");
+
+        Assert.Equal("f(${1:x})$0", item.InsertText);
+        Assert.Equal(InsertTextRules.InsertAsSnippet, item.InsertTextRules);
+        Assert.Equal(InsertTextRules.None, Item("{\"label\":\"f\",\"insertText\":\"f\",\"insertTextFormat\":1}").InsertTextRules);
+    }
 
     [Fact]
     public void Item_Tags_DeprecatedByTagOrFlag()

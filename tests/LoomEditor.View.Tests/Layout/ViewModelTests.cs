@@ -16,7 +16,7 @@ public class ViewModelTests
 
     private static FontInfo CreateFontInfo(int lineHeight = LineHeight)
     {
-        return new FontInfo(1, "Consolas", "normal", 14, lineHeight, 0, true, MaxDigitWidth, 16.8, true, MaxDigitWidth, 8, 8, MaxDigitWidth);
+        return new FontInfo(1, "Consolas", "normal", 14, lineHeight, 0, EditorFontOptions.LigaturesOff, EditorFontOptions.VariationsOff, true, MaxDigitWidth, 16.8, true, MaxDigitWidth, 8, 8, MaxDigitWidth);
     }
 
     private static string Lines(int count)

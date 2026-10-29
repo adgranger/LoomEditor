@@ -70,6 +70,21 @@ internal static class WhenClauses
     /// <summary><c>editorHasDefinitionProvider AND editorTextFocus</c> (<c>editor.action.revealDefinition</c>).</summary>
     public static bool GotoDefinition(KeybindingContext c) => c.EditorTextFocus && c.HasDefinitionProvider;
 
+    /// <summary><c>markersNavigationVisible AND editorFocus</c> (Escape ends the go to problem session).</summary>
+    public static bool MarkersNavigationVisible(KeybindingContext c) => c.MarkersNavigationVisible && c.EditorFocus;
+
+    /// <summary><c>inSnippetMode AND hasNextTabstop AND textInputFocus</c> (Tab).</summary>
+    public static bool SnippetNext(KeybindingContext c) => c.InSnippetMode && c.HasNextTabstop && c.TextInputFocus;
+
+    /// <summary><c>inSnippetMode AND hasPrevTabstop AND textInputFocus</c> (Shift+Tab).</summary>
+    public static bool SnippetPrev(KeybindingContext c) => c.InSnippetMode && c.HasPrevTabstop && c.TextInputFocus;
+
+    /// <summary><c>inSnippetMode AND textInputFocus</c> (Escape).</summary>
+    public static bool InSnippet(KeybindingContext c) => c.InSnippetMode && c.TextInputFocus;
+
+    /// <summary><c>selectionAnchorSet AND editorTextFocus</c> (<c>selectFromAnchorToCursor</c>, <c>cancelSelectionAnchor</c>).</summary>
+    public static bool SelectionAnchorSet(KeybindingContext c) => c.SelectionAnchorSet && c.EditorTextFocus;
+
     /// <summary><c>isInDiffEditor</c> (the diff navigation keys).</summary>
     public static bool InDiffEditor(KeybindingContext c) => c.IsInDiffEditor;
 }

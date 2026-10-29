@@ -166,7 +166,7 @@ internal static class LspClientCapabilities
                     ContextSupport = true,
                     CompletionItem = new CompletionItemCapabilities
                     {
-                        SnippetSupport = false,
+                        SnippetSupport = true,
                         DocumentationFormat = formats,
                         DeprecatedSupport = true,
                         PreselectSupport = true,

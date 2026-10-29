@@ -19,6 +19,9 @@ public sealed record FakeServerOptions
     /// <summary>Completion lists are marked <c>isIncomplete</c>.</summary>
     public bool Incomplete { get; init; }
 
+    /// <summary>The completion lists have one more item, <c>forloop</c>: a snippet (<c>insertTextFormat</c> 2) with tab stops.</summary>
+    public bool Snippet { get; init; }
+
     /// <summary>Writes <c>NAME=value</c> of this environment variable to standard error at start.</summary>
     public string? EchoEnv { get; init; }
 
@@ -28,7 +31,7 @@ public sealed record FakeServerOptions
     /// <summary>After <c>initialized</c> the server sends notifications and requests of its own.</summary>
     public bool Chatty { get; init; }
 
-    /// <summary>Reads <c>--sync=</c>, <c>--delay=</c>, <c>--exit-on=</c>, <c>--stderr=</c>, <c>--incomplete</c>, <c>--chatty</c>, <c>--echo-env=</c> and <c>--echo-cwd</c>; ignores anything else.</summary>
+    /// <summary>Reads <c>--sync=</c>, <c>--delay=</c>, <c>--exit-on=</c>, <c>--stderr=</c>, <c>--incomplete</c>, <c>--snippet</c>, <c>--chatty</c>, <c>--echo-env=</c> and <c>--echo-cwd</c>; ignores anything else.</summary>
     public static FakeServerOptions Parse(string[] args)
     {
         FakeServerOptions options = new();
@@ -61,6 +64,10 @@ public sealed record FakeServerOptions
             else if (arg == "--echo-cwd")
             {
                 options = options with { EchoCwd = true };
+            }
+            else if (arg == "--snippet")
+            {
+                options = options with { Snippet = true };
             }
             else if (arg == "--chatty")
             {

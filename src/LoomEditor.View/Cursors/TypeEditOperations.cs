@@ -21,7 +21,7 @@ internal static class SimpleCharacterTypeOperation
         var commands = new List<IEditCommand?>(selections.Count);
         foreach (Selection selection in selections)
         {
-            commands.Add(config.InputMode == InputMode.Overtype && !isDoingComposition
+            commands.Add(config.InputMode == EditorInputMode.Overtype && !isDoingComposition
                 ? new ReplaceOvertypeCommand(selection.Range, ch)
                 : new ReplaceCommand(selection.Range, ch));
         }

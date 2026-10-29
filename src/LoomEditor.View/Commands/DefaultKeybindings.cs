@@ -5,6 +5,13 @@ using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.DiffNavigation;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Hover;
+using LoomEditor.View.Features.LineSelection;
+using LoomEditor.View.Features.CursorUndo;
+using LoomEditor.View.Features.Overtype;
+using LoomEditor.View.Features.SelectionAnchor;
+using LoomEditor.View.Features.SmartSelect;
+using LoomEditor.View.Features.GotoError;
+using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Features.TabFocus;
 using LoomEditor.View.Features.WordHighlighter;
@@ -231,6 +238,34 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.None, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
         Add(KeyModifiers.Shift, KeyCode.Escape, SuggestCommands.HideSuggestWidget, WhenClauses.SuggestVisible, SuggestWeight);
 
+        // snippetController2.ts (Contrib, +30): Tab and Shift+Tab move between the tab stops, Escape leaves snippet mode. The suggest rules (+90) win
+        // on Tab and Escape. Not ported: the Shift+Tab rule of snippet choices (+91).
+        const int SnippetWeight = KeybindingWeight.EditorContrib + 30;
+        Add(KeyModifiers.None, KeyCode.Tab, SnippetCommands.JumpToNextSnippetPlaceholder, WhenClauses.SnippetNext, SnippetWeight);
+        Add(KeyModifiers.Shift, KeyCode.Tab, SnippetCommands.JumpToPrevSnippetPlaceholder, WhenClauses.SnippetPrev, SnippetWeight);
+        Add(KeyModifiers.None, KeyCode.Escape, SnippetCommands.LeaveSnippet, WhenClauses.InSnippet, SnippetWeight);
+        Add(KeyModifiers.Shift, KeyCode.Escape, SnippetCommands.LeaveSnippet, WhenClauses.InSnippet, SnippetWeight);
+
+        // gotoError.ts: F8 / Shift+F8 (in files) and Alt+F8 / Shift+Alt+F8 behave the same with one model; Escape ends the session (+50, above the snippet Escape).
+        Add(KeyModifiers.None, KeyCode.F8, GotoErrorCommands.NextInFiles, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift, KeyCode.F8, GotoErrorCommands.PrevInFiles, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Alt, KeyCode.F8, GotoErrorCommands.Next, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.F8, GotoErrorCommands.Prev, WhenClauses.EditorFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.None, KeyCode.Escape, GotoErrorCommands.Close, WhenClauses.MarkersNavigationVisible, KeybindingWeight.EditorContrib + 50);
+        Add(KeyModifiers.Shift, KeyCode.Escape, GotoErrorCommands.Close, WhenClauses.MarkersNavigationVisible, KeybindingWeight.EditorContrib + 50);
+
+        // anchorSelect.ts and lineSelection.ts: Ctrl+K Ctrl+B, Ctrl+K Ctrl+K and Ctrl+L. Escape has the lowest weight of the Escape rules (Monaco: EditorContrib) so the widgets close first.
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), SelectionAnchorCommands.SetSelectionAnchor, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyB)));
+        rules.Add(new KeybindingRule(
+            new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK), SelectionAnchorCommands.SelectFromAnchorToCursor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorContrib, new Keybinding(KeyModifiers.Ctrl, KeyCode.KeyK)));
+        Add(KeyModifiers.None, KeyCode.Escape, SelectionAnchorCommands.CancelSelectionAnchor, WhenClauses.SelectionAnchorSet, KeybindingWeight.EditorCore);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyL, LineSelectionCommands.ExpandLineSelection, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Ctrl, KeyCode.KeyU, CursorUndoCommands.CursorUndo, WhenClauses.TextInputFocus, KeybindingWeight.EditorContrib);
+        // smartSelect.ts: Shift+Alt+Right / Left (the Windows binding; the macOS ones are not ported).
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.RightArrow, SmartSelectCommands.Expand, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+        Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.LeftArrow, SmartSelectCommands.Shrink, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
+
         void Navigate(KeyCode key, string id)
         {
             Add(KeyModifiers.None, key, id, WhenClauses.SuggestNavigation, SuggestWeight);
@@ -244,6 +279,8 @@ internal static class DefaultKeybindings
         Add(KeyModifiers.Ctrl, KeyCode.Space, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Ctrl, KeyCode.KeyI, SuggestCommands.TriggerSuggest, WhenClauses.TriggerSuggest, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.None, KeyCode.F12, GotoDefinitionCommands.RevealDefinition, WhenClauses.GotoDefinition, KeybindingWeight.EditorContrib);
+        // The workbench owns the Insert key (no Monaco id): it toggles overtype while the editor text has the focus.
+        Add(KeyModifiers.None, KeyCode.Insert, OvertypeCommands.ToggleOvertype, WhenClauses.EditorTextFocus, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Alt, KeyCode.F5, DiffNavigationCommands.NextChange, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
         Add(KeyModifiers.Shift | KeyModifiers.Alt, KeyCode.F5, DiffNavigationCommands.PreviousChange, WhenClauses.InDiffEditor, KeybindingWeight.EditorContrib);
         // commands.ts (AccessibleDiffViewerNext, AccessibleDiffViewerPrev): after the word highlighter F7 rules, which win only outside a diff editor.

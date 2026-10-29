@@ -1,8 +1,12 @@
 #nullable enable
+const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretLeft = "editor.action.moveCarretLeftAction" -> string!
+const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretRight = "editor.action.moveCarretRightAction" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.action.addCommentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.BlockComment = "editor.action.blockComment" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.CommentLine = "editor.action.commentLine" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.RemoveCommentLine = "editor.action.removeCommentLine" -> string!
+const LoomEditor.View.Features.CursorUndo.CursorUndoCommands.CursorRedo = "cursorRedo" -> string!
+const LoomEditor.View.Features.CursorUndo.CursorUndoCommands.CursorUndo = "cursorUndo" -> string!
 const LoomEditor.View.Features.Find.FindCommands.CloseFindWidgetCommand = "closeFindWidget" -> string!
 const LoomEditor.View.Features.Find.FindCommands.NextMatchFindAction = "editor.action.nextMatchFindAction" -> string!
 const LoomEditor.View.Features.Find.FindCommands.NextSelectionMatchFindAction = "editor.action.nextSelectionMatchFindAction" -> string!
@@ -19,6 +23,9 @@ const LoomEditor.View.Features.Find.FindCommands.TogglePreserveCaseCommand = "to
 const LoomEditor.View.Features.Find.FindCommands.ToggleRegexCommand = "toggleFindRegex" -> string!
 const LoomEditor.View.Features.Find.FindCommands.ToggleSearchScopeCommand = "toggleFindInSelection" -> string!
 const LoomEditor.View.Features.Find.FindCommands.ToggleWholeWordCommand = "toggleFindWholeWord" -> string!
+const LoomEditor.View.Features.FontZoom.FontZoomCommands.FontZoomIn = "editor.action.fontZoomIn" -> string!
+const LoomEditor.View.Features.FontZoom.FontZoomCommands.FontZoomOut = "editor.action.fontZoomOut" -> string!
+const LoomEditor.View.Features.FontZoom.FontZoomCommands.FontZoomReset = "editor.action.fontZoomReset" -> string!
 const LoomEditor.View.Features.GotoDefinition.GotoDefinitionCommands.RevealDefinition = "editor.action.revealDefinition" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ChangeTabDisplaySize = "editor.action.changeTabDisplaySize" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.DetectIndentation = "editor.action.detectIndentation" -> string!
@@ -28,6 +35,7 @@ const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingSpaces
 const LoomEditor.View.Features.Indentation.IndentationCommands.IndentUsingTabs = "editor.action.indentUsingTabs" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentLines = "editor.action.reindentlines" -> string!
 const LoomEditor.View.Features.Indentation.IndentationCommands.ReindentSelectedLines = "editor.action.reindentselectedlines" -> string!
+const LoomEditor.View.Features.LineSelection.LineSelectionCommands.ExpandLineSelection = "expandLineSelection" -> string!
 const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.CopyLinesDown = "editor.action.copyLinesDownAction" -> string!
 const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.CopyLinesUp = "editor.action.copyLinesUpAction" -> string!
 const LoomEditor.View.Features.LinesOperations.LinesOperationsCommands.DeleteAllLeft = "deleteAllLeft" -> string!
@@ -67,7 +75,14 @@ const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.InsertCursorBelow
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToNextFindMatch = "editor.action.moveSelectionToNextFindMatch" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.MoveSelectionToPreviousFindMatch = "editor.action.moveSelectionToPreviousFindMatch" -> string!
 const LoomEditor.View.Features.MultiCursor.MultiCursorCommands.SelectHighlights = "editor.action.selectHighlights" -> string!
+const LoomEditor.View.Features.Overtype.OvertypeCommands.ToggleOvertype = "editor.action.toggleOvertype" -> string!
 const LoomEditor.View.Features.SelectAll.SelectAllCommands.SelectAll = "editor.action.selectAll" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.CancelSelectionAnchor = "editor.action.cancelSelectionAnchor" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.GoToSelectionAnchor = "editor.action.goToSelectionAnchor" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.SelectFromAnchorToCursor = "editor.action.selectFromAnchorToCursor" -> string!
+const LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands.SetSelectionAnchor = "editor.action.setSelectionAnchor" -> string!
+const LoomEditor.View.Features.SmartSelect.SmartSelectCommands.Expand = "editor.action.smartSelect.expand" -> string!
+const LoomEditor.View.Features.SmartSelect.SmartSelectCommands.Shrink = "editor.action.smartSelect.shrink" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.AcceptSelectedSuggestion = "acceptSelectedSuggestion" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.HideSuggestWidget = "hideSuggestWidget" -> string!
 const LoomEditor.View.Features.Suggest.SuggestCommands.SelectFirstSuggestion = "selectFirstSuggestion" -> string!
@@ -117,18 +132,39 @@ LoomEditor.View.Commands.EditorCommand.CanExecute() -> bool
 LoomEditor.View.Commands.EditorCommand.EditorCommand(string! id, System.Action! execute, System.Func<bool>? canExecute = null) -> void
 LoomEditor.View.Commands.EditorCommand.Execute() -> bool
 LoomEditor.View.Commands.EditorCommand.Id.get -> string!
+LoomEditor.View.Controller.MouseWheelZoomGesture
+LoomEditor.View.Controller.MouseWheelZoomGesture.MouseWheelZoomGesture() -> void
+LoomEditor.View.Controller.MouseWheelZoomGesture.OnWheel(double deltaY, bool isPhysicalWheel, bool ctrl, bool shift, bool alt, bool win, long timestampMs, double currentLevel) -> double?
+LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Cursors.EditorInputMode.Insert = 0 -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Cursors.EditorInputMode.Overtype = 1 -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Features.CaretOperations.CaretOperationsCommands
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.CaretOperationsFeature() -> void
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Dispose() -> void
+LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Id.get -> string!
 LoomEditor.View.Features.Comment.CommentCommands
 LoomEditor.View.Features.Comment.CommentFeature
 LoomEditor.View.Features.Comment.CommentFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
 LoomEditor.View.Features.Comment.CommentFeature.CommentFeature() -> void
 LoomEditor.View.Features.Comment.CommentFeature.Dispose() -> void
 LoomEditor.View.Features.Comment.CommentFeature.Id.get -> string!
+LoomEditor.View.Features.CursorUndo.CursorUndoCommands
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.CursorUndoFeature() -> void
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Dispose() -> void
+LoomEditor.View.Features.CursorUndo.CursorUndoFeature.Id.get -> string!
 LoomEditor.View.Features.EditorContext
 LoomEditor.View.Features.EditorContext.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
 LoomEditor.View.Features.EditorContext.Dispose() -> void
 LoomEditor.View.Features.EditorContext.DocumentUri.get -> string!
 LoomEditor.View.Features.EditorContext.DocumentUri.set -> void
 LoomEditor.View.Features.EditorContext.EditorContext() -> void
+LoomEditor.View.Features.EditorContext.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Features.EditorContext.InputMode.set -> void
+LoomEditor.View.Features.EditorContext.InputModeChanged -> System.EventHandler?
 LoomEditor.View.Features.EditorContext.IsReadOnly.get -> bool
 LoomEditor.View.Features.EditorContext.IsReadOnly.set -> void
 LoomEditor.View.Features.EditorContext.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
@@ -144,6 +180,7 @@ LoomEditor.View.Features.EditorContext.SelectionChanged -> System.EventHandler?
 LoomEditor.View.Features.EditorContext.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
 LoomEditor.View.Features.EditorContext.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.View.Features.EditorContext.SetText(string! text) -> void
+LoomEditor.View.Features.EditorContext.Zoom.get -> LoomEditor.View.Layout.EditorZoomState!
 LoomEditor.View.Features.EditorFeatureHost
 LoomEditor.View.Features.EditorFeatureHost.Dispose() -> void
 LoomEditor.View.Features.EditorFeatureHost.EditorFeatureHost(LoomEditor.View.Features.IEditorContext! context, System.Collections.Generic.IEnumerable<System.Func<LoomEditor.View.Features.IEditorFeature!>!>! factories) -> void
@@ -155,6 +192,12 @@ LoomEditor.View.Features.Find.FindFeature.Attach(LoomEditor.View.Features.IEdito
 LoomEditor.View.Features.Find.FindFeature.Dispose() -> void
 LoomEditor.View.Features.Find.FindFeature.FindFeature() -> void
 LoomEditor.View.Features.Find.FindFeature.Id.get -> string!
+LoomEditor.View.Features.FontZoom.FontZoomCommands
+LoomEditor.View.Features.FontZoom.FontZoomFeature
+LoomEditor.View.Features.FontZoom.FontZoomFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.FontZoom.FontZoomFeature.Dispose() -> void
+LoomEditor.View.Features.FontZoom.FontZoomFeature.FontZoomFeature() -> void
+LoomEditor.View.Features.FontZoom.FontZoomFeature.Id.get -> string!
 LoomEditor.View.Features.GotoDefinition.GotoDefinitionCommands
 LoomEditor.View.Features.GotoDefinition.ILocationOpener
 LoomEditor.View.Features.GotoDefinition.ILocationOpener.Open(LoomEditor.Core.Languages.Features.LocationLink! target) -> bool
@@ -179,6 +222,12 @@ LoomEditor.View.Features.Indentation.IndentationFeature.Attach(LoomEditor.View.F
 LoomEditor.View.Features.Indentation.IndentationFeature.Dispose() -> void
 LoomEditor.View.Features.Indentation.IndentationFeature.Id.get -> string!
 LoomEditor.View.Features.Indentation.IndentationFeature.IndentationFeature() -> void
+LoomEditor.View.Features.LineSelection.LineSelectionCommands
+LoomEditor.View.Features.LineSelection.LineSelectionFeature
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.Dispose() -> void
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.Id.get -> string!
+LoomEditor.View.Features.LineSelection.LineSelectionFeature.LineSelectionFeature() -> void
 LoomEditor.View.Features.LinesOperations.LinesOperationsCommands
 LoomEditor.View.Features.LinesOperations.LinesOperationsFeature
 LoomEditor.View.Features.LinesOperations.LinesOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
@@ -191,6 +240,12 @@ LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Attach(LoomEditor.View.F
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Dispose() -> void
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.Id.get -> string!
 LoomEditor.View.Features.MultiCursor.MultiCursorFeature.MultiCursorFeature() -> void
+LoomEditor.View.Features.Overtype.OvertypeCommands
+LoomEditor.View.Features.Overtype.OvertypeFeature
+LoomEditor.View.Features.Overtype.OvertypeFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.Overtype.OvertypeFeature.Dispose() -> void
+LoomEditor.View.Features.Overtype.OvertypeFeature.Id.get -> string!
+LoomEditor.View.Features.Overtype.OvertypeFeature.OvertypeFeature() -> void
 LoomEditor.View.Features.Scheduling.IEditorScheduler
 LoomEditor.View.Features.Scheduling.IEditorScheduler.Schedule(System.TimeSpan delay, System.Action! action) -> System.IDisposable!
 LoomEditor.View.Features.SelectAll.SelectAllCommands
@@ -199,6 +254,18 @@ LoomEditor.View.Features.SelectAll.SelectAllFeature.Attach(LoomEditor.View.Featu
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Dispose() -> void
 LoomEditor.View.Features.SelectAll.SelectAllFeature.Id.get -> string!
 LoomEditor.View.Features.SelectAll.SelectAllFeature.SelectAllFeature() -> void
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorCommands
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Dispose() -> void
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.Id.get -> string!
+LoomEditor.View.Features.SelectionAnchor.SelectionAnchorFeature.SelectionAnchorFeature() -> void
+LoomEditor.View.Features.SmartSelect.SmartSelectCommands
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.Dispose() -> void
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.Id.get -> string!
+LoomEditor.View.Features.SmartSelect.SmartSelectFeature.SmartSelectFeature() -> void
 LoomEditor.View.Features.Suggest.SuggestCommands
 LoomEditor.View.Features.WordOperations.WordOperationsCommands
 LoomEditor.View.Features.WordOperations.WordOperationsFeature
@@ -212,5 +279,23 @@ LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Attach(Loo
 LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Dispose() -> void
 LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.Id.get -> string!
 LoomEditor.View.Features.WordPartOperations.WordPartOperationsFeature.WordPartOperationsFeature() -> void
+LoomEditor.View.Layout.EditorZoomState
+LoomEditor.View.Layout.EditorZoomState.Changed -> System.EventHandler?
+LoomEditor.View.Layout.EditorZoomState.EditorZoomState() -> void
+LoomEditor.View.Layout.EditorZoomState.Level.get -> double
+LoomEditor.View.Layout.EditorZoomState.SetLevel(double level) -> void
+LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.All = 4 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.Boundary = 2 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.None = 0 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.Selection = 1 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.RenderWhitespace.Trailing = 3 -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.Block = 1 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.BlockOutline = 4 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.Line = 0 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.LineThin = 3 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.Underline = 2 -> LoomEditor.View.Layout.TextEditorCursorStyle
+LoomEditor.View.Layout.TextEditorCursorStyle.UnderlineThin = 5 -> LoomEditor.View.Layout.TextEditorCursorStyle
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection

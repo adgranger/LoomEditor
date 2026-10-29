@@ -96,10 +96,10 @@ real server the Gallery shows.
    which is what LSP requires), a full-text `didChange` after a flush (`SetValue`) or an EOL change, `didClose` on dispose; the version is the model's
    `VersionId`. If the server asks for `Full` (`textDocumentSync.change = 1`) the client sends the full text. No `willSave` / `didSave`.
 
-7. **What the client asks for, and what it does not.** Client capabilities: incremental sync; `completion` (no snippets: `snippetSupport = false`, so
+7. **What the client asks for, and what it does not.** Client capabilities: incremental sync; `completion` (no snippets: `snippetSupport = false` in phase 8, `true` since phase 10, so
    `insertText` is plain text; markdown and plaintext documentation; `insertReplaceSupport`; `resolveSupport` for `documentation`, `detail`, `additionalTextEdits`;
    `contextSupport`; the 25 LSP kinds); `hover` (markdown, plaintext); `definition` (`linkSupport`); `publishDiagnostics` (`versionSupport`, `tagSupport` 1 and 2);
-   nothing else, and no `workspace.*`, no `window.workDoneProgress`. **Not in phase 8:** snippets, signature help, references, rename, code actions, formatting,
+   nothing else, and no `workspace.*`, no `window.workDoneProgress`. **Not in phase 8:** snippets (delivered in phase 10), signature help, references, rename, code actions, formatting,
    semantic tokens, inlay hints, folding ranges and document highlights from the server (ADR 0009 decision 9 named LSP folding; phase 8 does not deliver it, the
    roadmap does not list it), document links, workspace symbols, pull diagnostics, several documents / workspace folders (the client sends one `rootUri`),
    server-initiated edits (`workspace/applyEdit` is answered `applied: false`), and Ctrl+hover link underlines.
@@ -142,5 +142,5 @@ real server the Gallery shows.
 
 ## Changes during implementation
 
-- **Snippets are flattened, not refused (decision 7).** `snippetSupport = false` is advertised, but a server may still send snippet text; `LspSnippet.ToPlainText` reduces it to plain text (tab stops vanish, placeholders keep their default, choices keep the first option). Card P8-31.
+- **Snippets are flattened, not refused (decision 7)** (superseded in phase 10: `snippetSupport = true` and `LspSnippet` is deleted, P10-26). `snippetSupport = false` was advertised, but a server may still send snippet text; `LspSnippet.ToPlainText` reduces it to plain text (tab stops vanish, placeholders keep their default, choices keep the first option). Card P8-31.
 - **The Gallery window close waits for the session (decision 9).** The `Closed` handler cancels the close, waits at most 3 s for the session to stop and closes again, because the session needs the UI thread to finish stopping. Card P8-37.

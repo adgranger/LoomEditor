@@ -2,6 +2,7 @@ using LoomEditor.Core.Languages.Features;
 using LoomEditor.Core.Markers;
 using LoomEditor.Core.Text;
 using LoomEditor.Lsp.Editor;
+using LoomEditor.Lsp.FakeServer;
 using LoomEditor.View.Features.GotoDefinition;
 using LoomEditor.View.Features.Suggest;
 using LoomEditor.View.Hover;
@@ -102,6 +103,27 @@ public sealed class LspEditorIntegrationTests
         Assert.False(h.Suggest.IsVisible);
         await h.SyncAsync();
         Assert.Equal(h.Text, h.Server!.DocumentText);
+    }
+
+    [Fact]
+    public async Task Completion_SnippetItem_EndToEnd()
+    {
+        LspEditorHarness h = LspEditorHarness.InProcess(string.Empty, new FakeServerOptions { Snippet = true });
+        await using (h)
+        {
+            await h.StartAsync();
+            await TypeAndShowListAsync(h, "forlo");
+
+            h.Command(SuggestCommands.AcceptSelectedSuggestion);
+
+            Assert.Equal("for (i = 0; i < n; i++) {\n    \n}", h.Text);
+            Assert.True(h.Context.InSnippetMode);
+            Assert.Equal(
+                [new Selection(1, 6, 1, 7), new Selection(1, 13, 1, 14), new Selection(1, 20, 1, 21)],
+                h.Context.Selections);
+            Assert.True(h.Context.Commands.Execute("jumpToNextSnippetPlaceholder"));
+            Assert.Equal([new Selection(1, 17, 1, 18)], h.Context.Selections);
+        }
     }
 
     [Fact]

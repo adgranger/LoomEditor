@@ -6,6 +6,7 @@ using LoomEditor.View.Controller;
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.Folding;
 using LoomEditor.View.Features.Scheduling;
+using LoomEditor.View.Features.Snippet;
 using LoomEditor.View.Layout;
 using LoomEditor.View.Hover;
 
@@ -23,6 +24,9 @@ internal static class EditorContextExtensions
 
     /// <summary>The find controller of the editor, or null when the Find feature is not attached.</summary>
     public static FindController? GetFindController(this IEditorContext context) => (context as EditorContext)?.FindController;
+
+    /// <summary>The snippet controller of the editor, or null when the Snippet feature is not attached.</summary>
+    public static SnippetController? GetSnippetController(this IEditorContext context) => (context as EditorContext)?.SnippetController;
 
     /// <summary>The folding feature of the editor, or null when the Folding feature is not attached.</summary>
     public static FoldingFeature? GetFoldingFeature(this IEditorContext context) => (context as EditorContext)?.FoldingFeature;

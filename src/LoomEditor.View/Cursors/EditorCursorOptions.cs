@@ -30,6 +30,9 @@ internal sealed record EditorCursorOptions
     /// <summary>The <c>columnSelection</c> option: Shift+arrows select a column (default <c>false</c>). Read by the keybindings.</summary>
     public bool ColumnSelection { get; init; }
 
+    /// <summary>The <c>dragAndDrop</c> option: a press inside a non-empty selection starts a drag of the selection (default <c>true</c>).</summary>
+    public bool DragAndDrop { get; init; } = true;
+
     /// <summary>The <c>selectOnLineNumbers</c> option: clicking the line numbers selects the line (default <c>true</c>).</summary>
     public bool SelectOnLineNumbers { get; init; } = true;
 
@@ -77,4 +80,7 @@ internal sealed record EditorCursorOptions
     public IReadOnlyList<string> WordSegmenterLocales { get; init; } = [];
 
     public bool OvertypeOnPaste { get; init; } = true;
+
+    /// <summary>Whether typing inserts or overwrites (Monaco: the global <c>InputMode</c>; here per editor).</summary>
+    public EditorInputMode InputMode { get; init; } = EditorInputMode.Insert;
 }

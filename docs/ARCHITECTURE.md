@@ -261,7 +261,7 @@ and their `Task` may complete anywhere: View code never uses `await` on it, only
 **The fake language server** (`tests/LoomEditor.Lsp.FakeServer`) is a deterministic server (completion, resolve, hover, definition, diagnostics). Tests run it in
 process over in-memory pipes (`tests/LoomEditor.Lsp.Tests`, and the end-to-end tests of the real features in `tests/LoomEditor.View.Tests/Lsp`); a few start it as a child process; the Gallery self-check runs it published with Native AOT. No automated test needs a real server.
 
-Deliberately not delivered in phase 8: snippets, signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, folding ranges from the server, peek definition.
+Deliberately not delivered in phase 8: snippets (delivered in phase 10), signature help, references, rename, code actions, formatting, semantic tokens, inlay hints, folding ranges from the server, peek definition.
 
 ## Diff editor (phase 9)
 
@@ -299,6 +299,40 @@ is computed the old one stays (`IsDiffUpToDate` is false): Monaco patches it thr
 **Not delivered in phase 9**: moved blocks drawing (the computation is ported), the gutter menu and revert buttons, `diffCodeLens`, the embedded diff editor,
 `compactMode`, true inline view, the legacy diff computer, `serializeState`, accessibility sounds, mapping the old diff through edits, `setModel`, breadcrumbs.
 How to use the control: [how-to/use-the-diff-editor.md](how-to/use-the-diff-editor.md).
+
+## Text rendering options and snippets (phase 10)
+
+Decisions in [ADR 0013](adr/0013-text-options-and-snippets.md). Three flows; each editor has its own state, nothing is a singleton:
+
+```
+Fonts:      control properties (FontLigatures, FontFeatureSettings, FontVariationSettings, LetterSpacing, FontWeight, ZoomLevel)
+  → EditorFontOptions + EditorZoomState → BareFontInfo.Create (zoom factor) → RecreateTextMeasurer
+  → FontInfo (width table: word wrap, minimap)  +  CanvasTypography / SetCharacterSpacing on each CanvasTextLayout (ligatures, spacing, wght)
+  positions always come from ILineLayout.GetCharacterX / HitTest
+
+Whitespace: RenderWhitespaceComputer (pure: the ranges of a line) → overlay drawn over the text layout (dots, arrows)
+            control characters are substituted 1:1 before the layout is built
+
+Snippets:   LoomEditor.Core/Snippets (scanner, SnippetParser, TextmateSnippet, variable resolvers)
+  → LoomEditor.View/Features/Snippet (OneSnippet, SnippetSession, SnippetController: tab stops tracked by model decorations)
+  ← CompletionItem.InsertTextRules (InsertAsSnippet) from the suggest widget and from LspConvert
+```
+
+The input mode (insert / overtype) is `EditorContext.InputMode`, one per editor.
+
+Editing features added in phase 10, each a folder of `LoomEditor.View/Features/` (feature, commands, README): `SelectionAnchor`, `LineSelection`, `CursorUndo`, `CaretOperations`
+(move selected text), `SmartSelect`, `DragAndDrop` (the drag state lives in the mouse operation of `LoomEditor.View/Controller/`), `Overtype`, `FontZoom`, `Snippet` and `GotoError`.
+A key that depends on a state of the editor reads a field of `KeybindingContext` (`InSnippetMode`, `HasNextTabstop`, `MarkersNavigationVisible`…), filled by the control.
+
+```
+Problems:   MarkerService → MarkerList (sorted, wraps around) → MarkerController (F8: caret, reveal, announcement; Escape ends the session)
+Snippet mode: SnippetController (keys Tab / Shift+Tab / Escape, undo and caret tracking) → SnippetSession (every cursor) → OneSnippet (decorations)
+```
+
+**Not delivered in phase 10**: the "Later" table of [tasks/phase-10/README.md](tasks/phase-10/README.md) (unicode highlight, font tokens of themes, semantic highlighting, rich copy, touch, linked editing,
+formatting and the other provider based features), the choice list and snippet text edits, the marker widget of `F8`. The Native AOT text self-check passes (10 of 10, P10-30, 2026-10-29,
+[roadmap](roadmap/phase-10-editor-completeness.md)). **Not verified**: the manual plan has not been run.
+How to use it: [how-to/use-snippets.md](how-to/use-snippets.md), [how-to/font-and-whitespace-options.md](how-to/font-and-whitespace-options.md).
 
 ## Where do I find…?
 
@@ -373,3 +407,11 @@ How to use the control: [how-to/use-the-diff-editor.md](how-to/use-the-diff-edit
 | change the diff control (sash, side by side, inline, overview strip, accessible viewer) | `src/LoomEditor.WinUI/Controls/DiffEditor/` ([how-to](how-to/use-the-diff-editor.md)) |
 | change the overview ruler | `src/LoomEditor.View/Layout/OverviewZoneManager.cs`, `ScrollbarState.cs`, `src/LoomEditor.Rendering/OverviewRulerPainter.cs` |
 | run the diff demo, the diff self-check or the diff benchmarks | `samples/LoomEditor.Gallery/DiffDemoWindow.xaml`, `DiffSelfCheck.cs` (`--diff-selfcheck=<file>`), `tests/LoomEditor.Benchmarks/DiffBenchmarks.cs`, [testing/phase-9-manual-tests.md](testing/phase-9-manual-tests.md) |
+| change font options, ligatures, letter spacing or zoom | `src/LoomEditor.View/Layout/` (`EditorFontOptions`, `EditorZoomState`, `BareFontInfo`), DirectWrite side in `src/LoomEditor.Rendering/Win2D/` ([ADR 0013](adr/0013-text-options-and-snippets.md)) |
+| change whitespace or control character rendering | `src/LoomEditor.View/Layout/` (`RenderWhitespaceComputer`), drawing in `src/LoomEditor.Rendering/TextViewRenderer*.cs` |
+| change snippets (syntax, variables, session, tab stops) | `src/LoomEditor.Core/Snippets/` (parser), `src/LoomEditor.View/Features/Snippet/` (`OneSnippet`, `SnippetSession`, `SnippetController`; [how-to](how-to/use-snippets.md)) |
+| change go to next / previous problem | `src/LoomEditor.View/Features/GotoError/` (`MarkerList`, `MarkerController`), the message in `AccessibilityMessages.MarkerNavigation` |
+| change selection commands (anchor, cursor undo, smart select, move selected text) | `src/LoomEditor.View/Features/` (`SelectionAnchor`, `LineSelection`, `CursorUndo`, `SmartSelect`, `CaretOperations`) |
+| change drag and drop of the selection | `src/LoomEditor.View/Features/DragAndDrop/`, the drag state in `src/LoomEditor.View/Controller/` |
+| run the text self-check (Native AOT) | `samples/LoomEditor.Gallery/TextSelfCheck.cs` (`--text-selfcheck=<file>`), [testing/phase-10-manual-tests.md](testing/phase-10-manual-tests.md) |
+| change the input mode (overtype) or the cursor style | `EditorContext.InputMode`, `src/LoomEditor.View/Cursors/`, caret drawing in `src/LoomEditor.Rendering/` |
