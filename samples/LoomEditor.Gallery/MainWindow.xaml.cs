@@ -418,6 +418,7 @@ public sealed partial class MainWindow : Window
         if (Editor is not null && index >= 0 && index < EditorTheme.BuiltIn.Count)
         {
             Editor.Theme = EditorTheme.BuiltIn[index];
+            DiffEditor.Theme = Editor.Theme;
         }
     }
 
