@@ -1,6 +1,6 @@
 # P11-08 — Thread view model: draft, preview, submit, cancel and Escape
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-01, P11-05
 - **Size:** S
 
@@ -35,13 +35,13 @@ Sources: none (specified in this card). Read first: `CommentThread.cs` (P11-01),
 
 ## Tests
 
-- [ ] New: `Title_NoTitle_UsesLine`, `Title_Set_UsesIt`, `Title_LineMoved_RaisesChanged`, `CanSubmit_BlankDraft_False`, `CanSubmit_NotComposing_False`, `SetDraft_NormalizesCr`, `SetDraft_Same_RaisesNothing`, `Submit_Blank_ReturnsNullAndRaisesNothing`, `Submit_KeepsDraft`, `Submit_TrimsTrailingWhitespace`, `CommentAdded_WhileComposing_ClearsDraftAndCloses`, `CommentAdded_NotComposing_KeepsState`, `Cancel_NoComments_RemoveThread`, `Cancel_WithComments_Closed`, `Cancel_DiscardsDraftAndPreview`, `TryEscape_EmptyDraft_Cancels`, `TryEscape_WhitespaceDraft_Cancels`, `TryEscape_NonBlankDraft_DoesNothing`, `TryEscape_NotComposing_False`, `Resolved_IsCollapsed`, `ToggleCollapsed_Resolved_Expands`, `StateChange_ResetsExpanded`, `StartComposing_ExpandsCollapsed`, `TogglePreview_NotComposing_Ignored`, `ReplyVisible_ResolvedThread_False`, `SuggestionSeed_ReadsCurrentLine`, `Dispose_Unsubscribes`
+- [x] New: `Title_NoTitle_UsesLine`, `Title_Set_UsesIt`, `Title_LineMoved_RaisesChanged`, `CanSubmit_BlankDraft_False`, `CanSubmit_NotComposing_False`, `SetDraft_NormalizesCr`, `SetDraft_Same_RaisesNothing`, `Submit_Blank_ReturnsNullAndRaisesNothing`, `Submit_KeepsDraft`, `Submit_TrimsTrailingWhitespace`, `CommentAdded_WhileComposing_ClearsDraftAndCloses`, `CommentAdded_NotComposing_KeepsState`, `Cancel_NoComments_RemoveThread`, `Cancel_WithComments_Closed`, `Cancel_DiscardsDraftAndPreview`, `TryEscape_EmptyDraft_Cancels`, `TryEscape_WhitespaceDraft_Cancels`, `TryEscape_NonBlankDraft_DoesNothing`, `TryEscape_NotComposing_False`, `Resolved_IsCollapsed`, `ToggleCollapsed_Resolved_Expands`, `StateChange_ResetsExpanded`, `StartComposing_ExpandsCollapsed`, `TogglePreview_NotComposing_Ignored`, `ReplyVisible_ResolvedThread_False`, `SuggestionSeed_ReadsCurrentLine`, `Dispose_Unsubscribes`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
