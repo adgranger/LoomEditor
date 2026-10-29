@@ -146,6 +146,7 @@
                         <Button HorizontalAlignment="Stretch" Click="OnAddThreeThreads" Content="Add 3 threads (lines 5, 6, 40)" />
                         <Button HorizontalAlignment="Stretch" Click="OnAdd200Threads" Content="Add 200 threads" />
                         <Button HorizontalAlignment="Stretch" Click="OnRemoveAllThreads" Content="Remove all" />
+                        <Button HorizontalAlignment="Stretch" Click="OnStartComposingOnLine5" Content="Start composing on line 5" />
                         <Button HorizontalAlignment="Stretch" Click="OnAddCommentToFirstThread" Content="Add a comment to the first thread" />
                         <Button HorizontalAlignment="Stretch" Click="OnToggleLongTitle" Content="Toggle a long title" />
                         <TextBlock x:Name="CommentZonesStatus" Style="{StaticResource CaptionTextBlockStyle}" TextWrapping="Wrap" />

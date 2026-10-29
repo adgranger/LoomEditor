@@ -132,10 +132,34 @@ internal sealed partial class CommentZoneHost : IDisposable
         _editor.InvalidateCanvas();
     }
 
+    /// <summary>Moves the focus into the thread's composer (once its widget is loaded).</summary>
+    public void FocusComposer(CommentThread thread)
+    {
+        if (_zoneIds.TryGetValue(thread, out string? id) && _widgets.TryGetValue(id, out CommentThreadWidget? widget))
+        {
+            widget.FocusComposer();
+        }
+    }
+
+    /// <summary>Gives the focus back to the editor with the cursor at the start of the thread's line, revealed only if it is off screen.</summary>
+    public void ReturnFocusToEditor(CommentThread thread)
+    {
+        _editor.Focus(FocusState.Programmatic);
+        int line = Math.Clamp(thread.LineNumber, 1, _editor.Model.LineCount);
+        _editor.SetSelections((Core.Text.Selection[])[new Core.Text.Selection(line, 1, line, 1)]);
+        _editor.RevealRange(new Core.Text.Range(line, 1, line, 1));
+    }
+
     private void OnThreadRemoving(object? sender, CommentThread thread)
     {
         if (_zoneIds.Remove(thread, out string? id) && _widgets.Remove(id, out CommentThreadWidget? widget))
         {
+            // Before the element leaves the tree: a removed focused element would leave the focus on the window.
+            if (widget.HasFocusWithin())
+            {
+                ReturnFocusToEditor(thread);
+            }
+
             Unsubscribe(widget);
             _dirty.Remove(widget);
             widget.Detach();
@@ -159,6 +183,7 @@ internal sealed partial class CommentZoneHost : IDisposable
         _widgets[id] = widget;
         _zoneIds[thread] = id;
         widget.SizeChanged += OnWidgetSizeChanged;
+        widget.FocusReturnRequested += OnWidgetFocusReturnRequested;
         widget.ContentChanged += OnWidgetContentChanged;
         MarkDirty(widget);
     }

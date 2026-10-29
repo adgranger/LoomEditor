@@ -134,9 +134,12 @@ internal sealed partial class CommentZoneHost
 
     private void OnWidgetContentChanged(object? sender, EventArgs e) => MarkDirty((CommentThreadWidget)sender!);
 
+    private void OnWidgetFocusReturnRequested(object? sender, EventArgs e) => ReturnFocusToEditor(((CommentThreadWidget)sender!).Thread);
+
     private void Unsubscribe(CommentThreadWidget widget)
     {
         widget.SizeChanged -= OnWidgetSizeChanged;
+        widget.FocusReturnRequested -= OnWidgetFocusReturnRequested;
         widget.ContentChanged -= OnWidgetContentChanged;
     }
 }

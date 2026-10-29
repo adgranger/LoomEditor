@@ -42,7 +42,13 @@ public sealed partial class LoomEditor
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(lineNumber, 1);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(lineNumber, Model.LineCount);
-        return _commentThreads.Add(lineNumber, title, startComposing);
+        CommentThread thread = _commentThreads.Add(lineNumber, title, startComposing);
+        if (startComposing)
+        {
+            _commentZoneHost?.FocusComposer(thread);
+        }
+
+        return thread;
     }
 
     /// <summary>Removes a thread; <see langword="false"/> when it does not belong to this editor.</summary>

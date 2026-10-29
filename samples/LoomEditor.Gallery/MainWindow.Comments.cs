@@ -6,11 +6,27 @@ namespace LoomEditor.Gallery;
 // Temporary (P11-12): the buttons of the "Comment threads (P11-12)" expander; P11-23 replaces them with the real demo.
 public sealed partial class MainWindow
 {
+    private int _commentsSubmitted;
+
     private void InitializeCommentZonesStatus()
     {
+        // The editor only raises the event: the host adds the comment.
+        Editor.CommentSubmitted += (_, e) =>
+        {
+            _commentsSubmitted++;
+            e.Thread.AddComment(Comment.Create(SampleAuthor, e.Text));
+        };
         var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
-        timer.Tick += (_, _) => CommentZonesStatus.Text = Editor.CommentZonesDiagnostics;
+        timer.Tick += (_, _) => CommentZonesStatus.Text = $"{Editor.CommentZonesDiagnostics} · CommentSubmitted {_commentsSubmitted}";
         timer.Start();
+    }
+
+    private void OnStartComposingOnLine5(object sender, RoutedEventArgs e)
+    {
+        if (Editor.Model.LineCount >= 5)
+        {
+            Editor.AddCommentThread(5, startComposing: true);
+        }
     }
 
     private void OnAddThreadAtCaret(object sender, RoutedEventArgs e) => Editor.AddCommentThread(Editor.Selections[0].PositionLineNumber);

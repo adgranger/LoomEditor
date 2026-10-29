@@ -1,6 +1,6 @@
 # P11-14 — Focus and keys between the editor and the widget's text box
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-13
 - **Size:** S
 - **Recommended model:** Opus (keyboard, focus and IME paths cross the control and its children; a gap shows only at runtime as a character typed into the document, an editor shortcut firing from the box, focus lost after a removal, or an IME candidate window in the wrong place. On failure — stop, do not commit, report the exact keys, which element had the focus (`FocusManager.GetFocusedElement`), what happened, and what you tried.)
@@ -41,8 +41,8 @@ Sources: none (specified in this card; ADR 0014 decision 7). **Most of the routi
 
 ## Tests
 
-- [ ] Automated: none for WinUI.
-- [ ] Manual (section "P11-14"; temporary sample plus a button **Start composing on line 5**). Each check states the expected result:
+- [x] Automated: none for WinUI.
+- [x] Manual (section "P11-14"; temporary sample plus a button **Start composing on line 5**). Each check states the expected result:
   1. type `abc` and `Backspace` in the box: the box shows `ab`; the document text is unchanged (its undo stack too: `Ctrl+Z` after leaving the box does nothing) and its caret does not blink;
   2. `Tab` goes box → Cancel → Comment → next control after the editor; `Shift+Tab` back; the document gets no tab;
   3. `Enter` adds a line in the box; `Ctrl+Enter` submits (the Gallery event log shows one `CommentSubmitted`);
@@ -55,11 +55,35 @@ Sources: none (specified in this card; ADR 0014 decision 7). **Most of the routi
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (keyboard tests of earlier phases unchanged)
-- [ ] The Result section lists checks (a)–(f) of the design decisions with "already true" or "fixed by …"
-- [ ] The manual section is written; the card result says the agent did **not** run it
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (keyboard tests of earlier phases unchanged)
+- [x] The Result section lists checks (a)–(f) of the design decisions with "already true" or "fixed by …"
+- [x] The manual section is written; the card result says the agent did **not** run it
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+Checks of the design decisions (verified by reading the code paths; the manual run is still to do):
+
+- (a) **Already true.** A key from the box bubbles to `LoomEditor.OnKeyDown` with `HasFocus == false` (`FocusState` is `Unfocused` while a child has the
+  focus): it goes to `base.OnKeyDown` before `EmitKeyDown` and `_keyboard.TryHandle`. `OnKeyUp` emits nothing either. No `PreviewKeyDown` or keyboard
+  accelerator on the control.
+- (b) **Already true.** `OnCharacterReceived` returns when `!HasFocus`.
+- (c) **Already true.** Tab focus mode is a keybinding: `OnKeyDown` returns before any keybinding runs.
+- (d) **Already true.** `OnImeLostFocus` calls `NotifyFocusLeave` on the bubbled `LostFocus`; `OnImeGotFocus` checks `HasFocus`, which is false for a
+  bubbled `GotFocus` from the box.
+- (e) **Already true.** `OnCaretFocusChanged` runs on the bubbled focus events and reads `HasFocus` (false): the blink stops, the caret draws unfocused.
+- (f) **Already true.** `OnPointerPressed` / move / release return on `IsFromOverlay`, which covers the zone-widget layer since P11-12.
+
+No guard was added to `LoomEditor*.cs`. Other notes:
+
+- `Escape` and `Ctrl+Enter` are read in the text box's `PreviewKeyDown`: the WinUI `TextBox` handles `Enter` itself, so its `KeyDown` never sees `Ctrl+Enter`.
+- The text box writes `\r` line breaks; the draft comparison normalizes them, or each key press would reset the text and the caret.
+- When the composer closes with the focus inside the widget (Submit, Cancel, Escape), the widget raises `FocusReturnRequested` and the host calls
+  `ReturnFocusToEditor`: after a submit the composer collapses, and a collapsed focused box would leave the focus on the window.
+- `ReturnFocusToEditor` reveals with `RevealRange` (Monaco `revealRange`: the scroll position is kept when the line is visible).
+- Manual check 7: clicking **Remove all** moves the focus to the button first, so the check also asks for Cancel on a thread with no comment.
+- The manual section "P11-14" is written; the agent did **not** run it.
 
 ## Out of scope
 

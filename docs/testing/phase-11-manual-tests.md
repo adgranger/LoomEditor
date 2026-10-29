@@ -43,6 +43,23 @@ Start from **Add 3 threads**. The diagnostics line now also shows `heightPasses 
 | 5 | **Add 200 threads**, resize the window: no freeze longer than a visible hitch, `heightLimitHits` = 0 | pending |
 | 6 | Zoom in and out (`Ctrl` + wheel, A− / A+): the heights follow the font size. The placeholder text uses the XAML default font, so until P11-16 only the text lines move; write what you see | pending |
 
+## P11-14 — Focus and keys between the editor and the widget's text box
+
+Click **Start composing on line 5**: a thread opens on line 5 with a temporary text box and **Cancel** / **Comment** buttons (P11-17 replaces them),
+and the box has the focus. The status line counts `CommentSubmitted` events (the Gallery adds each submitted comment to its thread).
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Type `abc` and `Backspace` in the box: the box shows `ab`; the document is unchanged (after leaving the box, `Ctrl+Z` does nothing) and its caret does not blink | pending |
+| 2 | `Tab` goes box → Cancel → Comment → the next control after the editor; `Shift+Tab` goes back; the document gets no tab | pending |
+| 3 | `Enter` adds a line in the box; `Ctrl+Enter` submits (`CommentSubmitted` goes up by exactly 1) | pending |
+| 4 | `Ctrl+A`, `Ctrl+Z`, `Ctrl+C` / `Ctrl+V`, `Ctrl+F`, `F12`, `Ctrl+D` in the box act on the box or do nothing; **no** editor command runs (no find widget, no selection change in the document) | pending |
+| 5 | `Escape` with an empty box: the composer closes, the focus is in the document, the caret on line 5 blinks. `Escape` with text: nothing happens | pending |
+| 6 | Click in the document while the box has text, then click back in the box: the text is still there | pending |
+| 7 | **Remove all** while the box has the focus: the focus lands in the document (not on the window); typing works at once. Clicking the button moves the focus to it first, so also check the same path from inside the widget: on a thread with no comment, click **Cancel** (the thread is removed while its button has the focus) | pending |
+| 8 | A Japanese or Chinese IME composes in the box, its candidate window is next to the box; `Win+.` inserts an emoji in the box | pending |
+| 9 | Narrator follows the focus into the box and back | pending |
+
 ## Findings
 
 | # | Section / check | What happened | Card or fix |
