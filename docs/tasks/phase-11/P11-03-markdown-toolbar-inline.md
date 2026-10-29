@@ -1,6 +1,6 @@
 # P11-03 — Markdown toolbar (1/2): inline formats as pure text edits
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-02
 - **Size:** M
 
@@ -38,14 +38,14 @@ Sources: none (specified in this card; ADR 0014). The behavior is that of the Gi
 
 ## Tests
 
-- [ ] New: `Bold_Selection_Wraps`, `Bold_Selection_WrappedOutside_Unwraps`, `Bold_Selection_IncludesMarkers_Unwraps`, `Bold_EmptySelection_InsertsPairWithCaretBetween`, `Bold_EmptyPair_Removes`, `Bold_EdgeSpaces_StayOutside`, `Bold_OnlyBlanks_ActsAsEmpty`, `Bold_MultiLine_WrapsEachNonBlankLine`, `Bold_MultiLine_AllWrapped_UnwrapsAll`, `Italic_UsesUnderscore`, `Underline_UsesUTags`, `Strikethrough_UsesTildes`, `InlineCode_UsesBacktick`, `Link_Selection_SelectsUrlPlaceholder`, `Link_UrlSelection_PutsItInParens`, `Link_Empty_CaretInBrackets`, `Apply_InvalidSelection_Throws`, `Apply_BlockAction_ReturnsInputUnchanged` (temporary), `Apply_NeverProducesCarriageReturn`
-- [ ] Round trip with the parser of P11-02: `Bold`, `Italic`, `Underline`, `Strikethrough`, `InlineCode` output, parsed by `MarkdownParser.Parse(text, MarkdownParserOptions.Extended)`, gives one inline with the matching flag (`RoundTrip_EveryInlineAction_ParsesToItsFlag`, a `[Theory]`)
+- [x] New: `Bold_Selection_Wraps`, `Bold_Selection_WrappedOutside_Unwraps`, `Bold_Selection_IncludesMarkers_Unwraps`, `Bold_EmptySelection_InsertsPairWithCaretBetween`, `Bold_EmptyPair_Removes`, `Bold_EdgeSpaces_StayOutside`, `Bold_OnlyBlanks_ActsAsEmpty`, `Bold_MultiLine_WrapsEachNonBlankLine`, `Bold_MultiLine_AllWrapped_UnwrapsAll`, `Italic_UsesUnderscore`, `Underline_UsesUTags`, `Strikethrough_UsesTildes`, `InlineCode_UsesBacktick`, `Link_Selection_SelectsUrlPlaceholder`, `Link_UrlSelection_PutsItInParens`, `Link_Empty_CaretInBrackets`, `Apply_InvalidSelection_Throws`, `Apply_BlockAction_ReturnsInputUnchanged` (temporary), `Apply_NeverProducesCarriageReturn`
+- [x] Round trip with the parser of P11-02: `Bold`, `Italic`, `Underline`, `Strikethrough`, `InlineCode` output, parsed by `MarkdownParser.Parse(text, MarkdownParserOptions.Extended)`, gives one inline with the matching flag (`RoundTrip_EveryInlineAction_ParsesToItsFlag`, a `[Theory]`)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
