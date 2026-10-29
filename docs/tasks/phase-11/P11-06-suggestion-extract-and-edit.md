@@ -1,6 +1,6 @@
 # P11-06 — Suggestion blocks (1/2): extraction and the model edit
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P11-02
 - **Size:** M
 
@@ -32,14 +32,14 @@ Sources: none (specified in this card; ADR 0014 decision 6). Read first: `src/Lo
 
 ## Tests
 
-- [ ] Extractor: `Extract_TwoSuggestionsAndOneCsharpFence_ReturnsTwoWithIndexes`, `Extract_Empty_ReturnsEmpty`, `Extract_NullBody_ReturnsEmpty`, `Extract_EmptyBlock_IsDeletion`, `Extract_MultiLineBlock_SplitsLines`, `Extract_InsideQuote_Ignored`, `Extract_WrongCase_Ignored`, `Extract_TildeFence_Works`
-- [ ] Edit (against a real `TextModel`): `Create_SingleLine_ReplacesLineContent`, `Create_MultiLine_UsesModelEol` (CRLF model gives `\r\n`), `Create_LineOutOfRange_ReturnsNull`, `Create_Deletion_MiddleLine_RemovesLineAndEol`, `Create_Deletion_LastLine_RemovesPreviousEol`, `Create_Deletion_OnlyLine_EmptiesDocument`, `Create_AppliedEdit_GivesExpectedText` (apply with `ApplyEdits` and compare the full text, for LF and CRLF), `IsStale_ContentChanged_ReturnsTrue`, `IsStale_SameContent_ReturnsFalse`, `IsNoOp_SameText_ReturnsTrue`
+- [x] Extractor: `Extract_TwoSuggestionsAndOneCsharpFence_ReturnsTwoWithIndexes`, `Extract_Empty_ReturnsEmpty`, `Extract_NullBody_ReturnsEmpty`, `Extract_EmptyBlock_IsDeletion`, `Extract_MultiLineBlock_SplitsLines`, `Extract_InsideQuote_Ignored`, `Extract_WrongCase_Ignored`, `Extract_TildeFence_Works`
+- [x] Edit (against a real `TextModel`): `Create_SingleLine_ReplacesLineContent`, `Create_MultiLine_UsesModelEol` (CRLF model gives `\r\n`), `Create_LineOutOfRange_ReturnsNull`, `Create_Deletion_MiddleLine_RemovesLineAndEol`, `Create_Deletion_LastLine_RemovesPreviousEol`, `Create_Deletion_OnlyLine_EmptiesDocument`, `Create_AppliedEdit_GivesExpectedText` (apply with `ApplyEdits` and compare the full text, for LF and CRLF), `IsStale_ContentChanged_ReturnsTrue`, `IsStale_SameContent_ReturnsFalse`, `IsNoOp_SameText_ReturnsTrue`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
