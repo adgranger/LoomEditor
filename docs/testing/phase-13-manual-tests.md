@@ -24,3 +24,18 @@ What unit tests cannot check: the host API seen from an app â€” drawing, scroll 
    Result:
 5. The same on the modified side of the diff demo (`Modified.CreateDecorationsCollection()`).
    Result:
+
+## P13-05 — Scroll and layout sync
+
+1. The **blame column** (Gallery, P13-09) shows one row per line; each row's top is within 1 px of its line while scrolling with the wheel, the scroll bar and `Ctrl+End`.
+   Result:
+2. After `Ctrl+=` (zoom) the rows have the new line height.
+   Result:
+3. With word wrap on, a wrapped line's row is as tall as its rows.
+   Result:
+4. Folding a region removes its rows and the next rows move up.
+   Result:
+5. A view zone (P13-08) pushes the rows below it down by its height.
+   Result:
+6. Resizing the window keeps the rows aligned.
+   Result:

@@ -1,6 +1,6 @@
 # P13-05 — Scroll and layout sync: `ScrollChanged`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-04
 - **Size:** S
 
@@ -55,16 +55,16 @@ called), `src/LoomEditor.View/Layout/ViewModelLinesFromProjectedModel.cs` (`Conv
 
 ## Tests
 
-- [ ] None automated (no WinUI test project; the layout math is the existing, tested `ViewLayout`).
-- [ ] Manual: section "P13-05" written (not run by the agent).
+- [x] None automated (no WinUI test project; the layout math is the existing, tested `ViewLayout`).
+- [x] Manual: section "P13-05" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `grep -rn "HostScrollChanged\|HostScrollEventArgs\|HostLayoutChanged" src samples tests` finds nothing
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the lines above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `grep -rn "HostScrollChanged\|HostScrollEventArgs\|HostLayoutChanged" src samples tests` finds nothing
+- [x] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the lines above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -73,3 +73,7 @@ A "visible lines" API, `GetScrollHeight` / `GetVerticalOffsetForViewLine` as pub
 ## Suggested commit message
 
 `feat(winui): expose scroll, layout and line metrics to the host`
+
+## Result
+
+Build 0 warnings, all tests green. The manual section "P13-05" is written and was not run by the agent.

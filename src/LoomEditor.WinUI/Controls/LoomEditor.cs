@@ -305,7 +305,7 @@ public sealed partial class LoomEditor : Control
         _renderer?.ResetMaxLineWidth();
         UpdateScrollBars();
         _canvas?.Invalidate();
-        HostLayoutChanged?.Invoke(this, EventArgs.Empty);
+        LayoutChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void CreateResources(CanvasControl canvas)
@@ -350,7 +350,7 @@ public sealed partial class LoomEditor : Control
         _ime?.RequestLayoutChanged();
         UpdateScrollBars();
         _canvas?.Invalidate();
-        RaiseHostScroll(e);
+        RaiseScrollChanged(e);
     }
 
     private IDisposable ScheduleAtNextAnimationFrame(Action callback) => _frameScheduler.Schedule(callback);

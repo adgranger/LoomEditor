@@ -263,3 +263,13 @@ LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> Loom
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
+LoomEditor.WinUI.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
+LoomEditor.WinUI.Controls.LoomEditor.LineHeight.get -> double
+LoomEditor.WinUI.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs!>?
