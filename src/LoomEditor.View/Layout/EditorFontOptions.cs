@@ -14,11 +14,13 @@ namespace LoomEditor.View.Layout;
 /// <param name="LetterSpacing">Extra spacing added after every character, in pixels.</param>
 /// <param name="FontFeatureSettings">CSS <c>font-feature-settings</c> syntax; <see cref="LigaturesOff"/> by default.</param>
 /// <param name="FontVariationSettings"><see cref="VariationsOff"/>, <see cref="VariationsTranslate"/> or CSS <c>font-variation-settings</c> syntax.</param>
+/// <param name="LineHeight">Monaco <c>lineHeight</c>: 0 for the golden ratio, a multiplier of the font size when below 8, else a size in pixels.</param>
 internal sealed record EditorFontOptions(
     string FontWeight = "normal",
     double LetterSpacing = 0,
     string FontFeatureSettings = EditorFontOptions.LigaturesOff,
-    string FontVariationSettings = EditorFontOptions.VariationsOff)
+    string FontVariationSettings = EditorFontOptions.VariationsOff,
+    double LineHeight = 0)
 {
     /// <summary>Monaco: <c>EditorFontLigatures.OFF</c>.</summary>
     public const string LigaturesOff = "\"liga\" off, \"calt\" off";

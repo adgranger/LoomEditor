@@ -63,6 +63,33 @@ public sealed partial class LoomEditor
         set => SetValue(LetterSpacingProperty, value);
     }
 
+    private double _lineHeight;
+
+    /// <summary>
+    /// The height of a line, in DIPs (Monaco: <c>lineHeight</c>). Set it to 0 for the automatic height (1.35 times the font size), to a value below 8 for a
+    /// multiplier of the font size, or to a height in DIPs (at least 8). Reading it gives the height in use, rounded to a whole pixel and scaled by the zoom,
+    /// not the value that was set: read it again on <see cref="LayoutChanged"/>. Defaults to 0.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">The value is negative, <c>NaN</c> or infinite.</exception>
+    /// <remarks>Threading: UI thread only.</remarks>
+    public double LineHeight
+    {
+        get => _viewModel.FontInfo.LineHeight;
+        set
+        {
+            if (!double.IsFinite(value) || value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, "The line height must be a finite number, 0 or greater.");
+            }
+
+            if (value != _lineHeight)
+            {
+                _lineHeight = value;
+                RecreateTextMeasurer();
+            }
+        }
+    }
+
     private static void OnFontOptionChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
         var editor = (LoomEditor)sender;
@@ -92,7 +119,8 @@ public sealed partial class LoomEditor
                 EditorFontOptions.ValidateWeight(weightText),
                 LetterSpacing,
                 EditorFontOptions.ValidateLigatures(features),
-                EditorFontOptions.ValidateVariations(variations));
+                EditorFontOptions.ValidateVariations(variations),
+                _lineHeight);
         }
     }
 }

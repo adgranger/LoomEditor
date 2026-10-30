@@ -41,10 +41,6 @@ public sealed partial class LoomEditor
     /// <remarks>Threading: UI thread only.</remarks>
     internal global::LoomEditor.View.Cursors.CursorChangeReason LastSelectionChangeReason => _context.LastSelectionChangeReason;
 
-    /// <summary>The height of a line, in DIPs. It changes with the font size and the zoom: read it again on <see cref="LayoutChanged"/>.</summary>
-    /// <remarks>Threading: UI thread only.</remarks>
-    public double LineHeight => _viewModel.FontInfo.LineHeight;
-
     /// <summary>The layout of the editor (read-only).</summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal EditorLayoutInfo LayoutInfo => _viewModel.LayoutInfo;

@@ -42,8 +42,9 @@ internal sealed class DiagonalFillPattern
     }
 
     // CSS `linear-gradient(-45deg, C 12.5%, transparent 12.5%, transparent 50%, C 50%, C 62.5%, transparent 62.5%)` on an
-    // 8x8 tile: with t = ((x + y) mod 8) / 8 the stripes are at t < 0.125 and 0.5 <= t < 0.625. Pixels of equal x + y
-    // run from bottom-left to top-right, which gives the "/" hatch of Monaco.
+    // 8x8 tile. At -45 degrees the gradient of a square tile spans x + y from 0 to 16, so t = (x + y) / 16 and the stripes
+    // (t < 0.125 and 0.5 <= t < 0.625) are x + y in {0, 1} and {8, 9}, i.e. (x + y) mod 8 in {0, 1}: 2 px wide, one every 8.
+    // Pixels of equal x + y run from bottom-left to top-right, which gives the "/" hatch of Monaco.
     private static byte[] Create(int width, int height, ThemeColor color)
     {
         var rgba = new byte[width * height * 4];
@@ -52,7 +53,7 @@ internal sealed class DiagonalFillPattern
             for (int x = 0; x < width; x++)
             {
                 int phase = (x + y) % TileSize;
-                if (phase is 0 or 4)
+                if (phase is 0 or 1)
                 {
                     int offset = ((y * width) + x) * 4;
                     rgba[offset] = color.R;
