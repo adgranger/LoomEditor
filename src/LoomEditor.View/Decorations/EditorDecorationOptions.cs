@@ -6,7 +6,7 @@ namespace LoomEditor.View.Decorations;
 
 /// <summary>How a host decoration is drawn: class names for its text area, gutter and strips, and an overview ruler mark.</summary>
 /// <remarks>
-/// A class name is a built-in class or one registered by the host with the custom decoration styles; unknown names draw nothing.
+/// A class name is a built-in class or one registered by the host with <see cref="CustomDecorationStyles"/>; unknown names draw nothing.
 /// Reuse one instance for many decorations. Threading: immutable; thread-safe.
 /// </remarks>
 public sealed class EditorDecorationOptions

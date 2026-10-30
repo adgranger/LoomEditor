@@ -1,6 +1,8 @@
+using LoomEditor.Core.Decorations;
 using LoomEditor.Core.Text;
 using LoomEditor.Rendering.Tests.TestHelpers;
 using LoomEditor.Themes;
+using LoomEditor.View.Decorations;
 
 namespace LoomEditor.Rendering.Tests;
 
@@ -110,5 +112,28 @@ public class TextViewRendererGutterTests
         RecordingRenderSurface surface = harness.Render(Selection.Collapsed(new Position(3, 1)));
 
         Assert.DoesNotContain(surface.Calls.OfType<DrawRectangleCall>(), call => call.X < harness.LayoutInfo.ContentLeft);
+    }
+
+    [Fact]
+    public void Render_HostMarginClass_FillsTheGutterOfItsLine()
+    {
+        const string className = "test-host-margin";
+        var background = ThemeColor.FromRgb(0x12, 0x34, 0x56);
+        CustomDecorationStyles.Register(className, new CustomDecorationStyle { Background = background });
+        try
+        {
+            using var harness = new ViewHarness(Lines(3));
+            ModelDecorationOptions options = new EditorDecorationOptions { MarginClassName = className }.ToModelOptions();
+            harness.Model.DeltaDecorations(harness.ViewModel.EditorId, [], new[] { new ModelDeltaDecoration(new Range(2, 1, 2, 1), options) });
+
+            RecordingRenderSurface surface = harness.Render();
+
+            FillRectangleCall fill = Assert.Single(surface.Calls.OfType<FillRectangleCall>(), call => call.Color == background);
+            Assert.Equal(new FillRectangleCall(0, FakeTextMeasurer.LineHeight, harness.LayoutInfo.ContentLeft, FakeTextMeasurer.LineHeight, background), fill);
+        }
+        finally
+        {
+            CustomDecorationStyles.Unregister(className);
+        }
     }
 }

@@ -1092,7 +1092,7 @@ Avalonia phase of the roadmap is renumbered 14.
 |---|---|---|---|
 | [P13-01](phase-13/P13-01-language-by-file-name.md) | `BuiltInLanguages.GetLanguageIdByFileName` | P12-15 | done |
 | [P13-02](phase-13/P13-02-host-decoration-types.md) | Host decorations: `EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection` | P13-01 | done |
-| [P13-03](phase-13/P13-03-custom-decoration-styles.md) | Host decoration styles: `CustomDecorationStyle`, `CustomDecorationStyles` | P13-02 | todo |
+| [P13-03](phase-13/P13-03-custom-decoration-styles.md) | Host decoration styles: `CustomDecorationStyle`, `CustomDecorationStyles` | P13-02 | done |
 
 ### Step B — Public API of `LoomEditor`
 

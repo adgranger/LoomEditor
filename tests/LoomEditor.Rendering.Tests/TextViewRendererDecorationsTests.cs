@@ -4,6 +4,7 @@ using LoomEditor.Core.Tokens;
 using LoomEditor.Core.Text;
 using LoomEditor.Rendering.Tests.TestHelpers;
 using LoomEditor.Themes;
+using LoomEditor.View.Decorations;
 using LoomEditor.View.Layout;
 
 namespace LoomEditor.Rendering.Tests;
@@ -494,5 +495,64 @@ public class TextViewRendererDecorationsTests
         service.Change("t", new[] { new MarkerData(MarkerSeverity.Error, "x", 1, 1, 1, 4) });
 
         Assert.NotEmpty(Lines(harness, harness.Render(), "editorError.foreground"));
+    }
+
+    private static ViewHarness CreateHarnessWithUiTheme(string text, string uiTheme)
+    {
+        var harness = new ViewHarness(text, width: 500);
+        harness.Renderer.Theme = EditorTheme.Load(ThemeJson, uiTheme, "Test");
+        return harness;
+    }
+
+    // The host table is global: every test uses its own class name and unregisters it.
+    [Theory]
+    [InlineData("vs", 0xFF, 0x00, 0x00)]
+    [InlineData("vs-dark", 0x00, 0x00, 0xFF)]
+    public void Render_HostClassOnWholeLine_FillsWithTheColorOfTheThemeType(string uiTheme, byte r, byte g, byte b)
+    {
+        const string className = "test-host-whole-line";
+        CustomDecorationStyles.Register(className, new CustomDecorationStyle
+        {
+            Background = ThemeColor.FromRgb(0xFF, 0, 0),
+            DarkBackground = ThemeColor.FromRgb(0, 0, 0xFF),
+        });
+        try
+        {
+            using ViewHarness harness = CreateHarnessWithUiTheme("hello\nworld", uiTheme);
+            AddDecoration(harness, new Range(1, 1, 1, 1), className, isWholeLine: true);
+
+            RecordingRenderSurface surface = harness.Render();
+
+            ThemeColor expected = ThemeColor.FromRgb(r, g, b);
+            FillRectangleCall fill = Assert.Single(surface.Calls.OfType<FillRectangleCall>(), call => call.Color == expected);
+            Assert.Equal(new FillRectangleCall(harness.LayoutInfo.ContentLeft, 0, harness.LayoutInfo.Width - harness.LayoutInfo.ContentLeft, LineHeight, expected), fill);
+        }
+        finally
+        {
+            CustomDecorationStyles.Unregister(className);
+        }
+    }
+
+    [Fact]
+    public void Render_HostClassWithLeftBorderOnly_DrawsA3DipBarOnTheLeftEdge()
+    {
+        const string className = "test-host-left-bar";
+        var bar = ThemeColor.FromRgb(0x12, 0x34, 0x56);
+        CustomDecorationStyles.Register(className, new CustomDecorationStyle { Border = bar, BorderWidth = 0, LeftBorderWidth = 3 });
+        try
+        {
+            using ViewHarness harness = CreateHarness("hello world");
+            AddDecoration(harness, new Range(1, 3, 1, 6), className);
+
+            RecordingRenderSurface surface = harness.Render();
+
+            FillRectangleCall fill = Assert.Single(surface.Calls.OfType<FillRectangleCall>(), call => call.Color == bar);
+            Assert.Equal(new FillRectangleCall(harness.LayoutInfo.ContentLeft + 2 * CharacterWidth, 0, 3, LineHeight, bar), fill);
+            Assert.DoesNotContain(surface.Calls.OfType<DrawRectangleCall>(), call => call.Color == bar);
+        }
+        finally
+        {
+            CustomDecorationStyles.Unregister(className);
+        }
     }
 }

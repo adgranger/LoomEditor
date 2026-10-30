@@ -141,6 +141,27 @@ LoomEditor.View.Controller.MouseWheelZoomGesture.OnWheel(double deltaY, bool isP
 LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Cursors.EditorInputMode.Insert = 0 -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Cursors.EditorInputMode.Overtype = 1 -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Decorations.CustomDecorationStyle
+LoomEditor.View.Decorations.CustomDecorationStyle.<Clone>$() -> LoomEditor.View.Decorations.CustomDecorationStyle!
+LoomEditor.View.Decorations.CustomDecorationStyle.Background.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.CustomDecorationStyle.Background.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.Border.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.CustomDecorationStyle.Border.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.BorderWidth.get -> double
+LoomEditor.View.Decorations.CustomDecorationStyle.BorderWidth.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.CustomDecorationStyle() -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.DarkBackground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.CustomDecorationStyle.DarkBackground.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.DarkBorder.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.CustomDecorationStyle.DarkBorder.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.DarkForeground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.CustomDecorationStyle.DarkForeground.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.Equals(LoomEditor.View.Decorations.CustomDecorationStyle? other) -> bool
+LoomEditor.View.Decorations.CustomDecorationStyle.Foreground.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.CustomDecorationStyle.Foreground.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyle.LeftBorderWidth.get -> double
+LoomEditor.View.Decorations.CustomDecorationStyle.LeftBorderWidth.init -> void
+LoomEditor.View.Decorations.CustomDecorationStyles
 LoomEditor.View.Decorations.DecorationsCollection
 LoomEditor.View.Decorations.DecorationsCollection.Append(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>! decorations) -> void
 LoomEditor.View.Decorations.DecorationsCollection.Clear() -> void
@@ -338,7 +359,14 @@ LoomEditor.View.Layout.TextEditorCursorStyle.Line = 0 -> LoomEditor.View.Layout.
 LoomEditor.View.Layout.TextEditorCursorStyle.LineThin = 3 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.Underline = 2 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.UnderlineThin = 5 -> LoomEditor.View.Layout.TextEditorCursorStyle
+override LoomEditor.View.Decorations.CustomDecorationStyle.Equals(object? obj) -> bool
+override LoomEditor.View.Decorations.CustomDecorationStyle.GetHashCode() -> int
+override LoomEditor.View.Decorations.CustomDecorationStyle.ToString() -> string!
 override LoomEditor.View.Decorations.EditorDecoration.GetHashCode() -> int
+static LoomEditor.View.Decorations.CustomDecorationStyle.operator !=(LoomEditor.View.Decorations.CustomDecorationStyle? left, LoomEditor.View.Decorations.CustomDecorationStyle? right) -> bool
+static LoomEditor.View.Decorations.CustomDecorationStyle.operator ==(LoomEditor.View.Decorations.CustomDecorationStyle? left, LoomEditor.View.Decorations.CustomDecorationStyle? right) -> bool
+static LoomEditor.View.Decorations.CustomDecorationStyles.Register(string! className, LoomEditor.View.Decorations.CustomDecorationStyle! style) -> void
+static LoomEditor.View.Decorations.CustomDecorationStyles.Unregister(string! className) -> bool
 static LoomEditor.View.Decorations.EditorDecoration.operator !=(LoomEditor.View.Decorations.EditorDecoration left, LoomEditor.View.Decorations.EditorDecoration right) -> bool
 static LoomEditor.View.Decorations.EditorDecoration.operator ==(LoomEditor.View.Decorations.EditorDecoration left, LoomEditor.View.Decorations.EditorDecoration right) -> bool
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!

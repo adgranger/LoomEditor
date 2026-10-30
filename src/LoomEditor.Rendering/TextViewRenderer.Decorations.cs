@@ -233,12 +233,12 @@ internal sealed partial class TextViewRenderer
             return;
         }
 
-        if ((GetDecorationColor(style.BackgroundColorId) ?? GetDecorationColor(style.BackgroundFallbackColorId)) is { } background)
+        if ((style.BackgroundResolver?.Invoke(Theme) ?? GetDecorationColor(style.BackgroundColorId) ?? GetDecorationColor(style.BackgroundFallbackColorId)) is { } background)
         {
             surface.FillRectangle(left, top, width, height, background);
         }
 
-        if (GetDecorationColor(style.BorderColorId) is { } border)
+        if ((style.BorderResolver?.Invoke(Theme) ?? GetDecorationColor(style.BorderColorId)) is { } border)
         {
             if (style.BorderWidth > 0)
             {

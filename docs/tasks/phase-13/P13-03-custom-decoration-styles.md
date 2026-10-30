@@ -1,6 +1,6 @@
 # P13-03 — Host decoration styles: `CustomDecorationStyle`, `CustomDecorationStyles`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-02
 - **Size:** M
 
@@ -60,21 +60,21 @@ Sources: none (specified in this card; [phase-13/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New (`CustomDecorationStylesTests`; every test uses its own unique class name and unregisters it in a `finally`: the table is global and xUnit runs classes in
+- [x] New (`CustomDecorationStylesTests`; every test uses its own unique class name and unregisters it in a `finally`: the table is global and xUnit runs classes in
   parallel): `Register` then `DecorationStyles.Get(name)` has resolvers that give the light color for a `Light` theme and the dark color for `Dark` and `HighContrastDark`;
   no dark color → the light one in a dark theme; `Get("foo " + name)` finds it in a class list; re-`Register` replaces; `Unregister` → `true`, then `Get` is `null` and a
   second `Unregister` is `false`; `Register("rangeHighlight", …)` → `ArgumentException` and `Get("rangeHighlight")` is the built-in style; names `""`, `"a b"`, `"é"` →
   `ArgumentException`; `BorderWidth = -1` → `ArgumentOutOfRangeException`; `Unregister("rangeHighlight")` → `false`.
-- [ ] New (`TextViewRendererDecorationsTests`): a whole-line decoration with a host class whose `Background` is red fills the line with red in a light theme and with its
+- [x] New (`TextViewRendererDecorationsTests`): a whole-line decoration with a host class whose `Background` is red fills the line with red in a light theme and with its
   `DarkBackground` in a dark theme; a host class with `Border` and `BorderWidth = 0`, `LeftBorderWidth = 3` draws a 3-DIP bar on the left edge only.
-- [ ] New (`TextViewRendererGutterTests`): a decoration whose `MarginClassName` is a host class fills the gutter of its line with the host background.
+- [x] New (`TextViewRendererGutterTests`): a decoration whose `MarginClassName` is a host class fills the gutter of its line with the host background.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green (existing `DecorationStylesTests` unchanged and green)
-- [ ] `PublicAPI.Unshipped.txt` (View) gains only the two types' lines
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green (existing `DecorationStylesTests` unchanged and green)
+- [x] `PublicAPI.Unshipped.txt` (View) gains only the two types' lines
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -84,3 +84,9 @@ change event.
 ## Suggested commit message
 
 `feat(view): let the host register its own decoration styles`
+
+## Result
+
+- Added `CustomDecorationStyle` and `CustomDecorationStyles` (View, public); `DecorationStyle` gained the two resolvers, `DecorationStyles` the copy-on-write host table; the renderer uses the resolvers in `DrawDecorationBox`.
+- `PublicAPI.Unshipped.txt` (View) gained 28 lines: only these two types.
+- Tests: `CustomDecorationStylesTests` (10), 3 rendering tests (whole line light/dark, left bar, gutter margin).
