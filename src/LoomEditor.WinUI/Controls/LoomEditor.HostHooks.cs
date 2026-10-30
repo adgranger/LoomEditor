@@ -117,7 +117,7 @@ public sealed partial class LoomEditor
 
     /// <summary>Creates a collection of decorations owned by the caller.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal EditorDecorationsCollection CreateDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>
+    internal EditorDecorationsCollection CreateModelDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>
         _context.CreateDecorationsCollection(decorations);
 
     /// <summary>Whether the decorations overview ruler of the editor is on. The diff editor draws its own.</summary>

@@ -1,6 +1,6 @@
 # P13-04 — `LoomEditor.CreateDecorationsCollection` for the host
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-03
 - **Size:** S
 
@@ -49,16 +49,16 @@ WinUI card writes its manual section).
 
 ## Tests
 
-- [ ] None automated (no WinUI test project; P13-02 covers the collection). The build proves the rename (no ambiguous call left).
-- [ ] Manual: section "P13-04" written (not run by the agent).
+- [x] None automated (no WinUI test project; P13-02 covers the collection). The build proves the rename (no ambiguous call left).
+- [x] Manual: section "P13-04" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `grep -rn "CreateModelDecorationsCollection" src` finds the definition and its callers; `PublicAPI.Unshipped.txt` (WinUI) gains one line
-- [ ] The manual section is written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `grep -rn "CreateModelDecorationsCollection" src` finds the definition and its callers; `PublicAPI.Unshipped.txt` (WinUI) gains one line
+- [x] The manual section is written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -67,3 +67,7 @@ Host styles (P13-03, done), Gallery buttons (P13-09), a change event on the coll
 ## Suggested commit message
 
 `feat(winui): let the host create decoration collections on the editor`
+
+## Result
+
+Build 0 warnings, 3780 tests green. The manual section "P13-04" is written and was not run by the agent.

@@ -177,8 +177,8 @@ public sealed partial class LoomDiffEditor : Control
             return;
         }
 
-        _originalTarget = new EditorDecorationTarget(_original.CreateDecorationsCollection());
-        _modifiedTarget = new EditorDecorationTarget(_modified.CreateDecorationsCollection());
+        _originalTarget = new EditorDecorationTarget(_original.CreateModelDecorationsCollection());
+        _modifiedTarget = new EditorDecorationTarget(_modified.CreateModelDecorationsCollection());
         _decorations = new DiffDecorations(_originalTarget, _modifiedTarget);
         RefreshScreenReader();
         _options.SetWidth(ActualWidth);

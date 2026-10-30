@@ -49,8 +49,8 @@ internal sealed class HideUnchangedRegionsController : IDisposable
         _dispatcher = dispatcher;
         _inline = inline;
         _revealLineCount = revealLineCount;
-        _originalDecorations = new EditorDecorationTarget(original.CreateDecorationsCollection());
-        _modifiedDecorations = new EditorDecorationTarget(modified.CreateDecorationsCollection());
+        _originalDecorations = new EditorDecorationTarget(original.CreateModelDecorationsCollection());
+        _modifiedDecorations = new EditorDecorationTarget(modified.CreateModelDecorationsCollection());
         viewModel.UnchangedRegionsChanged += OnRegionsChanged;
         original.ViewZonePointer += OnZonePointer;
         modified.ViewZonePointer += OnZonePointer;

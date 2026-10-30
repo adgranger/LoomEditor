@@ -1098,7 +1098,7 @@ Avalonia phase of the roadmap is renumbered 14.
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P13-04](phase-13/P13-04-editor-decorations-api.md) | `LoomEditor.CreateDecorationsCollection` for the host | P13-03 | todo |
+| [P13-04](phase-13/P13-04-editor-decorations-api.md) | `LoomEditor.CreateDecorationsCollection` for the host | P13-03 | done |
 | [P13-05](phase-13/P13-05-scroll-and-line-metrics.md) | Scroll and layout sync: `ScrollChanged`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber` | P13-04 | todo |
 | [P13-06](phase-13/P13-06-line-numbers-and-reset-text.md) | `LineNumbersEnabled` and `ResetText` | P13-05 | todo |
 | [P13-07](phase-13/P13-07-hidden-areas-and-gutter-clicks.md) | `SetHiddenAreas` and the `GutterClicked` event | P13-06 | todo |

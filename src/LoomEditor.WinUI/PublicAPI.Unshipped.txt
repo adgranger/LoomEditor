@@ -262,3 +262,4 @@ LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequest
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
