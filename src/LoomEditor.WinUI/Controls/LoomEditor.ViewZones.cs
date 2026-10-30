@@ -76,4 +76,32 @@ public sealed partial class LoomEditor
         InvalidateCanvas();
         return true;
     }
+
+    /// <summary>
+    /// Resizes a zone added with <see cref="AddViewZone"/>. Its element, and the focus inside it, stay as they are: only the gap and the size of the element change.
+    /// </summary>
+    /// <param name="id">The id returned by <see cref="AddViewZone"/>.</param>
+    /// <param name="height">The new height of the zone in DIPs, rounded up to a whole pixel.</param>
+    /// <returns><see langword="false"/> when the id was not returned by <see cref="AddViewZone"/> or was already removed.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="id"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="height"/> is not finite or not positive.</exception>
+    /// <remarks>Threading: UI thread only.</remarks>
+    public bool SetViewZoneHeight(string id, double height)
+    {
+        ArgumentNullException.ThrowIfNull(id);
+        if (!double.IsFinite(height) || height <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(height), height, "The height must be finite and greater than 0.");
+        }
+
+        if (!_hostZoneIds.Contains(id) || _viewModel.ViewZones.GetZone(id) is not { } zone)
+        {
+            return false;
+        }
+
+        zone.HeightInPx = (int)Math.Ceiling(height);
+        _viewModel.ViewZones.Change(accessor => accessor.LayoutZone(id));
+        InvalidateCanvas();
+        return true;
+    }
 }
