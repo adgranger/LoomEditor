@@ -1,6 +1,6 @@
 # P13-11 — Close phase 13: the host API how-to, CHANGELOG and docs
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-10 (and so every phase 13 card)
 - **Size:** S
 
@@ -54,15 +54,15 @@ P13-01 … P13-10, [phase-13/README.md](README.md), `docs/how-to/use-comment-thr
 
 ## Tests
 
-- [ ] None (documentation).
+- [x] None (documentation).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (no code change, but the docs folder is part of the solution checks)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Every relative link in the new and changed docs resolves
-- [ ] The roadmap checklist is ticked with card ids; `docs/tasks/README.md` shows every phase 13 card `done`
-- [ ] Card status updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (no code change, but the docs folder is part of the solution checks)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Every relative link in the new and changed docs resolves
+- [x] The roadmap checklist is ticked with card ids; `docs/tasks/README.md` shows every phase 13 card `done`
+- [x] Card status updated
 
 ## Out of scope
 
@@ -71,3 +71,7 @@ Running the manual plan, releasing a package, stripping internal members from th
 ## Suggested commit message
 
 `docs: close phase 13, the public API for host applications`
+
+## Result
+
+Docs only. How-to, ADR 0015, CHANGELOG `[Unreleased]`, roadmap, ARCHITECTURE, PORTING (re-counted tests), GLOSSARY and the View README written. Changed public members since `v0.1.0-alpha.1`: none (the three `PublicAPI.Unshipped.txt` files only gained lines). Not verified: the manual plan, Narrator, high contrast, a host TextBox in a zone, VIGO itself.

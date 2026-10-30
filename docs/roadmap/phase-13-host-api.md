@@ -12,17 +12,26 @@ Design: [docs/tasks/phase-13/README.md](../tasks/phase-13/README.md) (section 2:
 
 ## Checklist
 
-- [ ] `BuiltInLanguages.GetLanguageIdByFileName` (P13-01)
-- [ ] Public decoration types: `EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection` (P13-02)
-- [ ] Host decoration styles: `CustomDecorationStyle`, `CustomDecorationStyles` (P13-03)
-- [ ] `LoomEditor.CreateDecorationsCollection` (P13-04)
-- [ ] `ScrollChanged`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber` (P13-05)
-- [ ] `LineNumbersEnabled`, `ResetText` (P13-06)
-- [ ] `SetHiddenAreas`, `GutterClicked` (P13-07)
-- [ ] `AddViewZone`, `RemoveViewZone` with WinUI content (P13-08)
-- [ ] Gallery "Host API" demo and manual test plan (P13-09)
-- [ ] Native AOT self-check and package test of the host API (P13-10)
-- [ ] How-to, CHANGELOG, ADR 0015; close the phase (P13-11)
+- [x] `BuiltInLanguages.GetLanguageIdByFileName` (P13-01)
+- [x] Public decoration types: `EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection` (P13-02)
+- [x] Host decoration styles: `CustomDecorationStyle`, `CustomDecorationStyles` (P13-03)
+- [x] `LoomEditor.CreateDecorationsCollection` (P13-04)
+- [x] `ScrollChanged`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber` (P13-05)
+- [x] `LineNumbersEnabled`, `ResetText` (P13-06)
+- [x] `SetHiddenAreas`, `GutterClicked` (P13-07)
+- [x] `AddViewZone`, `RemoveViewZone` with WinUI content (P13-08)
+- [x] Gallery "Host API" demo and manual test plan (P13-09)
+- [x] Native AOT self-check and package test of the host API (P13-10)
+- [x] How-to, CHANGELOG, ADR 0015; close the phase (P13-11)
+
+## Status of the done-when line
+
+- **Automated:** build 0 warnings and all tests green at the close (counted with `dotnet test --list-tests`: Core 2214, TextMate 739, Lsp 476, View 3787, Rendering 242, Architecture 90).
+- **Native AOT self-check and package test (P13-10):** the published Native AOT Gallery prints `5 of 5 checks passed` for `--hostapi-selfcheck` (the comments, text and diff checks are unchanged:
+  17 of 17, 10 of 10, 9 passed). `./eng/Test-Packages.ps1` printed `Package test passed: 0.1.0-alpha`, run with a **placeholder** arm64 `onig.dll` (a copy of the x64 one, deleted afterwards;
+  the MSVC ARM64 tools are not installed locally and CI builds the real one).
+- **Not verified:** the manual plan [phase-13-manual-tests.md](../testing/phase-13-manual-tests.md) has not been run (no WinUI test project; agents do not run the Gallery UI), nor Narrator, high contrast,
+  a host `TextBox` in a zone, or VIGO itself.
 
 ## Not in phase 13
 

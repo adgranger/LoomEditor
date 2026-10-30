@@ -356,6 +356,13 @@ WinUI:  Controls/Comments: CommentZoneHost puts one CommentThreadWidget over eac
 - **Not verified**: the manual plan has not been run (no WinUI test project); Narrator / NVDA, IME in the widget, high contrast. The Native AOT self-check of the logic passes (17 of 17, P12-23, 2026-10-29, [roadmap](roadmap/phase-12-comment-ranges.md)); it does not reach the WinUI widget.
 How to use it: [how-to/use-comment-threads.md](how-to/use-comment-threads.md).
 
+## Public API for host applications (phase 13)
+
+Decisions in [ADR 0015](adr/0015-public-host-api.md). Not a port. A small public facade on `LoomEditor` (decorations with host styles, scroll / layout sync, `LineNumbersEnabled`,
+`ResetText`, `SetHiddenAreas`, `GutterClicked`, `AddViewZone` / `RemoveViewZone`) and `BuiltInLanguages.GetLanguageIdByFileName`; Monaco's internal types stay internal and `LoomDiffEditor`
+gets no new member. Proof: the Native AOT self-check `--hostapi-selfcheck` and the package test app. **Not verified:** the manual plan has not been run.
+How to use it: [how-to/use-the-host-api.md](how-to/use-the-host-api.md).
+
 ## Where do I find…?
 
 | I want to… | Go to |

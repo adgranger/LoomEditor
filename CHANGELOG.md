@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `LoomEditor.TextMate`: `BuiltInLanguages.GetLanguageIdByFileName` (the language of a file name, `null` when unknown).
+- `LoomEditor.View`: public host decorations (`EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection`) and host decoration styles (`CustomDecorationStyle`, `CustomDecorationStyles.Register` / `Unregister`).
+- `LoomEditor.WinUI`: public host API on `LoomEditor`: `CreateDecorationsCollection`, `ScrollChanged` / `EditorScrollChangedEventArgs`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber`, `LineNumbersEnabled`, `ResetText`, `SetHiddenAreas`, `GutterClicked` / `GutterClickedEventArgs` / `GutterArea`, `AddViewZone` and `RemoveViewZone` (host WinUI content in a gap between lines). See [how-to/use-the-host-api.md](docs/how-to/use-the-host-api.md).
+
 ## [0.1.0-alpha.1] - 2026-10-29
 
 ### Added

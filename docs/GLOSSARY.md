@@ -187,3 +187,9 @@ user leaves the line without typing anything, the editor removes it (`trimAutoWh
 `; empty for whole lines. Screen readers get it as "Commented text: …" (cut at 80 characters).
 
 **Range text** — The content of the lines of a comment range joined with `\n` (never the model's end of line). It is the "old text" of a suggestion.
+
+**Host** — The application that embeds `LoomEditor` / `LoomDiffEditor` from the NuGet packages (VIGO is the first one).
+
+**Host decoration style** — A `CustomDecorationStyle` (light and dark colors, border widths) registered under a class name with `CustomDecorationStyles.Register`; global to the process, like CSS.
+
+**Host view zone** — A gap after a model line created by `AddViewZone`, optionally covered by a host WinUI element; removed with `RemoveViewZone`.
