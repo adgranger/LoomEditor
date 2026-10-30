@@ -69,6 +69,7 @@ public sealed partial class MainWindow : Window
         InitializeDiffSelfCheck();
         InitializeTextSelfCheck();
         InitializeCommentsSelfCheck();
+        InitializeHostApiSelfCheck();
     }
 
     private void OnInsertHeader(object sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);

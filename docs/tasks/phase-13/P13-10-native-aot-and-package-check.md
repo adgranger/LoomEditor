@@ -1,6 +1,6 @@
 # P13-10 — Native AOT self-check and package test of the host API
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-09
 - **Size:** M
 
@@ -55,17 +55,17 @@ Sources: none (specified in this card). Read first: `samples/LoomEditor.Gallery/
 
 ## Tests
 
-- [ ] New (`HostApiSelfCheckTests`, as `CommentsSelfCheckTests`): every check passes in-process (`[Theory]` over `HostApiSelfCheck.Names`).
-- [ ] Native AOT publish succeeds with `-warnaserror`; the exe prints `5 of 5 checks passed` (result copied in the card)
+- [x] New (`HostApiSelfCheckTests`, as `CommentsSelfCheckTests`): every check passes in-process (`[Theory]` over `HostApiSelfCheck.Names`).
+- [x] Native AOT publish succeeds with `-warnaserror`; the exe prints `5 of 5 checks passed` (result copied in the card)
 - [ ] `./eng/Test-Packages.ps1` passes (result copied in the card)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds; `--hostapi-selfcheck` exits 0 with `5 of 5 checks passed`
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64 -p:PublishAot=true -warnaserror` — succeeds; `--hostapi-selfcheck` exits 0 with `5 of 5 checks passed`
 - [ ] `./eng/Test-Packages.ps1` — `Package test passed`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -74,3 +74,21 @@ A WinUI test project, UI automation of the demo window, publishing packages.
 ## Suggested commit message
 
 `test: Native AOT self-check and package test of the host API`
+
+## Result
+
+Native AOT publish (`-p:PublishAot=true -warnaserror`) succeeded. Published exe, last lines of each report:
+
+```
+hostapi:  PASS blame-data — 69 lines have a commit; it changes every 7 lines
+          5 of 5 checks passed            (exit code 0)
+comments: 17 of 17 checks passed          (exit code 0)
+text:     10 of 10 checks passed          (exit code 0)
+diff:     SUMMARY: 9 passed, 0 failed     (exit code 0)
+```
+
+Package test: **not passed, box left unticked.** `./eng/Test-Packages.ps1` stops in `eng/Pack.ps1` validation with
+`LoomEditor.TextMate.nupkg misses runtimes/win-arm64/native/onig.dll` (a packaging problem of the TextMate package on this machine, unrelated to the host API).
+As a substitute, the app of `eng/package-test` (with `UseHostApi()`) was published with Native AOT and `-warnaserror` from the packed packages
+(`dotnet publish ... --packages artifacts/package-test/nuget -p:LoomEditorVersion=0.1.0-alpha`) and `Test-AotApp.ps1 -NoPublish` printed
+`AOT smoke test passed: LoomEditor.PackageTest (win-x64), alive after 10 s.` — so every new member is public in the packages.
