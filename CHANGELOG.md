@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.2.0-alpha.1] - 2026-10-30
+
 ### Added
 
 - `LoomEditor.TextMate`: `BuiltInLanguages.GetLanguageIdByFileName` (the language of a file name, `null` when unknown).
@@ -27,5 +29,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.1.0-alpha.1...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.1...HEAD
+[0.2.0-alpha.1]: https://github.com/adgranger/LoomEditor/compare/v0.1.0-alpha.1...v0.2.0-alpha.1
 [0.1.0-alpha.1]: https://github.com/adgranger/LoomEditor/releases/tag/v0.1.0-alpha.1
