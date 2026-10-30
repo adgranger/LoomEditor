@@ -15,6 +15,8 @@ public sealed partial class MainWindow
 {
     private void OnOpenDiffWindow(object sender, RoutedEventArgs e) => new DiffDemoWindow(Editor.Theme).Activate();
 
+    private void OnOpenHostApiWindow(object sender, RoutedEventArgs e) => new HostApiDemoWindow(Editor.Theme).Activate();
+
     // Switches set in XAML raise their handlers during InitializeComponent, before the controls exist: guard on DiffEditor.
     private void OnDiffToggled(object sender, RoutedEventArgs e)
     {

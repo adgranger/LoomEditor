@@ -9,9 +9,10 @@
 - **Easy to maintain**: one feature = one folder, explicit registration, architecture rules checked by tests.
 - **MIT licensed.**
 
-> **Status: pre-alpha, first release `0.1.0-alpha.1`.** Phases 1 to 12 are built and tested: text model, rendering,
+> **Status: pre-alpha, latest release `0.2.0-alpha.1`.** Phases 1 to 13 are built and tested: text model, rendering,
 > editing and IME, TextMate highlighting with VS Code themes, editor features (find, folding, brackets, suggest,
-> snippets…), accessibility, the diff editor and inline comment threads. The API is not stable yet and the manual
+> snippets…), accessibility, the diff editor, inline comment threads and a public API for host applications
+> (decorations, scroll sync, view zones). The API is not stable yet and the manual
 > test plans are not all run. The LSP client (`LoomEditor.Lsp`) is not packaged yet. See the roadmap below.
 
 ## Usage (target API)

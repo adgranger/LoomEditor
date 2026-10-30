@@ -6,22 +6,21 @@ using LoomEditor.View.Layout;
 
 namespace LoomEditor.WinUI.Controls;
 
-// What a host of this control (the diff editor) needs, in the same assembly. Monaco: the `ICodeEditor` members used by
-// `DiffEditorEditors`.
+// What a host of this control needs: the public members for applications (phase 13) and the internal ones for the diff
+// editor. Monaco: the `ICodeEditor` members used by `DiffEditorEditors`.
 public sealed partial class LoomEditor
 {
     private string? _capturedZoneId;
     private double _capturedZoneTop;
     private bool _overviewRulerEnabled = true;
-    private bool _hideLineNumbers;
 
-    /// <summary>Raised when the scroll position or the scroll size changes.</summary>
+    /// <summary>Raised when the scroll position or the scroll height changes: scrolling, edits, folding, view zones, wrapping.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal event EventHandler<HostScrollEventArgs>? HostScrollChanged;
+    public event EventHandler<EditorScrollChangedEventArgs>? ScrollChanged;
 
-    /// <summary>Raised when the layout of the editor changes.</summary>
+    /// <summary>Raised when the layout of the editor changes: size, gutter widths, minimap, line numbers, font and line height.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal event EventHandler? HostLayoutChanged;
+    public event EventHandler? LayoutChanged;
 
     /// <summary>Raised for the pointer over a view zone (press, move, release).</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -29,7 +28,7 @@ public sealed partial class LoomEditor
 
     /// <summary>The view zones of the editor.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal ViewZones ViewZones => _viewModel.ViewZones;
+    internal global::LoomEditor.View.Layout.ViewZones ViewZones => _viewModel.ViewZones;
 
     /// <summary>Converts between model and view positions (needed to map whitespaces and wrapped lines to model lines).</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -42,9 +41,9 @@ public sealed partial class LoomEditor
     /// <remarks>Threading: UI thread only.</remarks>
     internal global::LoomEditor.View.Cursors.CursorChangeReason LastSelectionChangeReason => _context.LastSelectionChangeReason;
 
-    /// <summary>The height of a line, in DIPs.</summary>
+    /// <summary>The height of a line, in DIPs. It changes with the font size and the zoom: read it again on <see cref="LayoutChanged"/>.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal double LineHeight => _viewModel.FontInfo.LineHeight;
+    public double LineHeight => _viewModel.FontInfo.LineHeight;
 
     /// <summary>The layout of the editor (read-only).</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -59,13 +58,18 @@ public sealed partial class LoomEditor
     internal IReadOnlyList<IEditorWhitespace> GetWhitespaces() => _viewModel.ViewLayout.GetWhitespaces();
 
     /// <summary>
-    /// The vertical offset of a model line in scroll coordinates, counting its wrapped lines before it (Monaco:
-    /// <c>getTopForLineNumber</c>); <paramref name="includeViewZones"/> adds the zones above it.
+    /// The vertical offset of a model line in scroll coordinates (Monaco: <c>getTopForLineNumber</c>); subtract <see cref="ScrollTop"/> for a y in the editor.
+    /// <paramref name="includeViewZones"/> adds the zones above the line, so the result is the top of the line's text. A wrapped line gives the top of its first
+    /// row. A line inside a hidden area gives the top of the last row of the nearest visible line above it (the top of the first line when none is visible).
     /// </summary>
+    /// <param name="lineNumber">The model line number; it is clamped to <c>1 … line count</c>.</param>
+    /// <param name="includeViewZones">Whether to add the height of the view zones above the line.</param>
+    /// <returns>The offset, in DIPs.</returns>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal double GetTopForLineNumber(int modelLineNumber, bool includeViewZones = false)
+    public double GetTopForLineNumber(int lineNumber, bool includeViewZones = false)
     {
-        int viewLine = _viewModel.CoordinatesConverter.ConvertModelPositionToViewPosition(new Position(modelLineNumber, 1)).LineNumber;
+        int clamped = Math.Clamp(lineNumber, 1, _context.Model.LineCount);
+        int viewLine = _viewModel.CoordinatesConverter.ConvertModelPositionToViewPosition(new Position(clamped, 1)).LineNumber;
         return _viewModel.ViewLayout.GetVerticalOffsetForLineNumber(viewLine, includeViewZones);
     }
 
@@ -79,7 +83,7 @@ public sealed partial class LoomEditor
 
     /// <summary>
     /// Scrolls without animation (Monaco: <c>ScrollType.Immediate</c>). The caller guards against feedback loops through
-    /// <see cref="HostScrollChanged"/>.
+    /// <see cref="ScrollChanged"/>.
     /// </summary>
     /// <remarks>Threading: UI thread only.</remarks>
     internal void SetScrollPositionImmediate(double? scrollLeft, double? scrollTop)
@@ -101,12 +105,17 @@ public sealed partial class LoomEditor
     }
 
     /// <summary>
-    /// Replaces the text of the model without going through <see cref="Text"/>, whose value is not kept in sync with the edits (a
-    /// host that sets the same string twice must still reset the model).
+    /// Replaces the whole text and resets the editor as setting <see cref="Text"/> does, even when <paramref name="text"/> equals the last value of
+    /// <see cref="Text"/> (that property is not updated by edits, so setting it to the same string does nothing). The undo stack is cleared, the
+    /// selection goes back to the start of the text and every decoration is removed (Monaco: <c>setValue</c>): the host sets its decorations again.
+    /// <see cref="Text"/> is not updated by this method.
     /// </summary>
+    /// <param name="text">The new text.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/>.</exception>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal void ApplyText(string text)
+    public void ResetText(string text)
     {
+        ArgumentNullException.ThrowIfNull(text);
         _context.SetText(text);
         _viewModel.SetIsDominatedByLongLines(_context.Model.IsDominatedByLongLines());
     }
@@ -117,7 +126,7 @@ public sealed partial class LoomEditor
 
     /// <summary>Creates a collection of decorations owned by the caller.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal EditorDecorationsCollection CreateDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>
+    internal EditorDecorationsCollection CreateModelDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>
         _context.CreateDecorationsCollection(decorations);
 
     /// <summary>Whether the decorations overview ruler of the editor is on. The diff editor draws its own.</summary>
@@ -132,33 +141,21 @@ public sealed partial class LoomEditor
         }
     }
 
-    /// <summary>Whether the line numbers are hidden.</summary>
-    /// <remarks>Threading: UI thread only.</remarks>
-    internal bool HideLineNumbers
-    {
-        get => _hideLineNumbers;
-        set
-        {
-            _hideLineNumbers = value;
-            ApplyHostLayoutOptions();
-        }
-    }
-
     private void ApplyHostLayoutOptions()
     {
         EditorLayoutOptions options = _viewModel.LayoutOptions;
         EditorOverviewRulerOptions ruler = options.OverviewRuler with { Lanes = _overviewRulerEnabled ? new EditorOverviewRulerOptions().Lanes : 0 };
-        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = !_hideLineNumbers }, _viewModel.ViewLayoutOptions);
+        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = LineNumbersEnabled }, _viewModel.ViewLayoutOptions);
     }
 
-    private void RaiseHostScroll(ScrollEvent e) =>
-        HostScrollChanged?.Invoke(
-            this, new HostScrollEventArgs(e.ScrollTopChanged, e.ScrollLeftChanged, e.ScrollHeightChanged, e.ScrollTop, e.ScrollLeft));
+    private void RaiseScrollChanged(ScrollEvent e) =>
+        ScrollChanged?.Invoke(
+            this, new EditorScrollChangedEventArgs(e.ScrollTopChanged, e.ScrollLeftChanged, e.ScrollHeightChanged, e.ScrollTop, e.ScrollLeft));
 
-    private void RaiseHostContentSizeChanged() =>
-        HostScrollChanged?.Invoke(
+    private void RaiseContentSizeChanged() =>
+        ScrollChanged?.Invoke(
             this,
-            new HostScrollEventArgs(
+            new EditorScrollChangedEventArgs(
                 false, false, true, _viewModel.ViewLayout.GetCurrentScrollTop(), _viewModel.ViewLayout.GetCurrentScrollLeft()));
 
     // The zone under the pointer (the point is in editor coordinates) and the top of the zone in the document.
@@ -244,15 +241,6 @@ public sealed partial class LoomEditor
         _capturedZoneId = null;
     }
 }
-
-/// <summary>The scroll change reported to a host of the control.</summary>
-/// <param name="ScrollTopChanged">Whether the vertical position changed.</param>
-/// <param name="ScrollLeftChanged">Whether the horizontal position changed.</param>
-/// <param name="ScrollHeightChanged">Whether the scroll height changed.</param>
-/// <param name="ScrollTop">The vertical position.</param>
-/// <param name="ScrollLeft">The horizontal position.</param>
-internal sealed record HostScrollEventArgs(
-    bool ScrollTopChanged, bool ScrollLeftChanged, bool ScrollHeightChanged, double ScrollTop, double ScrollLeft);
 
 /// <summary>The phases of a pointer interaction with a view zone.</summary>
 internal enum ViewZonePointerPhase

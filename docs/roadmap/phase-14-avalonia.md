@@ -1,6 +1,6 @@
-# Phase 13 — Avalonia backend (macOS and Linux)
+# Phase 14 — Avalonia backend (macOS and Linux)
 
-Later, not scheduled. `LoomEditor.Core`, `TextMate`, `Themes` and `View` already run on any .NET platform
+Later, not scheduled. (Renumbered from 13 on 2026-10-30: phase 13 is the public API for host applications.) `LoomEditor.Core`, `TextMate`, `Themes` and `View` already run on any .NET platform
 (enforced by the architecture tests); only the two Windows projects are specific to Windows.
 
 - [ ] ADR: rendering backend for Avalonia (Skia through `DrawingContext`, or a custom `ICustomDrawOperation`), and how text is measured without DirectWrite

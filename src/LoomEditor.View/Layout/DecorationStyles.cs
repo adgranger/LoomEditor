@@ -10,10 +10,15 @@ namespace LoomEditor.View.Layout;
 /// <c>transparent(0.5)</c> rule of <c>highlightDecorations.ts</c> is not ported). The diff rows have no CSS fallback chains
 /// (<c>var(a, var(b))</c>: every id has its own default; only a custom theme that sets the text color but not the line
 /// color differs), except the gutter background, which falls back to the line background.
-/// Threading: immutable, safe from any thread.
+/// Threading: the built-in table is immutable; the host table is copy-on-write; safe from any thread.
 /// </remarks>
 internal static class DecorationStyles
 {
+    private static readonly Lock CustomLock = new();
+
+    // The host classes (CustomDecorationStyles): replaced as a whole on each write, so readers never lock.
+    private static volatile Dictionary<string, DecorationStyle> _custom = [];
+
     private static readonly Dictionary<string, DecorationStyle> Table = new(StringComparer.Ordinal)
     {
         // findWidget.css 226–241, findWidget.ts 1474–1488
@@ -127,7 +132,7 @@ internal static class DecorationStyles
         string[] names = className.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         foreach (string name in names)
         {
-            if (Table.TryGetValue(name, out DecorationStyle? style))
+            if (TryGetStyle(name, out DecorationStyle? style))
             {
                 // `.alwaysShowFoldIcons` (folding.css) makes the icon of the same list visible without hover.
                 return style.GutterIcon != GutterIcon.None && Array.IndexOf(names, "alwaysShowFoldIcons") >= 0
@@ -138,4 +143,37 @@ internal static class DecorationStyles
 
         return null;
     }
+
+    /// <summary>Whether <paramref name="className"/> is a built-in class name (a host class cannot replace it).</summary>
+    internal static bool IsBuiltIn(string className) => Table.ContainsKey(className);
+
+    /// <summary>Adds or replaces a host class.</summary>
+    internal static void SetCustom(string className, DecorationStyle style)
+    {
+        lock (CustomLock)
+        {
+            _custom = new Dictionary<string, DecorationStyle>(_custom) { [className] = style };
+        }
+    }
+
+    /// <summary>Removes a host class; <see langword="false"/> when it was not registered.</summary>
+    internal static bool RemoveCustom(string className)
+    {
+        lock (CustomLock)
+        {
+            if (!_custom.ContainsKey(className))
+            {
+                return false;
+            }
+
+            var copy = new Dictionary<string, DecorationStyle>(_custom);
+            copy.Remove(className);
+            _custom = copy;
+            return true;
+        }
+    }
+
+    // The built-ins win over the host classes.
+    private static bool TryGetStyle(string name, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out DecorationStyle? style) =>
+        Table.TryGetValue(name, out style) || _custom.TryGetValue(name, out style);
 }

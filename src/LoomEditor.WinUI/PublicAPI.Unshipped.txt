@@ -262,3 +262,31 @@ LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequest
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
+LoomEditor.WinUI.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
+LoomEditor.WinUI.Controls.LoomEditor.LineHeight.get -> double
+LoomEditor.WinUI.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.ResetText(string! text) -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.GlyphMargin = 0 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.LineDecorations = 2 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.LineNumbers = 1 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterClickedEventArgs
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Area.get -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.get -> bool
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.set -> void
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.WinUI.Controls.GutterClickedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
+LoomEditor.WinUI.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Microsoft.UI.Xaml.FrameworkElement? content = null) -> string!
+LoomEditor.WinUI.Controls.LoomEditor.RemoveViewZone(string! id) -> bool

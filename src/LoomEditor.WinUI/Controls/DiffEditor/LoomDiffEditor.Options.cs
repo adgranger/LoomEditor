@@ -255,7 +255,7 @@ public sealed partial class LoomDiffEditor
         _isSyncingText = true;
         try
         {
-            editor.ApplyText(text ?? string.Empty);
+            editor.ResetText(text ?? string.Empty);
         }
         finally
         {

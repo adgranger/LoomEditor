@@ -61,7 +61,7 @@ P12-16 … P12-23 and section 3 of [phase-12/README.md](README.md).
 
 ## Out of scope
 
-Phase 13 (Avalonia), running the manual plan, any code change.
+Phase 13 (Avalonia; renumbered 14 on 2026-10-30), running the manual plan, any code change.
 
 ## Suggested commit message
 

@@ -1,3 +1,4 @@
+using LoomEditor.WinUI.Controls.ViewZones;
 using LoomEditor.Rendering;
 using LoomEditor.Rendering.Win2D;
 using LoomEditor.Core.Model.Events;
@@ -80,6 +81,7 @@ public sealed partial class LoomEditor : Control
         DefaultStyleKey = typeof(LoomEditor);
         _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System, new DispatcherQueueUiDispatcher(DispatcherQueue), new DispatcherQueueEditorScheduler(DispatcherQueue));
         _viewModel = _context.ViewModel;
+        _hostZoneLayer = new HostViewZoneLayer(this);
         InitializeCommentThreads();
         _clipboardCommands = ClipboardCommands.Register(_context.Commands, _viewModel, new WindowsClipboardService());
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
@@ -224,7 +226,7 @@ public sealed partial class LoomEditor : Control
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        ((LoomEditor)sender).ApplyText((string?)e.NewValue ?? string.Empty);
+        ((LoomEditor)sender).ResetText((string?)e.NewValue ?? string.Empty);
     }
 
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -278,6 +280,7 @@ public sealed partial class LoomEditor : Control
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!, _bitmapCache);
         _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
         _commentZoneHost?.Arrange();
+        _hostZoneLayer.Arrange();
         _commentGutter?.Arrange();
         ApplyPendingHorizontalReveal();
     }
@@ -305,7 +308,7 @@ public sealed partial class LoomEditor : Control
         _renderer?.ResetMaxLineWidth();
         UpdateScrollBars();
         _canvas?.Invalidate();
-        HostLayoutChanged?.Invoke(this, EventArgs.Empty);
+        LayoutChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void CreateResources(CanvasControl canvas)
@@ -350,7 +353,7 @@ public sealed partial class LoomEditor : Control
         _ime?.RequestLayoutChanged();
         UpdateScrollBars();
         _canvas?.Invalidate();
-        RaiseHostScroll(e);
+        RaiseScrollChanged(e);
     }
 
     private IDisposable ScheduleAtNextAnimationFrame(Action callback) => _frameScheduler.Schedule(callback);

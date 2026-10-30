@@ -134,11 +134,13 @@ public sealed partial class LoomEditor
         _zoneWidgetCanvas = canvas;
         if (canvas is null)
         {
+            _hostZoneLayer.Attach(null);
             return;
         }
 
         canvas.SizeChanged += OnZoneWidgetCanvasSizeChanged;
         var layer = new OverlayHost(canvas);
+        _hostZoneLayer.Attach(layer);
         _commentZoneHost = new CommentZoneHost(this, layer, _commentThreads);
         _commentZoneHost.ApplyTheme(EffectiveTheme, _systemHighContrastTheme is not null);
         _commentGutter = new CommentGutterController(this, layer, _commentThreads, CreateMouseTarget) { Enabled = CommentGutterButtonEnabled };

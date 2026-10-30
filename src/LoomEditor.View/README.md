@@ -1,6 +1,6 @@
 # LoomEditor.View
 
-Editor logic of LoomEditor that is not pixels: cursors, commands, view layout and the editor features (find, folding, suggest, snippets, comment threads, diff…), independent of any UI framework.
+Editor logic of LoomEditor that is not pixels: cursors, commands, view layout and the editor features (find, folding, suggest, snippets, comment threads, diff, host decorations and styles…), independent of any UI framework.
 
 ## Install
 

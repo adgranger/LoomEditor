@@ -42,8 +42,8 @@ public sealed partial class LoomDiffEditor
         foreach (LoomEditor editor in new[] { _original!, _modified! })
         {
             editor.ViewZones.ZonesChanged += OnOverviewInputChanged;
-            editor.HostLayoutChanged += OnOverviewInputChanged;
-            editor.HostScrollChanged += OnOverviewScrollChanged;
+            editor.LayoutChanged += OnOverviewInputChanged;
+            editor.ScrollChanged += OnOverviewScrollChanged;
         }
     }
 
@@ -63,8 +63,8 @@ public sealed partial class LoomDiffEditor
             if (editor is not null)
             {
                 editor.ViewZones.ZonesChanged -= OnOverviewInputChanged;
-                editor.HostLayoutChanged -= OnOverviewInputChanged;
-                editor.HostScrollChanged -= OnOverviewScrollChanged;
+                editor.LayoutChanged -= OnOverviewInputChanged;
+                editor.ScrollChanged -= OnOverviewScrollChanged;
             }
         }
 
@@ -80,7 +80,7 @@ public sealed partial class LoomDiffEditor
 
     private void OnOverviewInputChanged(object? sender, EventArgs e) => InvalidateOverview();
 
-    private void OnOverviewScrollChanged(object? sender, HostScrollEventArgs e)
+    private void OnOverviewScrollChanged(object? sender, EditorScrollChangedEventArgs e)
     {
         if (e.ScrollHeightChanged)
         {

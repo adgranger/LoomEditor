@@ -52,8 +52,8 @@ internal sealed class DiffEditorViewZones : IDisposable
         foreach (LoomEditor editor in Editors)
         {
             editor.ViewZones.ZonesChanged += OnTrigger;
-            editor.HostLayoutChanged += OnTrigger;
-            editor.HostScrollChanged += OnScrollChanged;
+            editor.LayoutChanged += OnTrigger;
+            editor.ScrollChanged += OnScrollChanged;
         }
 
         _viewModel.DiffChanged += OnTrigger;
@@ -75,8 +75,8 @@ internal sealed class DiffEditorViewZones : IDisposable
         foreach (LoomEditor editor in Editors)
         {
             editor.ViewZones.ZonesChanged -= OnTrigger;
-            editor.HostLayoutChanged -= OnTrigger;
-            editor.HostScrollChanged -= OnScrollChanged;
+            editor.LayoutChanged -= OnTrigger;
+            editor.ScrollChanged -= OnScrollChanged;
         }
 
         _viewModel.DiffChanged -= OnTrigger;
@@ -234,7 +234,7 @@ internal sealed class DiffEditorViewZones : IDisposable
         });
     }
 
-    private void OnScrollChanged(object? sender, HostScrollEventArgs e)
+    private void OnScrollChanged(object? sender, EditorScrollChangedEventArgs e)
     {
         if (e.ScrollHeightChanged && !_isUpdatingZones)
         {
