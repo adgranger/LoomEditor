@@ -7,7 +7,7 @@ public sealed partial class LoomEditor
 {
     /// <summary>
     /// Creates a collection of decorations owned by the caller (Monaco: <c>createDecorationsCollection</c>). The collection lives with this editor's model and
-    /// survives <see cref="Text"/>: the model keeps decorations, collapsed where the text was replaced, so the host sets them again after loading new text.
+    /// stays usable after <see cref="Text"/> or <see cref="ResetText"/>, but loading new text removes every decoration (Monaco: <c>setValue</c>), so the host sets them again.
     /// </summary>
     /// <param name="decorations">The initial decorations, or <see langword="null"/> for an empty collection.</param>
     /// <returns>The new collection.</returns>

@@ -224,7 +224,7 @@ public sealed partial class LoomEditor : Control
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-        ((LoomEditor)sender).ApplyText((string?)e.NewValue ?? string.Empty);
+        ((LoomEditor)sender).ResetText((string?)e.NewValue ?? string.Empty);
     }
 
     private static void OnSmoothScrollingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

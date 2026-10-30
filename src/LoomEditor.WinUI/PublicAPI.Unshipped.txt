@@ -273,3 +273,7 @@ LoomEditor.WinUI.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool in
 LoomEditor.WinUI.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomEditor.LineHeight.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.ResetText(string! text) -> void
+static readonly LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!

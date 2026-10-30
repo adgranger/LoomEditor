@@ -1,6 +1,6 @@
 # P13-06 — `LineNumbersEnabled` and `ResetText`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-05
 - **Size:** S
 
@@ -50,17 +50,17 @@ Sources: none (specified in this card; [phase-13/README.md](README.md) table of 
 
 ## Tests
 
-- [ ] New (`TextViewRendererGutterTests`): with `LineNumbers = false` in the layout options, a three-line viewport draws no number text and still draws a line-decoration box;
+- [x] New (`TextViewRendererGutterTests`): with `LineNumbers = false` in the layout options, a three-line viewport draws no number text and still draws a line-decoration box;
   with `LineNumbers = true` it draws `1`, `2`, `3` (imitate the existing gutter test that asserts the numbers).
-- [ ] Manual: section "P13-06" written (not run by the agent).
+- [x] Manual: section "P13-06" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `grep -rn "HideLineNumbers\|ApplyText(string" src` finds nothing (the diff editor's private `ApplyText(LoomEditor?, string?)` stays)
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the four lines above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `grep -rn "HideLineNumbers\|ApplyText(string" src` finds nothing (the diff editor's private `ApplyText(LoomEditor?, string?)` stays)
+- [x] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the four lines above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -69,3 +69,7 @@ Relative line numbers or a number interval (`lineNumbers: 'relative' | 'interval
 ## Suggested commit message
 
 `feat(winui): let the host hide line numbers and reset the text`
+
+## Result
+
+Build 0 warnings, all tests green (2 new gutter tests). The manual section "P13-06" is written and was not run by the agent. Finding: `SetValue` removes every decoration (as Monaco `setValue`); the P13-04 XML doc of `CreateDecorationsCollection` was corrected accordingly.

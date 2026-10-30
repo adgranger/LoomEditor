@@ -39,3 +39,12 @@ What unit tests cannot check: the host API seen from an app â€” drawing, scroll 
    Result:
 6. Resizing the window keeps the rows aligned.
    Result:
+
+## P13-06 — Line numbers and ResetText
+
+1. **Line numbers** check box (Gallery, P13-09) off: no number is drawn, the gutter is narrower by the numbers' width, the folding chevrons and the decorations still show; on: the numbers come back.
+   Result:
+2. **Reload same text** (Gallery, P13-09) after typing restores the original text (the typed characters are gone) although `Text` was set to the same string before.
+   Result:
+3. In the diff demo, setting `ModifiedText` to its current value after an edit does nothing, while `Modified.ResetText(...)` resets it and the diff updates.
+   Result:

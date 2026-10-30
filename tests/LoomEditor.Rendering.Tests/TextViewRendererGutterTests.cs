@@ -28,6 +28,40 @@ public class TextViewRendererGutterTests
     }
 
     [Fact]
+    public void Render_LineNumbersOff_DrawsNoNumberButStillDrawsLineDecorations()
+    {
+        const string className = "test-host-lines";
+        var background = ThemeColor.FromRgb(0x12, 0x34, 0x56);
+        CustomDecorationStyles.Register(className, new CustomDecorationStyle { Background = background });
+        try
+        {
+            using var harness = new ViewHarness(Lines(3));
+            harness.ViewModel.SetOptions(harness.ViewModel.LayoutOptions with { LineNumbers = false }, harness.ViewModel.ViewLayoutOptions);
+            ModelDecorationOptions options = new EditorDecorationOptions { LinesDecorationsClassName = className }.ToModelOptions();
+            harness.Model.DeltaDecorations(harness.ViewModel.EditorId, [], new[] { new ModelDeltaDecoration(new Range(2, 1, 2, 1), options) });
+
+            RecordingRenderSurface surface = harness.Render();
+
+            Assert.Empty(NumberDraws(surface));
+            Assert.Single(surface.Calls.OfType<FillRectangleCall>(), call => call.Color == background);
+        }
+        finally
+        {
+            CustomDecorationStyles.Unregister(className);
+        }
+    }
+
+    [Fact]
+    public void Render_LineNumbersOn_DrawsOneNumberPerLine()
+    {
+        using var harness = new ViewHarness(Lines(3));
+
+        List<DrawLineLayoutCall> numbers = NumberDraws(harness.Render());
+
+        Assert.Equal("123", string.Concat(numbers.Select(call => call.Text)));
+    }
+
+    [Fact]
     public void Render_Always_RightAlignsTheLineNumbers()
     {
         using var harness = new ViewHarness(Lines(10));

@@ -92,6 +92,11 @@ internal sealed partial class TextViewRenderer
                 DrawGutterIcon(surface, className, layoutInfo, top, font.LineHeight, IsMarginHovered);
             }
 
+            if (!viewModel.LayoutOptions.LineNumbers)
+            {
+                continue;
+            }
+
             // Monaco: `_getLineRenderLineNumber`: an empty number for the continuation of a wrapped model line.
             Position modelPosition = viewModel.CoordinatesConverter.ConvertViewPositionToModelPosition(new Position(lineNumber, 1));
             if (modelPosition.Column != 1)

@@ -13,7 +13,6 @@ public sealed partial class LoomEditor
     private string? _capturedZoneId;
     private double _capturedZoneTop;
     private bool _overviewRulerEnabled = true;
-    private bool _hideLineNumbers;
 
     /// <summary>Raised when the scroll position or the scroll height changes: scrolling, edits, folding, view zones, wrapping.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -106,12 +105,17 @@ public sealed partial class LoomEditor
     }
 
     /// <summary>
-    /// Replaces the text of the model without going through <see cref="Text"/>, whose value is not kept in sync with the edits (a
-    /// host that sets the same string twice must still reset the model).
+    /// Replaces the whole text and resets the editor as setting <see cref="Text"/> does, even when <paramref name="text"/> equals the last value of
+    /// <see cref="Text"/> (that property is not updated by edits, so setting it to the same string does nothing). The undo stack is cleared, the
+    /// selection goes back to the start of the text and every decoration is removed (Monaco: <c>setValue</c>): the host sets its decorations again.
+    /// <see cref="Text"/> is not updated by this method.
     /// </summary>
+    /// <param name="text">The new text.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/>.</exception>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal void ApplyText(string text)
+    public void ResetText(string text)
     {
+        ArgumentNullException.ThrowIfNull(text);
         _context.SetText(text);
         _viewModel.SetIsDominatedByLongLines(_context.Model.IsDominatedByLongLines());
     }
@@ -137,23 +141,11 @@ public sealed partial class LoomEditor
         }
     }
 
-    /// <summary>Whether the line numbers are hidden.</summary>
-    /// <remarks>Threading: UI thread only.</remarks>
-    internal bool HideLineNumbers
-    {
-        get => _hideLineNumbers;
-        set
-        {
-            _hideLineNumbers = value;
-            ApplyHostLayoutOptions();
-        }
-    }
-
     private void ApplyHostLayoutOptions()
     {
         EditorLayoutOptions options = _viewModel.LayoutOptions;
         EditorOverviewRulerOptions ruler = options.OverviewRuler with { Lanes = _overviewRulerEnabled ? new EditorOverviewRulerOptions().Lanes : 0 };
-        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = !_hideLineNumbers }, _viewModel.ViewLayoutOptions);
+        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = LineNumbersEnabled }, _viewModel.ViewLayoutOptions);
     }
 
     private void RaiseScrollChanged(ScrollEvent e) =>
