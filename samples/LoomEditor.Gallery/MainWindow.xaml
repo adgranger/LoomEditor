@@ -17,6 +17,7 @@
                 <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Header="Phase 9: diff editor" IsExpanded="True">
                     <StackPanel Spacing="6">
                         <Button HorizontalAlignment="Stretch" Click="OnOpenDiffWindow" Content="Diff editor window" />
+                        <Button HorizontalAlignment="Stretch" Click="OnOpenHostApiWindow" Content="Host API demo" />
                         <ToggleSwitch x:Name="DiffSwitch" Toggled="OnDiffToggled" OffContent="Diff editor preview" OnContent="Diff editor preview" />
                         <ToggleSwitch x:Name="DiffSideBySideSwitch" IsOn="True" Toggled="OnDiffOptionToggled" OffContent="Inline view" OnContent="Side by side" />
                         <ToggleSwitch x:Name="DiffHideUnchangedSwitch" Toggled="OnDiffOptionToggled" OffContent="Hide unchanged regions" OnContent="Hide unchanged regions" />

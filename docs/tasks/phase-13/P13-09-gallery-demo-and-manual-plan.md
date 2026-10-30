@@ -1,6 +1,6 @@
 # P13-09 — Gallery: the "Host API" window and the complete manual test plan
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-08
 - **Size:** M
 
@@ -62,16 +62,16 @@ opened with the current theme), `MainWindow.xaml` (where the "Diff editor window
 
 ## Tests
 
-- [ ] None automated (Gallery UI). `HostApiSamples` is WinUI-free: P13-10 links it into the View tests.
-- [ ] Manual: the plan is complete (not run by the agent).
+- [x] None automated (Gallery UI). `HostApiSamples` is WinUI-free: P13-10 links it into the View tests.
+- [x] Manual: the plan is complete (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `grep -n "internal\|_viewModel\|_context" samples/LoomEditor.Gallery/HostApiDemoWindow*.cs` finds nothing that reaches an internal member
-- [ ] Every control named in `docs/testing/phase-13-manual-tests.md` exists in `HostApiDemoWindow.xaml` (grep each label)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `grep -n "internal\|_viewModel\|_context" samples/LoomEditor.Gallery/HostApiDemoWindow*.cs` finds nothing that reaches an internal member
+- [x] Every control named in `docs/testing/phase-13-manual-tests.md` exists in `HostApiDemoWindow.xaml` (grep each label)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

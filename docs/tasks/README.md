@@ -1108,7 +1108,7 @@ Avalonia phase of the roadmap is renumbered 14.
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P13-09](phase-13/P13-09-gallery-demo-and-manual-plan.md) | Gallery: the "Host API" window and the complete manual test plan | P13-08 | todo |
+| [P13-09](phase-13/P13-09-gallery-demo-and-manual-plan.md) | Gallery: the "Host API" window and the complete manual test plan | P13-08 | done |
 | [P13-10](phase-13/P13-10-native-aot-and-package-check.md) | Native AOT self-check and package test of the host API | P13-09 | todo |
 | [P13-11](phase-13/P13-11-close-phase-13.md) | Close phase 13: the host API how-to, CHANGELOG and docs | P13-10 | todo |
 
