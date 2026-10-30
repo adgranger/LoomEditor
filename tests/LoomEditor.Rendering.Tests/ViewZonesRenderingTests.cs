@@ -101,11 +101,32 @@ public class ViewZonesRenderingTests
 
         byte AlphaAt(int x, int y) => entry.Rgba[(((y * entry.Width) + x) * 4) + 3];
         Assert.Equal(255, AlphaAt(0, 0));
-        Assert.Equal(255, AlphaAt(4, 0));
-        Assert.Equal(255, AlphaAt(3, 1));
-        Assert.Equal(0, AlphaAt(1, 0));
-        Assert.Equal(0, AlphaAt(5, 0));
+        Assert.Equal(255, AlphaAt(1, 0));
+        Assert.Equal(255, AlphaAt(8, 0));
+        Assert.Equal(255, AlphaAt(7, 1));
+        Assert.Equal(0, AlphaAt(2, 0));
+        Assert.Equal(0, AlphaAt(4, 0));
         Assert.Equal((byte)10, entry.Rgba[0]);
+    }
+
+    [Fact]
+    public void Pattern_Buffer_RowHasTwoStripePixelsPerTile()
+    {
+        DiagonalFillPattern.Entry entry = new DiagonalFillPattern().Get(8, 8, new ThemeColor(255, 10, 20, 30));
+
+        for (int y = 0; y < 8; y++)
+        {
+            int colored = 0;
+            for (int x = 0; x < 8; x++)
+            {
+                if (entry.Rgba[(((y * entry.Width) + x) * 4) + 3] != 0)
+                {
+                    colored++;
+                }
+            }
+
+            Assert.Equal(2, colored);
+        }
     }
 
     [Fact]

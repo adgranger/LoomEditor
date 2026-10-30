@@ -14,6 +14,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - `LoomEditor.WinUI`: `LineHeight` is settable on `LoomEditor` and `LoomDiffEditor` (Monaco `lineHeight`): 0 is automatic, below 8 a multiplier of the font size, else a height in DIPs. Reading it still gives the height in use.
 
+### Fixed
+
+- `LoomEditor.Rendering`: the diagonal hatching of the diff editor's empty view zones now matches Monaco (2 px stripes every 8 px of `x + y`; it had twice as many stripes, half as thick).
+
 ## [0.2.0-alpha.3] - 2026-10-30
 
 ### Added
