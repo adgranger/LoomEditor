@@ -1,6 +1,6 @@
 # P13-07 — `SetHiddenAreas` and the `GutterClicked` event
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-06
 - **Size:** S
 
@@ -54,15 +54,15 @@ Sources: none (specified in this card; [phase-13/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New (`ViewModelHiddenAreasTests`, only if missing): two sources hide two ranges; clearing one source shows its lines and keeps the other's.
-- [ ] Manual: section "P13-07" written (not run by the agent).
+- [x] New (`ViewModelHiddenAreasTests`, only if missing): two sources hide two ranges; clearing one source shows its lines and keeps the other's.
+- [x] Manual: section "P13-07" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the lines above
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the lines above
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -72,3 +72,7 @@ Sources: none (specified in this card; [phase-13/README.md](README.md) decisions
 ## Suggested commit message
 
 `feat(winui): host hidden areas and a gutter click event`
+
+## Result
+
+Build 0 warnings, all tests green. No new View test: `SetHiddenAreas_FromOverlappingSources_ProducesAValidMergedResult` already covers two sources. `MouseTarget.Position` is a view position, so the line is converted to a model line. The manual section "P13-07" is written and was not run by the agent.

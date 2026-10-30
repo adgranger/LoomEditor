@@ -48,3 +48,18 @@ What unit tests cannot check: the host API seen from an app â€” drawing, scroll 
    Result:
 3. In the diff demo, setting `ModifiedText` to its current value after an edit does nothing, while `Modified.ResetText(...)` resets it and the diff updates.
    Result:
+
+## P13-07 — Hidden areas and gutter clicks
+
+1. **Hide unchanged** (Gallery, P13-09) hides lines 20–40 (line 19 is followed by line 41; the blame column has no rows for them); **Show all** brings them back.
+   Result:
+2. Folding a region while host areas are set, then **Show all**: the folded region stays folded.
+   Result:
+3. A left click on the line decorations of line 12 in the Gallery's staging demo toggles its "staged" tint and does **not** move the caret.
+   Result:
+4. A click on the line number of line 12 (the handler does not set `Handled`) selects the line as before and the log shows `GutterClicked line 12 LineNumbers`.
+   Result:
+5. A right click raises nothing; a click below the last line raises nothing.
+   Result:
+6. The folding chevron still folds when the handler does not set `Handled`.
+   Result:

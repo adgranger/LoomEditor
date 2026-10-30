@@ -45,6 +45,13 @@ public sealed partial class LoomEditor
         _context.MouseStyleChanged += (_, _) => ProtectedCursor = CreateTextAreaCursor(false);
     }
 
+    /// <summary>
+    /// Raised when the left button goes down on the gutter, on a line (not below the last line), before the editor acts on it. Set
+    /// <see cref="GutterClickedEventArgs.Handled"/> to keep the editor from selecting the line or toggling a fold.
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    public event EventHandler<GutterClickedEventArgs>? GutterClicked;
+
     /// <inheritdoc />
     protected override void OnPointerPressed(PointerRoutedEventArgs e)
     {
@@ -90,6 +97,24 @@ public sealed partial class LoomEditor
         bool targetIsGutter = target.Type is MouseTargetType.GutterGlyphMargin or MouseTargetType.GutterLineNumbers or MouseTargetType.GutterLineDecorations;
         bool targetIsLineNumbers = target.Type == MouseTargetType.GutterLineNumbers;
         bool shouldHandle = mouseEvent.LeftButton || mouseEvent.MiddleButton;
+
+        if (targetIsGutter && mouseEvent.LeftButton && !target.IsAfterLines && target.Position is { } viewPosition)
+        {
+            var args = new GutterClickedEventArgs(
+                _viewModel.CoordinatesConverter.ConvertViewPositionToModelPosition(viewPosition).LineNumber,
+                target.Type switch
+                {
+                    MouseTargetType.GutterGlyphMargin => GutterArea.GlyphMargin,
+                    MouseTargetType.GutterLineNumbers => GutterArea.LineNumbers,
+                    _ => GutterArea.LineDecorations,
+                });
+            GutterClicked?.Invoke(this, args);
+            if (args.Handled)
+            {
+                e.Handled = true;
+                return;
+            }
+        }
 
         if (shouldHandle && (targetIsContent || (targetIsLineNumbers && _viewModel.CursorOptions.SelectOnLineNumbers)))
         {

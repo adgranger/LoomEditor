@@ -1101,7 +1101,7 @@ Avalonia phase of the roadmap is renumbered 14.
 | [P13-04](phase-13/P13-04-editor-decorations-api.md) | `LoomEditor.CreateDecorationsCollection` for the host | P13-03 | done |
 | [P13-05](phase-13/P13-05-scroll-and-line-metrics.md) | Scroll and layout sync: `ScrollChanged`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber` | P13-04 | done |
 | [P13-06](phase-13/P13-06-line-numbers-and-reset-text.md) | `LineNumbersEnabled` and `ResetText` | P13-05 | done |
-| [P13-07](phase-13/P13-07-hidden-areas-and-gutter-clicks.md) | `SetHiddenAreas` and the `GutterClicked` event | P13-06 | todo |
+| [P13-07](phase-13/P13-07-hidden-areas-and-gutter-clicks.md) | `SetHiddenAreas` and the `GutterClicked` event | P13-06 | done |
 | [P13-08](phase-13/P13-08-host-view-zones.md) | Host view zones: `AddViewZone` / `RemoveViewZone` with WinUI content | P13-07 | todo |
 
 ### Step C — Prove it and close the phase

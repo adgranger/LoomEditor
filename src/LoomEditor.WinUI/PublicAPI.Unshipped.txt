@@ -277,3 +277,14 @@ LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ResetText(string! text) -> void
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
+LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.GlyphMargin = 0 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.LineDecorations = 2 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.LineNumbers = 1 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterClickedEventArgs
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Area.get -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.get -> bool
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.set -> void
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.LineNumber.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.WinUI.Controls.GutterClickedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
