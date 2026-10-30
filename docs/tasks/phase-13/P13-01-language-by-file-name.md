@@ -1,6 +1,6 @@
 # P13-01 — `BuiltInLanguages.GetLanguageIdByFileName`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P12-15
 - **Size:** S
 
@@ -41,17 +41,17 @@ Sources: none (specified in this card; [phase-13/README.md](README.md) table of 
 
 ## Tests
 
-- [ ] New (`BuiltInLanguagesTests`): `Program.cs` → `csharp`; `C:\repo\src\App.TS` → `typescript` (path and case); `README.md` → `markdown`; `notes.txt` → `plaintext`;
+- [x] New (`BuiltInLanguagesTests`): `Program.cs` → `csharp`; `C:\repo\src\App.TS` → `typescript` (path and case); `README.md` → `markdown`; `notes.txt` → `plaintext`;
   `tsconfig.json` and `src/tsconfig.json` → `jsonc` (declared file name wins over `.json`); `package.json` → `json`; `SConstruct` → `python` (file name without extension);
   `Makefile` → `null`; `""` → `null`; `null` → `ArgumentNullException`.
-- [ ] New: every non-null result is in `BuiltInLanguages.Ids`.
+- [x] New: every non-null result is in `BuiltInLanguages.Ids`.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (TextMate) gains the one line above, nothing else
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (TextMate) gains the one line above, nothing else
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

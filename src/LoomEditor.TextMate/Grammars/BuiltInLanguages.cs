@@ -34,6 +34,30 @@ public static class BuiltInLanguages
     /// <summary>The ids of the bundled languages (<c>plaintext</c> first): the values the editor control accepts as its language.</summary>
     public static IReadOnlyList<string> Ids { get; } = ["plaintext", .. All.Select(language => language.Id)];
 
+    private static readonly LanguageRegistry Registry = CreateRegistry();
+
+    /// <summary>Finds the language of a file from its name or path, e.g. <c>src/Program.cs</c> gives <c>csharp</c>.</summary>
+    /// <param name="fileName">A bare file name or a path; only its last segment is used.</param>
+    /// <returns>The language id (one of <see cref="Ids"/>), or <see langword="null"/> when nothing matches: use <c>"plaintext"</c> then.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="fileName"/> is <see langword="null"/>.</exception>
+    /// <remarks>
+    /// A file name declared by a language (<c>tsconfig.json</c>) wins over its extension, case insensitive.
+    /// Only the last extension is used, so multi-dot extensions declared by a language (<c>.csproj.user</c>, <c>.js.map</c>) are matched by their last part only.
+    /// </remarks>
+    public static string? GetLanguageIdByFileName(string fileName)
+    {
+        ArgumentNullException.ThrowIfNull(fileName);
+        string name = Path.GetFileName(fileName);
+        return name.Length == 0 ? null : Registry.GetLanguageIdByFileName(name);
+    }
+
+    private static LanguageRegistry CreateRegistry()
+    {
+        var registry = new LanguageRegistry();
+        RegisterAll(registry);
+        return registry;
+    }
+
     /// <summary>Registers every bundled language in <paramref name="registry"/>.</summary>
     internal static void RegisterAll(LanguageRegistry registry)
     {

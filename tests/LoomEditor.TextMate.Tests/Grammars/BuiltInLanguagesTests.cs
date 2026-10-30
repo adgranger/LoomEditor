@@ -175,4 +175,32 @@ public class BuiltInLanguagesTests
         Assert.Matches(markers.End, "  #endregion");
         Assert.DoesNotMatch(markers.Start, "  #endregion");
     }
+
+    [Theory]
+    [InlineData("Program.cs", "csharp")]
+    [InlineData(@"C:\repo\src\App.TS", "typescript")]
+    [InlineData("README.md", "markdown")]
+    [InlineData("notes.txt", "plaintext")]
+    [InlineData("tsconfig.json", "jsonc")]
+    [InlineData("src/tsconfig.json", "jsonc")]
+    [InlineData("package.json", "json")]
+    [InlineData("SConstruct", "python")]
+    [InlineData("Makefile", null)]
+    [InlineData("", null)]
+    public void GetLanguageIdByFileName_KnownAndUnknownNames_ReturnsExpectedId(string fileName, string? expected)
+    {
+        string? id = BuiltInLanguages.GetLanguageIdByFileName(fileName);
+
+        Assert.Equal(expected, id);
+        if (id is not null)
+        {
+            Assert.Contains(id, BuiltInLanguages.Ids);
+        }
+    }
+
+    [Fact]
+    public void GetLanguageIdByFileName_Null_Throws()
+    {
+        Assert.Throws<ArgumentNullException>(() => BuiltInLanguages.GetLanguageIdByFileName(null!));
+    }
 }

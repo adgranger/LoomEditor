@@ -1,3 +1,4 @@
 #nullable enable
 LoomEditor.TextMate.Grammars.BuiltInLanguages
 static LoomEditor.TextMate.Grammars.BuiltInLanguages.Ids.get -> System.Collections.Generic.IReadOnlyList<string!>!
+static LoomEditor.TextMate.Grammars.BuiltInLanguages.GetLanguageIdByFileName(string! fileName) -> string?
