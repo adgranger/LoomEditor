@@ -240,6 +240,7 @@ public sealed partial class LoomEditor : Control
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        ApplyFoldingEnabled();
         ConnectFindWidget();
         StartHighlighting();
         ObserveXamlRoot();

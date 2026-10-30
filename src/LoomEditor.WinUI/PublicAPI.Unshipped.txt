@@ -7,8 +7,10 @@
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int lineNumber) -> void
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int startLineNumber, int lineNumber) -> void
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.StartLineNumber.get -> int
+LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, string! text) -> void
 LoomEditor.WinUI.Controls.CommentSubmittedEventArgs.Text.get -> string!
@@ -19,9 +21,11 @@ LoomEditor.WinUI.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.C
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber) -> void
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int lineNumber) -> void
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range textRange) -> void
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.Side.get -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.StartLineNumber.get -> int
+LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
 LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Modified = 1 -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Original = 0 -> LoomEditor.WinUI.Controls.DiffSide
@@ -36,6 +40,12 @@ LoomEditor.WinUI.Controls.EditorBracketPairGuides.On = 1 -> LoomEditor.WinUI.Con
 LoomEditor.WinUI.Controls.EditorMinimapSide
 LoomEditor.WinUI.Controls.EditorMinimapSide.Left = 1 -> LoomEditor.WinUI.Controls.EditorMinimapSide
 LoomEditor.WinUI.Controls.EditorMinimapSide.Right = 0 -> LoomEditor.WinUI.Controls.EditorMinimapSide
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
+LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
 LoomEditor.WinUI.Controls.EditorWordWrap
 LoomEditor.WinUI.Controls.EditorWordWrap.Bounded = 3 -> LoomEditor.WinUI.Controls.EditorWordWrap
 LoomEditor.WinUI.Controls.EditorWordWrap.Off = 0 -> LoomEditor.WinUI.Controls.EditorWordWrap
@@ -49,10 +59,20 @@ LoomEditor.WinUI.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.WinUI.Cont
 LoomEditor.WinUI.Controls.Find.FindWidget
 LoomEditor.WinUI.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.WinUI.Controls.Find.FindWidget.InitializeComponent() -> void
+LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.GlyphMargin = 0 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.LineDecorations = 2 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterArea.LineNumbers = 1 -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterClickedEventArgs
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Area.get -> LoomEditor.WinUI.Controls.GutterArea
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.get -> bool
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.set -> void
+LoomEditor.WinUI.Controls.GutterClickedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
@@ -114,6 +134,8 @@ LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupport.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentRequested -> System.EventHandler<LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Microsoft.UI.Xaml.FrameworkElement? content = null) -> string!
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.WinUI.Controls.EditorBracketPairGuides
 LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
@@ -122,6 +144,7 @@ LoomEditor.WinUI.Controls.LoomEditor.CommentGutterButtonEnabled.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.CommentGutterButtonEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.CommentSubmitted -> System.EventHandler<LoomEditor.WinUI.Controls.CommentSubmittedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
+LoomEditor.WinUI.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
 LoomEditor.WinUI.Controls.LoomEditor.CursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.WinUI.Controls.LoomEditor.CursorStyle.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.DocumentUri.get -> string!
@@ -130,12 +153,16 @@ LoomEditor.WinUI.Controls.LoomEditor.DragAndDrop.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.DragAndDrop.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.WinUI.Controls.LoomEditor.Features.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.FoldingEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.FoldingEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.FontFeatureSettings.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.FontFeatureSettings.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.FontLigatures.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.FontLigatures.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.FontVariationSettings.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.FontVariationSettings.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
+LoomEditor.WinUI.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.WinUI.Controls.GutterClickedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.WinUI.Controls.LoomEditor.InsertSnippet(string! template, int overwriteBefore, int overwriteAfter) -> void
 LoomEditor.WinUI.Controls.LoomEditor.InsertSnippet(string! template) -> void
@@ -144,8 +171,14 @@ LoomEditor.WinUI.Controls.LoomEditor.IsReadOnly.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomEditor.LanguageId.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomEditor.LetterSpacing.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.LetterSpacing.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.LineDecorationsWidth.get -> int
+LoomEditor.WinUI.Controls.LoomEditor.LineDecorationsWidth.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.LineHeight.get -> double
+LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LocationOpener.get -> LoomEditor.View.Features.GotoDefinition.ILocationOpener?
 LoomEditor.WinUI.Controls.LoomEditor.LocationOpener.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LoomEditor() -> void
@@ -162,18 +195,22 @@ LoomEditor.WinUI.Controls.LoomEditor.MouseWheelZoom.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.OvertypeCursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.WinUI.Controls.LoomEditor.OvertypeCursorStyle.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
+LoomEditor.WinUI.Controls.LoomEditor.RemoveViewZone(string! id) -> bool
 LoomEditor.WinUI.Controls.LoomEditor.RenderControlCharacters.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.RenderControlCharacters.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.RenderIndentGuides.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.RenderWhitespace.get -> LoomEditor.View.Layout.RenderWhitespace
 LoomEditor.WinUI.Controls.LoomEditor.RenderWhitespace.set -> void
+LoomEditor.WinUI.Controls.LoomEditor.ResetText(string! text) -> void
+LoomEditor.WinUI.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollLeft.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.get -> double
 LoomEditor.WinUI.Controls.LoomEditor.ScrollTop.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.SelectionChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomEditor.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
+LoomEditor.WinUI.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
 LoomEditor.WinUI.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.set -> void
@@ -230,6 +267,7 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -
 static readonly LoomEditor.WinUI.Controls.LoomEditor.CommentGutterButtonEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.CursorStyleProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.DragAndDropProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.FoldingEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.FontFeatureSettingsProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.FontLigaturesProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.FontVariationSettingsProperty -> Microsoft.UI.Xaml.DependencyProperty!
@@ -237,6 +275,8 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.InputModeProperty -> Micros
 static readonly LoomEditor.WinUI.Controls.LoomEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.LetterSpacingProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.LineDecorationsWidthProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapRenderCharactersProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.MinimapSideProperty -> Microsoft.UI.Xaml.DependencyProperty!
@@ -256,37 +296,3 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> M
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.ZoomLevelProperty -> Microsoft.UI.Xaml.DependencyProperty!
-LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
-LoomEditor.WinUI.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
-LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range textRange) -> void
-LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
-LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.WinUI.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.WinUI.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
-LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs
-LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
-LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
-LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
-LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
-LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
-LoomEditor.WinUI.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
-LoomEditor.WinUI.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
-LoomEditor.WinUI.Controls.LoomEditor.LineHeight.get -> double
-LoomEditor.WinUI.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.WinUI.Controls.EditorScrollChangedEventArgs!>?
-LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.get -> bool
-LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.set -> void
-LoomEditor.WinUI.Controls.LoomEditor.ResetText(string! text) -> void
-static readonly LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
-LoomEditor.WinUI.Controls.GutterArea
-LoomEditor.WinUI.Controls.GutterArea.GlyphMargin = 0 -> LoomEditor.WinUI.Controls.GutterArea
-LoomEditor.WinUI.Controls.GutterArea.LineDecorations = 2 -> LoomEditor.WinUI.Controls.GutterArea
-LoomEditor.WinUI.Controls.GutterArea.LineNumbers = 1 -> LoomEditor.WinUI.Controls.GutterArea
-LoomEditor.WinUI.Controls.GutterClickedEventArgs
-LoomEditor.WinUI.Controls.GutterClickedEventArgs.Area.get -> LoomEditor.WinUI.Controls.GutterArea
-LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.get -> bool
-LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.set -> void
-LoomEditor.WinUI.Controls.GutterClickedEventArgs.LineNumber.get -> int
-LoomEditor.WinUI.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.WinUI.Controls.GutterClickedEventArgs!>?
-LoomEditor.WinUI.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
-LoomEditor.WinUI.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Microsoft.UI.Xaml.FrameworkElement? content = null) -> string!
-LoomEditor.WinUI.Controls.LoomEditor.RemoveViewZone(string! id) -> bool
