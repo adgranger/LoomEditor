@@ -1080,6 +1080,46 @@ written manual section; agents do not run the Gallery UI.
 
 **Deferred on purpose (phase 12):** a suggestion that replaces only the selected text (it replaces the lines that contain it), columns in the thread title, dragging from or shift-clicking the gutter "+" button to select lines, a gutter bar or overview-ruler mark for a range, overlap rules between ranges, and everything phase 11 deferred (reactions, edit / delete UI, mentions, attachments, avatar images, localization, original-side threads in the inline diff view, "commit suggestion", a comments panel, persistence).
 
+## Phase 13 — Public API for host applications
+
+Roadmap: [phase-13-host-api.md](../roadmap/phase-13-host-api.md); conventions and design decisions (the public member chosen for each need of VIGO, and what stays
+internal): [phase-13/README.md](phase-13/README.md). **Not a port** (as phases 11 and 12): cards say "Sources: none" and have no Monaco header. Planned 2026-10-30; the
+Avalonia phase of the roadmap is renumbered 14.
+
+### Step A — Logic, no UI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P13-01](phase-13/P13-01-language-by-file-name.md) | `BuiltInLanguages.GetLanguageIdByFileName` | P12-15 | todo |
+| [P13-02](phase-13/P13-02-host-decoration-types.md) | Host decorations: `EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection` | P13-01 | todo |
+| [P13-03](phase-13/P13-03-custom-decoration-styles.md) | Host decoration styles: `CustomDecorationStyle`, `CustomDecorationStyles` | P13-02 | todo |
+
+### Step B — Public API of `LoomEditor`
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P13-04](phase-13/P13-04-editor-decorations-api.md) | `LoomEditor.CreateDecorationsCollection` for the host | P13-03 | todo |
+| [P13-05](phase-13/P13-05-scroll-and-line-metrics.md) | Scroll and layout sync: `ScrollChanged`, `LayoutChanged`, `LineHeight`, `GetTopForLineNumber` | P13-04 | todo |
+| [P13-06](phase-13/P13-06-line-numbers-and-reset-text.md) | `LineNumbersEnabled` and `ResetText` | P13-05 | todo |
+| [P13-07](phase-13/P13-07-hidden-areas-and-gutter-clicks.md) | `SetHiddenAreas` and the `GutterClicked` event | P13-06 | todo |
+| [P13-08](phase-13/P13-08-host-view-zones.md) | Host view zones: `AddViewZone` / `RemoveViewZone` with WinUI content | P13-07 | todo |
+
+### Step C — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P13-09](phase-13/P13-09-gallery-demo-and-manual-plan.md) | Gallery: the "Host API" window and the complete manual test plan | P13-08 | todo |
+| [P13-10](phase-13/P13-10-native-aot-and-package-check.md) | Native AOT self-check and package test of the host API | P13-09 | todo |
+| [P13-11](phase-13/P13-11-close-phase-13.md) | Close phase 13: the host API how-to, CHANGELOG and docs | P13-10 | todo |
+
+Take phase 13 cards in table order (each card's "Depends on" is satisfied by the cards above it). Every card is written for **Sonnet**; none is flagged Opus (the only
+delicate WinUI piece, content over a view zone, reuses the phase 11 zone-widget layer and its focus rules). A card that does not fit in one session stops with a proposed
+split. The WinUI cards (P13-04 … P13-08) are verified by the build, the tests and a written manual section; agents do not run the Gallery UI.
+
+**Deferred on purpose (phase 13):** public Monaco internals (decoration options, view zones, language registry, style table), a view-zone pointer event, host zones and hidden
+areas on the sides of a `LoomDiffEditor`, host-registered languages, per-editor styles, hover / injected text / glyph icons on host decorations, a "visible lines" API,
+stripping internal members from the packages' XML docs.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
