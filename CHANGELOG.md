@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.2.0-alpha.4] - 2026-10-30
+
+### Added
+
+- `LoomEditor.WinUI`: `LineHeight` is settable on `LoomEditor` and `LoomDiffEditor` (Monaco `lineHeight`): 0 is automatic, below 8 a multiplier of the font size, else a height in DIPs. Reading it still gives the height in use.
+
 ## [0.2.0-alpha.3] - 2026-10-30
 
 ### Added
@@ -41,7 +47,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.3...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.4...HEAD
+[0.2.0-alpha.4]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.3...v0.2.0-alpha.4
 [0.2.0-alpha.3]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.2...v0.2.0-alpha.3
 [0.2.0-alpha.2]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.1...v0.2.0-alpha.2
 [0.2.0-alpha.1]: https://github.com/adgranger/LoomEditor/compare/v0.1.0-alpha.1...v0.2.0-alpha.1

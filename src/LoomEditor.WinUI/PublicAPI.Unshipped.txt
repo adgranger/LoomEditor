@@ -101,6 +101,8 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineHeight.get -> double
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineHeight.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.LoomDiffEditor() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
@@ -177,6 +179,7 @@ LoomEditor.WinUI.Controls.LoomEditor.LetterSpacing.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LineDecorationsWidth.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.LineDecorationsWidth.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LineHeight.get -> double
+LoomEditor.WinUI.Controls.LoomEditor.LineHeight.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.LineNumbersEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.LocationOpener.get -> LoomEditor.View.Features.GotoDefinition.ILocationOpener?

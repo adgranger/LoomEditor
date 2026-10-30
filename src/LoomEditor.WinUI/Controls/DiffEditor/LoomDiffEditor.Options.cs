@@ -92,6 +92,28 @@ public sealed partial class LoomDiffEditor
         nameof(MaxComputationTimeMs), typeof(int), typeof(LoomDiffEditor),
         new PropertyMetadata(5000, (d, e) => ((LoomDiffEditor)d)._options.MaxComputationTimeMs = (int)e.NewValue));
 
+    private double _lineHeight;
+
+    /// <summary>
+    /// The line height of both editors, as <see cref="LoomEditor.LineHeight"/>: 0 is automatic, below 8 a multiplier of the font size, else DIPs (Monaco:
+    /// <c>lineHeight</c>). The two sides stay aligned. Reading it gives the height in use. Defaults to 0.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException">The value is negative, <c>NaN</c> or infinite.</exception>
+    public double LineHeight
+    {
+        get => _modified?.LineHeight ?? _lineHeight;
+        set
+        {
+            if (!double.IsFinite(value) || value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, "The line height must be a finite number, 0 or greater.");
+            }
+
+            _lineHeight = value;
+            ConfigureEditors();
+        }
+    }
+
     private EditorTheme _theme = EditorTheme.Dark;
 
     /// <summary>The original text. Defaults to an empty string.</summary>
@@ -293,6 +315,7 @@ public sealed partial class LoomDiffEditor
             editor.OverviewRulerEnabled = false;
             // Monaco: sticky scroll is turned off for both editors only while unchanged regions are hidden.
             editor.StickyScrollEnabled = !HideUnchangedRegions;
+            editor.LineHeight = _lineHeight;
         }
 
         original.IsReadOnly = !OriginalEditable;

@@ -51,7 +51,7 @@ internal sealed class Win2DTextMeasurer : ITextMeasurer
         string family = ResolveInstalledFamily(fontFamilies);
 
         var bare = BareFontInfo.Create(
-            family, fontOptions.FontWeight, fontSize, lineHeight: 0, fontOptions.LetterSpacing, pixelRatio,
+            family, fontOptions.FontWeight, fontSize, lineHeight: fontOptions.LineHeight, fontOptions.LetterSpacing, pixelRatio,
             fontOptions.FontFeatureSettings, fontOptions.FontVariationSettings, zoomLevel);
         _baseWeight = ResolveBaseWeight(bare);
         _letterSpacing = (float)bare.LetterSpacing;
