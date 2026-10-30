@@ -1,4 +1,6 @@
 #nullable enable
+~override LoomEditor.View.Decorations.EditorDecoration.Equals(object obj) -> bool
+~override LoomEditor.View.Decorations.EditorDecoration.ToString() -> string
 const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretLeft = "editor.action.moveCarretLeftAction" -> string!
 const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretRight = "editor.action.moveCarretRightAction" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.action.addCommentLine" -> string!
@@ -139,6 +141,38 @@ LoomEditor.View.Controller.MouseWheelZoomGesture.OnWheel(double deltaY, bool isP
 LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Cursors.EditorInputMode.Insert = 0 -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.View.Cursors.EditorInputMode.Overtype = 1 -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.View.Decorations.DecorationsCollection
+LoomEditor.View.Decorations.DecorationsCollection.Append(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>! decorations) -> void
+LoomEditor.View.Decorations.DecorationsCollection.Clear() -> void
+LoomEditor.View.Decorations.DecorationsCollection.Count.get -> int
+LoomEditor.View.Decorations.DecorationsCollection.GetRange(int index) -> LoomEditor.Core.Text.Range?
+LoomEditor.View.Decorations.DecorationsCollection.GetRanges() -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>!
+LoomEditor.View.Decorations.DecorationsCollection.Set(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>! decorations) -> void
+LoomEditor.View.Decorations.EditorDecoration
+LoomEditor.View.Decorations.EditorDecoration.Deconstruct(out LoomEditor.Core.Text.Range Range, out LoomEditor.View.Decorations.EditorDecorationOptions! Options) -> void
+LoomEditor.View.Decorations.EditorDecoration.EditorDecoration() -> void
+LoomEditor.View.Decorations.EditorDecoration.EditorDecoration(LoomEditor.Core.Text.Range Range, LoomEditor.View.Decorations.EditorDecorationOptions! Options) -> void
+LoomEditor.View.Decorations.EditorDecoration.Equals(LoomEditor.View.Decorations.EditorDecoration other) -> bool
+LoomEditor.View.Decorations.EditorDecoration.Options.get -> LoomEditor.View.Decorations.EditorDecorationOptions!
+LoomEditor.View.Decorations.EditorDecoration.Options.init -> void
+LoomEditor.View.Decorations.EditorDecoration.Range.get -> LoomEditor.Core.Text.Range
+LoomEditor.View.Decorations.EditorDecoration.Range.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions
+LoomEditor.View.Decorations.EditorDecorationOptions.ClassName.get -> string?
+LoomEditor.View.Decorations.EditorDecorationOptions.ClassName.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.EditorDecorationOptions() -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.InlineClassName.get -> string?
+LoomEditor.View.Decorations.EditorDecorationOptions.InlineClassName.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.IsWholeLine.get -> bool
+LoomEditor.View.Decorations.EditorDecorationOptions.IsWholeLine.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.LinesDecorationsClassName.get -> string?
+LoomEditor.View.Decorations.EditorDecorationOptions.LinesDecorationsClassName.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.MarginClassName.get -> string?
+LoomEditor.View.Decorations.EditorDecorationOptions.MarginClassName.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerColor.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerColor.init -> void
+LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerDarkColor.get -> LoomEditor.Themes.ThemeColor?
+LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerDarkColor.init -> void
 LoomEditor.View.Features.CaretOperations.CaretOperationsCommands
 LoomEditor.View.Features.CaretOperations.CaretOperationsFeature
 LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
@@ -304,5 +338,8 @@ LoomEditor.View.Layout.TextEditorCursorStyle.Line = 0 -> LoomEditor.View.Layout.
 LoomEditor.View.Layout.TextEditorCursorStyle.LineThin = 3 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.Underline = 2 -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.View.Layout.TextEditorCursorStyle.UnderlineThin = 5 -> LoomEditor.View.Layout.TextEditorCursorStyle
+override LoomEditor.View.Decorations.EditorDecoration.GetHashCode() -> int
+static LoomEditor.View.Decorations.EditorDecoration.operator !=(LoomEditor.View.Decorations.EditorDecoration left, LoomEditor.View.Decorations.EditorDecoration right) -> bool
+static LoomEditor.View.Decorations.EditorDecoration.operator ==(LoomEditor.View.Decorations.EditorDecoration left, LoomEditor.View.Decorations.EditorDecoration right) -> bool
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection

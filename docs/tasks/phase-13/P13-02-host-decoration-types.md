@@ -1,6 +1,6 @@
 # P13-02 — Host decorations: `EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-01
 - **Size:** M
 
@@ -60,20 +60,20 @@ Sources: none (specified in this card; [phase-13/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New (`EditorDecorationOptionsTests`): every field maps to the internal options (class names, `IsWholeLine`); `Description == "host-decoration"`; stickiness is
+- [x] New (`EditorDecorationOptionsTests`): every field maps to the internal options (class names, `IsWholeLine`); `Description == "host-decoration"`; stickiness is
   `NeverGrowsWhenTypingAtEdges`; `ToModelOptions()` twice returns the same instance; `OverviewRulerColor = new ThemeColor(0x80, 0x12, 0x34, 0x56)` → color value
   `"#12345680"`, dark color `null`, lane `Center`; with a dark color both are set; no ruler color → `OverviewRuler == null`.
-- [ ] New (`DecorationsCollectionTests`, model `"a\nb\nc\nd"`): `Set` two decorations → `Count == 2`, the model has two decorations with those options; `Set` again with one →
+- [x] New (`DecorationsCollectionTests`, model `"a\nb\nc\nd"`): `Set` two decorations → `Count == 2`, the model has two decorations with those options; `Set` again with one →
   `Count == 1`; `Append` one → `Count == 2`, `GetRanges()` in insertion order; `Clear` → `Count == 0`; insert a line at the top → `GetRange(0)` moved down one line; typing at
   the end of a decorated range does not grow it; `GetRange(-1)` and `GetRange(Count)` → `null`; `Set(null!)` → `ArgumentNullException`; `Set([default])` →
   `ArgumentException` whose message contains `0`; two decorations sharing one options object share one internal options instance.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (View) gains only the three types' lines; Core's file is unchanged (no Monaco type became public)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (View) gains only the three types' lines; Core's file is unchanged (no Monaco type became public)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -83,3 +83,9 @@ as an option.
 ## Suggested commit message
 
 `feat(view): add public host decoration types`
+
+## Result
+
+- Added `EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection` (`src/LoomEditor.View/Decorations/`), 12 tests.
+- `PublicAPI.Unshipped.txt` (View) gained 37 lines: only these three types (the record struct's generated members included); Core's file is unchanged.
+- `DecorationsCollection` carries a justified `SuppressMessage` for CA1711 (suffix `Collection`): the name is fixed by README decision 4.
