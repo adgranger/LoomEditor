@@ -41,7 +41,7 @@ public sealed partial class LoomDiffEditor : Control
 
     private readonly DiffEditorOptions _options = new();
     private readonly SashLayout _sashLayout = new(0, 0.5, true);
-    private readonly TaskCompletionSource _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private TaskCompletionSource _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private LoomEditor? _original;
     private LoomEditor? _modified;
     private DiffEditorSash? _sash;
@@ -104,7 +104,7 @@ public sealed partial class LoomDiffEditor : Control
 
     /// <summary>Completes when <see cref="IsDiffUpToDate"/> is true; waits for the control to be loaded first.</summary>
     /// <param name="cancellationToken">Cancels the wait.</param>
-    /// <remarks>shortcut: a wait started before an unload never completes, when a use needs it, complete the waiters in OnUnloaded.</remarks>
+    /// <remarks>After an unload the wait resumes at the next load. shortcut: a wait that already passed the load gate when the control unloads throws, when a use needs it, complete the waiters in OnUnloaded.</remarks>
     public async Task WaitForDiffAsync(CancellationToken cancellationToken = default)
     {
         await _viewModelReady.Task.WaitAsync(cancellationToken);
@@ -211,6 +211,7 @@ public sealed partial class LoomDiffEditor : Control
         _viewModel.DiffChanged -= OnViewModelDiffChanged;
         _viewModel.Dispose();
         _viewModel = null;
+        _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
         _originalTarget?.Clear();
         _modifiedTarget?.Clear();
         _decorations = null;
