@@ -145,7 +145,7 @@ public sealed partial class LoomEditor
     {
         EditorLayoutOptions options = _viewModel.LayoutOptions;
         EditorOverviewRulerOptions ruler = options.OverviewRuler with { Lanes = _overviewRulerEnabled ? new EditorOverviewRulerOptions().Lanes : 0 };
-        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = LineNumbersEnabled }, _viewModel.ViewLayoutOptions);
+        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = LineNumbersEnabled, Folding = FoldingEnabled, LineDecorationsWidth = LineDecorationsWidth }, _viewModel.ViewLayoutOptions);
     }
 
     private void RaiseScrollChanged(ScrollEvent e) =>
