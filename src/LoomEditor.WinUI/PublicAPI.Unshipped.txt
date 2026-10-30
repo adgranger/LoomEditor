@@ -288,3 +288,5 @@ LoomEditor.WinUI.Controls.GutterClickedEventArgs.Handled.set -> void
 LoomEditor.WinUI.Controls.GutterClickedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.WinUI.Controls.GutterClickedEventArgs!>?
 LoomEditor.WinUI.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
+LoomEditor.WinUI.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Microsoft.UI.Xaml.FrameworkElement? content = null) -> string!
+LoomEditor.WinUI.Controls.LoomEditor.RemoveViewZone(string! id) -> bool

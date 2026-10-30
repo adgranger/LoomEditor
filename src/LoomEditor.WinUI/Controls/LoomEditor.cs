@@ -1,3 +1,4 @@
+using LoomEditor.WinUI.Controls.ViewZones;
 using LoomEditor.Rendering;
 using LoomEditor.Rendering.Win2D;
 using LoomEditor.Core.Model.Events;
@@ -80,6 +81,7 @@ public sealed partial class LoomEditor : Control
         DefaultStyleKey = typeof(LoomEditor);
         _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System, new DispatcherQueueUiDispatcher(DispatcherQueue), new DispatcherQueueEditorScheduler(DispatcherQueue));
         _viewModel = _context.ViewModel;
+        _hostZoneLayer = new HostViewZoneLayer(this);
         InitializeCommentThreads();
         _clipboardCommands = ClipboardCommands.Register(_context.Commands, _viewModel, new WindowsClipboardService());
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
@@ -278,6 +280,7 @@ public sealed partial class LoomEditor : Control
         var surface = new Win2DRenderSurface(args.DrawingSession, _measurer!, _bitmapCache);
         _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
         _commentZoneHost?.Arrange();
+        _hostZoneLayer.Arrange();
         _commentGutter?.Arrange();
         ApplyPendingHorizontalReveal();
     }

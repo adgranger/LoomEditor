@@ -1,6 +1,6 @@
 # P13-08 — Host view zones: `AddViewZone` / `RemoveViewZone` with WinUI content
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-07
 - **Size:** M
 
@@ -63,15 +63,15 @@ other zones?); `docs/tasks/phase-11/P11-14-focus-and-key-routing.md` (the focus 
 
 ## Tests
 
-- [ ] None automated (no WinUI test project; `ViewZones` itself is covered by `ViewZonesTests`).
-- [ ] Manual: section "P13-08" written (not run by the agent).
+- [x] None automated (no WinUI test project; `ViewZones` itself is covered by `ViewZonesTests`).
+- [x] Manual: section "P13-08" written (not run by the agent).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the two lines; `ViewZone`, `ViewZones` and `ViewZonePointerEventArgs` stay internal
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `PublicAPI.Unshipped.txt` (WinUI) gains exactly the two lines; `ViewZone`, `ViewZones` and `ViewZonePointerEventArgs` stay internal
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -81,3 +81,7 @@ Changing a zone's line or height in place (remove and add), a height that follow
 ## Suggested commit message
 
 `feat(winui): host view zones with WinUI content`
+
+## Result
+
+Build 0 warnings, all tests green. The manual section "P13-08" is written and was not run by the agent. Finding: the diff editor counts other zones of a side as extra height when it aligns the sides, so a host zone on a diff side is handled like any zone (documented in the XML doc). In the HostHooks file the `ViewZones` property type is now written `global::LoomEditor.View.Layout.ViewZones` because the new `Controls.ViewZones` namespace shadows it.

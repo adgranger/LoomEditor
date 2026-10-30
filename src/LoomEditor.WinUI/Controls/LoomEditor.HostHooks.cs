@@ -28,7 +28,7 @@ public sealed partial class LoomEditor
 
     /// <summary>The view zones of the editor.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal ViewZones ViewZones => _viewModel.ViewZones;
+    internal global::LoomEditor.View.Layout.ViewZones ViewZones => _viewModel.ViewZones;
 
     /// <summary>Converts between model and view positions (needed to map whitespaces and wrapped lines to model lines).</summary>
     /// <remarks>Threading: UI thread only.</remarks>

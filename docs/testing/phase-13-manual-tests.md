@@ -63,3 +63,34 @@ What unit tests cannot check: the host API seen from an app â€” drawing, scroll 
    Result:
 6. The folding chevron still folds when the handler does not set `Handled`.
    Result:
+
+## P13-08 — Host view zones
+
+1. **Add conflict header** (Gallery, P13-09) after line 9: a 1-line-high bar with two buttons appears between lines 9 and 10, the text below moves down by one line height.
+   Result:
+2. The bar scrolls with the text and is clipped at the top and bottom edges.
+   Result:
+3. Clicking **Accept current** runs the host handler (log) and does not move the caret.
+   Result:
+4. Typing a new line above line 9 moves the bar down with its line.
+   Result:
+5. **Remove** removes it and the text closes the gap; `RemoveViewZone` a second time returns `false` (log).
+   Result:
+6. A zone with a `TextBox`, the P11-14 checks (a)–(f), one line each: typing in the box inserts nothing in the editor.
+   Result:
+   `Tab` leaves the box by XAML focus navigation.
+   Result:
+   The caret of the editor stops blinking while the box has the focus.
+   Result:
+   Clicking in the box does not move the editor caret; clicking the text takes the focus back.
+   Result:
+   Keyboard shortcuts typed in the box (`Ctrl+Z`, `Ctrl+A`) act on the box, not on the editor.
+   Result:
+   An IME composition in the box does not reach the editor.
+   Result:
+7. **Remove** while the `TextBox` has the focus: the editor has the focus.
+   Result:
+8. A zone after line 0 shows above line 1.
+   Result:
+9. A comment thread's box and a host zone after the same line both show, without overlap.
+   Result:
