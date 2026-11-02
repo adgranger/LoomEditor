@@ -74,6 +74,7 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Contr
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
+LoomEditor.WinUI.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
 LoomEditor.WinUI.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.CommentCancelled -> System.EventHandler<LoomEditor.WinUI.Controls.CommentThreadEventArgs!>?
@@ -215,6 +216,7 @@ LoomEditor.WinUI.Controls.LoomEditor.SelectionChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomEditor.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
 LoomEditor.WinUI.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
 LoomEditor.WinUI.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
+LoomEditor.WinUI.Controls.LoomEditor.SetViewZoneHeight(string! id, double height) -> bool
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.get -> bool
 LoomEditor.WinUI.Controls.LoomEditor.SmoothScrolling.set -> void
 LoomEditor.WinUI.Controls.LoomEditor.StickyScrollEnabled.get -> bool
@@ -299,4 +301,3 @@ static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapColumnProperty -> M
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WordWrapProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.WrappingIndentProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.ZoomLevelProperty -> Microsoft.UI.Xaml.DependencyProperty!
-LoomEditor.WinUI.Controls.LoomEditor.SetViewZoneHeight(string! id, double height) -> bool

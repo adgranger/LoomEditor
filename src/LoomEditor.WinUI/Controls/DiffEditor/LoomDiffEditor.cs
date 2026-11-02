@@ -55,6 +55,8 @@ public sealed partial class LoomDiffEditor : Control
     private bool _isSyncingText;
     private int _decoratedOriginalLines;
     private int _decoratedModifiedLines;
+    private IReadOnlyList<DiffChangeBlock> _changes = [];
+    private DiffState? _changesDiff;
 
     /// <summary>Creates the control.</summary>
     public LoomDiffEditor()
@@ -83,6 +85,13 @@ public sealed partial class LoomDiffEditor : Control
 
     /// <summary>The number of changes (blocks of changed lines) of the last diff.</summary>
     public int ChangeCount => _viewModel?.Diff?.Mappings.Count ?? 0;
+
+    /// <summary>
+    /// The change blocks of the last published diff, in order; empty before the first diff. Stale while <see cref="IsDiffUpToDate"/> is false; refreshed before
+    /// <see cref="DiffChanged"/> is raised. <see cref="GoToNextChange"/> and <see cref="GoToPreviousChange"/> walk the same blocks.
+    /// </summary>
+    /// <remarks>See <see cref="DiffChangeBlock"/> for the line numbers of an empty side and the effect of <c>IgnoreTrimWhitespace</c>.</remarks>
+    public IReadOnlyList<DiffChangeBlock> Changes => _changes;
 
     /// <summary>Collapses every unchanged region (Monaco: <c>diffEditor.collapseAllUnchangedRegions</c>); only has an effect while <see cref="HideUnchangedRegions"/> is on.</summary>
     public void CollapseAllUnchangedRegions()
@@ -211,6 +220,8 @@ public sealed partial class LoomDiffEditor : Control
         _viewModel.DiffChanged -= OnViewModelDiffChanged;
         _viewModel.Dispose();
         _viewModel = null;
+        _changes = [];
+        _changesDiff = null;
         _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
         _originalTarget?.Clear();
         _modifiedTarget?.Clear();
@@ -219,6 +230,14 @@ public sealed partial class LoomDiffEditor : Control
 
     private void OnViewModelDiffChanged(object? sender, EventArgs e)
     {
+        // IsDiffUpToDate changes raise this too: rebuild only for a new diff.
+        DiffState? diff = _viewModel?.Diff;
+        if (!ReferenceEquals(diff, _changesDiff))
+        {
+            _changesDiff = diff;
+            _changes = diff is null ? [] : DiffChangeBlock.FromMappings(diff.Mappings);
+        }
+
         InvalidateOverview();
         UpdateViewerDiffs();
         UpdateDecorations();

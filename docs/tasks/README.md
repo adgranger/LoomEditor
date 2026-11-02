@@ -1129,7 +1129,7 @@ Roadmap: [phase-14-diff-actions.md](../roadmap/phase-14-diff-actions.md); decisi
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P14-01](phase-14/P14-01-change-blocks-api.md) | `DiffChangeBlock` and `LoomDiffEditor.Changes` | P13-11 | todo |
+| [P14-01](phase-14/P14-01-change-blocks-api.md) | `DiffChangeBlock` and `LoomDiffEditor.Changes` | P13-11 | done |
 | [P14-02](phase-14/P14-02-line-selection-model.md) | The line selection model and its public facade | P14-01 | todo |
 
 ### Step B — The gutter

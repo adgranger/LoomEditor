@@ -1,6 +1,6 @@
 # P14-01 — `DiffChangeBlock` and `LoomDiffEditor.Changes`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P13-11
 - **Size:** S
 
@@ -42,19 +42,19 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 Compute each diff with the same diff computer and options the view model uses (`DocumentDiffProvider` defaults; see the existing View diff tests), then
 `DiffChangeBlock.FromMappings`. Assert exact `ToString()` values.
 
-- [ ] New: `FromMappings_SeveralBlocks_InOrderWithExactRanges` (3 separated changes in a 20-line file)
-- [ ] New: `FromMappings_PureInsertion_OriginalCountIsZero` (lines inserted between lines 4 and 5: original start 5, count 0)
-- [ ] New: `FromMappings_PureDeletion_ModifiedCountIsZero`
-- [ ] New: `FromMappings_ModifiedLine_PairWithInnerChanges` (one word changed: counts 1/1, one inner change with the word's columns)
-- [ ] New: `FromMappings_CrlfAndLf_SameBlocks` (the same edit with `\r\n` and with `\n` texts gives equal blocks; CRLF does not turn the file into one block)
-- [ ] New: `FromMappings_EmptyOriginal_OneBlock` and `FromMappings_IdenticalTexts_NoBlock` (pin the computer's result for `""` vs `"a\nb"`; comment why)
-- [ ] New: `FromMappings_NoInnerChanges_EmptyList`
+- [x] New: `FromMappings_SeveralBlocks_InOrderWithExactRanges` (3 separated changes in a 20-line file)
+- [x] New: `FromMappings_PureInsertion_OriginalCountIsZero` (lines inserted between lines 4 and 5: original start 5, count 0)
+- [x] New: `FromMappings_PureDeletion_ModifiedCountIsZero`
+- [x] New: `FromMappings_ModifiedLine_PairWithInnerChanges` (one word changed: counts 1/1, one inner change with the word's columns)
+- [x] New: `FromMappings_CrlfAndLf_SameBlocks` (the same edit with `\r\n` and with `\n` texts gives equal blocks; CRLF does not turn the file into one block)
+- [x] New: `FromMappings_EmptyOriginal_OneBlock` and `FromMappings_IdenticalTexts_NoBlock` (pin the computer's result for `""` vs `"a\nb"`; comment why)
+- [x] New: `FromMappings_NoInnerChanges_EmptyList`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -63,3 +63,7 @@ A `ChangesChanged` event (decision 5), moved-line blocks, a block lookup by line
 ## Suggested commit message
 
 `feat(winui): expose the diff change blocks of LoomDiffEditor`
+
+## Result
+
+Build (0 warnings) and tests green; 8 new tests in `DiffChangeBlockTests`. `DiffInnerChange` lives in its own file (`DiffInnerChange.cs`). `Update-PublicApi.ps1` also re-sorted the existing `SetViewZoneHeight` line of the WinUI API file.

@@ -1,6 +1,8 @@
 #nullable enable
 ~override LoomEditor.View.Decorations.EditorDecoration.Equals(object obj) -> bool
 ~override LoomEditor.View.Decorations.EditorDecoration.ToString() -> string
+~override LoomEditor.View.DiffEditor.DiffInnerChange.Equals(object obj) -> bool
+~override LoomEditor.View.DiffEditor.DiffInnerChange.ToString() -> string
 const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretLeft = "editor.action.moveCarretLeftAction" -> string!
 const LoomEditor.View.Features.CaretOperations.CaretOperationsCommands.MoveCaretRight = "editor.action.moveCarretRightAction" -> string!
 const LoomEditor.View.Features.Comment.CommentCommands.AddCommentLine = "editor.action.addCommentLine" -> string!
@@ -194,6 +196,21 @@ LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerColor.get -> Lo
 LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerColor.init -> void
 LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerDarkColor.get -> LoomEditor.Themes.ThemeColor?
 LoomEditor.View.Decorations.EditorDecorationOptions.OverviewRulerDarkColor.init -> void
+LoomEditor.View.DiffEditor.DiffChangeBlock
+LoomEditor.View.DiffEditor.DiffChangeBlock.InnerChanges.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffInnerChange>!
+LoomEditor.View.DiffEditor.DiffChangeBlock.ModifiedLineCount.get -> int
+LoomEditor.View.DiffEditor.DiffChangeBlock.ModifiedStartLineNumber.get -> int
+LoomEditor.View.DiffEditor.DiffChangeBlock.OriginalLineCount.get -> int
+LoomEditor.View.DiffEditor.DiffChangeBlock.OriginalStartLineNumber.get -> int
+LoomEditor.View.DiffEditor.DiffInnerChange
+LoomEditor.View.DiffEditor.DiffInnerChange.Deconstruct(out LoomEditor.Core.Text.Range OriginalRange, out LoomEditor.Core.Text.Range ModifiedRange) -> void
+LoomEditor.View.DiffEditor.DiffInnerChange.DiffInnerChange() -> void
+LoomEditor.View.DiffEditor.DiffInnerChange.DiffInnerChange(LoomEditor.Core.Text.Range OriginalRange, LoomEditor.Core.Text.Range ModifiedRange) -> void
+LoomEditor.View.DiffEditor.DiffInnerChange.Equals(LoomEditor.View.DiffEditor.DiffInnerChange other) -> bool
+LoomEditor.View.DiffEditor.DiffInnerChange.ModifiedRange.get -> LoomEditor.Core.Text.Range
+LoomEditor.View.DiffEditor.DiffInnerChange.ModifiedRange.init -> void
+LoomEditor.View.DiffEditor.DiffInnerChange.OriginalRange.get -> LoomEditor.Core.Text.Range
+LoomEditor.View.DiffEditor.DiffInnerChange.OriginalRange.init -> void
 LoomEditor.View.Features.CaretOperations.CaretOperationsCommands
 LoomEditor.View.Features.CaretOperations.CaretOperationsFeature
 LoomEditor.View.Features.CaretOperations.CaretOperationsFeature.Attach(LoomEditor.View.Features.IEditorContext! context) -> void
@@ -363,11 +380,15 @@ override LoomEditor.View.Decorations.CustomDecorationStyle.Equals(object? obj) -
 override LoomEditor.View.Decorations.CustomDecorationStyle.GetHashCode() -> int
 override LoomEditor.View.Decorations.CustomDecorationStyle.ToString() -> string!
 override LoomEditor.View.Decorations.EditorDecoration.GetHashCode() -> int
+override LoomEditor.View.DiffEditor.DiffChangeBlock.ToString() -> string!
+override LoomEditor.View.DiffEditor.DiffInnerChange.GetHashCode() -> int
 static LoomEditor.View.Decorations.CustomDecorationStyle.operator !=(LoomEditor.View.Decorations.CustomDecorationStyle? left, LoomEditor.View.Decorations.CustomDecorationStyle? right) -> bool
 static LoomEditor.View.Decorations.CustomDecorationStyle.operator ==(LoomEditor.View.Decorations.CustomDecorationStyle? left, LoomEditor.View.Decorations.CustomDecorationStyle? right) -> bool
 static LoomEditor.View.Decorations.CustomDecorationStyles.Register(string! className, LoomEditor.View.Decorations.CustomDecorationStyle! style) -> void
 static LoomEditor.View.Decorations.CustomDecorationStyles.Unregister(string! className) -> bool
 static LoomEditor.View.Decorations.EditorDecoration.operator !=(LoomEditor.View.Decorations.EditorDecoration left, LoomEditor.View.Decorations.EditorDecoration right) -> bool
 static LoomEditor.View.Decorations.EditorDecoration.operator ==(LoomEditor.View.Decorations.EditorDecoration left, LoomEditor.View.Decorations.EditorDecoration right) -> bool
+static LoomEditor.View.DiffEditor.DiffInnerChange.operator !=(LoomEditor.View.DiffEditor.DiffInnerChange left, LoomEditor.View.DiffEditor.DiffInnerChange right) -> bool
+static LoomEditor.View.DiffEditor.DiffInnerChange.operator ==(LoomEditor.View.DiffEditor.DiffInnerChange left, LoomEditor.View.DiffEditor.DiffInnerChange right) -> bool
 static LoomEditor.View.Features.EditorFeatures.Default.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 static LoomEditor.View.Features.SelectAll.SelectAllFeature.ComputeSelection(LoomEditor.Core.Model.TextModel! model) -> LoomEditor.Core.Text.Selection
