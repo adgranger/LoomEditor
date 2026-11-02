@@ -17,8 +17,8 @@ public sealed partial class LoomEditor
     private bool _overviewRulerEnabled = true;
     private int _glyphMarginLaneCount;
     private OverlayHost? _gutterLayer;
-    private Func<OverlayHost, Func<double, double, MouseTarget>, DiffBlockActionsController>? _blockActionsFactory;
-    private DiffBlockActionsController? _blockActions;
+    private Func<OverlayHost, Func<double, double, MouseTarget>, DiffGutterControllers>? _diffGutterFactory;
+    private DiffGutterControllers? _diffGutter;
 
     /// <summary>Raised when the scroll position or the scroll height changes: scrolling, edits, folding, view zones, wrapping.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -161,18 +161,21 @@ public sealed partial class LoomEditor
         }
     }
 
-    /// <summary>The diff editor's block action buttons of this editor; null without a factory or without the template part <c>PART_ZoneWidgetCanvas</c>.</summary>
-    /// <remarks>Threading: UI thread only.</remarks>
-    internal DiffBlockActionsController? BlockActions => _blockActions;
-
     /// <summary>
-    /// Sets how the diff editor creates its block action buttons on the gutter layer: now, and again when the template gives a new layer. Null removes them.
+    /// The diff editor's gutter controls of this editor (block action buttons, line checkboxes); null without a factory or without the template part
+    /// <c>PART_ZoneWidgetCanvas</c>.
     /// </summary>
     /// <remarks>Threading: UI thread only.</remarks>
-    internal void SetBlockActionsFactory(Func<OverlayHost, Func<double, double, MouseTarget>, DiffBlockActionsController>? factory)
+    internal DiffGutterControllers? DiffGutter => _diffGutter;
+
+    /// <summary>
+    /// Sets how the diff editor creates its gutter controls on the gutter layer: now, and again when the template gives a new layer. Null removes them.
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal void SetDiffGutterFactory(Func<OverlayHost, Func<double, double, MouseTarget>, DiffGutterControllers>? factory)
     {
-        _blockActionsFactory = factory;
-        CreateBlockActions();
+        _diffGutterFactory = factory;
+        CreateDiffGutter();
     }
 
     /// <summary>The model ranges of the lines in the viewport (partly visible ones included), without the hidden areas.</summary>
@@ -182,14 +185,14 @@ public sealed partial class LoomEditor
     private void SetGutterLayer(OverlayHost? layer)
     {
         _gutterLayer = layer;
-        CreateBlockActions();
+        CreateDiffGutter();
     }
 
-    private void CreateBlockActions()
+    private void CreateDiffGutter()
     {
-        _blockActions?.Dispose();
-        _blockActions = _gutterLayer is { } layer && _blockActionsFactory is { } factory ? factory(layer, CreateMouseTarget) : null;
-        _blockActions?.ApplyTheme(EffectiveTheme);
+        _diffGutter?.Dispose();
+        _diffGutter = _gutterLayer is { } layer && _diffGutterFactory is { } factory ? factory(layer, CreateMouseTarget) : null;
+        _diffGutter?.ApplyTheme(EffectiveTheme);
     }
 
     private void ApplyHostLayoutOptions()

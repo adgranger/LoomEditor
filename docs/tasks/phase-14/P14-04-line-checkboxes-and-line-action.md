@@ -1,6 +1,6 @@
 # P14-04 — Line checkboxes and the line action
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P14-03
 - **Size:** M
 
@@ -43,8 +43,8 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New (View): `DiffStrings_SelectLine_Deleted` / `_Added`
-- [ ] Manual "P14-04" (written, not run): (1) a modified pair 7/7: click the right box → `SelectedLines` = `Modified 7` only; (2) click the left box instead →
+- [x] New (View): `DiffStrings_SelectLine_Deleted` / `_Added`
+- [x] Manual "P14-04" (written, not run): (1) a modified pair 7/7: click the right box → `SelectedLines` = `Modified 7` only; (2) click the left box instead →
   `Original 7` only; (3) Ctrl+click either → both; Ctrl+click again → none; (4) Shift+click from added line 3 to added line 20 across two blocks: only changed lines
   in between; (5) a pure insertion and a pure deletion each select alone; (6) press S with the caret on an added line and no selection → `LineActionInvoked` with that
   line; with a selection → the selection; on an unchanged line → nothing; (7) `IsReadOnly = false`: S types an "s" in the modified editor; (8) hover button on a
@@ -53,10 +53,10 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Manual section written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Manual section written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -65,3 +65,12 @@ Drag-to-select over checkboxes, a background highlight of selected lines, keyboa
 ## Suggested commit message
 
 `feat(winui): line checkboxes and the line action in LoomDiffEditor`
+
+## Result
+
+Build (0 warnings) and tests green; 2 new View tests in `DiffStringsTests` (`DiffStrings_SelectLine_Deleted` / `_Added`). The 11 manual checks of
+`docs/testing/phase-14-manual-tests.md` (section P14-04) were written, not run (agents do not run the Gallery UI; the Gallery demo comes with P14-05).
+Notes: P14-03's single hook on `LoomEditor` became `SetDiffGutterFactory` / `DiffGutter`, a `DiffGutterControllers` pair (block actions + line checkboxes) that the
+editor's draw, pointer and theme paths forward to. `GutterButtonTheme.Apply` now takes a `ButtonBase`; the accent style fallback applies to a `Button` only
+(`AccentButtonStyle` targets `Button`), a `ToggleButton` keeps its default style. The check mark is `U+E73E`. The line action button's automation name uses
+`DiffStrings.BlockAction(tooltip, n, n)` (`"{tooltip}, line {n}"`), `Line action` when the tooltip is null.

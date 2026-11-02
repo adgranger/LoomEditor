@@ -179,7 +179,7 @@ public sealed partial class LoomEditor
         if (_mouseDown is { IsActive: true })
         {
             _commentGutter?.OnPointerLeft();
-            _blockActions?.OnPointerLeft();
+            _diffGutter?.OnPointerLeft();
             _mouseDown.OnMouseDownThenMove(PointerInput.Create(e, this, 1));
             e.Handled = true;
             return;
@@ -191,7 +191,7 @@ public sealed partial class LoomEditor
             MouseTarget target = CreateMouseTarget(mouseEvent.X, mouseEvent.Y);
             _context.UserInputEvents.EmitMouseMove(new EditorMouseEventArgs(mouseEvent, target));
             _commentGutter?.OnPointerMoved(target, mouseEvent.X, mouseEvent.Y);
-            _blockActions?.OnPointerMoved(target, mouseEvent.X, mouseEvent.Y);
+            _diffGutter?.OnPointerMoved(target, mouseEvent.X, mouseEvent.Y);
             HandleZoneMove(mouseEvent, ViewZonePointerPhase.Moved);
         }
 
@@ -266,7 +266,7 @@ public sealed partial class LoomEditor
         SetMarginHovered(false);
         SetHoveredStickyLine(-1);
         _commentGutter?.OnPointerLeft();
-        _blockActions?.OnPointerLeft();
+        _diffGutter?.OnPointerLeft();
         if (_renderer?.MinimapPointer is { IsActive: false } minimapPointer)
         {
             minimapPointer.PointerExited();

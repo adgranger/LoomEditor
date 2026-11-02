@@ -1137,7 +1137,7 @@ Roadmap: [phase-14-diff-actions.md](../roadmap/phase-14-diff-actions.md); decisi
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P14-03](phase-14/P14-03-glyph-lanes-and-block-buttons.md) | Glyph lanes and the per-block action buttons | P14-02 | done |
-| [P14-04](phase-14/P14-04-line-checkboxes-and-line-action.md) | Line checkboxes and the line action | P14-03 | todo |
+| [P14-04](phase-14/P14-04-line-checkboxes-and-line-action.md) | Line checkboxes and the line action | P14-03 | done |
 
 ### Step C — Prove it and close the phase
 

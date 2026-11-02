@@ -48,6 +48,9 @@ LoomEditor.WinUI.Controls.DiffLine.LineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffLine.LineNumber.init -> void
 LoomEditor.WinUI.Controls.DiffLine.Side.get -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffLine.Side.init -> void
+LoomEditor.WinUI.Controls.DiffLineActionInvokedEventArgs
+LoomEditor.WinUI.Controls.DiffLineActionInvokedEventArgs.DiffLineActionInvokedEventArgs(System.Collections.Generic.IReadOnlyList<LoomEditor.WinUI.Controls.DiffLine>! lines) -> void
+LoomEditor.WinUI.Controls.DiffLineActionInvokedEventArgs.Lines.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.WinUI.Controls.DiffLine>!
 LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Modified = 1 -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffSide.Original = 0 -> LoomEditor.WinUI.Controls.DiffSide
@@ -128,8 +131,17 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnly.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.get -> string!
 LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageId.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionGlyph.get -> string?
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionGlyph.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionInvoked -> System.EventHandler<LoomEditor.WinUI.Controls.DiffLineActionInvokedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionKey.get -> Windows.System.VirtualKey
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionKey.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionToolTip.get -> string?
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionToolTip.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.LineHeight.get -> double
 LoomEditor.WinUI.Controls.LoomDiffEditor.LineHeight.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineSelectionEnabled.get -> bool
+LoomEditor.WinUI.Controls.LoomDiffEditor.LineSelectionEnabled.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.LoomDiffEditor() -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
@@ -300,6 +312,10 @@ static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsRev
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.IgnoreTrimWhitespaceProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.IsReadOnlyProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LanguageIdProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionGlyphProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionKeyProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LineActionToolTipProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.LineSelectionEnabledProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMsProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedTextProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditableProperty -> Microsoft.UI.Xaml.DependencyProperty!

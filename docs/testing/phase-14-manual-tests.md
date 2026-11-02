@@ -48,3 +48,37 @@ them a pure deletion, one a pure insertion), controls for `BlockActionsVisibilit
     Result:
 12. Narrator on a button: it reads the tooltip and the lines, e.g. `Stage block, lines 12 to 15` (`line 12` for a one-line block). The buttons are not tab stops.
     Result:
+
+## P14-04 — Line checkboxes and the line action
+
+Setup: the demo's `LineSelectionEnabled` on, `IsReadOnly` on, `LineActionGlyph` and `LineActionToolTip` set (for example `U+E710` and `Stage line`); the log
+also shows `SelectionChanged {SelectedLines}` and `LineActionInvoked {Lines}`. The file has a modified pair at original line 7 / modified line 7.
+
+1. Click the right (added) checkbox of line 7: it shows a check mark; `SelectedLines` = `Modified 7` only; the left box of line 7 stays empty.
+   Result:
+2. Clear, then click the left (deleted) checkbox of line 7 instead: `SelectedLines` = `Original 7` only.
+   Result:
+3. Ctrl+click either box of line 7: both boxes checked, `SelectedLines` = `Original 7, Modified 7`; Ctrl+click again: both empty, nothing selected.
+   Result:
+4. Click added line 3, then Shift+click added line 20 (across two blocks): only the changed lines of the modified side between 3 and 20 are selected; the unchanged
+   lines between the blocks have no box and are not selected; the original side is untouched.
+   Result:
+5. The pure insertion's lines have boxes on the right only and select alone; the pure deletion's lines have boxes on the left only and select alone.
+   Result:
+6. Caret on an added line, no selection, press S: `LineActionInvoked` with that one line. With a selection, press S: `LineActionInvoked` with the selection (same
+   order as `SelectedLines`). Caret on an unchanged line, no selection: no event. Shift+S or Ctrl+S: no event.
+   Result:
+7. `IsReadOnly = false`, caret in the modified editor: S types an `s` and raises nothing. Same in the original editor with `OriginalEditable = true`.
+   Result:
+8. Hover a changed line (gutter or text) on either side: one line action button appears in its lane on that line only, with the tooltip; click it: `LineActionInvoked`
+   with that line, or with the whole selection if that line is selected. Hovering an unchanged line shows no button.
+   Result:
+9. With a selection, the host sets a new `ModifiedText`: the selection is cleared and every box is empty. Toggle `IgnoreTrimWhitespace` (same texts): the selection
+   is kept (minus lines that are no longer changed lines).
+   Result:
+10. Word wrap on/off, dark ↔ light theme, the **Large file**: the boxes sit centered in the first lane on the first row of each line (at most 16 × 16), recolor with
+    the theme, and scrolling shows no visible lag; turning `LineSelectionEnabled` off removes both lanes and clears the selection.
+    Result:
+11. Narrator on a box reads `Select added line 7, toggle button, off` (`on` when checked; `Select deleted line 7` on the left); the line action button reads
+    `Stage line, line 7`. Neither is a tab stop.
+    Result:

@@ -72,28 +72,30 @@ public sealed partial class LoomDiffEditor
     private static DependencyProperty RegisterGutterString(string name) =>
         DependencyProperty.Register(name, typeof(string), typeof(LoomDiffEditor), new PropertyMetadata(null, (d, _) => ((LoomDiffEditor)d).UpdateGutterLanes()));
 
-    // Called when the template gives the two editors: each creates its buttons on its gutter layer when it has one.
+    // Called when the template gives the two editors: each creates its gutter controls on its gutter layer when it has one.
     private void AttachBlockActions()
     {
         LoomEditor original = _original!;
         LoomEditor modified = _modified!;
-        original.SetBlockActionsFactory((layer, hitTest) => CreateBlockActions(original, layer, false, hitTest));
-        modified.SetBlockActionsFactory((layer, hitTest) => CreateBlockActions(modified, layer, true, hitTest));
+        original.SetDiffGutterFactory((layer, hitTest) => CreateDiffGutter(original, layer, false, hitTest));
+        modified.SetDiffGutterFactory((layer, hitTest) => CreateDiffGutter(modified, layer, true, hitTest));
     }
 
     private void DetachBlockActions()
     {
-        _original?.SetBlockActionsFactory(null);
-        _modified?.SetBlockActionsFactory(null);
+        _original?.SetDiffGutterFactory(null);
+        _modified?.SetDiffGutterFactory(null);
     }
 
-    private DiffBlockActionsController CreateBlockActions(LoomEditor editor, Overlay.OverlayHost layer, bool modifiedSide, Func<double, double, View.Controller.MouseTarget> hitTest)
+    private DiffGutterControllers CreateDiffGutter(LoomEditor editor, Overlay.OverlayHost layer, bool modifiedSide, Func<double, double, View.Controller.MouseTarget> hitTest)
     {
-        var controller = new DiffBlockActionsController(editor, layer, modifiedSide, hitTest);
-        controller.Invoked += (block, action) => BlockActionInvoked?.Invoke(this, new DiffBlockActionInvokedEventArgs(block, action));
-        controller.SetBlocks(_changes);
-        ConfigureBlockActions(controller, GetGutterLanes());
-        return controller;
+        var blockActions = new DiffBlockActionsController(editor, layer, modifiedSide, hitTest);
+        blockActions.Invoked += (block, action) => BlockActionInvoked?.Invoke(this, new DiffBlockActionInvokedEventArgs(block, action));
+        blockActions.SetBlocks(_changes);
+        var lineCheckBoxes = CreateLineCheckBoxes(editor, layer, modifiedSide, hitTest);
+        var controllers = new DiffGutterControllers(blockActions, lineCheckBoxes);
+        ConfigureGutter(controllers, GetGutterLanes());
+        return controllers;
     }
 
     // Decision 1: the same lane count on both editors, so the two gutters keep the same width. Called for every phase 14 property and every layout change.
@@ -108,33 +110,37 @@ public sealed partial class LoomDiffEditor
         foreach (LoomEditor editor in new[] { _original, _modified })
         {
             editor.GlyphMarginLaneCount = lanes.Count;
-            if (editor.BlockActions is { } controller)
+            if (editor.DiffGutter is { } controllers)
             {
-                ConfigureBlockActions(controller, lanes);
+                ConfigureGutter(controllers, lanes);
             }
         }
     }
 
     private DiffGutterLanes GetGutterLanes() => DiffGutterLanes.Compute(
         _options.RenderSideBySideEffective,
-        lineSelection: false,
-        lineAction: false,
+        LineSelectionEnabled,
+        LineActionGlyph is not null,
         BlockActionsVisibility != DiffBlockActionsVisibility.Off,
         PrimaryBlockActionGlyph is not null,
         SecondaryBlockActionGlyph is not null);
 
-    private void ConfigureBlockActions(DiffBlockActionsController controller, DiffGutterLanes lanes) => controller.Configure(
-        BlockActionsVisibility,
-        PrimaryBlockActionGlyph,
-        PrimaryBlockActionToolTip,
-        SecondaryBlockActionGlyph,
-        SecondaryBlockActionToolTip,
-        lanes.PrimaryBlockAction,
-        lanes.SecondaryBlockAction);
+    private void ConfigureGutter(DiffGutterControllers controllers, DiffGutterLanes lanes)
+    {
+        controllers.BlockActions.Configure(
+            BlockActionsVisibility,
+            PrimaryBlockActionGlyph,
+            PrimaryBlockActionToolTip,
+            SecondaryBlockActionGlyph,
+            SecondaryBlockActionToolTip,
+            lanes.PrimaryBlockAction,
+            lanes.SecondaryBlockAction);
+        controllers.LineCheckBoxes.Configure(lanes.Select, lanes.LineAction, LineActionGlyph, LineActionToolTip);
+    }
 
     private void UpdateBlockActionBlocks(IReadOnlyList<DiffChangeBlock> blocks)
     {
-        _original?.BlockActions?.SetBlocks(blocks);
-        _modified?.BlockActions?.SetBlocks(blocks);
+        _original?.DiffGutter?.BlockActions.SetBlocks(blocks);
+        _modified?.DiffGutter?.BlockActions.SetBlocks(blocks);
     }
 }
