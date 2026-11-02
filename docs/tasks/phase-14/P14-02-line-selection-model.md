@@ -1,6 +1,6 @@
 # P14-02 — The line selection model and its public facade
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P14-01
 - **Size:** M
 
@@ -50,22 +50,22 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New: `Toggle_AddedLine_SelectsOnlyIt`, `Toggle_DeletedLine_SelectsOnlyIt`, `Toggle_Twice_Unselects`
-- [ ] New: `Toggle_UnchangedLine_ReturnsFalse`
-- [ ] New: `TogglePair_ModifiedPair_SelectsBoth`, `TogglePair_OneAlreadySelected_SelectsBoth`, `TogglePair_BothSelected_UnselectsBoth`
-- [ ] New: `TogglePair_LongerSide_NoPartner_TogglesOne` (block 2 deleted / 4 added: added line 3 and 4 have no partner)
-- [ ] New: `ExtendTo_SameSide_AddsChangedLinesOnly` (across two blocks; unchanged lines between them stay out)
-- [ ] New: `ExtendTo_OtherSide_ActsAsToggle`
-- [ ] New: `Lines_OriginalFirstThenModified_Ascending`
-- [ ] New: `SetBlocks_Keep_DropsLinesNoLongerChanged`, `SetBlocks_NotKeep_Clears`
-- [ ] New: `Set_IgnoresUnchangedLines`, `Mutators_NoChange_ReturnFalse`
-- [ ] New: `IsChangedLine_FiftyThousandLines_IsFast` — 10 000 blocks; 100 000 lookups under 200 ms (`Stopwatch`, generous bound; it guards against a linear scan)
+- [x] New: `Toggle_AddedLine_SelectsOnlyIt`, `Toggle_DeletedLine_SelectsOnlyIt`, `Toggle_Twice_Unselects`
+- [x] New: `Toggle_UnchangedLine_ReturnsFalse`
+- [x] New: `TogglePair_ModifiedPair_SelectsBoth`, `TogglePair_OneAlreadySelected_SelectsBoth`, `TogglePair_BothSelected_UnselectsBoth`
+- [x] New: `TogglePair_LongerSide_NoPartner_TogglesOne` (block 2 deleted / 4 added: added line 3 and 4 have no partner)
+- [x] New: `ExtendTo_SameSide_AddsChangedLinesOnly` (across two blocks; unchanged lines between them stay out)
+- [x] New: `ExtendTo_OtherSide_ActsAsToggle`
+- [x] New: `Lines_OriginalFirstThenModified_Ascending`
+- [x] New: `SetBlocks_Keep_DropsLinesNoLongerChanged`, `SetBlocks_NotKeep_Clears`
+- [x] New: `Set_IgnoresUnchangedLines`, `Mutators_NoChange_ReturnFalse`
+- [x] New: `IsChangedLine_FiftyThousandLines_IsFast` — 10 000 blocks; 100 000 lookups under 200 ms (`Stopwatch`, generous bound; it guards against a linear scan)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -74,3 +74,7 @@ Checkboxes, keys, mouse (P14-04); selection across a text edit (cleared by desig
 ## Suggested commit message
 
 `feat(winui): add a changed-line selection to LoomDiffEditor`
+
+## Result
+
+Build (0 warnings) and tests green; 21 tests in `DiffLineSelectionTests` (the card's list plus `ExtendTo_Backwards`, `ExtendTo_NoAnchor`, `SetBlocks_Keep_SameLines`, `SetBlocks_NotKeep_ClearsTheAnchor`, `IsChangedLine_EmptySidesAndBounds`). `Mutators_NoChange_ReturnFalse` was corrected: after `Set` (which clears the anchor) its `ExtendTo` acted as a toggle and changed the selection; it now sets an anchor with `Toggle` first. No UI yet (P14-04).

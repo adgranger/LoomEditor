@@ -236,6 +236,7 @@ public sealed partial class LoomDiffEditor : Control
         {
             _changesDiff = diff;
             _changes = diff is null ? [] : DiffChangeBlock.FromMappings(diff.Mappings);
+            UpdateLineSelectionBlocks();
         }
 
         InvalidateOverview();
