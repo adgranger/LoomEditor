@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-02
+
 ### Added
 
 - `LoomEditor.View`, `LoomEditor.WinUI`: `LoomDiffEditor.Changes`, the change blocks of the last diff (`DiffChangeBlock`: original and modified start line and count, `InnerChanges` as `DiffInnerChange`), for a host that maps them to its own hunks.
@@ -69,7 +71,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/adgranger/LoomEditor/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.5...v0.3.0
 [0.2.0-alpha.5]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.4...v0.2.0-alpha.5
 [0.2.0-alpha.4]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.3...v0.2.0-alpha.4
