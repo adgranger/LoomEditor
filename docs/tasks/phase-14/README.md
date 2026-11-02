@@ -81,6 +81,11 @@ partial class LoomDiffEditor
 }
 ```
 
+As shipped (checked against both `PublicAPI.Unshipped.txt` files in P14-06): every name above is unchanged. Also public: a `…Property` field for each
+dependency property above, the constructors `DiffBlockActionInvokedEventArgs(DiffChangeBlock block, DiffBlockAction action)` and
+`DiffLineActionInvokedEventArgs(IReadOnlyList<DiffLine> lines)` (throws on an empty list), and `DiffChangeBlock.ToString()` (`"3,1 -> 3,2"`). `DiffChangeBlock` has no
+public constructor. `DiffSide` (`Original`, `Modified`) is the existing enum of the diff comment threads (P11-22).
+
 ## Order of the cards
 
 - **A — Logic, no UI** (P14-01, P14-02): change blocks, the selection model and its public facade. Unit tested in `LoomEditor.View.Tests`.

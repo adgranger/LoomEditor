@@ -1,11 +1,13 @@
 using System.Globalization;
 using System.Text;
 using LoomEditor.Core.Decorations;
+using LoomEditor.Core.Diff;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.Themes;
 using LoomEditor.View.Decorations;
+using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Features;
 using LoomEditor.View.Layout;
 using TextRange = LoomEditor.Core.Text.Range;
@@ -19,7 +21,7 @@ namespace LoomEditor.Gallery;
 internal sealed record HostApiCheckResult(string Name, bool Passed, string Detail);
 
 /// <summary>
-/// Proves that the phase 13 host API logic (language by file name, host decorations, custom styles, sample data) works in the real app, the Native AOT build
+/// Proves that the phase 13 host API logic (language by file name, host decorations, custom styles, sample data) and the phase 14 diff change blocks work in the real app, the Native AOT build
 /// included: <c>LoomEditor.Gallery.exe --hostapi-selfcheck=&lt;file&gt;</c> writes a PASS / FAIL report and exits 0 or 1. The WinUI members are not covered.
 /// </summary>
 /// <remarks>Threading: UI thread only (the checks create an editor context); no WinUI type.</remarks>
@@ -27,7 +29,7 @@ internal static class HostApiSelfCheck
 {
     /// <summary>The names of the checks, in run order.</summary>
     public static IReadOnlyList<string> Names { get; } =
-        (string[])["language", "decoration-options", "decorations-collection", "custom-style", "blame-data"];
+        (string[])["language", "decoration-options", "decorations-collection", "custom-style", "blame-data", "change-blocks"];
 
     /// <summary>Runs every check; an exception is a failed check, never a crash.</summary>
     public static IReadOnlyList<HostApiCheckResult> Run()
@@ -51,6 +53,7 @@ internal static class HostApiSelfCheck
         Check("decorations-collection", DecorationsCollectionCheck);
         Check("custom-style", CustomStyle);
         Check("blame-data", BlameData);
+        Check("change-blocks", ChangeBlocks);
         return results;
     }
 
@@ -188,6 +191,31 @@ internal static class HostApiSelfCheck
         }
 
         return $"{lines} lines have a commit; it changes every 7 lines";
+    }
+
+    // Phase 14: the blocks of LoomDiffEditor.Changes (built from the same mappings) and the pair gesture of the line selection.
+    private static string ChangeBlocks()
+    {
+        string[] original = ["a", "hello cat", "c", "d"];
+        string[] modified = ["new", "a", "hello dog", "c"];
+        LinesDiff diff = new DefaultLinesDiffComputer().ComputeDiff(original, modified, new LinesDiffComputerOptions(true, 5000, false));
+        IReadOnlyList<DiffChangeBlock> blocks = DiffChangeBlock.FromMappings((DiffMapping[])[.. diff.Changes.Select(c => new DiffMapping(c))]);
+        string actual = string.Join(" | ", blocks);
+        Require(actual == "1,0 -> 1,1 | 2,1 -> 3,1 | 4,1 -> 5,0", $"blocks {actual}");
+
+        DiffChangeBlock pair = blocks[1];
+        Require(pair.OriginalStartLineNumber == 2 && pair.OriginalLineCount == 1 && pair.ModifiedStartLineNumber == 3 && pair.ModifiedLineCount == 1, "block 2 properties");
+        Require(pair.InnerChanges.Count == 1, $"{pair.InnerChanges.Count} inner changes");
+        DiffInnerChange inner = pair.InnerChanges[0];
+        Require(
+            inner.OriginalRange == new TextRange(2, 7, 2, 10) && inner.ModifiedRange == new TextRange(3, 7, 3, 10),
+            $"inner change {inner.OriginalRange} -> {inner.ModifiedRange}");
+
+        var selection = new DiffLineSelection();
+        selection.SetBlocks(blocks, keepSelection: false);
+        Require(selection.TogglePair(false, 2) && selection.IsSelected(false, 2) && selection.IsSelected(true, 3), "Ctrl+click did not select the pair");
+        Require(!selection.Toggle(false, 1) && !selection.IsSelected(false, 1), "an unchanged line was selected");
+        return "insertion 1,0 -> 1,1, pair 2,1 -> 3,1 (cat -> dog), deletion 4,1 -> 5,0; the pair toggles together";
     }
 
     private sealed class CheckFailedException(string message) : Exception(message);

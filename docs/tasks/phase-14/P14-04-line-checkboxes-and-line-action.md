@@ -27,7 +27,7 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 
 ## Design decisions (already made — do not change)
 
-- Checkbox control: `ToggleButton` (UIA Toggle pattern), square `Math.Min(16, LineHeight - 4)`, a `FontIcon` check mark (``) shown only when checked,
+- Checkbox control: `ToggleButton` (UIA Toggle pattern), square `Math.Min(16, LineHeight - 4)`, a `FontIcon` check mark (`\uE73E`) shown only when checked,
   `IsTabStop = false`, colors from `GutterButtonTheme.Apply`. The model is the truth: in `Click`, read the modifiers
   (`InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control/Shift)` has `Down`), call `ExtendLineSelection` (Shift), `ToggleLinePair` (Ctrl) or `ToggleLine`,
   then re-sync every visible box's `IsChecked` from the model (the pair partner is on the other editor: `SelectionChanged` re-syncs both controllers).

@@ -24,10 +24,10 @@ toggles pattern), `docs/testing/phase-14-manual-tests.md`.
 
 ## Design decisions (already made — do not change)
 
-- Controls: a combo `BlockActionsVisibility` (Off/OnHover/Always), a toggle "Discard action" (sets the secondary glyph `` / "Discard block", null when off),
-  a toggle `LineSelectionEnabled`, a toggle "Line hover button" (`LineActionGlyph` `` / "Stage lines"), buttons "Clear selection" and "Select all added lines"
+- Controls: a combo `BlockActionsVisibility` (Off/OnHover/Always), a toggle "Discard action" (sets the secondary glyph `\uE7A7` / "Discard block", null when off),
+  a toggle `LineSelectionEnabled`, a toggle "Line hover button" (`LineActionGlyph` `\uE710` / "Stage lines"), buttons "Clear selection" and "Select all added lines"
   (`SetSelection` with every modified line of `Changes`), a "Large file" button (50 000 lines, ~2 000 blocks, generated with `new Random(14)`).
-- Primary glyph `` / tooltip "Stage block". The log line formats: `BlockActionInvoked {Action} {block}`, `LineActionInvoked {lines}`, `SelectionChanged {count}`,
+- Primary glyph `\uE710` / tooltip "Stage block". The log line formats: `BlockActionInvoked {Action} {block}`, `LineActionInvoked {lines}`, `SelectionChanged {count}`,
   `DiffChanged {Changes.Count} blocks` (`block.ToString()`; lines as `O7 M7`).
 - The demo texts: the existing sample, plus a "Staging sample" button loading a pair with 5 blocks: a pure insertion, a pure deletion, a modified pair, a 2→4 block,
   and a CRLF original with an LF modified text.

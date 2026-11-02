@@ -2,8 +2,11 @@ using Range = LoomEditor.Core.Text.Range;
 using LoomEditor.TextMate.Grammars;
 using LoomEditor.Themes;
 using LoomEditor.View.Decorations;
+using LoomEditor.View.DiffEditor;
+using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Windows.System;
 
 namespace LoomEditor.PackageTest;
 
@@ -46,5 +49,46 @@ public sealed partial class MainWindow : Window
             Editor.RemoveViewZone(Editor.AddViewZone(0, 1));
             Editor.ResetText(Editor.Model.GetValue());
         };
+    }
+
+    // Phase 14: touches every public member of the diff line and block actions once, on a diff editor that is never shown, so a member that is not public
+    // in the package fails this build.
+    private static void UseDiffActions()
+    {
+        var diff = new LoomDiffEditor
+        {
+            BlockActionsVisibility = DiffBlockActionsVisibility.OnHover,
+            PrimaryBlockActionGlyph = "\uE710",
+            PrimaryBlockActionToolTip = "Stage block",
+            SecondaryBlockActionGlyph = "\uE7A7",
+            SecondaryBlockActionToolTip = "Discard block",
+            LineSelectionEnabled = true,
+            LineActionGlyph = "\uE710",
+            LineActionToolTip = "Stage line",
+            LineActionKey = VirtualKey.S,
+        };
+        DependencyProperty[] properties =
+        [
+            LoomDiffEditor.BlockActionsVisibilityProperty, LoomDiffEditor.PrimaryBlockActionGlyphProperty, LoomDiffEditor.PrimaryBlockActionToolTipProperty,
+            LoomDiffEditor.SecondaryBlockActionGlyphProperty, LoomDiffEditor.SecondaryBlockActionToolTipProperty, LoomDiffEditor.LineSelectionEnabledProperty,
+            LoomDiffEditor.LineActionGlyphProperty, LoomDiffEditor.LineActionToolTipProperty, LoomDiffEditor.LineActionKeyProperty,
+        ];
+        _ = properties.Length + (int)DiffBlockActionsVisibility.Off + (int)DiffBlockActionsVisibility.Always;
+        diff.BlockActionInvoked += (_, e) =>
+        {
+            DiffChangeBlock block = e.Block;
+            _ = (e.Action == DiffBlockAction.Secondary, block.OriginalStartLineNumber, block.OriginalLineCount, block.ModifiedStartLineNumber, block.ModifiedLineCount);
+            foreach (DiffInnerChange inner in block.InnerChanges)
+            {
+                _ = (inner.OriginalRange, inner.ModifiedRange);
+            }
+
+            _ = new DiffBlockActionInvokedEventArgs(block, DiffBlockAction.Primary);
+        };
+        diff.LineActionInvoked += (_, e) => _ = new DiffLineActionInvokedEventArgs(e.Lines);
+        diff.SelectionChanged += (_, _) => _ = diff.SelectedLines.Count;
+        diff.DiffChanged += (_, _) => _ = diff.Changes.Count;
+        diff.SetSelection((DiffLine[])[new DiffLine(DiffSide.Modified, 1)]);
+        diff.ClearSelection();
     }
 }

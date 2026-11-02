@@ -11,9 +11,9 @@ Origin: VIGO bug report ("I only want to stage one line, but I have to tick both
 
 ## Checklist
 
-- [ ] `DiffChangeBlock`, `LoomDiffEditor.Changes` (P14-01)
-- [ ] Line selection model: `SelectedLines`, `SetSelection`, `ClearSelection`, `SelectionChanged` (P14-02)
-- [ ] Glyph lanes and per-block action buttons: `BlockActionsVisibility`, `BlockActionInvoked` (P14-03)
-- [ ] Line checkboxes, line hover button and key: `LineSelectionEnabled`, `LineActionInvoked` (P14-04)
-- [ ] Gallery demo and manual plan (P14-05)
-- [ ] Package test, AOT check, how-to, CHANGELOG (P14-06)
+- [x] `DiffChangeBlock`, `LoomDiffEditor.Changes` (P14-01)
+- [x] Line selection model: `SelectedLines`, `SetSelection`, `ClearSelection`, `SelectionChanged` (P14-02)
+- [x] Glyph lanes and per-block action buttons: `BlockActionsVisibility`, `BlockActionInvoked` (P14-03)
+- [x] Line checkboxes, line hover button and key: `LineSelectionEnabled`, `LineActionInvoked` (P14-04)
+- [x] Gallery demo and manual plan (P14-05)
+- [x] Package test, AOT check, how-to, CHANGELOG (P14-06)
