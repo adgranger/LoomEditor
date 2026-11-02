@@ -1,7 +1,7 @@
 {
   "id": "javascript",
   "aliases": ["JavaScript", "javascript", "js"],
-  "extensions": [".js", ".es6", ".mjs", ".cjs", ".pac"],
+  "extensions": [".js", ".es6", ".mjs", ".cjs", ".pac", ".jsx"],
   "filenames": ["jakefile"],
   "scopeName": "source.js",
   "configuration": "javascript-language-configuration.json",

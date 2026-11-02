@@ -91,7 +91,7 @@ SUCH DAMAGE.
 | Grammar | Upstream repository | Commit | License |
 |---|---|---|---|
 | C# | `dotnet/csharp-tmLanguage` | `c2719309e91d2e26be21fce0ecaaca86c7b48ce4` | MIT |
-| TypeScript, JSDoc injections | `microsoft/TypeScript-TmLanguage` | `48f608692aa6d6ad7bd65b478187906c798234a8` | MIT |
+| TypeScript, TypeScript React, JSDoc injections | `microsoft/TypeScript-TmLanguage` | `48f608692aa6d6ad7bd65b478187906c798234a8` | MIT |
 | JavaScript | `microsoft/TypeScript-TmLanguage` | `3133e3d914db9a2bb8812119f9273727a305f16b` | MIT |
 | JavaScript regular expressions | `textmate/javascript.tmbundle` | `fccf0af0c95430a42e1bf98f0c7a4723a53283e7` | TextMate Bundle License |
 | JSON, JSON with Comments | `microsoft/vscode-JSON.tmLanguage` | `9bd83f1c252b375e957203f21793316203f61f70` | MIT |

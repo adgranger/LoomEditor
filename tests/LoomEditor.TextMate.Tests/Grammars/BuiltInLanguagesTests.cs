@@ -43,6 +43,7 @@ public class BuiltInLanguagesTests
     {
         { "csharp", "using System;", "class A { int x = 1; }" },
         { "typescript", "const x: number = 1;", "function f(a: string) { return a; }" },
+        { "typescriptreact", "const x: number = 1;", "const e = <div className=\"a\">{x}</div>;" },
         { "javascript", "const x = /ab+c/g;", "function f(a) { return a; }" },
         { "json", "{ \"a\": [1, true, null] }", "{ \"b\": \"c\" }" },
         { "jsonc", "// comment", "{ \"a\": 1 }" },
@@ -146,7 +147,7 @@ public class BuiltInLanguagesTests
     [Fact]
     public void EveryLanguageWithAGrammar_HasAConfiguration()
     {
-        Assert.Equal(11, BuiltInLanguages.All.Count);
+        Assert.Equal(12, BuiltInLanguages.All.Count);
         Assert.All(
             BuiltInLanguages.All.Where(language => language.Grammar is not null),
             language => Assert.NotNull(BuiltInLanguages.ReadFile(language.ConfigurationLocation ?? string.Empty)));
@@ -179,6 +180,8 @@ public class BuiltInLanguagesTests
     [Theory]
     [InlineData("Program.cs", "csharp")]
     [InlineData(@"C:\repo\src\App.TS", "typescript")]
+    [InlineData("App.tsx", "typescriptreact")]
+    [InlineData("App.jsx", "javascript")]
     [InlineData("README.md", "markdown")]
     [InlineData("notes.txt", "plaintext")]
     [InlineData("tsconfig.json", "jsonc")]
