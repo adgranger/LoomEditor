@@ -283,6 +283,7 @@ public sealed partial class LoomEditor : Control
         _commentZoneHost?.Arrange();
         _hostZoneLayer.Arrange();
         _commentGutter?.Arrange();
+        _diffGutter?.Arrange();
         ApplyPendingHorizontalReveal();
     }
 

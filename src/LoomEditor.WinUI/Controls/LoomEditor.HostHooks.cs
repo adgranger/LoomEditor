@@ -3,6 +3,8 @@ using LoomEditor.Core.Text;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Features;
 using LoomEditor.View.Layout;
+using LoomEditor.WinUI.Controls.DiffEditor;
+using LoomEditor.WinUI.Controls.Overlay;
 
 namespace LoomEditor.WinUI.Controls;
 
@@ -13,6 +15,10 @@ public sealed partial class LoomEditor
     private string? _capturedZoneId;
     private double _capturedZoneTop;
     private bool _overviewRulerEnabled = true;
+    private int _glyphMarginLaneCount;
+    private OverlayHost? _gutterLayer;
+    private Func<OverlayHost, Func<double, double, MouseTarget>, DiffGutterControllers>? _diffGutterFactory;
+    private DiffGutterControllers? _diffGutter;
 
     /// <summary>Raised when the scroll position or the scroll height changes: scrolling, edits, folding, view zones, wrapping.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -58,7 +64,7 @@ public sealed partial class LoomEditor
     /// <paramref name="includeViewZones"/> adds the zones above the line, so the result is the top of the line's text. A wrapped line gives the top of its first
     /// row. A line inside a hidden area gives the top of the last row of the nearest visible line above it (the top of the first line when none is visible).
     /// </summary>
-    /// <param name="lineNumber">The model line number; it is clamped to <c>1 … line count</c>.</param>
+    /// <param name="lineNumber">The model line number; it is clamped to <c>1 ï¿½ line count</c>.</param>
     /// <param name="includeViewZones">Whether to add the height of the view zones above the line.</param>
     /// <returns>The offset, in DIPs.</returns>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -137,11 +143,63 @@ public sealed partial class LoomEditor
         }
     }
 
+    /// <summary>The lanes of the glyph margin the diff editor uses, each one line height wide; 0 (the default) turns the glyph margin off.</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal int GlyphMarginLaneCount
+    {
+        get => _glyphMarginLaneCount;
+        set
+        {
+            if (value == _glyphMarginLaneCount)
+            {
+                return;
+            }
+
+            _glyphMarginLaneCount = value;
+            _viewModel.GlyphMarginLaneCount = Math.Max(1, value);
+            ApplyHostLayoutOptions();
+        }
+    }
+
+    /// <summary>
+    /// The diff editor's gutter controls of this editor (block action buttons, line checkboxes); null without a factory or without the template part
+    /// <c>PART_ZoneWidgetCanvas</c>.
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal DiffGutterControllers? DiffGutter => _diffGutter;
+
+    /// <summary>
+    /// Sets how the diff editor creates its gutter controls on the gutter layer: now, and again when the template gives a new layer. Null removes them.
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal void SetDiffGutterFactory(Func<OverlayHost, Func<double, double, MouseTarget>, DiffGutterControllers>? factory)
+    {
+        _diffGutterFactory = factory;
+        CreateDiffGutter();
+    }
+
+    /// <summary>The model ranges of the lines in the viewport (partly visible ones included), without the hidden areas.</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal List<Core.Text.Range> GetVisibleModelRanges() => _viewModel.GetModelVisibleRanges();
+
+    private void SetGutterLayer(OverlayHost? layer)
+    {
+        _gutterLayer = layer;
+        CreateDiffGutter();
+    }
+
+    private void CreateDiffGutter()
+    {
+        _diffGutter?.Dispose();
+        _diffGutter = _gutterLayer is { } layer && _diffGutterFactory is { } factory ? factory(layer, CreateMouseTarget) : null;
+        _diffGutter?.ApplyTheme(EffectiveTheme);
+    }
+
     private void ApplyHostLayoutOptions()
     {
         EditorLayoutOptions options = _viewModel.LayoutOptions;
         EditorOverviewRulerOptions ruler = options.OverviewRuler with { Lanes = _overviewRulerEnabled ? new EditorOverviewRulerOptions().Lanes : 0 };
-        _viewModel.SetOptions(options with { OverviewRuler = ruler, LineNumbers = LineNumbersEnabled, Folding = FoldingEnabled, LineDecorationsWidth = LineDecorationsWidth }, _viewModel.ViewLayoutOptions);
+        _viewModel.SetOptions(options with { OverviewRuler = ruler, GlyphMargin = _glyphMarginLaneCount > 0, LineNumbers = LineNumbersEnabled, Folding = FoldingEnabled, LineDecorationsWidth = LineDecorationsWidth }, _viewModel.ViewLayoutOptions);
     }
 
     private void RaiseScrollChanged(ScrollEvent e) =>

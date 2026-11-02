@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `LoomEditor.View`, `LoomEditor.WinUI`: `LoomDiffEditor.Changes`, the change blocks of the last diff (`DiffChangeBlock`: original and modified start line and count, `InnerChanges` as `DiffInnerChange`), for a host that maps them to its own hunks.
+- `LoomEditor.WinUI`: block action buttons in the side-by-side `LoomDiffEditor` gutter: `BlockActionsVisibility` (`DiffBlockActionsVisibility`), `PrimaryBlockActionGlyph` / `PrimaryBlockActionToolTip`, `SecondaryBlockActionGlyph` / `SecondaryBlockActionToolTip`, and the `BlockActionInvoked` event (`DiffBlockActionInvokedEventArgs`: `Block`, `Action`).
+- `LoomEditor.WinUI`: line selection and line action in the side-by-side `LoomDiffEditor`: `LineSelectionEnabled` (a checkbox per changed line, Ctrl+click for a deleted + added pair), `SelectedLines` (`DiffLine`), `SetSelection`, `ClearSelection`, `SelectionChanged`, `LineActionGlyph` / `LineActionToolTip` / `LineActionKey`, and the `LineActionInvoked` event (`DiffLineActionInvokedEventArgs.Lines`).
+
 ## [0.3.0] - 2026-11-02
 
 ### Added

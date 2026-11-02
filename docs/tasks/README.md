@@ -1120,6 +1120,35 @@ split. The WinUI cards (P13-04 … P13-08) are verified by the build, the tests 
 areas on the sides of a `LoomDiffEditor`, host-registered languages, per-editor styles, hover / injected text / glyph icons on host decorations, a "visible lines" API,
 stripping internal members from the packages' XML docs.
 
+## Phase 14 — Diff line and block actions
+
+Roadmap: [phase-14-diff-actions.md](../roadmap/phase-14-diff-actions.md); decisions and the final public API: [phase-14/README.md](phase-14/README.md). **Not a port**
+(as phases 11–13). Planned 2026-11-02 from a VIGO request (stage one line or one block in the side-by-side diff); the Avalonia phase of the roadmap is renumbered 15.
+
+### Step A — Logic, no UI
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P14-01](phase-14/P14-01-change-blocks-api.md) | `DiffChangeBlock` and `LoomDiffEditor.Changes` | P13-11 | done |
+| [P14-02](phase-14/P14-02-line-selection-model.md) | The line selection model and its public facade | P14-01 | done |
+
+### Step B — The gutter
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P14-03](phase-14/P14-03-glyph-lanes-and-block-buttons.md) | Glyph lanes and the per-block action buttons | P14-02 | done |
+| [P14-04](phase-14/P14-04-line-checkboxes-and-line-action.md) | Line checkboxes and the line action | P14-03 | done |
+
+### Step C — Prove it and close the phase
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P14-05](phase-14/P14-05-gallery-demo-and-manual-plan.md) | Gallery: diff actions demo and the complete manual plan | P14-04 | done |
+| [P14-06](phase-14/P14-06-close-phase-14.md) | Close phase 14: package test, how-to, CHANGELOG | P14-05 | done |
+
+Take phase 14 cards in table order. Every card is written for **Sonnet**. The WinUI cards (P14-03, P14-04) are verified by the build, the tests and a written manual
+section; agents do not run the Gallery UI.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:

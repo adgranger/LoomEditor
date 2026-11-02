@@ -30,6 +30,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
     private int _lineNumbersDigitCount;
     private int _layoutViewLineCount;
     private bool _isDominatedByLongLines;
+    private int _glyphMarginLaneCount = 1;
     private readonly ComputeOptionsMemory _layoutMemory = new();
     private bool _disposed;
     private string _breakBeforeCharacters;
@@ -155,6 +156,25 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
         RecomputeLayoutInfo();
         UpdateWrappingSettings();
         UpdateCursorConfiguration();
+    }
+
+    /// <summary>
+    /// The number of lanes of the glyph margin, each one line height wide; set by the host instead of Monaco's count from the glyph decorations. Defaults to 1.
+    /// </summary>
+    public int GlyphMarginLaneCount
+    {
+        get => _glyphMarginLaneCount;
+        set
+        {
+            if (value == _glyphMarginLaneCount)
+            {
+                return;
+            }
+
+            _glyphMarginLaneCount = value;
+            RecomputeLayoutInfo();
+            UpdateWrappingSettings();
+        }
     }
 
     /// <summary>The layout options in use.</summary>
@@ -299,7 +319,7 @@ internal sealed partial class ViewModel : IDisposable, ICursorSimpleModel
                 _fontInfo.TypicalHalfwidthCharacterWidth,
                 _fontInfo.MaxDigitWidth,
                 _fontInfo.PixelRatio,
-                GlyphMarginDecorationLaneCount: 1,
+                GlyphMarginDecorationLaneCount: _glyphMarginLaneCount,
                 ViewLineCount: _layoutViewLineCount,
                 Memory: _layoutMemory,
                 ScrollBeyondLastLine: _viewLayoutOptions.ScrollBeyondLastLine,
