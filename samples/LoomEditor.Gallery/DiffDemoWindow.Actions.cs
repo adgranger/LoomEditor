@@ -26,7 +26,16 @@ public sealed partial class DiffDemoWindow
             LogStaging($"SelectionChanged {lines.Count}");
         };
         DiffEditor.DiffChanged += (_, _) => LogStaging($"DiffChanged {DiffEditor.Changes.Count} blocks");
+        DiffEditor.Loaded += (_, _) => ApplyWordWrap();
         OnStagingOptionChanged(this, new RoutedEventArgs());
+    }
+
+    // Original / Modified exist only once the template is applied (before Loaded): the constructor runs earlier.
+    private void ApplyWordWrap()
+    {
+        EditorWordWrap wrap = WordWrapBox.IsChecked == true ? EditorWordWrap.On : EditorWordWrap.Off;
+        DiffEditor.Original.WordWrap = wrap;
+        DiffEditor.Modified.WordWrap = wrap;
     }
 
     // The ComboBox raises SelectionChanged inside InitializeComponent, before the other controls exist.
@@ -42,9 +51,11 @@ public sealed partial class DiffDemoWindow
         DiffEditor.SecondaryBlockActionGlyph = DiscardActionBox.IsChecked == true ? "" : null;
         DiffEditor.LineSelectionEnabled = LineSelectionBox.IsChecked == true;
         DiffEditor.LineActionGlyph = LineHoverButtonBox.IsChecked == true ? "" : null;
-        EditorWordWrap wrap = WordWrapBox.IsChecked == true ? EditorWordWrap.On : EditorWordWrap.Off;
-        DiffEditor.Original.WordWrap = wrap;
-        DiffEditor.Modified.WordWrap = wrap;
+        if (DiffEditor.IsLoaded)
+        {
+            ApplyWordWrap();
+        }
+
         DiffEditor.LineHeight = LineHeight30Box.IsChecked == true ? 30 : 0;
 
         // Only on a click: the window opens with the theme of the main window.
