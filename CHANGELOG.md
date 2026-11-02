@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-02
+
+### Added
+
+- `LoomEditor.TextMate`: syntax highlighting for `.tsx` files (new `typescriptreact` language, TypeScript React grammar) and `.jsx` files (JavaScript language, whose grammar already handles JSX).
+
 ## [0.2.0-alpha.5] - 2026-10-30
 
 ### Added
@@ -57,7 +63,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.5...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.5...v0.3.0
 [0.2.0-alpha.5]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.4...v0.2.0-alpha.5
 [0.2.0-alpha.4]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.3...v0.2.0-alpha.4
 [0.2.0-alpha.3]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.2...v0.2.0-alpha.3

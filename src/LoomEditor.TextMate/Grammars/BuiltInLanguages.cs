@@ -12,11 +12,12 @@ public static class BuiltInLanguages
     /// <summary>The prefix of every embedded grammar resource (<c>Grammars/&lt;folder&gt;/&lt;file&gt;</c>).</summary>
     internal const string ResourcePrefix = "Grammars/";
 
-    // (folder, language file): a folder holds one language, except json/ (json and jsonc).
+    // (folder, language file): a folder holds one language, except json/ (json and jsonc) and typescript/ (typescript and typescriptreact).
     private static readonly (string Folder, string File)[] Sources =
     [
         ("csharp", "language.json"),
         ("typescript", "language.json"),
+        ("typescript", "tsx.language.json"),
         ("javascript", "language.json"),
         ("json", "language.json"),
         ("json", "jsonc.language.json"),
