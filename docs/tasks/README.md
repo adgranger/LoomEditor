@@ -1143,7 +1143,7 @@ Roadmap: [phase-14-diff-actions.md](../roadmap/phase-14-diff-actions.md); decisi
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P14-05](phase-14/P14-05-gallery-demo-and-manual-plan.md) | Gallery: diff actions demo and the complete manual plan | P14-04 | todo |
+| [P14-05](phase-14/P14-05-gallery-demo-and-manual-plan.md) | Gallery: diff actions demo and the complete manual plan | P14-04 | done |
 | [P14-06](phase-14/P14-06-close-phase-14.md) | Close phase 14: package test, how-to, CHANGELOG | P14-05 | todo |
 
 Take phase 14 cards in table order. Every card is written for **Sonnet**. The WinUI cards (P14-03, P14-04) are verified by the build, the tests and a written manual
