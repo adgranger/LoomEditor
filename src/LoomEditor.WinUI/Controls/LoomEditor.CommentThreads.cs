@@ -135,6 +135,7 @@ public sealed partial class LoomEditor
         if (canvas is null)
         {
             _hostZoneLayer.Attach(null);
+            SetGutterLayer(null);
             return;
         }
 
@@ -145,6 +146,7 @@ public sealed partial class LoomEditor
         _commentZoneHost.ApplyTheme(EffectiveTheme, _systemHighContrastTheme is not null);
         _commentGutter = new CommentGutterController(this, layer, _commentThreads, CreateMouseTarget) { Enabled = CommentGutterButtonEnabled };
         _commentGutter.ApplyTheme(EffectiveTheme);
+        SetGutterLayer(layer);
     }
 
     private static void OnCommentGutterButtonEnabledChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

@@ -38,5 +38,6 @@ public sealed partial class LoomEditor
         _suggestPresenter?.ApplyTheme(theme);
         _commentZoneHost?.ApplyTheme(theme, _systemHighContrastTheme is not null);
         _commentGutter?.ApplyTheme(theme);
+        _blockActions?.ApplyTheme(theme);
     }
 }

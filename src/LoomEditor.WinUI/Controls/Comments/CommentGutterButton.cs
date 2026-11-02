@@ -2,7 +2,6 @@ using LoomEditor.Themes;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 
 namespace LoomEditor.WinUI.Controls.Comments;
 
@@ -53,22 +52,5 @@ internal sealed partial class CommentGutterButton : Button
     }
 
     /// <summary><c>button.background</c> / <c>button.foreground</c>; without them the system accent button style.</summary>
-    public void ApplyTheme(EditorTheme theme)
-    {
-        ArgumentNullException.ThrowIfNull(theme);
-        if (theme.GetColor("button.background") is { } background && theme.GetColor("button.foreground") is { } foreground)
-        {
-            ClearValue(StyleProperty);
-            Background = new SolidColorBrush(Windows.UI.Color.FromArgb(background.A, background.R, background.G, background.B));
-            Foreground = new SolidColorBrush(Windows.UI.Color.FromArgb(foreground.A, foreground.R, foreground.G, foreground.B));
-            return;
-        }
-
-        ClearValue(BackgroundProperty);
-        ClearValue(ForegroundProperty);
-        if (Application.Current?.Resources.TryGetValue("AccentButtonStyle", out object? style) == true && style is Style accent)
-        {
-            Style = accent;
-        }
-    }
+    public void ApplyTheme(EditorTheme theme) => Gutter.GutterButtonTheme.Apply(this, theme);
 }

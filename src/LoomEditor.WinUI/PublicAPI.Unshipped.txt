@@ -28,6 +28,17 @@ LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.Side.get -> LoomEditor.WinUI.Controls.DiffSide
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.StartLineNumber.get -> int
 LoomEditor.WinUI.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.WinUI.Controls.DiffBlockAction
+LoomEditor.WinUI.Controls.DiffBlockAction.Primary = 0 -> LoomEditor.WinUI.Controls.DiffBlockAction
+LoomEditor.WinUI.Controls.DiffBlockAction.Secondary = 1 -> LoomEditor.WinUI.Controls.DiffBlockAction
+LoomEditor.WinUI.Controls.DiffBlockActionInvokedEventArgs
+LoomEditor.WinUI.Controls.DiffBlockActionInvokedEventArgs.Action.get -> LoomEditor.WinUI.Controls.DiffBlockAction
+LoomEditor.WinUI.Controls.DiffBlockActionInvokedEventArgs.Block.get -> LoomEditor.View.DiffEditor.DiffChangeBlock!
+LoomEditor.WinUI.Controls.DiffBlockActionInvokedEventArgs.DiffBlockActionInvokedEventArgs(LoomEditor.View.DiffEditor.DiffChangeBlock! block, LoomEditor.WinUI.Controls.DiffBlockAction action) -> void
+LoomEditor.WinUI.Controls.DiffBlockActionsVisibility
+LoomEditor.WinUI.Controls.DiffBlockActionsVisibility.Always = 2 -> LoomEditor.WinUI.Controls.DiffBlockActionsVisibility
+LoomEditor.WinUI.Controls.DiffBlockActionsVisibility.Off = 0 -> LoomEditor.WinUI.Controls.DiffBlockActionsVisibility
+LoomEditor.WinUI.Controls.DiffBlockActionsVisibility.OnHover = 1 -> LoomEditor.WinUI.Controls.DiffBlockActionsVisibility
 LoomEditor.WinUI.Controls.DiffLine
 LoomEditor.WinUI.Controls.DiffLine.Deconstruct(out LoomEditor.WinUI.Controls.DiffSide Side, out int LineNumber) -> void
 LoomEditor.WinUI.Controls.DiffLine.DiffLine() -> void
@@ -84,6 +95,9 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentRequested -> System.EventHand
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.WinUI.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.WinUI.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.WinUI.Controls.LoomDiffEditor.BlockActionInvoked -> System.EventHandler<LoomEditor.WinUI.Controls.DiffBlockActionInvokedEventArgs!>?
+LoomEditor.WinUI.Controls.LoomDiffEditor.BlockActionsVisibility.get -> LoomEditor.WinUI.Controls.DiffBlockActionsVisibility
+LoomEditor.WinUI.Controls.LoomDiffEditor.BlockActionsVisibility.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.WinUI.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
 LoomEditor.WinUI.Controls.LoomDiffEditor.ClearSelection() -> void
@@ -128,6 +142,10 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditable.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalText.get -> string!
 LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.get -> string?
+LoomEditor.WinUI.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.PrimaryBlockActionToolTip.get -> string?
+LoomEditor.WinUI.Controls.LoomDiffEditor.PrimaryBlockActionToolTip.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicators.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicators.set -> void
@@ -136,6 +154,10 @@ LoomEditor.WinUI.Controls.LoomDiffEditor.RenderOverviewRuler.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySide.get -> bool
 LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySide.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.RevealFirstChangeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+LoomEditor.WinUI.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.get -> string?
+LoomEditor.WinUI.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.set -> void
+LoomEditor.WinUI.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.get -> string?
+LoomEditor.WinUI.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.set -> void
 LoomEditor.WinUI.Controls.LoomDiffEditor.SelectedLines.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.WinUI.Controls.DiffLine>!
 LoomEditor.WinUI.Controls.LoomDiffEditor.SelectionChanged -> System.EventHandler?
 LoomEditor.WinUI.Controls.LoomDiffEditor.SetSelection(System.Collections.Generic.IEnumerable<LoomEditor.WinUI.Controls.DiffLine>! lines) -> void
@@ -269,6 +291,7 @@ LoomEditor.WinUI.LoomEditor_WinUI_XamlTypeInfo.XamlMetaDataProvider.XamlMetaData
 override LoomEditor.WinUI.Controls.DiffLine.GetHashCode() -> int
 static LoomEditor.WinUI.Controls.DiffLine.operator !=(LoomEditor.WinUI.Controls.DiffLine left, LoomEditor.WinUI.Controls.DiffLine right) -> bool
 static LoomEditor.WinUI.Controls.DiffLine.operator ==(LoomEditor.WinUI.Controls.DiffLine left, LoomEditor.WinUI.Controls.DiffLine right) -> bool
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.BlockActionsVisibilityProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.EnableSplitViewResizingProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCountProperty -> Microsoft.UI.Xaml.DependencyProperty!
@@ -281,9 +304,13 @@ static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.MaxComputationTimeMsPro
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.ModifiedTextProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalEditableProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.OriginalTextProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.PrimaryBlockActionGlyphProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.PrimaryBlockActionToolTipProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderIndicatorsProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderOverviewRulerProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.RenderSideBySideProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.SecondaryBlockActionGlyphProperty -> Microsoft.UI.Xaml.DependencyProperty!
+static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.SecondaryBlockActionToolTipProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.AccessibilitySupportProperty -> Microsoft.UI.Xaml.DependencyProperty!
 static readonly LoomEditor.WinUI.Controls.LoomEditor.BracketPairGuidesProperty -> Microsoft.UI.Xaml.DependencyProperty!

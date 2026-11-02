@@ -73,7 +73,8 @@ internal sealed partial class ViewModel
     /// <summary>The model ranges of the completely visible view lines, without the hidden areas.</summary>
     public List<Range> GetVisibleRanges() => ToModelVisibleRanges(GetCompletelyVisibleViewRange());
 
-    private List<Range> GetModelVisibleRanges()
+    /// <summary>The model ranges of the view lines in the viewport, partly visible ones included, without the hidden areas.</summary>
+    public List<Range> GetModelVisibleRanges()
     {
         PartialViewLinesViewportData linesViewportData = ViewLayout.GetLinesViewportData();
         var viewVisibleRange = new Range(

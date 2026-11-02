@@ -1,6 +1,6 @@
 # P14-03 — Glyph lanes and the per-block action buttons
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P14-02
 - **Size:** M
 
@@ -55,8 +55,8 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New (View): `DiffStrings_BlockAction_OneLine` / `_Lines`
-- [ ] Manual "P14-03" (written, not run): (1) a file with 5 blocks, `Always`: 5 buttons, one per block, at each block's first line; (2) click the 3rd: the Gallery log
+- [x] New (View): `DiffStrings_BlockAction_OneLine` / `_Lines`
+- [x] Manual "P14-03" (written, not run): (1) a file with 5 blocks, `Always`: 5 buttons, one per block, at each block's first line; (2) click the 3rd: the Gallery log
   shows `BlockActionInvoked Primary 12,3 -> 12,4` matching `Changes[2]`; (3) a pure deletion's button is on the left side; (4) `OnHover`: buttons only on the hovered
   block; (5) secondary action: a second lane, `Secondary` in the log; (6) the comment "+" still appears and works; (7) dark/light theme switch recolors the buttons;
   (8) zoom (Ctrl+wheel) and `LineHeight = 30`: lanes and buttons grow; (9) word wrap on: buttons on the first row of the line; (10) a 50 000-line file with 2 000
@@ -64,10 +64,10 @@ Sources: none (specified in this card; [phase-14/README.md](README.md) decisions
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Manual section written; the card's Result section says it was not run
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Manual section written; the card's Result section says it was not run
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -76,3 +76,7 @@ Line checkboxes and the line action (P14-04), keyboard access to the buttons, re
 ## Suggested commit message
 
 `feat(winui): per-block action buttons in the LoomDiffEditor gutter`
+
+## Result
+
+Build (0 warnings) and tests green; 2 new View tests in `DiffStringsTests`. The 12 manual checks of `docs/testing/phase-14-manual-tests.md` (section P14-03) were written, not run (agents do not run the Gallery UI; the Gallery demo comes with P14-05). Notes: `LoomEditor` gained internal hooks (`GlyphMarginLaneCount`, `SetBlockActionsFactory`/`BlockActions`, `GetVisibleModelRanges`) and calls the controller from its draw, pointer and theme paths next to the comment `+`; the visible lines come from `ViewModel.GetModelVisibleRanges` (made public in the internal class), so an anchor in a hidden unchanged region gets no button. A null tooltip gives the automation name `Block action, lines s to e` (`DiffStrings.BlockActionFallback`). `DiffGutterLanes` already takes the P14-04 lanes; they are passed as off until P14-04.

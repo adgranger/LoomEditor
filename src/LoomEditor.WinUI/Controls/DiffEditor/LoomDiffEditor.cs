@@ -141,6 +141,7 @@ public sealed partial class LoomDiffEditor : Control
         _original.Model.ContentChanged += OnOriginalContentChanged;
         _modified.Model.ContentChanged += OnModifiedContentChanged;
         AttachCommentEvents();
+        AttachBlockActions();
         ApplyLayout();
         if (IsLoaded)
         {
@@ -158,6 +159,7 @@ public sealed partial class LoomDiffEditor : Control
     {
         DestroyAccessibleViewer();
         DetachCommentEvents();
+        DetachBlockActions();
         DisconnectOverview();
         if (_sash is not null)
         {
@@ -222,6 +224,7 @@ public sealed partial class LoomDiffEditor : Control
         _viewModel = null;
         _changes = [];
         _changesDiff = null;
+        UpdateBlockActionBlocks(_changes);
         _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
         _originalTarget?.Clear();
         _modifiedTarget?.Clear();
@@ -237,6 +240,7 @@ public sealed partial class LoomDiffEditor : Control
             _changesDiff = diff;
             _changes = diff is null ? [] : DiffChangeBlock.FromMappings(diff.Mappings);
             UpdateLineSelectionBlocks();
+            UpdateBlockActionBlocks(_changes);
         }
 
         InvalidateOverview();
