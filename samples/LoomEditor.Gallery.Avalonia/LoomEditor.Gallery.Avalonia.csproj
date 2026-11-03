@@ -42,6 +42,8 @@
     <Compile Include="..\LoomEditor.Gallery\FeatureSamples.cs" Link="Shared\FeatureSamples.cs" />
     <Compile Include="..\LoomEditor.Gallery\FrameStatistics.cs" Link="Shared\FrameStatistics.cs" />
     <Compile Include="..\LoomEditor.Gallery\HighlightingSamples.cs" Link="Shared\HighlightingSamples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\HostApiDemoWindow.Blame.cs" Link="Shared\HostApiDemoWindow.Blame.cs" />
+    <Compile Include="..\LoomEditor.Gallery\HostApiDemoWindow.Diff.cs" Link="Shared\HostApiDemoWindow.Diff.cs" />
     <Compile Include="..\LoomEditor.Gallery\HostApiSamples.cs" Link="Shared\HostApiSamples.cs" />
     <Compile Include="..\LoomEditor.Gallery\HostApiSelfCheck.cs" Link="Shared\HostApiSelfCheck.cs" />
     <Compile Include="..\LoomEditor.Gallery\LargeDocuments.cs" Link="Shared\LargeDocuments.cs" />

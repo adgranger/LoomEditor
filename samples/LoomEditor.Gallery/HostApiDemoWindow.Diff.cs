@@ -1,7 +1,5 @@
 using LoomEditor.Themes;
 using LoomEditor.View.Decorations;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 namespace LoomEditor.Gallery;
 
@@ -45,7 +43,7 @@ public sealed partial class HostApiDemoWindow
         Editor.GutterClicked += OnGutterClicked;
     }
 
-    private void OnConflictColors(object sender, RoutedEventArgs e)
+    private void ApplyConflictColors()
     {
         var current = new EditorDecorationOptions
         {
@@ -71,36 +69,17 @@ public sealed partial class HostApiDemoWindow
         Log($"Conflict colors: {_conflicts.Count} decorations");
     }
 
-    private void OnClearDecorations(object sender, RoutedEventArgs e)
+    private void ClearDecorations()
     {
         _conflicts!.Clear();
         Log("Clear decorations");
     }
 
-    private void OnHideUnchanged(object sender, RoutedEventArgs e) => Editor.SetHiddenAreas((Range[])[new Range(20, 1, 40, 1)]);
+    private void HideUnchanged() => Editor.SetHiddenAreas((Range[])[new Range(20, 1, 40, 1)]);
 
-    private void OnShowAll(object sender, RoutedEventArgs e) => Editor.SetHiddenAreas(Array.Empty<Range>());
+    private void ShowAllAreas() => Editor.SetHiddenAreas(Array.Empty<Range>());
 
-    private void OnAddConflictHeader(object sender, RoutedEventArgs e)
-    {
-        var current = new Button { Content = "Accept current" };
-        current.Click += (_, _) => Log("Accept current");
-        var incoming = new Button { Content = "Accept incoming" };
-        incoming.Click += (_, _) => Log("Accept incoming");
-        var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        panel.Children.Add(current);
-        panel.Children.Add(incoming);
-        _zoneIds.Add(Editor.AddViewZone(8, Editor.LineHeight, panel));
-        Log("Add conflict header");
-    }
-
-    private void OnAddTextBoxZone(object sender, RoutedEventArgs e)
-    {
-        _zoneIds.Add(Editor.AddViewZone(30, Editor.LineHeight * 2, new TextBox { PlaceholderText = "Host text box" }));
-        Log("Add text box zone");
-    }
-
-    private void OnRemoveZones(object sender, RoutedEventArgs e)
+    private void RemoveZones()
     {
         foreach (string id in _zoneIds)
         {
