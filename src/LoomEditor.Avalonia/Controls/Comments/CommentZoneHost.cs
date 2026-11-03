@@ -111,10 +111,10 @@ internal sealed partial class CommentZoneHost : IDisposable
             double left = layout.ContentLeft + HorizontalInset;
             double top = zone.VerticalOffset - scrollTop;
             double width = BoxWidth(layout);
-            if (!widget.IsVisible || Canvas.GetLeft(widget) != left || Canvas.GetTop(widget) != top
-                || widget.Width != width || widget.Height != zone.Height)
+            if (!widget.IsVisible || !DoubleComparison.AreClose(Canvas.GetLeft(widget), left) || !DoubleComparison.AreClose(Canvas.GetTop(widget), top)
+                || !DoubleComparison.AreClose(widget.Width, width) || !DoubleComparison.AreClose(widget.Height, zone.Height))
             {
-                if (widget.Width != width)
+                if (!DoubleComparison.AreClose(widget.Width, width))
                 {
                     MarkDirty(widget);
                 }

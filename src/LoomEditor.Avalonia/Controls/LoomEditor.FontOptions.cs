@@ -73,7 +73,7 @@ public sealed partial class LoomEditor
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">The value is negative, <c>NaN</c> or infinite.</exception>
     /// <remarks>Threading: UI thread only.</remarks>
-    public double LineHeight
+    public double LineHeight // NOSONAR S4275: the getter intentionally reports the effective FontInfo height (see the XML doc)
     {
         get => _viewModel.FontInfo.LineHeight;
         set
@@ -83,7 +83,7 @@ public sealed partial class LoomEditor
                 throw new ArgumentOutOfRangeException(nameof(value), value, "The line height must be a finite number, 0 or greater.");
             }
 
-            if (value != _lineHeight)
+            if (!DoubleComparison.AreClose(value, _lineHeight))
             {
                 _lineHeight = value;
                 RecreateTextMeasurer();

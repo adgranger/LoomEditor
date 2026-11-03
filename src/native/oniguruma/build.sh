@@ -40,7 +40,7 @@ mkdir -p "$work" "$output"
 
 if [ ! -f "$archive" ]; then
   echo "Downloading $URL"
-  curl -fsSL "$URL" -o "$archive"
+  curl -fsSL --proto '=https' --tlsv1.2 "$URL" -o "$archive"
 fi
 
 if command -v sha256sum >/dev/null 2>&1; then

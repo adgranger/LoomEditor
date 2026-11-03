@@ -42,19 +42,19 @@ internal sealed partial class MarkdownElementBuilder
             }
 
             // A link is underlined with its own color; other underlines come from the document.
-            var decorations = new TextDecorationCollection();
-            if (inline.Strikethrough)
+            if (inline.Strikethrough || inline.Underline || inline.LinkUrl is not null)
             {
-                decorations.AddRange(TextDecorations.Strikethrough);
-            }
+                var decorations = new TextDecorationCollection();
+                if (inline.Strikethrough)
+                {
+                    decorations.AddRange(TextDecorations.Strikethrough);
+                }
 
-            if (inline.Underline || inline.LinkUrl is not null)
-            {
-                decorations.AddRange(TextDecorations.Underline);
-            }
+                if (inline.Underline || inline.LinkUrl is not null)
+                {
+                    decorations.AddRange(TextDecorations.Underline);
+                }
 
-            if (decorations.Count > 0)
-            {
                 run.TextDecorations = decorations;
             }
 

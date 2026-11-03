@@ -43,7 +43,7 @@ public sealed partial class LoomEditor
     {
         // The state clamps and raises Changed, which writes the clamped value back (see OnZoomChanged).
         _context.Zoom.SetLevel(level);
-        if (ZoomLevel != _context.Zoom.Level)
+        if (!DoubleComparison.AreClose(ZoomLevel, _context.Zoom.Level))
         {
             SetCurrentValue(ZoomLevelProperty, _context.Zoom.Level);
         }
@@ -51,7 +51,7 @@ public sealed partial class LoomEditor
 
     private void OnZoomChanged(object? sender, EventArgs e)
     {
-        if (ZoomLevel != _context.Zoom.Level)
+        if (!DoubleComparison.AreClose(ZoomLevel, _context.Zoom.Level))
         {
             SetCurrentValue(ZoomLevelProperty, _context.Zoom.Level);
         }

@@ -147,7 +147,7 @@ public sealed partial class DiffDemoWindow
     // 50 000 original lines; about one line in 25 is changed, deleted or followed by an inserted line, which gives about 2 000 blocks.
     private static (string Original, string Modified) CreateLargeStagingPair()
     {
-        var random = new Random(14);
+        var random = new Random(14); // NOSONAR S2245: seeded demo data, not security-relevant
         var original = new StringBuilder();
         var modified = new StringBuilder();
         for (int i = 1; i <= 50_000; i++)

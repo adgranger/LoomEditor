@@ -84,7 +84,7 @@ public sealed partial class LoomEditor
 
     private void OnTopLevelScalingChanged(object? sender, EventArgs e)
     {
-        if (sender is TopLevel top && top.RenderScaling != _renderScaling)
+        if (sender is TopLevel top && !DoubleComparison.AreClose(top.RenderScaling, _renderScaling))
         {
             _renderScaling = top.RenderScaling;
             RecreateTextMeasurer();
