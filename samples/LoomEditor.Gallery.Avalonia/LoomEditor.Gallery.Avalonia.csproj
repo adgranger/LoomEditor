@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Demo app for the Avalonia control (Windows, macOS, Linux): the twin of samples/LoomEditor.Gallery.
+    Every Gallery file that uses no WinUI type is linked, not copied. It is also the manual test bed of docs/testing/phase-15-manual-tests.md.
+
+    Run:      dotnet run (project samples/LoomEditor.Gallery.Avalonia)
+    Publish:  dotnet publish samples/LoomEditor.Gallery.Avalonia -c Release -r <win-x64|osx-arm64|linux-x64>
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.Gallery</RootNamespace>
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\LoomEditor.Avalonia\LoomEditor.Avalonia.csproj" />
+    <ProjectReference Include="..\..\src\LoomEditor.Lsp\LoomEditor.Lsp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Shared with the WinUI Gallery">
+    <Compile Include="..\LoomEditor.Gallery\CommentSamples.cs" Link="Shared\CommentSamples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\CommentsSelfCheck.cs" Link="Shared\CommentsSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\DiffSamples.cs" Link="Shared\DiffSamples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\DiffSelfCheck.cs" Link="Shared\DiffSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\FeatureSamples.cs" Link="Shared\FeatureSamples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\FrameStatistics.cs" Link="Shared\FrameStatistics.cs" />
+    <Compile Include="..\LoomEditor.Gallery\HighlightingSamples.cs" Link="Shared\HighlightingSamples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\HostApiSamples.cs" Link="Shared\HostApiSamples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\HostApiSelfCheck.cs" Link="Shared\HostApiSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\LargeDocuments.cs" Link="Shared\LargeDocuments.cs" />
+    <Compile Include="..\LoomEditor.Gallery\ModelDemoActions.cs" Link="Shared\ModelDemoActions.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Phase10Samples.cs" Link="Shared\Phase10Samples.cs" />
+    <Compile Include="..\LoomEditor.Gallery\SampleText.cs" Link="Shared\SampleText.cs" />
+    <Compile Include="..\LoomEditor.Gallery\TextSelfCheck.cs" Link="Shared\TextSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\DemoMarkers.cs" Link="Shared\Lsp\DemoMarkers.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\DemoProviders.cs" Link="Shared\Lsp\DemoProviders.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\GalleryLocationOpener.cs" Link="Shared\Lsp\GalleryLocationOpener.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoSample.cs" Link="Shared\Lsp\LspDemoSample.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoWorkspace.cs" Link="Shared\Lsp\LspDemoWorkspace.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\LspServerLocator.cs" Link="Shared\Lsp\LspServerLocator.cs" />
+  </ItemGroup>
+</Project>

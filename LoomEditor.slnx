@@ -19,6 +19,7 @@
       <!-- A WinUI app needs a real platform: "Any CPU" builds of the solution build the gallery as x64. -->
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
+    <Project Path="samples/LoomEditor.Gallery.Avalonia/LoomEditor.Gallery.Avalonia.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LoomEditor.Core.Tests/LoomEditor.Core.Tests.csproj" />

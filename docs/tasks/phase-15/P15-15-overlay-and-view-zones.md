@@ -45,6 +45,11 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Overlay/OverlayHost.cs`, `Contro
 - The zone controls are arranged in a dispatcher post after the frame is drawn, not inside the draw: Avalonia refuses a layout change (`Width`/`Height`) during the render pass.
 - The tests read the zone offsets from `ViewLayout`; `GetTopForLineNumber` arrives with P15-16.
 
+## Deviations
+
+- The zone controls are arranged in a dispatcher post after the frame is drawn, not inside the draw: Avalonia refuses a layout change (`Width`/`Height`) during the render pass.
+- The tests read the zone offsets from `ViewLayout`; `GetTopForLineNumber` arrives with P15-16.
+
 ## Out of scope
 
 Comment zones (P15-23), diff zones (P15-26).

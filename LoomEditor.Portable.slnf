@@ -9,6 +9,7 @@
       "src/LoomEditor.Lsp/LoomEditor.Lsp.csproj",
       "src/LoomEditor.Rendering/LoomEditor.Rendering.csproj",
       "src/LoomEditor.Avalonia/LoomEditor.Avalonia.csproj",
+      "samples/LoomEditor.Gallery.Avalonia/LoomEditor.Gallery.Avalonia.csproj",
       "tests/LoomEditor.Core.Tests/LoomEditor.Core.Tests.csproj",
       "tests/LoomEditor.TextMate.Tests/LoomEditor.TextMate.Tests.csproj",
       "tests/LoomEditor.View.Tests/LoomEditor.View.Tests.csproj",

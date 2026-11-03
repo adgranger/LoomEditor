@@ -23,5 +23,6 @@
     <InternalsVisibleTo Include="LoomEditor.Avalonia" />
     <!-- The Gallery demo adds an injected text decoration (ModelDecorationOptions, InjectedTextOptions). -->
     <InternalsVisibleTo Include="LoomEditor.Gallery" />
+    <InternalsVisibleTo Include="LoomEditor.Gallery.Avalonia" />
   </ItemGroup>
 </Project>

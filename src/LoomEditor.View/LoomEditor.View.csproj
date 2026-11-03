@@ -23,6 +23,7 @@
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <!-- The Gallery demo registers its own decoration class name in DecorationStyles. -->
     <InternalsVisibleTo Include="LoomEditor.Gallery" />
+    <InternalsVisibleTo Include="LoomEditor.Gallery.Avalonia" />
   </ItemGroup>
 
   <ItemGroup>

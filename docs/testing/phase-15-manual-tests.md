@@ -5,7 +5,11 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
 
 **Machines:** Windows 11, macOS 15 or later, Ubuntu 24.04.
 
-**Gallery setup:** run the Avalonia Gallery (P15-31) on each machine.
+**Gallery setup:** run the Avalonia Gallery (`samples/LoomEditor.Gallery.Avalonia`, P15-31) on each machine:
+`dotnet run --project samples/LoomEditor.Gallery.Avalonia -c Release` (or the Native AOT exe once P15-32 publishes it). The main window has the editor with the
+language, theme, font, display and accessibility options, the document samples and "Open file…"; "Diff editor window" and "Host API demo" open the two other
+windows; the "Language server" section drives the LSP demo. The `--text-selfcheck=<file>`, `--diff-selfcheck=<file>`, `--comments-selfcheck=<file>`,
+`--hostapi-selfcheck=<file>` and `--lsp-selfcheck=<file>` flags write a PASS / FAIL report and exit with 0 or 1 (`--uia-selfcheck` prints that it is not available).
 
 - Build (Debug / Release / Native AOT):
 - Operating system and display scale:

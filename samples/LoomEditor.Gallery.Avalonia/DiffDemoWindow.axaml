@@ -1,0 +1,88 @@
+<Window
+    x:Class="LoomEditor.Gallery.DiffDemoWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loom="using:LoomEditor.Avalonia.Controls"
+    Title="LoomEditor Gallery - Diff editor"
+    Width="1400"
+    Height="900">
+
+    <Window.Styles>
+        <Style Selector="TextBlock.caption">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+    </Window.Styles>
+
+    <!-- The options of the diff editor in a toolbar (code-behind handlers, no bindings), the editor below, a status line at the bottom. -->
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" Margin="12,8,12,0" Spacing="16">
+                <CheckBox x:Name="SideBySideBox" IsChecked="True" IsCheckedChanged="OnOptionChanged" Content="Side by side" />
+                <CheckBox x:Name="IgnoreTrimWhitespaceBox" IsChecked="True" IsCheckedChanged="OnOptionChanged" Content="Ignore trim whitespace" />
+                <CheckBox x:Name="HideUnchangedRegionsBox" IsCheckedChanged="OnOptionChanged" Content="Hide unchanged regions" />
+                <CheckBox x:Name="RenderIndicatorsBox" IsChecked="True" IsCheckedChanged="OnOptionChanged" Content="Render indicators" />
+                <CheckBox x:Name="OriginalEditableBox" IsCheckedChanged="OnOptionChanged" Content="Original editable" />
+                <CheckBox x:Name="ReadOnlyBox" IsCheckedChanged="OnOptionChanged" Content="Read-only modified" />
+                <CheckBox x:Name="OverviewRulerBox" IsChecked="True" IsCheckedChanged="OnOptionChanged" Content="Overview ruler" />
+                <CheckBox x:Name="CommentGutterBox" IsCheckedChanged="OnCommentGutterChanged" Content="Gutter &quot;+&quot; button" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" Margin="12,4,12,8" Spacing="8">
+                <Button Click="OnPreviousChange" Content="Previous change" />
+                <Button Click="OnNextChange" Content="Next change" />
+                <Button Click="OnAccessibleViewer" Content="Accessible viewer" />
+                <Button Click="OnCollapseAll" Content="Collapse all" />
+                <Button Click="OnShowAll" Content="Show all" />
+                <Button Click="OnSwapSides" Content="Swap sides" />
+                <Button Click="OnResetTexts" Content="Reset texts" />
+                <Button Click="OnLargeFiles" Content="Large files" />
+                <Button Click="OnLoadCommentSample" Content="Comment sample" />
+                <Button Click="OnAddOnOriginal" Content="Add on original" />
+                <Button Click="OnAddOnModified" Content="Add on modified" />
+                <TextBlock x:Name="CommentLogText" VerticalAlignment="Center" Classes="caption" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Phase 14: the block and line actions a git client uses to stage (DiffDemoWindow.Actions.cs); the log is newest first. -->
+        <Expander Grid.Row="2" Header="Staging" Margin="12,0,12,8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <StackPanel Spacing="6">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <StackPanel>
+                            <TextBlock Classes="caption" Text="BlockActionsVisibility" />
+                            <ComboBox x:Name="BlockActionsBox" SelectedIndex="0" SelectionChanged="OnStagingOptionChanged">
+                                <ComboBoxItem Content="Off" />
+                                <ComboBoxItem Content="OnHover" />
+                                <ComboBoxItem Content="Always" />
+                            </ComboBox>
+                        </StackPanel>
+                        <CheckBox x:Name="StageActionBox" IsChecked="True" IsCheckedChanged="OnStagingOptionChanged" Content="Stage action" />
+                        <CheckBox x:Name="DiscardActionBox" IsCheckedChanged="OnStagingOptionChanged" Content="Discard action" />
+                        <CheckBox x:Name="LineSelectionBox" IsCheckedChanged="OnStagingOptionChanged" Content="LineSelectionEnabled" />
+                        <CheckBox x:Name="LineHoverButtonBox" IsCheckedChanged="OnStagingOptionChanged" Content="Line hover button" />
+                        <CheckBox x:Name="WordWrapBox" IsCheckedChanged="OnStagingOptionChanged" Content="Word wrap" />
+                        <CheckBox x:Name="LineHeight30Box" IsCheckedChanged="OnStagingOptionChanged" Content="Line height 30" />
+                        <CheckBox x:Name="LightThemeBox" IsCheckedChanged="OnStagingOptionChanged" Content="Light theme" />
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Click="OnStagingSample" Content="Staging sample" />
+                    <Button Click="OnLargeFile" Content="Large file" />
+                    <Button Click="OnClearSelection" Content="Clear selection" />
+                    <Button Click="OnSelectAllAdded" Content="Select all added lines" />
+                    <TextBlock x:Name="SelectedLinesText" VerticalAlignment="Center" Classes="caption" Text="Selected:" />
+                </StackPanel>
+                <ScrollViewer MaxHeight="120">
+                    <SelectableTextBlock x:Name="StagingLogText" Classes="caption" />
+                </ScrollViewer>
+            </StackPanel>
+        </Expander>
+
+        <loom:LoomDiffEditor x:Name="DiffEditor" Grid.Row="3" />
+
+        <TextBlock x:Name="StatusText" Grid.Row="4" Margin="12,6" Classes="caption" />
+    </Grid>
+</Window>
