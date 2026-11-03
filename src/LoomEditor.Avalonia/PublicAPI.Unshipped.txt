@@ -93,6 +93,9 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentRequested -> System.EventH
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionInvoked -> System.EventHandler<LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.get -> LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility
+LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
@@ -104,6 +107,8 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.GetSide(LoomEditor.Core.Comments.CommentThread! thread) -> LoomEditor.Avalonia.Controls.DiffSide
+LoomEditor.Avalonia.Controls.LoomDiffEditor.GlyphFontFamily.get -> Avalonia.Media.FontFamily!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.GlyphFontFamily.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.GoToNextChange() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.GoToPreviousChange() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegions.get -> bool
@@ -136,6 +141,10 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.get -> string?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionToolTip.get -> string?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionToolTip.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicators.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicators.set -> void
@@ -144,6 +153,10 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRuler.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySide.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySide.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RevealFirstChangeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.get -> string?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.get -> string?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ShowAllUnchangedRegions() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SuggestionApplied -> System.EventHandler<LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
@@ -274,7 +287,9 @@ LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void
 override LoomEditor.Avalonia.Controls.DiffLine.GetHashCode() -> int
 static LoomEditor.Avalonia.Controls.DiffLine.operator !=(LoomEditor.Avalonia.Controls.DiffLine left, LoomEditor.Avalonia.Controls.DiffLine right) -> bool
 static LoomEditor.Avalonia.Controls.DiffLine.operator ==(LoomEditor.Avalonia.Controls.DiffLine left, LoomEditor.Avalonia.Controls.DiffLine right) -> bool
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibilityProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizingProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.GlyphFontFamilyProperty -> Avalonia.StyledProperty<Avalonia.Media.FontFamily!>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCountProperty -> Avalonia.StyledProperty<int>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCountProperty -> Avalonia.StyledProperty<int>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsProperty -> Avalonia.StyledProperty<bool>!
@@ -286,9 +301,13 @@ static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedTextProperty -> Avalonia.StyledProperty<string!>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditableProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalTextProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyphProperty -> Avalonia.StyledProperty<string?>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionToolTipProperty -> Avalonia.StyledProperty<string?>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicatorsProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRulerProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySideProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyphProperty -> Avalonia.StyledProperty<string?>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTipProperty -> Avalonia.StyledProperty<string?>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupportProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorAccessibilitySupport>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuidesProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorBracketPairGuides>!

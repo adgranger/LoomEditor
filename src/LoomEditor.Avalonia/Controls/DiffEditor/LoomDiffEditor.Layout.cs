@@ -98,6 +98,7 @@ public sealed partial class LoomDiffEditor
         }
 
         modified.Margin = new Thickness(sideBySide ? left + 1 : 0, 0, _options.RenderOverviewRuler ? OverviewRulerWidth : 0, 0);
+        UpdateGutterLanes();
     }
 
     // Monaco: `diffEditor.border`; no line when the theme has no value for it.

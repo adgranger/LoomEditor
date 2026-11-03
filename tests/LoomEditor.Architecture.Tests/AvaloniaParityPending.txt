@@ -2,10 +2,6 @@
 # A card that adds a member removes its line; see AvaloniaApiParityTests.
 LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
 LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector
-LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionInvoked
-LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibilityProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ClearSelection
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.set
@@ -20,18 +16,6 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTipProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabledProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyphProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionToolTip.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionToolTip.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionToolTipProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyphProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTipProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectedLines.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectionChanged
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SetSelection

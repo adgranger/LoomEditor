@@ -46,6 +46,7 @@ public sealed partial class LoomEditor
         OverlayHost? zoneLayer = zones is null ? null : new OverlayHost(zones);
         _hostZoneLayer.Attach(zoneLayer);
         InitializeCommentGutter(zoneLayer);
+        SetGutterLayer(zoneLayer);
     }
 
     // The bounds, in editor coordinates, of the first visible line of a model range: from its start to its end on that line (a caret-wide

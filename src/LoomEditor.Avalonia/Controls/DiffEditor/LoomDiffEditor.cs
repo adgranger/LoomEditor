@@ -80,6 +80,8 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         OriginalTextProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, e) => editor.ApplyText(editor._original, (string?)e.NewValue));
         ModifiedTextProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, e) => editor.ApplyText(editor._modified, (string?)e.NewValue));
         LanguageIdProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.ApplyLanguageAndTheme());
+        BlockActionsVisibilityProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.UpdateGutterLanes());
+        GlyphFontFamilyProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.UpdateGutterLanes());
     }
 
     /// <summary>Creates the control.</summary>
@@ -200,6 +202,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         _original.Model.ContentChanged += OnOriginalContentChanged;
         _modified.Model.ContentChanged += OnModifiedContentChanged;
         AttachCommentEvents();
+        AttachBlockActions();
         ApplyLayout();
         if (IsLoaded)
         {
@@ -218,6 +221,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         DestroyAccessibleViewer();
         DisconnectOverview();
         DetachCommentEvents();
+        DetachBlockActions();
         if (_sash is not null)
         {
             _sash.SashMoved -= OnSashMoved;
@@ -281,6 +285,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         _viewModel = null;
         _changes = [];
         _changesDiff = null;
+        UpdateBlockActionBlocks(_changes);
         _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
         _originalTarget?.Clear();
         _modifiedTarget?.Clear();
@@ -295,6 +300,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         {
             _changesDiff = diff;
             _changes = diff is null ? [] : DiffChangeBlock.FromMappings(diff.Mappings);
+            UpdateBlockActionBlocks(_changes);
         }
 
         InvalidateOverview();

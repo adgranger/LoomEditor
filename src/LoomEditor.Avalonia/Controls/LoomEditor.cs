@@ -239,6 +239,7 @@ public sealed partial class LoomEditor : TemplatedControl
             _hostZoneLayer.ArrangeAfterDraw();
             _commentGutter?.ArrangeAfterDraw();
             _commentZoneHost?.ArrangeAfterDraw();
+            ArrangeDiffGutterAfterDraw();
             ApplyPendingHorizontalReveal();
         }
         finally

@@ -62,10 +62,12 @@ public sealed partial class LoomEditor
         }
     }
 
-    // The WinUI twin also sets the overview ruler and the glyph margin, which only the diff editor needs (P15-24).
+    // The WinUI twin also sets the overview ruler, which the diff editor draws itself (P15-26); the glyph margin lanes are the diff editor's gutter.
     private void ApplyHostLayoutOptions()
     {
         EditorLayoutOptions options = _viewModel.LayoutOptions;
-        _viewModel.SetOptions(options with { LineNumbers = LineNumbersEnabled, Folding = FoldingEnabled, LineDecorationsWidth = LineDecorationsWidth }, _viewModel.ViewLayoutOptions);
+        _viewModel.SetOptions(
+            options with { GlyphMargin = _glyphMarginLaneCount > 0, LineNumbers = LineNumbersEnabled, Folding = FoldingEnabled, LineDecorationsWidth = LineDecorationsWidth },
+            _viewModel.ViewLayoutOptions);
     }
 }
