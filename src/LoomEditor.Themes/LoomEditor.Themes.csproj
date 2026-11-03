@@ -15,7 +15,9 @@
     <InternalsVisibleTo Include="LoomEditor.View" />
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
     <InternalsVisibleTo Include="LoomEditor.WinUI" />
+    <InternalsVisibleTo Include="LoomEditor.Avalonia" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
+    <InternalsVisibleTo Include="LoomEditor.Avalonia.Tests" />
   </ItemGroup>
 
   <ItemGroup>

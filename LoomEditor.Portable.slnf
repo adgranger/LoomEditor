@@ -8,12 +8,14 @@
       "src/LoomEditor.View/LoomEditor.View.csproj",
       "src/LoomEditor.Lsp/LoomEditor.Lsp.csproj",
       "src/LoomEditor.Rendering/LoomEditor.Rendering.csproj",
+      "src/LoomEditor.Avalonia/LoomEditor.Avalonia.csproj",
       "tests/LoomEditor.Core.Tests/LoomEditor.Core.Tests.csproj",
       "tests/LoomEditor.TextMate.Tests/LoomEditor.TextMate.Tests.csproj",
       "tests/LoomEditor.View.Tests/LoomEditor.View.Tests.csproj",
       "tests/LoomEditor.Lsp.Tests/LoomEditor.Lsp.Tests.csproj",
       "tests/LoomEditor.Lsp.FakeServer/LoomEditor.Lsp.FakeServer.csproj",
       "tests/LoomEditor.Rendering.Tests/LoomEditor.Rendering.Tests.csproj",
+      "tests/LoomEditor.Avalonia.Tests/LoomEditor.Avalonia.Tests.csproj",
       "tests/LoomEditor.Architecture.Tests/LoomEditor.Architecture.Tests.csproj"
     ]
   }

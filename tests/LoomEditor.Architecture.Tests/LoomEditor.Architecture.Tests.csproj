@@ -24,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The API parity test (AvaloniaApiParityTests) reads these two lists. -->
+    <None Update="AvaloniaParityPending.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="AvaloniaParityExceptions.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 </Project>

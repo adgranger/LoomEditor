@@ -68,4 +68,4 @@ Ways to draw text on Avalonia:
 - New packages: `LoomEditor.Avalonia`; `LoomEditor.TextMate` gains `runtimes/linux-*` and `runtimes/osx-*`.
 - The Avalonia Gallery (`samples/LoomEditor.Gallery.Avalonia`) is the manual test bed on macOS and Linux and is published with Native AOT on the three OSes in CI.
 - Known gaps at the end of phase 15: mac-specific keybindings, the UI Automation text-pattern details that Avalonia lacks, font variation axes other than `wght`.
-- Pinned versions: _(filled by P15-05)_.
+- Pinned versions (P15-05, latest stable on nuget.org on 2026-11-03): `Avalonia`, `Avalonia.Skia`, `Avalonia.Desktop`, `Avalonia.Themes.Fluent`, `Avalonia.Headless` all 12.1.5, in `Directory.Packages.props` (group `Avalonia`). `Avalonia.Headless.XUnit` is not used (xUnit v2 only): the tests start a `HeadlessUnitTestSession` themselves.

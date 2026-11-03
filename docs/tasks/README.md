@@ -1167,7 +1167,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-05](phase-15/P15-05-avalonia-project-and-tests.md) | `LoomEditor.Avalonia` project, headless test project, API parity test | P15-04 | todo |
+| [P15-05](phase-15/P15-05-avalonia-project-and-tests.md) | `LoomEditor.Avalonia` project, headless test project, API parity test | P15-04 | done |
 | [P15-06](phase-15/P15-06-text-measurer-and-line-layout.md) | `AvaloniaTextMeasurer` and `AvaloniaLineLayout` (**Opus**) | P15-05 | todo |
 | [P15-07](phase-15/P15-07-render-surface-and-minimap.md) | `AvaloniaRenderSurface`, bitmap cache, minimap font sampler | P15-06 | todo |
 

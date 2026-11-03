@@ -1,0 +1,3 @@
+#nullable enable
+LoomEditor.Avalonia.LoomEditorStyles
+LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void

@@ -1,0 +1,3 @@
+# Key prefixes of WinUI members that never get an Avalonia twin.
+# WinUI XAML compiler output
+LoomEditor.Avalonia.LoomEditor_WinUI_XamlTypeInfo

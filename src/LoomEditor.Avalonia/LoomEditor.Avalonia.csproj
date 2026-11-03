@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    LoomEditor.Avalonia: the LoomEditor control for Avalonia 12 (Windows, Linux, macOS).
+    The twin of LoomEditor.WinUI: it references LoomEditor.Rendering only and plugs the Skia backend into it.
+    See docs/adr/0016-avalonia-backend.md.
+  -->
+  <PropertyGroup>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
+    <RootNamespace>LoomEditor.Avalonia</RootNamespace>
+    <PackageId>LoomEditor.Avalonia</PackageId>
+    <Description>LoomEditor: a native, Native AOT-compatible code editor control for Avalonia, ported from the Monaco editor.</Description>
+    <PackageTags>editor;code-editor;monaco;avalonia;textmate</PackageTags>
+    <IsAotCompatible>true</IsAotCompatible>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="LoomEditor.Gallery.Avalonia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LoomEditor.Rendering\LoomEditor.Rendering.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- LoomEditor.Core.Text.Range wins over System.Range. See docs/adr/0003-naming-and-namespaces.md. -->
+    <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+  </ItemGroup>
+</Project>

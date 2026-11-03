@@ -8,9 +8,12 @@ This page tells you **where things are** and **which rules keep the code base ea
 ```
  ┌──────────────────────────────────────────────────────────────┐
  │ LoomEditor.WinUI        the LoomEditor control: XAML, input,  │  net11.0-windows
- │                         IME, accessibility                    │
+ │                         IME, accessibility, Win2D backend     │
  ├──────────────────────────────────────────────────────────────┤
- │ LoomEditor.Rendering    pixels: IRenderSurface, TextViewRenderer │  net11.0
+ │ LoomEditor.Avalonia     the same control for Avalonia (Skia)  │  net11.0
+ │ (beside WinUI)          Windows, Linux, macOS                 │
+ ├──────────────────────────────────────────────────────────────┤
+ │ LoomEditor.Rendering    pixels: IRenderSurface, renderer      │  net11.0
  ├──────────────────────────────────────────────────────────────┤
  │ LoomEditor.View         cursors, commands, layout, features   │  net11.0
  ├───────────────────────────────┬──────────────────────────────┤
@@ -30,6 +33,7 @@ This page tells you **where things are** and **which rules keep the code base ea
 | `LoomEditor.View` | cursors, commands, view layout, **features** | Core, TextMate, Themes |
 | `LoomEditor.Rendering` | `IRenderSurface`, `TextViewRenderer` | View |
 | `LoomEditor.WinUI` | `LoomEditor` control, input, accessibility, the Win2D backend | Rendering |
+| `LoomEditor.Avalonia` | the `LoomEditor` control for Avalonia (ADR 0016); grows in phase 15 | Rendering |
 | `LoomEditor.Lsp` | LSP client: JSON-RPC over stdio, document sync, mapping to the language features | Core |
 
 `LoomEditor.Lsp` (language server client) references Core only and sits beside View: the Gallery wires it to the control (ADR 0011).
