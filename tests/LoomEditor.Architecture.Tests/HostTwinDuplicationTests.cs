@@ -8,7 +8,6 @@ public class HostTwinDuplicationTests
     // One "<Avalonia path> <-> <WinUI path>" per pair still copied (the last three of src/ are not reported by Sonar); each phase 17 card deletes its pairs.
     private static readonly HashSet<string> KnownDuplicates = new(StringComparer.Ordinal)
     {
-        "src/LoomEditor.Avalonia/Controls/Comments/CommentThreadWidget.Composer.cs <-> src/LoomEditor.WinUI/Controls/Comments/CommentThreadWidget.Composer.cs",
         "src/LoomEditor.Avalonia/Controls/Comments/CommentComposerToolbar.cs <-> src/LoomEditor.WinUI/Controls/Comments/CommentComposerToolbar.cs",
         "src/LoomEditor.Avalonia/Controls/Comments/SuggestionBlockView.cs <-> src/LoomEditor.WinUI/Controls/Comments/SuggestionBlockView.cs",
         "src/LoomEditor.Avalonia/Controls/Hover/HoverWidget.cs <-> src/LoomEditor.WinUI/Controls/Hover/HoverWidget.cs",

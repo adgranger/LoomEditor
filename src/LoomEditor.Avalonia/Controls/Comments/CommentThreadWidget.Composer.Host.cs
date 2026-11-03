@@ -17,6 +17,7 @@ namespace LoomEditor.Avalonia.Controls.Comments;
 internal sealed partial class CommentThreadWidget
 {
     private readonly StackPanel _composer = new() { Spacing = 6 };
+    private readonly StackPanel _composerArea = new() { Spacing = 6 };
     private readonly StackPanel _toolbarSlot = new() { Orientation = Orientation.Horizontal };
     private CommentComposerToolbar _toolbar = null!;
 
@@ -35,10 +36,7 @@ internal sealed partial class CommentThreadWidget
     private readonly Button _cancelButton = new() { Content = CommentStrings.Cancel };
     private readonly Button _submitButton = new() { Content = CommentStrings.Comment };
     private readonly Button _replyButton = new() { Content = CommentStrings.Reply, HorizontalAlignment = HorizontalAlignment.Left };
-    private bool _focusOnLoaded;
-
-    /// <summary>Raised when the composer closed from the keyboard or the Cancel button: the editor takes the focus back.</summary>
-    public event EventHandler? FocusReturnRequested;
+    private readonly StackPanel _composerButtons = new() { Orientation = Orientation.Horizontal, Spacing = 8, HorizontalAlignment = HorizontalAlignment.Right };
 
     /// <summary>The text box of the composer, for the tests.</summary>
     internal TextBox TextBox => _textBox;
@@ -75,46 +73,18 @@ internal sealed partial class CommentThreadWidget
 
     private StackPanel CreateComposer()
     {
-        _toolbar = new CommentComposerToolbar(ApplyToolbarAction);
-        _toolbarSlot.Children.Add(_toolbar);
+        BuildComposerParts();
         AutomationProperties.SetName(_textBox, CommentStrings.CommentText);
-        _cancelButton.Click += (_, _) =>
-        {
-            // Escape only cancels an empty draft: only Cancel can discard text.
-            bool discarded = !string.IsNullOrWhiteSpace(_viewModel.Draft);
-            _viewModel.Cancel();
-            if (discarded)
-            {
-                Announce?.Invoke(CommentStrings.CommentDiscarded);
-            }
-
-            FocusReturnRequested?.Invoke(this, EventArgs.Empty);
-        };
+        _cancelButton.Click += (_, _) => CancelComposer();
         _submitButton.Click += (_, _) => _viewModel.Submit();
         _submitButton.Classes.Add("accent");
         _previewButton.Click += (_, _) => _viewModel.TogglePreview();
-        _replyButton.Click += (_, _) =>
-        {
-            _viewModel.StartComposing();
-            FocusComposer();
-        };
+        _replyButton.Click += (_, _) => StartReply();
         _textBox.TextChanged += (_, _) => _viewModel.SetDraft(FromTextBox(_textBox.Text));
         // Tunnel: the text box handles Enter itself (a new line) before the bubbling KeyDown would reach a handler.
         _textBox.AddHandler(KeyDownEvent, OnTextBoxPreviewKeyDown, RoutingStrategies.Tunnel);
 
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, HorizontalAlignment = HorizontalAlignment.Right };
-        buttons.Children.Add(_previewButton);
-        buttons.Children.Add(_cancelButton);
-        buttons.Children.Add(_submitButton);
-        _composer.Children.Add(_toolbarSlot);
-        _composer.Children.Add(_textBox);
-        _composer.Children.Add(_preview);
-        _composer.Children.Add(buttons);
-
-        var area = new StackPanel { Spacing = 6 };
-        area.Children.Add(_replyButton);
-        area.Children.Add(_composer);
-        return area;
+        return _composerArea;
     }
 
     private void UpdateComposer()
