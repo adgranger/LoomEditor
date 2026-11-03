@@ -1,6 +1,6 @@
 # P15-26 — Diff alignment zones and the diff overview ruler
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-25
 - **Size:** M
 
@@ -26,14 +26,14 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/DiffEditor/DiffEditorViewZones.c
 
 ## Tests
 
-- [ ] New: `InsertedBlock_OriginalSideGetsPaddingZone` (line after the block has the same top on both sides); `Scroll_OneSide_ScrollsTheOther`; `OverviewRuler_DrawsChangeMarks`;
+- [x] New: `InsertedBlock_OriginalSideGetsPaddingZone` (line after the block has the same top on both sides); `Scroll_OneSide_ScrollsTheOther`; `OverviewRuler_DrawsChangeMarks`;
   `OverviewRuler_Click_ScrollsToChange`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

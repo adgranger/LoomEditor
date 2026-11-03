@@ -15,6 +15,57 @@ public sealed partial class LoomEditor
     /// <remarks>Threading: UI thread only.</remarks>
     public event EventHandler? LayoutChanged;
 
+    /// <summary>The view zones of the editor.</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal global::LoomEditor.View.Layout.ViewZones ViewZones => _viewModel.ViewZones;
+
+    /// <summary>Converts between model and view positions (needed to map whitespaces and wrapped lines to model lines).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal ICoordinatesConverter CoordinatesConverter => _viewModel.CoordinatesConverter;
+
+    /// <summary>Whether lines wrap.</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal bool IsWrapping => WordWrap != EditorWordWrap.Off;
+
+    /// <summary>The layout of the editor (read-only).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal EditorLayoutInfo LayoutInfo => _viewModel.LayoutInfo;
+
+    /// <summary>The whitespaces of the layout, the view zones included (Monaco: <c>getWhitespaces</c>).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal IReadOnlyList<IEditorWhitespace> GetWhitespaces() => _viewModel.ViewLayout.GetWhitespaces();
+
+    /// <summary>The top of a view line in scroll coordinates (Monaco: <c>viewLayout.getVerticalOffsetForLineNumber</c>).</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal int GetVerticalOffsetForViewLine(int viewLineNumber) => _viewModel.ViewLayout.GetVerticalOffsetForLineNumber(viewLineNumber);
+
+    /// <summary>The height of the scrollable content, in DIPs.</summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal double GetScrollHeight() => _viewModel.ViewLayout.GetScrollable().GetScrollDimensions().ScrollHeight;
+
+    /// <summary>
+    /// Scrolls without animation (Monaco: <c>ScrollType.Immediate</c>). The caller guards against feedback loops through
+    /// <see cref="ScrollChanged"/>.
+    /// </summary>
+    /// <remarks>Threading: UI thread only.</remarks>
+    internal void SetScrollPositionImmediate(double? scrollLeft, double? scrollTop)
+    {
+        if (scrollLeft is { } left)
+        {
+            _pendingScrollLeft = left;
+        }
+
+        if (scrollTop is { } top)
+        {
+            _pendingScrollTop = top;
+        }
+
+        if (_measurer is not null)
+        {
+            _viewModel.ViewLayout.SetScrollPosition(new NewScrollPosition(scrollLeft, scrollTop), ScrollType.Immediate);
+        }
+    }
+
     /// <summary>
     /// The vertical offset of a model line in scroll coordinates (Monaco: <c>getTopForLineNumber</c>); subtract <see cref="ScrollTop"/> for a y in the editor.
     /// <paramref name="includeViewZones"/> adds the zones above the line, so the result is the top of the line's text. A wrapped line gives the top of its first

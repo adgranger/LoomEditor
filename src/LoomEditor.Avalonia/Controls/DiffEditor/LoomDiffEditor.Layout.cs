@@ -16,6 +16,7 @@ public sealed partial class LoomDiffEditor
     private void OnSizeChanged(object? sender, SizeChangedEventArgs e)
     {
         _sashLayout.Width = e.NewSize.Width;
+        InvalidateOverview();
         _options.SetWidth(e.NewSize.Width);
         ApplyLayout();
     }
@@ -31,6 +32,7 @@ public sealed partial class LoomDiffEditor
         _sashLayout.EnableSplitViewResizing = _options.EnableSplitViewResizing;
         _sashLayout.SplitViewDefaultRatio = _options.SplitViewDefaultRatio;
         ApplyLayout();
+        UpdateViewZones();
     }
 
     private void OnSashMoved(object? sender, double sashLeft)
@@ -43,6 +45,34 @@ public sealed partial class LoomDiffEditor
     {
         _sashLayout.ResetSash();
         ApplyLayout();
+    }
+
+    // Monaco: the zones of diffEditorViewZones.ts; side by side they pad both editors, inline the modified one gets the deleted lines.
+    private void UpdateViewZones()
+    {
+        bool wanted = _viewModel is not null && _original is not null && _modified is not null;
+        bool inline = !_options.RenderSideBySideEffective;
+        if (!wanted || (_viewZones is not null && _viewZonesInline != inline))
+        {
+            _viewZones?.Dispose();
+            _viewZones = null;
+        }
+
+        if (!wanted)
+        {
+            return;
+        }
+
+        // P15-27: the hidden unchanged regions are invalidated here.
+        if (_viewZones is null)
+        {
+            _viewZonesInline = inline;
+            _viewZones = new DiffEditorViewZones(_original!, _modified!, _viewModel!, inline, () => _options.RenderIndicators);
+        }
+        else
+        {
+            _viewZones.Invalidate();
+        }
     }
 
     private void ApplyLayout()
@@ -61,7 +91,11 @@ public sealed partial class LoomDiffEditor
         sash.IsSplitEnabled = _options.EnableSplitViewResizing;
         sash.Margin = new Thickness(left - (DiffEditorSash.HitWidth / 2), 0, 0, 0);
         sash.LineBrush = DiffBorderBrush(Theme);
-        // P15-26: the overview ruler is drawn by that card; the room for it is reserved now.
+        if (_overview is not null)
+        {
+            _overview.IsVisible = _options.RenderOverviewRuler;
+        }
+
         modified.Margin = new Thickness(sideBySide ? left + 1 : 0, 0, _options.RenderOverviewRuler ? OverviewRulerWidth : 0, 0);
     }
 

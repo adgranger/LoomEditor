@@ -32,6 +32,7 @@ namespace LoomEditor.Avalonia.Controls;
 [TemplatePart(OriginalPartName, typeof(LoomEditor))]
 [TemplatePart(ModifiedPartName, typeof(LoomEditor))]
 [TemplatePart(SashPartName, typeof(DiffEditorSash))]
+[TemplatePart(OverviewPartName, typeof(DiffOverviewRuler))]
 #pragma warning disable CA1001 // Controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomDiffEditor : TemplatedControl
 #pragma warning restore CA1001
@@ -39,6 +40,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
     private const string OriginalPartName = "PART_Original";
     private const string ModifiedPartName = "PART_Modified";
     private const string SashPartName = "PART_Sash";
+    private const string OverviewPartName = "PART_Overview";
 
     /// <summary>Identifies the <see cref="OriginalText"/> styled property.</summary>
     public static readonly StyledProperty<string> OriginalTextProperty =
@@ -60,6 +62,8 @@ public sealed partial class LoomDiffEditor : TemplatedControl
     private DiffEditorSash? _sash;
     private DiffEditorViewModel? _viewModel;
     private DiffDecorations? _decorations;
+    private DiffEditorViewZones? _viewZones;
+    private bool _viewZonesInline;
     private EditorDecorationTarget? _originalTarget;
     private EditorDecorationTarget? _modifiedTarget;
     private EditorTheme _theme = EditorTheme.Dark;
@@ -166,6 +170,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         _sash.GetSashLeft = () => _sashLayout.SashLeft;
         _sash.SashMoved += OnSashMoved;
         _sash.ResetRequested += OnSashReset;
+        ConnectOverview(GetTemplatePart<DiffOverviewRuler>(e, OverviewPartName));
         ConfigureEditors();
         ApplyLanguageAndTheme();
         ApplyText(_original, OriginalText);
@@ -187,6 +192,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
 
     private void DetachParts()
     {
+        DisconnectOverview();
         if (_sash is not null)
         {
             _sash.SashMoved -= OnSashMoved;
@@ -226,6 +232,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
             new DispatcherUiDispatcher(),
             new DispatcherEditorScheduler());
         _viewModel.DiffChanged += OnViewModelDiffChanged;
+        UpdateViewZones();
         _viewModelReady.TrySetResult();
     }
 
@@ -236,6 +243,8 @@ public sealed partial class LoomDiffEditor : TemplatedControl
             return;
         }
 
+        _viewZones?.Dispose();
+        _viewZones = null;
         _viewModel.DiffChanged -= OnViewModelDiffChanged;
         _viewModel.Dispose();
         _viewModel = null;
@@ -257,6 +266,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
             _changes = diff is null ? [] : DiffChangeBlock.FromMappings(diff.Mappings);
         }
 
+        InvalidateOverview();
         UpdateDecorations();
         DiffChanged?.Invoke(this, EventArgs.Empty);
     }
@@ -342,5 +352,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
                 editor.Theme = Theme;
             }
         }
+
+        InvalidateOverview();
     }
 }

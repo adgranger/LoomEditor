@@ -1203,7 +1203,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 |---|---|---|---|
 | [P15-24](phase-15/P15-24-diff-editor-shell.md) | Shell, layout, sash, public diff types | P15-23 | done |
 | [P15-25](phase-15/P15-25-diff-options-and-navigation.md) | Options and change navigation | P15-24 | done |
-| [P15-26](phase-15/P15-26-diff-zones-and-overview.md) | Alignment zones and the diff overview ruler | P15-25 | todo |
+| [P15-26](phase-15/P15-26-diff-zones-and-overview.md) | Alignment zones and the diff overview ruler | P15-25 | done |
 | [P15-27](phase-15/P15-27-diff-hidden-regions-and-comments.md) | Hidden unchanged regions and diff comment threads | P15-26 | todo |
 | [P15-28](phase-15/P15-28-accessible-diff-viewer.md) | The accessible diff viewer | P15-27 | todo |
 | [P15-29](phase-15/P15-29-diff-block-actions.md) | Diff block action buttons | P15-28 | todo |

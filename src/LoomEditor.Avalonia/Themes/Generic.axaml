@@ -40,7 +40,7 @@
               <controls:LoomEditor Name="PART_Original" HorizontalAlignment="Left" />
               <controls:LoomEditor Name="PART_Modified" HorizontalAlignment="Stretch" />
               <diff:DiffEditorSash Name="PART_Sash" HorizontalAlignment="Left" />
-              <!-- P15-26: PART_Overview (the overview ruler) goes here. -->
+              <diff:DiffOverviewRuler Name="PART_Overview" HorizontalAlignment="Right" />
               <Panel Name="PART_ViewerHost" />
             </Panel>
           </ControlTemplate>
