@@ -1,6 +1,6 @@
 # P15-21 — Comment thread widget: shell, header, comments, preview, theme, avatar
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-20
 - **Size:** M
 
@@ -30,13 +30,21 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Comments/CommentThreadWidget.cs`
 
 ## Tests
 
-- [ ] New: `Widget_ShowsEveryComment`; `Header_ShowsResolvedState`; `Collapsed_ShowsPreviewOnly`; `Avatar_NoImage_ShowsInitials`; `Theme_Dark_UsesThemeColors`
+- [x] New: `Widget_ShowsEveryComment`; `Header_ShowsResolvedState`; `Collapsed_ShowsPreviewOnly`; `Avatar_NoImage_ShowsInitials`; `Theme_Dark_UsesThemeColors`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Deviations
+
+- `CommentAvatar` draws the initials only: the WinUI twin ignores `CommentAuthor.AvatarUrl` (no image is downloaded), so there is no `Bitmap` callback to port.
+- The automation peers of the WinUI twin (`CommentThreadAutomationPeer`, `CommentRowPanel`) are replaced by `AutomationProperties.ControlTypeOverride = Group` on the widget and on
+  each comment row; the full description of a row goes to `HelpText`.
+- `CommentThreadWidget.Composer.cs` is a stub that holds the text box and the preview; P15-22 replaces it with the composer, its buttons and the suggestion blocks, and adds their
+  colors to `ApplyTheme` (which has no `highContrast` parameter yet for the same reason). `Announce` is declared but only used from P15-22.
 
 ## Out of scope
 
