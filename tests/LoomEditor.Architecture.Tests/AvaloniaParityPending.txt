@@ -168,9 +168,6 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.WaitForDiffAsync
-LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupport.get
-LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupport.set
-LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupportProperty
 LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested
 LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread
 LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone
@@ -188,12 +185,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.ResetText
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged
 LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight
 LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied
-LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.get
-LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.set
-LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocusProperty
-LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrast.get
-LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrast.set
-LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrastProperty
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.LineNumber.get

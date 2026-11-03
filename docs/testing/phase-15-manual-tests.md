@@ -79,3 +79,18 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 7. All: make the editor read-only (Gallery option) during a composition: the composition ends; typing with the IME afterwards changes nothing and goes to no other control.
    **Result:** pending
+
+## P15-14 — Accessibility and high contrast
+
+1. Windows, Narrator and NVDA: tab into the editor: it is read as an edit control named "Code editor" (or the host's `AutomationProperties.Name`) with its text as value.
+   **Result:** pending
+2. Windows: with a screen reader running, the editor behaves as the WinUI control in screen reader mode; without one, `AccessibilitySupport = Auto` stays off.
+   **Result:** pending
+3. All: Ctrl+M announces "Pressing Tab will now move focus to the next focusable element"; Tab then moves the focus out of the editor; Ctrl+M again restores Tab.
+   **Result:** pending
+4. All: the Insert key announces "Overtype mode" / "Insert mode"; Find with no match announces "No results".
+   **Result:** pending
+5. macOS, VoiceOver; Ubuntu, Orca: the editor is found and its value read; the announcements of 3 and 4 are spoken (as far as Avalonia supports live regions there).
+   **Result:** pending
+6. Windows high contrast (Aquatic, Desert…) and macOS "Increase contrast": the editor switches to the high contrast theme live and back when it is turned off; `UseSystemHighContrast = false` keeps the app theme.
+   **Result:** pending

@@ -16,7 +16,7 @@ public sealed partial class LoomEditor
     internal bool IsInDiffEditor { get; set; }
 
     // The state the `when` conditions of the keybindings read (Monaco: the editor's context keys).
-    // TabDoesNotMoveFocus, the find widget keys and AccessibilityModeEnabled follow with P15-14 and P15-17.
+    // The find widget keys follow with P15-17.
     private KeybindingContext CreateKeybindingContext()
     {
         var selections = _viewModel.GetSelections();
@@ -27,7 +27,7 @@ public sealed partial class LoomEditor
             HasMultipleSelections: selections.Count > 1,
             ColumnSelection: _viewModel.CursorOptions.ColumnSelection,
             EditorReadOnly: IsReadOnly,
-            TabDoesNotMoveFocus: true,
+            TabDoesNotMoveFocus: !TabMovesFocus,
             AccessibilityModeEnabled: false,
             EditorFocus: HasFocus,
             FindWidgetVisible: _context.FindController?.State.IsRevealed ?? false,

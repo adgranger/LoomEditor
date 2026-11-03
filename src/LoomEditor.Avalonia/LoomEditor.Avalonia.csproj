@@ -12,6 +12,8 @@
     <PackageTags>editor;code-editor;monaco;avalonia;textmate</PackageTags>
     <IsAotCompatible>true</IsAotCompatible>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- The LibraryImport generator emits unsafe code (Interop/NativeMethods.cs). -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

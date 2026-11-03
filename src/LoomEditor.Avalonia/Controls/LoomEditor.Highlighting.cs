@@ -30,7 +30,7 @@ public sealed partial class LoomEditor
     /// <summary>
     /// The colors of the editor and of the tokens. Defaults to <see cref="EditorTheme.Dark"/>. A plain property, not a
     /// styled property, as in the WinUI control. The getter returns what the application set; while the system high
-    /// contrast scheme is followed (P15-14) the editor draws with the scheme's colors instead, and uses this theme again
+    /// contrast scheme is followed (<see cref="UseSystemHighContrast"/>) the editor draws with the scheme's colors instead, and uses this theme again
     /// when high contrast goes off.
     /// </summary>
     public new EditorTheme Theme
@@ -40,7 +40,7 @@ public sealed partial class LoomEditor
         {
             ArgumentNullException.ThrowIfNull(value);
             _theme = value;
-            ApplyTheme(_theme);
+            ApplyTheme(EffectiveTheme);
         }
     }
 

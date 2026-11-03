@@ -36,6 +36,7 @@ namespace LoomEditor.Avalonia.Controls;
 [TemplatePart(HorizontalScrollBarPartName, typeof(ScrollBar))]
 [TemplatePart(OverlayCanvasPartName, typeof(Canvas))]
 [TemplatePart(ZoneWidgetCanvasPartName, typeof(Canvas))]
+[TemplatePart(LiveRegionPartName, typeof(TextBlock))]
 #pragma warning disable CA1724 // Type name matches the root namespace on purpose: see remarks above.
 #pragma warning disable CA1001 // Avalonia controls are not IDisposable: disposable fields are released when the control leaves the tree.
 public sealed partial class LoomEditor : TemplatedControl
@@ -87,6 +88,8 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeWordWrapProperties();
         InitializeGuidesProperties();
         InitializeStickyScrollProperties();
+        InitializeAccessibilityProperties();
+        InitializeHighContrastProperties();
     }
 
     /// <summary>Creates the control.</summary>
@@ -110,6 +113,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeStickyScroll();
         InitializeHighlighting();
         InitializeIme();
+        InitializeAccessibility();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
 
@@ -168,6 +172,7 @@ public sealed partial class LoomEditor : TemplatedControl
         _canvas.DrawFrame = OnCanvasDraw;
         _canvas.PropertyChanged += OnCanvasPropertyChanged;
         AttachScrollBars(e.NameScope);
+        AttachLiveRegion(e.NameScope);
     }
 
     /// <inheritdoc />
@@ -178,6 +183,8 @@ public sealed partial class LoomEditor : TemplatedControl
         _featureHost ??= new EditorFeatureHost(_context, Features);
         ApplyFoldingEnabled();
         StartHighlighting();
+        StartAccessibility();
+        StartHighContrast();
         ObserveTopLevel();
     }
 
@@ -189,6 +196,8 @@ public sealed partial class LoomEditor : TemplatedControl
         _featureHost?.Dispose();
         _featureHost = null;
         StopHighlighting();
+        StopAccessibility();
+        StopHighContrast();
         StopBlinkTimer();
         StopObservingTopLevel();
         ReleaseResources();
@@ -274,7 +283,7 @@ public sealed partial class LoomEditor : TemplatedControl
         _measurer = CreateTextMeasurer();
         _renderer = new TextViewRenderer(_measurer, _context.Scheduler, () => Invalidate());
         _renderer.MinimapSampleDataProvider = AvaloniaMinimapFontSampler.CreateSampleData;
-        _renderer.Theme = Theme;
+        _renderer.Theme = EffectiveTheme;
         _renderer.RenderWhitespace = RenderWhitespace;
         _renderer.RenderControlCharacters = RenderControlCharacters;
         SyncCaretStyle();
