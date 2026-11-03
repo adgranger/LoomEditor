@@ -1,4 +1,6 @@
+using LoomEditor.Core.Decorations;
 using LoomEditor.View.Decorations;
+using LoomEditor.View.Features;
 
 namespace LoomEditor.Avalonia.Controls;
 
@@ -23,4 +25,8 @@ public sealed partial class LoomEditor
 
         return collection;
     }
+
+    // The collection of model decorations the diff editor keeps on each side.
+    internal EditorDecorationsCollection CreateModelDecorationsCollection(IReadOnlyList<ModelDeltaDecoration>? decorations = null) =>
+        _context.CreateDecorationsCollection(decorations);
 }

@@ -1,4 +1,54 @@
 #nullable enable
+~override LoomEditor.Avalonia.Controls.DiffLine.Equals(object obj) -> bool
+~override LoomEditor.Avalonia.Controls.DiffLine.ToString() -> string
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int lineNumber) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int startLineNumber, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.StartLineNumber.get -> int
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, string! text) -> void
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Text.get -> string!
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.CommentThreadEventArgs
+LoomEditor.Avalonia.Controls.CommentThreadEventArgs.CommentThreadEventArgs(LoomEditor.Core.Comments.CommentThread! thread) -> void
+LoomEditor.Avalonia.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.Avalonia.Controls.DiffSide side, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.Avalonia.Controls.DiffSide side, int startLineNumber, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs(LoomEditor.Avalonia.Controls.DiffSide side, LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.Side.get -> LoomEditor.Avalonia.Controls.DiffSide
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.StartLineNumber.get -> int
+LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.Avalonia.Controls.DiffBlockAction
+LoomEditor.Avalonia.Controls.DiffBlockAction.Primary = 0 -> LoomEditor.Avalonia.Controls.DiffBlockAction
+LoomEditor.Avalonia.Controls.DiffBlockAction.Secondary = 1 -> LoomEditor.Avalonia.Controls.DiffBlockAction
+LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs
+LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs.Action.get -> LoomEditor.Avalonia.Controls.DiffBlockAction
+LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs.Block.get -> LoomEditor.View.DiffEditor.DiffChangeBlock!
+LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs.DiffBlockActionInvokedEventArgs(LoomEditor.View.DiffEditor.DiffChangeBlock! block, LoomEditor.Avalonia.Controls.DiffBlockAction action) -> void
+LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility
+LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility.Always = 2 -> LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility
+LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility.Off = 0 -> LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility
+LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility.OnHover = 1 -> LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility
+LoomEditor.Avalonia.Controls.DiffLine
+LoomEditor.Avalonia.Controls.DiffLine.Deconstruct(out LoomEditor.Avalonia.Controls.DiffSide Side, out int LineNumber) -> void
+LoomEditor.Avalonia.Controls.DiffLine.DiffLine() -> void
+LoomEditor.Avalonia.Controls.DiffLine.DiffLine(LoomEditor.Avalonia.Controls.DiffSide Side, int LineNumber) -> void
+LoomEditor.Avalonia.Controls.DiffLine.Equals(LoomEditor.Avalonia.Controls.DiffLine other) -> bool
+LoomEditor.Avalonia.Controls.DiffLine.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.DiffLine.LineNumber.init -> void
+LoomEditor.Avalonia.Controls.DiffLine.Side.get -> LoomEditor.Avalonia.Controls.DiffSide
+LoomEditor.Avalonia.Controls.DiffLine.Side.init -> void
+LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs
+LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.DiffLineActionInvokedEventArgs(System.Collections.Generic.IReadOnlyList<LoomEditor.Avalonia.Controls.DiffLine>! lines) -> void
+LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.Lines.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Avalonia.Controls.DiffLine>!
+LoomEditor.Avalonia.Controls.DiffSide
+LoomEditor.Avalonia.Controls.DiffSide.Modified = 1 -> LoomEditor.Avalonia.Controls.DiffSide
+LoomEditor.Avalonia.Controls.DiffSide.Original = 0 -> LoomEditor.Avalonia.Controls.DiffSide
 LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
 LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.Auto = 0 -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
 LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.Off = 2 -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
@@ -10,6 +60,12 @@ LoomEditor.Avalonia.Controls.EditorBracketPairGuides.On = 1 -> LoomEditor.Avalon
 LoomEditor.Avalonia.Controls.EditorMinimapSide
 LoomEditor.Avalonia.Controls.EditorMinimapSide.Left = 1 -> LoomEditor.Avalonia.Controls.EditorMinimapSide
 LoomEditor.Avalonia.Controls.EditorMinimapSide.Right = 0 -> LoomEditor.Avalonia.Controls.EditorMinimapSide
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
 LoomEditor.Avalonia.Controls.EditorWordWrap
 LoomEditor.Avalonia.Controls.EditorWordWrap.Bounded = 3 -> LoomEditor.Avalonia.Controls.EditorWordWrap
 LoomEditor.Avalonia.Controls.EditorWordWrap.Off = 0 -> LoomEditor.Avalonia.Controls.EditorWordWrap
@@ -20,6 +76,9 @@ LoomEditor.Avalonia.Controls.EditorWrappingIndent.DeepIndent = 3 -> LoomEditor.A
 LoomEditor.Avalonia.Controls.EditorWrappingIndent.Indent = 2 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
 LoomEditor.Avalonia.Controls.EditorWrappingIndent.None = 0 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
 LoomEditor.Avalonia.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.Find.FindWidget
+LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget() -> void
+LoomEditor.Avalonia.Controls.Find.FindWidget.InitializeComponent(bool loadXaml = true) -> void
 LoomEditor.Avalonia.Controls.GutterArea
 LoomEditor.Avalonia.Controls.GutterArea.GlyphMargin = 0 -> LoomEditor.Avalonia.Controls.GutterArea
 LoomEditor.Avalonia.Controls.GutterArea.LineDecorations = 2 -> LoomEditor.Avalonia.Controls.GutterArea
@@ -29,12 +88,39 @@ LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Area.get -> LoomEditor.Avalo
 LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.get -> bool
 LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.set -> void
 LoomEditor.Avalonia.Controls.GutterClickedEventArgs.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.LoomDiffEditor
+LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get -> int
+LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.IsDiffUpToDate.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.get -> string!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LoomDiffEditor() -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.Modified.get -> LoomEditor.Avalonia.Controls.LoomEditor!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.get -> string!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.Original.get -> LoomEditor.Avalonia.Controls.LoomEditor!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.get -> string!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.WaitForDiffAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 LoomEditor.Avalonia.Controls.LoomEditor
 LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
 LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupport.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested -> System.EventHandler<LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Avalonia.Controls.Control? content = null) -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.Avalonia.Controls.EditorBracketPairGuides
 LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
+LoomEditor.Avalonia.Controls.LoomEditor.CommentCancelled -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentThreadEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
 LoomEditor.Avalonia.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
 LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.set -> void
@@ -52,6 +138,7 @@ LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
 LoomEditor.Avalonia.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.Avalonia.Controls.GutterClickedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomEditor.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet(string! template, int overwriteBefore, int overwriteAfter) -> void
@@ -61,6 +148,7 @@ LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnly.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
 LoomEditor.Avalonia.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.LanguageId.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
 LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacing.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacing.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.get -> int
@@ -84,12 +172,16 @@ LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoom.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoom.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyle.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone(string! id) -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuides.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuides.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.get -> LoomEditor.View.Layout.RenderWhitespace
 LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.ResetText(string! text) -> void
+LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollLeft.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollLeft.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollTop.get -> double
@@ -98,12 +190,14 @@ LoomEditor.Avalonia.Controls.LoomEditor.SelectionChanged -> System.EventHandler?
 LoomEditor.Avalonia.Controls.LoomEditor.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
 LoomEditor.Avalonia.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
 LoomEditor.Avalonia.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
+LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight(string! id, double height) -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrolling.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrolling.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCount.get -> int
 LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCount.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied -> System.EventHandler<LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.TabSize.get -> int
@@ -122,10 +216,24 @@ LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.Avaloni
 LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevel.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevel.set -> void
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get -> LoomEditor.Core.Comments.Comment!
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.StartLineNumber.get -> int
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int startLineNumber, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.Avalonia.LoomEditorStyles
 LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void
+override LoomEditor.Avalonia.Controls.DiffLine.GetHashCode() -> int
+static LoomEditor.Avalonia.Controls.DiffLine.operator !=(LoomEditor.Avalonia.Controls.DiffLine left, LoomEditor.Avalonia.Controls.DiffLine right) -> bool
+static LoomEditor.Avalonia.Controls.DiffLine.operator ==(LoomEditor.Avalonia.Controls.DiffLine left, LoomEditor.Avalonia.Controls.DiffLine right) -> bool
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageIdProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedTextProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalTextProperty -> Avalonia.StyledProperty<string!>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupportProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorAccessibilitySupport>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuidesProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorBracketPairGuides>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.CursorStyleProperty -> Avalonia.StyledProperty<LoomEditor.View.Layout.TextEditorCursorStyle>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.DragAndDropProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabledProperty -> Avalonia.StyledProperty<bool>!
@@ -157,52 +265,3 @@ static readonly LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumnProperty -
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.WordWrapProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorWordWrap>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndentProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorWrappingIndent>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevelProperty -> Avalonia.StyledProperty<double>!
-LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Avalonia.Controls.Control? content = null) -> string!
-LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone(string! id) -> bool
-LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight(string! id, double height) -> bool
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
-LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs!>?
-LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
-LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
-LoomEditor.Avalonia.Controls.LoomEditor.ResetText(string! text) -> void
-LoomEditor.Avalonia.Controls.Find.FindWidget
-LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget() -> void
-LoomEditor.Avalonia.Controls.Find.FindWidget.InitializeComponent(bool loadXaml = true) -> void
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int lineNumber) -> void
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int startLineNumber, int lineNumber) -> void
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.LineNumber.get -> int
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.StartLineNumber.get -> int
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, string! text) -> void
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Text.get -> string!
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.Avalonia.Controls.CommentThreadEventArgs
-LoomEditor.Avalonia.Controls.CommentThreadEventArgs.CommentThreadEventArgs(LoomEditor.Core.Comments.CommentThread! thread) -> void
-LoomEditor.Avalonia.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested -> System.EventHandler<LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs!>?
-LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
-LoomEditor.Avalonia.Controls.LoomEditor.CommentCancelled -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentThreadEventArgs!>?
-LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.get -> bool
-LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set -> void
-LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs!>?
-LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
-LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
-LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied -> System.EventHandler<LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs!>?
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get -> LoomEditor.Core.Comments.Comment!
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.LineNumber.get -> int
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.StartLineNumber.get -> int
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int lineNumber) -> void
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int startLineNumber, int lineNumber) -> void
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
-static readonly LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty -> Avalonia.StyledProperty<bool>!

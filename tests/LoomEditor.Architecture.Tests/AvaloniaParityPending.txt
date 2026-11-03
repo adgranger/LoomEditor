@@ -1,58 +1,19 @@
 # WinUI public members that LoomEditor.Avalonia does not have yet (one key per line, sorted).
 # A card that adds a member removes its line; see AvaloniaApiParityTests.
-LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs
-LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs
-LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get
-LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.Side.get
-LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.StartLineNumber.get
-LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.TextRange.get
-LoomEditor.Avalonia.Controls.DiffBlockAction
-LoomEditor.Avalonia.Controls.DiffBlockAction.Primary = 0
-LoomEditor.Avalonia.Controls.DiffBlockAction.Secondary = 1
-LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs
-LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs.Action.get
-LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs.Block.get
-LoomEditor.Avalonia.Controls.DiffBlockActionInvokedEventArgs.DiffBlockActionInvokedEventArgs
-LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility
-LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility.Always = 2
-LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility.Off = 0
-LoomEditor.Avalonia.Controls.DiffBlockActionsVisibility.OnHover = 1
-LoomEditor.Avalonia.Controls.DiffLine
-LoomEditor.Avalonia.Controls.DiffLine.Deconstruct
-LoomEditor.Avalonia.Controls.DiffLine.DiffLine
-LoomEditor.Avalonia.Controls.DiffLine.Equals
-LoomEditor.Avalonia.Controls.DiffLine.GetHashCode
-LoomEditor.Avalonia.Controls.DiffLine.LineNumber.get
-LoomEditor.Avalonia.Controls.DiffLine.LineNumber.init
-LoomEditor.Avalonia.Controls.DiffLine.Side.get
-LoomEditor.Avalonia.Controls.DiffLine.Side.init
-LoomEditor.Avalonia.Controls.DiffLine.ToString
-LoomEditor.Avalonia.Controls.DiffLine.operator !=
-LoomEditor.Avalonia.Controls.DiffLine.operator ==
-LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs
-LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.DiffLineActionInvokedEventArgs
-LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.Lines.get
-LoomEditor.Avalonia.Controls.DiffSide
-LoomEditor.Avalonia.Controls.DiffSide.Modified = 1
-LoomEditor.Avalonia.Controls.DiffSide.Original = 0
 LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
 LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector
-LoomEditor.Avalonia.Controls.LoomDiffEditor
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentRequested
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionInvoked
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibilityProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ClearSelection
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CloseAccessibleDiffViewer
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CollapseAllUnchangedRegions
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentCancelled
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentSubmitted
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentThreads.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.DiffChanged
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizingProperty
@@ -75,13 +36,9 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespace.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespace.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespaceProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsAccessibleDiffViewerOpen.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.IsDiffUpToDate.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnlyProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageIdProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyphProperty
@@ -97,22 +54,13 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.LineHeight.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabledProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LoomDiffEditor
 LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMsProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.Modified.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedTextProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OpenAccessibleDiffViewer
-LoomEditor.Avalonia.Controls.LoomDiffEditor.Original.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditableProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalTextProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyphProperty
@@ -141,9 +89,6 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectionChanged
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SetSelection
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ShowAllUnchangedRegions
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SuggestionApplied
-LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.WaitForDiffAsync

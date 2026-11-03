@@ -1,6 +1,6 @@
 # P15-24 — `LoomDiffEditor`: shell, layout, sash, public diff types
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-23
 - **Size:** M
 
@@ -34,14 +34,14 @@ and the public types `DiffSide.cs`, `DiffLine.cs`, `DiffBlockAction.cs`, `DiffBl
 
 ## Tests
 
-- [ ] New: `DiffEditor_TwoTexts_ShowsInsertedLineDecoration` (pixels of the inserted-line color in the modified side); `Sash_Drag_ChangesSplit`;
+- [x] New: `DiffEditor_TwoTexts_ShowsInsertedLineDecoration` (pixels of the inserted-line color in the modified side); `Sash_Drag_ChangesSplit`;
   `NarrowWidth_FallsBackToInline` (`RenderSideBySideEffective` false below the WinUI threshold); `DiffChanged_RaisedAfterCompute`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

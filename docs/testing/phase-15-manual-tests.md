@@ -170,3 +170,14 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 5. All: `AddCommentThread(line, startComposing: true)` puts the focus in the comment box; submitting or cancelling returns the focus to the editor with the caret on that line.
    **Result:** pending
+
+## P15-24 — LoomDiffEditor shell, layout and sash
+
+1. All: `<loom:LoomDiffEditor OriginalText="..." ModifiedText="..." />` in a window wider than 900 DIPs shows two editors side by side with a thin line between them; inserted lines are tinted green in the modified side, deleted lines red in the original side.
+   **Result:** pending
+2. All: drag the sash with the mouse: the original side grows or shrinks and the cursor is a west-east arrow; each side keeps at least 100 DIPs; double-click the sash: it returns to the middle.
+   **Result:** pending
+3. All: narrow the window below 900 DIPs: the original side and the sash disappear (inline fallback, the deleted lines come with P15-26); widen it again: they come back at the dragged position.
+   **Result:** pending
+4. All: type in the modified side: `ModifiedText` follows, and the decorations update after a short delay (`DiffChanged`).
+   **Result:** pending

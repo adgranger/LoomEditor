@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:LoomEditor.Avalonia.Controls"
-        xmlns:find="using:LoomEditor.Avalonia.Controls.Find">
+        xmlns:find="using:LoomEditor.Avalonia.Controls.Find"
+        xmlns:diff="using:LoomEditor.Avalonia.Controls.DiffEditor">
   <Styles.Resources>
     <ResourceDictionary>
       <!-- Default look of the LoomEditor control. PART_Canvas is required: all text is drawn on it. -->
@@ -27,6 +28,21 @@
                 <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" VerticalAlignment="Bottom" IsVisible="False" />
               </Panel>
             </Border>
+          </ControlTemplate>
+        </Setter>
+      </ControlTheme>
+      <!-- Default look of the LoomDiffEditor control: the parts are required and placed by code (sash position, inline mode). -->
+      <ControlTheme x:Key="{x:Type controls:LoomDiffEditor}" TargetType="controls:LoomDiffEditor">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+          <ControlTemplate>
+            <Panel Background="{TemplateBinding Background}">
+              <controls:LoomEditor Name="PART_Original" HorizontalAlignment="Left" />
+              <controls:LoomEditor Name="PART_Modified" HorizontalAlignment="Stretch" />
+              <diff:DiffEditorSash Name="PART_Sash" HorizontalAlignment="Left" />
+              <!-- P15-26: PART_Overview (the overview ruler) goes here. -->
+              <Panel Name="PART_ViewerHost" />
+            </Panel>
           </ControlTemplate>
         </Setter>
       </ControlTheme>
