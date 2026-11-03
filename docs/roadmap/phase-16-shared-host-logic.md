@@ -25,11 +25,16 @@ framework-specific lines go to small `.Host.cs` parts. Pure helpers that name no
 
 ## Checklist
 
-- [ ] ADR 0017: shared host source, host members, `HostDispatcher`, one source for public UI-free types
-- [ ] `src/LoomEditor.HostShared/`, the props file, `LOOM_WINUI` / `LOOM_AVALONIA`, `HostSharedSourceTests`; public UI-free types from one source (P16-01, P16-02)
-- [ ] `LoomEditor` partials shared (P16-03 … P16-07)
-- [ ] `LoomDiffEditor` and its controllers shared (P16-08 … P16-13)
-- [ ] Find, comment, suggest and hover widgets shared (P16-14 … P16-17)
-- [ ] Rendering helpers in `LoomEditor.Rendering`; Avalonia diff test window helper (P16-18, P16-19)
-- [ ] Galleries share their window logic (P16-20 … P16-23)
+- [x] ADR 0017: shared host source, host members, `HostDispatcher`, one source for public UI-free types
+- [x] `src/LoomEditor.HostShared/`, the props file, `LOOM_WINUI` / `LOOM_AVALONIA`, `HostSharedSourceTests`; public UI-free types from one source (P16-01, P16-02)
+- [x] `LoomEditor` partials shared (P16-03 … P16-07)
+- [x] `LoomDiffEditor` and its controllers shared (P16-08 … P16-13)
+- [x] Find, comment, suggest and hover widgets shared (P16-14 … P16-17)
+- [x] Rendering helpers in `LoomEditor.Rendering`; Avalonia diff test window helper (P16-18, P16-19)
+- [x] Galleries share their window logic (P16-20 … P16-23)
 - [ ] Self-checks of both Galleries green, Native AOT publish of both Galleries, Sonar duplication ≤ 3% on PR #26 (P16-24)
+
+## Result (P16-24, 2026-11-03)
+
+- Self-checks (text 10/10, diff 9/9, comments 17/17, host API 6/6) pass on both Galleries, from the Native AOT publish of each (0 warnings). `--lsp-selfcheck` not run.
+- **Sonar duplication on PR #26: pending.** The last analysis (before P16-21 … P16-24 were pushed) read 4.42% (956 of 21,621 new lines). The check needs a push: re-read `new_duplicated_lines_density` after SonarCloud analyzes the pushed branch.

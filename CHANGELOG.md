@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - `LoomEditor.Rendering` targets `net11.0` (no Windows API): Win2D and the Win2D backend moved into `LoomEditor.WinUI`. The WinUI public API is unchanged.
+- The code the WinUI and Avalonia controls and Galleries have in common lives once (`LoomEditor.HostShared`, shared Gallery sources). Internal refactoring: no public API change (phase 16).
 
 ## [0.4.0] - 2026-11-02
 
