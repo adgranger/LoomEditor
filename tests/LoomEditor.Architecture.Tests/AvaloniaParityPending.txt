@@ -170,7 +170,6 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedPrope
 LoomEditor.Avalonia.Controls.LoomDiffEditor.WaitForDiffAsync
 LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested
 LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread
-LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone
 LoomEditor.Avalonia.Controls.LoomEditor.CommentCancelled
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.get
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set
@@ -180,10 +179,8 @@ LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get
 LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber
 LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread
-LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone
 LoomEditor.Avalonia.Controls.LoomEditor.ResetText
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged
-LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight
 LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get

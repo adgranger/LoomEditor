@@ -98,6 +98,7 @@ public sealed partial class LoomEditor : TemplatedControl
         _frameScheduler = new AnimationFrameScheduler(() => TopLevel.GetTopLevel(this));
         _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System, new DispatcherUiDispatcher(), new DispatcherEditorScheduler());
         _viewModel = _context.ViewModel;
+        _hostZoneLayer = new ViewZones.HostViewZoneLayer(this);
         _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
         _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
         _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
@@ -173,6 +174,7 @@ public sealed partial class LoomEditor : TemplatedControl
         _canvas.PropertyChanged += OnCanvasPropertyChanged;
         AttachScrollBars(e.NameScope);
         AttachLiveRegion(e.NameScope);
+        AttachOverlays(e.NameScope);
     }
 
     /// <inheritdoc />
@@ -227,6 +229,7 @@ public sealed partial class LoomEditor : TemplatedControl
 
             var surface = new AvaloniaRenderSurface(context, new Rect(size), _measurer!, _bitmapCache, _paintCache);
             _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
+            _hostZoneLayer.ArrangeAfterDraw();
             ApplyPendingHorizontalReveal();
         }
         finally

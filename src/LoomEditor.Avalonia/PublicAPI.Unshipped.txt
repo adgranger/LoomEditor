@@ -157,3 +157,6 @@ static readonly LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumnProperty -
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.WordWrapProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorWordWrap>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndentProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorWrappingIndent>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevelProperty -> Avalonia.StyledProperty<double>!
+LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Avalonia.Controls.Control? content = null) -> string!
+LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone(string! id) -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight(string! id, double height) -> bool
