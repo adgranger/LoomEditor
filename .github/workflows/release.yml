@@ -1,4 +1,4 @@
-# Release: a v* tag runs every gate, then publishes the six packages to nuget.org and creates a GitHub Release.
+# Release: a v* tag runs every gate, then publishes the seven packages to nuget.org and creates a GitHub Release.
 # Started by hand with a version, it runs the gates only (dry run): nothing is published.
 name: Release
 
@@ -111,7 +111,7 @@ jobs:
 
       - name: Release build
         shell: pwsh
-        run: ./eng/Invoke-ReleaseBuild.ps1 -Version ${{ steps.version.outputs.version }}
+        run: ./eng/Invoke-ReleaseBuild.ps1 -Version ${{ steps.version.outputs.version }} -RequireAllNatives
 
       - name: Upload the packages
         uses: actions/upload-artifact@v7
@@ -186,7 +186,7 @@ jobs:
           NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
           VERSION: ${{ needs.build.outputs.version }}
         run: |
-          foreach ($id in 'LoomEditor.Core', 'LoomEditor.TextMate', 'LoomEditor.Themes', 'LoomEditor.View', 'LoomEditor.Rendering', 'LoomEditor.WinUI') {
+          foreach ($id in 'LoomEditor.Core', 'LoomEditor.TextMate', 'LoomEditor.Themes', 'LoomEditor.View', 'LoomEditor.Rendering', 'LoomEditor.Avalonia', 'LoomEditor.WinUI') {
             dotnet nuget push "artifacts/packages/$id.$env:VERSION.nupkg" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
             if ($LASTEXITCODE -ne 0) { throw "Pushing $id $env:VERSION failed." }
           }

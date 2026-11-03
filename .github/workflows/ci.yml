@@ -116,7 +116,7 @@ jobs:
       # Packages are built but NOT published: publishing is a manual, reviewed step (docs/RELEASING.md).
       - name: Pack and test the packages
         shell: pwsh
-        run: ./eng/Test-Packages.ps1
+        run: ./eng/Test-Packages.ps1 -RequireAllNatives
 
       - uses: actions/upload-artifact@v7
         with:
@@ -295,3 +295,27 @@ jobs:
         with:
           name: gallery-avalonia-${{ matrix.rid }}
           path: samples/LoomEditor.Gallery.Avalonia/bin/Release/net11.0/${{ matrix.rid }}/publish
+
+  # The Avalonia package on Linux: packed without WinUI, then a headless app that uses only the packages is published with Native AOT and run (P15-33).
+  package-avalonia:
+    name: Avalonia package test (linux-x64)
+    runs-on: ubuntu-latest
+    needs: [native]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Download the Oniguruma libraries
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
+
+      # Pack.ps1 checks that the TextMate package carries the six runtimes/<rid>/native entries.
+      - name: Pack and test the packages
+        shell: pwsh
+        run: ./eng/Test-Packages.ps1 -RequireAllNatives

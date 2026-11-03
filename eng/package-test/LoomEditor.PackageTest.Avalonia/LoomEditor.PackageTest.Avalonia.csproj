@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Throwaway app outside LoomEditor.slnx: references only the packed LoomEditor.Avalonia .nupkg (see eng/Test-Packages.ps1).
+    Headless (no window system needed): it uses the public API once and exits 0, or fails.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net11.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PublishAot>true</PublishAot>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <LoomEditorVersion Condition="'$(LoomEditorVersion)' == ''">0.1.0-alpha</LoomEditorVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LoomEditor.Avalonia" Version="$(LoomEditorVersion)" />
+    <PackageReference Include="Avalonia.Headless" Version="12.1.5" />
+    <PackageReference Include="Avalonia.Skia" Version="12.1.5" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.5" />
+  </ItemGroup>
+</Project>

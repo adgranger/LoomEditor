@@ -35,6 +35,7 @@ On a Windows 11 machine or VM without Visual Studio, outside the repository:
   copy its published folder and start the exe): a window opens and shows the editor with its text
 - [ ] **HUMAN:** the README of each package is readable
 - [ ] **HUMAN:** `LoomEditor.Core` alone works from a console app (create a `TextModel`, read a line)
+- [ ] **HUMAN:** on macOS and Ubuntu, `LoomEditor.Avalonia` from that folder works in a small Avalonia 12 app (the Gallery of `samples/LoomEditor.Gallery.Avalonia` is the model)
 
 ## 4. Repository content (agent can prepare, HUMAN confirms)
 
@@ -47,8 +48,8 @@ On a Windows 11 machine or VM without Visual Studio, outside the repository:
 ## 5. External setup (HUMAN, RELEASING.md section 2)
 
 - [ ] **HUMAN:** nuget.org account with 2FA
-- [ ] **HUMAN:** the six ids are free (`LoomEditor.Core`, `LoomEditor.TextMate`, `LoomEditor.Themes`, `LoomEditor.View`,
-  `LoomEditor.Rendering`, `LoomEditor.WinUI`)
+- [ ] **HUMAN:** the seven ids are free (`LoomEditor.Core`, `LoomEditor.TextMate`, `LoomEditor.Themes`, `LoomEditor.View`,
+  `LoomEditor.Rendering`, `LoomEditor.Avalonia`, `LoomEditor.WinUI`)
 - [ ] **HUMAN:** ID prefix reservation `LoomEditor.` requested (optional)
 - [ ] **HUMAN:** Trusted Publishing policy created (owner `adgranger`, repository `LoomEditor`, workflow
   `release.yml`, environment `nuget`, scope "Push new packages and package versions"); no API key exists

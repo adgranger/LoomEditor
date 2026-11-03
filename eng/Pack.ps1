@@ -1,16 +1,17 @@
 <#
 .SYNOPSIS
-    Packs the six LoomEditor libraries into artifacts/packages and checks the content of every package.
+    Packs the LoomEditor libraries into artifacts/packages and checks the content of every package.
 .DESCRIPTION
-    Not published anywhere: publishing to nuget.org is a manual decision. Fails with the list of all problems found.
+    LoomEditor.WinUI is packed on Windows only (its target framework is a Windows one); -RequireAllNatives checks the six Oniguruma runtimes in
+    LoomEditor.TextMate (CI downloads all of them before packing). Not published anywhere: publishing to nuget.org is a manual decision. Fails with the list of all problems found.
 #>
-param([string] $Version)
+param([string] $Version, [switch] $RequireAllNatives)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $root = Split-Path -Parent $PSScriptRoot
 $out = Join-Path $root 'artifacts/packages'
-$projects = 'Core', 'TextMate', 'Themes', 'View', 'Rendering', 'WinUI'
+$projects = @('Core', 'TextMate', 'Themes', 'View', 'Rendering', 'Avalonia') + @(if ($IsWindows) { 'WinUI' })
 $sourceLinkUrl = 'https://raw.githubusercontent.com/adgranger/LoomEditor/'
 
 New-Item -ItemType Directory -Force $out | Out-Null
@@ -34,6 +35,7 @@ $dependencies = @{
     Themes    = @('LoomEditor.Core')
     View      = @('LoomEditor.Core', 'LoomEditor.TextMate', 'LoomEditor.Themes')
     Rendering = @('LoomEditor.View')
+    Avalonia  = @('LoomEditor.Rendering', 'Avalonia')
     WinUI     = @('LoomEditor.Rendering', 'Microsoft.WindowsAppSDK', 'Microsoft.Graphics.Win2D')
 }
 
@@ -44,7 +46,7 @@ function Read-Entry($entry) {
 
 foreach ($ext in 'nupkg', 'snupkg') {
     $files = @(Get-ChildItem $out -Filter "*.$ext")
-    if ($files.Count -ne 6) { $problems.Add("expected 6 .$ext files, found $($files.Count)") }
+    if ($files.Count -ne $projects.Count) { $problems.Add("expected $($projects.Count) .$ext files, found $($files.Count)") }
 }
 
 foreach ($p in $projects) {
@@ -126,7 +128,11 @@ foreach ($p in $projects) {
             }
 
             if ($p -eq 'TextMate') {
-                foreach ($n in 'runtimes/win-x64/native/onig.dll', 'runtimes/win-arm64/native/onig.dll') {
+                $natives = @('runtimes/win-x64/native/onig.dll')
+                if ($RequireAllNatives) {
+                    $natives += 'runtimes/win-arm64/native/onig.dll', 'runtimes/linux-x64/native/libonig.so', 'runtimes/linux-arm64/native/libonig.so', 'runtimes/osx-x64/native/libonig.dylib', 'runtimes/osx-arm64/native/libonig.dylib'
+                }
+                foreach ($n in $natives) {
                     if ($n -notin $names) { $problems.Add("$id.nupkg misses $n") }
                 }
             }
