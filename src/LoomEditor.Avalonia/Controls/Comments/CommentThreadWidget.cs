@@ -47,11 +47,12 @@ internal sealed partial class CommentThreadWidget : UserControl
         _border.Child = _panel;
         Content = _border;
         AutomationProperties.SetAutomationId(this, "LoomEditor.CommentThread");
-        // A UserControl has no role of its own for UI Automation: without this its name is not exposed as a group.
-        AutomationProperties.SetControlTypeOverride(this, AutomationControlType.Group);
         _viewModel.Changed += OnChanged;
         Rebuild();
     }
+
+    /// <inheritdoc />
+    protected override AutomationPeer OnCreateAutomationPeer() => new CommentThreadAutomationPeer(this);
 
     /// <summary>Raised after the content was rebuilt from the view model.</summary>
     public event EventHandler? ContentChanged;

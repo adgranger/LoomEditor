@@ -157,3 +157,16 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 5. All: a posted comment with a suggestion block shows "Suggested change" with - / + rows and an Apply button; Apply replaces the line, a changed line shows the stale tooltip, a read-only editor disables the button.
    **Result:** pending
+
+## P15-23 — Comment zones
+
+1. All: `AddCommentThread(line)` opens a box between that line and the next; the lines below move down, and removing the thread closes the box and moves them back.
+   **Result:** pending
+2. All: adding a comment, a reply box or a long Markdown comment grows the box to fit its content; resizing the editor (a narrower width wraps the text) changes the height to match, without flicker or a gap.
+   **Result:** pending
+3. All: scroll the thread half out of the editor: the box is clipped at the editor edge and does not draw over the line numbers or the scroll bar.
+   **Result:** pending
+4. Windows (Narrator), macOS (VoiceOver), Ubuntu (Orca): the thread is read as a group named "Comment thread on line N", and its comments are inside it.
+   **Result:** pending
+5. All: `AddCommentThread(line, startComposing: true)` puts the focus in the comment box; submitting or cancelling returns the focus to the editor with the caret on that line.
+   **Result:** pending

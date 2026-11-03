@@ -1195,7 +1195,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 | [P15-20](phase-15/P15-20-comment-gutter.md) | Comment threads: event args, gutter "+", editor wiring | P15-19 | done |
 | [P15-21](phase-15/P15-21-comment-thread-widget.md) | Comment thread widget: display | P15-20 | done |
 | [P15-22](phase-15/P15-22-comment-composer.md) | Comment composer, toolbar, suggestion blocks | P15-21 | done |
-| [P15-23](phase-15/P15-23-comment-zone-host.md) | Comment zones and their automation peer | P15-22 | todo |
+| [P15-23](phase-15/P15-23-comment-zone-host.md) | Comment zones and their automation peer | P15-22 | done |
 
 ### Step E — `LoomDiffEditor`
 

@@ -14,9 +14,11 @@ public sealed partial class LoomEditor
         AvaloniaProperty.Register<LoomEditor, bool>(nameof(CommentGutterButtonEnabled), false);
 
     private CommentThreadsController _commentThreads = null!;
-    // P15-23: the comment zone host replaces this stub.
-    private static ICommentZoneHost? CommentZoneHost => null;
+    private CommentZoneHost? _commentZoneHost;
     private CommentGutterController? _commentGutter;
+
+    // The box of a thread over its zone, for the tests.
+    internal CommentThreadWidget? CommentWidgetOf(CommentThread thread) => _commentZoneHost?.WidgetOf(thread);
 
     // The gutter "+", for the tests.
     internal CommentGutterController? CommentGutter => _commentGutter;
@@ -59,7 +61,7 @@ public sealed partial class LoomEditor
         CommentThread thread = _commentThreads.Add(lineNumber, title, startComposing);
         if (startComposing)
         {
-            CommentZoneHost?.FocusComposer(thread);
+            _commentZoneHost?.FocusComposer(thread);
         }
 
         return thread;
@@ -81,7 +83,7 @@ public sealed partial class LoomEditor
         CommentThread thread = _commentThreads.Add(startLineNumber, endLineNumber, title, startComposing);
         if (startComposing)
         {
-            CommentZoneHost?.FocusComposer(thread);
+            _commentZoneHost?.FocusComposer(thread);
         }
 
         return thread;
@@ -103,7 +105,7 @@ public sealed partial class LoomEditor
         CommentThread thread = _commentThreads.Add(CommentRange.FromRange(Model, range), title, startComposing);
         if (startComposing)
         {
-            CommentZoneHost?.FocusComposer(thread);
+            _commentZoneHost?.FocusComposer(thread);
         }
 
         return thread;
@@ -116,11 +118,13 @@ public sealed partial class LoomEditor
         return _commentThreads.Remove(thread);
     }
 
-    // The optional PART_ZoneWidgetCanvas also hosts the gutter "+" and, from P15-23, a box over each comment thread's zone; without the part there is no gutter button.
+    // The optional PART_ZoneWidgetCanvas also hosts the gutter "+" and a box over each comment thread's zone; without the part there is no gutter button.
     private void InitializeCommentGutter(OverlayHost? layer)
     {
         _commentGutter?.Dispose();
         _commentGutter = null;
+        _commentZoneHost?.Dispose();
+        _commentZoneHost = null;
         if (layer is null)
         {
             return;
@@ -128,7 +132,8 @@ public sealed partial class LoomEditor
 
         _commentGutter = new CommentGutterController(this, layer, _commentThreads, CreateMouseTarget) { Enabled = CommentGutterButtonEnabled };
         _commentGutter.ApplyTheme(EffectiveTheme);
-        // P15-23: the comment zone host is created here, with the same layer.
+        _commentZoneHost = new CommentZoneHost(this, layer, _commentThreads);
+        _commentZoneHost.ApplyTheme(EffectiveTheme, _systemHighContrastTheme is not null);
     }
 
     private static void InitializeCommentThreadsProperties() =>
@@ -139,6 +144,8 @@ public sealed partial class LoomEditor
                 gutter.Enabled = (bool)e.NewValue!;
             }
         });
+
+    internal void InvalidateComments() => Invalidate();
 
     internal void Announce(string message) => _context.Announcer.Announce(message);
 

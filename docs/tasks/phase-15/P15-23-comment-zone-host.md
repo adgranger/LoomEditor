@@ -1,6 +1,6 @@
 # P15-23 — Comment zones: the widget between lines, its height, its automation peer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-22
 - **Size:** M
 
@@ -31,14 +31,14 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Comments/CommentZoneHost.cs`, `C
 
 ## Tests
 
-- [ ] New: `OpenThread_InsertsZoneBelowLine`; `AddComment_GrowsZone`; `CloseThread_RemovesZone`; `Peer_IsGroup_WithThreadName`
-- [ ] Parity: no `AddCommentRequested`, `CommentSubmitted`, `CommentThread…` key left in `AvaloniaParityPending.txt` for `LoomEditor`
+- [x] New: `OpenThread_InsertsZoneBelowLine`; `AddComment_GrowsZone`; `CloseThread_RemovesZone`; `Peer_IsGroup_WithThreadName`
+- [x] Parity: no `AddCommentRequested`, `CommentSubmitted`, `CommentThread…` key left in `AvaloniaParityPending.txt` for `LoomEditor`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

@@ -238,6 +238,7 @@ public sealed partial class LoomEditor : TemplatedControl
             _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
             _hostZoneLayer.ArrangeAfterDraw();
             _commentGutter?.ArrangeAfterDraw();
+            _commentZoneHost?.ArrangeAfterDraw();
             ApplyPendingHorizontalReveal();
         }
         finally

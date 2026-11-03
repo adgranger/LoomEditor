@@ -29,6 +29,7 @@ public sealed partial class LoomEditor
     {
         _context.IsReadOnly = readOnly;
         _findWidget?.OnReadOnlyChanged();
+        _commentZoneHost?.OnReadOnlyChanged();
         _cursorBlinking.Update(HasFocus, readOnly);
         if (readOnly)
         {
