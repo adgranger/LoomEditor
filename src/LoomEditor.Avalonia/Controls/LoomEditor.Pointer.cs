@@ -82,6 +82,14 @@ public sealed partial class LoomEditor
             return;
         }
 
+        if (HandleZonePress(mouseEvent, e.Pointer))
+        {
+            // A zone that suppresses the mouse down: no caret move, no selection start.
+            Focus(NavigationMethod.Pointer);
+            e.Handled = true;
+            return;
+        }
+
         MouseTarget target = CreateMouseTarget(mouseEvent.X, mouseEvent.Y);
 
         // Monaco: `_onMouseDown`.
@@ -154,6 +162,13 @@ public sealed partial class LoomEditor
 
         UpdateStickyHover(PointerInput.Create(e, this, 1));
 
+        if (_capturedZoneId is not null)
+        {
+            HandleZoneMove(PointerInput.Create(e, this, 1), ViewZonePointerPhase.Moved);
+            e.Handled = true;
+            return;
+        }
+
         if (_mouseDown is { IsActive: true })
         {
             _commentGutter?.OnPointerLeft();
@@ -168,6 +183,7 @@ public sealed partial class LoomEditor
             MouseTarget target = CreateMouseTarget(mouseEvent.X, mouseEvent.Y);
             _context.UserInputEvents.EmitMouseMove(new EditorMouseEventArgs(mouseEvent, target));
             _commentGutter?.OnPointerMoved(target, mouseEvent.X, mouseEvent.Y);
+            HandleZoneMove(mouseEvent, ViewZonePointerPhase.Moved);
         }
 
         UpdatePointerShape(e);
@@ -189,6 +205,14 @@ public sealed partial class LoomEditor
                 MiddleButton = kind == PointerUpdateKind.MiddleButtonReleased,
             };
             _context.UserInputEvents.EmitMouseUp(new EditorMouseEventArgs(mouseEvent, CreateMouseTarget(mouseEvent.X, mouseEvent.Y)));
+        }
+
+        if (_capturedZoneId is not null)
+        {
+            HandleZoneMove(PointerInput.Create(e, this, 1), ViewZonePointerPhase.Released);
+            ReleaseCapture();
+            e.Handled = true;
+            return;
         }
 
         if (_renderer?.MinimapPointer is { IsActive: true } minimapDrag)
@@ -214,6 +238,7 @@ public sealed partial class LoomEditor
         base.OnPointerCaptureLost(e);
 
         _capturedPointer = null;
+        EndZoneCapture();
         _renderer?.MinimapPointer?.PointerUp();
         _mouseDown?.OnPointerUp();
     }

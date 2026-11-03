@@ -89,11 +89,20 @@ LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.get -> bool
 LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.set -> void
 LoomEditor.Avalonia.Controls.GutterClickedEventArgs.LineNumber.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor
+LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentRequested -> System.EventHandler<LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentCancelled -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentThreadEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentSubmitted -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.GetSide(LoomEditor.Core.Comments.CommentThread! thread) -> LoomEditor.Avalonia.Controls.DiffSide
 LoomEditor.Avalonia.Controls.LoomDiffEditor.GoToNextChange() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.GoToPreviousChange() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegions.get -> bool
@@ -124,6 +133,7 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicators.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicators.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRuler.get -> bool
@@ -131,6 +141,8 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRuler.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySide.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySide.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.RevealFirstChangeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.ShowAllUnchangedRegions() -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SuggestionApplied -> System.EventHandler<LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get -> bool

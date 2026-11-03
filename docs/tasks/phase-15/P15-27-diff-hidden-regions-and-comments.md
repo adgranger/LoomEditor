@@ -1,6 +1,6 @@
 # P15-27 — Hidden unchanged regions and comment threads in the diff editor
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-26
 - **Size:** M
 
@@ -28,14 +28,14 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/DiffEditor/HideUnchangedRegionsC
 
 ## Tests
 
-- [ ] New: `HideUnchanged_CollapsesLongUnchangedRun`; `ExpandControl_Click_ShowsLines`; `AddCommentOnModifiedSide_RaisesDiffAddCommentRequested_WithSide`;
+- [x] New: `HideUnchanged_CollapsesLongUnchangedRun`; `ExpandControl_Click_ShowsLines`; `AddCommentOnModifiedSide_RaisesDiffAddCommentRequested_WithSide`;
   `ThreadOnOriginalSide_OpensZoneOnThatSide`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

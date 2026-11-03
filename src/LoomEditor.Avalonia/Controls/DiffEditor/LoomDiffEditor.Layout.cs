@@ -63,7 +63,8 @@ public sealed partial class LoomDiffEditor
             return;
         }
 
-        // P15-27: the hidden unchanged regions are invalidated here.
+        _hideUnchangedRegions?.Invalidate();
+
         if (_viewZones is null)
         {
             _viewZonesInline = inline;

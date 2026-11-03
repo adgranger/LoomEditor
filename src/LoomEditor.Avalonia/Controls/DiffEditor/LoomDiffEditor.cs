@@ -63,6 +63,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
     private DiffEditorViewModel? _viewModel;
     private DiffDecorations? _decorations;
     private DiffEditorViewZones? _viewZones;
+    private HideUnchangedRegionsController? _hideUnchangedRegions;
     private bool _viewZonesInline;
     private EditorDecorationTarget? _originalTarget;
     private EditorDecorationTarget? _modifiedTarget;
@@ -149,6 +150,24 @@ public sealed partial class LoomDiffEditor : TemplatedControl
     /// <remarks>See <see cref="DiffChangeBlock"/> for the line numbers of an empty side and the effect of <c>IgnoreTrimWhitespace</c>.</remarks>
     public IReadOnlyList<DiffChangeBlock> Changes => _changes;
 
+    /// <summary>Collapses every unchanged region (Monaco: <c>diffEditor.collapseAllUnchangedRegions</c>); only has an effect while <see cref="HideUnchangedRegions"/> is on.</summary>
+    public void CollapseAllUnchangedRegions()
+    {
+        foreach (UnchangedRegion region in _viewModel?.UnchangedRegions ?? [])
+        {
+            region.CollapseAll();
+        }
+    }
+
+    /// <summary>Shows every unchanged region (Monaco: <c>diffEditor.showAllUnchangedRegions</c>).</summary>
+    public void ShowAllUnchangedRegions()
+    {
+        foreach (UnchangedRegion region in _viewModel?.UnchangedRegions ?? [])
+        {
+            region.ShowAll();
+        }
+    }
+
     /// <summary>Completes when <see cref="IsDiffUpToDate"/> is true; waits for the control to be loaded first.</summary>
     /// <param name="cancellationToken">Cancels the wait.</param>
     /// <remarks>After an unload the wait resumes at the next load. shortcut: a wait that already passed the load gate when the control unloads throws, when a use needs it, complete the waiters in OnUnloaded.</remarks>
@@ -177,6 +196,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         ApplyText(_modified, ModifiedText);
         _original.Model.ContentChanged += OnOriginalContentChanged;
         _modified.Model.ContentChanged += OnModifiedContentChanged;
+        AttachCommentEvents();
         ApplyLayout();
         if (IsLoaded)
         {
@@ -193,6 +213,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
     private void DetachParts()
     {
         DisconnectOverview();
+        DetachCommentEvents();
         if (_sash is not null)
         {
             _sash.SashMoved -= OnSashMoved;
@@ -232,6 +253,8 @@ public sealed partial class LoomDiffEditor : TemplatedControl
             new DispatcherUiDispatcher(),
             new DispatcherEditorScheduler());
         _viewModel.DiffChanged += OnViewModelDiffChanged;
+        _hideUnchangedRegions = new HideUnchangedRegionsController(
+            _original, _modified, _viewModel, () => !_options.RenderSideBySideEffective, () => _options.HideUnchangedRegions.RevealLineCount);
         UpdateViewZones();
         _viewModelReady.TrySetResult();
     }
@@ -243,6 +266,8 @@ public sealed partial class LoomDiffEditor : TemplatedControl
             return;
         }
 
+        _hideUnchangedRegions?.Dispose();
+        _hideUnchangedRegions = null;
         _viewZones?.Dispose();
         _viewZones = null;
         _viewModel.DiffChanged -= OnViewModelDiffChanged;
