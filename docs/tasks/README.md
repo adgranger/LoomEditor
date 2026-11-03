@@ -1294,7 +1294,7 @@ Roadmap: [phase-17-zero-host-duplication.md](../roadmap/phase-17-zero-host-dupli
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P17-01](phase-17/P17-01-host-twin-duplication-test.md) | A test that finds blocks copied between the two hosts | P16-24 | todo |
+| [P17-01](phase-17/P17-01-host-twin-duplication-test.md) | A test that finds blocks copied between the two hosts | P16-24 | done |
 | [P17-02](phase-17/P17-02-editor-host-hooks.md) | Share the framework-free members of `LoomEditor.HostHooks.Host.cs` | P17-01 | todo |
 | [P17-03](phase-17/P17-03-diff-editor-sub-editors.md) | Share the sub-editor configuration of `LoomDiffEditor` | P17-01 | todo |
 | [P17-04](phase-17/P17-04-accessible-diff-viewer-rows.md) | Share the row colors and cells of the accessible diff viewer | P17-01 | todo |

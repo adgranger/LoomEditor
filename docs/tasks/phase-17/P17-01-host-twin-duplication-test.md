@@ -1,6 +1,6 @@
 # P17-01 — A test that finds blocks copied between the two hosts
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-24
 - **Size:** M
 
@@ -76,15 +76,15 @@ Reference result (Sonar `api/duplications/show`, PR #26, analysis of 46c21e2): t
 
 ## Tests
 
-- [ ] The two file tests and the three detector unit tests above; all green with the 13-pair list.
+- [x] The two file tests and the three detector unit tests above; all green with the 13-pair list.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings (the architecture tests build on Linux and macOS too)
-- [ ] The detector finds exactly the 13 pairs above with an empty list (write the block count and the run time of the file test in the Result section)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings (the architecture tests build on Linux and macOS too)
+- [x] The detector finds exactly the 13 pairs above with an empty list (write the block count and the run time of the file test in the Result section) — 16 pairs, 3 extra ones added by decision; removed by a later card
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -93,3 +93,15 @@ Removing any block (P17-02 … P17-11); copies inside one host; `tests/` folders
 ## Suggested commit message
 
 `test(arch): detect code copied between the WinUI and Avalonia hosts`
+
+## Result
+
+Calibration with an empty `KnownDuplicates`: **16 pairs / 24 blocks**. The 13 listed pairs match Sonar's line ranges (±1). Three more pairs are real copies
+that Sonar does not report; by decision they are listed in `KnownDuplicates` and a later card removes them:
+
+- `Controls/LoomEditor.Pointer.Host.cs` Avalonia 76-90 ↔ WinUI 87-101
+- `Controls/Comments/CommentZoneHost.Host.cs` Avalonia 41-49 ↔ WinUI 14-22
+- `Controls/DiffEditor/LoomDiffEditor.cs` Avalonia 235-260 ↔ WinUI 170-195
+
+Extra blocks inside listed pairs: `CommentComposerToolbar.cs` 16-33 ↔ 16-33; `AccessibleDiffViewer.Host.cs` 103-111 ↔ 99-107; `HoverWidget.cs` is three blocks
+(10-25, 27-49, 52-75); `MainWindow` 399-412 ↔ 314-327. Run time of the file tests: about 1.4 s for the five tests.
