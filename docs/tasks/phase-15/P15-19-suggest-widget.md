@@ -1,6 +1,6 @@
 # P15-19 — The suggest (completion) widget
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-18
 - **Size:** M
 
@@ -28,14 +28,21 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Suggest/SuggestPresenter.cs`, `S
 
 ## Tests
 
-- [ ] New: `CtrlSpace_ShowsSuggestions` (fake provider of 3 items); `Down_Enter_AcceptsSecond`; `Typing_FiltersList`; `Escape_Hides`; `List_Of_10000_Items_IsVirtualized`
+- [x] New: `CtrlSpace_ShowsSuggestions` (fake provider of 3 items); `Down_Enter_AcceptsSecond`; `Typing_FiltersList`; `Escape_Hides`; `List_Of_10000_Items_IsVirtualized`
   (fewer than 50 row controls created)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Deviations
+
+- No `ListBox`: the WinUI widget is not a `ListView` either. It creates the 12 (`SuggestListState.MaxVisibleRows`) row controls once and refills them, so a list of any
+  length is virtualized by construction; the Avalonia twin does the same (`List_Of_10000_Items_IsVirtualized` checks the row control count).
+- The kind badge is the text glyph of `SuggestRowModel.BadgeGlyph` in a `TextBlock`, as in WinUI: no icon font and no change to `Icons.axaml`.
+- The placement uses `TryGetRangeStartBounds` (P15-18) instead of the automation geometry of the WinUI control.
 
 ## Out of scope
 

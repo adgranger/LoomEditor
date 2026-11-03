@@ -1191,7 +1191,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 |---|---|---|---|
 | [P15-17](phase-15/P15-17-find-widget.md) | Find and replace widget | P15-16 | done |
 | [P15-18](phase-15/P15-18-markdown-and-hover.md) | Markdown rendering and the hover widget | P15-17 | done |
-| [P15-19](phase-15/P15-19-suggest-widget.md) | The suggest widget | P15-18 | todo |
+| [P15-19](phase-15/P15-19-suggest-widget.md) | The suggest widget | P15-18 | done |
 | [P15-20](phase-15/P15-20-comment-gutter.md) | Comment threads: event args, gutter "+", editor wiring | P15-19 | todo |
 | [P15-21](phase-15/P15-21-comment-thread-widget.md) | Comment thread widget: display | P15-20 | todo |
 | [P15-22](phase-15/P15-22-comment-composer.md) | Comment composer, toolbar, suggestion blocks | P15-21 | todo |

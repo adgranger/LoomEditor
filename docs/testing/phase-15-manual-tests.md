@@ -120,3 +120,14 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 4. Windows, macOS, Ubuntu: the prose font falls back to the system font where Segoe UI is missing and no text is clipped.
    **Result:** pending
+
+## P15-19 — The suggest widget
+
+1. All: Ctrl+Space (also while typing an identifier with a completion provider) shows the list under the word, or above it when there is no room; the matched letters of each label are highlighted.
+   **Result:** pending
+2. All: Up / Down move the selection and scroll the list; Enter and Tab insert the item; Escape closes the list; the editor keeps the keyboard focus the whole time (the caret keeps blinking).
+   **Result:** pending
+3. All: clicking a row inserts it; the mouse wheel over the list scrolls it by three rows.
+   **Result:** pending
+4. All: the detail of the selected item shows under the list; deprecated items are struck through; the colors follow the editor theme in dark and light.
+   **Result:** pending

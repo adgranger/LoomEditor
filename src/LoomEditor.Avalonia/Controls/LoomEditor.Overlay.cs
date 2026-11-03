@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using LoomEditor.Avalonia.Controls.Hover;
+using LoomEditor.Avalonia.Controls.Suggest;
 using LoomEditor.Avalonia.Controls.Overlay;
 
 namespace LoomEditor.Avalonia.Controls;
@@ -11,6 +12,7 @@ public sealed partial class LoomEditor
 {
     private OverlayHost? _overlay;
     private HoverPresenter? _hoverPresenter;
+    private SuggestPresenter? _suggestPresenter;
 
     // The overlay for the widgets that float above the text, for the widget cards that follow.
     internal OverlayHost? Overlay => _overlay;
@@ -21,12 +23,17 @@ public sealed partial class LoomEditor
         if (_overlay is null)
         {
             _hoverPresenter = null;
+            _suggestPresenter = null;
         }
         else
         {
             _hoverPresenter = new HoverPresenter(_overlay, this);
             _hoverPresenter.ApplyTheme(EffectiveTheme);
             _context.HoverPresenter = _hoverPresenter;
+
+            _suggestPresenter = new SuggestPresenter(_overlay, this);
+            _suggestPresenter.ApplyTheme(EffectiveTheme);
+            _context.SuggestPresenter = _suggestPresenter;
         }
 
         _hostZoneLayer.Attach(nameScope.Find<Canvas>(ZoneWidgetCanvasPartName) is { } zones ? new OverlayHost(zones) : null);
