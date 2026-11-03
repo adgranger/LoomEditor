@@ -34,3 +34,16 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 5. Turn `IsReadOnly` on: the caret does not blink as an edit caret would, and the text cannot be changed (once P15-11 is in).
    **Result:** pending
+
+## P15-11 — Keyboard, macOS modifiers, clipboard
+
+1. Type text, press Enter, Tab, Backspace, Delete and the arrow keys: each does what it does in VS Code.
+   **Result:** pending
+2. Ctrl+A, Ctrl+C, Ctrl+X, Ctrl+V (Cmd on macOS) select, copy, cut and paste; paste text copied from another application.
+   **Result:** pending
+3. On macOS the Control key does not act as Cmd: Ctrl+A moves to the start of the line (emacs style is not ported: nothing must happen) and Cmd+A selects all.
+   **Result:** pending
+4. Ctrl+Z and Ctrl+Shift+Z (Cmd on macOS) undo and redo; Ctrl+Tab moves the focus out of the editor, Tab does not.
+   **Result:** pending
+5. Type an accented character with a dead key (for example ^ then e) and an emoji from the system picker: the text is inserted once.
+   **Result:** pending

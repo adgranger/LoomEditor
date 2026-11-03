@@ -4,9 +4,11 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using Avalonia.Threading;
+using LoomEditor.Avalonia.Input;
 using LoomEditor.Avalonia.Rendering;
 using LoomEditor.Avalonia.Threading;
 using LoomEditor.Rendering;
+using LoomEditor.View.Controller;
 using LoomEditor.View.Features;
 using LoomEditor.View.Layout;
 
@@ -56,6 +58,8 @@ public sealed partial class LoomEditor : TemplatedControl
     private readonly AnimationFrameScheduler _frameScheduler;
     private TextViewRenderer? _renderer;
     private readonly ViewModel _viewModel;
+    private readonly KeyboardInput _keyboard;
+    private readonly IDisposable _clipboardCommands;
     private EditorFeatureHost? _featureHost;
     private EditorCanvas? _canvas;
     private AvaloniaTextMeasurer? _measurer;
@@ -94,6 +98,9 @@ public sealed partial class LoomEditor : TemplatedControl
         _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
         _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
         _viewModel.ViewZones.ZonesChanged += (_, _) => Invalidate();
+        _keyboard = new KeyboardInput(_context.Commands);
+        _clipboardCommands = ClipboardCommands.Register(_context.Commands, _viewModel, CreateClipboardService());
+        LostFocus += (_, _) => _keyboard.LeaveChordMode();
         _context.SelectionChanged += (_, _) => Invalidate();
         InitializeCaret();
         InitializeReveal();
@@ -283,6 +290,8 @@ public sealed partial class LoomEditor : TemplatedControl
         _measurer?.Dispose();
         _measurer = null;
     }
+
+    private AvaloniaClipboardService CreateClipboardService() => new(() => TopLevel.GetTopLevel(this)?.Clipboard);
 
     private IDisposable ScheduleAtNextAnimationFrame(Action callback) => _frameScheduler.Schedule(callback);
 

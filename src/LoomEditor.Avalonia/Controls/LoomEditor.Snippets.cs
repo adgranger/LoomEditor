@@ -1,5 +1,4 @@
-using Avalonia.Controls;
-using Avalonia.Input.Platform;
+using LoomEditor.Avalonia.Input;
 using LoomEditor.View.Features.Snippet;
 
 namespace LoomEditor.Avalonia.Controls;
@@ -41,13 +40,12 @@ public sealed partial class LoomEditor
         }
 
         // The clipboard can only be read asynchronously: read it first, then insert on the UI thread.
-        _ = InsertWithClipboardAsync(controller, TopLevel.GetTopLevel(this)?.Clipboard, template, options);
+        _ = InsertWithClipboardAsync(controller, CreateClipboardService(), template, options);
     }
 
-    // P15-11 replaces the direct clipboard read by AvaloniaClipboardService (the twin of WindowsClipboardService).
-    private static async Task InsertWithClipboardAsync(SnippetController controller, IClipboard? clipboard, string template, SnippetInsertOptions options)
+    private static async Task InsertWithClipboardAsync(SnippetController controller, AvaloniaClipboardService clipboard, string template, SnippetInsertOptions options)
     {
-        string? text = clipboard is null ? null : await clipboard.TryGetTextAsync();
+        string? text = await clipboard.ReadTextAsync();
         controller.Insert(template, options with { ClipboardText = text });
     }
 }
