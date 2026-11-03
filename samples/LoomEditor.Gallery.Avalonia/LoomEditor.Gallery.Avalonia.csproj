@@ -62,6 +62,7 @@
     <Compile Include="..\LoomEditor.Gallery\MainWindow.Documents.cs" Link="Shared\MainWindow.Documents.cs" />
     <Compile Include="..\LoomEditor.Gallery\MainWindow.Pickers.cs" Link="Shared\MainWindow.Pickers.cs" />
     <Compile Include="..\LoomEditor.Gallery\MainWindow.Lsp.cs" Link="Shared\MainWindow.Lsp.cs" />
+    <Compile Include="..\LoomEditor.Gallery\MainWindow.Startup.cs" Link="Shared\MainWindow.Startup.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoWorkspace.cs" Link="Shared\Lsp\LspDemoWorkspace.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspServerLocator.cs" Link="Shared\Lsp\LspServerLocator.cs" />
   </ItemGroup>

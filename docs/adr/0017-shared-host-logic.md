@@ -97,5 +97,6 @@ Options:
 - The WinUI control has no automated UI test. Its shared files are exercised by the Avalonia headless tests and by the WinUI Gallery self-checks, which the closing card
   runs (`--text-selfcheck`, `--diff-selfcheck`, `--comments-selfcheck`, `--hostapi-selfcheck`, `--lsp-selfcheck`).
 - `docs/PORTING.md` rows that named a WinUI and an Avalonia path name the shared path instead.
+- Phase 17 excludes `samples/**/*.Host.cs` from Sonar's copy detection (`.sonarcloud.properties`, the Gallery host parts); nothing under `src/`.
 - Target: Sonar "Duplication on New Code" on PR #26 ≤ 3% (≤ about 580 lines). Checked by P16-24.
 - Verified by P16-24 (2026-11-03): `dotnet build` / `dotnet test` / Portable build green, 0 warnings. Both Galleries pass `--text-selfcheck` 10/10, `--diff-selfcheck` 9/9, `--comments-selfcheck` 17/17 and `--hostapi-selfcheck` 6/6, from the Native AOT publish (`dotnet publish -r win-x64`, 0 warnings). `--lsp-selfcheck` was not run (needs csharp-ls). Sonar duplication on PR #26: 2.14% (458 of 21,437 new lines).

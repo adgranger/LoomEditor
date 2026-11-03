@@ -18,21 +18,11 @@ namespace LoomEditor.Gallery;
 /// <summary>The main window: one editor showing a sample file, and buttons that drive its text model.</summary>
 public sealed partial class MainWindow : Window
 {
-    private readonly List<string> _injectedTextIds = [];
-
     /// <summary>Creates the window and loads the sample text.</summary>
     public MainWindow()
     {
         InitializeComponent();
-        PopulatePickers();
-        InitializeComments();
-        Editor.LanguageId = "csharp";
-        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
-        Editor.Text = SampleText.HelloWorld;
-        Editor.Model.ContentChanged += (_, _) => RefreshStatus();
-        // A load detects the indentation: show the tab size it chose.
-        Editor.Model.OptionsChanged += (_, _) => TabSizeBox.Value = Editor.Model.Options.TabSize;
-        Editor.SelectionChanged += (_, _) => RefreshStatus();
+        InitializeEditor();
         Editor.PropertyChanged += (_, e) =>
         {
             if (e.Property == LoomEditorControl.InputModeProperty)
@@ -52,12 +42,7 @@ public sealed partial class MainWindow : Window
                 Editor.LetterSpacing = LetterSpacingSlider.Value;
             }
         };
-        RefreshStatus();
-        InitializeLsp();
-        InitializeDiffSelfCheck();
-        InitializeTextSelfCheck();
-        InitializeCommentsSelfCheck();
-        InitializeHostApiSelfCheck();
+        InitializeChecks();
     }
 
     private void OnInsertHeader(object? sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);
@@ -402,13 +387,7 @@ public sealed partial class MainWindow : Window
         }
 
         FeatureSample sample = FeatureSamples.All[index];
-        Editor.LanguageId = sample.LanguageId;
-        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, sample.LanguageId);
-        Editor.Text = string.Empty;
-        Editor.Text = sample.Text;
-        Editor.SetSelections(new[] { Selection.Collapsed(new Position(sample.Line, sample.Column)) });
-        FeatureHintText.Text = sample.Hint;
-        OnFeatureSampleLoaded(sample);
+        ShowFeatureSample(sample);
         Editor.Focus();
     }
 

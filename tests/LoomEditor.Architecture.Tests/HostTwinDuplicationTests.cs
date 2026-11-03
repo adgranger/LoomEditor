@@ -11,7 +11,6 @@ public class HostTwinDuplicationTests
         "src/LoomEditor.Avalonia/Controls/LoomEditor.Pointer.Host.cs <-> src/LoomEditor.WinUI/Controls/LoomEditor.Pointer.Host.cs",
         "src/LoomEditor.Avalonia/Controls/Comments/CommentZoneHost.Host.cs <-> src/LoomEditor.WinUI/Controls/Comments/CommentZoneHost.Host.cs",
         "src/LoomEditor.Avalonia/Controls/DiffEditor/LoomDiffEditor.cs <-> src/LoomEditor.WinUI/Controls/DiffEditor/LoomDiffEditor.cs",
-        "samples/LoomEditor.Gallery.Avalonia/MainWindow.axaml.cs <-> samples/LoomEditor.Gallery/MainWindow.xaml.cs",
     };
 
     private static List<CopiedBlock> FindHostBlocks() =>

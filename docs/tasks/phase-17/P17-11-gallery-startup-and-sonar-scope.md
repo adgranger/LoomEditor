@@ -1,6 +1,6 @@
 # P17-11 — Gallery: share the main window start-up; keep the Gallery host parts out of Sonar's copy detection
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-01
 - **Size:** S
 
@@ -58,15 +58,15 @@ Not a Monaco port. Read first: [phase-17/README.md](README.md), the Gallery rule
 
 ## Tests
 
-- [ ] No new test.
+- [x] No new test.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (both Galleries)
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The pair is gone from `KnownDuplicates`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings (both Galleries)
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The pair is gone from `KnownDuplicates`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -75,3 +75,8 @@ Running the Gallery self-checks (P17-13).
 ## Suggested commit message
 
 `refactor(gallery): share the main window start-up; exclude Gallery host parts from Sonar CPD`
+
+## Result
+
+- The end of `OnFeatureSampleChanged` was a second copied block hidden by the `MainWindow` pair: it is shared as `ShowFeatureSample` in `MainWindow.Startup.cs` (each host keeps its own `Focus` call).
+- `.sonarcloud.properties` is in place; whether automatic analysis reads `sonar.cpd.exclusions` from it is to be checked on the next Sonar run (otherwise set "Duplication Exclusions" = `samples/**/*.Host.cs` in the SonarCloud project settings).
