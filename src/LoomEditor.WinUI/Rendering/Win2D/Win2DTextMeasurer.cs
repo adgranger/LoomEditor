@@ -1,5 +1,4 @@
 using LoomEditor.Rendering;
-using System.Globalization;
 using LoomEditor.View.Layout;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
@@ -140,38 +139,7 @@ internal sealed class Win2DTextMeasurer : ITextMeasurer
         FontStyle = style == CharacterStyle.Italic ? FontStyle.Italic : FontStyle.Normal,
     };
 
-    // `FontVariationSettings` has been translated by BareFontInfo.Create: a `'wght' N` replaces the weight.
-    private static ushort ResolveBaseWeight(BareFontInfo bare)
-    {
-        if (TryGetWght(bare.FontVariationSettings, out int wght))
-        {
-            return (ushort)Math.Clamp(wght, 1, 999);
-        }
-
-        return bare.FontWeight switch
-        {
-            "normal" => (ushort)400,
-            "bold" => (ushort)700,
-            _ => int.TryParse(bare.FontWeight, NumberStyles.None, CultureInfo.InvariantCulture, out int n) ? (ushort)Math.Clamp(n, 1, 999) : (ushort)400,
-        };
-    }
-
-    private static bool TryGetWght(string settings, out int value)
-    {
-        value = 0;
-        foreach (string item in settings.Split(','))
-        {
-            string trimmed = item.Trim();
-            if (trimmed.Length > 6 && trimmed[0] is '\x27' or '"' && trimmed[5] == trimmed[0] && trimmed.AsSpan(1, 4).SequenceEqual("wght")
-                && double.TryParse(trimmed.AsSpan(6), NumberStyles.Float, CultureInfo.InvariantCulture, out double d))
-            {
-                value = (int)d;
-                return true;
-            }
-        }
-
-        return false;
-    }
+    private static ushort ResolveBaseWeight(BareFontInfo bare) => (ushort)FontVariationSettings.ResolveBaseWeight(bare);
 
     // Unlike XAML, DirectWrite takes ONE family name: a "A, B" list would silently fall back to a
     // proportional system font. So pick the first installed family ourselves.

@@ -1,4 +1,3 @@
-using System.Globalization;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.TextFormatting;
@@ -53,10 +52,10 @@ internal sealed class AvaloniaLineLayout : ILineLayout
         TextHitTestResult hit = TextLayout.HitTestPoint(new Point(x, 0));
         int start = Math.Clamp(hit.CharacterHit.FirstCharacterIndex, 0, Text.Length);
         int count = ClusterLength(start);
-        if (count > 1 && IsSplittableCluster(start, count))
+        if (count > 1 && LineLayoutClusters.IsSplittableCluster(Text, start, count))
         {
             // A ligature: the hit is on the whole cluster, so pick the closest caret position inside it.
-            return NearestOffset(start, count, x);
+            return LineLayoutClusters.NearestOffset(GetCharacterX, start, count, x);
         }
 
         int index = Math.Clamp(hit.TextPosition, 0, Text.Length);
@@ -74,45 +73,6 @@ internal sealed class AvaloniaLineLayout : ILineLayout
 
         CharacterHit next = TextLayout.TextLines[0].GetNextCaretCharacterHit(new CharacterHit(start));
         return Math.Clamp(next.FirstCharacterIndex + next.TrailingLength - start, 1, Text.Length - start);
-    }
-
-    // Graphemes, emoji and combining sequences are not split: only plain BMP characters are.
-    private bool IsSplittableCluster(int start, int count)
-    {
-        for (int i = start; i < start + count; i++)
-        {
-            char c = Text[i];
-            if (char.IsSurrogate(c))
-            {
-                return false;
-            }
-
-            UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(c);
-            if (category is UnicodeCategory.NonSpacingMark or UnicodeCategory.SpacingCombiningMark or UnicodeCategory.EnclosingMark)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    // Ties go to the lower offset.
-    private int NearestOffset(int start, int count, double x)
-    {
-        int best = start;
-        double bestDistance = double.MaxValue;
-        for (int offset = start; offset <= start + count; offset++)
-        {
-            double distance = Math.Abs(GetCharacterX(offset) - x);
-            if (distance < bestDistance)
-            {
-                best = offset;
-                bestDistance = distance;
-            }
-        }
-
-        return best;
     }
 
     /// <inheritdoc />

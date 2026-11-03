@@ -173,38 +173,7 @@ internal sealed partial class AvaloniaTextMeasurer : ITextMeasurer
             BaselineAlignment.Baseline, CultureInfo.CurrentCulture, _fontFeatures);
     }
 
-    // `FontVariationSettings` has been translated by BareFontInfo.Create: a `'wght' N` replaces the weight.
-    private static FontWeight ResolveBaseWeight(BareFontInfo bare)
-    {
-        if (TryGetWght(bare.FontVariationSettings, out int wght))
-        {
-            return (FontWeight)Math.Clamp(wght, 1, 999);
-        }
-
-        return bare.FontWeight switch
-        {
-            "normal" => FontWeight.Normal,
-            "bold" => FontWeight.Bold,
-            _ => int.TryParse(bare.FontWeight, NumberStyles.None, CultureInfo.InvariantCulture, out int n) ? (FontWeight)Math.Clamp(n, 1, 999) : FontWeight.Normal,
-        };
-    }
-
-    private static bool TryGetWght(string settings, out int value)
-    {
-        value = 0;
-        foreach (string item in settings.Split(','))
-        {
-            string trimmed = item.Trim();
-            if (trimmed.Length > 6 && trimmed[0] is '\x27' or '"' && trimmed[5] == trimmed[0] && trimmed.AsSpan(1, 4).SequenceEqual("wght")
-                && double.TryParse(trimmed.AsSpan(6), NumberStyles.Float, CultureInfo.InvariantCulture, out double d))
-            {
-                value = (int)d;
-                return true;
-            }
-        }
-
-        return false;
-    }
+    private static FontWeight ResolveBaseWeight(BareFontInfo bare) => (FontWeight)FontVariationSettings.ResolveBaseWeight(bare);
 
     // Avalonia takes "A, B" lists, but FontMeasurements needs ONE family name (as DirectWrite in the Win2D twin): pick the
     // first installed or embedded family, else the first installed default family of the OS, else Avalonia's default.
