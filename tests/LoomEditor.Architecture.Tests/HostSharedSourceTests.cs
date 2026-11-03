@@ -5,18 +5,17 @@ namespace LoomEditor.Architecture.Tests;
 /// <summary>Rules of the shared host source folder src/LoomEditor.HostShared (ADR 0017 decision 10).</summary>
 public partial class HostSharedSourceTests
 {
-    private const string WinUiSymbol = "LOOM_WINUI";
+    // The WinUI branch is the default (not "#if LOOM_WINUI") so that tools parsing without the host symbols, such as SonarCloud, still see a namespace.
+    private const string Opener = "#if !LOOM_AVALONIA";
 
     private static readonly string[] ExampleHeader =
     [
-        "#if LOOM_WINUI",
+        "#if !LOOM_AVALONIA",
         "using LoomEditor.WinUI.Controls.Overlay;",
         "namespace LoomEditor.WinUI.Controls.DiffEditor;",
         "#elif LOOM_AVALONIA",
         "using LoomEditor.Avalonia.Controls.Overlay;",
         "namespace LoomEditor.Avalonia.Controls.DiffEditor;",
-        "#else",
-        "#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.",
         "#endif",
     ];
 
@@ -48,7 +47,7 @@ public partial class HostSharedSourceTests
         foreach (string file in SharedFiles())
         {
             Assert.True(HasValidHeaderBlock(File.ReadAllLines(file)),
-                $"{file}: needs exactly one '#if {WinUiSymbol}' header block before the first type, with only usings and namespace lines.");
+                $"{file}: needs exactly one '{Opener}' header block before the first type, with only usings and namespace lines.");
         }
     }
 
@@ -118,10 +117,10 @@ public partial class HostSharedSourceTests
         Assert.True(HasValidHeaderBlock(["using LoomEditor.View.DiffEditor;", .. ExampleHeader, "", "public class X { }"]));
     }
 
-    // The block runs from '#if LOOM_WINUI' to '#endif', before the first type; it holds only usings, namespace lines and the #elif / #else / #error lines.
+    // The block runs from '#if !LOOM_AVALONIA' to '#endif', before the first type; it holds only usings, namespace lines and the #elif line.
     private static bool HasValidHeaderBlock(string[] lines)
     {
-        string opener = "#if " + WinUiSymbol;
+        string opener = Opener;
         int start = Array.FindIndex(lines, line => line.Trim() == opener);
         if (start < 0 || Array.FindLastIndex(lines, line => line.Trim() == opener) != start)
         {
@@ -140,8 +139,7 @@ public partial class HostSharedSourceTests
             string trimmed = line.Trim();
             return trimmed.StartsWith("using ", StringComparison.Ordinal)
                 || trimmed.StartsWith("namespace ", StringComparison.Ordinal)
-                || trimmed.StartsWith("#error ", StringComparison.Ordinal)
-                || trimmed is "#elif LOOM_AVALONIA" or "#else" or "#endif" || trimmed == opener;
+                || trimmed is "#elif LOOM_AVALONIA" or "#endif" || trimmed == opener;
         });
         return !typeBeforeBlock && onlyAllowed;
     }

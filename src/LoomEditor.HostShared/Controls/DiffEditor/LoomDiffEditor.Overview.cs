@@ -6,14 +6,12 @@ using LoomEditor.Themes;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.DiffEditor;
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.DiffEditor;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The overview strip: two rulers (removed lines of the original, added lines of the modified one) and the viewport slider.

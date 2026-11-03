@@ -2,12 +2,10 @@ using LoomEditor.View.Comments;
 using LoomEditor.View.Markdown;
 using LoomEditor.Core.Comments;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.Comments;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Comments;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // What the widget shows: the rebuild of the rows from the view model, and the summary of a collapsed thread. The controls are in the .Host parts.

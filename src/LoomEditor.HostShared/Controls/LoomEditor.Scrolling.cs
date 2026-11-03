@@ -1,11 +1,9 @@
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Scrollbars and the scroll API. The scrollbars are the framework's ScrollBars laid over the canvas (ADR 0005, decision 3);

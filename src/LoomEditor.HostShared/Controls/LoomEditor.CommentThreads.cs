@@ -1,14 +1,12 @@
 using LoomEditor.Core.Comments;
 using LoomEditor.View.Comments;
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.Comments;
 using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.Comments;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <remarks>Threading: UI thread only (not checked).</remarks>

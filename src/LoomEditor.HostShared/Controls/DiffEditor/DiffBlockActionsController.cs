@@ -3,7 +3,7 @@ using LoomEditor.View.Controller;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.Gutter;
 using LoomEditor.WinUI.Controls.Overlay;
 using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
@@ -12,8 +12,6 @@ namespace LoomEditor.WinUI.Controls.DiffEditor;
 using LoomEditor.Avalonia.Controls.Gutter;
 using LoomEditor.Avalonia.Controls.Overlay;
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <summary>

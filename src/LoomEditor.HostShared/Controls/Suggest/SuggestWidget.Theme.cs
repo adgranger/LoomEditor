@@ -1,11 +1,9 @@
 using LoomEditor.Themes;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.Suggest;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Suggest;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Monaco: `editorSuggestWidget.*`.

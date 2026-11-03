@@ -5,14 +5,12 @@ using LoomEditor.View.Comments;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.Overlay;
 namespace LoomEditor.WinUI.Controls.Comments;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.Overlay;
 namespace LoomEditor.Avalonia.Controls.Comments;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <summary>

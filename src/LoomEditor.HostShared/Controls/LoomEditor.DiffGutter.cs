@@ -1,5 +1,5 @@
 using LoomEditor.View.Controller;
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.DiffEditor;
 using LoomEditor.WinUI.Controls.Overlay;
 namespace LoomEditor.WinUI.Controls;
@@ -7,8 +7,6 @@ namespace LoomEditor.WinUI.Controls;
 using LoomEditor.Avalonia.Controls.DiffEditor;
 using LoomEditor.Avalonia.Controls.Overlay;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The gutter controls of a side of the diff editor (block action buttons, line checkboxes), created by the diff editor on the zone-widget layer.

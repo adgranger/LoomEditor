@@ -1,4 +1,8 @@
+#if !LOOM_AVALONIA
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#endif
 
 /// <summary>Tolerance comparison for layout values (DIPs, scaling, zoom), where exact floating-point equality is fragile.</summary>
 /// <remarks>Threading: stateless; any thread.</remarks>

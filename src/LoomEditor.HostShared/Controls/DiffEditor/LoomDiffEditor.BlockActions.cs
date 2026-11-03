@@ -1,13 +1,11 @@
 using LoomEditor.View.DiffEditor;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.DiffEditor;
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.DiffEditor;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The per-block action buttons in the glyph margin of the side-by-side view (phase 14). The editor knows nothing about what an action does: it raises an event.

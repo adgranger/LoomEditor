@@ -1,12 +1,10 @@
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Features.MultiCursor;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.Find;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Find;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Keyboard and focus (Monaco: `findWidget.ts` focus trackers, `focusFindInput`, `_onFindInputKeyDown`): the keys that belong to

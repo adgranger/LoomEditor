@@ -6,7 +6,7 @@ using LoomEditor.Core.Text;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Features.DiffNavigation;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Accessibility;
 using LoomEditor.WinUI.Controls.DiffEditor;
 namespace LoomEditor.WinUI.Controls;
@@ -14,8 +14,6 @@ namespace LoomEditor.WinUI.Controls;
 using LoomEditor.Avalonia.Accessibility;
 using LoomEditor.Avalonia.Controls.DiffEditor;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The accessible diff viewer: opened by F7 / Shift+F7 or by code, it covers both editors. Not ported: the audio cues and the

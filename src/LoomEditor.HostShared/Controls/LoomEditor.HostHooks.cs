@@ -1,11 +1,9 @@
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The scroll hooks of the host API (phase 13) and of the diff editor.

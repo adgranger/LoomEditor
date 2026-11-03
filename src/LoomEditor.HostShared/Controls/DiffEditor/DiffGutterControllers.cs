@@ -1,12 +1,10 @@
 using LoomEditor.Themes;
 using LoomEditor.View.Controller;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.DiffEditor;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <summary>

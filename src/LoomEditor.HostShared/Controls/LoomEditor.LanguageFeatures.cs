@@ -1,12 +1,10 @@
 using LoomEditor.Core.Languages.Features;
 using LoomEditor.Core.Markers;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 public sealed partial class LoomEditor

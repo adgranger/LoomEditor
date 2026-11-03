@@ -1,12 +1,10 @@
 using LoomEditor.View.Features.Find;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
 namespace LoomEditor.WinUI.Controls.Find;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Find;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The replace row, the "n of m" label, find in selection and the enabled state of the buttons (Monaco: `findWidget.ts`

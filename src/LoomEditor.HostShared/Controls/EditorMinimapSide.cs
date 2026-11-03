@@ -1,9 +1,7 @@
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <summary>The side of the editor where the minimap is shown (Monaco: <c>minimap.side</c>).</summary>

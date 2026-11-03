@@ -1,13 +1,11 @@
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Threading;
 namespace LoomEditor.WinUI.Controls.Comments;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Threading;
 namespace LoomEditor.Avalonia.Controls.Comments;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The zone height follows the widget: a trigger marks the widget dirty and schedules one coalesced pass on the dispatcher (the

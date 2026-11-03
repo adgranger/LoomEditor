@@ -1,6 +1,6 @@
 using LoomEditor.View.Controller;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.DiffEditor;
 using LoomEditor.WinUI.Controls.Overlay;
 namespace LoomEditor.WinUI.Controls;
@@ -8,8 +8,6 @@ namespace LoomEditor.WinUI.Controls;
 using LoomEditor.Avalonia.Controls.DiffEditor;
 using LoomEditor.Avalonia.Controls.Overlay;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The selection of changed lines, its checkboxes and the line action. The selection lives with the control, not the view model, so SetSelection works before

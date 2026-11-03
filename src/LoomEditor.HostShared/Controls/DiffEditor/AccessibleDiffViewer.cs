@@ -4,12 +4,10 @@
 using LoomEditor.Themes;
 using LoomEditor.View.DiffEditor;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.DiffEditor;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The model side of the viewer: following the model and rebuilding the rows of the current group. The controls are in AccessibleDiffViewer.Host.cs.

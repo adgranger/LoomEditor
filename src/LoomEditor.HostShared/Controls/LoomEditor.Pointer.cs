@@ -2,12 +2,10 @@ using LoomEditor.View.Controller;
 using LoomEditor.View.Features.StickyScroll;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Mouse: the pointer events of the host drive the pure logic of `MouseDownOperation` (P3-43 to P3-45). Touch and pen are treated like

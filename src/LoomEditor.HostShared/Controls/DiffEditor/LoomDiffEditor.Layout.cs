@@ -1,13 +1,11 @@
 using LoomEditor.View.DiffEditor;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.DiffEditor;
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.DiffEditor;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The reactions to the options and the sash. Monaco: `diffEditorSash.ts` and the layout of `diffEditorWidget.ts`.

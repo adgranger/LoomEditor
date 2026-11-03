@@ -1,11 +1,9 @@
 using LoomEditor.Themes;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.Find;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Find;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The colors of the widget come from the editor theme (Monaco: the widget colors of `findWidget.ts` `registerThemingParticipant`).

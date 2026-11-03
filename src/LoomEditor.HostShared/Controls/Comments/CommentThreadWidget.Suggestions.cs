@@ -1,7 +1,7 @@
 using LoomEditor.View.Comments;
 using LoomEditor.View.Markdown;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.Markdown;
 using LoomEditor.WinUI.Threading;
 namespace LoomEditor.WinUI.Controls.Comments;
@@ -9,8 +9,6 @@ namespace LoomEditor.WinUI.Controls.Comments;
 using LoomEditor.Avalonia.Controls.Markdown;
 using LoomEditor.Avalonia.Threading;
 namespace LoomEditor.Avalonia.Controls.Comments;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // ```suggestion blocks of a comment (or of the Preview) drawn as a SuggestionBlockView against the thread's current lines, with Apply.

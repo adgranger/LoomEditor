@@ -1,12 +1,10 @@
 using LoomEditor.View.Features.Find;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls.Find;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Find;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The state handling of the widget: connect, refresh, the find row. The controls and the framework calls are in FindWidget.Host.cs.

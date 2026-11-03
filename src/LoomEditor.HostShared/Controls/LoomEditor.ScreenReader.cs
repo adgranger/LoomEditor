@@ -1,12 +1,10 @@
 using LoomEditor.View.Layout;
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Accessibility;
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Accessibility;
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 public sealed partial class LoomEditor

@@ -4,15 +4,13 @@ Source files compiled into **both** `LoomEditor.WinUI` and `LoomEditor.Avalonia`
 `LoomEditor.HostShared.props`). Each assembly declares the types in its own namespace, so both public APIs are unchanged.
 See [ADR 0017](../../docs/adr/0017-shared-host-logic.md) and [phase 16](../../docs/tasks/phase-16/README.md).
 
-Every file has one header block, the only conditional code allowed here (checked by `HostSharedSourceTests`):
+Every file has one header block, the only conditional code allowed here (checked by `HostSharedSourceTests`). The WinUI branch is the default so that tools parsing without the host symbols (SonarCloud) still see a namespace:
 
 ```csharp
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 ```
 

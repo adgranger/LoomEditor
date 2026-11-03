@@ -1,13 +1,11 @@
 using LoomEditor.Core.Comments;
 using LoomEditor.View.DiffEditor;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Comment threads on either side. Each side's editor owns its threads; the diff editor forwards their events (per editor, so threads added

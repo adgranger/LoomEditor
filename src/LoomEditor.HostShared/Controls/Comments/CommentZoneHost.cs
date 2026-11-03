@@ -5,14 +5,12 @@ using LoomEditor.Themes;
 using LoomEditor.View.Comments;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Controls.Overlay;
 namespace LoomEditor.WinUI.Controls.Comments;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.Overlay;
 namespace LoomEditor.Avalonia.Controls.Comments;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <summary>Keeps one <see cref="CommentThreadWidget"/> over the <c>Widget</c> view zone of every thread, positioned in the draw pass.</summary>

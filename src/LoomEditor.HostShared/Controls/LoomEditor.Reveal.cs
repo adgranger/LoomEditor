@@ -1,12 +1,10 @@
 using LoomEditor.View.Events;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Scrolls so that the cursor stays visible (Monaco: the reveal part of `ViewLines`; the computations are in

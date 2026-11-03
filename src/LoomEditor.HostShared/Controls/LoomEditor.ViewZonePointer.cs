@@ -1,12 +1,10 @@
 using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // The pointer over the view zones, for the zones that draw their own controls (the bars of the hidden unchanged regions of a diff editor).

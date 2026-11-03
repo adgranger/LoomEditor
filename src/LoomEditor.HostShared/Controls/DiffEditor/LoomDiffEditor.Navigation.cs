@@ -5,12 +5,10 @@ using LoomEditor.Core.Text;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Features.DiffNavigation;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 namespace LoomEditor.WinUI.Controls;
 #elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 // Go to next / previous change. Monaco plays accessibility signal sounds here: not ported.

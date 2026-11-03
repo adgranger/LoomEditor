@@ -6,14 +6,12 @@ using LoomEditor.View.Cursors;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
 
-#if LOOM_WINUI
+#if !LOOM_AVALONIA
 using LoomEditor.WinUI.Threading;
 namespace LoomEditor.WinUI.Controls.DiffEditor;
 #elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Threading;
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
-#else
-#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
 #endif
 
 /// <summary>
