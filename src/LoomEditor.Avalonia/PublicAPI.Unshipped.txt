@@ -1,10 +1,38 @@
 #nullable enable
+LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
+LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.Auto = 0 -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
+LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.Off = 2 -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
+LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.On = 1 -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
+LoomEditor.Avalonia.Controls.EditorBracketPairGuides
+LoomEditor.Avalonia.Controls.EditorBracketPairGuides.Active = 2 -> LoomEditor.Avalonia.Controls.EditorBracketPairGuides
+LoomEditor.Avalonia.Controls.EditorBracketPairGuides.Off = 0 -> LoomEditor.Avalonia.Controls.EditorBracketPairGuides
+LoomEditor.Avalonia.Controls.EditorBracketPairGuides.On = 1 -> LoomEditor.Avalonia.Controls.EditorBracketPairGuides
+LoomEditor.Avalonia.Controls.EditorMinimapSide
+LoomEditor.Avalonia.Controls.EditorMinimapSide.Left = 1 -> LoomEditor.Avalonia.Controls.EditorMinimapSide
+LoomEditor.Avalonia.Controls.EditorMinimapSide.Right = 0 -> LoomEditor.Avalonia.Controls.EditorMinimapSide
+LoomEditor.Avalonia.Controls.EditorWordWrap
+LoomEditor.Avalonia.Controls.EditorWordWrap.Bounded = 3 -> LoomEditor.Avalonia.Controls.EditorWordWrap
+LoomEditor.Avalonia.Controls.EditorWordWrap.Off = 0 -> LoomEditor.Avalonia.Controls.EditorWordWrap
+LoomEditor.Avalonia.Controls.EditorWordWrap.On = 1 -> LoomEditor.Avalonia.Controls.EditorWordWrap
+LoomEditor.Avalonia.Controls.EditorWordWrap.WordWrapColumn = 2 -> LoomEditor.Avalonia.Controls.EditorWordWrap
+LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.EditorWrappingIndent.DeepIndent = 3 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.EditorWrappingIndent.Indent = 2 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.EditorWrappingIndent.None = 0 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
 LoomEditor.Avalonia.Controls.LoomEditor
+LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.Avalonia.Controls.EditorBracketPairGuides
+LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
+LoomEditor.Avalonia.Controls.LoomEditor.CreateDecorationsCollection(System.Collections.Generic.IReadOnlyList<LoomEditor.View.Decorations.EditorDecoration>? decorations = null) -> LoomEditor.View.Decorations.DecorationsCollection!
 LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.get -> string!
+LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.Avalonia.Controls.LoomEditor.Features.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabled.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettings.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettings.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.get -> bool
@@ -12,40 +40,75 @@ LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
+LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet(string! template, int overwriteBefore, int overwriteAfter) -> void
+LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet(string! template) -> void
 LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnly.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnly.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LanguageFeatures.get -> LoomEditor.Core.Languages.Features.LanguageFeaturesService!
 LoomEditor.Avalonia.Controls.LoomEditor.LanguageId.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.LanguageId.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacing.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacing.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.get -> int
+LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.LineHeight.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.LineHeight.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LineNumbersEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.LineNumbersEnabled.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LocationOpener.get -> LoomEditor.View.Features.GotoDefinition.ILocationOpener?
+LoomEditor.Avalonia.Controls.LoomEditor.LocationOpener.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.LoomEditor() -> void
+LoomEditor.Avalonia.Controls.LoomEditor.Markers.get -> LoomEditor.Core.Markers.MarkerService!
+LoomEditor.Avalonia.Controls.LoomEditor.MinimapEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.MinimapEnabled.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharacters.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharacters.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.MinimapSide.get -> LoomEditor.Avalonia.Controls.EditorMinimapSide
+LoomEditor.Avalonia.Controls.LoomEditor.MinimapSide.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
 LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoom.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoom.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyle.get -> LoomEditor.View.Layout.TextEditorCursorStyle
 LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyle.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuides.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuides.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.get -> LoomEditor.View.Layout.RenderWhitespace
+LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollLeft.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollLeft.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollTop.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollTop.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.SelectionChanged -> System.EventHandler?
 LoomEditor.Avalonia.Controls.LoomEditor.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
+LoomEditor.Avalonia.Controls.LoomEditor.SetHiddenAreas(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Range>! ranges) -> void
 LoomEditor.Avalonia.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
 LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrolling.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrolling.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCount.get -> int
+LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCount.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.TabSize.get -> int
 LoomEditor.Avalonia.Controls.LoomEditor.TabSize.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Text.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.Text.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.Avalonia.Controls.LoomEditor.Theme.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.WordWrap.get -> LoomEditor.Avalonia.Controls.EditorWordWrap
+LoomEditor.Avalonia.Controls.LoomEditor.WordWrap.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumn.get -> int
+LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumn.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndent.get -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndent.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevel.get -> double
 LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevel.set -> void
 LoomEditor.Avalonia.LoomEditorStyles
 LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuidesProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorBracketPairGuides>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.CursorStyleProperty -> Avalonia.StyledProperty<LoomEditor.View.Layout.TextEditorCursorStyle>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabledProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettingsProperty -> Avalonia.StyledProperty<string!>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontLigaturesProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettingsProperty -> Avalonia.StyledProperty<string!>!
@@ -53,9 +116,22 @@ static readonly LoomEditor.Avalonia.Controls.LoomEditor.InputModeProperty -> Ava
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnlyProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.LanguageIdProperty -> Avalonia.StyledProperty<string!>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacingProperty -> Avalonia.StyledProperty<double>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidthProperty -> Avalonia.StyledProperty<int>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.LineNumbersEnabledProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.MinimapEnabledProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharactersProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.MinimapSideProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorMinimapSide>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoomProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyleProperty -> Avalonia.StyledProperty<LoomEditor.View.Layout.TextEditorCursorStyle>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharactersProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuidesProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespaceProperty -> Avalonia.StyledProperty<LoomEditor.View.Layout.RenderWhitespace>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrollingProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabledProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCountProperty -> Avalonia.StyledProperty<int>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.TabSizeProperty -> Avalonia.StyledProperty<int>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.TextProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumnProperty -> Avalonia.StyledProperty<int>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.WordWrapProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorWordWrap>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndentProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorWrappingIndent>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevelProperty -> Avalonia.StyledProperty<double>!

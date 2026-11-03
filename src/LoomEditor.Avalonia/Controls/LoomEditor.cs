@@ -75,6 +75,13 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeReadOnlyProperties();
         InitializeHighlightingProperties();
         InitializeCaretProperties();
+        InitializeMarginProperties();
+        InitializeLineNumbersProperties();
+        InitializeMinimapProperties();
+        InitializeWhitespaceProperties();
+        InitializeWordWrapProperties();
+        InitializeGuidesProperties();
+        InitializeStickyScrollProperties();
     }
 
     /// <summary>Creates the control.</summary>
@@ -91,6 +98,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeCaret();
         InitializeReveal();
         InitializeFont();
+        InitializeStickyScroll();
         InitializeHighlighting();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
@@ -155,6 +163,7 @@ public sealed partial class LoomEditor : TemplatedControl
         base.OnAttachedToVisualTree(e);
 
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        ApplyFoldingEnabled();
         StartHighlighting();
         ObserveTopLevel();
     }
@@ -252,6 +261,8 @@ public sealed partial class LoomEditor : TemplatedControl
         _renderer = new TextViewRenderer(_measurer, _context.Scheduler, () => Invalidate());
         _renderer.MinimapSampleDataProvider = AvaloniaMinimapFontSampler.CreateSampleData;
         _renderer.Theme = Theme;
+        _renderer.RenderWhitespace = RenderWhitespace;
+        _renderer.RenderControlCharacters = RenderControlCharacters;
         SyncCaretStyle();
 
         _viewModel.SetFontInfo(_measurer.FontInfo);

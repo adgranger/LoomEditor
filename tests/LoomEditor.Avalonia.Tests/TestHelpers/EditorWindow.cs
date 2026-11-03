@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
+using LoomEditor.Themes;
 using Editor = global::LoomEditor.Avalonia.Controls.LoomEditor;
 
 namespace LoomEditor.Avalonia.Tests.TestHelpers;
@@ -31,5 +32,25 @@ internal static class EditorWindow
         var pixels = new int[frame.PixelSize.Width * frame.PixelSize.Height];
         System.Runtime.InteropServices.Marshal.Copy(buffer.Address, pixels, 0, pixels.Length);
         return Array.ConvertAll(pixels, pixel => (uint)pixel);
+    }
+
+    /// <summary>The number of pixels of the rectangle that are not the dark theme background.</summary>
+    public static int InkCount(uint[] pixels, int left, int top, int right, int bottom)
+    {
+        EditorTheme theme = EditorTheme.Dark;
+        uint background = ((uint)theme.Background.A << 24) | ((uint)theme.Background.R << 16) | ((uint)theme.Background.G << 8) | theme.Background.B;
+        int count = 0;
+        for (int y = top; y < bottom; y++)
+        {
+            for (int x = left; x < right; x++)
+            {
+                if (pixels[(y * Width) + x] != background)
+                {
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 }

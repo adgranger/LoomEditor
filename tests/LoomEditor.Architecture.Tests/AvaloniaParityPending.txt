@@ -47,33 +47,12 @@ LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.Lines.get
 LoomEditor.Avalonia.Controls.DiffSide
 LoomEditor.Avalonia.Controls.DiffSide.Modified = 1
 LoomEditor.Avalonia.Controls.DiffSide.Original = 0
-LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
-LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.Auto = 0
-LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.Off = 2
-LoomEditor.Avalonia.Controls.EditorAccessibilitySupport.On = 1
-LoomEditor.Avalonia.Controls.EditorBracketPairGuides
-LoomEditor.Avalonia.Controls.EditorBracketPairGuides.Active = 2
-LoomEditor.Avalonia.Controls.EditorBracketPairGuides.Off = 0
-LoomEditor.Avalonia.Controls.EditorBracketPairGuides.On = 1
-LoomEditor.Avalonia.Controls.EditorMinimapSide
-LoomEditor.Avalonia.Controls.EditorMinimapSide.Left = 1
-LoomEditor.Avalonia.Controls.EditorMinimapSide.Right = 0
 LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs
 LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get
 LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeft.get
 LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get
 LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTop.get
 LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get
-LoomEditor.Avalonia.Controls.EditorWordWrap
-LoomEditor.Avalonia.Controls.EditorWordWrap.Bounded = 3
-LoomEditor.Avalonia.Controls.EditorWordWrap.Off = 0
-LoomEditor.Avalonia.Controls.EditorWordWrap.On = 1
-LoomEditor.Avalonia.Controls.EditorWordWrap.WordWrapColumn = 2
-LoomEditor.Avalonia.Controls.EditorWrappingIndent
-LoomEditor.Avalonia.Controls.EditorWrappingIndent.DeepIndent = 3
-LoomEditor.Avalonia.Controls.EditorWrappingIndent.Indent = 2
-LoomEditor.Avalonia.Controls.EditorWrappingIndent.None = 0
-LoomEditor.Avalonia.Controls.EditorWrappingIndent.Same = 1
 LoomEditor.Avalonia.Controls.Find.FindWidget
 LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
 LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget
@@ -204,68 +183,23 @@ LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupportProperty
 LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested
 LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread
 LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone
-LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.get
-LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.set
-LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuidesProperty
 LoomEditor.Avalonia.Controls.LoomEditor.CommentCancelled
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.get
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty
 LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted
 LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get
-LoomEditor.Avalonia.Controls.LoomEditor.CreateDecorationsCollection
-LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.get
-LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.set
 LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.get
 LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.set
 LoomEditor.Avalonia.Controls.LoomEditor.DragAndDropProperty
-LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabled.get
-LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabled.set
-LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabledProperty
 LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber
 LoomEditor.Avalonia.Controls.LoomEditor.GutterClicked
-LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet
-LoomEditor.Avalonia.Controls.LoomEditor.LanguageFeatures.get
 LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged
-LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.get
-LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.set
-LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidthProperty
-LoomEditor.Avalonia.Controls.LoomEditor.LineNumbersEnabled.get
-LoomEditor.Avalonia.Controls.LoomEditor.LineNumbersEnabled.set
-LoomEditor.Avalonia.Controls.LoomEditor.LineNumbersEnabledProperty
-LoomEditor.Avalonia.Controls.LoomEditor.LocationOpener.get
-LoomEditor.Avalonia.Controls.LoomEditor.LocationOpener.set
-LoomEditor.Avalonia.Controls.LoomEditor.Markers.get
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapEnabled.get
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapEnabled.set
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapEnabledProperty
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharacters.get
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharacters.set
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharactersProperty
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapSide.get
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapSide.set
-LoomEditor.Avalonia.Controls.LoomEditor.MinimapSideProperty
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone
-LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.get
-LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.set
-LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharactersProperty
-LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuides.get
-LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuides.set
-LoomEditor.Avalonia.Controls.LoomEditor.RenderIndentGuidesProperty
-LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.get
-LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.set
-LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespaceProperty
 LoomEditor.Avalonia.Controls.LoomEditor.ResetText
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged
-LoomEditor.Avalonia.Controls.LoomEditor.SetHiddenAreas
 LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight
-LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.get
-LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.set
-LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabledProperty
-LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCount.get
-LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCount.set
-LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollMaxLineCountProperty
 LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.get
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.set
@@ -273,15 +207,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocusProperty
 LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrast.get
 LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrast.set
 LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrastProperty
-LoomEditor.Avalonia.Controls.LoomEditor.WordWrap.get
-LoomEditor.Avalonia.Controls.LoomEditor.WordWrap.set
-LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumn.get
-LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumn.set
-LoomEditor.Avalonia.Controls.LoomEditor.WordWrapColumnProperty
-LoomEditor.Avalonia.Controls.LoomEditor.WordWrapProperty
-LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndent.get
-LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndent.set
-LoomEditor.Avalonia.Controls.LoomEditor.WrappingIndentProperty
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.LineNumber.get
