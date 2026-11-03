@@ -1,6 +1,4 @@
 using LoomEditor.View.Commands;
-using LoomEditor.View.Features.Find;
-using LoomEditor.View.Features.MultiCursor;
 using LoomEditor.WinUI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -14,32 +12,6 @@ namespace LoomEditor.WinUI.Controls.Find;
 // the find commands go through the editor's keybindings, the others stay with the text boxes.
 public sealed partial class FindWidget
 {
-    /// <summary>The commands the widget runs for a key press; undo, redo, select all and the clipboard stay with the text boxes.</summary>
-    internal static readonly HashSet<string> RoutedCommandIds = new(StringComparer.Ordinal)
-    {
-        FindCommands.StartFindAction,
-        FindCommands.StartFindWithSelection,
-        FindCommands.NextMatchFindAction,
-        FindCommands.PreviousMatchFindAction,
-        FindCommands.NextSelectionMatchFindAction,
-        FindCommands.PreviousSelectionMatchFindAction,
-        FindCommands.StartFindReplaceAction,
-        FindCommands.CloseFindWidgetCommand,
-        FindCommands.ToggleCaseSensitiveCommand,
-        FindCommands.ToggleWholeWordCommand,
-        FindCommands.ToggleRegexCommand,
-        FindCommands.ToggleSearchScopeCommand,
-        FindCommands.TogglePreserveCaseCommand,
-        FindCommands.ReplaceOneAction,
-        FindCommands.ReplaceAllAction,
-        FindCommands.SelectAllMatchesAction,
-        MultiCursorCommands.AddSelectionToNextFindMatch,
-        MultiCursorCommands.MoveSelectionToNextFindMatch,
-        MultiCursorCommands.SelectHighlights,
-        MultiCursorCommands.ChangeAll,
-    };
-
-    private bool _replaceInputLastFocused;
     private Control? _lastFocusedElement;
 
     /// <summary>Resolves a key press with the editor's keybindings (only <see cref="RoutedCommandIds"/> run) and tells whether it was handled.</summary>
@@ -53,12 +25,6 @@ public sealed partial class FindWidget
 
     /// <summary>Monaco: <c>CONTEXT_REPLACE_INPUT_FOCUSED</c>.</summary>
     internal bool IsReplaceInputFocused => ReplaceTextBox.FocusState != FocusState.Unfocused;
-
-    /// <inheritdoc />
-    bool IFindWidget.IsFindInputFocused => IsFindInputFocused;
-
-    /// <inheritdoc />
-    bool IFindWidget.WasReplaceInputLastFocused => _replaceInputLastFocused;
 
     private void InitializeKeyboard()
     {
@@ -119,29 +85,6 @@ public sealed partial class FindWidget
         box.SelectionLength = 0;
     }
 
-    // Monaco: `focusFindInput` and `focusReplaceInput` (findWidget.ts:840): select all, then focus.
-    void IFindWidget.ApplyStartFocus(FindStartFocusAction focus)
-    {
-        if (focus == FindStartFocusAction.NoFocusChange)
-        {
-            return;
-        }
-
-        // A collapsed replace row cannot take the focus.
-        TextBox box = focus == FindStartFocusAction.FocusReplaceInput && ReplaceRow.Visibility == Visibility.Visible ? ReplaceTextBox : FindTextBox;
-        box.SelectAll();
-        FocusElement(box);
-    }
-
-    // Monaco: `focusLastElement` (findWidget.ts:341).
-    void IFindWidget.FocusLastElement()
-    {
-        Control target = _lastFocusedElement is { IsLoaded: true } last
-            ? last
-            : _replaceInputLastFocused && ReplaceRow.Visibility == Visibility.Visible ? ReplaceTextBox : FindTextBox;
-        FocusElement(target);
-    }
-
     // A widget that just became visible may not take the focus in the same tick: retry once, later.
     private void FocusElement(Control element)
     {
@@ -166,4 +109,6 @@ public sealed partial class FindWidget
 
         return false;
     }
+
+    private bool IsReplaceRowVisible => ReplaceRow.Visibility == Visibility.Visible;
 }

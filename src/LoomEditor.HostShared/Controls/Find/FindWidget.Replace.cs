@@ -1,9 +1,13 @@
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Media;
 using LoomEditor.View.Features.Find;
 
+#if LOOM_WINUI
+using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
+namespace LoomEditor.WinUI.Controls.Find;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.Find;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The replace row, the "n of m" label, find in selection and the enabled state of the buttons (Monaco: `findWidget.ts`
 // `_updateButtons`, `_updateMatchesCount`, the replace input and the toggle replace button).
@@ -33,10 +37,7 @@ public sealed partial class FindWidget
         ReplaceButton.IsEnabled = visible && _isReplaceVisible && nonEmpty;
         ReplaceAllButton.IsEnabled = visible && _isReplaceVisible && nonEmpty;
 
-        ReplaceRow.IsVisible = _isReplaceVisible;
-        ToggleReplaceIcon.Data = this.TryFindResource(_isReplaceVisible ? "LoomIconChevronDown" : "LoomIconChevronRight", ActualThemeVariant, out object? icon)
-            ? icon as Geometry
-            : null;
+        ShowReplaceRow(_isReplaceVisible);
         ToggleReplaceButton.IsEnabled = visible && !viewModel.CursorConfig.ReadOnly;
     }
 
@@ -67,9 +68,8 @@ public sealed partial class FindWidget
     private void UpdateMatchesCount(FindReplaceState state)
     {
         MatchesCountText.Text = FindMatchesLabel.Format(state.MatchesPosition, state.MatchesCount);
-        ToolTip.SetTip(MatchesCountText, state.MatchesCount >= FindConstants.MatchesLimit ? FindMatchesLabel.LimitTitle : null);
         bool noResults = state.SearchString.Length > 0 && state.MatchesCount == 0;
-        MatchesCountText.Foreground = GetBrush(noResults ? "ErrorForegroundBrush" : "WidgetForegroundBrush");
+        SetMatchesCountStyle(state.MatchesCount >= FindConstants.MatchesLimit ? FindMatchesLabel.LimitTitle : null, noResults);
     }
 
     // Monaco: `_onStateChanged` for `replaceString`.
@@ -83,7 +83,7 @@ public sealed partial class FindWidget
         _ignoreChangeEvent = true;
         try
         {
-            ReplaceTextBox.Text = replaceString;
+            ReplaceTextBox.Text = ToBoxText(replaceString);
         }
         finally
         {
@@ -110,7 +110,7 @@ public sealed partial class FindWidget
     }
 
     // Monaco: the replace input's `onDidChange` (findWidget.ts:1176).
-    private void OnReplaceTextChanged(object? sender, TextChangedEventArgs e)
+    private void ReplaceTextChanged()
     {
         if (_ignoreChangeEvent || _controller is not { } controller)
         {
@@ -121,19 +121,15 @@ public sealed partial class FindWidget
     }
 
     // Monaco: the replace input's `onDidOptionChange` (findWidget.ts:1182).
-    private void OnPreserveCaseClick(object? sender, RoutedEventArgs e) =>
+    private void PreserveCaseToggled() =>
         _controller?.State.Change(new NewFindReplaceState { PreserveCase = PreserveCaseToggle.IsChecked == true }, true);
 
-    private void OnReplaceClick(object? sender, RoutedEventArgs e) => _controller?.Replace();
-
-    private void OnReplaceAllClick(object? sender, RoutedEventArgs e) => _controller?.ReplaceAll();
-
     // Monaco: the toggle replace button (findWidget.ts:1246).
-    private void OnToggleReplaceClick(object? sender, RoutedEventArgs e) =>
+    private void ToggleReplace() =>
         _controller?.State.Change(new NewFindReplaceState { IsReplaceRevealed = !_isReplaceVisible }, false);
 
     // Monaco: the find in selection toggle's `onChange` (findWidget.ts:1109).
-    private void OnFindInSelectionClick(object? sender, RoutedEventArgs e)
+    private void FindInSelectionToggled()
     {
         if (_controller is not { } controller || _viewModel is not { } viewModel)
         {

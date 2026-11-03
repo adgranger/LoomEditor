@@ -1,7 +1,12 @@
 using LoomEditor.Themes;
-using Microsoft.UI.Xaml.Media;
 
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls.Find;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls.Find;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The colors of the widget come from the editor theme (Monaco: the widget colors of `findWidget.ts` `registerThemingParticipant`).
 public sealed partial class FindWidget
@@ -29,6 +34,6 @@ public sealed partial class FindWidget
     private void Set(string brushKey, ThemeColor? color)
     {
         ThemeColor c = color ?? default;
-        ((SolidColorBrush)Resources[brushKey]).Color = Windows.UI.Color.FromArgb(c.A, c.R, c.G, c.B);
+        SetBrushColor(brushKey, c.A, c.R, c.G, c.B);
     }
 }

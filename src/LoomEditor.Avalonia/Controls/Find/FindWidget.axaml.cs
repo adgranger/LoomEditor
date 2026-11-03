@@ -2,7 +2,6 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using LoomEditor.View.Features.Find;
-using LoomEditor.View.Layout;
 
 namespace LoomEditor.Avalonia.Controls.Find;
 
@@ -17,11 +16,6 @@ namespace LoomEditor.Avalonia.Controls.Find;
 /// </remarks>
 public sealed partial class FindWidget : UserControl, IFindWidget
 {
-    private FindController? _controller;
-    private Action? _focusEditor;
-    private ViewModel? _viewModel;
-    private bool _ignoreChangeEvent;
-
     /// <summary>Creates the widget.</summary>
     public FindWidget()
     {
@@ -32,204 +26,6 @@ public sealed partial class FindWidget : UserControl, IFindWidget
         InitializeKeyboard();
         IsVisible = false;
     }
-
-    // Monaco: `_onStateChanged` and `_buildDomNode` subscribe the widget to the state.
-    internal void Connect(FindController controller, ViewModel viewModel, Action focusEditor)
-    {
-        ArgumentNullException.ThrowIfNull(controller);
-        ArgumentNullException.ThrowIfNull(viewModel);
-        ArgumentNullException.ThrowIfNull(focusEditor);
-
-        Disconnect();
-        _controller = controller;
-        _viewModel = viewModel;
-        _focusEditor = focusEditor;
-        controller.Widget = this;
-        controller.State.Change(new NewFindReplaceState { Loop = controller.Options.Loop }, false);
-        controller.State.Changed += OnStateChanged;
-        Refresh();
-    }
-
-    internal void Disconnect()
-    {
-        if (_controller is null)
-        {
-            return;
-        }
-
-        _controller.State.Changed -= OnStateChanged;
-        _controller.Widget = null;
-        _controller = null;
-        _viewModel = null;
-        _focusEditor = null;
-        TryHandleKey = null;
-    }
-
-    void IFindWidget.FocusEditor() => _focusEditor?.Invoke();
-
-    void IFindWidget.HighlightFindOptions(bool findWidgetRevealed)
-    {
-        // Monaco flashes the toggles; not ported in phase 5.
-    }
-
-    // Monaco: `_onStateChanged` (searchString, isRevealed, isRegex, wholeWord, matchCase).
-    private void OnStateChanged(object? sender, FindReplaceStateChangedEventArgs e)
-    {
-        if (_controller is not { } controller)
-        {
-            return;
-        }
-
-        FindReplaceState state = controller.State;
-        if (e.SearchString)
-        {
-            SetFindText(state.SearchString);
-            UpdateButtons();
-        }
-
-        if (e.ReplaceString)
-        {
-            SetReplaceText(state.ReplaceString);
-        }
-
-        if (e.IsRegex)
-        {
-            RegexToggle.IsChecked = state.IsRegex;
-        }
-
-        if (e.WholeWord)
-        {
-            WholeWordToggle.IsChecked = state.WholeWord;
-        }
-
-        if (e.MatchCase)
-        {
-            MatchCaseToggle.IsChecked = state.MatchCase;
-        }
-
-        if (e.IsRevealed)
-        {
-            Reveal(state.IsRevealed);
-        }
-
-        if (e.IsReplaceRevealed)
-        {
-            UpdateReplaceRevealed(state);
-        }
-
-        if (e.PreserveCase)
-        {
-            PreserveCaseToggle.IsChecked = state.PreserveCase;
-        }
-
-        if (e.SearchScope)
-        {
-            FindInSelectionToggle.IsChecked = state.SearchScope is not null;
-            UpdateFindInSelectionToggle();
-        }
-
-        if (e.SearchString || e.MatchesCount || e.MatchesPosition)
-        {
-            UpdateMatchesCount(state);
-            UpdateButtons();
-        }
-
-        if (e.Loop || e.IsRevealed)
-        {
-            UpdateButtons();
-        }
-    }
-
-    // The widget may be connected while the state already holds values (e.g. after the control was reloaded).
-    private void Refresh()
-    {
-        FindReplaceState state = _controller!.State;
-        SetFindText(state.SearchString);
-        RegexToggle.IsChecked = state.IsRegex;
-        WholeWordToggle.IsChecked = state.WholeWord;
-        MatchCaseToggle.IsChecked = state.MatchCase;
-        PreserveCaseToggle.IsChecked = state.PreserveCase;
-        FindInSelectionToggle.IsChecked = state.SearchScope is not null;
-        SetReplaceText(state.ReplaceString);
-        _isReplaceVisible = false;
-        UpdateReplaceRevealed(state);
-        UpdateMatchesCount(state);
-        IsVisible = state.IsRevealed;
-        UpdateButtons();
-    }
-
-    // Monaco: `_reveal` and `_hide(true)`, without animation or view zone.
-    private void Reveal(bool revealed)
-    {
-        IsVisible = revealed;
-        if (!revealed)
-        {
-            _focusEditor?.Invoke();
-        }
-    }
-
-    // The text boxes of Avalonia may use "\r\n": the state always holds "\n".
-    private static string ToStateText(string? text) => (text ?? string.Empty).Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n');
-
-    private void SetFindText(string searchString)
-    {
-        if (ToStateText(FindTextBox.Text) == searchString)
-        {
-            return;
-        }
-
-        _ignoreChangeEvent = true;
-        try
-        {
-            FindTextBox.Text = searchString;
-        }
-        finally
-        {
-            _ignoreChangeEvent = false;
-        }
-    }
-
-    // Monaco: the find input's `onInput` (findWidget.ts:1020).
-    private void OnFindTextChanged(object? sender, TextChangedEventArgs e)
-    {
-        if (_ignoreChangeEvent || _controller is not { } controller || !controller.Options.FindOnType)
-        {
-            return;
-        }
-
-        controller.State.Change(new NewFindReplaceState { SearchString = ToStateText(FindTextBox.Text) }, true);
-    }
-
-    // Monaco: `onDidOptionChange` (findWidget.ts:1033).
-    private void OnOptionToggleClick(object? sender, RoutedEventArgs e) =>
-        _controller?.State.Change(
-            new NewFindReplaceState
-            {
-                IsRegex = RegexToggle.IsChecked == true,
-                WholeWord = WholeWordToggle.IsChecked == true,
-                MatchCase = MatchCaseToggle.IsChecked == true,
-            },
-            true);
-
-    private void OnPreviousClick(object? sender, RoutedEventArgs e)
-    {
-        if (_controller is { } controller)
-        {
-            FindActions.PreviousMatch(controller);
-        }
-    }
-
-    private void OnNextClick(object? sender, RoutedEventArgs e)
-    {
-        if (_controller is { } controller)
-        {
-            FindActions.NextMatch(controller);
-        }
-    }
-
-    // Monaco: the close button (findWidget.ts:1143).
-    private void OnCloseClick(object? sender, RoutedEventArgs e) =>
-        _controller?.State.Change(new NewFindReplaceState { IsRevealed = false, SearchScope = null }, false);
 
     // The brushes under the keys that the Fluent control themes look up (as the StaticResource aliases of the WinUI XAML).
     private void AliasFluentBrushes()
@@ -262,4 +58,18 @@ public sealed partial class FindWidget : UserControl, IFindWidget
     }
 
     private IBrush GetBrush(string key) => (IBrush)Resources[key]!;
+
+    private void SetVisible(bool visible) => IsVisible = visible;
+
+    private static string ToBoxText(string text) => text;
+
+    private void OnFindTextChanged(object? sender, TextChangedEventArgs e) => FindTextChanged();
+
+    private void OnOptionToggleClick(object? sender, RoutedEventArgs e) => OptionToggled();
+
+    private void OnPreviousClick(object? sender, RoutedEventArgs e) => PreviousMatch();
+
+    private void OnNextClick(object? sender, RoutedEventArgs e) => NextMatch();
+
+    private void OnCloseClick(object? sender, RoutedEventArgs e) => CloseWidget();
 }
