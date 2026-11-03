@@ -18,7 +18,7 @@ URL="https://github.com/kkos/oniguruma/releases/download/v${VERSION}/onig-${VERS
 SHA256='2a5cfc5ae259e4e97f86b68dfffc152cdaffe94e2060b770cb827238d769fc05'
 
 RID=''
-while [ $# -gt 0 ]; do
+while [[ $# -gt 0 ]]; do
   case "$1" in
     --rid) RID="${2:-}"; shift 2 ;;
     *) echo "Unknown argument: $1" >&2; exit 2 ;;
@@ -38,7 +38,7 @@ build_dir="$work/build-$RID"
 output="$repo_root/artifacts/native/$RID"
 mkdir -p "$work" "$output"
 
-if [ ! -f "$archive" ]; then
+if [[ ! -f "$archive" ]]; then
   echo "Downloading $URL"
   curl -fsSL --proto '=https' --tlsv1.2 "$URL" -o "$archive"
 fi
@@ -48,17 +48,17 @@ if command -v sha256sum >/dev/null 2>&1; then
 else
   actual="$(shasum -a 256 "$archive" | cut -d' ' -f1)"
 fi
-if [ "$actual" != "$SHA256" ]; then
+if [[ "$actual" != "$SHA256" ]]; then
   rm -f "$archive"
   echo "SHA-256 mismatch for $archive. Expected $SHA256, got $actual." >&2
   exit 1
 fi
 
-[ -d "$sources" ] || tar -xzf "$archive" -C "$work"
+[[ -d "$sources" ]] || tar -xzf "$archive" -C "$work"
 
 args=(-DBUILD_SHARED_LIBS=ON -DENABLE_POSIX_API=OFF -DENABLE_BINARY_COMPATIBLE_POSIX_API=OFF
       -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_C_FLAGS=-O2)
-if [ "$RID" = osx ]; then
+if [[ "$RID" = osx ]]; then
   args+=("-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0)
 fi
 
@@ -66,9 +66,9 @@ cmake -S "$sources" -B "$build_dir" "${args[@]}"
 cmake --build "$build_dir" --config Release
 
 # CMake names the library libonig.so.<major> / libonig.<major>.dylib plus symlinks; ship the real file under the plain name.
-if [ "$RID" = osx ]; then lib=libonig.dylib; else lib=libonig.so; fi
+if [[ "$RID" = osx ]]; then lib=libonig.dylib; else lib=libonig.so; fi
 built="$(find "$build_dir" -maxdepth 1 -name "$lib" | head -n 1)"
-[ -n "$built" ] || { echo "$lib was not produced in $build_dir." >&2; exit 1; }
+[[ -n "$built" ]] || { echo "$lib was not produced in $build_dir." >&2; exit 1; }
 cp -L "$built" "$output/$lib"
 cp "$sources/COPYING" "$output/oniguruma-COPYING.txt"
 echo "$lib ($RID) -> $output"

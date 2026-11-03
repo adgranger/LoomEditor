@@ -80,7 +80,7 @@ public sealed partial class MainWindow
         }
         catch (Exception ex)
         {
-            File.WriteAllText(_selfCheckFile!, $"FAIL self-check: {ex.GetType().Name}: {ex.Message}\n");
+            await File.WriteAllTextAsync(_selfCheckFile!, $"FAIL self-check: {ex.GetType().Name}: {ex.Message}\n");
         }
 
         Environment.Exit(failures == 0 ? 0 : 1);

@@ -86,7 +86,7 @@ public sealed partial class MainWindow
         }
         catch (Exception ex)
         {
-            File.WriteAllText(_diffSelfCheckFile!, $"FAIL  diff-selfcheck — {ex.GetType().Name}: {ex.Message}\nSUMMARY: 0 passed, 1 failed\n");
+            await File.WriteAllTextAsync(_diffSelfCheckFile!, $"FAIL  diff-selfcheck — {ex.GetType().Name}: {ex.Message}\nSUMMARY: 0 passed, 1 failed\n");
         }
 
         Environment.Exit(failures == 0 ? 0 : 1);
