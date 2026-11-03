@@ -93,6 +93,7 @@ public sealed partial class LoomEditor
         _findWidget?.ApplyTheme(theme);
         _hoverPresenter?.ApplyTheme(theme);
         _suggestPresenter?.ApplyTheme(theme);
+        _commentGutter?.ApplyTheme(theme);
         Invalidate();
     }
 

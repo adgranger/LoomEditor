@@ -131,3 +131,16 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 4. All: the detail of the selected item shows under the list; deprecated items are struck through; the colors follow the editor theme in dark and light.
    **Result:** pending
+
+## P15-20 — Comment threads: gutter "+"
+
+1. All: with `CommentGutterButtonEnabled = true`, hover the line numbers: a 22 px "+" appears on the hovered line, centered on it, and follows the pointer from line to line; moving the pointer into the text hides it.
+   **Result:** pending
+2. All: clicking the "+" raises `AddCommentRequested` for that line (the Gallery logs it); with a selection, hovering a selected line asks for the selected lines or text.
+   **Result:** pending
+3. All: the "+" has no focus ring and is skipped by Tab; a screen reader reads "Add a comment on line N".
+   **Result:** pending
+4. All: the "+" colors follow `button.background` / `button.foreground` of the theme, and the accent look when the theme has none.
+   **Result:** pending
+5. All: scroll with the mouse wheel while the pointer rests on the line numbers: the "+" follows the line under the pointer.
+   **Result:** pending

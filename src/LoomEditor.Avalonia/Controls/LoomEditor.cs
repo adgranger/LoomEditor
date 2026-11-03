@@ -91,6 +91,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeStickyScrollProperties();
         InitializeAccessibilityProperties();
         InitializeHighContrastProperties();
+        InitializeCommentThreadsProperties();
     }
 
     /// <summary>Creates the control.</summary>
@@ -117,6 +118,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeIme();
         InitializeAccessibility();
         InitializeFind();
+        InitializeCommentThreads();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
 
@@ -235,6 +237,7 @@ public sealed partial class LoomEditor : TemplatedControl
             var surface = new AvaloniaRenderSurface(context, new Rect(size), _measurer!, _bitmapCache, _paintCache);
             _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
             _hostZoneLayer.ArrangeAfterDraw();
+            _commentGutter?.ArrangeAfterDraw();
             ApplyPendingHorizontalReveal();
         }
         finally

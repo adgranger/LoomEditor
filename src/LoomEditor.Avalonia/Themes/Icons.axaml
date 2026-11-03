@@ -9,4 +9,5 @@
   <StreamGeometry x:Key="LoomIconFindInSelection">M2,3 H14 V4.5 H2 Z M5,7.25 H14 V8.75 H5 Z M5,11.5 H14 V13 H5 Z</StreamGeometry>
   <StreamGeometry x:Key="LoomIconReplace">M2,3 H11 V4.5 H2 Z M2,7.25 H14 V8.75 H2 Z M2,11.5 H11 V13 H2 Z M12,10 L15,12.25 L12,14.5 Z</StreamGeometry>
   <StreamGeometry x:Key="LoomIconReplaceAll">M2,2 H11 V3.5 H2 Z M2,5 H14 V6.5 H2 Z M2,8 H11 V9.5 H2 Z M2,11 H14 V12.5 H2 Z M12,7.5 L15,9.75 L12,12 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconPlus">M7.25,2 H8.75 V7.25 H14 V8.75 H8.75 V14 H7.25 V8.75 H2 V7.25 H7.25 Z</StreamGeometry>
 </ResourceDictionary>

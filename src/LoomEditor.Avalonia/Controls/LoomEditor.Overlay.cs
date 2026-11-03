@@ -36,7 +36,16 @@ public sealed partial class LoomEditor
             _context.SuggestPresenter = _suggestPresenter;
         }
 
-        _hostZoneLayer.Attach(nameScope.Find<Canvas>(ZoneWidgetCanvasPartName) is { } zones ? new OverlayHost(zones) : null);
+        Canvas? zones = nameScope.Find<Canvas>(ZoneWidgetCanvasPartName);
+        if (zones is not null)
+        {
+            // A Canvas does not clip its children: without this a box scrolled half out would draw outside the editor.
+            zones.ClipToBounds = true;
+        }
+
+        OverlayHost? zoneLayer = zones is null ? null : new OverlayHost(zones);
+        _hostZoneLayer.Attach(zoneLayer);
+        InitializeCommentGutter(zoneLayer);
     }
 
     // The bounds, in editor coordinates, of the first visible line of a model range: from its start to its end on that line (a caret-wide

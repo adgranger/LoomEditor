@@ -173,3 +173,36 @@ LoomEditor.Avalonia.Controls.LoomEditor.ResetText(string! text) -> void
 LoomEditor.Avalonia.Controls.Find.FindWidget
 LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget() -> void
 LoomEditor.Avalonia.Controls.Find.FindWidget.InitializeComponent(bool loadXaml = true) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(LoomEditor.Core.Text.Range textRange) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int lineNumber) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs(int startLineNumber, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.StartLineNumber.get -> int
+LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.TextRange.get -> LoomEditor.Core.Text.Range?
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, string! text) -> void
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Text.get -> string!
+LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.CommentThreadEventArgs
+LoomEditor.Avalonia.Controls.CommentThreadEventArgs.CommentThreadEventArgs(LoomEditor.Core.Comments.CommentThread! thread) -> void
+LoomEditor.Avalonia.Controls.CommentThreadEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested -> System.EventHandler<LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(int lineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread(int startLineNumber, int endLineNumber, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
+LoomEditor.Avalonia.Controls.LoomEditor.CommentCancelled -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentThreadEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Comments.CommentThread!>!
+LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread(LoomEditor.Core.Comments.CommentThread! thread) -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied -> System.EventHandler<LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs!>?
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get -> LoomEditor.Core.Comments.Comment!
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.LineNumber.get -> int
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.StartLineNumber.get -> int
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs(LoomEditor.Core.Comments.CommentThread! thread, LoomEditor.Core.Comments.Comment! comment, int startLineNumber, int lineNumber) -> void
+LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Thread.get -> LoomEditor.Core.Comments.CommentThread!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty -> Avalonia.StyledProperty<bool>!

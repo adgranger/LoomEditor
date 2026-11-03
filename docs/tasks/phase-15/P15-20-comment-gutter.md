@@ -1,6 +1,6 @@
 # P15-20 — Comment threads: event args, gutter "+" button, editor wiring
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-19
 - **Size:** M
 
@@ -34,13 +34,21 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Comments/CommentEventArgs.cs`, `
 
 ## Tests
 
-- [ ] New: `PointerOverLine_ShowsPlus_AtThatLine`; `ClickPlus_RaisesAddCommentRequested_WithLine`; `PointerLeaves_HidesPlus`; `Theme_Change_RecolorsPlus`
+- [x] New: `PointerOverLine_ShowsPlus_AtThatLine`; `ClickPlus_RaisesAddCommentRequested_WithLine`; `PointerLeaves_HidesPlus`; `Theme_Change_RecolorsPlus`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+
+## Deviations
+
+- The `ICommentZoneHost` stub has one member, `FocusComposer`, and is reached through a static `CommentZoneHost` property that is always `null`: a field would never be
+  assigned and fail the build (CS0649). P15-23 replaces both.
+- The WinUI `InitializeCommentZoneHost` also created the zone host and clipped the canvas with a geometry. Here `InitializeCommentGutter` only creates the gutter button; the
+  canvas clips with `ClipToBounds`. The gutter button is moved in a dispatcher post after the draw (Avalonia refuses a layout change in the render pass), like the host view zones.
+- The "+" has the accent look through the `accent` class of the Fluent `Button` theme when the editor theme has no `button.*` colors; it has no tooltip, as in WinUI.
 
 ## Out of scope
 

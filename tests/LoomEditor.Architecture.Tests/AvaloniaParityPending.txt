@@ -1,17 +1,5 @@
 # WinUI public members that LoomEditor.Avalonia does not have yet (one key per line, sorted).
 # A card that adds a member removes its line; see AvaloniaApiParityTests.
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.AddCommentRequestedEventArgs
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.LineNumber.get
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.StartLineNumber.get
-LoomEditor.Avalonia.Controls.AddCommentRequestedEventArgs.TextRange.get
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.CommentSubmittedEventArgs
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Text.get
-LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs.Thread.get
-LoomEditor.Avalonia.Controls.CommentThreadEventArgs
-LoomEditor.Avalonia.Controls.CommentThreadEventArgs.CommentThreadEventArgs
-LoomEditor.Avalonia.Controls.CommentThreadEventArgs.Thread.get
 LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs
 LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.DiffAddCommentRequestedEventArgs
 LoomEditor.Avalonia.Controls.DiffAddCommentRequestedEventArgs.LineNumber.get
@@ -159,19 +147,3 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.WaitForDiffAsync
-LoomEditor.Avalonia.Controls.LoomEditor.AddCommentRequested
-LoomEditor.Avalonia.Controls.LoomEditor.AddCommentThread
-LoomEditor.Avalonia.Controls.LoomEditor.CommentCancelled
-LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.get
-LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set
-LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty
-LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted
-LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get
-LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread
-LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.LineNumber.get
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.StartLineNumber.get
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.SuggestionAppliedEventArgs
-LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Thread.get
