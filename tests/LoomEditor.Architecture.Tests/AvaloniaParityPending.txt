@@ -47,11 +47,8 @@ LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.Lines.get
 LoomEditor.Avalonia.Controls.DiffSide
 LoomEditor.Avalonia.Controls.DiffSide.Modified = 1
 LoomEditor.Avalonia.Controls.DiffSide.Original = 0
-LoomEditor.Avalonia.Controls.Find.FindWidget
 LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
-LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget
 LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector
-LoomEditor.Avalonia.Controls.Find.FindWidget.InitializeComponent
 LoomEditor.Avalonia.Controls.LoomDiffEditor
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentRequested
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread

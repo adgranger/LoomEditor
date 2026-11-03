@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:LoomEditor.Avalonia.Controls">
+        xmlns:controls="using:LoomEditor.Avalonia.Controls"
+        xmlns:find="using:LoomEditor.Avalonia.Controls.Find">
   <Styles.Resources>
     <ResourceDictionary>
       <!-- Default look of the LoomEditor control. PART_Canvas is required: all text is drawn on it. -->
@@ -21,6 +22,7 @@
                 <!-- The live region of the announcements (screen readers): present for automation, drawn invisibly. -->
                 <TextBlock Name="PART_LiveRegion" AutomationProperties.LiveSetting="Assertive" Opacity="0" IsHitTestVisible="False"
                            Width="1" Height="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <find:FindWidget Name="PART_FindWidget" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,14,0" IsVisible="False" />
                 <ScrollBar Name="PART_VerticalScrollBar" Orientation="Vertical" HorizontalAlignment="Right" IsVisible="False" />
                 <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" VerticalAlignment="Bottom" IsVisible="False" />
               </Panel>

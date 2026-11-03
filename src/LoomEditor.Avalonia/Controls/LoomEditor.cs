@@ -37,6 +37,7 @@ namespace LoomEditor.Avalonia.Controls;
 [TemplatePart(OverlayCanvasPartName, typeof(Canvas))]
 [TemplatePart(ZoneWidgetCanvasPartName, typeof(Canvas))]
 [TemplatePart(LiveRegionPartName, typeof(TextBlock))]
+[TemplatePart(FindWidgetPartName, typeof(Find.FindWidget))]
 #pragma warning disable CA1724 // Type name matches the root namespace on purpose: see remarks above.
 #pragma warning disable CA1001 // Avalonia controls are not IDisposable: disposable fields are released when the control leaves the tree.
 public sealed partial class LoomEditor : TemplatedControl
@@ -115,6 +116,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeHighlighting();
         InitializeIme();
         InitializeAccessibility();
+        InitializeFind();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
 
@@ -175,6 +177,7 @@ public sealed partial class LoomEditor : TemplatedControl
         AttachScrollBars(e.NameScope);
         AttachLiveRegion(e.NameScope);
         AttachOverlays(e.NameScope);
+        AttachFindWidget(e.NameScope);
     }
 
     /// <inheritdoc />
@@ -183,6 +186,7 @@ public sealed partial class LoomEditor : TemplatedControl
         base.OnAttachedToVisualTree(e);
 
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        ConnectFindWidget();
         ApplyFoldingEnabled();
         StartHighlighting();
         StartAccessibility();
@@ -195,6 +199,7 @@ public sealed partial class LoomEditor : TemplatedControl
     {
         base.OnDetachedFromVisualTree(e);
 
+        _findWidget?.Disconnect();
         _featureHost?.Dispose();
         _featureHost = null;
         StopHighlighting();

@@ -94,3 +94,18 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 6. Windows high contrast (Aquatic, Desert…) and macOS "Increase contrast": the editor switches to the high contrast theme live and back when it is turned off; `UseSystemHighContrast = false` keeps the app theme.
    **Result:** pending
+
+## P15-17 — Find and replace widget
+
+1. All: Ctrl+F (Cmd+F on macOS) opens the widget at the top right with the focus in the find box; Ctrl+H (Cmd+Option+F on macOS) also shows the replace row; Escape closes it and the editor has the focus.
+   **Result:** pending
+2. All: type a word that occurs several times: the matches are highlighted in the text and the label reads "1 of N"; Enter / Shift+Enter move to the next / previous match and the editor scrolls to it.
+   **Result:** pending
+3. All: the match case, whole word and regex toggles (and Alt+C, Alt+W, Alt+R) change the matches live; an invalid regex shows "No results" in red without an error dialog.
+   **Result:** pending
+4. All: Replace and Replace All change the text; the icons of the buttons are drawn crisp (no missing glyph box), also on a 200 % display.
+   **Result:** pending
+5. All: the widget colors follow the editor theme (dark and light); the text boxes show the focus border color while focused, the toggles show the active colors when on.
+   **Result:** pending
+6. All: clicking and dragging inside the widget never moves the editor caret or starts a selection in the text.
+   **Result:** pending

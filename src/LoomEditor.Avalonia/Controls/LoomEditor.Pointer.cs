@@ -59,7 +59,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerPressed(e);
 
-        if (_renderer is null || IsFromScrollBar(e.Source))
+        if (_renderer is null || IsFromChildControl(e.Source))
         {
             return;
         }
@@ -161,7 +161,7 @@ public sealed partial class LoomEditor
             return;
         }
 
-        if (_renderer is not null && !IsFromScrollBar(e.Source))
+        if (_renderer is not null && !IsFromChildControl(e.Source))
         {
             EditorMouseEvent mouseEvent = PointerInput.Create(e, this, 1);
             MouseTarget target = CreateMouseTarget(mouseEvent.X, mouseEvent.Y);
@@ -177,7 +177,7 @@ public sealed partial class LoomEditor
         ArgumentNullException.ThrowIfNull(e);
         base.OnPointerReleased(e);
 
-        if (_renderer is not null && !IsFromScrollBar(e.Source))
+        if (_renderer is not null && !IsFromChildControl(e.Source))
         {
             // The buttons are already up in a release: the released one is the button of the event.
             PointerUpdateKind kind = e.GetCurrentPoint(this).Properties.PointerUpdateKind;
@@ -317,7 +317,7 @@ public sealed partial class LoomEditor
     {
         EditorMouseEvent mouseEvent = PointerInput.Create(e, this, 1);
         bool overGutter = mouseEvent.X < _viewModel.LayoutInfo.ContentLeft;
-        bool overScrollBar = IsFromScrollBar(e.Source);
+        bool overScrollBar = IsFromChildControl(e.Source);
         SetMarginHovered(overGutter);
         Cursor = CreateTextAreaCursor(overGutter || overScrollBar);
     }
@@ -338,6 +338,9 @@ public sealed partial class LoomEditor
             Invalidate();
         }
     }
+
+    // The scrollbars and the find widget are children of the control: their pointer events are not the text's.
+    private bool IsFromChildControl(object? source) => IsFromScrollBar(source) || IsFromFindWidget(source);
 
     private bool IsFromScrollBar(object? source)
     {

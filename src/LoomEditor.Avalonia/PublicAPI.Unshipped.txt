@@ -170,3 +170,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged -> System.EventHandler<Loo
 LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
 LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
 LoomEditor.Avalonia.Controls.LoomEditor.ResetText(string! text) -> void
+LoomEditor.Avalonia.Controls.Find.FindWidget
+LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget() -> void
+LoomEditor.Avalonia.Controls.Find.FindWidget.InitializeComponent(bool loadXaml = true) -> void
