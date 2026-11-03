@@ -80,6 +80,9 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         OriginalTextProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, e) => editor.ApplyText(editor._original, (string?)e.NewValue));
         ModifiedTextProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, e) => editor.ApplyText(editor._modified, (string?)e.NewValue));
         LanguageIdProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.ApplyLanguageAndTheme());
+        LineSelectionEnabledProperty.Changed.AddClassHandler<LoomDiffEditor>(OnLineSelectionEnabledChanged);
+        LineActionGlyphProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.UpdateGutterLanes());
+        LineActionToolTipProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.UpdateGutterLanes());
         BlockActionsVisibilityProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.UpdateGutterLanes());
         GlyphFontFamilyProperty.Changed.AddClassHandler<LoomDiffEditor>(static (editor, _) => editor.UpdateGutterLanes());
     }
@@ -92,6 +95,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
         GotFocus += (_, _) => RefreshScreenReader();
+        AddHandler(KeyDownEvent, OnLineActionKeyDown, RoutingStrategies.Tunnel);
     }
 
     /// <summary>Raised when a new diff was published, or <see cref="IsDiffUpToDate"/> changed.</summary>
@@ -300,6 +304,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         {
             _changesDiff = diff;
             _changes = diff is null ? [] : DiffChangeBlock.FromMappings(diff.Mappings);
+            UpdateLineSelectionBlocks();
             UpdateBlockActionBlocks(_changes);
         }
 

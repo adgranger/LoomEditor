@@ -2,20 +2,3 @@
 # A card that adds a member removes its line; see AvaloniaApiParityTests.
 LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
 LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector
-LoomEditor.Avalonia.Controls.LoomDiffEditor.ClearSelection
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyphProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionInvoked
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionKey.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionKey.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionKeyProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTip.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTip.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTipProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.set
-LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabledProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectedLines.get
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectionChanged
-LoomEditor.Avalonia.Controls.LoomDiffEditor.SetSelection

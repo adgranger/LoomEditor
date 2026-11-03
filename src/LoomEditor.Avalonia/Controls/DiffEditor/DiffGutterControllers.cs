@@ -8,34 +8,39 @@ namespace LoomEditor.Avalonia.Controls.DiffEditor;
 /// draw, pointer and theme calls to both.
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class DiffGutterControllers(DiffBlockActionsController blockActions) : IDisposable
+internal sealed class DiffGutterControllers(DiffBlockActionsController blockActions, DiffLineCheckBoxesController lineCheckBoxes) : IDisposable
 {
     public DiffBlockActionsController BlockActions { get; } = blockActions;
 
-    // P15-30: the line checkboxes controller joins the block actions here.
+    public DiffLineCheckBoxesController LineCheckBoxes { get; } = lineCheckBoxes;
 
     public void Arrange()
     {
         BlockActions.Arrange();
+        LineCheckBoxes.Arrange();
     }
 
     public void OnPointerMoved(MouseTarget target, double x, double y)
     {
         BlockActions.OnPointerMoved(target, x, y);
+        LineCheckBoxes.OnPointerMoved(target, x, y);
     }
 
     public void OnPointerLeft()
     {
         BlockActions.OnPointerLeft();
+        LineCheckBoxes.OnPointerLeft();
     }
 
     public void ApplyTheme(EditorTheme theme)
     {
         BlockActions.ApplyTheme(theme);
+        LineCheckBoxes.ApplyTheme(theme);
     }
 
     public void Dispose()
     {
         BlockActions.Dispose();
+        LineCheckBoxes.Dispose();
     }
 }

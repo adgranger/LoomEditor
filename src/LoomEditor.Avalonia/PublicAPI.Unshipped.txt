@@ -98,6 +98,7 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.get -> LoomEd
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.ClearSelection() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentCancelled -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentThreadEventArgs!>?
@@ -127,8 +128,17 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.get -> string?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionInvoked -> System.EventHandler<LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionKey.get -> Avalonia.Input.Key
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionKey.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTip.get -> string?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTip.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineHeight.get -> double
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineHeight.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LoomDiffEditor() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
@@ -157,6 +167,9 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.get -> str
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionGlyph.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.get -> string?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SecondaryBlockActionToolTip.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectedLines.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Avalonia.Controls.DiffLine>!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SelectionChanged -> System.EventHandler?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.SetSelection(System.Collections.Generic.IEnumerable<LoomEditor.Avalonia.Controls.DiffLine>! lines) -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ShowAllUnchangedRegions() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.SuggestionApplied -> System.EventHandler<LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
@@ -297,6 +310,10 @@ static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegions
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespaceProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnlyProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageIdProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyphProperty -> Avalonia.StyledProperty<string?>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionKeyProperty -> Avalonia.StyledProperty<Avalonia.Input.Key>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTipProperty -> Avalonia.StyledProperty<string?>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabledProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMsProperty -> Avalonia.StyledProperty<int>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedTextProperty -> Avalonia.StyledProperty<string!>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditableProperty -> Avalonia.StyledProperty<bool>!

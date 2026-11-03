@@ -115,8 +115,8 @@ public sealed partial class LoomDiffEditor
         var blockActions = new DiffBlockActionsController(editor, layer, modifiedSide, hitTest);
         blockActions.Invoked += (block, action) => BlockActionInvoked?.Invoke(this, new DiffBlockActionInvokedEventArgs(block, action));
         blockActions.SetBlocks(_changes);
-        // P15-30: the line checkboxes are created here.
-        var controllers = new DiffGutterControllers(blockActions);
+        var lineCheckBoxes = CreateLineCheckBoxes(editor, layer, modifiedSide, hitTest);
+        var controllers = new DiffGutterControllers(blockActions, lineCheckBoxes);
         ConfigureGutter(controllers, GetGutterLanes());
         return controllers;
     }
@@ -142,8 +142,8 @@ public sealed partial class LoomDiffEditor
 
     private DiffGutterLanes GetGutterLanes() => DiffGutterLanes.Compute(
         _options.RenderSideBySideEffective,
-        false, // P15-30: LineSelectionEnabled
-        false, // P15-30: LineActionGlyph is not null
+        LineSelectionEnabled,
+        LineActionGlyph is not null,
         BlockActionsVisibility != DiffBlockActionsVisibility.Off,
         PrimaryBlockActionGlyph is not null,
         SecondaryBlockActionGlyph is not null);
@@ -159,6 +159,8 @@ public sealed partial class LoomDiffEditor
             SecondaryBlockActionToolTip,
             lanes.PrimaryBlockAction,
             lanes.SecondaryBlockAction);
+        controllers.LineCheckBoxes.SetGlyphFont(GlyphFontFamily);
+        controllers.LineCheckBoxes.Configure(lanes.Select, lanes.LineAction, LineActionGlyph, LineActionToolTip);
     }
 
     private void UpdateBlockActionBlocks(IReadOnlyList<DiffChangeBlock> blocks)

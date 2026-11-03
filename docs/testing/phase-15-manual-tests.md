@@ -192,3 +192,16 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 4. All: the rows use the editor font and the inserted and removed line colors of the theme.
    **Result:** pending
+
+## P15-30 — Diff line checkboxes and the line action
+
+1. All: with `LineSelectionEnabled = true` in a side-by-side diff, every deleted line (original side) and added line (modified side) has a checkbox in the glyph margin; a click toggles it and `SelectedLines` follows.
+   **Result:** pending
+2. Windows, Ubuntu: Ctrl+click a checkbox selects the line and its partner on the other side; macOS: Cmd+click does. Shift+click adds the changed lines from the last clicked one on the same side.
+   **Result:** pending
+3. All: with `LineActionGlyph` set (and a `GlyphFontFamily` that has the glyph), hovering a changed line shows the line action button in its lane; clicking raises `LineActionInvoked` with the selection, or the line.
+   **Result:** pending
+4. All: with the modified side read-only and focused, pressing `LineActionKey` (default S, no modifier) raises `LineActionInvoked`; in an editable side the key types the letter.
+   **Result:** pending
+5. All: the checkboxes and buttons use the `button.background` colors of the theme, and are skipped by Tab; a screen reader reads "Select line N" for a checkbox.
+   **Result:** pending

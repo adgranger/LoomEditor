@@ -1207,7 +1207,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 | [P15-27](phase-15/P15-27-diff-hidden-regions-and-comments.md) | Hidden unchanged regions and diff comment threads | P15-26 | done |
 | [P15-28](phase-15/P15-28-accessible-diff-viewer.md) | The accessible diff viewer | P15-27 | done |
 | [P15-29](phase-15/P15-29-diff-block-actions.md) | Diff block action buttons | P15-28 | done |
-| [P15-30](phase-15/P15-30-diff-line-selection.md) | Diff line checkboxes, selection and the line action | P15-29 | todo |
+| [P15-30](phase-15/P15-30-diff-line-selection.md) | Diff line checkboxes, selection and the line action | P15-29 | done |
 
 ### Step F — Ship
 
