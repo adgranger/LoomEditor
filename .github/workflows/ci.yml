@@ -268,14 +268,17 @@ jobs:
             if (-not (Test-Path $file)) { throw "Missing $file" }
           }
           if ('${{ runner.os }}' -ne 'Windows') { chmod +x $exe }
+          # Start-Process -Wait: the exe is a GUI-subsystem program, which PowerShell does not wait for with `&`.
           # xvfb-run gives the app a display on Linux; the other systems have one.
-          $launcher = '${{ runner.os }}' -eq 'Linux' ? @('xvfb-run', '-a', $exe) : @($exe)
           foreach ($check in 'text', 'diff', 'comments', 'hostapi') {
             $report = Join-Path $env:RUNNER_TEMP "$check-selfcheck.txt"
-            & $launcher[0] @($launcher[1..($launcher.Count - 1)]) "--$check-selfcheck=$report"
-            $code = $LASTEXITCODE
+            $process = if ('${{ runner.os }}' -eq 'Linux') {
+              Start-Process xvfb-run -ArgumentList '-a', $exe, "--$check-selfcheck=$report" -Wait -PassThru
+            } else {
+              Start-Process $exe -ArgumentList "--$check-selfcheck=$report" -Wait -PassThru
+            }
             if (Test-Path $report) { Get-Content $report | Select-Object -Last 3 }
-            if ($code -ne 0) { throw "The $check self-check failed with exit code $code." }
+            if ($process.ExitCode -ne 0) { throw "The $check self-check failed with exit code $($process.ExitCode)." }
           }
 
       - name: Start the app for 10 seconds
