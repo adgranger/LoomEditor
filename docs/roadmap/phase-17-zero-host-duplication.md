@@ -51,9 +51,13 @@ Avalonia file:first line+size ↔ WinUI file:first line+size (Sonar). Paths unde
 
 ## Checklist
 
-- [ ] Cross-host duplication test with today's pairs as its allowlist (P17-01)
-- [ ] `LoomEditor` and `LoomDiffEditor` leftovers shared (P17-02, P17-03)
-- [ ] Accessible diff viewer, comment, hover and suggest widgets free of copied blocks (P17-04 … P17-10)
-- [ ] Galleries: shared main window start-up, `.sonarcloud.properties` (P17-11)
-- [ ] Pointer release, comment zone placement test, diff editor teardown shared (P17-12)
-- [ ] Allowlist empty; build, tests, self-checks green; Sonar duplication on PR #26 = 0.0% (P17-13)
+- [x] Cross-host duplication test with today's pairs as its allowlist (P17-01)
+- [x] `LoomEditor` and `LoomDiffEditor` leftovers shared (P17-02, P17-03)
+- [x] Accessible diff viewer, comment, hover and suggest widgets free of copied blocks (P17-04 … P17-10)
+- [x] Galleries: shared main window start-up, `.sonarcloud.properties` (P17-11)
+- [x] Pointer release, comment zone placement test, diff editor teardown shared (P17-12)
+- [x] Allowlist empty; build, tests, self-checks green; Sonar duplication on PR #26 = 0.0% (P17-13)
+
+## Result
+
+- Measured locally (2026-11-03): build, tests and Portable build green, 0 warnings; `HostTwins_HaveNoCopiedBlock` green with no allowlist (any block of 100 tokens fails). WinUI Gallery, from the Native AOT publish (0 warnings): text 10/10, diff 9/9, comments 17/17, host API 6/6. Avalonia Gallery: text 10/10, diff 9/9, comments 17/17, host API 6/6 from the framework-dependent build; the Native AOT publish of the Avalonia Gallery fails at start-up (`No precompiled XAML found for LoomEditor.Gallery.App`) and its publish ends with MSB3030 (missing `LoomEditor.Gallery.Avalonia.xml`) - identical at commit 6600f96, before P17-11, so it is not caused by phase 17. Sonar (PR #26): not measured yet (needs a push).

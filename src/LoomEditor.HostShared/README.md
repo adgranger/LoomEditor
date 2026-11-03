@@ -16,3 +16,5 @@ namespace LoomEditor.Avalonia.Controls;
 
 Host members: anything that names a framework type (focus, pointer capture, brushes, dispatching, ...) goes to
 `<File>.Host.cs` in each host, with the same name and signature in both. No `Avalonia.*`, `Microsoft.UI.*` or `Windows.*` here.
+
+No block of 100 tokens may be copied between the two hosts or the two Galleries (`HostTwinDuplicationTests`); move the code to `src/LoomEditor.HostShared/` instead.

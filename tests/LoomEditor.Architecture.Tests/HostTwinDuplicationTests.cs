@@ -5,11 +5,6 @@ namespace LoomEditor.Architecture.Tests;
 /// <summary>Finds code copied between the WinUI and Avalonia hosts and between the two Galleries (phase 17, same rule as SonarCloud's copy detection).</summary>
 public class HostTwinDuplicationTests
 {
-    // One "<Avalonia path> <-> <WinUI path>" per pair still copied (the last three of src/ are not reported by Sonar); each phase 17 card deletes its pairs.
-    private static readonly HashSet<string> KnownDuplicates = new(StringComparer.Ordinal)
-    {
-    };
-
     private static List<CopiedBlock> FindHostBlocks() =>
     [
         .. CopyDetector.FindBlocks(Files("src/LoomEditor.Avalonia", skipHostFiles: false), Files("src/LoomEditor.WinUI", skipHostFiles: false)),
@@ -29,23 +24,12 @@ public class HostTwinDuplicationTests
     }
 
     [Fact]
-    public void HostTwins_HaveNoUnlistedCopiedBlock()
+    public void HostTwins_HaveNoCopiedBlock()
     {
-        string[] unlisted = FindHostBlocks().Where(block => !KnownDuplicates.Contains(block.Pair)).Select(block => block.ToString()).ToArray();
+        string[] blocks = FindHostBlocks().Select(block => block.ToString()).ToArray();
 
-        Assert.True(unlisted.Length == 0,
-            "Code copied between the hosts (move it to src/LoomEditor.HostShared):" + Environment.NewLine + string.Join(Environment.NewLine, unlisted));
-    }
-
-    [Fact]
-    public void KnownDuplicates_AreStillCopied()
-    {
-        HashSet<string> found = FindHostBlocks().Select(block => block.Pair).ToHashSet(StringComparer.Ordinal);
-
-        foreach (string pair in KnownDuplicates)
-        {
-            Assert.True(found.Contains(pair), $"{pair} is no longer copied: delete it from KnownDuplicates");
-        }
+        Assert.True(blocks.Length == 0,
+            "Code copied between the hosts (move it to src/LoomEditor.HostShared):" + Environment.NewLine + string.Join(Environment.NewLine, blocks));
     }
 
     [Fact]
