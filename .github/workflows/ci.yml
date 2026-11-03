@@ -29,7 +29,7 @@ jobs:
         with:
           global-json-file: global.json
 
-      # onig.dll comes from the native job (cached there); without it the build compiles it (CMake + MSVC).
+      # The Windows library comes from the native job (cached there); without it the build compiles it (CMake + MSVC).
       - name: Download onig.dll
         uses: actions/download-artifact@v7
         with:
@@ -69,7 +69,7 @@ jobs:
         with:
           global-json-file: global.json
 
-      # Both architectures, so that the TextMate package carries runtimes/win-x64 and runtimes/win-arm64.
+      # Every platform, so that the TextMate package carries all six runtimes/<rid>/native folders.
       - name: Download onig.dll
         uses: actions/download-artifact@v7
         with:
@@ -94,29 +94,38 @@ jobs:
           path: artifacts/packages
 
   native:
-    name: Oniguruma (${{ matrix.arch }})
-    runs-on: windows-latest
+    name: Oniguruma (${{ matrix.rid }})
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        arch: [x64, ARM64]
+        include:
+          - { rid: win-x64, os: windows-latest, arch: x64 }
+          - { rid: win-arm64, os: windows-latest, arch: ARM64 }
+          - { rid: linux-x64, os: ubuntu-latest }
+          - { rid: linux-arm64, os: ubuntu-24.04-arm }
+          - { rid: osx, os: macos-latest }
     steps:
       - uses: actions/checkout@v7
 
-      - name: Cache onig.dll
+      - name: Cache the library
         id: cache
         uses: actions/cache@v6
         with:
           path: artifacts/native
-          key: oniguruma-${{ matrix.arch }}-${{ hashFiles('src/native/oniguruma/build.ps1') }}
+          key: oniguruma-${{ matrix.rid }}-${{ hashFiles('src/native/oniguruma/build.ps1', 'src/native/oniguruma/build.sh') }}
 
       - name: Build onig.dll
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' && runner.os == 'Windows'
         shell: pwsh
         run: ./src/native/oniguruma/build.ps1 -Architecture ${{ matrix.arch }}
 
+      - name: Build libonig
+        if: steps.cache.outputs.cache-hit != 'true' && runner.os != 'Windows'
+        run: bash src/native/oniguruma/build.sh --rid ${{ matrix.rid }}
+
       - uses: actions/upload-artifact@v7
         with:
-          name: oniguruma-${{ matrix.arch }}
+          name: oniguruma-${{ matrix.rid }}
           path: artifacts/native
 
   aot-smoke-test:
