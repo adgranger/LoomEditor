@@ -1,7 +1,12 @@
 using LoomEditor.Themes;
-using Microsoft.UI.Xaml.Media;
 
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls.Suggest;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls.Suggest;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // Monaco: `editorSuggestWidget.*`.
 internal sealed partial class SuggestWidget
@@ -20,11 +25,5 @@ internal sealed partial class SuggestWidget
         Set(_selectedForeground, theme.GetColor("editorSuggestWidget.selectedForeground"));
         Set(_highlight, theme.GetColor("editorSuggestWidget.highlightForeground"));
         Set(_focusHighlight, theme.GetColor("editorSuggestWidget.focusHighlightForeground"));
-    }
-
-    private static void Set(SolidColorBrush brush, ThemeColor? color)
-    {
-        ThemeColor c = color ?? default;
-        brush.Color = Windows.UI.Color.FromArgb(c.A, c.R, c.G, c.B);
     }
 }
