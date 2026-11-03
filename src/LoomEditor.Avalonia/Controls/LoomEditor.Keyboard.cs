@@ -7,7 +7,7 @@ using LoomEditor.View.Features;
 namespace LoomEditor.Avalonia.Controls;
 
 // Keyboard: shortcuts go through the keybinding resolver to the commands, typed characters are inserted at every cursor
-// (ADR 0006, decision 11: the plain typing path; the IME comes with P15-13).
+// (ADR 0006, decision 11: the plain typing path; the IME is in LoomEditor.Ime.cs).
 public sealed partial class LoomEditor
 {
     private readonly TextInputBuffer _textInput = new();
@@ -50,6 +50,12 @@ public sealed partial class LoomEditor
     protected override void OnKeyDown(KeyEventArgs e)
     {
         ArgumentNullException.ThrowIfNull(e);
+
+        // Monaco: `KEY_IN_COMPOSITION` stops the keybindings.
+        if (IsComposing)
+        {
+            return;
+        }
 
         // A key that bubbles up from a widget: the widget already routed what belongs to the editor.
         if (!HasFocus)
@@ -108,6 +114,13 @@ public sealed partial class LoomEditor
 
         if (e.Text is not { Length: > 0 } characters || !HasFocus)
         {
+            return;
+        }
+
+        // The result of a composition replaces the preedit text.
+        if (_ime.TryCommit(characters))
+        {
+            e.Handled = true;
             return;
         }
 

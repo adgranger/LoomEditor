@@ -109,6 +109,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeFont();
         InitializeStickyScroll();
         InitializeHighlighting();
+        InitializeIme();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
 

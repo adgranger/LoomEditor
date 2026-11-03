@@ -3,7 +3,7 @@ using Avalonia;
 namespace LoomEditor.Avalonia.Controls;
 
 // Read-only mode: the editor context owns the flag (the cursor refuses user edits, the keybindings read it); this part
-// is the styled property. (Ending the IME composition when the editor becomes read-only comes with P15-13.)
+// is the styled property.
 public sealed partial class LoomEditor
 {
     /// <summary>Identifies the <see cref="IsReadOnly"/> styled property.</summary>
@@ -29,5 +29,10 @@ public sealed partial class LoomEditor
     {
         _context.IsReadOnly = readOnly;
         _cursorBlinking.Update(HasFocus, readOnly);
+        if (readOnly)
+        {
+            // WinUI leaves and re-enters the focus to make the text services end the composition.
+            _ime.Reset();
+        }
     }
 }

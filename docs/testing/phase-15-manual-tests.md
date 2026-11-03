@@ -62,3 +62,20 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 6. With `MouseWheelZoom` on, Ctrl+wheel (Cmd+wheel on macOS) zooms; a trackpad pinch does nothing.
    **Result:** pending
+
+## P15-13 — IME
+
+1. Windows, Microsoft Pinyin: type `nihao`, then Space: the pinyin is underlined while composing, the candidate window opens at the caret, and `你好` is inserted once.
+   **Result:** pending
+2. Windows, Microsoft Japanese IME: type `sennsei`, Space to convert, Enter to commit: `先生` is inserted once; Escape during a composition removes the composed text.
+   **Result:** pending
+3. macOS, Pinyin – Simplified and Japanese – Romaji: same as 1 and 2; the candidate window follows the caret after a scroll.
+   **Result:** pending
+4. macOS, dead key `⌥e` then `e`: `é` is inserted once (the accent is shown underlined in between).
+   **Result:** pending
+5. Ubuntu, IBus Pinyin or Fcitx5: same as 1.
+   **Result:** pending
+6. All: the emoji panel (Win+. on Windows, Ctrl+Cmd+Space on macOS, Ctrl+. on Ubuntu with IBus) inserts the emoji once at the caret.
+   **Result:** pending
+7. All: make the editor read-only (Gallery option) during a composition: the composition ends; typing with the IME afterwards changes nothing and goes to no other control.
+   **Result:** pending
