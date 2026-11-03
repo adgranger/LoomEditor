@@ -1,7 +1,7 @@
-# P17-12 — Close phase 17: build, tests, self-checks, Sonar duplication 0%
+# P17-13 — Close phase 17: build, tests, self-checks, Sonar duplication 0%
 
 - **Status:** todo
-- **Depends on:** P17-01 … P17-11
+- **Depends on:** P17-01 … P17-12
 - **Size:** S (checks and docs)
 
 **Recommended model:** Sonnet

@@ -16,7 +16,7 @@ WinUI file, `git mv` when a whole file moves, the header block (`#if !LOOM_AVALO
   file (and between the two Galleries), the way Sonar's C# copy detection does. Its `KnownDuplicates` list holds the file pairs that still have a copied
   block.
 - A card is done when **its pairs are deleted from `KnownDuplicates`** and the test is green. The test also fails when a listed pair no longer has a
-  block, so the list cannot go stale. Run it alone while working:
+  block, so the list cannot go stale. Three of its pairs were not in Sonar's report (P17-12 removes them). Run it alone while working:
   `dotnet test --project tests/LoomEditor.Architecture.Tests -c Release`.
 - Its failure message gives both files and line ranges of each block. Do not change its tokenizer or its threshold to make a card pass.
 

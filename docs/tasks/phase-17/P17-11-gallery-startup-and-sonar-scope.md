@@ -70,7 +70,7 @@ Not a Monaco port. Read first: [phase-17/README.md](README.md), the Gallery rule
 
 ## Out of scope
 
-Running the Gallery self-checks (P17-12).
+Running the Gallery self-checks (P17-13).
 
 ## Suggested commit message
 

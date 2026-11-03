@@ -4,7 +4,7 @@
 when a block of code is copied between the two hosts again. Neither control changes behavior or public API.
 
 Planned 2026-11-03. Decision: [ADR 0017](../adr/0017-shared-host-logic.md) (unchanged; phase 17 applies it to the last blocks). Rules:
-[docs/tasks/phase-17/README.md](../tasks/phase-17/README.md). Task cards: [docs/tasks/phase-17/](../tasks/phase-17/README.md) (12 cards).
+[docs/tasks/phase-17/README.md](../tasks/phase-17/README.md). Task cards: [docs/tasks/phase-17/](../tasks/phase-17/README.md) (13 cards).
 
 Phase 16 left **458 duplicated lines out of 21,332 new lines (2.15%)**, all between `src/LoomEditor.WinUI` and `src/LoomEditor.Avalonia` and
 between the two Galleries (Sonar `api/duplications/show`, PR 26, analysis of 46c21e2). Most of them are UI construction code that both
@@ -27,7 +27,8 @@ Avalonia file:first line+size ↔ WinUI file:first line+size (Sonar). Paths unde
 | P17-09 | `Comments/CommentComposerToolbar.cs` 63+32 ↔ 58+32; `Comments/SuggestionBlockView.cs` 67+17 ↔ 70+17, 105+16 ↔ 110+16 | 65 |
 | P17-10 | `Hover/HoverWidget.cs` 28+22 ↔ 28+22; `Suggest/SuggestWidget.cs` 16+20 ↔ 14+20; `Suggest/SuggestWidget.Rows.cs` 57+21 ↔ 58+21 | 63 |
 | P17-11 | `samples/LoomEditor.Gallery.Avalonia/MainWindow.axaml.cs` 16+20 ↔ `samples/LoomEditor.Gallery/MainWindow.xaml.cs` 11+20; `samples/*/HostApiDemoWindow.Diff.Host.cs` 20+11 ↔ 19+11 | 42 |
-| P17-12 | close: build, tests, self-checks, Sonar = 0% | — |
+| P17-12 | found by the P17-01 detector, not in Sonar's list: `LoomEditor.Pointer.Host.cs` 76–90 ↔ 87–101; `Comments/CommentZoneHost.Host.cs` 41–49 ↔ 14–22; `DiffEditor/LoomDiffEditor.cs` 235–260 ↔ 170–195 (first–last line) | — |
+| P17-13 | close: build, tests, self-checks, Sonar = 0% | — |
 | **Total** | (Sonar counts the lines of both sides of the `.Host.cs` pairs) | **458** |
 
 ## Decisions
@@ -36,7 +37,7 @@ Avalonia file:first line+size ↔ WinUI file:first line+size (Sonar). Paths unde
    no host type); framework calls stay in `<File>.Host.cs`. Shared files still name no framework type.
 2. **A local gate instead of waiting for Sonar.** P17-01 adds `tests/LoomEditor.Architecture.Tests/HostTwinDuplicationTests.cs`: a token-based copy
    detector (the same rule as Sonar's C# CPD: 100 identical tokens, literals normalized, comments and `using` directives ignored) between the two
-   hosts and between the two Galleries. It starts with an allowlist of today's pairs; each card deletes its pairs from the list; P17-12 leaves it
+   hosts and between the two Galleries. It starts with an allowlist of today's pairs; each card deletes its pairs from the list; P17-13 leaves it
    empty, so a new copy fails the build from then on.
 3. **Pure UI construction that both frameworks spell the same** (the remaining host code) is not forced into shared files. A host part may use its
    framework's own idiom where it means exactly the same (Avalonia: `new RowDefinitions("Auto,*")`, `new ColumnDefinitions("…")`,
@@ -54,4 +55,5 @@ Avalonia file:first line+size ↔ WinUI file:first line+size (Sonar). Paths unde
 - [ ] `LoomEditor` and `LoomDiffEditor` leftovers shared (P17-02, P17-03)
 - [ ] Accessible diff viewer, comment, hover and suggest widgets free of copied blocks (P17-04 … P17-10)
 - [ ] Galleries: shared main window start-up, `.sonarcloud.properties` (P17-11)
-- [ ] Allowlist empty; build, tests, self-checks green; Sonar duplication on PR #26 = 0.0% (P17-12)
+- [ ] Pointer release, comment zone placement test, diff editor teardown shared (P17-12)
+- [ ] Allowlist empty; build, tests, self-checks green; Sonar duplication on PR #26 = 0.0% (P17-13)
