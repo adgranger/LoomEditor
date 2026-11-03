@@ -211,4 +211,10 @@ internal sealed partial class CommentZoneHost : IDisposable
         widget.ContentChanged += OnWidgetContentChanged;
         MarkDirty(widget);
     }
+
+    private static bool IsPlaced(CommentThreadWidget widget, double left, double top, double width, double height) =>
+        DoubleComparison.AreClose(GetLeft(widget), left) && DoubleComparison.AreClose(GetTop(widget), top)
+        && DoubleComparison.AreClose(widget.Width, width) && DoubleComparison.AreClose(widget.Height, height);
+
+    private static bool HasWidth(CommentThreadWidget widget, double width) => DoubleComparison.AreClose(widget.Width, width);
 }

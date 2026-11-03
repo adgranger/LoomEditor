@@ -154,6 +154,36 @@ public sealed partial class LoomEditor
         return false;
     }
 
+    // A release. `mouseUp` is the event with the released button, or null when the release is not the text's (no renderer, or over a child).
+    // Returns true when the event is handled; the host then releases its pointer capture.
+    private bool HandlePointerRelease(EditorMouseEvent release, EditorMouseEvent? mouseUp)
+    {
+        if (mouseUp is not null)
+        {
+            _context.UserInputEvents.EmitMouseUp(new EditorMouseEventArgs(mouseUp, CreateMouseTarget(mouseUp.X, mouseUp.Y)));
+        }
+
+        if (_capturedZoneId is not null)
+        {
+            HandleZoneMove(release, ViewZonePointerPhase.Released);
+            return true;
+        }
+
+        if (_renderer?.MinimapPointer is { IsActive: true } minimapDrag)
+        {
+            minimapDrag.PointerUp();
+            return true;
+        }
+
+        if (_mouseDown is { IsActive: true })
+        {
+            _mouseDown.OnPointerUp();
+            return true;
+        }
+
+        return false;
+    }
+
     private void HandlePointerExit()
     {
         _context.UserInputEvents.EmitMouseLeave();

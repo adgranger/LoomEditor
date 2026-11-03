@@ -84,37 +84,21 @@ public sealed partial class LoomEditor
             return;
         }
 
+        EditorMouseEvent release = PointerInput.Create(e, this, 1);
+        EditorMouseEvent? mouseUp = null;
         if (_renderer is not null && !IsFromScrollBar(e.OriginalSource))
         {
             // The buttons are already up in a release: the released one is the button of the event.
             PointerUpdateKind kind = e.GetCurrentPoint(this).Properties.PointerUpdateKind;
-            EditorMouseEvent mouseEvent = PointerInput.Create(e, this, 1) with
+            mouseUp = release with
             {
                 LeftButton = kind == PointerUpdateKind.LeftButtonReleased,
                 MiddleButton = kind == PointerUpdateKind.MiddleButtonReleased,
             };
-            _context.UserInputEvents.EmitMouseUp(new EditorMouseEventArgs(mouseEvent, CreateMouseTarget(mouseEvent.X, mouseEvent.Y)));
         }
 
-        if (_capturedZoneId is not null)
+        if (HandlePointerRelease(release, mouseUp))
         {
-            HandleZoneMove(PointerInput.Create(e, this, 1), ViewZonePointerPhase.Released);
-            ReleasePointerCapture(e.Pointer);
-            e.Handled = true;
-            return;
-        }
-
-        if (_renderer?.MinimapPointer is { IsActive: true } minimapDrag)
-        {
-            minimapDrag.PointerUp();
-            ReleasePointerCapture(e.Pointer);
-            e.Handled = true;
-            return;
-        }
-
-        if (_mouseDown is { IsActive: true })
-        {
-            _mouseDown.OnPointerUp();
             ReleasePointerCapture(e.Pointer);
             e.Handled = true;
         }

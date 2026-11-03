@@ -1,6 +1,6 @@
 # P17-12 — Share the pointer release, the comment zone placement test and the diff editor teardown
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-01
 - **Size:** S
 
@@ -104,15 +104,15 @@ The pairs are listed in `KnownDuplicates`, so the test does not print them; to s
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests (pointer, comment zones, diff editor) stay green **unchanged**.
+- [x] No new test. The Avalonia headless tests (pointer, comment zones, diff editor) stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The three pairs are gone from `KnownDuplicates`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The three pairs are gone from `KnownDuplicates`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

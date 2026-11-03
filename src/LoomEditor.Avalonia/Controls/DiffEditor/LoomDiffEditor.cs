@@ -232,29 +232,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         _viewModelReady.TrySetResult();
     }
 
-    private void OnUnloaded(object? sender, RoutedEventArgs e)
-    {
-        DestroyAccessibleViewer();
-        if (_viewModel is null)
-        {
-            return;
-        }
-
-        _hideUnchangedRegions?.Dispose();
-        _hideUnchangedRegions = null;
-        _viewZones?.Dispose();
-        _viewZones = null;
-        _viewModel.DiffChanged -= OnViewModelDiffChanged;
-        _viewModel.Dispose();
-        _viewModel = null;
-        _changes = [];
-        _changesDiff = null;
-        UpdateBlockActionBlocks(_changes);
-        _viewModelReady = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        _originalTarget?.Clear();
-        _modifiedTarget?.Clear();
-        _decorations = null;
-    }
+    private void OnUnloaded(object? sender, RoutedEventArgs e) => DestroyViewModel();
 
     // An edit made in an editor (user or code) goes back to the property, without applying it to the model again.
     private void ReflectText(LoomEditor editor, StyledProperty<string> property)

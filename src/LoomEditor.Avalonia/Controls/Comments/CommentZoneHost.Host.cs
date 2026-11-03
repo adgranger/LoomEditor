@@ -40,11 +40,9 @@ internal sealed partial class CommentZoneHost
 
     private static bool IsShown(CommentThreadWidget widget) => widget.IsVisible;
 
-    private static bool IsPlaced(CommentThreadWidget widget, double left, double top, double width, double height) =>
-        DoubleComparison.AreClose(Canvas.GetLeft(widget), left) && DoubleComparison.AreClose(Canvas.GetTop(widget), top)
-        && DoubleComparison.AreClose(widget.Width, width) && DoubleComparison.AreClose(widget.Height, height);
+    private static double GetLeft(CommentThreadWidget widget) => Canvas.GetLeft(widget);
 
-    private static bool HasWidth(CommentThreadWidget widget, double width) => DoubleComparison.AreClose(widget.Width, width);
+    private static double GetTop(CommentThreadWidget widget) => Canvas.GetTop(widget);
 
     private IEnumerable<ViewWhitespaceViewportData> GetWhitespaceViewportData() => _editor.ViewModel.ViewLayout.GetWhitespaceViewportData();
 
