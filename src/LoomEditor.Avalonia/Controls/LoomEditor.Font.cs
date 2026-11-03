@@ -115,6 +115,7 @@ public sealed partial class LoomEditor
         oldMeasurer.Dispose();
 
         ScrollToLine(firstLine);
+        UpdateScrollBars();
         Invalidate();
     }
 

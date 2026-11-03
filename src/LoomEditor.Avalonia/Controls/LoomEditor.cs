@@ -41,8 +41,6 @@ public sealed partial class LoomEditor : TemplatedControl
 #pragma warning restore CA1724
 {
     private const string CanvasPartName = "PART_Canvas";
-    private const string VerticalScrollBarPartName = "PART_VerticalScrollBar";
-    private const string HorizontalScrollBarPartName = "PART_HorizontalScrollBar";
     private const string OverlayCanvasPartName = "PART_OverlayCanvas";
     private const string ZoneWidgetCanvasPartName = "PART_ZoneWidgetCanvas";
 
@@ -74,6 +72,9 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeFontProperties();
         InitializeFontOptionProperties();
         InitializeZoomProperties();
+        InitializeReadOnlyProperties();
+        InitializeHighlightingProperties();
+        InitializeCaretProperties();
     }
 
     /// <summary>Creates the control.</summary>
@@ -82,11 +83,15 @@ public sealed partial class LoomEditor : TemplatedControl
         _frameScheduler = new AnimationFrameScheduler(() => TopLevel.GetTopLevel(this));
         _context = new EditorContext(ScheduleAtNextAnimationFrame, TimeProvider.System, new DispatcherUiDispatcher(), new DispatcherEditorScheduler());
         _viewModel = _context.ViewModel;
-        _viewModel.ViewLayout.Scroll += (_, _) => Invalidate();
+        _viewModel.ViewLayout.Scroll += OnViewLayoutScroll;
+        _viewModel.ViewLayout.ContentSizeChanged += OnViewLayoutContentSizeChanged;
         _viewModel.LayoutInfoChanged += OnViewLayoutInfoChanged;
         _viewModel.ViewZones.ZonesChanged += (_, _) => Invalidate();
         _context.SelectionChanged += (_, _) => Invalidate();
+        InitializeCaret();
+        InitializeReveal();
         InitializeFont();
+        InitializeHighlighting();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
 
@@ -141,6 +146,7 @@ public sealed partial class LoomEditor : TemplatedControl
             ?? throw new InvalidOperationException($"The LoomEditor template must contain an EditorCanvas named '{CanvasPartName}'.");
         _canvas.DrawFrame = OnCanvasDraw;
         _canvas.PropertyChanged += OnCanvasPropertyChanged;
+        AttachScrollBars(e.NameScope);
     }
 
     /// <inheritdoc />
@@ -149,6 +155,7 @@ public sealed partial class LoomEditor : TemplatedControl
         base.OnAttachedToVisualTree(e);
 
         _featureHost ??= new EditorFeatureHost(_context, Features);
+        StartHighlighting();
         ObserveTopLevel();
     }
 
@@ -159,6 +166,8 @@ public sealed partial class LoomEditor : TemplatedControl
 
         _featureHost?.Dispose();
         _featureHost = null;
+        StopHighlighting();
+        StopBlinkTimer();
         StopObservingTopLevel();
         ReleaseResources();
     }
@@ -186,7 +195,8 @@ public sealed partial class LoomEditor : TemplatedControl
             }
 
             var surface = new AvaloniaRenderSurface(context, new Rect(size), _measurer!, _bitmapCache, _paintCache);
-            _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), IsFocused, cursorVisible: true);
+            _renderer!.Render(surface, _viewModel, _viewModel.GetViewSelections(), HasFocus, _cursorBlinking.IsVisible);
+            ApplyPendingHorizontalReveal();
         }
         finally
         {
@@ -213,13 +223,22 @@ public sealed partial class LoomEditor : TemplatedControl
         {
             Size size = ((Rect)e.NewValue!).Size;
             _viewModel.SetViewportSize((int)size.Width, (int)size.Height);
+            UpdateScrollBars();
         }
+    }
+
+    private void OnViewLayoutScroll(object? sender, ScrollEvent e)
+    {
+        _reveal?.OnScrollChanged(e);
+        UpdateScrollBars();
+        Invalidate();
     }
 
     private void OnViewLayoutInfoChanged(object? sender, EventArgs e)
     {
         // Monaco: a new layout info resets the widest line.
         _renderer?.ResetMaxLineWidth();
+        UpdateScrollBars();
         Invalidate();
     }
 
@@ -232,12 +251,17 @@ public sealed partial class LoomEditor : TemplatedControl
         _measurer = CreateTextMeasurer();
         _renderer = new TextViewRenderer(_measurer, _context.Scheduler, () => Invalidate());
         _renderer.MinimapSampleDataProvider = AvaloniaMinimapFontSampler.CreateSampleData;
+        _renderer.Theme = Theme;
+        SyncCaretStyle();
 
         _viewModel.SetFontInfo(_measurer.FontInfo);
         if (_canvas is not null)
         {
             _viewModel.SetViewportSize((int)_canvas.Bounds.Width, (int)_canvas.Bounds.Height);
         }
+
+        ApplyPendingScrollPosition();
+        UpdateScrollBars();
     }
 
     private void ReleaseResources()
@@ -259,6 +283,7 @@ public sealed partial class LoomEditor : TemplatedControl
         }
 
         _canvas.DrawFrame = null;
+        DetachScrollBars();
         _canvas.PropertyChanged -= OnCanvasPropertyChanged;
         _canvas = null;
     }

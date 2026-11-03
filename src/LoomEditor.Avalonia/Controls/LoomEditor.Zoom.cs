@@ -1,4 +1,6 @@
 using Avalonia;
+using Avalonia.Input;
+using LoomEditor.View.Controller;
 
 namespace LoomEditor.Avalonia.Controls;
 
@@ -30,6 +32,8 @@ public sealed partial class LoomEditor
         set => SetValue(MouseWheelZoomProperty, value);
     }
 
+    private readonly MouseWheelZoomGesture _wheelZoom = new();
+
     private static void InitializeZoomProperties()
     {
         ZoomLevelProperty.Changed.AddClassHandler<LoomEditor>(static (editor, e) => editor.OnZoomLevelChanged((double)e.NewValue!));
@@ -53,5 +57,28 @@ public sealed partial class LoomEditor
         }
 
         RecreateTextMeasurer();
+    }
+
+    // The classifier has already accepted this event (see ScrollFromWheel).
+    private bool TryZoomFromWheel(PointerWheelEventArgs e, double delta)
+    {
+        KeyModifiers keys = e.KeyModifiers;
+        double? level = _wheelZoom.OnWheel(
+            delta,
+            _wheelClassifier.IsPhysicalMouseWheel(),
+            keys.HasFlag(KeyModifiers.Control),
+            keys.HasFlag(KeyModifiers.Shift),
+            keys.HasFlag(KeyModifiers.Alt),
+            keys.HasFlag(KeyModifiers.Meta),
+            (long)e.Timestamp,
+            _context.Zoom.Level);
+        if (level is null)
+        {
+            return false;
+        }
+
+        _context.Zoom.SetLevel(level.Value);
+        e.Handled = true;
+        return true;
     }
 }

@@ -214,9 +214,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty
 LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted
 LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get
 LoomEditor.Avalonia.Controls.LoomEditor.CreateDecorationsCollection
-LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.get
-LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.set
-LoomEditor.Avalonia.Controls.LoomEditor.CursorStyleProperty
 LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.get
 LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.set
 LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.get
@@ -227,16 +224,8 @@ LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabled.set
 LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabledProperty
 LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber
 LoomEditor.Avalonia.Controls.LoomEditor.GutterClicked
-LoomEditor.Avalonia.Controls.LoomEditor.InputMode.get
-LoomEditor.Avalonia.Controls.LoomEditor.InputModeProperty
 LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet
-LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnly.get
-LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnly.set
-LoomEditor.Avalonia.Controls.LoomEditor.IsReadOnlyProperty
 LoomEditor.Avalonia.Controls.LoomEditor.LanguageFeatures.get
-LoomEditor.Avalonia.Controls.LoomEditor.LanguageId.get
-LoomEditor.Avalonia.Controls.LoomEditor.LanguageId.set
-LoomEditor.Avalonia.Controls.LoomEditor.LanguageIdProperty
 LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged
 LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.get
 LoomEditor.Avalonia.Controls.LoomEditor.LineDecorationsWidth.set
@@ -256,9 +245,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.MinimapRenderCharactersProperty
 LoomEditor.Avalonia.Controls.LoomEditor.MinimapSide.get
 LoomEditor.Avalonia.Controls.LoomEditor.MinimapSide.set
 LoomEditor.Avalonia.Controls.LoomEditor.MinimapSideProperty
-LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyle.get
-LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyle.set
-LoomEditor.Avalonia.Controls.LoomEditor.OvertypeCursorStyleProperty
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone
 LoomEditor.Avalonia.Controls.LoomEditor.RenderControlCharacters.get
@@ -272,10 +258,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespace.set
 LoomEditor.Avalonia.Controls.LoomEditor.RenderWhitespaceProperty
 LoomEditor.Avalonia.Controls.LoomEditor.ResetText
 LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged
-LoomEditor.Avalonia.Controls.LoomEditor.ScrollLeft.get
-LoomEditor.Avalonia.Controls.LoomEditor.ScrollLeft.set
-LoomEditor.Avalonia.Controls.LoomEditor.ScrollTop.get
-LoomEditor.Avalonia.Controls.LoomEditor.ScrollTop.set
 LoomEditor.Avalonia.Controls.LoomEditor.SetHiddenAreas
 LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight
 LoomEditor.Avalonia.Controls.LoomEditor.StickyScrollEnabled.get
@@ -288,8 +270,6 @@ LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.get
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocus.set
 LoomEditor.Avalonia.Controls.LoomEditor.TabMovesFocusProperty
-LoomEditor.Avalonia.Controls.LoomEditor.Theme.get
-LoomEditor.Avalonia.Controls.LoomEditor.Theme.set
 LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrast.get
 LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrast.set
 LoomEditor.Avalonia.Controls.LoomEditor.UseSystemHighContrastProperty

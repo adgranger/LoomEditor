@@ -21,3 +21,16 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 4. Change the font size and the zoom level from the Gallery controls: the line height follows and the text is not blurry.
    **Result:** pending
+
+## P15-09 — Scrolling, caret, highlighting, read-only, reveal
+
+1. Open a C# file of 200 lines or more: the vertical scroll bar appears (auto-hide on macOS and Linux), dragging it scrolls the text, and the text scrolls the bar.
+   **Result:** pending
+2. Mouse wheel: one notch scrolls about 3 lines; on a macOS trackpad the scroll is continuous and follows the fingers.
+   **Result:** pending
+3. Click in the editor: the caret blinks about twice per second and stops blinking while the window is in the background.
+   **Result:** pending
+4. Set the language to `csharp` and the theme to light, then to dark: the tokens are colored and the colors follow the theme.
+   **Result:** pending
+5. Turn `IsReadOnly` on: the caret does not blink as an edit caret would, and the text cannot be changed (once P15-11 is in).
+   **Result:** pending

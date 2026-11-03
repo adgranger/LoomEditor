@@ -1,7 +1,4 @@
 using Avalonia.Controls;
-using Avalonia.Headless;
-using Avalonia.Media.Imaging;
-using Avalonia.Threading;
 using Editor = global::LoomEditor.Avalonia.Controls.LoomEditor;
 using LoomEditor.Avalonia.Tests.TestHelpers;
 using LoomEditor.Themes;
@@ -11,25 +8,6 @@ namespace LoomEditor.Avalonia.Tests.Controls;
 // The twin of the WinUI control: no upstream test, all tests are new.
 public class LoomEditorRenderTests
 {
-    private static Window Open(Editor editor)
-    {
-        editor.FontFamily = new(TestFont.Family);
-        var window = new Window { Width = 400, Height = 200, Content = editor };
-        window.Show();
-        Dispatcher.UIThread.RunJobs();
-        return window;
-    }
-
-    private static uint[] Capture(Window window)
-    {
-        Dispatcher.UIThread.RunJobs();
-        WriteableBitmap frame = window.CaptureRenderedFrame()!;
-        using var buffer = frame.Lock();
-        var pixels = new uint[frame.PixelSize.Width * frame.PixelSize.Height];
-        System.Runtime.InteropServices.Marshal.Copy(buffer.Address, (int[])(object)pixels, 0, pixels.Length);
-        return pixels;
-    }
-
     private static uint Background => ToArgb(EditorTheme.Dark.Background);
 
     private static uint ToArgb(ThemeColor color) =>
@@ -41,9 +19,9 @@ public class LoomEditorRenderTests
         await HeadlessSession.RunAsync(() =>
         {
             var editor = new Editor { Text = "hello" };
-            Window window = Open(editor);
+            Window window = EditorWindow.Open(editor);
 
-            uint[] pixels = Capture(window);
+            uint[] pixels = EditorWindow.Capture(window);
 
             int lineHeight = (int)editor.LineHeight;
             Assert.True(lineHeight > 0);
@@ -67,11 +45,11 @@ public class LoomEditorRenderTests
         await HeadlessSession.RunAsync(() =>
         {
             var editor = new Editor { Text = "hello" };
-            Window window = Open(editor);
-            uint[] before = Capture(window);
+            Window window = EditorWindow.Open(editor);
+            uint[] before = EditorWindow.Capture(window);
 
             editor.Text = "hello\nworld\nWWWWWWWWWW";
-            uint[] after = Capture(window);
+            uint[] after = EditorWindow.Capture(window);
 
             Assert.NotEqual(before, after);
             window.Close();
@@ -84,11 +62,11 @@ public class LoomEditorRenderTests
         await HeadlessSession.RunAsync(() =>
         {
             var editor = new Editor { Text = "hello" };
-            Window window = Open(editor);
+            Window window = EditorWindow.Open(editor);
             double before = editor.LineHeight;
 
             editor.FontSize = 28;
-            Capture(window);
+            EditorWindow.Capture(window);
 
             Assert.True(editor.LineHeight > before, $"{editor.LineHeight} <= {before}");
             window.Close();
@@ -101,11 +79,11 @@ public class LoomEditorRenderTests
         await HeadlessSession.RunAsync(() =>
         {
             var editor = new Editor { Text = "hello" };
-            Window window = Open(editor);
+            Window window = EditorWindow.Open(editor);
             double before = editor.LineHeight;
 
             editor.ZoomLevel = 5;
-            Capture(window);
+            EditorWindow.Capture(window);
 
             Assert.True(editor.LineHeight > before, $"{editor.LineHeight} <= {before}");
             window.Close();
@@ -118,9 +96,9 @@ public class LoomEditorRenderTests
         await HeadlessSession.RunAsync(() =>
         {
             var editor = new Editor { Text = "hello" };
-            Window window = Open(editor);
+            Window window = EditorWindow.Open(editor);
 
-            uint[] pixels = Capture(window);
+            uint[] pixels = EditorWindow.Capture(window);
 
             Assert.Equal(Background, pixels[(190 * 400) + 390]);
             window.Close();
