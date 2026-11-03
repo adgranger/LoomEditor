@@ -216,3 +216,79 @@ jobs:
         with:
           name: gallery-${{ matrix.rid }}
           path: samples/LoomEditor.Gallery/bin/Release/net11.0-windows10.0.26100.0/${{ matrix.rid }}/publish
+
+  # The Avalonia Gallery published with Native AOT on the three desktop systems (docs/tasks/phase-15/P15-32). osx-x64 and linux-arm64 are packed but not published here.
+  aot-avalonia:
+    name: Avalonia Native AOT (${{ matrix.rid }})
+    runs-on: ${{ matrix.os }}
+    needs: [native]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { rid: win-x64, os: windows-latest, native: onig.dll }
+          - { rid: linux-x64, os: ubuntu-latest, native: libonig.so }
+          - { rid: osx-arm64, os: macos-latest, native: libonig.dylib }
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Download the Oniguruma libraries
+        uses: actions/download-artifact@v7
+        with:
+          pattern: oniguruma-*
+          path: artifacts/native
+          merge-multiple: true
+
+      - name: Install the Linux display and font packages
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb libfontconfig1
+
+      # Build first, then publish with --no-build: a publish that recompiles drops the compiled XAML of an Avalonia app.
+      # Any trimming/AOT warning (IL2xxx, IL3xxx) fails the build (CI=true enables TreatWarningsAsErrors); the log is also scanned.
+      - name: Publish LoomEditor.Gallery.Avalonia with PublishAot
+        shell: pwsh
+        run: |
+          dotnet build samples/LoomEditor.Gallery.Avalonia -c Release -r ${{ matrix.rid }} -p:PublishAot=true -warnaserror 2>&1 | Tee-Object -FilePath publish.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet publish samples/LoomEditor.Gallery.Avalonia -c Release -r ${{ matrix.rid }} -p:PublishAot=true -warnaserror --no-build 2>&1 | Tee-Object -FilePath publish.log -Append
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $warnings = Select-String -Path publish.log -Pattern 'warning (IL|AOT|CS|CA|NETSDK)\d+'
+          if ($warnings) { $warnings; throw 'The AOT publish produced warnings.' }
+
+      - name: Check the published app and run its self-checks
+        shell: pwsh
+        run: |
+          $publish = (Resolve-Path 'samples/LoomEditor.Gallery.Avalonia/bin/Release/net11.0/${{ matrix.rid }}/publish').Path
+          $exe = Join-Path $publish ('LoomEditor.Gallery.Avalonia' + ('${{ runner.os }}' -eq 'Windows' ? '.exe' : ''))
+          foreach ($file in $exe, (Join-Path $publish '${{ matrix.native }}')) {
+            if (-not (Test-Path $file)) { throw "Missing $file" }
+          }
+          if ('${{ runner.os }}' -ne 'Windows') { chmod +x $exe }
+          # xvfb-run gives the app a display on Linux; the other systems have one.
+          $launcher = '${{ runner.os }}' -eq 'Linux' ? @('xvfb-run', '-a', $exe) : @($exe)
+          foreach ($check in 'text', 'diff', 'comments', 'hostapi') {
+            $report = Join-Path $env:RUNNER_TEMP "$check-selfcheck.txt"
+            & $launcher[0] @($launcher[1..($launcher.Count - 1)]) "--$check-selfcheck=$report"
+            $code = $LASTEXITCODE
+            if (Test-Path $report) { Get-Content $report | Select-Object -Last 3 }
+            if ($code -ne 0) { throw "The $check self-check failed with exit code $code." }
+          }
+
+      - name: Start the app for 10 seconds
+        shell: pwsh
+        run: |
+          $publish = (Resolve-Path 'samples/LoomEditor.Gallery.Avalonia/bin/Release/net11.0/${{ matrix.rid }}/publish').Path
+          $exe = Join-Path $publish ('LoomEditor.Gallery.Avalonia' + ('${{ runner.os }}' -eq 'Windows' ? '.exe' : ''))
+          $process = if ('${{ runner.os }}' -eq 'Linux') { Start-Process xvfb-run -ArgumentList '-a', $exe -PassThru } else { Start-Process $exe -PassThru }
+          Start-Sleep -Seconds 10
+          if ($process.HasExited) { throw "The AOT app exited at startup with code $($process.ExitCode)." }
+          Stop-Process -Id $process.Id -Force
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: gallery-avalonia-${{ matrix.rid }}
+          path: samples/LoomEditor.Gallery.Avalonia/bin/Release/net11.0/${{ matrix.rid }}/publish

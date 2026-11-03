@@ -1,6 +1,6 @@
 # P15-32 — Native AOT on Windows, macOS and Linux
 
-- **Status:** todo
+- **Status:** in progress
 - **Depends on:** P15-31
 - **Size:** S (CI and fixes)
 
@@ -36,10 +36,19 @@ Sources: none (specified in this card). Read first: `.github/workflows/ci.yml` (
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery.Avalonia -c Release -r win-x64 -p:PublishAot=true` — 0 warnings locally
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery.Avalonia -c Release -r win-x64 -p:PublishAot=true` — 0 warnings locally (build first, then `publish --no-build`; see the Result)
 - [ ] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- **Local (Windows, win-x64):** `dotnet build -r win-x64 -warnaserror` then `dotnet publish -r win-x64 -warnaserror --no-build` succeed with 0 warnings (ILC prints two
+  "will always throw" notes for `Avalonia.Win32` DComposition methods; they are not `warning` lines). `onig.dll` is next to the exe. The published exe passes the
+  self-checks: text 10 of 10, diff 9 passed / 0 failed, comments 17 of 17, host API 6 of 6, and stays alive after 10 s.
+- A single `dotnet publish -r win-x64` (without the build first) fails with MSB3030 (the documentation file of the rid folder is not found): the CI job and the local command
+  therefore build first and publish with `--no-build`, as `eng/Test-AotApp.ps1 -BuildFirst` does. `eng/Test-AotApp.ps1` is not changed: the new job does its own checks on all three systems.
+- **CI:** job `aot-avalonia` added to `.github/workflows/ci.yml`. The run on the three systems is NOT verified yet (the Linux and macOS builds need the runners).
 
 ## Out of scope
 
