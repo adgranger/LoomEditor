@@ -1,7 +1,13 @@
 using LoomEditor.Themes;
 using LoomEditor.View.Controller;
 
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls.DiffEditor;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>
 /// The phase 14 gutter controls of one side editor of a <see cref="LoomDiffEditor"/>: the block action buttons and the line checkboxes. The editor forwards its

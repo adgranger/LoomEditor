@@ -5,10 +5,16 @@ using LoomEditor.Rendering;
 using LoomEditor.Themes;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
-using LoomEditor.Avalonia.Controls.DiffEditor;
-using Avalonia.Input;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Controls.DiffEditor;
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Controls.DiffEditor;
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The overview strip: two rulers (removed lines of the original, added lines of the modified one) and the viewport slider.
 // Behavior differences: the managers are drawn in DIPs; the editors' own overview rulers (find matches, markers) are off in a diff editor.
@@ -164,6 +170,4 @@ public sealed partial class LoomDiffEditor
             _modified!.SetScrollPositionImmediate(null, state.GetDesiredScrollPositionFromDelta(y - _dragStartY));
         }
     }
-
-    private void OnOverviewWheel(object? sender, PointerWheelEventArgs e) => _modified?.ScrollFromWheel(e);
 }

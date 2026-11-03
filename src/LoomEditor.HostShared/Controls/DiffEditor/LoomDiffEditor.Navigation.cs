@@ -4,9 +4,14 @@
 using LoomEditor.Core.Text;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Features.DiffNavigation;
-using Microsoft.UI.Xaml;
 
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // Go to next / previous change. Monaco plays accessibility signal sounds here: not ported.
 public sealed partial class LoomDiffEditor : IDiffNavigationTarget
@@ -53,6 +58,6 @@ public sealed partial class LoomDiffEditor : IDiffNavigationTarget
         int end = Math.Clamp(Math.Max(range.EndLineNumberExclusive, start), 1, lineCount + 1);
         _modified.SetSelections(new[] { Selection.Collapsed(new Position(start, 1)) });
         _modified.RevealRangeInCenter(end > lineCount ? new Core.Text.Range(start, 1, lineCount, _modified.Model.GetLineMaxColumn(lineCount)) : new Core.Text.Range(start, 1, end, 1));
-        _modified.Focus(FocusState.Programmatic);
+        FocusModified();
     }
 }

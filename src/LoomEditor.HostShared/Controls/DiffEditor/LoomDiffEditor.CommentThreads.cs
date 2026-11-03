@@ -1,12 +1,20 @@
 using LoomEditor.Core.Comments;
 using LoomEditor.View.DiffEditor;
-using Range = LoomEditor.Core.Text.Range;
 
+#if LOOM_WINUI
+using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // Comment threads on either side. Each side's editor owns its threads; the diff editor forwards their events (per editor, so threads added
 // through Original / Modified directly are included). A comment zone is a whitespace the diff view zones do not own, so the other side is padded.
+#pragma warning disable CA1001 // Controls are not IDisposable: disposable fields are released in OnUnloaded.
 public sealed partial class LoomDiffEditor
+#pragma warning restore CA1001
 {
     /// <summary>Raised when the user submits a comment on either side; <see cref="GetSide"/> tells which.</summary>
     public event EventHandler<CommentSubmittedEventArgs>? CommentSubmitted;
