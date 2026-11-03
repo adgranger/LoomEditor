@@ -11,35 +11,15 @@ namespace LoomEditor.Avalonia.Tests.Controls.DiffEditor;
 // The twin of the WinUI control: no upstream test, all tests are new.
 public class DiffLineSelectionTests
 {
-    private static async Task<(LoomDiffEditor Diff, Window Window)> Open(string original, string modified)
-    {
-        var diff = new LoomDiffEditor { OriginalText = original, ModifiedText = modified, LineSelectionEnabled = true };
-        var window = new Window { Width = 1000, Height = 600, Content = diff };
-        window.Show();
-        Dispatcher.UIThread.RunJobs();
-        diff.Original.FontFamily = new(TestFont.Family);
-        diff.Modified.FontFamily = new(TestFont.Family);
-        await diff.WaitForDiffAsync();
-        await Settle(window);
-        return (diff, window);
-    }
-
-    private static async Task Settle(Window window)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            await Task.Delay(30);
-            EditorWindow.Capture(window);
-            Dispatcher.UIThread.RunJobs();
-        }
-    }
+    private static Task<(LoomDiffEditor Diff, Window Window)> Open(string original, string modified) =>
+        DiffEditorWindow.OpenAsync(original, modified, height: 600, configure: diff => diff.LineSelectionEnabled = true);
 
     private static async Task Click(Window window, Control box, RawInputModifiers modifiers = RawInputModifiers.None)
     {
         Point center = box.TranslatePoint(new Point(box.Bounds.Width / 2, box.Bounds.Height / 2), window)!.Value;
         window.MouseDown(center, MouseButton.Left, modifiers);
         window.MouseUp(center, MouseButton.Left, modifiers);
-        await Settle(window);
+        await DiffEditorWindow.SettleAsync(window);
     }
 
     // Original lines 2 to 4 become "x", "y", "z": a block of 3 deleted and 3 added lines.
@@ -105,7 +85,7 @@ public class DiffLineSelectionTests
             diff.IgnoreTrimWhitespace = false;
             await Task.Delay(400);
             await diff.WaitForDiffAsync();
-            await Settle(window);
+            await DiffEditorWindow.SettleAsync(window);
 
             Assert.Single(diff.SelectedLines);
             window.Close();

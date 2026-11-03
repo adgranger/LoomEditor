@@ -15,20 +15,7 @@ public class AccessibleDiffViewerTests
     {
         string original = string.Join('\n', Enumerable.Range(1, 30).Select(n => "line " + n));
         string modified = original.Replace("line 5\n", "changed 5\n").Replace("line 25\n", "changed 25\n");
-        var diff = new LoomDiffEditor { OriginalText = original, ModifiedText = modified };
-        var window = new Window { Width = 1000, Height = 300, Content = diff };
-        window.Show();
-        Dispatcher.UIThread.RunJobs();
-        diff.Original.FontFamily = new(TestFont.Family);
-        diff.Modified.FontFamily = new(TestFont.Family);
-        await diff.WaitForDiffAsync();
-        for (int i = 0; i < 3; i++)
-        {
-            await Task.Delay(30);
-            EditorWindow.Capture(window);
-            Dispatcher.UIThread.RunJobs();
-        }
-
+        (LoomDiffEditor diff, Window window) = await DiffEditorWindow.OpenAsync(original, modified, frames: 3);
         diff.Modified.Focus();
         return (diff, window);
     }

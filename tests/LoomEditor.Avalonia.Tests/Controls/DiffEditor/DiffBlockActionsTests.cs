@@ -2,7 +2,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Headless;
 using Avalonia.Interactivity;
-using Avalonia.Threading;
 using LoomEditor.Avalonia.Controls;
 using LoomEditor.Avalonia.Tests.TestHelpers;
 
@@ -13,35 +12,17 @@ public class DiffBlockActionsTests
 {
     private static string Lines(int count) => string.Join('\n', Enumerable.Range(1, count).Select(n => "line " + n));
 
-    private static async Task<(LoomDiffEditor Diff, Window Window)> Open(string original, string modified)
-    {
-        var diff = new LoomDiffEditor
-        {
-            OriginalText = original,
-            ModifiedText = modified,
-            BlockActionsVisibility = DiffBlockActionsVisibility.Always,
-            PrimaryBlockActionGlyph = "X",
-            PrimaryBlockActionToolTip = "Revert",
-        };
-        var window = new Window { Width = 1000, Height = 600, Content = diff };
-        window.Show();
-        Dispatcher.UIThread.RunJobs();
-        diff.Original.FontFamily = new(TestFont.Family);
-        diff.Modified.FontFamily = new(TestFont.Family);
-        await diff.WaitForDiffAsync();
-        await Settle(window);
-        return (diff, window);
-    }
-
-    private static async Task Settle(Window window)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            await Task.Delay(30);
-            EditorWindow.Capture(window);
-            Dispatcher.UIThread.RunJobs();
-        }
-    }
+    private static Task<(LoomDiffEditor Diff, Window Window)> Open(string original, string modified) =>
+        DiffEditorWindow.OpenAsync(
+            original,
+            modified,
+            height: 600,
+            configure: diff =>
+            {
+                diff.BlockActionsVisibility = DiffBlockActionsVisibility.Always;
+                diff.PrimaryBlockActionGlyph = "X";
+                diff.PrimaryBlockActionToolTip = "Revert";
+            });
 
     private static string FiveChanges() => Lines(20).Replace("line 2\n", "a\n").Replace("line 6\n", "b\n").Replace("line 10\n", "c\n").Replace("line 14\n", "d\n").Replace("line 18\n", "e\n");
 
@@ -98,13 +79,13 @@ public class DiffBlockActionsTests
         {
             (LoomDiffEditor diff, Window window) = await Open(Lines(20), FiveChanges());
             diff.BlockActionsVisibility = DiffBlockActionsVisibility.OnHover;
-            await Settle(window);
+            await DiffEditorWindow.SettleAsync(window);
             Assert.Empty(diff.Modified.DiffGutter!.BlockActions.VisibleButtons);
 
             // Line 6 is the second block.
             var inContent = new Point(diff.Modified.ViewModel.LayoutInfo.ContentLeft + 20, (5.5 * diff.Modified.LineHeight));
             window.MouseMove(diff.Modified.TranslatePoint(inContent, window)!.Value);
-            await Settle(window);
+            await DiffEditorWindow.SettleAsync(window);
 
             Assert.Single(diff.Modified.DiffGutter!.BlockActions.VisibleButtons);
             window.Close();
@@ -119,7 +100,7 @@ public class DiffBlockActionsTests
             (LoomDiffEditor diff, Window window) = await Open(Lines(20), FiveChanges());
 
             diff.RenderSideBySide = false;
-            await Settle(window);
+            await DiffEditorWindow.SettleAsync(window);
 
             Assert.Empty(diff.Modified.DiffGutter!.BlockActions.VisibleButtons);
             window.Close();

@@ -1268,7 +1268,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 | Card | Title | Depends on | Status |
 |---|---|---|---|
 | [P16-18](phase-16/P16-18-rendering-text-helpers.md) | Move the shared text layout helpers into `LoomEditor.Rendering` | P15-34 | done |
-| [P16-19](phase-16/P16-19-avalonia-diff-test-window.md) | One helper for the Avalonia diff editor test window | P15-34 | todo |
+| [P16-19](phase-16/P16-19-avalonia-diff-test-window.md) | One helper for the Avalonia diff editor test window | P15-34 | done |
 
 ### Step F — Galleries
 
