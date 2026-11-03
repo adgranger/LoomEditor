@@ -13,6 +13,9 @@ namespace LoomEditor.Avalonia.Controls.DiffEditor;
 // The model side of the viewer: following the model and rebuilding the rows of the current group. The controls are in AccessibleDiffViewer.Host.cs.
 internal sealed partial class AccessibleDiffViewer
 {
+    private const double NumberColumnWidth = 48;
+    private const double SignColumnWidth = 24;
+
     private readonly AccessibleDiffViewerModel _model;
     private readonly IAccessibleDiffViewerHost _host;
     private readonly EditorTheme _theme;
@@ -48,6 +51,33 @@ internal sealed partial class AccessibleDiffViewer
         {
             _isSyncing = false;
         }
+    }
+
+    // Monaco: _createRow. The classes line-insert / line-delete are the background of the row, char-insert / char-delete the one of the numbers.
+    private ThemeColor? RowBackground(LineType type) => type switch
+    {
+        LineType.Added => _theme.GetColor("diffEditor.insertedLineBackground"),
+        LineType.Deleted => _theme.GetColor("diffEditor.removedLineBackground"),
+        _ => null,
+    };
+
+    private ThemeColor? NumberBackground(LineType type) => type switch
+    {
+        LineType.Added => _theme.GetColor("diffEditor.insertedTextBackground"),
+        LineType.Deleted => _theme.GetColor("diffEditor.removedTextBackground"),
+        _ => null,
+    };
+
+    // The four cells of a row: the two line numbers, the sign and the text.
+    private void AddCells(DiffViewerRowItem row, Action<int, string, ThemeColor?, ThemeColor?> addCell)
+    {
+        ThemeColor? numberForeground = _theme.GetColor("editorLineNumber.foreground");
+        ThemeColor? numberBackground = NumberBackground(row.Element.Type);
+        ThemeColor? textForeground = _theme.GetColor("editor.foreground");
+        addCell(0, row.OriginalNumber, numberForeground, numberBackground);
+        addCell(1, row.ModifiedNumber, numberForeground, numberBackground);
+        addCell(2, row.Sign, textForeground, null);
+        addCell(3, row.Text, textForeground, null);
     }
 
     private void RebuildRows()

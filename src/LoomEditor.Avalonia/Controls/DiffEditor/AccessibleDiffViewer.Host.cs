@@ -22,9 +22,6 @@ namespace LoomEditor.Avalonia.Controls.DiffEditor;
 /// </remarks>
 internal sealed partial class AccessibleDiffViewer : UserControl
 {
-    private const double NumberColumnWidth = 48;
-    private const double SignColumnWidth = 24;
-
     private readonly FontFamily _fontFamily;
     private readonly ListBox _list = new() { SelectionMode = SelectionMode.Single, Focusable = false };
     private readonly List<ListBoxItem> _items = [];
@@ -53,9 +50,7 @@ internal sealed partial class AccessibleDiffViewer : UserControl
         AutomationProperties.SetName(_list, AccessibilityMessages.DiffViewerListLabel);
         _list.SelectionChanged += OnSelectionChanged;
 
-        var grid = new Grid { Background = Brush(theme.GetColor("editor.background")) };
-        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        var grid = new Grid { Background = Brush(theme.GetColor("editor.background")), RowDefinitions = new RowDefinitions("Auto,*") };
         grid.Children.Add(close);
         Grid.SetRow(_list, 1);
         grid.Children.Add(_list);
@@ -69,19 +64,10 @@ internal sealed partial class AccessibleDiffViewer : UserControl
     /// <summary>The rows of the current group, for the tests.</summary>
     internal IReadOnlyList<ListBoxItem> Rows => _items;
 
-    // Monaco: _createRow. The classes line-insert / line-delete are the background of the row, char-insert / char-delete the one of the numbers.
     private Grid CreateRow(DiffViewerRowItem row)
     {
         LineType type = row.Element.Type;
-        var grid = new Grid
-        {
-            Background = type switch
-            {
-                LineType.Added => Brush(_theme.GetColor("diffEditor.insertedLineBackground")),
-                LineType.Deleted => Brush(_theme.GetColor("diffEditor.removedLineBackground")),
-                _ => null,
-            },
-        };
+        var grid = new Grid { Background = Brush(RowBackground(type)) };
 
         if (type == LineType.Header)
         {
@@ -89,24 +75,18 @@ internal sealed partial class AccessibleDiffViewer : UserControl
             return grid;
         }
 
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(NumberColumnWidth) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(NumberColumnWidth) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(SignColumnWidth) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions = new ColumnDefinitions($"{NumberColumnWidth},{NumberColumnWidth},{SignColumnWidth},*");
 
-        IBrush? numberBackground = type switch
-        {
-            LineType.Added => Brush(_theme.GetColor("diffEditor.insertedTextBackground")),
-            LineType.Deleted => Brush(_theme.GetColor("diffEditor.removedTextBackground")),
-            _ => null,
-        };
-        IBrush? numberForeground = Brush(_theme.GetColor("editorLineNumber.foreground"));
-        AddCell(grid, 0, row.OriginalNumber, numberForeground, numberBackground, HorizontalAlignment.Right);
-        AddCell(grid, 1, row.ModifiedNumber, numberForeground, numberBackground, HorizontalAlignment.Right);
-        AddCell(grid, 2, row.Sign, Brush(_theme.GetColor("editor.foreground")), null, HorizontalAlignment.Center);
-        AddCell(grid, 3, row.Text, Brush(_theme.GetColor("editor.foreground")), null, HorizontalAlignment.Left);
+        AddCells(row, (column, text, foreground, background) => AddCell(grid, column, text, Brush(foreground), Brush(background), CellAlignment(column)));
         return grid;
     }
+
+    private static HorizontalAlignment CellAlignment(int column) => column switch
+    {
+        0 or 1 => HorizontalAlignment.Right,
+        2 => HorizontalAlignment.Center,
+        _ => HorizontalAlignment.Left,
+    };
 
     private void AddCell(Grid grid, int column, string text, IBrush? foreground, IBrush? background, HorizontalAlignment alignment)
     {

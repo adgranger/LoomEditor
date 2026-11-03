@@ -1,6 +1,6 @@
 # P17-04 — Share the row colors and cells of the accessible diff viewer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-01
 - **Size:** S
 
@@ -53,16 +53,16 @@ Not a Monaco port (the Monaco header of the shared file stays). Read first: [pha
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests (`AccessibleDiffViewer*` in `tests/LoomEditor.Avalonia.Tests`) stay green **unchanged**.
+- [x] No new test. The Avalonia headless tests (`AccessibleDiffViewer*` in `tests/LoomEditor.Avalonia.Tests`) stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The pair is gone from `KnownDuplicates`
-- [ ] `docs/PORTING.md` row of the accessible diff viewer still names the right files
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The pair is gone from `KnownDuplicates`
+- [x] `docs/PORTING.md` row of the accessible diff viewer still names the right files
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
