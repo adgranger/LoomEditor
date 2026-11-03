@@ -1260,7 +1260,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 |---|---|---|---|
 | [P16-14](phase-16/P16-14-find-widget.md) | Share the find widget logic | P16-03 | done |
 | [P16-15](phase-16/P16-15-comment-gutter-and-zone-host.md) | Share the comment gutter controller and the comment zone host | P16-03 | done |
-| [P16-16](phase-16/P16-16-comment-thread-widget.md) | Share the comment thread widget logic | P16-15 | todo |
+| [P16-16](phase-16/P16-16-comment-thread-widget.md) | Share the comment thread widget logic | P16-15 | done |
 | [P16-17](phase-16/P16-17-small-widget-leftovers.md) | Share the leftovers of the suggestion block, composer toolbar, suggest and hover widgets | P16-16 | todo |
 
 ### Step E — Rendering and tests

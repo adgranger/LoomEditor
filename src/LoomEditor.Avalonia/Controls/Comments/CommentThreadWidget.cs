@@ -88,29 +88,4 @@ internal sealed partial class CommentThreadWidget : UserControl
     /// <summary>Stops listening to the view model.</summary>
     public void Detach() => _viewModel.Changed -= OnChanged;
 
-    private void OnChanged(object? sender, EventArgs e)
-    {
-        Rebuild();
-        ContentChanged?.Invoke(this, EventArgs.Empty);
-    }
-
-    // No incremental diffing: threads are small. Relative times are computed here only (no timer).
-    private void Rebuild()
-    {
-        // Kept current when the line moves: a move raises Changed.
-        AutomationProperties.SetName(this, CommentStrings.ThreadAutomationName(_viewModel.Thread.StartLineNumber, _viewModel.Thread.LineNumber));
-        _rows.Children.Clear();
-        _rows.Children.Add(Header());
-        if (!_viewModel.IsCollapsed)
-        {
-            AddCommentRows();
-        }
-
-        UpdateComposer();
-        UpdateCommentedText();
-    }
-
-    // The exact text of an exact-text thread, for UI Automation; the name and the title stay the same (README decision 20).
-    private void UpdateCommentedText() =>
-        AutomationProperties.SetHelpText(this, _viewModel.CommentedText is { Length: > 0 } text ? CommentStrings.CommentedText(text) : string.Empty);
 }

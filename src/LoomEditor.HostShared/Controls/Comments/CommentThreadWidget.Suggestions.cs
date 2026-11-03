@@ -1,11 +1,19 @@
-using Avalonia.Threading;
-using LoomEditor.Avalonia.Controls.Markdown;
 using LoomEditor.View.Comments;
 using LoomEditor.View.Markdown;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Controls.Markdown;
+using LoomEditor.WinUI.Threading;
+namespace LoomEditor.WinUI.Controls.Comments;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Controls.Markdown;
+using LoomEditor.Avalonia.Threading;
 namespace LoomEditor.Avalonia.Controls.Comments;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
-// ```suggestion blocks of a comment (or of the Preview) drawn as a SuggestionBlockView against the current lines of the thread, with Apply.
+// ```suggestion blocks of a comment (or of the Preview) drawn as a SuggestionBlockView against the thread's current lines, with Apply.
 internal sealed partial class CommentThreadWidget
 {
     private const string SuggestionLanguage = "suggestion";
@@ -14,13 +22,13 @@ internal sealed partial class CommentThreadWidget
     private readonly Dictionary<(string CommentId, int Index), string> _applyToolTips = [];
     private bool _rebuildPending;
 
-    /// <summary>Applies a suggestion: (comment id, suggestion index, rendered range text) to result. Set by the host; none = no Apply button.</summary>
+    /// <summary>Applies a suggestion: (comment id, suggestion index, rendered range text) → result. Set by the host; none = no Apply button.</summary>
     public Func<string, int, string, ApplySuggestionResult>? ApplySuggestion { get; set; }
 
     /// <summary>Whether the editor is read-only (Apply disabled). Set by the host.</summary>
     public Func<bool>? IsEditorReadOnly { get; set; }
 
-    /// <summary>The text of the lines of the thread changed (an Apply or a hand edit): redraw the blocks, once per dispatcher tick.</summary>
+    /// <summary>The text of the thread's lines changed (an Apply or a hand edit): redraw the blocks, once per dispatcher tick.</summary>
     public void OnLineTextChanged()
     {
         _applyToolTips.Clear();
@@ -28,7 +36,7 @@ internal sealed partial class CommentThreadWidget
         ScheduleRebuild();
     }
 
-    /// <summary>Rebuilds now (e.g. the read-only state of the editor changed).</summary>
+    /// <summary>Rebuilds now (e.g. the editor's read-only state changed).</summary>
     public void Refresh() => OnChanged(this, EventArgs.Empty);
 
     private void ScheduleRebuild()
@@ -38,8 +46,7 @@ internal sealed partial class CommentThreadWidget
             return;
         }
 
-        _rebuildPending = true;
-        Dispatcher.UIThread.Post(() =>
+        _rebuildPending = HostDispatcher.Post(() =>
         {
             _rebuildPending = false;
             Refresh();
@@ -47,7 +54,7 @@ internal sealed partial class CommentThreadWidget
     }
 
     // The builder calls the hook for every code block, also inside a quote; SuggestionExtractor counts top-level blocks only, so the index is
-    // the position among the top-level suggestion blocks of the document (by reference) and a nested block keeps the default drawing.
+    // the position among the document's top-level suggestion blocks (by reference) and a nested block keeps the default drawing.
     private MarkdownBuildOptions SuggestionOptions(MarkdownDocument document, string? commentId)
     {
         var topLevel = new List<MarkdownCodeBlock>();

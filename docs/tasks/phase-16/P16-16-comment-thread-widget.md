@@ -1,6 +1,6 @@
 # P16-16 — Share the comment thread widget logic
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-15
 - **Size:** M
 
@@ -37,15 +37,15 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -54,3 +54,9 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 ## Suggested commit message
 
 `refactor(hosts): share the comment thread widget logic`
+
+## Result
+
+Shared: `CommentThreadWidget.Suggestions.cs` (whole file), `CommentThreadWidget.Model.cs` (`OnChanged`, `Rebuild`, `UpdateCommentedText`, `CollapsedSummary`); the two automation setters are host members in `CommentThreadWidget.Host.cs`.
+Left per host on purpose: `ApplyTheme` and the composer members. They set brushes and dependency / styled properties on `Control` / `TemplatedControl` objects and the two twins differ in more than spelling
+(`SetPlain`, `SetOrClear` over different property types). Check the Sonar duplication of these two files in P16-24.

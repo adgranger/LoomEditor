@@ -1,6 +1,5 @@
 using LoomEditor.Core.Comments;
 using LoomEditor.View.Comments;
-using LoomEditor.View.Markdown;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -57,20 +56,6 @@ internal sealed partial class CommentThreadWidget
         };
         toggle.Click += (_, _) => _viewModel.ToggleCollapsed();
         return toggle;
-    }
-
-    private string CollapsedSummary()
-    {
-        IReadOnlyList<Comment> comments = _viewModel.Thread.Comments;
-        if (comments.Count == 0)
-        {
-            return "";
-        }
-
-        string plain = MarkdownParser.Parse(comments[0].Body, MarkdownParserOptions.Extended).ToPlainText();
-        int end = plain.IndexOf('\n', StringComparison.Ordinal);
-        string firstLine = end < 0 ? plain : plain[..end];
-        return $"{firstLine} · {CommentStrings.CommentCount(comments.Count)}";
     }
 
     private TextBlock Text(string text, Brush foreground) => new()
