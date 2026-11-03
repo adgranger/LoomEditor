@@ -1,6 +1,6 @@
 # P17-02 — Share the framework-free members of `LoomEditor.HostHooks.Host.cs`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-01
 - **Size:** S
 
@@ -41,15 +41,15 @@ None of these members names a framework type: both `.Host.cs` files are almost e
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged**.
+- [x] No new test. The Avalonia headless tests stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The pair is gone from `KnownDuplicates`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The pair is gone from `KnownDuplicates`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
