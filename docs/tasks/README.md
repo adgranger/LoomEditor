@@ -1179,7 +1179,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 | [P15-09](phase-15/P15-09-scrolling-caret-highlighting.md) | Scrolling, caret, highlighting, read-only, reveal | P15-08 | done |
 | [P15-10](phase-15/P15-10-editor-options.md) | Editor option properties and the small partials | P15-09 | done |
 | [P15-11](phase-15/P15-11-keyboard-and-clipboard.md) | Keyboard, macOS modifiers, clipboard | P15-10 | done |
-| [P15-12](phase-15/P15-12-pointer.md) | Pointer: click, drag selection, multi-cursor, drag and drop | P15-11 | todo |
+| [P15-12](phase-15/P15-12-pointer.md) | Pointer: click, drag selection, multi-cursor, drag and drop | P15-11 | done |
 | [P15-13](phase-15/P15-13-ime.md) | IME through `TextInputMethodClient` (**Opus**) | P15-12 | todo |
 | [P15-14](phase-15/P15-14-accessibility-and-high-contrast.md) | Accessibility and high contrast (**Opus**) | P15-13 | todo |
 | [P15-15](phase-15/P15-15-overlay-and-view-zones.md) | Overlay layer and host view zones | P15-14 | todo |

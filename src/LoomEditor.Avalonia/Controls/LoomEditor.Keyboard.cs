@@ -61,6 +61,14 @@ public sealed partial class LoomEditor
         View.Commands.KeyModifiers modifiers = KeyMapping.ToModifiers(e.KeyModifiers, OperatingSystem.IsMacOS());
         _context.UserInputEvents.EmitKeyDown(CreateKeyEventArgs(e.Key, modifiers));
 
+        if (e.Key == Key.Escape && _mouseDown is { IsDragAndDrop: true })
+        {
+            _mouseDown.OnKeyDownWhileDragging();
+            ReleaseCapture();
+            e.Handled = true;
+            return;
+        }
+
         if (_keyboard.TryHandle(e.Key, modifiers, CreateKeybindingContext()))
         {
             e.Handled = true;

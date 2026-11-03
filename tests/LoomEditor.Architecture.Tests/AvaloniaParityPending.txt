@@ -58,15 +58,6 @@ LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
 LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget
 LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector
 LoomEditor.Avalonia.Controls.Find.FindWidget.InitializeComponent
-LoomEditor.Avalonia.Controls.GutterArea
-LoomEditor.Avalonia.Controls.GutterArea.GlyphMargin = 0
-LoomEditor.Avalonia.Controls.GutterArea.LineDecorations = 2
-LoomEditor.Avalonia.Controls.GutterArea.LineNumbers = 1
-LoomEditor.Avalonia.Controls.GutterClickedEventArgs
-LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Area.get
-LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.get
-LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.set
-LoomEditor.Avalonia.Controls.GutterClickedEventArgs.LineNumber.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentRequested
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread
@@ -189,11 +180,7 @@ LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty
 LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted
 LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get
-LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.get
-LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.set
-LoomEditor.Avalonia.Controls.LoomEditor.DragAndDropProperty
 LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber
-LoomEditor.Avalonia.Controls.LoomEditor.GutterClicked
 LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone

@@ -47,3 +47,18 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 5. Type an accented character with a dead key (for example ^ then e) and an emoji from the system picker: the text is inserted once.
    **Result:** pending
+
+## P15-12 — Pointer
+
+1. Click in the text: the caret goes where the pointer is; double click selects a word, triple click the line; Shift+click extends the selection.
+   **Result:** pending
+2. Drag from the middle of a line to another line, then keep the button down below the last visible line: the editor scrolls and the selection follows.
+   **Result:** pending
+3. Alt+click adds a cursor (Option on macOS); Ctrl+Alt+drag (Cmd+Option on macOS) makes a column selection.
+   **Result:** pending
+4. Select some text, press inside the selection and drag: the text moves (Ctrl or Option copies); Escape while dragging cancels.
+   **Result:** pending
+5. The pointer is an I-beam over the text and an arrow over the gutter, the minimap and the scroll bar; click a line number selects the line.
+   **Result:** pending
+6. With `MouseWheelZoom` on, Ctrl+wheel (Cmd+wheel on macOS) zooms; a trackpad pinch does nothing.
+   **Result:** pending

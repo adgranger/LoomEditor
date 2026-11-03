@@ -79,6 +79,7 @@ public sealed partial class LoomEditor : TemplatedControl
         InitializeReadOnlyProperties();
         InitializeHighlightingProperties();
         InitializeCaretProperties();
+        InitializePointerProperties();
         InitializeMarginProperties();
         InitializeLineNumbersProperties();
         InitializeMinimapProperties();
@@ -104,11 +105,15 @@ public sealed partial class LoomEditor : TemplatedControl
         _context.SelectionChanged += (_, _) => Invalidate();
         InitializeCaret();
         InitializeReveal();
+        InitializePointer();
         InitializeFont();
         InitializeStickyScroll();
         InitializeHighlighting();
         _context.Model.ContentChanged += (_, _) => Invalidate();
     }
+
+    // The view model, for the tests (the layout of the lines is needed to aim a click).
+    internal ViewModel ViewModel => _viewModel;
 
     /// <summary>The text displayed by the editor.</summary>
     public string Text
@@ -238,6 +243,7 @@ public sealed partial class LoomEditor : TemplatedControl
         if (e.Property == BoundsProperty)
         {
             Size size = ((Rect)e.NewValue!).Size;
+            _mouseDown?.OnHeightChanged();
             _viewModel.SetViewportSize((int)size.Width, (int)size.Height);
             UpdateScrollBars();
         }

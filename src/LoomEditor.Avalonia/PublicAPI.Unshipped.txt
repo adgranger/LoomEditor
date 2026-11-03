@@ -20,6 +20,15 @@ LoomEditor.Avalonia.Controls.EditorWrappingIndent.DeepIndent = 3 -> LoomEditor.A
 LoomEditor.Avalonia.Controls.EditorWrappingIndent.Indent = 2 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
 LoomEditor.Avalonia.Controls.EditorWrappingIndent.None = 0 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
 LoomEditor.Avalonia.Controls.EditorWrappingIndent.Same = 1 -> LoomEditor.Avalonia.Controls.EditorWrappingIndent
+LoomEditor.Avalonia.Controls.GutterArea
+LoomEditor.Avalonia.Controls.GutterArea.GlyphMargin = 0 -> LoomEditor.Avalonia.Controls.GutterArea
+LoomEditor.Avalonia.Controls.GutterArea.LineDecorations = 2 -> LoomEditor.Avalonia.Controls.GutterArea
+LoomEditor.Avalonia.Controls.GutterArea.LineNumbers = 1 -> LoomEditor.Avalonia.Controls.GutterArea
+LoomEditor.Avalonia.Controls.GutterClickedEventArgs
+LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Area.get -> LoomEditor.Avalonia.Controls.GutterArea
+LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.get -> bool
+LoomEditor.Avalonia.Controls.GutterClickedEventArgs.Handled.set -> void
+LoomEditor.Avalonia.Controls.GutterClickedEventArgs.LineNumber.get -> int
 LoomEditor.Avalonia.Controls.LoomEditor
 LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.get -> LoomEditor.Avalonia.Controls.EditorBracketPairGuides
 LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuides.set -> void
@@ -29,6 +38,8 @@ LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.get -> LoomEditor.View.Layou
 LoomEditor.Avalonia.Controls.LoomEditor.CursorStyle.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.DocumentUri.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.DragAndDrop.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
 LoomEditor.Avalonia.Controls.LoomEditor.Features.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabled.get -> bool
@@ -39,6 +50,7 @@ LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.get -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.set -> void
 LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.get -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.GutterClicked -> System.EventHandler<LoomEditor.Avalonia.Controls.GutterClickedEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomEditor.InputMode.get -> LoomEditor.View.Cursors.EditorInputMode
 LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet(string! template, int overwriteBefore, int overwriteAfter) -> void
 LoomEditor.Avalonia.Controls.LoomEditor.InsertSnippet(string! template) -> void
@@ -108,6 +120,7 @@ LoomEditor.Avalonia.LoomEditorStyles
 LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuidesProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorBracketPairGuides>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.CursorStyleProperty -> Avalonia.StyledProperty<LoomEditor.View.Layout.TextEditorCursorStyle>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.DragAndDropProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FoldingEnabledProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettingsProperty -> Avalonia.StyledProperty<string!>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontLigaturesProperty -> Avalonia.StyledProperty<bool>!
