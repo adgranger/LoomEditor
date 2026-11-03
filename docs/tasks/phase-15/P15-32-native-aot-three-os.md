@@ -1,6 +1,6 @@
 # P15-32 — Native AOT on Windows, macOS and Linux
 
-- **Status:** in progress
+- **Status:** done
 - **Depends on:** P15-31
 - **Size:** S (CI and fixes)
 
@@ -32,7 +32,7 @@ Sources: none (specified in this card). Read first: `.github/workflows/ci.yml` (
 
 ## Tests
 
-- [ ] The three `aot-avalonia` jobs are green (link the run in the Result, with the self-check counts)
+- [x] The three `aot-avalonia` jobs are green (link the run in the Result, with the self-check counts)
 
 ## Acceptance criteria
 
@@ -48,7 +48,10 @@ Sources: none (specified in this card). Read first: `.github/workflows/ci.yml` (
   self-checks: text 10 of 10, diff 9 passed / 0 failed, comments 17 of 17, host API 6 of 6, and stays alive after 10 s.
 - A single `dotnet publish -r win-x64` (without the build first) fails with MSB3030 (the documentation file of the rid folder is not found): the CI job and the local command
   therefore build first and publish with `--no-build`, as `eng/Test-AotApp.ps1 -BuildFirst` does. `eng/Test-AotApp.ps1` is not changed: the new job does its own checks on all three systems.
-- **CI:** job `aot-avalonia` added to `.github/workflows/ci.yml`. The run on the three systems is NOT verified yet (the Linux and macOS builds need the runners).
+- **CI:** job `aot-avalonia` added to `.github/workflows/ci.yml`; the three jobs are green in https://github.com/adgranger/LoomEditor/actions/runs/41654238868 (win-x64, linux-x64, osx-arm64):
+  text 10 of 10, diff 9 passed / 0 failed, comments 17 of 17, host API 6 of 6 on each; the app stays alive 10 s. The first run failed on win-x64 only because `&` does not wait
+  for a GUI exe: the job uses `Start-Process -Wait` and reads the exit code. In that run the macOS job of "Portable projects" failed on an existing Lsp test
+  (`LspServerProcessTests.WorkingDirectory_Used`: `/var` vs `/private/var`), unrelated to this card.
 
 ## Out of scope
 
