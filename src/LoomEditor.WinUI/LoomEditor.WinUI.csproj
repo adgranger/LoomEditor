@@ -4,6 +4,9 @@
     This is the ONLY project that knows about XAML, input and accessibility.
     It references LoomEditor.Rendering only (which brings View, Core, TextMate and Themes).
   -->
+  <!-- Source shared with the other host (ADR 0017). -->
+  <Import Project="..\LoomEditor.HostShared\LoomEditor.HostShared.props" />
+
   <PropertyGroup>
     <TargetFramework>$(LoomWindowsTargetFramework)</TargetFramework>
     <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
@@ -23,6 +26,7 @@
       We cannot change generated code; its members are still tracked in PublicAPI.Unshipped.txt.
     -->
     <NoWarn>$(NoWarn);RS0041</NoWarn>
+    <DefineConstants>$(DefineConstants);LOOM_WINUI</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

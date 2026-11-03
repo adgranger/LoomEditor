@@ -72,3 +72,4 @@ test project must reference it too. No environment variable is needed.
 
 `WinUI | Avalonia → Rendering → View → (TextMate, Themes) → Core`. Core/TextMate/Themes/View know nothing about Windows or UI.
 Features live in `src/LoomEditor.View/Features/<Name>/` and are listed in `EditorFeatures.cs`.
+Code both controls need and that names a host type lives once in `src/LoomEditor.HostShared/` (ADR 0017); the framework-specific part goes to `<File>.Host.cs` in each host.

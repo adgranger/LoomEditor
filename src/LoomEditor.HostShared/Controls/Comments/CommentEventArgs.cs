@@ -1,7 +1,13 @@
 using LoomEditor.Core.Comments;
-using Range = LoomEditor.Core.Text.Range;
 
+#if LOOM_WINUI
+using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>Data of an event that concerns one comment thread.</summary>
 /// <remarks>Threading: immutable.</remarks>

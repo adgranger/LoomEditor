@@ -1,6 +1,6 @@
 # P16-01 — `src/LoomEditor.HostShared`: shared host source, its tests, the comment event args
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-34
 - **Size:** M
 
@@ -57,23 +57,23 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] New (`HostSharedSourceTests`): `HostSharedFiles_HaveOneHeaderBlock` (the `#if LOOM_WINUI … #endif` block exists once, before the first type declaration, and
+- [x] New (`HostSharedSourceTests`): `HostSharedFiles_HaveOneHeaderBlock` (the `#if LOOM_WINUI … #endif` block exists once, before the first type declaration, and
   holds only the allowed lines); `HostSharedFiles_HaveNoOtherConditionalCode` (no other `#if`, `#elif`, `#define`); `HostSharedNamespaces_MatchTheFolder`
   (`Controls/DiffEditor/X.cs` → `LoomEditor.WinUI.Controls.DiffEditor` and `LoomEditor.Avalonia.Controls.DiffEditor`); `HostSharedFiles_UseNoFrameworkNamespace`
   (regex `(?<![\w.])(Avalonia|Microsoft\.UI|Windows)\.` finds nothing, so `global::Avalonia.` is caught and `LoomEditor.Avalonia.` is not);
   `HostProjects_ImportHostSharedProps` (both csproj import the props file and define their symbol)
-- [ ] New: `HeaderBlockChecker_RejectsAStatementInsideTheBlock`, `HeaderBlockChecker_AcceptsTheReadmeExample` (the checker is a small static method tested on inline
+- [x] New: `HeaderBlockChecker_RejectsAStatementInsideTheBlock`, `HeaderBlockChecker_AcceptsTheReadmeExample` (the checker is a small static method tested on inline
   strings, as `PortedHeader_*` in `ConventionTests`)
-- [ ] The Avalonia headless tests stay green unchanged
+- [x] The Avalonia headless tests stay green unchanged
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `HostSharedSourceTests` green; the two event-args files exist once, under `src/LoomEditor.HostShared/`
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `HostSharedSourceTests` green; the two event-args files exist once, under `src/LoomEditor.HostShared/`
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -82,3 +82,9 @@ Any other shared file (P16-02 onwards). Sonar exclusions. Galleries.
 ## Suggested commit message
 
 `build: add src/LoomEditor.HostShared, compiled into both controls (ADR 0017)`
+
+## Result
+
+- `LoomEditor.WinUI` has no global `Range` alias (the Avalonia project has one; the other WinUI files declare their own), so the header block of the two files holds `using Range = LoomEditor.Core.Text.Range;` in its `#if LOOM_WINUI` branch only.
+- The two files keep the namespace `LoomEditor.<Host>.Controls` (public API unchanged), not `...Controls.DiffEditor`: `HostSharedNamespaces_MatchTheFolder` accepts the folder path or one of its ancestors.
+- No other architecture test enumerates `src/` folders in a way that needs a skip.

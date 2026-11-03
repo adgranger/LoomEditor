@@ -1230,7 +1230,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P16-01](phase-16/P16-01-host-shared-folder.md) | `src/LoomEditor.HostShared`: shared host source, its tests, the comment event args | P15-34 | todo |
+| [P16-01](phase-16/P16-01-host-shared-folder.md) | `src/LoomEditor.HostShared`: shared host source, its tests, the comment event args | P15-34 | done |
 | [P16-02](phase-16/P16-02-public-types-one-source.md) | The other copied public types and namespace-only partials from one source | P16-01 | todo |
 
 ### Step B — The `LoomEditor` control

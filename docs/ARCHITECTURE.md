@@ -371,6 +371,11 @@ How to use it: [how-to/use-the-host-api.md](how-to/use-the-host-api.md).
 
 Decisions in [ADR 0016](adr/0016-avalonia-backend.md). `LoomEditor.Avalonia` is the twin of `LoomEditor.WinUI`: it references `LoomEditor.Rendering` only and plugs the Skia backend into it (`AvaloniaRenderSurface`, `AvaloniaTextMeasurer`). Every WinUI file has a twin with the same relative path (`Controls/LoomEditor.Pointer.cs`), and the public API is the WinUI one translated (styled properties, `Avalonia.Input.Key`, `EventHandler<T>`); `AvaloniaApiParityTests` fails when a WinUI member has no twin. Rendering became portable (Win2D moved into `LoomEditor.WinUI`). Input goes through `KeyDown` / `TextInput` / `TextInputMethodClient`, the clipboard through `TopLevel.Clipboard`, accessibility through an `AutomationPeer`. The tests run headless (Avalonia.Headless + Skia, `tests/LoomEditor.Avalonia.Tests`). Proof beyond them: the Avalonia Gallery published with Native AOT on Windows, Linux and macOS with its self-checks (CI job `aot-avalonia`) and the package test app (`package-avalonia`). **Not verified:** the manual plan ([testing/phase-15-manual-tests.md](testing/phase-15-manual-tests.md)). How to use it: [how-to/use-the-avalonia-control.md](how-to/use-the-avalonia-control.md).
 
+## Shared host source (phase 16)
+
+Code both controls need and that names a host type lives once in `src/LoomEditor.HostShared/` (no project file; both host projects import `LoomEditor.HostShared.props`, which compiles it with the symbol `LOOM_WINUI` or `LOOM_AVALONIA`). Each file starts with one header block (`#if LOOM_WINUI` / `#elif LOOM_AVALONIA` / `#error`) that picks the namespace; it never names a framework type. The framework-specific part goes to `<File>.Host.cs` in each host, with the same member names. Decisions in [ADR 0017](adr/0017-shared-host-logic.md); rules in [tasks/phase-16/README.md](tasks/phase-16/README.md).
+
+
 ## Where do I find…?
 
 | I want to… | Go to |

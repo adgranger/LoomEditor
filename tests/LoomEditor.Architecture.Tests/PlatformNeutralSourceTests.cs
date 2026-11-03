@@ -16,6 +16,8 @@ public partial class PlatformNeutralSourceTests
         "LoomEditor.View",
         "LoomEditor.Rendering",
         "LoomEditor.Avalonia",
+        "LoomEditor.HostShared",
+        "LoomEditor.HostShared",
         "LoomEditor.Lsp",
     };
 
