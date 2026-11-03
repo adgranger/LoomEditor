@@ -1,6 +1,6 @@
 # P15-08 — The `LoomEditor` control: template, draw loop, font, zoom, schedulers
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-07
 - **Size:** M
 
@@ -44,16 +44,16 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/LoomEditor.cs`, `LoomEditor.Font
 
 ## Tests
 
-- [ ] New: `LoomEditor_InWindow_DrawsText` (headless window 400×200, `Text = "hello"`: dark-on-light pixels in the first line box); `Text_Changed_Redraws` (frame differs);
+- [x] New: `LoomEditor_InWindow_DrawsText` (headless window 400×200, `Text = "hello"`: dark-on-light pixels in the first line box); `Text_Changed_Redraws` (frame differs);
   `FontSize_Changed_RemeasuresLineHeight` (`LineHeight` grows); `ZoomIn_GrowsLineHeight`; `Theme_Dark_BackgroundIsThemeColor` (pixel at (390,190) = theme background)
-- [ ] Manual "P15-08" (written, not run): on Windows, macOS and Ubuntu, the Gallery (from P15-31) shows a C# file highlighted; the font is the OS default monospace; moving the
+- [x] Manual "P15-08" (written, not run): on Windows, macOS and Ubuntu, the Gallery (from P15-31) shows a C# file highlighted; the font is the OS default monospace; moving the
   window to a 200 % display re-renders crisp text
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -62,3 +62,11 @@ Scroll bars and scrolling (P15-09), the other options (P15-10), any input (P15-1
 ## Suggested commit message
 
 `feat(avalonia): the LoomEditor control draws text with its theme, font and zoom`
+
+## Result
+
+- Done as written. `Theme` and `LanguageId` (the `Highlighting` partial) are P15-09's, as its card says: here the renderer uses its default theme (`EditorTheme.Dark`) and no
+  highlighter runs yet, so `Theme_Dark_BackgroundIsThemeColor` checks that default.
+- Not in this card (WinUI members the draw loop calls): `LayoutChanged`, scroll bars, `HasFocus`/caret, `ResetText` (the `Text` callback does its two lines inline).
+- `Invalidate()` posts to the dispatcher during a render pass (Avalonia rule), see `docs/PORTING.md`.
+- Manual checks "P15-08" written in `docs/testing/phase-15-manual-tests.md`, not run.

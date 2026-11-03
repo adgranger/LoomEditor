@@ -1,3 +1,41 @@
 #nullable enable
+LoomEditor.Avalonia.Controls.LoomEditor
+LoomEditor.Avalonia.Controls.LoomEditor.Commands.get -> LoomEditor.View.Commands.CommandRegistry!
+LoomEditor.Avalonia.Controls.LoomEditor.Features.get -> System.Collections.Generic.IReadOnlyList<System.Func<LoomEditor.View.Features.IEditorFeature!>!>!
+LoomEditor.Avalonia.Controls.LoomEditor.Features.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettings.get -> string!
+LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettings.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.FontLigatures.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.get -> string!
+LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettings.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacing.get -> double
+LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacing.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LineHeight.get -> double
+LoomEditor.Avalonia.Controls.LoomEditor.LineHeight.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.LoomEditor() -> void
+LoomEditor.Avalonia.Controls.LoomEditor.Model.get -> LoomEditor.Core.Model.TextModel!
+LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoom.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoom.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.SelectionChanged -> System.EventHandler?
+LoomEditor.Avalonia.Controls.LoomEditor.Selections.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>!
+LoomEditor.Avalonia.Controls.LoomEditor.SetSelections(System.Collections.Generic.IReadOnlyList<LoomEditor.Core.Text.Selection>! selections) -> void
+LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrolling.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrolling.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.TabSize.get -> int
+LoomEditor.Avalonia.Controls.LoomEditor.TabSize.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.Text.get -> string!
+LoomEditor.Avalonia.Controls.LoomEditor.Text.set -> void
+LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevel.get -> double
+LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevel.set -> void
 LoomEditor.Avalonia.LoomEditorStyles
 LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontFeatureSettingsProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontLigaturesProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.FontVariationSettingsProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.LetterSpacingProperty -> Avalonia.StyledProperty<double>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.MouseWheelZoomProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.SmoothScrollingProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.TabSizeProperty -> Avalonia.StyledProperty<int>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.TextProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevelProperty -> Avalonia.StyledProperty<double>!

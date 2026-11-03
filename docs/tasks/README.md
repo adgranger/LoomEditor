@@ -1175,7 +1175,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-08](phase-15/P15-08-control-shell-and-draw-loop.md) | Template, draw loop, font, zoom, schedulers | P15-07 | todo |
+| [P15-08](phase-15/P15-08-control-shell-and-draw-loop.md) | Template, draw loop, font, zoom, schedulers | P15-07 | done |
 | [P15-09](phase-15/P15-09-scrolling-caret-highlighting.md) | Scrolling, caret, highlighting, read-only, reveal | P15-08 | todo |
 | [P15-10](phase-15/P15-10-editor-options.md) | Editor option properties and the small partials | P15-09 | todo |
 | [P15-11](phase-15/P15-11-keyboard-and-clipboard.md) | Keyboard, macOS modifiers, clipboard | P15-10 | todo |

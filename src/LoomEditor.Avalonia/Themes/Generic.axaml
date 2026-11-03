@@ -1,4 +1,30 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- The control templates of LoomEditor.Avalonia (P15-08 on). -->
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:LoomEditor.Avalonia.Controls">
+  <Styles.Resources>
+    <ResourceDictionary>
+      <!-- Default look of the LoomEditor control. PART_Canvas is required: all text is drawn on it. -->
+      <ControlTheme x:Key="{x:Type controls:LoomEditor}" TargetType="controls:LoomEditor">
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+          <ControlTemplate>
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <Panel>
+                <controls:EditorCanvas Name="PART_Canvas" />
+                <Canvas Name="PART_ZoneWidgetCanvas" />
+                <Canvas Name="PART_OverlayCanvas" />
+                <ScrollBar Name="PART_VerticalScrollBar" Orientation="Vertical" HorizontalAlignment="Right" IsVisible="False" />
+                <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" VerticalAlignment="Bottom" IsVisible="False" />
+              </Panel>
+            </Border>
+          </ControlTemplate>
+        </Setter>
+      </ControlTheme>
+    </ResourceDictionary>
+  </Styles.Resources>
 </Styles>
