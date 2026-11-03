@@ -1252,7 +1252,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 | [P16-10](phase-16/P16-10-diff-editor-core-and-layout.md) | Share the duplicated members of `LoomDiffEditor.cs` and `LoomDiffEditor.Layout.cs` | P16-08 | done |
 | [P16-11](phase-16/P16-11-accessible-diff-viewer.md) | Share the accessible diff viewer logic | P16-01 | done |
 | [P16-12](phase-16/P16-12-diff-block-actions.md) | Share the diff block actions controller | P16-08 | done |
-| [P16-13](phase-16/P16-13-diff-line-checkboxes.md) | Share the diff line check boxes and line selection | P16-12 | todo |
+| [P16-13](phase-16/P16-13-diff-line-checkboxes.md) | Share the diff line check boxes and line selection | P16-12 | done |
 
 ### Step D — Widgets
 

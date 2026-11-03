@@ -2,17 +2,19 @@ using LoomEditor.Themes;
 using LoomEditor.View.Controller;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
+
+#if LOOM_WINUI
+using LoomEditor.WinUI.Controls.Gutter;
+using LoomEditor.WinUI.Controls.Overlay;
+using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
+namespace LoomEditor.WinUI.Controls.DiffEditor;
+#elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.Gutter;
 using LoomEditor.Avalonia.Controls.Overlay;
-using Avalonia;
-using Avalonia.Automation;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-using Avalonia.Media;
-
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>
 /// The line checkboxes and the line action button of one side editor of a side-by-side <see cref="LoomDiffEditor"/>: a checkbox in the select lane on every
@@ -22,19 +24,16 @@ namespace LoomEditor.Avalonia.Controls.DiffEditor;
 /// The selection model is the truth: a click reports the line and the diff editor changes the model, then <see cref="SyncChecks"/> re-reads it. Placed after each
 /// draw like <see cref="DiffBlockActionsController"/>. Threading: UI thread only.
 /// </remarks>
-internal sealed class DiffLineCheckBoxesController : IDisposable
+internal sealed partial class DiffLineCheckBoxesController : IDisposable
 {
     private const double MaxCheckBoxSize = 16;
     private const double MaxButtonSize = 22;
-    private const string CheckMarkGlyph = "";
 
     private readonly LoomEditor _editor;
     private readonly OverlayHost _layer;
     private readonly bool _modifiedSide;
     private readonly Func<double, double, MouseTarget> _hitTest;
     private readonly DiffLineSelection _selection;
-    private readonly List<(ToggleButton Box, int Line)> _pool = [];
-    private Button? _lineActionButton;
     private int _lineActionLine;
     private int _selectLane = -1;
     private int _lineActionLane = -1;
@@ -45,8 +44,6 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
     private double _pointerY;
     private int _hoveredLine;
     private EditorTheme? _theme;
-    private FontFamily _glyphFont = new(LoomDiffEditor.DefaultGlyphFontFamily);
-    private KeyModifiers _pressModifiers;
 
     public DiffLineCheckBoxesController(
         LoomEditor editor, OverlayHost layer, bool modifiedSide, Func<double, double, MouseTarget> hitTest, DiffLineSelection selection)
@@ -62,33 +59,11 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
         _selection = selection;
     }
 
-    /// <summary>Raised on a checkbox click with its line and the modifiers that were down when it was pressed; the diff editor changes the selection.</summary>
-    public event Action<int, KeyModifiers>? CheckBoxClicked;
+    /// <summary>Raised on a checkbox click with its line and the modifiers that were down; the diff editor changes the selection.</summary>
+    public event Action<int, View.Commands.KeyModifiers>? CheckBoxClicked;
 
     /// <summary>Raised on a click of the line action button with its line.</summary>
     public event Action<int>? LineActionClicked;
-
-    /// <summary>The checkboxes that are shown now, for the tests.</summary>
-    internal IReadOnlyList<ToggleButton> VisibleCheckBoxes => [.. _pool.Where(item => item.Box.IsVisible).Select(item => item.Box)];
-
-    /// <summary>The line action button when it is shown, for the tests.</summary>
-    internal Button? VisibleLineAction => _lineActionButton is { IsVisible: true } button ? button : null;
-
-    /// <summary>Sets the font of the glyphs (<c>LoomDiffEditor.GlyphFontFamily</c>).</summary>
-    public void SetGlyphFont(FontFamily font)
-    {
-        ArgumentNullException.ThrowIfNull(font);
-        _glyphFont = font;
-        foreach ((ToggleButton box, _) in _pool)
-        {
-            ((TextBlock)box.Content!).FontFamily = font;
-        }
-
-        if (_lineActionButton is not null)
-        {
-            ((TextBlock)_lineActionButton.Content!).FontFamily = font;
-        }
-    }
 
     /// <summary>Sets the lanes (-1 hides one) and the line action; a null glyph hides the line action button.</summary>
     public void Configure(int selectLane, int lineActionLane, string? lineActionGlyph, string? lineActionToolTip)
@@ -119,9 +94,9 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
     /// <summary>Re-reads the checked state of every shown checkbox from the selection model.</summary>
     public void SyncChecks()
     {
-        foreach ((ToggleButton box, int line) in _pool)
+        foreach (var (box, line) in _pool)
         {
-            if (box.IsVisible)
+            if (IsShown(box))
             {
                 SetChecked(box, _selection.IsSelected(_modifiedSide, line));
             }
@@ -188,7 +163,7 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
     public void ApplyTheme(EditorTheme theme)
     {
         _theme = theme;
-        foreach ((ToggleButton box, _) in _pool)
+        foreach (var (box, _) in _pool)
         {
             GutterButtonTheme.Apply(box, theme);
         }
@@ -201,17 +176,16 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
 
     public void Dispose()
     {
-        foreach ((ToggleButton box, _) in _pool)
+        foreach (var (box, _) in _pool)
         {
-            box.Click -= OnCheckBoxClick;
-            box.RemoveHandler(InputElement.PointerPressedEvent, OnBoxPointerPressed);
+            DetachBox(box);
             _layer.Remove(box);
         }
 
         _pool.Clear();
         if (_lineActionButton is not null)
         {
-            _lineActionButton.Click -= OnLineActionClick;
+            DetachLineAction(_lineActionButton);
             _layer.Remove(_lineActionButton);
             _lineActionButton = null;
         }
@@ -223,20 +197,6 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
         && !target.IsAfterLines && target.Position is { } position
             ? position.LineNumber
             : 0;
-
-    private static void SetChecked(ToggleButton box, bool isChecked)
-    {
-        box.IsChecked = isChecked;
-        ((TextBlock)box.Content!).IsVisible = isChecked;
-    }
-
-    private TextBlock CreateIcon(double fontSize) => new()
-    {
-        FontSize = fontSize,
-        FontFamily = _glyphFont,
-        HorizontalAlignment = global::Avalonia.Layout.HorizontalAlignment.Center,
-        VerticalAlignment = global::Avalonia.Layout.VerticalAlignment.Center,
-    };
 
     private void SetHoveredLine(int line)
     {
@@ -258,11 +218,11 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
             _pool.Add((CreateBox(), 0));
         }
 
-        ToggleButton box = _pool[index].Box;
+        var box = _pool[index].Box;
         if (_pool[index].Line != line)
         {
             _pool[index] = (box, line);
-            AutomationProperties.SetName(box, DiffStrings.SelectLine(_modifiedSide, line));
+            SetAutomationName(box, DiffStrings.SelectLine(_modifiedSide, line));
         }
 
         SetChecked(box, _selection.IsSelected(_modifiedSide, line));
@@ -271,69 +231,24 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
         _layer.Show(box, new OverlayRect(x, y, size, size));
     }
 
-    private ToggleButton CreateBox()
-    {
-        TextBlock icon = CreateIcon(10);
-        icon.Text = CheckMarkGlyph;
-        var box = new ToggleButton
-        {
-            Content = icon,
-            Padding = new Thickness(0),
-            CornerRadius = new CornerRadius(3),
-            MinWidth = 0,
-            MinHeight = 0,
-            Focusable = false,
-            IsVisible = false,
-        };
-        box.Click += OnCheckBoxClick;
-        box.AddHandler(InputElement.PointerPressedEvent, OnBoxPointerPressed, RoutingStrategies.Tunnel, handledEventsToo: true);
-        if (_theme is not null)
-        {
-            GutterButtonTheme.Apply(box, _theme);
-        }
-
-        return box;
-    }
-
     private void PlaceLineAction(int line, double x, double y, double size)
     {
-        if (_lineActionButton is null)
-        {
-            _lineActionButton = new Button
-            {
-                Content = CreateIcon(12),
-                Padding = new Thickness(0),
-                CornerRadius = new CornerRadius(4),
-                Focusable = false,
-                IsVisible = false,
-            };
-            _lineActionButton.Click += OnLineActionClick;
-            if (_theme is not null)
-            {
-                GutterButtonTheme.Apply(_lineActionButton, _theme);
-            }
-        }
-
-        Button button = _lineActionButton;
-        ((TextBlock)button.Content!).Text = _lineActionGlyph;
-        ToolTip.SetTip(button, _lineActionToolTip);
-        AutomationProperties.SetName(button, DiffStrings.BlockAction(_lineActionToolTip ?? DiffStrings.LineActionFallback, line, line));
+        _lineActionButton ??= CreateLineActionButton();
+        var button = _lineActionButton;
+        SetLineAction(button, _lineActionGlyph, _lineActionToolTip);
+        SetAutomationName(button, DiffStrings.BlockAction(_lineActionToolTip ?? DiffStrings.LineActionFallback, line, line));
         _lineActionLine = line;
         button.Width = size;
         button.Height = size;
         _layer.Show(button, new OverlayRect(x, y, size, size));
     }
 
-    private void OnBoxPointerPressed(object? sender, PointerPressedEventArgs e) => _pressModifiers = e.KeyModifiers;
-
-    private void OnCheckBoxClick(object? sender, RoutedEventArgs e)
+    private void Click(object? sender, View.Commands.KeyModifiers modifiers)
     {
-        foreach ((ToggleButton box, int line) in _pool)
+        foreach (var (box, line) in _pool)
         {
             if (ReferenceEquals(box, sender))
             {
-                KeyModifiers modifiers = _pressModifiers;
-                _pressModifiers = KeyModifiers.None;
                 CheckBoxClicked?.Invoke(line, modifiers);
 
                 // The model is the truth: undo the button's own toggle when the click changed nothing.
@@ -342,6 +257,4 @@ internal sealed class DiffLineCheckBoxesController : IDisposable
             }
         }
     }
-
-    private void OnLineActionClick(object? sender, RoutedEventArgs e) => LineActionClicked?.Invoke(_lineActionLine);
 }
