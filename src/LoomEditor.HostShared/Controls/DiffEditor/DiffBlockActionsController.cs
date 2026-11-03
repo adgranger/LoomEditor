@@ -2,15 +2,19 @@ using LoomEditor.Themes;
 using LoomEditor.View.Controller;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
+
+#if LOOM_WINUI
 using LoomEditor.WinUI.Controls.Gutter;
 using LoomEditor.WinUI.Controls.Overlay;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Automation;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Range = LoomEditor.Core.Text.Range;
-
+using Range = LoomEditor.Core.Text.Range; // only the Avalonia project has the global alias
 namespace LoomEditor.WinUI.Controls.DiffEditor;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Controls.Gutter;
+using LoomEditor.Avalonia.Controls.Overlay;
+namespace LoomEditor.Avalonia.Controls.DiffEditor;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>
 /// The block action buttons of one side editor of a side-by-side <see cref="LoomDiffEditor"/>: one button per action at the first line of each block anchored on
@@ -19,7 +23,7 @@ namespace LoomEditor.WinUI.Controls.DiffEditor;
 /// <remarks>
 /// Placed after each draw like the comment "+" (<see cref="Comments.CommentGutterController"/>); a click raises <see cref="Invoked"/>. Threading: UI thread only.
 /// </remarks>
-internal sealed class DiffBlockActionsController : IDisposable
+internal sealed partial class DiffBlockActionsController : IDisposable
 {
     private const double MaxButtonSize = 22;
 
@@ -225,23 +229,23 @@ internal sealed class DiffBlockActionsController : IDisposable
         }
 
         Slot slot = _pool[index];
-        Button button = slot.Button;
+        var button = slot.Button;
         if (slot.Glyph != glyph)
         {
             slot.Glyph = glyph;
-            ((FontIcon)button.Content).Glyph = glyph;
+            SetGlyph(button, glyph);
         }
 
         if (slot.ToolTip != toolTip || !ReferenceEquals(slot.Block, block))
         {
             int start = Anchor(block);
-            AutomationProperties.SetName(button, DiffStrings.BlockAction(toolTip ?? DiffStrings.BlockActionFallback, start, start + LineCount(block) - 1));
+            SetAutomationName(button, DiffStrings.BlockAction(toolTip ?? DiffStrings.BlockActionFallback, start, start + LineCount(block) - 1));
         }
 
         if (slot.ToolTip != toolTip)
         {
             slot.ToolTip = toolTip;
-            ToolTipService.SetToolTip(button, toolTip);
+            SetToolTip(button, toolTip);
         }
 
         slot.Block = block;
@@ -251,32 +255,7 @@ internal sealed class DiffBlockActionsController : IDisposable
         _layer.Show(button, new OverlayRect(x, y, size, size));
     }
 
-    private Slot CreateSlot()
-    {
-        var icon = new FontIcon { FontSize = 12 };
-        if (Application.Current?.Resources.TryGetValue("SymbolThemeFontFamily", out object? font) == true && font is FontFamily family)
-        {
-            icon.FontFamily = family;
-        }
-
-        var button = new Button
-        {
-            Content = icon,
-            Padding = new Thickness(0),
-            CornerRadius = new CornerRadius(4),
-            IsTabStop = false,
-            Visibility = Visibility.Collapsed,
-        };
-        button.Click += OnClick;
-        if (_theme is not null)
-        {
-            GutterButtonTheme.Apply(button, _theme);
-        }
-
-        return new Slot(button);
-    }
-
-    private void OnClick(object sender, RoutedEventArgs e)
+    private void Click(object? sender)
     {
         foreach (Slot slot in _pool)
         {
@@ -286,19 +265,5 @@ internal sealed class DiffBlockActionsController : IDisposable
                 return;
             }
         }
-    }
-
-    // A pooled button and what it shows now.
-    private sealed class Slot(Button button)
-    {
-        public Button Button { get; } = button;
-
-        public DiffChangeBlock? Block { get; set; }
-
-        public DiffBlockAction Action { get; set; }
-
-        public string? Glyph { get; set; }
-
-        public string? ToolTip { get; set; }
     }
 }
