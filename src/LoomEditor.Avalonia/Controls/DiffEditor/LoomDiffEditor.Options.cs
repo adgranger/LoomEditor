@@ -1,6 +1,4 @@
 using Avalonia;
-using LoomEditor.View.Features;
-using LoomEditor.View.Features.Folding;
 
 namespace LoomEditor.Avalonia.Controls;
 
@@ -8,9 +6,6 @@ namespace LoomEditor.Avalonia.Controls;
 // `_adjustOptionsForSubEditor`, `_adjustOptionsForLeftHandSide`, `_adjustOptionsForRightHandSide`.
 public sealed partial class LoomDiffEditor
 {
-    /// <summary>The features of the two editors: the default ones plus the diff navigation, without folding (Monaco turns folding off in a diff editor).</summary>
-    private IReadOnlyList<Func<IEditorFeature>>? _subEditorFeatures;
-
     /// <summary>Identifies the <see cref="RenderSideBySide"/> styled property.</summary>
     public static readonly StyledProperty<bool> RenderSideBySideProperty = Register(
         nameof(RenderSideBySide), true, (editor, value) => editor._options.RenderSideBySide = value);
@@ -203,41 +198,4 @@ public sealed partial class LoomDiffEditor
         return property;
     }
 #pragma warning restore AVP1001
-
-    private List<Func<IEditorFeature>> CreateSubEditorFeatures()
-    {
-        // Created once to recognise the folding feature by type: the factories are the only list there is.
-        List<Func<IEditorFeature>> features = [];
-        foreach (Func<IEditorFeature> factory in EditorFeatures.ForDiffEditor(this))
-        {
-            if (factory() is not FoldingFeature)
-            {
-                features.Add(factory);
-            }
-        }
-
-        return features;
-    }
-
-    // Everything else the sub-editors get from this control. Safe to call again: it only assigns properties.
-    private void ConfigureEditors()
-    {
-        if (_original is not { } original || _modified is not { } modified)
-        {
-            return;
-        }
-
-        foreach (LoomEditor editor in new[] { original, modified })
-        {
-            editor.Features = _subEditorFeatures ??= CreateSubEditorFeatures();
-            editor.IsInDiffEditor = true;
-            editor.MinimapEnabled = false;
-            // Monaco: sticky scroll is turned off for both editors only while unchanged regions are hidden.
-            editor.StickyScrollEnabled = !HideUnchangedRegions;
-            editor.LineHeight = _lineHeight;
-        }
-
-        original.IsReadOnly = !OriginalEditable;
-        modified.IsReadOnly = IsReadOnly;
-    }
 }

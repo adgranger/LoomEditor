@@ -1,6 +1,6 @@
 # P17-03 — Share the sub-editor configuration of `LoomDiffEditor`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-01
 - **Size:** S
 
@@ -42,15 +42,15 @@ The only difference: WinUI sets `editor.OverviewRulerEnabled = false;` (a WinUI-
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged**.
+- [x] No new test. The Avalonia headless tests stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The pair is gone from `KnownDuplicates`
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The pair is gone from `KnownDuplicates`
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
