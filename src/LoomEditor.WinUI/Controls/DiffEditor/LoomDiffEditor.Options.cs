@@ -266,39 +266,6 @@ public sealed partial class LoomDiffEditor
         return features;
     }
 
-    private void ApplyText(LoomEditor? editor, string? text)
-    {
-        // Before the template is applied OnApplyTemplate sets the texts.
-        if (_isSyncingText || editor is null)
-        {
-            return;
-        }
-
-        _isSyncingText = true;
-        try
-        {
-            editor.ResetText(text ?? string.Empty);
-        }
-        finally
-        {
-            _isSyncingText = false;
-        }
-    }
-
-    private void ApplyLanguageAndTheme()
-    {
-        foreach (LoomEditor? editor in new[] { _original, _modified })
-        {
-            if (editor is not null)
-            {
-                editor.LanguageId = LanguageId;
-                editor.Theme = Theme;
-            }
-        }
-
-        InvalidateOverview();
-    }
-
     // Everything else the sub-editors get from this control. Safe to call again: it only assigns properties.
     private void ConfigureEditors()
     {
