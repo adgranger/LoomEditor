@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- JetBrains Mono (SIL OFL 1.1, see TestFonts/OFL.txt): the tests do not depend on the fonts of the machine. -->
+    <AvaloniaResource Include="TestFonts\*.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
   </ItemGroup>

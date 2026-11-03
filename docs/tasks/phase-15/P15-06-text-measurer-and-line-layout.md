@@ -1,6 +1,6 @@
 # P15-06 — `AvaloniaTextMeasurer` and `AvaloniaLineLayout`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-05
 - **Size:** M
 
@@ -47,17 +47,32 @@ The WinUI twins: `src/LoomEditor.WinUI/Rendering/Win2D/Win2DTextMeasurer.cs`, `W
 
 ## Tests
 
-- [ ] New: `FontInfo_TestFont_MatchesMeasuredSpaceWidth`; `Width_TrailingSpaces_Counted`; `Tab_AtColumn0_AdvancesOneTabStop`; `Tab_AfterTwoChars_AdvancesToNextStop`
+- [x] New: `FontInfo_TestFont_MatchesMeasuredSpaceWidth`; `Width_TrailingSpaces_Counted`; `Tab_AtColumn0_AdvancesOneTabStop`; `Tab_AfterTwoChars_AdvancesToNextStop`
   (tabSize 4); `GetCharacterX_IsMonotonic` (ASCII, CJK `"日本語"`, emoji `"a👍b"`); `HitTest_LeftAndRightHalf_OfAChar`; `HitTest_InsideLigature_PicksNearestOffset`
   (`"=>"` with `calt` on); `HitTest_Emoji_NeverSplitsSurrogates`; `Bold_UsesWeight700AtLeast` (width of `"m"` bold ≥ regular); `EmptyLine_HasZeroWidth`
-- [ ] New (View): `DefaultFontFamilyForCurrentOS_IsOneOfTheThree`
+- [x] New (View): `DefaultFontFamilyForCurrentOS_IsOneOfTheThree`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green; Avalonia tests green in the three CI jobs
-- [ ] `docs/PORTING.md` map and "Behavior differences" updated if anything differs
-- [ ] Card status, `AvaloniaParityPending.txt` (no public key here) and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green; Avalonia tests green in the three CI jobs
+- [x] `docs/PORTING.md` map and "Behavior differences" updated if anything differs
+- [x] Card status, `AvaloniaParityPending.txt` (no public key here) and `docs/tasks/README.md` updated
+
+## Result
+
+- **Tabs:** Avalonia 12.1.5 has no tab stops: its shaper gives every tab the same advance (`DefaultIncrementalTab`, set as decided), so `"ab	"` ended at
+  column 6. Each tab is now a `DrawableTextRun` of its own (no ink) whose width goes to the next stop, measured on a layout of the text before it (adjacent tabs
+  need no extra layout). Behavior difference (XML doc and `docs/PORTING.md`): no underline or strikethrough across a tab.
+- **Paragraph and runs:** `GenericTextParagraphProperties` is sealed and takes no tab width, and `FormattedTextSource` (which takes the `ValueSpan` overrides) is
+  internal, so the measurer has a private `TextParagraphProperties` subclass and a private `ITextSource` that splits the text at the overrides and the tabs.
+  Font features (`FontFeatureCollection`) and letter spacing (`TextParagraphProperties.LetterSpacing`) both have an API: nothing left out.
+- **HitTest:** `TextHitTestResult.TextPosition` is already `FirstCharacterIndex + TrailingLength` (cluster-aware, so never inside a surrogate pair) and
+  `IsTrailing` is only set beyond the end of the text, so no `+1` is added. The ligature rule of the Win2D twin is kept; the cluster length comes from
+  `TextLine.GetNextCaretCharacterHit`. JetBrains Mono's `calt` ligatures keep one cluster per character, so the ligature test passes either way.
+- Text outside the style runs has no foreground brush (`LineStyle.Plain` included): P15-07 must give it the default foreground when drawing.
+- Family: names are unquoted (`'Courier New'`); an embedded family (`avares://…#Name`, `fonts:…#Name`) is accepted when its glyph typeface has that family name.
+- Test font: JetBrains Mono Regular and Bold, from the JetBrains/JetBrainsMono repository (`TestFonts/`, `OFL.txt`), `AvaloniaResource`. `*.ttf` is `binary` in `.gitattributes`.
 
 ## Out of scope
 
