@@ -1149,6 +1149,78 @@ Roadmap: [phase-14-diff-actions.md](../roadmap/phase-14-diff-actions.md); decisi
 Take phase 14 cards in table order. Every card is written for **Sonnet**. The WinUI cards (P14-03, P14-04) are verified by the build, the tests and a written manual
 section; agents do not run the Gallery UI.
 
+## Phase 15 — Avalonia control (Windows, macOS, Linux)
+
+Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR 0016](../adr/0016-avalonia-backend.md); rules and decisions: [phase-15/README.md](phase-15/README.md).
+**Not a Monaco port:** every card translates its WinUI twin files one to one. Planned 2026-11-03; decisions approved the same day.
+
+### Step A — Make the shared layers portable
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P15-01](phase-15/P15-01-portable-rendering.md) | `LoomEditor.Rendering` becomes `net11.0`; Win2D moves into `LoomEditor.WinUI` | P14-06 | todo |
+| [P15-02](phase-15/P15-02-shared-host-helpers.md) | Move the UI-free helpers of `LoomEditor.WinUI` into View | P15-01 | todo |
+| [P15-03](phase-15/P15-03-oniguruma-linux-macos.md) | Oniguruma for Linux and macOS | P15-02 | todo |
+| [P15-04](phase-15/P15-04-portable-ci.md) | Build and test the portable projects on Linux and macOS | P15-03 | todo |
+
+### Step B — Project and drawing
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P15-05](phase-15/P15-05-avalonia-project-and-tests.md) | `LoomEditor.Avalonia` project, headless test project, API parity test | P15-04 | todo |
+| [P15-06](phase-15/P15-06-text-measurer-and-line-layout.md) | `AvaloniaTextMeasurer` and `AvaloniaLineLayout` (**Opus**) | P15-05 | todo |
+| [P15-07](phase-15/P15-07-render-surface-and-minimap.md) | `AvaloniaRenderSurface`, bitmap cache, minimap font sampler | P15-06 | todo |
+
+### Step C — The `LoomEditor` control
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P15-08](phase-15/P15-08-control-shell-and-draw-loop.md) | Template, draw loop, font, zoom, schedulers | P15-07 | todo |
+| [P15-09](phase-15/P15-09-scrolling-caret-highlighting.md) | Scrolling, caret, highlighting, read-only, reveal | P15-08 | todo |
+| [P15-10](phase-15/P15-10-editor-options.md) | Editor option properties and the small partials | P15-09 | todo |
+| [P15-11](phase-15/P15-11-keyboard-and-clipboard.md) | Keyboard, macOS modifiers, clipboard | P15-10 | todo |
+| [P15-12](phase-15/P15-12-pointer.md) | Pointer: click, drag selection, multi-cursor, drag and drop | P15-11 | todo |
+| [P15-13](phase-15/P15-13-ime.md) | IME through `TextInputMethodClient` (**Opus**) | P15-12 | todo |
+| [P15-14](phase-15/P15-14-accessibility-and-high-contrast.md) | Accessibility and high contrast (**Opus**) | P15-13 | todo |
+| [P15-15](phase-15/P15-15-overlay-and-view-zones.md) | Overlay layer and host view zones | P15-14 | todo |
+| [P15-16](phase-15/P15-16-host-hooks.md) | The host API: decorations, scroll and layout sync, gutter clicks | P15-15 | todo |
+
+### Step D — Widgets
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P15-17](phase-15/P15-17-find-widget.md) | Find and replace widget | P15-16 | todo |
+| [P15-18](phase-15/P15-18-markdown-and-hover.md) | Markdown rendering and the hover widget | P15-17 | todo |
+| [P15-19](phase-15/P15-19-suggest-widget.md) | The suggest widget | P15-18 | todo |
+| [P15-20](phase-15/P15-20-comment-gutter.md) | Comment threads: event args, gutter "+", editor wiring | P15-19 | todo |
+| [P15-21](phase-15/P15-21-comment-thread-widget.md) | Comment thread widget: display | P15-20 | todo |
+| [P15-22](phase-15/P15-22-comment-composer.md) | Comment composer, toolbar, suggestion blocks | P15-21 | todo |
+| [P15-23](phase-15/P15-23-comment-zone-host.md) | Comment zones and their automation peer | P15-22 | todo |
+
+### Step E — `LoomDiffEditor`
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P15-24](phase-15/P15-24-diff-editor-shell.md) | Shell, layout, sash, public diff types | P15-23 | todo |
+| [P15-25](phase-15/P15-25-diff-options-and-navigation.md) | Options and change navigation | P15-24 | todo |
+| [P15-26](phase-15/P15-26-diff-zones-and-overview.md) | Alignment zones and the diff overview ruler | P15-25 | todo |
+| [P15-27](phase-15/P15-27-diff-hidden-regions-and-comments.md) | Hidden unchanged regions and diff comment threads | P15-26 | todo |
+| [P15-28](phase-15/P15-28-accessible-diff-viewer.md) | The accessible diff viewer | P15-27 | todo |
+| [P15-29](phase-15/P15-29-diff-block-actions.md) | Diff block action buttons | P15-28 | todo |
+| [P15-30](phase-15/P15-30-diff-line-selection.md) | Diff line checkboxes, selection and the line action | P15-29 | todo |
+
+### Step F — Ship
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P15-31](phase-15/P15-31-gallery-avalonia.md) | The Avalonia Gallery | P15-30 | todo |
+| [P15-32](phase-15/P15-32-native-aot-three-os.md) | Native AOT on Windows, macOS and Linux | P15-31 | todo |
+| [P15-33](phase-15/P15-33-package-and-release.md) | The `LoomEditor.Avalonia` package, package test, release workflow | P15-32 | todo |
+| [P15-34](phase-15/P15-34-close-phase-15.md) | Close phase 15: parity, how-to, docs, CHANGELOG | P15-33 | todo |
+
+Take phase 15 cards in table order. Sonnet for every card except the three marked **Opus**. Unlike WinUI, the Avalonia cards are verified by headless tests
+(`tests/LoomEditor.Avalonia.Tests`); what headless cannot check goes to `docs/testing/phase-15-manual-tests.md`, written and not run by agents.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
