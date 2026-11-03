@@ -47,12 +47,6 @@ LoomEditor.Avalonia.Controls.DiffLineActionInvokedEventArgs.Lines.get
 LoomEditor.Avalonia.Controls.DiffSide
 LoomEditor.Avalonia.Controls.DiffSide.Modified = 1
 LoomEditor.Avalonia.Controls.DiffSide.Original = 0
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeft.get
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTop.get
-LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get
 LoomEditor.Avalonia.Controls.Find.FindWidget
 LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
 LoomEditor.Avalonia.Controls.Find.FindWidget.FindWidget
@@ -176,11 +170,7 @@ LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabled.set
 LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty
 LoomEditor.Avalonia.Controls.LoomEditor.CommentSubmitted
 LoomEditor.Avalonia.Controls.LoomEditor.CommentThreads.get
-LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber
-LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveCommentThread
-LoomEditor.Avalonia.Controls.LoomEditor.ResetText
-LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged
 LoomEditor.Avalonia.Controls.LoomEditor.SuggestionApplied
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs
 LoomEditor.Avalonia.Controls.SuggestionAppliedEventArgs.Comment.get

@@ -160,3 +160,13 @@ static readonly LoomEditor.Avalonia.Controls.LoomEditor.ZoomLevelProperty -> Ava
 LoomEditor.Avalonia.Controls.LoomEditor.AddViewZone(int afterLineNumber, double height, Avalonia.Controls.Control? content = null) -> string!
 LoomEditor.Avalonia.Controls.LoomEditor.RemoveViewZone(string! id) -> bool
 LoomEditor.Avalonia.Controls.LoomEditor.SetViewZoneHeight(string! id, double height) -> bool
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollHeightChanged.get -> bool
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeft.get -> double
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollLeftChanged.get -> bool
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTop.get -> double
+LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs.ScrollTopChanged.get -> bool
+LoomEditor.Avalonia.Controls.LoomEditor.ScrollChanged -> System.EventHandler<LoomEditor.Avalonia.Controls.EditorScrollChangedEventArgs!>?
+LoomEditor.Avalonia.Controls.LoomEditor.LayoutChanged -> System.EventHandler?
+LoomEditor.Avalonia.Controls.LoomEditor.GetTopForLineNumber(int lineNumber, bool includeViewZones = false) -> double
+LoomEditor.Avalonia.Controls.LoomEditor.ResetText(string! text) -> void

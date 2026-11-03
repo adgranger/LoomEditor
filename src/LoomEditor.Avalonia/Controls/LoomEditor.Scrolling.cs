@@ -159,6 +159,7 @@ public sealed partial class LoomEditor
     {
         UpdateScrollBars();
         Invalidate();
+        RaiseContentSizeChanged();
     }
 
     // Monaco: `ScrollbarVisibility.Auto`: a scrollbar is shown only when the content is larger than the viewport.

@@ -1,6 +1,6 @@
 # P15-16 — The host API: decorations, scroll and layout sync, gutter clicks
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-15
 - **Size:** M
 
@@ -29,15 +29,20 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/LoomEditor.HostHooks.cs`, `Edito
 
 ## Tests
 
-- [ ] New: `CreateDecorationsCollection_DrawsInlineClass` (a custom style with a background → pixels of that color in the range); `ScrollChanged_RaisedOnWheel`;
+- [x] New: `CreateDecorationsCollection_DrawsInlineClass` (a custom style with a background → pixels of that color in the range); `ScrollChanged_RaisedOnWheel`;
   `LayoutChanged_RaisedOnZoom`; `GetTopForLineNumber_MatchesRenderer`; `SetHiddenAreas_HidesLines`; `ResetText_KeepsScrollAtTop`; `GutterClicked_LineNumberArea`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] No key of `LoomEditor` (the single editor) is left in `AvaloniaParityPending.txt`, except members of widgets and comments (P15-17 … P15-23)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] No key of `LoomEditor` (the single editor) is left in `AvaloniaParityPending.txt`, except members of widgets and comments (P15-17 … P15-23)
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Deviations
+
+- Only the public members of the WinUI `HostHooks` file were ported. The internal ones the diff editor needs (view zone pointer events, overview ruler and glyph margin options, gutter factory)
+  arrive with P15-24 and later. `CreateDecorationsCollection`, `SetHiddenAreas`, `GutterClicked` and `LineNumbersEnabled` already existed (P15-10, P15-12).
 
 ## Out of scope
 

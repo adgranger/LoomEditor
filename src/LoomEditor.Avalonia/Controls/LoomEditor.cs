@@ -267,6 +267,7 @@ public sealed partial class LoomEditor : TemplatedControl
         _reveal?.OnScrollChanged(e);
         UpdateScrollBars();
         Invalidate();
+        RaiseScrollChanged(e);
     }
 
     private void OnViewLayoutInfoChanged(object? sender, EventArgs e)
@@ -275,6 +276,7 @@ public sealed partial class LoomEditor : TemplatedControl
         _renderer?.ResetMaxLineWidth();
         UpdateScrollBars();
         Invalidate();
+        LayoutChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void CreateResources()

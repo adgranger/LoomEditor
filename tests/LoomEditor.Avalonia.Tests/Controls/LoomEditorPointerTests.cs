@@ -155,7 +155,7 @@ public class LoomEditorPointerTests
                 e.Handled = true;
             };
 
-            // completed in P15-16: the internal gutter hook; the event itself is public already.
+            // The twin of this test in HostHooksTests (P15-16).
             Click(window, new Point(editor.ViewModel.LayoutInfo.LineNumbersLeft + 2, (1.5 * editor.ViewModel.FontInfo.LineHeight)));
 
             Assert.NotNull(received);

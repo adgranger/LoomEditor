@@ -1183,7 +1183,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 | [P15-13](phase-15/P15-13-ime.md) | IME through `TextInputMethodClient` (**Opus**) | P15-12 | done |
 | [P15-14](phase-15/P15-14-accessibility-and-high-contrast.md) | Accessibility and high contrast (**Opus**) | P15-13 | done |
 | [P15-15](phase-15/P15-15-overlay-and-view-zones.md) | Overlay layer and host view zones | P15-14 | done |
-| [P15-16](phase-15/P15-16-host-hooks.md) | The host API: decorations, scroll and layout sync, gutter clicks | P15-15 | todo |
+| [P15-16](phase-15/P15-16-host-hooks.md) | The host API: decorations, scroll and layout sync, gutter clicks | P15-15 | done |
 
 ### Step D — Widgets
 

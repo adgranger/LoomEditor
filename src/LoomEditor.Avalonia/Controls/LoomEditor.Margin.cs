@@ -62,7 +62,7 @@ public sealed partial class LoomEditor
         }
     }
 
-    // The WinUI twin lives in LoomEditor.HostHooks.cs and also sets the overview ruler and the glyph margin: P15-16 moves it there.
+    // The WinUI twin also sets the overview ruler and the glyph margin, which only the diff editor needs (P15-24).
     private void ApplyHostLayoutOptions()
     {
         EditorLayoutOptions options = _viewModel.LayoutOptions;
