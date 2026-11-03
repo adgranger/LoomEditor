@@ -5,9 +5,16 @@ using LoomEditor.Core.Text;
 using LoomEditor.View.Cursors;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
-using Microsoft.UI.Dispatching;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Threading;
 namespace LoomEditor.WinUI.Controls.DiffEditor;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Threading;
+namespace LoomEditor.Avalonia.Controls.DiffEditor;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>
 /// Hides the unchanged regions of the two editors behind bars and lets the user reveal them (Monaco:
@@ -28,7 +35,6 @@ internal sealed class HideUnchangedRegionsController : IDisposable
     private readonly LoomEditor _original;
     private readonly LoomEditor _modified;
     private readonly DiffEditorViewModel _viewModel;
-    private readonly DispatcherQueue _dispatcher;
     private readonly Func<bool> _inline;
     private readonly Func<int> _revealLineCount;
     private readonly EditorDecorationTarget _originalDecorations;
@@ -41,12 +47,11 @@ internal sealed class HideUnchangedRegionsController : IDisposable
     private bool _isDisposed;
 
     /// <summary>Starts listening and applies the current regions.</summary>
-    public HideUnchangedRegionsController(LoomEditor original, LoomEditor modified, DiffEditorViewModel viewModel, DispatcherQueue dispatcher, Func<bool> inline, Func<int> revealLineCount)
+    public HideUnchangedRegionsController(LoomEditor original, LoomEditor modified, DiffEditorViewModel viewModel, Func<bool> inline, Func<int> revealLineCount)
     {
         _original = original;
         _modified = modified;
         _viewModel = viewModel;
-        _dispatcher = dispatcher;
         _inline = inline;
         _revealLineCount = revealLineCount;
         _originalDecorations = new EditorDecorationTarget(original.CreateModelDecorationsCollection());
@@ -278,7 +283,7 @@ internal sealed class HideUnchangedRegionsController : IDisposable
         if (anchor is { } a)
         {
             // After the alignment of the two sides has settled (it runs in a normal priority tick).
-            _dispatcher.TryEnqueue(DispatcherQueuePriority.Low, () => RestoreAnchor(a));
+            HostDispatcher.PostLow(() => RestoreAnchor(a));
         }
     }
 

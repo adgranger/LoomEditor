@@ -5,9 +5,16 @@ using System.Diagnostics;
 using LoomEditor.Core.Text;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Layout;
-using Avalonia.Threading;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Threading;
+namespace LoomEditor.WinUI.Controls.DiffEditor;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Threading;
 namespace LoomEditor.Avalonia.Controls.DiffEditor;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>
 /// Keeps the two sides of a side-by-side diff level: an empty zone on the shorter side of every aligned block, and the scroll
@@ -101,8 +108,7 @@ internal sealed class DiffEditorViewZones : IDisposable
             return;
         }
 
-        _recomputePending = true;
-        Dispatcher.UIThread.Post(() =>
+        _recomputePending = HostDispatcher.Post(() =>
         {
             _recomputePending = false;
             Recompute();

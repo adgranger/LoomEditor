@@ -67,7 +67,7 @@ public sealed partial class LoomDiffEditor
         if (_viewZones is null)
         {
             _viewZonesInline = inline;
-            _viewZones = new DiffEditorViewZones(_original!, _modified!, _viewModel!, DispatcherQueue, inline, () => _options.RenderIndicators);
+            _viewZones = new DiffEditorViewZones(_original!, _modified!, _viewModel!, inline, () => _options.RenderIndicators);
         }
         else
         {

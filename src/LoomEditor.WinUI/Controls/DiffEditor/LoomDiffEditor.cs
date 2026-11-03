@@ -202,7 +202,7 @@ public sealed partial class LoomDiffEditor : Control
             new DispatcherQueueEditorScheduler(DispatcherQueue));
         _viewModel.DiffChanged += OnViewModelDiffChanged;
         _hideUnchangedRegions = new HideUnchangedRegionsController(
-            _original, _modified, _viewModel, DispatcherQueue, () => !_options.RenderSideBySideEffective, () => _options.HideUnchangedRegions.RevealLineCount);
+            _original, _modified, _viewModel, () => !_options.RenderSideBySideEffective, () => _options.HideUnchangedRegions.RevealLineCount);
         UpdateViewZones();
         _viewModelReady.TrySetResult();
     }
