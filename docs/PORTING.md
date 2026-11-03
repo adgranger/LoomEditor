@@ -980,7 +980,7 @@ The step-by-step cards are in **[docs/tasks/](tasks/README.md)** (P1-01 … P1-3
 ## Phase 13 (not a port: public API for host applications)
 
 New files, none from Monaco: `LoomEditor.View/Decorations/` (`EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection`, `CustomDecorationStyle`, `CustomDecorationStyles`),
-`LoomEditor.WinUI/Controls/` (`EditorScrollChangedEventArgs`, `GutterClickedEventArgs`, `LoomEditor.Decorations.cs`, `.HiddenAreas.cs`, `.LineNumbers.cs`, `.ViewZones.cs`, `.HostHooks.cs`),
+`LoomEditor.HostShared/Controls/` (`EditorScrollChangedEventArgs`, `GutterClickedEventArgs`; compiled into both hosts) and `LoomEditor.WinUI/Controls/` (`LoomEditor.Decorations.cs`, `.HiddenAreas.cs`, `.LineNumbers.cs`, `.ViewZones.cs`, `.HostHooks.cs`),
 `BuiltInLanguages.GetLanguageIdByFileName`, and in the Gallery `HostApiDemoWindow*`, `HostApiSamples`, `HostApiSelfCheck`. Behavior differences: none (nothing ported).
 
 Tests re-counted with `dotnet test --list-tests` at the close: Core 2214, TextMate 739, Lsp 476, View 3787, Rendering 242, Architecture 90. Details: [ADR 0015](adr/0015-public-host-api.md).

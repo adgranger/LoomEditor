@@ -1,4 +1,10 @@
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>How the continuation lines of a wrapped line are indented (Monaco: <c>wrappingIndent</c>).</summary>
 public enum EditorWrappingIndent

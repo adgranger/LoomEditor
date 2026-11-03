@@ -1,4 +1,10 @@
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>When the block action buttons of a side-by-side <see cref="LoomDiffEditor"/> show.</summary>
 public enum DiffBlockActionsVisibility

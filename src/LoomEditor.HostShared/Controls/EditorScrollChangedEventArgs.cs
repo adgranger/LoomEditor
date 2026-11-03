@@ -1,4 +1,10 @@
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>The scroll change reported by <see cref="LoomEditor.ScrollChanged"/> (Monaco: <c>IScrollEvent</c>).</summary>
 /// <remarks>Threading: immutable.</remarks>

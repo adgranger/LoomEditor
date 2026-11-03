@@ -1,4 +1,10 @@
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>The part of the gutter that was clicked.</summary>
 /// <remarks>Threading: an enum; thread-safe.</remarks>

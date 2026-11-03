@@ -1,6 +1,6 @@
 # P16-02 — The other copied public types and namespace-only partials from one source
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-01
 - **Size:** S (moves)
 
@@ -33,16 +33,16 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] None of the listed files exists under `src/LoomEditor.WinUI/Controls` or `src/LoomEditor.Avalonia/Controls` any more
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] None of the listed files exists under `src/LoomEditor.WinUI/Controls` or `src/LoomEditor.Avalonia/Controls` any more
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -51,3 +51,7 @@ Files with any framework call (they get host parts in their own cards).
 ## Suggested commit message
 
 `refactor(hosts): compile the copied public types of both controls from one source`
+
+## Result
+
+All 15 pairs differed only in the namespace line and `<see cref>` vs `<c>` in XML doc; all moved, none left. The WinUI doc was kept. `CommitCharacterControllerTests.SelectionChange_UsesTheNewItemsCharacters` (View, unrelated) failed once in a full solution run and passed in two re-runs: a flaky test, not touched.

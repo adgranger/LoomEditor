@@ -1,4 +1,10 @@
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>A line of one side of a <see cref="LoomDiffEditor"/>.</summary>
 /// <param name="Side">The side of the line.</param>

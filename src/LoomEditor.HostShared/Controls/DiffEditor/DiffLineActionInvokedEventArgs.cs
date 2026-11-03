@@ -1,4 +1,10 @@
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>Data of <see cref="LoomDiffEditor.LineActionInvoked"/>: the lines the action applies to.</summary>
 /// <remarks>Threading: immutable.</remarks>
