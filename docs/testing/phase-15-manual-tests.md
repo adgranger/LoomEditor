@@ -109,3 +109,14 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 6. All: clicking and dragging inside the widget never moves the editor caret or starts a selection in the text.
    **Result:** pending
+
+## P15-18 — Markdown rendering and the hover widget
+
+1. All: hover a symbol that has a hover provider (Gallery C# sample): after about 300 ms the popup shows under the word, or above it when there is no room below; headings, bold, italic, inline code, code blocks and lists look like the WinUI control.
+   **Result:** pending
+2. All: move the pointer into the popup: it stays; move it out: it goes. Text in the popup can be selected with the mouse.
+   **Result:** pending
+3. All: an error marker shows its message with the `source(code)` detail dimmed; the popup colors follow the editor theme in dark and light.
+   **Result:** pending
+4. Windows, macOS, Ubuntu: the prose font falls back to the system font where Segoe UI is missing and no text is clipped.
+   **Result:** pending
