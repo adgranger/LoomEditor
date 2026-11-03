@@ -3,7 +3,6 @@ using Avalonia.Automation.Peers;
 using Avalonia.Controls;
 using LoomEditor.Avalonia.Accessibility;
 using LoomEditor.View.Accessibility;
-using LoomEditor.View.Layout;
 
 namespace LoomEditor.Avalonia.Controls;
 
@@ -84,23 +83,5 @@ public sealed partial class LoomEditor
     {
         _automationEvents?.Dispose();
         _automationEvents = null;
-    }
-
-    private void RefreshScreenReader()
-    {
-        var options = new EditorAccessibilityOptions
-        {
-            Setting = AccessibilitySupport switch
-            {
-                EditorAccessibilitySupport.On => View.Layout.AccessibilitySupport.Enabled,
-                EditorAccessibilitySupport.Off => View.Layout.AccessibilitySupport.Disabled,
-                _ => View.Layout.AccessibilitySupport.Unknown,
-            },
-            Detected = ScreenReaderDetector.IsScreenReaderRunning() ? View.Layout.AccessibilitySupport.Enabled : View.Layout.AccessibilitySupport.Disabled,
-        };
-        if (options != _viewModel.LayoutOptions.Accessibility)
-        {
-            _viewModel.SetOptions(_viewModel.LayoutOptions with { Accessibility = options }, _viewModel.ViewLayoutOptions);
-        }
     }
 }

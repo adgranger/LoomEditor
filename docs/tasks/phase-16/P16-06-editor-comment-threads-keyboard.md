@@ -1,6 +1,6 @@
 # P16-06 — Share the `LoomEditor` comment threads, keybinding context, selection API and screen reader refresh
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-03
 - **Size:** M
 
@@ -38,15 +38,15 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -55,3 +55,7 @@ Pointer and scrolling (P16-07). The comment widgets (P16-15, P16-16).
 ## Suggested commit message
 
 `refactor(hosts): share the comment thread, selection and keybinding-context members of LoomEditor`
+
+## Result
+
+- Comment threads: the property `CommentGutterButtonEnabled` (with its framework property field and changed handler), the zone-widget canvas / layer setup, `CommentZonesDiagnostics` (WinUI), `CommentWidgetOf`, `CommentGutter` and `InvalidateComments` (Avalonia) stay in `LoomEditor.CommentThreads.Host.cs`; everything else is shared. `LoomEditor.Selection.cs`, `LoomEditor.ScreenReader.cs` and `LoomEditor.Keyboard.cs` are shared and were byte-identical in both hosts.

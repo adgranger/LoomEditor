@@ -1,17 +1,15 @@
 using LoomEditor.View.Commands;
-using LoomEditor.View.Controller;
 using LoomEditor.View.Features;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
-
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
-// Keyboard: shortcuts go through the keybinding resolver to the commands, typed characters are inserted at every cursor
-// (ADR 0006, decision 11: the plain typing path; IME comes with P3-48 and later).
 public sealed partial class LoomEditor
 {
-    private readonly TextInputBuffer _textInput = new();
-
     // Set by the diff control for its two editors (Monaco: the `isInDiffEditor` context key).
     internal bool IsInDiffEditor { get; set; }
 
@@ -43,28 +41,5 @@ public sealed partial class LoomEditor
             HasNextTabstop: _context.HasNextTabstop,
             HasPrevTabstop: _context.HasPrevTabstop,
             MarkersNavigationVisible: _context.MarkersNavigationVisible);
-    }
-
-    private void OnCharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs e)
-    {
-        // The Tab key moves the focus in this mode: its character must not be inserted.
-        if (TabMovesFocus && e.Character == '	')
-        {
-            return;
-        }
-
-        if (IsComposing || !HasFocus)
-        {
-            return;
-        }
-
-        string? text = _textInput.Accept(e.Character);
-        if (text is null)
-        {
-            return;
-        }
-
-        _viewModel.Type(text, "keyboard");
-        e.Handled = true;
     }
 }
