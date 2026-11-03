@@ -10,7 +10,7 @@ This page tells you **where things are** and **which rules keep the code base ea
  │ LoomEditor.WinUI        the LoomEditor control: XAML, input,  │  net11.0-windows
  │                         IME, accessibility                    │
  ├──────────────────────────────────────────────────────────────┤
- │ LoomEditor.Rendering    pixels: IRenderSurface + Win2D        │  net11.0-windows
+ │ LoomEditor.Rendering    pixels: IRenderSurface, TextViewRenderer │  net11.0
  ├──────────────────────────────────────────────────────────────┤
  │ LoomEditor.View         cursors, commands, layout, features   │  net11.0
  ├───────────────────────────────┬──────────────────────────────┤
@@ -28,8 +28,8 @@ This page tells you **where things are** and **which rules keep the code base ea
 | `LoomEditor.TextMate` | TextMate grammars, Oniguruma interop | Core |
 | `LoomEditor.Themes` | VS Code themes → `EditorTheme`, `ThemeColor` | Core |
 | `LoomEditor.View` | cursors, commands, view layout, **features** | Core, TextMate, Themes |
-| `LoomEditor.Rendering` | `IRenderSurface`, `TextViewRenderer`, Win2D backend | View |
-| `LoomEditor.WinUI` | `LoomEditor` control, input, accessibility | Rendering |
+| `LoomEditor.Rendering` | `IRenderSurface`, `TextViewRenderer` | View |
+| `LoomEditor.WinUI` | `LoomEditor` control, input, accessibility, the Win2D backend | Rendering |
 | `LoomEditor.Lsp` | LSP client: JSON-RPC over stdio, document sync, mapping to the language features | Core |
 
 `LoomEditor.Lsp` (language server client) references Core only and sits beside View: the Gallery wires it to the control (ADR 0011).
@@ -381,7 +381,7 @@ How to use it: [how-to/use-the-host-api.md](how-to/use-the-host-api.md).
 | change IME input (composition, candidate window, underlines) | `src/LoomEditor.View/Controller/EditContext*.cs`, `src/LoomEditor.WinUI/Input/ImeInput.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Ime.cs` |
 | change tracked ranges (ranges that follow edits) | `src/LoomEditor.Core/Decorations/` (interval tree), `src/LoomEditor.Core/Model/TextModel.TrackedRanges.cs` |
 | change how things are drawn | `src/LoomEditor.Rendering/TextViewRenderer.cs` |
-| change the Win2D backend | `src/LoomEditor.Rendering/Win2D/` |
+| change the Win2D backend | `src/LoomEditor.WinUI/Rendering/Win2D/` |
 | change scrolling, wheel or the scroll position | `src/LoomEditor.View/Layout/` (`Scrollable`, `ViewLayout`, `MouseWheelScrolling`); the control side is `src/LoomEditor.WinUI/Controls/LoomEditor.Scrolling.cs` |
 | change the layout (line heights, content size, visible lines) | `src/LoomEditor.View/Layout/` (`LinesLayout`, `LineHeightsManager`, `ViewLayout`, `ViewModel`) |
 | change the tokens of a model (token store, states, `TokensChanged`, viewport-first tokenization) | `src/LoomEditor.Core/Model/Tokens/`, `src/LoomEditor.Core/Tokens/`, `src/LoomEditor.Core/Model/TextModel.Tokenization.cs` |
@@ -393,7 +393,7 @@ How to use it: [how-to/use-the-host-api.md](how-to/use-the-host-api.md).
 | wire highlighting into the control (`LanguageId`, `Theme`) | `src/LoomEditor.View/Highlighting/SyntaxHighlighter.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Highlighting.cs` |
 | regenerate the golden token files | `eng/golden/` (`generate.mjs`), tests in `tests/LoomEditor.TextMate.Tests/Golden/` |
 | change the caret or its blinking | `src/LoomEditor.Rendering/CursorBlinking.cs` (state machine), `TextViewRenderer.cs` (drawing), `src/LoomEditor.WinUI/Controls/LoomEditor.Caret.cs` (timer and focus) |
-| change font measurement, tab size or DPI handling | `src/LoomEditor.View/Layout/FontMeasurements.cs`, `src/LoomEditor.Rendering/Win2D/Win2DTextMeasurer.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Font.cs` |
+| change font measurement, tab size or DPI handling | `src/LoomEditor.View/Layout/FontMeasurements.cs`, `src/LoomEditor.WinUI/Rendering/Win2D/Win2DTextMeasurer.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Font.cs` |
 | change the control's XAML template | `src/LoomEditor.WinUI/Themes/Generic.xaml` |
 | add syntax highlighting for a language | `src/LoomEditor.TextMate/` (phase 4), see [how-to/add-a-language.md](how-to/add-a-language.md) |
 | change decorations (model side: ranges, options, change events) | `src/LoomEditor.Core/Decorations/`, `TextModel.Decorations*.cs`; the per-feature handle is `src/LoomEditor.View/Features/EditorDecorationsCollection.cs` |
@@ -436,7 +436,7 @@ How to use it: [how-to/use-the-host-api.md](how-to/use-the-host-api.md).
 | change the diff control (sash, side by side, inline, overview strip, accessible viewer) | `src/LoomEditor.WinUI/Controls/DiffEditor/` ([how-to](how-to/use-the-diff-editor.md)) |
 | change the overview ruler | `src/LoomEditor.View/Layout/OverviewZoneManager.cs`, `ScrollbarState.cs`, `src/LoomEditor.Rendering/OverviewRulerPainter.cs` |
 | run the diff demo, the diff self-check or the diff benchmarks | `samples/LoomEditor.Gallery/DiffDemoWindow.xaml`, `DiffSelfCheck.cs` (`--diff-selfcheck=<file>`), `tests/LoomEditor.Benchmarks/DiffBenchmarks.cs`, [testing/phase-9-manual-tests.md](testing/phase-9-manual-tests.md) |
-| change font options, ligatures, letter spacing or zoom | `src/LoomEditor.View/Layout/` (`EditorFontOptions`, `EditorZoomState`, `BareFontInfo`), DirectWrite side in `src/LoomEditor.Rendering/Win2D/` ([ADR 0013](adr/0013-text-options-and-snippets.md)) |
+| change font options, ligatures, letter spacing or zoom | `src/LoomEditor.View/Layout/` (`EditorFontOptions`, `EditorZoomState`, `BareFontInfo`), DirectWrite side in `src/LoomEditor.WinUI/Rendering/Win2D/` ([ADR 0013](adr/0013-text-options-and-snippets.md)) |
 | change whitespace or control character rendering | `src/LoomEditor.View/Layout/` (`RenderWhitespaceComputer`), drawing in `src/LoomEditor.Rendering/TextViewRenderer*.cs` |
 | change snippets (syntax, variables, session, tab stops) | `src/LoomEditor.Core/Snippets/` (parser), `src/LoomEditor.View/Features/Snippet/` (`OneSnippet`, `SnippetSession`, `SnippetController`; [how-to](how-to/use-snippets.md)) |
 | change go to next / previous problem | `src/LoomEditor.View/Features/GotoError/` (`MarkerList`, `MarkerController`), the message in `AccessibilityMessages.MarkerNavigation` |

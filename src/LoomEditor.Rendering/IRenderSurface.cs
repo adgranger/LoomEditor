@@ -3,7 +3,7 @@ using LoomEditor.Themes;
 namespace LoomEditor.Rendering;
 
 /// <summary>
-/// Something the editor can paint on. The only drawing API used outside of the <c>Win2D</c> folder.
+/// Something the editor can paint on. The only drawing API used by <c>TextViewRenderer</c>; backends live in the control projects (Win2D in <c>LoomEditor.WinUI</c>).
 /// </summary>
 /// <remarks>
 /// <para>

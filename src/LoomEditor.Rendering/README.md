@@ -11,7 +11,7 @@ dotnet add package LoomEditor.Rendering --prerelease
 
 ## What it is
 
-Draws the viewport of a `ViewModel` on an `IRenderSurface`. It knows Win2D (through `Win2D/`) but nothing
+Draws the viewport of a `ViewModel` on an `IRenderSurface`. It is portable (`net11.0`) and knows only `IRenderSurface`; the Win2D backend lives in `LoomEditor.WinUI`. It knows nothing
 about XAML controls: the `LoomEditor` control in `LoomEditor.WinUI` owns the canvas, the timer and the focus.
 
 ## What is here (phase 2)
@@ -21,7 +21,7 @@ about XAML controls: the `LoomEditor` control in `LoomEditor.WinUI` owns the can
   gutter with the line numbers. It reports the widest line it drew to `ViewLayout.SetMaxLineWidth`.
   `OnFontChanged` swaps the measurer and clears the cache after a font, tab size or DPI change.
 - `LineLayoutCache`: least-recently-used cache of line layouts, keyed by the text of the line.
-- `ITextMeasurer`, `ILineLayout`, `IRenderSurface`: what the renderer needs from a backend. `Win2D/` implements them
+- `ITextMeasurer`, `ILineLayout`, `IRenderSurface`: what the renderer needs from a backend. `LoomEditor.WinUI/Rendering/Win2D/` implements them
   with DirectWrite (`Win2DTextMeasurer`, `Win2DLineLayout`, `Win2DRenderSurface`); the tests use fakes.
 - `CursorBlinking`, `TextEditorCursorBlinkingStyle`: the caret blinking state machine. It has no timer; the control
   ticks it.

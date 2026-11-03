@@ -3,7 +3,7 @@ using LoomEditor.View.Minimap;
 using Microsoft.Graphics.Canvas;
 using Windows.Graphics.DirectX;
 
-namespace LoomEditor.Rendering.Win2D;
+namespace LoomEditor.WinUI.Rendering.Win2D;
 
 /// <summary>
 /// Keeps the <see cref="CanvasBitmap"/> made from a pixel buffer until the buffer changes, so the minimap is uploaded

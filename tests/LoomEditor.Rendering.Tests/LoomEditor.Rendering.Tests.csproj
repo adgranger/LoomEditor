@@ -1,12 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>$(LoomWindowsTargetFramework)</TargetFramework>
-    <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
-    <!--
-      Same as LoomEditor.Rendering: built AnyCPU by the solution build. The tests never create a Win2D object
-      (they use a recording surface), so the native Microsoft.Graphics.Canvas.dll is not needed.
-    -->
-    <Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
+    <TargetFramework>$(LoomNetTargetFramework)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

@@ -13,7 +13,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>LoomEditor.WinUI</PackageId>
     <Description>LoomEditor: a native, Native AOT-compatible code editor control for WinUI 3, ported from the Monaco editor.</Description>
-    <!-- See the same setting in LoomEditor.Rendering.csproj. -->
+    <!--
+      Libraries are built AnyCPU. The native Microsoft.Graphics.Canvas.dll is copied by the *application*,
+      which is always built for x64 or ARM64, so Win2D's AnyCPU warning does not apply here.
+    -->
     <Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
     <!--
       RS0041: the XAML compiler generates a public XamlMetaDataProvider class without nullable annotations.

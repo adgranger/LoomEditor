@@ -1,6 +1,6 @@
 # P15-01 — `LoomEditor.Rendering` becomes `net11.0`; Win2D moves into `LoomEditor.WinUI`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P14-06
 - **Size:** S (moves; < 150 new lines)
 
@@ -42,15 +42,15 @@ Sources: none (specified in this card; [ADR 0016](../../adr/0016-avalonia-backen
 
 ## Tests
 
-- [ ] Existing: every test still passes; the architecture tests now cover Rendering (they fail if a Windows `using` is left in Rendering)
-- [ ] `./eng/Test-Packages.ps1` passes (the WinUI package test app still draws through Win2D)
+- [x] Existing: every test still passes; the architecture tests now cover Rendering (they fail if a Windows `using` is left in Rendering)
+- [x] `./eng/Test-Packages.ps1` passes (the WinUI package test app still draws through Win2D)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds, 0 AOT warnings (Win2D still found at run time)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — succeeds, 0 AOT warnings (Win2D still found at run time)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

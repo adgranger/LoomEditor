@@ -1,5 +1,3 @@
-using LoomEditor.Rendering.Win2D;
-using Microsoft.Graphics.Canvas.Text;
 
 namespace LoomEditor.Rendering.Tests;
 
@@ -9,19 +7,19 @@ public class FontFeatureTagsTests
     [Fact]
     public void Pack_Liga_EqualsStandardLigatures()
     {
-        Assert.Equal((uint)CanvasTypographyFeatureName.StandardLigatures, FontFeatureTags.Pack("liga"));
+        Assert.Equal(0x6167696Cu, FontFeatureTags.Pack("liga"));
     }
 
     [Fact]
     public void Pack_Calt_EqualsContextualAlternates()
     {
-        Assert.Equal((uint)CanvasTypographyFeatureName.ContextualAlternates, FontFeatureTags.Pack("calt"));
+        Assert.Equal(0x746C6163u, FontFeatureTags.Pack("calt"));
     }
 
     [Fact]
     public void Pack_Ss01_EqualsStylisticSet1()
     {
-        Assert.Equal((uint)CanvasTypographyFeatureName.StylisticSet1, FontFeatureTags.Pack("ss01"));
+        Assert.Equal(0x31307373u, FontFeatureTags.Pack("ss01"));
     }
 
     [Theory]

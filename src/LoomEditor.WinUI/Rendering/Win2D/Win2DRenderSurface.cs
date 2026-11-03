@@ -1,7 +1,8 @@
+using LoomEditor.Rendering;
 using LoomEditor.Themes;
 using Microsoft.Graphics.Canvas;
 
-namespace LoomEditor.Rendering.Win2D;
+namespace LoomEditor.WinUI.Rendering.Win2D;
 
 /// <summary>
 /// <see cref="IRenderSurface"/> implemented with a Win2D drawing session (Direct2D + DirectWrite).

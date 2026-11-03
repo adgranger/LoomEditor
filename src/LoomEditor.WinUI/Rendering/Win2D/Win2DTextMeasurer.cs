@@ -1,3 +1,4 @@
+using LoomEditor.Rendering;
 using System.Globalization;
 using LoomEditor.View.Layout;
 using Microsoft.Graphics.Canvas;
@@ -5,7 +6,7 @@ using Microsoft.Graphics.Canvas.Text;
 using Windows.UI;
 using Windows.UI.Text;
 
-namespace LoomEditor.Rendering.Win2D;
+namespace LoomEditor.WinUI.Rendering.Win2D;
 
 /// <summary>
 /// The editor font for Win2D: a DirectWrite text format, measured the way Monaco measures fonts

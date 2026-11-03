@@ -1,6 +1,6 @@
 using LoomEditor.WinUI.Controls.ViewZones;
 using LoomEditor.Rendering;
-using LoomEditor.Rendering.Win2D;
+using LoomEditor.WinUI.Rendering.Win2D;
 using LoomEditor.Core.Model.Events;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;

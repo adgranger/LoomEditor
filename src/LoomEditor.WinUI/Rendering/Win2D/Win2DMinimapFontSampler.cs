@@ -7,7 +7,7 @@ using Microsoft.Graphics.Canvas.Text;
 using Windows.UI;
 using Windows.UI.Text;
 
-namespace LoomEditor.Rendering.Win2D;
+namespace LoomEditor.WinUI.Rendering.Win2D;
 
 /// <summary>
 /// Samples the editor font for minimap scales above 2: every character of the minimap sheet drawn bold at 16 px in a

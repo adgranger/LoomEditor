@@ -33,6 +33,7 @@ public class DependencyRulesTests
         "LoomEditor.TextMate",
         "LoomEditor.Themes",
         "LoomEditor.View",
+        "LoomEditor.Rendering",
         "LoomEditor.Lsp",
     };
 

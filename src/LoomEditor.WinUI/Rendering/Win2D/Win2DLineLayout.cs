@@ -1,7 +1,8 @@
+using LoomEditor.Rendering;
 using System.Globalization;
 using Microsoft.Graphics.Canvas.Text;
 
-namespace LoomEditor.Rendering.Win2D;
+namespace LoomEditor.WinUI.Rendering.Win2D;
 
 /// <summary>An <see cref="ILineLayout"/> backed by one DirectWrite text layout.</summary>
 /// <remarks>Threading: UI thread only. Disposing it disposes the underlying <see cref="CanvasTextLayout"/>.</remarks>

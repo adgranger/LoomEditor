@@ -33,7 +33,7 @@ $dependencies = @{
     TextMate  = @('LoomEditor.Core')
     Themes    = @('LoomEditor.Core')
     View      = @('LoomEditor.Core', 'LoomEditor.TextMate', 'LoomEditor.Themes')
-    Rendering = @('LoomEditor.View', 'Microsoft.WindowsAppSDK', 'Microsoft.Graphics.Win2D')
+    Rendering = @('LoomEditor.View')
     WinUI     = @('LoomEditor.Rendering', 'Microsoft.WindowsAppSDK', 'Microsoft.Graphics.Win2D')
 }
 

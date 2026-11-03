@@ -1,4 +1,4 @@
-namespace LoomEditor.Rendering.Win2D;
+namespace LoomEditor.Rendering;
 
 /// <summary>Packs OpenType feature tags the way DirectWrite does (<c>DWRITE_MAKE_FONT_FEATURE_TAG</c>).</summary>
 /// <remarks>Threading: stateless, thread-safe.</remarks>
