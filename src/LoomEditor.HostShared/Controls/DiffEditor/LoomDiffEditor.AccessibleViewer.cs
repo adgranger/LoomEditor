@@ -1,16 +1,22 @@
 // Ported from microsoft/vscode: src/vs/editor/browser/widget/diffEditor/components/accessibleDiffViewer.ts (AccessibleDiffViewer, AccessibleDiffViewerModelFromEditors), commands.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
-using Avalonia.Automation;
-using Avalonia.Controls;
-using LoomEditor.Avalonia.Accessibility;
-using LoomEditor.Avalonia.Controls.DiffEditor;
 using LoomEditor.Core.Diff;
 using LoomEditor.Core.Text;
 using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Features.DiffNavigation;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Accessibility;
+using LoomEditor.WinUI.Controls.DiffEditor;
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Accessibility;
+using LoomEditor.Avalonia.Controls.DiffEditor;
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The accessible diff viewer: opened by F7 / Shift+F7 or by code, it covers both editors. Not ported: the audio cues and the
 // onlyShowAccessibleDiffViewer option.
@@ -20,15 +26,11 @@ public sealed partial class LoomDiffEditor
 {
     private const string ViewerHostPartName = "PART_ViewerHost";
 
-    private Panel? _viewerHost;
     private AccessibleDiffViewer? _accessibleViewer;
     private AccessibleDiffViewerModel? _viewerModel;
 
     /// <summary>Whether the accessible diff viewer is open.</summary>
     public bool IsAccessibleDiffViewerOpen => _accessibleViewer is not null;
-
-    // The viewer, for the tests.
-    internal AccessibleDiffViewer? AccessibleViewer => _accessibleViewer;
 
     /// <summary>Opens the accessible diff viewer on the group of changes nearest to the cursor of the modified editor; does nothing when it is open.</summary>
     public void OpenAccessibleDiffViewer()
@@ -45,8 +47,7 @@ public sealed partial class LoomDiffEditor
         _viewerHost.Children.Add(_accessibleViewer);
 
         // The two editors are hidden from automation while the viewer is open.
-        AutomationProperties.SetAccessibilityView(_original, AccessibilityView.Raw);
-        AutomationProperties.SetAccessibilityView(_modified, AccessibilityView.Raw);
+        HideEditorsFromAutomation();
     }
 
     /// <summary>Closes the accessible diff viewer and focuses the modified editor; does nothing when it is closed.</summary>
@@ -69,8 +70,6 @@ public sealed partial class LoomDiffEditor
         _viewerModel?.PreviousGroup();
     }
 
-    private void ConnectViewerHost(Panel host) => _viewerHost = host;
-
     private void RefreshScreenReader() => _options.IsScreenReaderOptimized = ScreenReaderDetector.IsScreenReaderRunning();
 
     private List<DetailedLineRangeMapping>? CurrentViewerDiffs() =>
@@ -91,8 +90,7 @@ public sealed partial class LoomDiffEditor
         _viewerModel = null;
         if (_original is not null && _modified is not null)
         {
-            AutomationProperties.SetAccessibilityView(_original, AccessibilityView.Default);
-            AutomationProperties.SetAccessibilityView(_modified, AccessibilityView.Default);
+            ShowEditorsToAutomation();
         }
     }
 
@@ -131,14 +129,14 @@ public sealed partial class LoomDiffEditor
             }
             else
             {
-                owner._modified!.Focus();
+                owner.FocusModified();
             }
         }
 
         public void ModifiedSetSelection(Core.Text.Range range) =>
             owner._modified!.SetSelections(new[] { Selection.FromRange(range, SelectionDirection.LeftToRight) });
 
-        public void ModifiedFocus() => owner._modified!.Focus();
+        public void ModifiedFocus() => owner.FocusModified();
 
         public void SetViewerVisible(bool visible)
         {
@@ -153,7 +151,7 @@ public sealed partial class LoomDiffEditor
         {
             editor.SetSelections(new[] { Selection.FromRange(range, SelectionDirection.LeftToRight) });
             editor.RevealRange(range);
-            editor.Focus();
+            FocusEditor(editor);
         }
     }
 }

@@ -1,6 +1,3 @@
-// Ported from microsoft/vscode: src/vs/editor/browser/widget/diffEditor/components/accessibleDiffViewer.ts (View)
-// Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
-
 using Avalonia;
 using Avalonia.Automation;
 using Avalonia.Controls;
@@ -23,22 +20,14 @@ namespace LoomEditor.Avalonia.Controls.DiffEditor;
 /// arrows are handled before the <see cref="ListBox"/> sees them, the model decides and the list follows its <c>Changed</c> event.
 /// Threading: UI thread only.
 /// </remarks>
-internal sealed class AccessibleDiffViewer : UserControl
+internal sealed partial class AccessibleDiffViewer : UserControl
 {
     private const double NumberColumnWidth = 48;
     private const double SignColumnWidth = 24;
 
-    private readonly AccessibleDiffViewerModel _model;
-    private readonly IAccessibleDiffViewerHost _host;
-    private readonly EditorTheme _theme;
     private readonly FontFamily _fontFamily;
-    private readonly double _fontSize;
-    private readonly int _tabSize;
     private readonly ListBox _list = new() { SelectionMode = SelectionMode.Single, Focusable = false };
     private readonly List<ListBoxItem> _items = [];
-    private IReadOnlyList<ViewElementGroup>? _renderedGroups;
-    private int _renderedGroupIndex = -1;
-    private bool _isSyncing;
 
     /// <summary>Creates the viewer over a model and shows its current group.</summary>
     /// <param name="model">The model; the viewer follows its <c>Changed</c> event.</param>
@@ -79,64 +68,6 @@ internal sealed class AccessibleDiffViewer : UserControl
 
     /// <summary>The rows of the current group, for the tests.</summary>
     internal IReadOnlyList<ListBoxItem> Rows => _items;
-
-    /// <summary>Stops following the model.</summary>
-    public void Detach() => _model.Changed -= OnModelChanged;
-
-    private void OnModelChanged(object? sender, EventArgs e) => Render();
-
-    // Rebuilds the rows when the group changed (Monaco: the "render" autorun reads the current group), then selects the current row.
-    private void Render()
-    {
-        _isSyncing = true;
-        try
-        {
-            if (!ReferenceEquals(_renderedGroups, _model.Groups) || _renderedGroupIndex != _model.CurrentGroupIndex)
-            {
-                RebuildRows();
-            }
-
-            int index = _model.CurrentElementIndex;
-            if (index >= 0 && index < _items.Count)
-            {
-                _list.SelectedIndex = index;
-                _list.ScrollIntoView(index);
-                _items[index].Focus(NavigationMethod.Directional);
-            }
-        }
-        finally
-        {
-            _isSyncing = false;
-        }
-    }
-
-    private void RebuildRows()
-    {
-        _renderedGroups = _model.Groups;
-        _renderedGroupIndex = _model.CurrentGroupIndex;
-        _items.Clear();
-        _list.Items.Clear();
-        if (_model.CurrentGroup is not { } group)
-        {
-            return;
-        }
-
-        foreach (ViewElement element in group.Lines)
-        {
-            DiffViewerRowItem row = DiffViewerRowItem.Create(element, group, _model.CurrentGroupIndex, _model.Groups.Count, _host, _tabSize);
-            var item = new ListBoxItem { Content = CreateRow(row), Padding = new Thickness(0), MinHeight = 0, HorizontalContentAlignment = HorizontalAlignment.Stretch };
-            AutomationProperties.SetName(item, row.AutomationName);
-            item.GotFocus += (_, _) =>
-            {
-                if (!_isSyncing)
-                {
-                    _model.GoToLine(element);
-                }
-            };
-            _items.Add(item);
-            _list.Items.Add(item);
-        }
-    }
 
     // Monaco: _createRow. The classes line-insert / line-delete are the background of the row, char-insert / char-delete the one of the numbers.
     private Grid CreateRow(DiffViewerRowItem row)
@@ -236,4 +167,26 @@ internal sealed class AccessibleDiffViewer : UserControl
 
     private static SolidColorBrush? Brush(ThemeColor? color) =>
         color is { } c ? new SolidColorBrush(global::Avalonia.Media.Color.FromArgb(c.A, c.R, c.G, c.B)) : null;
+
+    private void ClearRows()
+    {
+        _items.Clear();
+        _list.Items.Clear();
+    }
+
+    private void AddRow(DiffViewerRowItem row, Action onFocus)
+    {
+        var item = new ListBoxItem { Content = CreateRow(row), Padding = new Thickness(0), MinHeight = 0, HorizontalContentAlignment = HorizontalAlignment.Stretch };
+        AutomationProperties.SetName(item, row.AutomationName);
+        item.GotFocus += (_, _) => onFocus();
+        _items.Add(item);
+        _list.Items.Add(item);
+    }
+
+    private void ShowRow(int index)
+    {
+        _list.SelectedIndex = index;
+        _list.ScrollIntoView(index);
+        _items[index].Focus(NavigationMethod.Directional);
+    }
 }
