@@ -1,7 +1,7 @@
 // Ported from microsoft/vscode: src/vs/editor/browser/widget/diffEditor/components/diffEditorSash.ts
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
-namespace LoomEditor.WinUI.Controls.DiffEditor;
+namespace LoomEditor.View.DiffEditor;
 
 /// <summary>
 /// Where the sash between the two sides of the diff editor is (Monaco: <c>SashLayout</c>). It uses no WinUI type so that the

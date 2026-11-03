@@ -4,9 +4,8 @@
 using System.Globalization;
 using System.Text;
 using LoomEditor.View.Accessibility;
-using LoomEditor.View.DiffEditor;
 
-namespace LoomEditor.WinUI.Controls.DiffEditor;
+namespace LoomEditor.View.DiffEditor;
 
 /// <summary>
 /// What one row of the accessible diff viewer shows and announces: the line numbers, the sign, the plain text and the screen reader

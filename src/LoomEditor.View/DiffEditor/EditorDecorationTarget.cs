@@ -1,8 +1,7 @@
 using LoomEditor.Core.Decorations;
-using LoomEditor.View.DiffEditor;
 using LoomEditor.View.Features;
 
-namespace LoomEditor.WinUI.Controls.DiffEditor;
+namespace LoomEditor.View.DiffEditor;
 
 /// <summary>An <see cref="IDiffDecorationTarget"/> over the decorations collection of an editor.</summary>
 /// <remarks>Threading: UI thread only.</remarks>

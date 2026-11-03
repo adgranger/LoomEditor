@@ -1,6 +1,6 @@
 # P15-02 — Move the UI-free helpers of `LoomEditor.WinUI` into View
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-01
 - **Size:** S (moves)
 
@@ -36,14 +36,14 @@ Sources: none (specified in this card; [phase-15/README.md](README.md) "not a po
 
 ## Tests
 
-- [ ] New (View): `SashLayout_DefaultRatio_SplitsWidth`, `SashLayout_ResizingDisabled_IgnoresDrag` (or the closest real members), `DiffGutterLanes_NothingOn_HasNoLane`,
+- [x] New (View): `SashLayout_DefaultRatio_SplitsWidth`, `SashLayout_ResizingDisabled_IgnoresDrag` (or the closest real members), `DiffGutterLanes_NothingOn_HasNoLane`,
   `DiffGutterLanes_AllOn_OrdersLanesAsDecision1` (phase 14 README decision 1)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

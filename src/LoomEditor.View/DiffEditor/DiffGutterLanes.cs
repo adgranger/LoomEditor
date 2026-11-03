@@ -1,7 +1,7 @@
-namespace LoomEditor.WinUI.Controls.DiffEditor;
+namespace LoomEditor.View.DiffEditor;
 
 /// <summary>
-/// The glyph margin lanes of a side-by-side <see cref="LoomDiffEditor"/>, left to right: select, line action, primary block action, secondary block
+/// The glyph margin lanes of a side-by-side <c>LoomDiffEditor</c>, left to right: select, line action, primary block action, secondary block
 /// action, each present only when used (phase 14 decision 1). A lane index is -1 when the lane is absent; lane <c>k</c> sits at
 /// <c>GlyphMarginLeft + k × LineHeight</c>.
 /// </summary>
