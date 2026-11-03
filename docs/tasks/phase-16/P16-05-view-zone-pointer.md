@@ -1,6 +1,6 @@
 # P16-05 — Share the view zone pointer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-04
 - **Size:** S
 
@@ -33,15 +33,15 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -50,3 +50,7 @@ The rest of the pointer code (P16-07).
 ## Suggested commit message
 
 `refactor(hosts): share the view zone pointer routing`
+
+## Result
+
+- The host part keeps a field `_zonePressPointer` (set by each `OnPointerPressed` just before `HandleZonePress(mouseEvent)`) and `CapturePointerForZone()`; no other change.

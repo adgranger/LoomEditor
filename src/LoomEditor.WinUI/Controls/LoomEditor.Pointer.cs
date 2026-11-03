@@ -82,7 +82,8 @@ public sealed partial class LoomEditor
             return;
         }
 
-        if (HandleZonePress(mouseEvent, e.Pointer))
+        _zonePressPointer = e.Pointer;
+        if (HandleZonePress(mouseEvent))
         {
             // A zone that suppresses the mouse down: no caret move, no selection start.
             Focus(FocusState.Pointer);

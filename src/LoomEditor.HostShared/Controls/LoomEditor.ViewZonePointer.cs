@@ -1,7 +1,13 @@
 using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
 
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The pointer over the view zones, for the zones that draw their own controls (the bars of the hidden unchanged regions of a diff editor).
 public sealed partial class LoomEditor
@@ -38,7 +44,7 @@ public sealed partial class LoomEditor
     }
 
     // Returns true when the press is over a zone that swallows it (`SuppressMouseDown`).
-    private bool HandleZonePress(EditorMouseEvent mouseEvent, Microsoft.UI.Xaml.Input.Pointer pointer)
+    private bool HandleZonePress(EditorMouseEvent mouseEvent)
     {
         if (HitTestZone(mouseEvent) is not { } hit)
         {
@@ -51,7 +57,7 @@ public sealed partial class LoomEditor
         {
             _capturedZoneId = hit.Zone.Id;
             _capturedZoneTop = hit.Top;
-            CapturePointer(pointer);
+            CapturePointerForZone();
         }
 
         return _viewModel.ViewZones.ShouldSuppressMouseDown(hit.Zone.Id);

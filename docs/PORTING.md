@@ -980,7 +980,7 @@ The step-by-step cards are in **[docs/tasks/](tasks/README.md)** (P1-01 … P1-3
 ## Phase 13 (not a port: public API for host applications)
 
 New files, none from Monaco: `LoomEditor.View/Decorations/` (`EditorDecoration`, `EditorDecorationOptions`, `DecorationsCollection`, `CustomDecorationStyle`, `CustomDecorationStyles`),
-`LoomEditor.HostShared/Controls/` (`EditorScrollChangedEventArgs`, `GutterClickedEventArgs`; compiled into both hosts) and `LoomEditor.WinUI/Controls/` (`LoomEditor.Decorations.cs`, `.HiddenAreas.cs`, `.LineNumbers.cs`, `.ViewZones.cs`, `.HostHooks.Host.cs`, `.ViewZonePointer.cs`; the scroll hooks of `.HostHooks.cs` and `.DiffGutter.cs` are in `LoomEditor.HostShared/Controls/`),
+`LoomEditor.HostShared/Controls/` (`EditorScrollChangedEventArgs`, `GutterClickedEventArgs`; compiled into both hosts) and `LoomEditor.WinUI/Controls/` (`LoomEditor.Decorations.cs`, `.HiddenAreas.cs`, `.LineNumbers.cs`, `.ViewZones.cs`, `.HostHooks.Host.cs`, `.ViewZonePointer.Host.cs`; the scroll hooks of `.HostHooks.cs`, `.DiffGutter.cs` and `.ViewZonePointer.cs` are in `LoomEditor.HostShared/Controls/`),
 `BuiltInLanguages.GetLanguageIdByFileName`, and in the Gallery `HostApiDemoWindow*`, `HostApiSamples`, `HostApiSelfCheck`. Behavior differences: none (nothing ported).
 
 Tests re-counted with `dotnet test --list-tests` at the close: Core 2214, TextMate 739, Lsp 476, View 3787, Rendering 242, Architecture 90. Details: [ADR 0015](adr/0015-public-host-api.md).
