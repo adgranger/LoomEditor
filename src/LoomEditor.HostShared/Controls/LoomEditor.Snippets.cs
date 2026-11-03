@@ -1,7 +1,12 @@
-using LoomEditor.Avalonia.Input;
 using LoomEditor.View.Features.Snippet;
 
+#if LOOM_WINUI
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 public sealed partial class LoomEditor
 {
@@ -40,12 +45,12 @@ public sealed partial class LoomEditor
         }
 
         // The clipboard can only be read asynchronously: read it first, then insert on the UI thread.
-        _ = InsertWithClipboardAsync(controller, CreateClipboardService(), template, options);
+        _ = InsertWithClipboardAsync(controller, CreateClipboardService().ReadTextAsync, template, options);
     }
 
-    private static async Task InsertWithClipboardAsync(SnippetController controller, AvaloniaClipboardService clipboard, string template, SnippetInsertOptions options)
+    private static async Task InsertWithClipboardAsync(SnippetController controller, Func<Task<string?>> readClipboard, string template, SnippetInsertOptions options)
     {
-        string? text = await clipboard.ReadTextAsync();
+        string? text = await readClipboard();
         controller.Insert(template, options with { ClipboardText = text });
     }
 }

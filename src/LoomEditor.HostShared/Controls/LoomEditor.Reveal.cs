@@ -1,7 +1,13 @@
 using LoomEditor.View.Events;
 using LoomEditor.View.Layout;
 
+#if LOOM_WINUI
 namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
+namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // Scrolls so that the cursor stays visible (Monaco: the reveal part of `ViewLines`; the computations are in
 // `RevealCalculator`). The vertical scroll is applied at once, the horizontal one after the next draw, once the lines
@@ -21,7 +27,7 @@ public sealed partial class LoomEditor
         if (_reveal!.OnRevealRangeRequest(e) && _reveal.PendingHorizontalRequest is not null)
         {
             // The vertical scroll may not move anything: still draw, to compute the horizontal one.
-            _canvas?.Invalidate();
+            InvalidateView();
         }
     }
 

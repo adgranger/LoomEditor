@@ -1,6 +1,6 @@
 # P16-03 — `HostDispatcher`; share `LoomEditor.Reveal` and `LoomEditor.Snippets`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-01
 - **Size:** S
 
@@ -40,15 +40,15 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -57,3 +57,8 @@ Other partials of `LoomEditor`.
 ## Suggested commit message
 
 `refactor(hosts): add HostDispatcher; share the reveal and snippet partials`
+
+## Result
+
+- `HostDispatcher` added to both hosts (unused until the controller cards). `InsertWithClipboardAsync` takes a `Func<Task<string?>>` (the host's `CreateClipboardService().ReadTextAsync`) instead of an `IClipboardService`: with one concrete type per host, CA1859 refuses the interface parameter. WinUI `CreateClipboardService` is `static` (CA1822).
+- `View.Tests` failed 1 to 4 tests at random (`CommitCharacterControllerTests`, `TextSelfCheckTests` smart-select) in full solution runs while other builds were running; they pass alone and in a quiet solution run. Flaky under load, unrelated.
