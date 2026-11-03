@@ -1,6 +1,6 @@
 # P15-04 — Build and test the portable projects on Linux and macOS
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-03
 - **Size:** S
 
@@ -34,14 +34,14 @@ Sources: none (specified in this card). Read first: `LoomEditor.slnx`, `.github/
 
 ## Tests
 
-- [ ] All tests of the filter pass on `ubuntu-latest` and `macos-latest` in CI (link the run in the Result)
+- [x] All tests of the filter pass on `ubuntu-latest` and `macos-latest` in CI (link the run in the Result)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green on Windows; the `portable` CI jobs are green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green on Windows; the `portable` CI jobs are green
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -50,3 +50,10 @@ The Avalonia projects (they join the filter in P15-05), Native AOT on Linux and 
 ## Suggested commit message
 
 `ci: build and test the portable projects on Linux and macOS`
+
+## Result
+
+- `LoomEditor.Portable.slnf` (forward slashes: a `\` makes MSBuild reject the filter of a `.slnx`). Windows: green.
+- Linux was checked locally in the `mcr.microsoft.com/dotnet/nightly/sdk:11.0` container (build 0 warnings, 7596 passed, 2 skipped as on Windows); the macOS and `portable` CI jobs run on the first push to a pull request.
+- OS fixes: `OnigLibraryTests` uses the library name of the OS; `ModelBasedVariableResolver` reads `\` as a separator on Linux and macOS (the Gallery `snippet-transform` check uses a Windows path); `RepositoryLayout.GetProjectReferences` splits `\` whatever the OS.
+- Seen once on Windows, not reproducible: `TextSelfCheckTests` (smart-select) and `CommitCharacterControllerTests.SelectionChange_UsesTheNewItemsCharacters` failed in a parallel run, then passed.

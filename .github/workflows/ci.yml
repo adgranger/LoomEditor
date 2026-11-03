@@ -56,6 +56,36 @@ jobs:
           name: coverage
           path: artifacts/test-results/**/*.cobertura.xml
 
+  # The projects that must run anywhere .NET runs (LoomEditor.Portable.slnf): a Windows-only assumption fails here.
+  portable:
+    name: Portable projects (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: [native]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, rid: linux-x64 }
+          - { os: macos-latest, rid: osx }
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Download the Oniguruma library
+        uses: actions/download-artifact@v7
+        with:
+          name: oniguruma-${{ matrix.rid }}
+          path: artifacts/native
+
+      - name: Build (Release, warnings as errors)
+        run: dotnet build LoomEditor.Portable.slnf -c Release
+
+      - name: Test
+        run: dotnet test --solution LoomEditor.Portable.slnf -c Release --no-build
+
   pack:
     name: Pack NuGet packages
     # Not on pull requests: the release workflow (dry run) packs and tests the packages.

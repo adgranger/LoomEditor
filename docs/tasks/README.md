@@ -1161,7 +1161,7 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 | [P15-01](phase-15/P15-01-portable-rendering.md) | `LoomEditor.Rendering` becomes `net11.0`; Win2D moves into `LoomEditor.WinUI` | P14-06 | done |
 | [P15-02](phase-15/P15-02-shared-host-helpers.md) | Move the UI-free helpers of `LoomEditor.WinUI` into View | P15-01 | done |
 | [P15-03](phase-15/P15-03-oniguruma-linux-macos.md) | Oniguruma for Linux and macOS | P15-02 | done |
-| [P15-04](phase-15/P15-04-portable-ci.md) | Build and test the portable projects on Linux and macOS | P15-03 | todo |
+| [P15-04](phase-15/P15-04-portable-ci.md) | Build and test the portable projects on Linux and macOS | P15-03 | done |
 
 ### Step B — Project and drawing
 

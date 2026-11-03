@@ -25,6 +25,8 @@ Everything written in the repository is in **English**: code, comments, docs, te
 dotnet build LoomEditor.slnx -c Release                    # MUST pass: warnings are errors in Release
 dotnet test --solution LoomEditor.slnx -c Release          # MUST pass
 dotnet test --project tests/LoomEditor.Core.Tests -c Release   # faster loop while working on Core
+dotnet build LoomEditor.Portable.slnf -c Release              # the projects that must also build on Linux and macOS (CI)
+dotnet test --solution LoomEditor.Portable.slnf -c Release    # same filter, tests
 ./eng/Update-PublicApi.ps1 src/LoomEditor.Core             # after adding PUBLIC members (prefer internal!)
 dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64   # Native AOT check (only if the card asks)
 ```

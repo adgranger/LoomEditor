@@ -16,10 +16,10 @@ internal static class RepositoryLayout
         Source.EnumerateFiles("*.csproj", SearchOption.AllDirectories)
             .ToDictionary(file => Path.GetFileNameWithoutExtension(file.Name), file => XDocument.Load(file.FullName));
 
-    /// <summary>Names of the projects referenced with &lt;ProjectReference&gt;.</summary>
+    /// <summary>Names of the projects referenced with &lt;ProjectReference&gt; (project files use <c>\</c>, whatever the OS).</summary>
     public static IEnumerable<string> GetProjectReferences(XDocument project) =>
         project.Descendants("ProjectReference")
-            .Select(reference => Path.GetFileNameWithoutExtension(reference.Attribute("Include")!.Value));
+            .Select(reference => Path.GetFileNameWithoutExtension(reference.Attribute("Include")!.Value.Replace('\\', '/')));
 
     /// <summary>Ids of the NuGet packages referenced with &lt;PackageReference&gt;.</summary>
     public static IEnumerable<string> GetPackageReferences(XDocument project) =>
