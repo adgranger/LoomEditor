@@ -73,9 +73,9 @@ public sealed partial class LoomEditor
     /// </summary>
     /// <exception cref="ArgumentOutOfRangeException">The value is negative, <c>NaN</c> or infinite.</exception>
     /// <remarks>Threading: UI thread only.</remarks>
-    public double LineHeight // NOSONAR S4275: the getter intentionally reports the effective FontInfo height (see the XML doc)
+    public double LineHeight
     {
-        get => _viewModel.FontInfo.LineHeight;
+        get => _viewModel.FontInfo.LineHeight; // NOSONAR S4275: reports the effective height, not the set value (see the XML doc)
         set
         {
             if (!double.IsFinite(value) || value < 0)
