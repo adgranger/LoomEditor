@@ -18,6 +18,7 @@
   <ItemGroup>
     <Using Include="LoomEditor.Avalonia.Controls" />
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+    <Using Include="Avalonia.Controls.ComboBoxItem" Alias="ComboBoxItem" />
     <Using Include="LoomEditor.Avalonia.Controls.LoomEditor" Alias="LoomEditorControl" />
   </ItemGroup>
 
@@ -57,6 +58,9 @@
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoSample.cs" Link="Shared\Lsp\LspDemoSample.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoController.cs" Link="Shared\Lsp\LspDemoController.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspSelfCheck.cs" Link="Shared\Lsp\LspSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\MainWindow.Comments.cs" Link="Shared\MainWindow.Comments.cs" />
+    <Compile Include="..\LoomEditor.Gallery\MainWindow.Documents.cs" Link="Shared\MainWindow.Documents.cs" />
+    <Compile Include="..\LoomEditor.Gallery\MainWindow.Pickers.cs" Link="Shared\MainWindow.Pickers.cs" />
     <Compile Include="..\LoomEditor.Gallery\MainWindow.Lsp.cs" Link="Shared\MainWindow.Lsp.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoWorkspace.cs" Link="Shared\Lsp\LspDemoWorkspace.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspServerLocator.cs" Link="Shared\Lsp\LspServerLocator.cs" />

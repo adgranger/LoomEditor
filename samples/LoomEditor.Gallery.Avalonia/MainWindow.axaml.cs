@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
@@ -19,36 +18,7 @@ namespace LoomEditor.Gallery;
 /// <summary>The main window: one editor showing a sample file, and buttons that drive its text model.</summary>
 public sealed partial class MainWindow : Window
 {
-    private bool _isBusy;
     private readonly List<string> _injectedTextIds = [];
-
-    /// <summary>The ids of the built-in languages (the items of the language picker).</summary>
-    public string[] LanguageIds { get; } = [.. BuiltInLanguages.Ids];
-
-    /// <summary>The names of the built-in themes (the items of the theme picker).</summary>
-    public string[] ThemeNames { get; } = [.. EditorTheme.BuiltIn.Select(theme => theme.Name)];
-
-    // Items are added in code (strings as ComboBoxItem content): the pickers are filled from the library's lists.
-    private void PopulatePickers()
-    {
-        foreach (string id in LanguageIds)
-        {
-            LanguageBox.Items.Add(new ComboBoxItem { Content = id });
-        }
-
-        foreach (string name in ThemeNames)
-        {
-            ThemeBox.Items.Add(new ComboBoxItem { Content = name });
-        }
-
-        foreach (FeatureSample sample in FeatureSamples.All)
-        {
-            FeatureSampleBox.Items.Add(new ComboBoxItem { Content = sample.Name });
-        }
-
-        LanguageBox.SelectedIndex = 0;
-        ThemeBox.SelectedIndex = 0;
-    }
 
     /// <summary>Creates the window and loads the sample text.</summary>
     public MainWindow()
@@ -323,67 +293,11 @@ public sealed partial class MainWindow : Window
         StatusText.Text = $"Opened {files[0].Name}";
     }
 
-    // Generates on a background thread; only the assignment of the text happens on the UI thread.
-    private async Task LoadDocumentAsync(Func<string> create)
-    {
-        if (!BeginBusy("Generating…"))
-        {
-            return;
-        }
-
-        try
-        {
-            var stopwatch = Stopwatch.StartNew();
-            string text = await Task.Run(create);
-            Editor.ScrollTop = 0;
-            Editor.ScrollLeft = 0;
-            Editor.Text = text;
-            await NextRenderingAsync();
-            stopwatch.Stop();
-            StatusText.Text = string.Create(
-                CultureInfo.InvariantCulture, $"Loaded {Editor.Model.LineCount:N0} lines in {stopwatch.ElapsedMilliseconds:N0} ms");
-        }
-        finally
-        {
-            EndBusy();
-        }
-    }
-
     private Task NextRenderingAsync()
     {
         var completion = new TaskCompletionSource();
         GetTopLevel(this)!.RequestAnimationFrame(_ => completion.SetResult());
         return completion.Task;
-    }
-
-    private bool BeginBusy(string message)
-    {
-        if (_isBusy)
-        {
-            return false;
-        }
-
-        _isBusy = true;
-        SetSampleButtonsEnabled(false);
-        StatusText.Text = message;
-        return true;
-    }
-
-    private void EndBusy()
-    {
-        _isBusy = false;
-        SetSampleButtonsEnabled(true);
-    }
-
-    private void SetSampleButtonsEnabled(bool isEnabled)
-    {
-        LargeFileButton.IsEnabled = isEnabled;
-        LongLineButton.IsEnabled = isEnabled;
-        UnicodeButton.IsEnabled = isEnabled;
-        ScrollTestButton.IsEnabled = isEnabled;
-        MultiCursorButton.IsEnabled = isEnabled;
-        LargeCSharpButton.IsEnabled = isEnabled;
-        FeatureSampleBox.IsEnabled = isEnabled;
     }
 
     private void OnFontSizeChanged(object? sender, NumericUpDownValueChangedEventArgs e)
