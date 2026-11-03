@@ -4,10 +4,16 @@ using LoomEditor.Themes;
 using LoomEditor.View.Comments;
 using LoomEditor.View.Controller;
 using LoomEditor.View.Layout;
-using LoomEditor.WinUI.Controls.Overlay;
-using Microsoft.UI.Xaml;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Controls.Overlay;
 namespace LoomEditor.WinUI.Controls.Comments;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Controls.Overlay;
+namespace LoomEditor.Avalonia.Controls.Comments;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>
 /// Shows the gutter "+" (<see cref="CommentGutterButton"/>) on the model line under the pointer while the pointer is over the gutter or the
@@ -17,7 +23,7 @@ namespace LoomEditor.WinUI.Controls.Comments;
 /// The line comes from the pointer code's own hit test (<see cref="MouseTarget"/>); the gutter targets carry the model line of the hovered row,
 /// so a wrapped line shows the button at its first row. Threading: UI thread only.
 /// </remarks>
-internal sealed class CommentGutterController : IDisposable
+internal sealed partial class CommentGutterController : IDisposable
 {
     private readonly LoomEditor _editor;
     private readonly OverlayHost _layer;
@@ -44,9 +50,7 @@ internal sealed class CommentGutterController : IDisposable
         _layer = layer;
         _controller = controller;
         _hitTest = hitTest;
-        _button.Click += OnClick;
-        _button.PointerEntered += OnButtonPointerEntered;
-        _button.PointerExited += OnButtonPointerExited;
+        ConnectButton();
         _controller.ThreadAdded += OnThreadsChanged;
         _controller.ThreadRemoving += OnThreadsChanged;
     }
@@ -67,7 +71,7 @@ internal sealed class CommentGutterController : IDisposable
     {
         _pointerX = x;
         _pointerY = y;
-        _overGutter = x < _editor.LayoutInfo.ContentLeft;
+        _overGutter = x < EditorLayout.ContentLeft;
         _hitLine = LineOf(target);
         Update();
     }
@@ -95,9 +99,7 @@ internal sealed class CommentGutterController : IDisposable
 
     public void Dispose()
     {
-        _button.Click -= OnClick;
-        _button.PointerEntered -= OnButtonPointerEntered;
-        _button.PointerExited -= OnButtonPointerExited;
+        DisconnectButton();
         _controller.ThreadAdded -= OnThreadsChanged;
         _controller.ThreadRemoving -= OnThreadsChanged;
         _layer.Remove(_button);
@@ -127,7 +129,7 @@ internal sealed class CommentGutterController : IDisposable
             return;
         }
 
-        EditorLayoutInfo layout = _editor.LayoutInfo;
+        EditorLayoutInfo layout = EditorLayout;
         double top = _editor.GetTopForLineNumber(_shownLine) - _editor.ScrollTop + ((_editor.LineHeight - CommentGutterButton.Size) / 2);
         _button.SetTarget(_request);
         _layer.Show(_button, new OverlayRect(layout.LineNumbersLeft, top, CommentGutterButton.Size, CommentGutterButton.Size));
@@ -168,7 +170,7 @@ internal sealed class CommentGutterController : IDisposable
         Update();
     }
 
-    private void OnClick(object sender, RoutedEventArgs e)
+    private void ButtonClicked()
     {
         if (_shownLine > 0)
         {
@@ -176,13 +178,13 @@ internal sealed class CommentGutterController : IDisposable
         }
     }
 
-    private void OnButtonPointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private void ButtonPointerEntered()
     {
         _overButton = true;
         Update();
     }
 
-    private void OnButtonPointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    private void ButtonPointerExited()
     {
         _overButton = false;
         Update();

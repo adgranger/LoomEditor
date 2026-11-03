@@ -1,8 +1,14 @@
 using LoomEditor.View.Layout;
-using Avalonia;
-using Avalonia.Threading;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Threading;
+namespace LoomEditor.WinUI.Controls.Comments;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Threading;
 namespace LoomEditor.Avalonia.Controls.Comments;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The zone height follows the widget: a trigger marks the widget dirty and schedules one coalesced pass on the dispatcher (the
 // scheduling of DiffEditorViewZones); the pass measures the dirty widgets and resizes their zones. Never measured in Arrange (the draw).
@@ -52,8 +58,7 @@ internal sealed partial class CommentZoneHost
             return;
         }
 
-        _heightPassPending = true;
-        Dispatcher.UIThread.Post(() =>
+        _heightPassPending = HostDispatcher.Post(() =>
         {
             _heightPassPending = false;
             RunHeightPasses();
@@ -92,12 +97,12 @@ internal sealed partial class CommentZoneHost
         }
 
         _heightPasses++;
-        double width = BoxWidth(_editor.ViewModel.LayoutInfo);
+        double width = BoxWidth(EditorLayout);
         bool changed = false;
         foreach (CommentThreadWidget widget in _dirty.ToArray())
         {
             // A collapsed (off-screen) widget keeps its zone's last height; it is measured once it shows (its SizeChanged marks it again).
-            if (!widget.IsVisible)
+            if (!IsShown(widget))
             {
                 continue;
             }
@@ -111,7 +116,7 @@ internal sealed partial class CommentZoneHost
             }
         }
 
-        if (changed && BoxWidth(_editor.ViewModel.LayoutInfo) != width)
+        if (changed && BoxWidth(EditorLayout) != width)
         {
             MarkAllVisibleDirtyWithoutScheduling();
         }
@@ -123,7 +128,7 @@ internal sealed partial class CommentZoneHost
     {
         foreach (CommentThreadWidget widget in _dirty)
         {
-            if (widget.IsVisible)
+            if (IsShown(widget))
             {
                 return true;
             }
@@ -136,19 +141,10 @@ internal sealed partial class CommentZoneHost
     {
         foreach (CommentThreadWidget widget in _widgets.Values)
         {
-            if (widget.IsVisible)
+            if (IsShown(widget))
             {
                 _dirty.Add(widget);
             }
-        }
-    }
-
-    private void OnWidgetPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
-    {
-        // The twin of SizeChanged.
-        if (e.Property == Visual.BoundsProperty)
-        {
-            MarkDirty((CommentThreadWidget)sender!);
         }
     }
 
@@ -158,7 +154,7 @@ internal sealed partial class CommentZoneHost
 
     private void Unsubscribe(CommentThreadWidget widget)
     {
-        widget.PropertyChanged -= OnWidgetPropertyChanged;
+        UnsubscribeSize(widget);
         widget.FocusReturnRequested -= OnWidgetFocusReturnRequested;
         widget.ContentChanged -= OnWidgetContentChanged;
     }

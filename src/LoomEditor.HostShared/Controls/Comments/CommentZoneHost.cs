@@ -4,12 +4,16 @@ using LoomEditor.Core.Comments;
 using LoomEditor.Themes;
 using LoomEditor.View.Comments;
 using LoomEditor.View.Layout;
-using LoomEditor.Avalonia.Controls.Overlay;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Threading;
 
+#if LOOM_WINUI
+using LoomEditor.WinUI.Controls.Overlay;
+namespace LoomEditor.WinUI.Controls.Comments;
+#elif LOOM_AVALONIA
+using LoomEditor.Avalonia.Controls.Overlay;
 namespace LoomEditor.Avalonia.Controls.Comments;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 /// <summary>Keeps one <see cref="CommentThreadWidget"/> over the <c>Widget</c> view zone of every thread, positioned in the draw pass.</summary>
 /// <remarks>Threading: UI thread only.</remarks>
@@ -29,7 +33,6 @@ internal sealed partial class CommentZoneHost : IDisposable
     private bool _highContrast;
     private int _visible;
     private double _lastArrangeMilliseconds;
-    private bool _arrangePending;
 
     public CommentZoneHost(LoomEditor editor, OverlayHost layer, CommentThreadsController controller)
     {
@@ -52,13 +55,6 @@ internal sealed partial class CommentZoneHost : IDisposable
     /// <summary>A short status line for the Gallery's manual test.</summary>
     public string Diagnostics => string.Create(CultureInfo.InvariantCulture, $"zones {_widgets.Count} visible {_visible} lastArrange {_lastArrangeMilliseconds:0.00} ms heightPasses {_heightPasses} heightLimitHits {_heightLimitHits}");
 
-    /// <summary>The widget of a thread, for the tests.</summary>
-    internal CommentThreadWidget? WidgetOf(CommentThread thread) =>
-        _zoneIds.TryGetValue(thread, out string? id) && _widgets.TryGetValue(id, out CommentThreadWidget? widget) ? widget : null;
-
-    /// <summary>True when the element is inside the zone-widget layer.</summary>
-    public bool Contains(Visual? element) => _layer.Contains(element);
-
     /// <summary>Applies the theme to every widget, and to the ones created later.</summary>
     public void ApplyTheme(EditorTheme theme, bool highContrast)
     {
@@ -72,34 +68,15 @@ internal sealed partial class CommentZoneHost : IDisposable
         MarkAllDirty();
     }
 
-    /// <summary>Arranges the widgets right after the current frame: Avalonia refuses a layout change during the render pass.</summary>
-    public void ArrangeAfterDraw()
-    {
-        if (_arrangePending || _widgets.Count == 0)
-        {
-            return;
-        }
-
-        _arrangePending = true;
-        Dispatcher.UIThread.Post(() =>
-        {
-            _arrangePending = false;
-            if (!_disposed)
-            {
-                Arrange();
-            }
-        });
-    }
-
-    /// <summary>Puts every widget over its zone, or hides it when its zone is not in the viewport.</summary>
+    /// <summary>Puts every widget over its zone, or hides it when its zone is not in the viewport. Called right after the text is drawn.</summary>
     public void Arrange()
     {
         _stopwatch.Restart();
         _seen.Clear();
         _visible = 0;
-        EditorLayoutInfo layout = _editor.ViewModel.LayoutInfo;
+        EditorLayoutInfo layout = EditorLayout;
         double scrollTop = _editor.ScrollTop;
-        foreach (ViewWhitespaceViewportData zone in _editor.ViewModel.ViewLayout.GetWhitespaceViewportData())
+        foreach (ViewWhitespaceViewportData zone in GetWhitespaceViewportData())
         {
             if (zone.Height < 1 || !_widgets.TryGetValue(zone.Id, out CommentThreadWidget? widget))
             {
@@ -111,10 +88,9 @@ internal sealed partial class CommentZoneHost : IDisposable
             double left = layout.ContentLeft + HorizontalInset;
             double top = zone.VerticalOffset - scrollTop;
             double width = BoxWidth(layout);
-            if (!widget.IsVisible || !DoubleComparison.AreClose(Canvas.GetLeft(widget), left) || !DoubleComparison.AreClose(Canvas.GetTop(widget), top)
-                || !DoubleComparison.AreClose(widget.Width, width) || !DoubleComparison.AreClose(widget.Height, zone.Height))
+            if (!IsShown(widget) || !IsPlaced(widget, left, top, width, zone.Height))
             {
-                if (!DoubleComparison.AreClose(widget.Width, width))
+                if (!HasWidth(widget, width))
                 {
                     MarkDirty(widget);
                 }
@@ -127,7 +103,7 @@ internal sealed partial class CommentZoneHost : IDisposable
 
         foreach ((string id, CommentThreadWidget widget) in _widgets)
         {
-            if (!_seen.Contains(id) && widget.IsVisible)
+            if (!_seen.Contains(id) && IsShown(widget))
             {
                 OverlayHost.Hide(widget);
             }
@@ -158,7 +134,7 @@ internal sealed partial class CommentZoneHost : IDisposable
     private void OnThreadAdded(object? sender, CommentThread thread)
     {
         Add(thread);
-        _editor.InvalidateComments();
+        InvalidateEditor();
     }
 
     /// <summary>Moves the focus into the thread's composer (once its widget is loaded).</summary>
@@ -173,7 +149,7 @@ internal sealed partial class CommentZoneHost : IDisposable
     /// <summary>Gives the focus back to the editor with the cursor at the start of the thread's line, revealed only if it is off screen.</summary>
     public void ReturnFocusToEditor(CommentThread thread)
     {
-        _editor.Focus();
+        FocusEditor();
         int line = Math.Clamp(thread.LineNumber, 1, _editor.Model.LineCount);
         _editor.SetSelections((Core.Text.Selection[])[new Core.Text.Selection(line, 1, line, 1)]);
         _editor.RevealRange(new Core.Text.Range(line, 1, line, 1));
@@ -220,7 +196,7 @@ internal sealed partial class CommentZoneHost : IDisposable
             return;
         }
 
-        var widget = new CommentThreadWidget(_controller.GetViewModel(thread)) { IsVisible = false };
+        CommentThreadWidget widget = CreateWidget(thread);
         widget.ApplySuggestion = (commentId, index, rangeText) => _controller.ApplySuggestion(thread, commentId, index, rangeText);
         widget.IsEditorReadOnly = () => _editor.IsReadOnly;
         widget.Announce = _editor.Announce;
@@ -232,7 +208,7 @@ internal sealed partial class CommentZoneHost : IDisposable
 
         _widgets[id] = widget;
         _zoneIds[thread] = id;
-        widget.PropertyChanged += OnWidgetPropertyChanged;
+        SubscribeSize(widget);
         widget.FocusReturnRequested += OnWidgetFocusReturnRequested;
         widget.ContentChanged += OnWidgetContentChanged;
         MarkDirty(widget);
