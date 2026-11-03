@@ -1,6 +1,6 @@
 # P17-06 — Share `CommentThreadWidget.ApplyTheme`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-05
 - **Size:** S
 
@@ -62,15 +62,15 @@ The two files differ only in the composer lines (`Control.XxxProperty` vs `Templ
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests (theme and high contrast of the comment widget) stay green **unchanged**.
+- [x] No new test. The Avalonia headless tests (theme and high contrast of the comment widget) stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The pair is gone from `KnownDuplicates`, and no new pair was added
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The pair is gone from `KnownDuplicates`, and no new pair was added
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
