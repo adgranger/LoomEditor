@@ -1,6 +1,6 @@
 # P16-04 — Split WinUI `LoomEditor.HostHooks` like Avalonia; share the diff gutter and scroll hooks
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-03
 - **Size:** M
 
@@ -36,15 +36,15 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -53,3 +53,8 @@ The view zone pointer logic (P16-05). Any member not listed above.
 ## Suggested commit message
 
 `refactor(hosts): split the WinUI host hooks like Avalonia; share the diff gutter and scroll hooks`
+
+## Result
+
+- WinUI `LoomEditor.ViewZonePointer.cs` also holds `LastSelectionChangeReason` and `SetHiddenAreas` (as in Avalonia). Avalonia's `_diffGutterArrangePending` and `ArrangeDiffGutterAfterDraw` (no WinUI twin) are in the Avalonia `LoomEditor.DiffGutter.Host.cs`; WinUI needs no DiffGutter host part.
+- Left in each host's `LoomEditor.HostHooks.Host.cs`, out of this card: the other host API members (`GetTopForLineNumber`, `ResetText`, events, ...), duplicated between the two files.

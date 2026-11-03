@@ -1,19 +1,23 @@
-using Avalonia.Threading;
+using LoomEditor.View.Controller;
+#if LOOM_WINUI
+using LoomEditor.WinUI.Controls.DiffEditor;
+using LoomEditor.WinUI.Controls.Overlay;
+namespace LoomEditor.WinUI.Controls;
+#elif LOOM_AVALONIA
 using LoomEditor.Avalonia.Controls.DiffEditor;
 using LoomEditor.Avalonia.Controls.Overlay;
-using LoomEditor.View.Controller;
-
 namespace LoomEditor.Avalonia.Controls;
+#else
+#error This file is compiled into LoomEditor.WinUI or LoomEditor.Avalonia only.
+#endif
 
 // The gutter controls of a side of the diff editor (block action buttons, line checkboxes), created by the diff editor on the zone-widget layer.
-/// <remarks>Threading: UI thread only.</remarks>
 public sealed partial class LoomEditor
 {
+    private int _glyphMarginLaneCount;
+    private OverlayHost? _gutterLayer;
     private Func<OverlayHost, Func<double, double, MouseTarget>, DiffGutterControllers>? _diffGutterFactory;
     private DiffGutterControllers? _diffGutter;
-    private OverlayHost? _gutterLayer;
-    private int _glyphMarginLaneCount;
-    private bool _diffGutterArrangePending;
 
     /// <summary>The lanes of the glyph margin the diff editor uses, each one line height wide; 0 (the default) turns the glyph margin off.</summary>
     /// <remarks>Threading: UI thread only.</remarks>
@@ -65,21 +69,5 @@ public sealed partial class LoomEditor
         _diffGutter?.Dispose();
         _diffGutter = _gutterLayer is { } layer && _diffGutterFactory is { } factory ? factory(layer, CreateMouseTarget) : null;
         _diffGutter?.ApplyTheme(EffectiveTheme);
-    }
-
-    // Called after each draw: Avalonia refuses a layout change during the render pass, so the buttons are placed right after it.
-    private void ArrangeDiffGutterAfterDraw()
-    {
-        if (_diffGutterArrangePending || _diffGutter is null)
-        {
-            return;
-        }
-
-        _diffGutterArrangePending = true;
-        Dispatcher.UIThread.Post(() =>
-        {
-            _diffGutterArrangePending = false;
-            _diffGutter?.Arrange();
-        });
     }
 }
