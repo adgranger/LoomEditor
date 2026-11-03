@@ -1,6 +1,6 @@
 # P15-33 — The `LoomEditor.Avalonia` package, package test, release workflow
 
-- **Status:** in progress
+- **Status:** done
 - **Depends on:** P15-32
 - **Size:** S
 
@@ -33,13 +33,13 @@ Sources: none (specified in this card). Read first: `eng/Pack.ps1`, `eng/Test-Pa
 ## Tests
 
 - [x] `./eng/Test-Packages.ps1` passes locally (Windows) with the Avalonia app
-- [ ] CI: the Linux package test is green (link)
+- [x] CI: the Linux package test is green (link)
 
 ## Acceptance criteria
 
 - [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
 - [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Result
 
@@ -49,7 +49,7 @@ Sources: none (specified in this card). Read first: `eng/Pack.ps1`, `eng/Test-Pa
 - `eng/package-test/LoomEditor.PackageTest.Avalonia`: a headless console app (Avalonia.Headless + Skia + the package) that uses the editor host API and the diff editor once and exits 0.
   `eng/Test-Packages.ps1` publishes it with Native AOT for the runtime of the machine and runs it; the WinUI app runs on Windows only. Local Windows run: both apps pass, 0 warnings.
 - CI: new job `package-avalonia` (ubuntu); the pack job and `release.yml` pass `-RequireAllNatives`; `release.yml` pushes `LoomEditor.Avalonia` before `LoomEditor.WinUI`. Docs: `RELEASING.md`, `release-checklist.md`.
-- **Not verified yet:** the Linux CI job `package-avalonia` (link to add when it has run).
+- **CI:** `package-avalonia` (ubuntu, linux-x64) is green: https://github.com/adgranger/LoomEditor/actions/runs/41656687785 ("LoomEditor.Avalonia package test passed."). The macOS job of "Portable projects" still fails on the existing Lsp test noted in P15-32.
 
 ## Out of scope
 
