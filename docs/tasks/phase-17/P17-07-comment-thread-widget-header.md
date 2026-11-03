@@ -1,6 +1,6 @@
 # P17-07 — Share the header layout of `CommentThreadWidget`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-06
 - **Size:** S
 
@@ -77,15 +77,15 @@ Not a Monaco port. Read first: [phase-17/README.md](README.md) (rules). `src/Loo
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests of resolved / collapsed threads stay green **unchanged**.
+- [x] No new test. The Avalonia headless tests of resolved / collapsed threads stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The pair is gone from `KnownDuplicates`, and no new pair was added
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The pair is gone from `KnownDuplicates`, and no new pair was added
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

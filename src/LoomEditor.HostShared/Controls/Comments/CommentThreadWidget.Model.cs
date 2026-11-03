@@ -23,7 +23,7 @@ internal sealed partial class CommentThreadWidget
         // Kept current when the line moves: a move raises Changed.
         SetAutomationName(CommentStrings.ThreadAutomationName(_viewModel.Thread.StartLineNumber, _viewModel.Thread.LineNumber));
         _rows.Children.Clear();
-        _rows.Children.Add(Header());
+        AddHeader();
         if (!_viewModel.IsCollapsed)
         {
             AddCommentRows();
