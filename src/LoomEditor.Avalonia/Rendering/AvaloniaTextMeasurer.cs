@@ -71,7 +71,7 @@ internal sealed partial class AvaloniaTextMeasurer : ITextMeasurer
             _fontFeatures.Add(new AvaloniaFontFeature { Tag = feature.Tag, Value = feature.Value });
         }
 
-        _defaultProperties = CreateRunProperties(null, TokenFontStyle.None);
+        _defaultProperties = CreateRunProperties(DefaultForeground, TokenFontStyle.None);
         // The widths are measured on one-character layouts, which have no tab: the default tab is fine until then.
         _incrementalTab = 4 * _fontSize;
         FontInfo = FontMeasurements.Read(bare, new CharacterWidthReader(this), pixelRatio);
@@ -86,6 +86,12 @@ internal sealed partial class AvaloniaTextMeasurer : ITextMeasurer
 
     /// <inheritdoc />
     public int TabSize { get; }
+
+    /// <summary>
+    /// The foreground of the text that has no style run of its own. Layouts share it and the surface sets its color before
+    /// each draw, as Win2D takes the default color at draw time.
+    /// </summary>
+    public SolidColorBrush DefaultForeground { get; } = new(Colors.Black);
 
     /// <summary>Distance from the top of a line box to the top of its glyph layout, in DIPs.</summary>
     public double GlyphTopOffset { get; }

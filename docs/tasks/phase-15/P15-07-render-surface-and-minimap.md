@@ -1,6 +1,6 @@
 # P15-07 — `AvaloniaRenderSurface`, bitmap cache, minimap font sampler
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-06
 - **Size:** M
 
@@ -39,15 +39,15 @@ The WinUI twins: `src/LoomEditor.WinUI/Rendering/Win2D/Win2DRenderSurface.cs`, `
 
 ## Tests
 
-- [ ] New: `FillRectangle_PaintsExactPixels` (red 10×10 at (5,5) on a 40×40 frame: the pixels inside are red, the ones outside are not); `DrawLine_OneDip_Visible`;
+- [x] New: `FillRectangle_PaintsExactPixels` (red 10×10 at (5,5) on a 40×40 frame: the pixels inside are red, the ones outside are not); `DrawLine_OneDip_Visible`;
   `DrawRgbaImage_SameVersion_UploadsOnce` (counts uploads); `DrawRgbaImage_NewVersion_Reuploads`; `MinimapSampler_ProducesNonEmptySheet` (some non-zero alpha per glyph);
   `Frame_TwoLines_DrawsTextPixelsInEachLineBox` (a `TextViewRenderer` frame of 2 lines: dark pixels within the boxes of line 1 and 2, none below)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green; Avalonia tests green on the three CI jobs
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green; Avalonia tests green on the three CI jobs
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
