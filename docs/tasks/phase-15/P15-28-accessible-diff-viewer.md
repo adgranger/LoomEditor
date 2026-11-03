@@ -1,6 +1,6 @@
 # P15-28 — The accessible diff viewer
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-27
 - **Size:** M
 
@@ -27,13 +27,13 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/DiffEditor/AccessibleDiffViewer.
 
 ## Tests
 
-- [ ] New: `F7_OpensViewer_FocusesFirstChange`; `Down_MovesToNextRow`; `Row_AutomationName_IsRowItemName`; `Escape_ClosesAndFocusesModifiedEditor`
+- [x] New: `F7_OpensViewer_FocusesFirstChange`; `Down_MovesToNextRow`; `Row_AutomationName_IsRowItemName`; `Escape_ClosesAndFocusesModifiedEditor`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

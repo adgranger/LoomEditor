@@ -29,15 +29,6 @@ public sealed partial class LoomDiffEditor : IDiffNavigationTarget
 
     void IDiffNavigationTarget.GoToChange(NavigationDirection direction) => GoToChange(direction);
 
-    // P15-28 opens the accessible diff viewer here.
-    void IDiffNavigationTarget.AccessibleDiffViewerNext()
-    {
-    }
-
-    void IDiffNavigationTarget.AccessibleDiffViewerPrevious()
-    {
-    }
-
     private void GoToChange(NavigationDirection direction)
     {
         if (_modified is null || _viewModel?.Diff is not { } diff)

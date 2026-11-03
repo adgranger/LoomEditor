@@ -2,6 +2,7 @@
 // Upstream commit: 0c9c0a4295a9222e12a605537738719455ae3056  —  Copyright (c) Microsoft Corporation. MIT License.
 
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
@@ -88,6 +89,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         SizeChanged += OnSizeChanged;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
+        GotFocus += (_, _) => RefreshScreenReader();
     }
 
     /// <summary>Raised when a new diff was published, or <see cref="IsDiffUpToDate"/> changed.</summary>
@@ -190,6 +192,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         _sash.SashMoved += OnSashMoved;
         _sash.ResetRequested += OnSashReset;
         ConnectOverview(GetTemplatePart<DiffOverviewRuler>(e, OverviewPartName));
+        ConnectViewerHost(GetTemplatePart<Panel>(e, ViewerHostPartName));
         ConfigureEditors();
         ApplyLanguageAndTheme();
         ApplyText(_original, OriginalText);
@@ -212,6 +215,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
 
     private void DetachParts()
     {
+        DestroyAccessibleViewer();
         DisconnectOverview();
         DetachCommentEvents();
         if (_sash is not null)
@@ -244,6 +248,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         _originalTarget = new EditorDecorationTarget(_original.CreateModelDecorationsCollection());
         _modifiedTarget = new EditorDecorationTarget(_modified.CreateModelDecorationsCollection());
         _decorations = new DiffDecorations(_originalTarget, _modifiedTarget);
+        RefreshScreenReader();
         _options.SetWidth(Bounds.Width);
         _viewModel = new DiffEditorViewModel(
             _original.Model,
@@ -261,6 +266,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
 
     private void OnUnloaded(object? sender, RoutedEventArgs e)
     {
+        DestroyAccessibleViewer();
         if (_viewModel is null)
         {
             return;
@@ -292,6 +298,7 @@ public sealed partial class LoomDiffEditor : TemplatedControl
         }
 
         InvalidateOverview();
+        UpdateViewerDiffs();
         UpdateDecorations();
         DiffChanged?.Invoke(this, EventArgs.Empty);
     }

@@ -95,6 +95,7 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia
 LoomEditor.Avalonia.Controls.LoomDiffEditor.AddCommentThread(LoomEditor.Avalonia.Controls.DiffSide side, LoomEditor.Core.Text.Range range, string? title = null, bool startComposing = false) -> LoomEditor.Core.Comments.CommentThread!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.CloseAccessibleDiffViewer() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CollapseAllUnchangedRegions() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentCancelled -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentThreadEventArgs!>?
 LoomEditor.Avalonia.Controls.LoomDiffEditor.CommentSubmitted -> System.EventHandler<LoomEditor.Avalonia.Controls.CommentSubmittedEventArgs!>?
@@ -115,6 +116,7 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.
 LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespace.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespace.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.IsAccessibleDiffViewerOpen.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsDiffUpToDate.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.set -> void
@@ -128,6 +130,7 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Modified.get -> LoomEditor.Avalonia.Controls.LoomEditor!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.OpenAccessibleDiffViewer() -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Original.get -> LoomEditor.Avalonia.Controls.LoomEditor!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.get -> bool
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.set -> void

@@ -7,8 +7,6 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibility.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.BlockActionsVisibilityProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ClearSelection
-LoomEditor.Avalonia.Controls.LoomDiffEditor.CloseAccessibleDiffViewer
-LoomEditor.Avalonia.Controls.LoomDiffEditor.IsAccessibleDiffViewerOpen.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyph.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionGlyphProperty
@@ -22,7 +20,6 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor.LineActionToolTipProperty
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabled.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LineSelectionEnabledProperty
-LoomEditor.Avalonia.Controls.LoomDiffEditor.OpenAccessibleDiffViewer
 LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.get
 LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyph.set
 LoomEditor.Avalonia.Controls.LoomDiffEditor.PrimaryBlockActionGlyphProperty

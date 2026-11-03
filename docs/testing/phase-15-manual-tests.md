@@ -181,3 +181,14 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 4. All: type in the modified side: `ModifiedText` follows, and the decorations update after a short delay (`DiffChanged`).
    **Result:** pending
+
+## P15-28 — Accessible diff viewer
+
+1. Windows (Narrator), macOS (VoiceOver), Ubuntu (Orca): in the diff editor press F7: the viewer opens over the editors and the first changed row is focused and read; Shift+F7 opens it on the previous group.
+   **Result:** pending
+2. Same: Down and Up move one row and read it (line numbers, sign, text, and "group N of M"); with F7 again the next group opens; Space or Enter reveals the row in the editor behind.
+   **Result:** pending
+3. Same: Escape (or the Close button) closes the viewer and puts the focus in the modified editor; while it is open the two editors are not read by the screen reader.
+   **Result:** pending
+4. All: the rows use the editor font and the inserted and removed line colors of the theme.
+   **Result:** pending
