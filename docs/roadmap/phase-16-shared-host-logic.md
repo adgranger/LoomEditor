@@ -32,9 +32,9 @@ framework-specific lines go to small `.Host.cs` parts. Pure helpers that name no
 - [x] Find, comment, suggest and hover widgets shared (P16-14 … P16-17)
 - [x] Rendering helpers in `LoomEditor.Rendering`; Avalonia diff test window helper (P16-18, P16-19)
 - [x] Galleries share their window logic (P16-20 … P16-23)
-- [ ] Self-checks of both Galleries green, Native AOT publish of both Galleries, Sonar duplication ≤ 3% on PR #26 (P16-24)
+- [x] Self-checks of both Galleries green, Native AOT publish of both Galleries, Sonar duplication ≤ 3% on PR #26 (P16-24)
 
 ## Result (P16-24, 2026-11-03)
 
 - Self-checks (text 10/10, diff 9/9, comments 17/17, host API 6/6) pass on both Galleries, from the Native AOT publish of each (0 warnings). `--lsp-selfcheck` not run.
-- **Sonar duplication on PR #26: pending.** The last analysis (before P16-21 … P16-24 were pushed) read 4.42% (956 of 21,621 new lines). The check needs a push: re-read `new_duplicated_lines_density` after SonarCloud analyzes the pushed branch.
+- **Sonar duplication on PR #26: 2.14%** (458 of 21,437 new lines, analysis of 802565b), under the 3% target. It was 23.2% at the start of the phase and 4.42% before P16-21 … P16-23.

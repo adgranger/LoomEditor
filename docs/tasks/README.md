@@ -1283,7 +1283,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P16-24](phase-16/P16-24-close-phase-16.md) | Close phase 16: self-checks, Native AOT, Sonar duplication ≤ 3% | P16-01 … P16-23 | in progress |
+| [P16-24](phase-16/P16-24-close-phase-16.md) | Close phase 16: self-checks, Native AOT, Sonar duplication ≤ 3% | P16-01 … P16-23 | done |
 
 Take phase 16 cards in table order (the "Depends on" column allows other orders, but one card at a time keeps `docs/PORTING.md` and this index free of conflicts). Sonnet for every card except P16-07, marked **Opus**: it reshapes the pointer handlers of both controls, and the WinUI ones have no automated test. Each card keeps the Avalonia headless tests green **unchanged**; the WinUI control is checked by the Release build and, at the end, by the WinUI Gallery self-checks (P16-24). P16-24 asks the user to push and then reads the Sonar duplication of PR #26.
 
