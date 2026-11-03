@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="LoomEditor.Avalonia.Controls" />
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
     <Using Include="LoomEditor.Avalonia.Controls.LoomEditor" Alias="LoomEditorControl" />
   </ItemGroup>
@@ -33,6 +34,9 @@
   <ItemGroup Label="Shared with the WinUI Gallery">
     <Compile Include="..\LoomEditor.Gallery\CommentSamples.cs" Link="Shared\CommentSamples.cs" />
     <Compile Include="..\LoomEditor.Gallery\CommentsSelfCheck.cs" Link="Shared\CommentsSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\DiffDemoWindow.Actions.cs" Link="Shared\DiffDemoWindow.Actions.cs" />
+    <Compile Include="..\LoomEditor.Gallery\DiffDemoWindow.Comments.cs" Link="Shared\DiffDemoWindow.Comments.cs" />
+    <Compile Include="..\LoomEditor.Gallery\DiffDemoWindow.Log.cs" Link="Shared\DiffDemoWindow.Log.cs" />
     <Compile Include="..\LoomEditor.Gallery\DiffSamples.cs" Link="Shared\DiffSamples.cs" />
     <Compile Include="..\LoomEditor.Gallery\DiffSelfCheck.cs" Link="Shared\DiffSelfCheck.cs" />
     <Compile Include="..\LoomEditor.Gallery\FeatureSamples.cs" Link="Shared\FeatureSamples.cs" />

@@ -3,7 +3,6 @@ using LoomEditor.View.Decorations;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using LoomEditor.Avalonia.Controls;
 
 namespace LoomEditor.Gallery;
 

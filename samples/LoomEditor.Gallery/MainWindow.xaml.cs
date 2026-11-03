@@ -6,7 +6,6 @@ using LoomEditor.TextMate.Grammars;
 using LoomEditor.View.Features.FontZoom;
 using LoomEditor.View.Layout;
 using LoomEditor.Themes;
-using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;

@@ -7,7 +7,6 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using Avalonia.Styling;
-using LoomEditor.Avalonia.Controls;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
 using LoomEditor.TextMate.Grammars;
