@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Documents;
 using Avalonia.Media;
-using LoomEditor.Core.Filters;
 using LoomEditor.View.Suggest;
 
 namespace LoomEditor.Avalonia.Controls.Suggest;
@@ -54,26 +53,20 @@ internal sealed partial class SuggestWidget
         label.Foreground = text;
         label.TextDecorations = model.IsDeprecated ? TextDecorations.Strikethrough : null;
         label.Inlines!.Clear();
-        int position = 0;
-        foreach (FilterMatch match in model.Matches)
+        foreach ((string segment, bool isMatch) in model.LabelSegments())
         {
-            int start = Math.Clamp(match.Start, position, model.Label.Length);
-            int end = Math.Clamp(match.End, start, model.Label.Length);
-            AddRun(label, model.Label[position..start], null, false);
-            AddRun(label, model.Label[start..end], matchBrush, true);
-            position = end;
+            AddRun(label, segment, isMatch ? matchBrush : null, isMatch);
         }
 
-        AddRun(label, model.Label[position..], null, false);
         if (!string.IsNullOrEmpty(model.LabelDetail))
         {
             AddRun(label, model.LabelDetail, _dim, false);
         }
 
         row.Description.Text = model.LabelDescription ?? "";
+        row.Description.Foreground = _dim;
         row.Description.FontFamily = font;
         row.Description.FontSize = fontSize;
-        row.Description.Foreground = _dim;
     }
 
     private static void AddRun(TextBlock block, string text, IBrush? foreground, bool bold)

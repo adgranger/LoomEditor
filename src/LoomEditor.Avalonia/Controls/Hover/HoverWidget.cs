@@ -17,6 +17,9 @@ internal sealed partial class HoverWidget : UserControl
     private readonly SolidColorBrush _foreground = new();
     private readonly SolidColorBrush _border = new();
     private readonly SolidColorBrush _link = new();
+    /// <summary>Raised with <c>true</c> when the pointer enters the widget and <c>false</c> when it leaves.</summary>
+    public event Action<bool>? PointerOverChanged;
+
     private readonly StackPanel _rows = new() { Orientation = Orientation.Vertical };
     private readonly MarkdownElementBuilder _markdown;
 
@@ -29,7 +32,7 @@ internal sealed partial class HoverWidget : UserControl
         {
             BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(4),
-            Padding = new Thickness(8, 4, 8, 4),
+            Padding = new Thickness(8, 4),
             Background = _background,
             BorderBrush = _border,
             Child = new ScrollViewer
@@ -45,17 +48,14 @@ internal sealed partial class HoverWidget : UserControl
         PointerExited += (_, _) => PointerOverChanged?.Invoke(false);
     }
 
-    /// <summary>Raised with <c>true</c> when the pointer enters the widget and <c>false</c> when it leaves.</summary>
-    public event Action<bool>? PointerOverChanged;
-
     /// <summary>The rows, for the tests.</summary>
     internal IReadOnlyList<Control> Rows => _rows.Children;
 
     /// <summary>Rebuilds the rows for these parts.</summary>
     public void Update(IReadOnlyList<IHoverPart> parts, FontFamily codeFont, double fontSize)
     {
-        ArgumentNullException.ThrowIfNull(parts);
         ArgumentNullException.ThrowIfNull(codeFont);
+        ArgumentNullException.ThrowIfNull(parts);
 
         _rows.Children.Clear();
         foreach (IHoverPart part in parts)

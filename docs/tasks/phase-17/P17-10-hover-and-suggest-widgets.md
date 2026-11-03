@@ -1,6 +1,6 @@
 # P17-10 — Remove the copies in the hover and suggest widgets
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P17-01
 - **Size:** S
 
@@ -47,17 +47,17 @@ Not a Monaco port. Read first: [phase-17/README.md](README.md) (rules). `src/Loo
 
 ## Tests
 
-- [ ] `LabelSegments_NoMatch_ReturnsTheWholeLabel`, `LabelSegments_Matches_AlternatePlainAndMatchedText`,
+- [x] `LabelSegments_NoMatch_ReturnsTheWholeLabel`, `LabelSegments_Matches_AlternatePlainAndMatchedText`,
   `LabelSegments_MatchPastTheEnd_IsClamped` (a match beyond `Label.Length`, as the clamps handle today) in `SuggestRowModelTests`.
-- [ ] The Avalonia headless tests of the suggest and hover widgets stay green **unchanged**.
+- [x] The Avalonia headless tests of the suggest and hover widgets stay green **unchanged**.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] The three pairs are gone from `KnownDuplicates`, and no new pair was added
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green, the duplication test included
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] The three pairs are gone from `KnownDuplicates`, and no new pair was added
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
