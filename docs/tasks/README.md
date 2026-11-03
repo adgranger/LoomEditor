@@ -1298,7 +1298,7 @@ Roadmap: [phase-17-zero-host-duplication.md](../roadmap/phase-17-zero-host-dupli
 | [P17-02](phase-17/P17-02-editor-host-hooks.md) | Share the framework-free members of `LoomEditor.HostHooks.Host.cs` | P17-01 | done |
 | [P17-03](phase-17/P17-03-diff-editor-sub-editors.md) | Share the sub-editor configuration of `LoomDiffEditor` | P17-01 | done |
 | [P17-04](phase-17/P17-04-accessible-diff-viewer-rows.md) | Share the row colors and cells of the accessible diff viewer | P17-01 | done |
-| [P17-05](phase-17/P17-05-comment-thread-widget-core.md) | Share the constructor and the framework-free members of `CommentThreadWidget` | P17-01 | todo |
+| [P17-05](phase-17/P17-05-comment-thread-widget-core.md) | Share the constructor and the framework-free members of `CommentThreadWidget` | P17-01 | done |
 | [P17-06](phase-17/P17-06-comment-thread-widget-theme.md) | Share `CommentThreadWidget.ApplyTheme` | P17-05 | todo |
 | [P17-07](phase-17/P17-07-comment-thread-widget-header.md) | Share the header layout of `CommentThreadWidget` | P17-06 | todo |
 | [P17-08](phase-17/P17-08-comment-thread-widget-composer.md) | Share the composer actions and layout of `CommentThreadWidget` | P17-07 | todo |
