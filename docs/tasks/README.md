@@ -1215,8 +1215,8 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 |---|---|---|---|
 | [P15-31](phase-15/P15-31-gallery-avalonia.md) | The Avalonia Gallery | P15-30 | done |
 | [P15-32](phase-15/P15-32-native-aot-three-os.md) | Native AOT on Windows, macOS and Linux | P15-31 | done |
-| [P15-33](phase-15/P15-33-package-and-release.md) | The `LoomEditor.Avalonia` package, package test, release workflow | P15-32 | todo |
-| [P15-34](phase-15/P15-34-close-phase-15.md) | Close phase 15: parity, how-to, docs, CHANGELOG | P15-33 | todo |
+| [P15-33](phase-15/P15-33-package-and-release.md) | The `LoomEditor.Avalonia` package, package test, release workflow | P15-32 | done |
+| [P15-34](phase-15/P15-34-close-phase-15.md) | Close phase 15: parity, how-to, docs, CHANGELOG | P15-33 | done |
 
 Take phase 15 cards in table order. Sonnet for every card except the three marked **Opus**. Unlike WinUI, the Avalonia cards are verified by headless tests
 (`tests/LoomEditor.Avalonia.Tests`); what headless cannot check goes to `docs/testing/phase-15-manual-tests.md`, written and not run by agents.

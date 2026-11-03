@@ -1,3 +1,6 @@
 # Key prefixes of WinUI members that never get an Avalonia twin.
 # WinUI XAML compiler output
 LoomEditor.Avalonia.LoomEditor_WinUI_XamlTypeInfo
+# WinUI XAML compiler output of the find widget (IComponentConnector): Avalonia compiles its XAML differently
+LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
+LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector

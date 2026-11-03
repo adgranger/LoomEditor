@@ -1,8 +1,8 @@
 # LoomEditor
 
-**A native code editor control for WinUI 3 — a C# port of the Monaco editor (the editor of VS Code).**
+**A native code editor control for WinUI 3 and for Avalonia (Windows, macOS, Linux) — a C# port of the Monaco editor (the editor of VS Code).**
 
-- **Native**: no WebView2, no JavaScript. C# all the way, plus DirectWrite (through Win2D) and Oniguruma.
+- **Native**: no WebView2, no JavaScript. C# all the way, plus DirectWrite (through Win2D) on WinUI, Skia on Avalonia, and Oniguruma.
 - **Native AOT compatible**: no run-time reflection; CI publishes the demo app with `PublishAot=true` and zero warnings.
 - **Monaco, ported faithfully**: same concepts (`TextModel`, `Position`, `Range`, `Selection`, piece tree…),
   Monaco's tests ported, every ported file linked to its source.
@@ -42,17 +42,33 @@ See the [how-to guides](docs/how-to/) for languages, themes, snippets, the diff 
 > `LoomEditor.Core.Text.Range` has the same name as `System.Range`. In projects that use it, add
 > `<Using Include="LoomEditor.Core.Text.Range" Alias="Range" />` to your `.csproj`.
 
+## Usage in an Avalonia app
+
+```xml
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:loom="using:LoomEditor.Avalonia.Controls">
+
+    <loom:LoomEditor Text="Hello, world!" />
+</Window>
+```
+
+Add `<loom:LoomEditorStyles />` (namespace `LoomEditor.Avalonia`) after your theme in `App.axaml`. The public API is the same as the WinUI control's; see
+[how to use the Avalonia control](docs/how-to/use-the-avalonia-control.md) for the differences and what was verified.
+
 ## Requirements
 
-- Windows 10 version 2004 (build 19041) or later, x64 or ARM64 (IME input needs Windows 11)
+- WinUI control: Windows 10 version 2004 (build 19041) or later, x64 or ARM64 (IME input needs Windows 11)
+- Avalonia control: Avalonia 12 on Windows, macOS or Linux (CI publishes the Avalonia Gallery with Native AOT for `win-x64`, `linux-x64` and `osx-arm64`)
 - .NET 11 SDK (currently RC 2, see `global.json`)
-- Windows App SDK 2.5
+- Windows App SDK 2.5 (WinUI control only)
 - To build Oniguruma from source (the NuGet package ships `onig.dll`): Visual Studio 2022+ with the C++ workload
 
 ## Install
 
 ```powershell
-dotnet add package LoomEditor.WinUI --prerelease
+dotnet add package LoomEditor.WinUI --prerelease      # WinUI 3
+dotnet add package LoomEditor.Avalonia --prerelease   # Avalonia 12 (Windows, macOS, Linux)
 ```
 
 Packages are published to nuget.org when a `vX.Y.Z` tag is pushed (first version: `0.1.0-alpha.1`); see
@@ -65,6 +81,7 @@ dotnet build LoomEditor.slnx -c Release                          # warnings are 
 dotnet test --solution LoomEditor.slnx -c Release                # unit + architecture tests
 dotnet run --project samples/LoomEditor.Gallery -p:Platform=x64  # the demo app
 dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64  # Native AOT build of the demo app
+dotnet run --project samples/LoomEditor.Gallery.Avalonia          # the Avalonia demo app (any system)
 ```
 
 ## Roadmap
@@ -84,6 +101,9 @@ dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64  # Native AOT bu
 | 10 | Editor completeness: fonts, zoom, whitespace, overtype, snippets, drag and drop | Built and tested ✅ |
 | 11 | Inline comment threads (GitHub review style) | Built and tested ✅ |
 | 12 | Comment threads on line ranges or exact selected text | Built and tested ✅ |
+| 13 | Public API for host applications | Built and tested ✅ |
+| 14 | Diff block and line actions | Built and tested ✅ |
+| 15 | Avalonia control (Windows, macOS, Linux) | Built, tested headless, Native AOT in CI on three systems; manual plan pending ✅ |
 
 Details: [docs/roadmap/](docs/roadmap/).
 
@@ -100,8 +120,9 @@ Details: [docs/roadmap/](docs/roadmap/).
 
 | Package | Content |
 |---|---|
-| **`LoomEditor.WinUI`** | the `LoomEditor` control — the package you install; it brings the others |
-| `LoomEditor.Rendering` | drawing (Win2D) |
+| **`LoomEditor.WinUI`** | the `LoomEditor` control for WinUI 3 — the package a WinUI app installs; it brings the others |
+| **`LoomEditor.Avalonia`** | the `LoomEditor` control for Avalonia 12 — the package an Avalonia app installs; it brings the others |
+| `LoomEditor.Rendering` | drawing (platform-neutral; the Win2D and Skia backends live in the control packages) |
 | `LoomEditor.View` | cursors, commands, features (UI-independent) |
 | `LoomEditor.TextMate`, `LoomEditor.Themes` | syntax highlighting and themes (UI-independent) |
 | `LoomEditor.Core` | text model and value types (UI-independent) |

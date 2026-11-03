@@ -1,4 +1,0 @@
-# WinUI public members that LoomEditor.Avalonia does not have yet (one key per line, sorted).
-# A card that adds a member removes its line; see AvaloniaApiParityTests.
-LoomEditor.Avalonia.Controls.Find.FindWidget.Connect
-LoomEditor.Avalonia.Controls.Find.FindWidget.GetBindingConnector

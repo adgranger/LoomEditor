@@ -1,9 +1,8 @@
 namespace LoomEditor.Architecture.Tests;
 
 /// <summary>
-/// The public API of LoomEditor.Avalonia must grow to match LoomEditor.WinUI's (phase 15, decision 4).
-/// <c>AvaloniaParityPending.txt</c> lists the WinUI members that Avalonia does not have yet; a card that adds a member
-/// removes its line. <c>AvaloniaParityExceptions.txt</c> lists key prefixes that never get an Avalonia twin.
+/// The public API of LoomEditor.Avalonia matches LoomEditor.WinUI's (phase 15, decision 4): every WinUI member has an Avalonia twin.
+/// <c>AvaloniaParityExceptions.txt</c> lists the key prefixes of WinUI members that never get one.
 /// </summary>
 public class AvaloniaApiParityTests
 {
@@ -24,24 +23,20 @@ public class AvaloniaApiParityTests
     }
 
     [Fact]
-    public void MissingMembers_MatchThePendingList()
+    public void MissingMembers_AreOnlyTheExceptions()
     {
         HashSet<string> winUi = ReadKeys("LoomEditor.WinUI");
         HashSet<string> avalonia = ReadKeys("LoomEditor.Avalonia");
         string[] exceptions = ReadList("AvaloniaParityExceptions.txt");
-        string[] pending = ReadList("AvaloniaParityPending.txt");
 
         string[] missing = winUi
             .Where(key => !avalonia.Contains(key) && !exceptions.Any(prefix => key.StartsWith(prefix, StringComparison.Ordinal)))
             .Order(StringComparer.Ordinal)
             .ToArray();
 
-        string[] toAdd = missing.Except(pending).ToArray();
-        string[] toRemove = pending.Except(missing).ToArray();
-        Assert.True(toAdd.Length == 0 && toRemove.Length == 0,
-            "AvaloniaParityPending.txt is out of date."
-            + (toAdd.Length > 0 ? $"{Environment.NewLine}Add:{Environment.NewLine}{string.Join(Environment.NewLine, toAdd)}" : string.Empty)
-            + (toRemove.Length > 0 ? $"{Environment.NewLine}Remove:{Environment.NewLine}{string.Join(Environment.NewLine, toRemove)}" : string.Empty));
+        Assert.True(missing.Length == 0,
+            $"LoomEditor.Avalonia lacks these LoomEditor.WinUI public members (add them, or add a prefix to AvaloniaParityExceptions.txt with the reason):{Environment.NewLine}"
+            + string.Join(Environment.NewLine, missing));
     }
 
     /// <summary>Reduces a PublicAPI line to a key shared by both backends, or null for a comment or an empty line.</summary>

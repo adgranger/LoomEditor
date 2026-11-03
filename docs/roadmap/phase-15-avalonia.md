@@ -12,12 +12,12 @@ the Avalonia control on top.
 
 ## Checklist
 
-- [ ] ADR 0016: Avalonia's `DrawingContext` + `TextLayout`, the same public API, one-to-one translation of the WinUI files
-- [ ] `LoomEditor.Rendering` is `net11.0`; Win2D moves into `LoomEditor.WinUI` (P15-01, P15-02)
-- [ ] Oniguruma for `linux-x64`, `linux-arm64`, `osx-x64`, `osx-arm64`; CI on Linux and macOS (P15-03, P15-04)
-- [ ] `LoomEditor.Avalonia` project, headless test project, API parity test (P15-05)
-- [ ] Text measurement and drawing without DirectWrite: tab stops through `DefaultIncrementalTab` (P15-06, P15-07)
-- [ ] The `LoomEditor` control: drawing, scrolling, options, keyboard, clipboard, pointer, IME (`TextInputMethodClient`), accessibility, host API (P15-08 … P15-16)
-- [ ] Widgets: find, hover, suggest, comment threads (P15-17 … P15-23)
-- [ ] `LoomDiffEditor`, with hidden unchanged regions, the accessible viewer and the phase 14 actions (P15-24 … P15-30)
-- [ ] Avalonia Gallery; Native AOT on Windows, macOS and Linux in CI; `LoomEditor.Avalonia` package; docs (P15-31 … P15-34)
+- [x] ADR 0016: Avalonia's `DrawingContext` + `TextLayout`, the same public API, one-to-one translation of the WinUI files
+- [x] `LoomEditor.Rendering` is `net11.0`; Win2D moves into `LoomEditor.WinUI` (P15-01, P15-02)
+- [x] Oniguruma for `linux-x64`, `linux-arm64`, `osx-x64`, `osx-arm64`; CI on Linux and macOS (P15-03, P15-04)
+- [x] `LoomEditor.Avalonia` project, headless test project, API parity test (P15-05)
+- [x] Text measurement and drawing without DirectWrite: tab stops through `DefaultIncrementalTab` (P15-06, P15-07)
+- [x] The `LoomEditor` control: drawing, scrolling, options, keyboard, clipboard, pointer, IME (`TextInputMethodClient`), accessibility, host API (P15-08 … P15-16)
+- [x] Widgets: find, hover, suggest, comment threads (P15-17 … P15-23)
+- [x] `LoomDiffEditor`, with hidden unchanged regions, the accessible viewer and the phase 14 actions (P15-24 … P15-30)
+- [x] Avalonia Gallery; Native AOT on Windows, macOS and Linux in CI; `LoomEditor.Avalonia` package; docs (P15-31 … P15-34)

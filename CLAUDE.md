@@ -70,5 +70,5 @@ test project must reference it too. No environment variable is needed.
 
 ## Architecture rules (enforced by tests in tests/LoomEditor.Architecture.Tests)
 
-`WinUI → Rendering → View → (TextMate, Themes) → Core`. Core/TextMate/Themes/View know nothing about Windows or UI.
+`WinUI | Avalonia → Rendering → View → (TextMate, Themes) → Core`. Core/TextMate/Themes/View know nothing about Windows or UI.
 Features live in `src/LoomEditor.View/Features/<Name>/` and are listed in `EditorFeatures.cs`.

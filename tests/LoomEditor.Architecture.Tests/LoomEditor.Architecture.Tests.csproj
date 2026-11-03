@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- The API parity test (AvaloniaApiParityTests) reads these two lists. -->
-    <None Update="AvaloniaParityPending.txt" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The API parity test (AvaloniaApiParityTests) reads this list. -->
     <None Update="AvaloniaParityExceptions.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

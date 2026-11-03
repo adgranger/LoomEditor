@@ -367,11 +367,18 @@ Decisions in [ADR 0015](adr/0015-public-host-api.md). Not a port. A small public
 gets no new member. Proof: the Native AOT self-check `--hostapi-selfcheck` and the package test app. **Not verified:** the manual plan has not been run.
 How to use it: [how-to/use-the-host-api.md](how-to/use-the-host-api.md).
 
+## Avalonia control (phase 15)
+
+Decisions in [ADR 0016](adr/0016-avalonia-backend.md). `LoomEditor.Avalonia` is the twin of `LoomEditor.WinUI`: it references `LoomEditor.Rendering` only and plugs the Skia backend into it (`AvaloniaRenderSurface`, `AvaloniaTextMeasurer`). Every WinUI file has a twin with the same relative path (`Controls/LoomEditor.Pointer.cs`), and the public API is the WinUI one translated (styled properties, `Avalonia.Input.Key`, `EventHandler<T>`); `AvaloniaApiParityTests` fails when a WinUI member has no twin. Rendering became portable (Win2D moved into `LoomEditor.WinUI`). Input goes through `KeyDown` / `TextInput` / `TextInputMethodClient`, the clipboard through `TopLevel.Clipboard`, accessibility through an `AutomationPeer`. The tests run headless (Avalonia.Headless + Skia, `tests/LoomEditor.Avalonia.Tests`). Proof beyond them: the Avalonia Gallery published with Native AOT on Windows, Linux and macOS with its self-checks (CI job `aot-avalonia`) and the package test app (`package-avalonia`). **Not verified:** the manual plan ([testing/phase-15-manual-tests.md](testing/phase-15-manual-tests.md)). How to use it: [how-to/use-the-avalonia-control.md](how-to/use-the-avalonia-control.md).
+
 ## Where do I find…?
 
 | I want to… | Go to |
 |---|---|
 | change how text is stored or edited | `src/LoomEditor.Core/Model/` |
+| change the Avalonia control (input, drawing, widgets, diff editor) | `src/LoomEditor.Avalonia/` (same relative paths as `src/LoomEditor.WinUI/`) |
+| change the Avalonia text measurement or drawing | `src/LoomEditor.Avalonia/Rendering/` |
+| run or test the Avalonia control by hand | `samples/LoomEditor.Gallery.Avalonia/`, `docs/testing/phase-15-manual-tests.md` |
 | change the text model (lines, EOL, edits, events) | `src/LoomEditor.Core/Model/` (`TextModel*.cs`) |
 | change undo / redo | `src/LoomEditor.Core/Undo/` |
 | change the piece tree (text storage) | `src/LoomEditor.Core/Model/PieceTree/` |
