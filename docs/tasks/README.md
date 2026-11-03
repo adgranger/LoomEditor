@@ -1302,7 +1302,7 @@ Roadmap: [phase-17-zero-host-duplication.md](../roadmap/phase-17-zero-host-dupli
 | [P17-06](phase-17/P17-06-comment-thread-widget-theme.md) | Share `CommentThreadWidget.ApplyTheme` | P17-05 | done |
 | [P17-07](phase-17/P17-07-comment-thread-widget-header.md) | Share the header layout of `CommentThreadWidget` | P17-06 | done |
 | [P17-08](phase-17/P17-08-comment-thread-widget-composer.md) | Share the composer actions and layout of `CommentThreadWidget` | P17-07 | done |
-| [P17-09](phase-17/P17-09-composer-toolbar-and-suggestion-block.md) | Remove the copies in the composer toolbar and the suggestion block | P17-08 | todo |
+| [P17-09](phase-17/P17-09-composer-toolbar-and-suggestion-block.md) | Remove the copies in the composer toolbar and the suggestion block | P17-08 | done |
 | [P17-10](phase-17/P17-10-hover-and-suggest-widgets.md) | Remove the copies in the hover and suggest widgets | P17-01 | todo |
 | [P17-11](phase-17/P17-11-gallery-startup-and-sonar-scope.md) | Gallery: share the main window start-up; keep the Gallery host parts out of Sonar's copy detection | P17-01 | todo |
 | [P17-12](phase-17/P17-12-pointer-release-zone-placement-diff-teardown.md) | Share the pointer release, the comment zone placement test and the diff editor teardown | P17-01 | todo |

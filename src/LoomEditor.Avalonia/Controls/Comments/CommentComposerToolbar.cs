@@ -13,7 +13,7 @@ namespace LoomEditor.Avalonia.Controls.Comments;
 /// <c>Home</c> and <c>End</c> move between the buttons (roving focus).
 /// </summary>
 /// <remarks>Threading: UI thread only.</remarks>
-internal sealed class CommentComposerToolbar : StackPanel
+internal sealed partial class CommentComposerToolbar : StackPanel
 {
     private readonly List<Button> _buttons = [];
 
@@ -29,10 +29,10 @@ internal sealed class CommentComposerToolbar : StackPanel
                 Content = Label(action),
                 Width = 28,
                 Height = 28,
-                Padding = new Thickness(0),
-                BorderThickness = new Thickness(0),
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
+                Padding = new Thickness(0),
+                BorderThickness = new Thickness(0),
                 IsTabStop = _buttons.Count == 0,
             };
             ToolTip.SetTip(button, name);
@@ -49,15 +49,6 @@ internal sealed class CommentComposerToolbar : StackPanel
     /// <summary>The buttons, in enum order, for the tests.</summary>
     internal IReadOnlyList<Button> Buttons => _buttons;
 
-    /// <summary>Enables or disables every button (a panel has no <c>IsEnabled</c> of its own).</summary>
-    public void SetEnabled(bool enabled)
-    {
-        foreach (Button button in _buttons)
-        {
-            button.IsEnabled = enabled;
-        }
-    }
-
     /// <summary>Transparent buttons with this label color; <see langword="null"/> (high contrast) leaves the defaults.</summary>
     public void SetForeground(IBrush? foreground)
     {
@@ -66,23 +57,6 @@ internal sealed class CommentComposerToolbar : StackPanel
             CommentThreadWidget.SetPlain(button, foreground);
         }
     }
-
-    private static string Label(MarkdownToolbarAction action) => action switch
-    {
-        MarkdownToolbarAction.Heading => "H",
-        MarkdownToolbarAction.Bold => "B",
-        MarkdownToolbarAction.Italic => "I",
-        MarkdownToolbarAction.Underline => "U",
-        MarkdownToolbarAction.Strikethrough => "S",
-        MarkdownToolbarAction.InlineCode => "<>",
-        MarkdownToolbarAction.CodeBlock => "{ }",
-        MarkdownToolbarAction.Link => "Link",
-        MarkdownToolbarAction.BulletList => "•",
-        MarkdownToolbarAction.NumberedList => "1.",
-        MarkdownToolbarAction.Quote => "\"",
-        MarkdownToolbarAction.Suggestion => "±",
-        _ => throw new ArgumentOutOfRangeException(nameof(action)),
-    };
 
     // The focused button becomes the only tab stop, so Shift+Tab back into the toolbar lands on it.
     private void MakeTabStop(Button focused)

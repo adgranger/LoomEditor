@@ -11,7 +11,18 @@ namespace LoomEditor.Avalonia.Controls.Comments;
 
 /// <summary>The brushes and code font of a <see cref="SuggestionBlockView"/>.</summary>
 /// <remarks>Threading: UI thread only (Avalonia brushes).</remarks>
-internal sealed record SuggestionBlockTheme(IBrush Foreground, IBrush Border, IBrush RemovedLine, IBrush InsertedLine, FontFamily CodeFont, double FontSize);
+internal sealed record SuggestionBlockTheme(IBrush Foreground, IBrush Border, IBrush RemovedLine, IBrush InsertedLine, FontFamily CodeFont, double FontSize)
+{
+    /// <summary>A code text block: the code font, never wrapped.</summary>
+    public TextBlock Code(string text) => new()
+    {
+        Text = text,
+        FontFamily = CodeFont,
+        FontSize = FontSize,
+        Foreground = Foreground,
+        TextWrapping = TextWrapping.NoWrap,
+    };
+}
 
 /// <summary>
 /// A ```suggestion block drawn as a diff of the commented line: a "Suggested change" header with an optional Apply button, then one row per
@@ -68,6 +79,9 @@ internal sealed class SuggestionBlockView : UserControl
         };
         // The row backgrounds span the block even when every line is shorter than it.
         scroll.SizeChanged += (_, e) => rows.MinWidth = e.NewSize.Width;
+        AutomationProperties.SetControlTypeOverride(this, AutomationControlType.Group);
+        AutomationProperties.SetName(this, CommentStrings.SuggestedChange);
+        AutomationProperties.SetHelpText(this, diff.Describe());
 
         var panel = new StackPanel { Spacing = 4 };
         panel.Children.Add(header);
@@ -78,12 +92,9 @@ internal sealed class SuggestionBlockView : UserControl
             BorderBrush = theme.Border,
             CornerRadius = new CornerRadius(4),
             Padding = new Thickness(6),
-            Margin = new Thickness(0, 4, 0, 4),
+            Margin = new Thickness(0, 4),
             Child = panel,
         };
-        AutomationProperties.SetControlTypeOverride(this, AutomationControlType.Group);
-        AutomationProperties.SetName(this, CommentStrings.SuggestedChange);
-        AutomationProperties.SetHelpText(this, diff.Describe());
     }
 
     /// <summary>The text of the lines the diff was computed against (sent back to the controller on Apply to detect a stale block).</summary>
@@ -102,19 +113,10 @@ internal sealed class SuggestionBlockView : UserControl
             },
         };
         // The marker is never empty (a space for context), so an empty line is still one line high.
-        grid.Children.Add(Code(row.Marker.ToString(), theme));
-        TextBlock text = Code(row.Text, theme);
+        grid.Children.Add(theme.Code(row.Marker.ToString()));
+        TextBlock text = theme.Code(row.Text);
         Grid.SetColumn(text, 1);
         grid.Children.Add(text);
         return grid;
     }
-
-    private static TextBlock Code(string text, SuggestionBlockTheme theme) => new()
-    {
-        Text = text,
-        FontFamily = theme.CodeFont,
-        FontSize = theme.FontSize,
-        Foreground = theme.Foreground,
-        TextWrapping = TextWrapping.NoWrap,
-    };
 }
