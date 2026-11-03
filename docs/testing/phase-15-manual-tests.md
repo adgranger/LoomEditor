@@ -144,3 +144,16 @@ screen readers. Fill the **Result** line of each check (`pass` / `fail` + a note
    **Result:** pending
 5. All: scroll with the mouse wheel while the pointer rests on the line numbers: the "+" follows the line under the pointer.
    **Result:** pending
+
+## P15-22 — Comment composer, toolbar and suggestions
+
+1. All: in a comment thread click Reply: the box opens with the focus in the text field; typing, selecting and the context menu (copy, paste) work; Ctrl+Enter (Cmd+Enter on macOS) submits, Escape on an empty box cancels, Escape on a non-empty box does nothing.
+   **Result:** pending
+2. All: the toolbar buttons wrap the selection (Bold, Italic, Link...); Ctrl+B / Ctrl+I / Ctrl+K do the same (Cmd on macOS); the arrow keys, Home and End move between the buttons and Tab leaves the toolbar after one stop.
+   **Result:** pending
+3. Windows, macOS, Ubuntu: IME composition in the comment box (Japanese or Chinese): the preedit text shows inline, the candidate window sits at the caret, the committed text lands once, and Ctrl+Enter during a composition does not submit.
+   **Result:** pending
+4. All: Preview shows the rendered draft, a suggestion block with the diff and no Apply button; switching back keeps the selection and the text.
+   **Result:** pending
+5. All: a posted comment with a suggestion block shows "Suggested change" with - / + rows and an Apply button; Apply replaces the line, a changed line shows the stale tooltip, a read-only editor disables the button.
+   **Result:** pending

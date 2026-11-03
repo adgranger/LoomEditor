@@ -1,6 +1,6 @@
 # P15-22 — Comment composer, toolbar and suggestion blocks
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-21
 - **Size:** M (~550 lines; mechanical, allowed above 400)
 
@@ -29,13 +29,22 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Comments/CommentThreadWidget.Com
 
 ## Tests
 
-- [ ] New: `Composer_CtrlEnter_RaisesCommentSubmitted`; `Composer_Escape_Cancels`; `Toolbar_Bold_WrapsSelection`; `Suggestion_Apply_RaisesSuggestionApplied`
+- [x] New: `Composer_CtrlEnter_RaisesCommentSubmitted`; `Composer_Escape_Cancels`; `Toolbar_Bold_WrapsSelection`; `Suggestion_Apply_RaisesSuggestionApplied`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Deviations
+
+- `Suggestion_Apply_RaisesSuggestionApplied` became `Suggestion_Apply_InvokesApplySuggestion`: the `SuggestionApplied` event belongs to the editor and is raised by the zone
+  host (P15-23); the widget test checks that Apply calls the host callback with the comment id, the index and the rendered range text.
+- The toolbar keeps the text labels of the WinUI twin (`B`, `I`, `<>`, `Link`...), so `Icons.axaml` is unchanged.
+- The text box sets `NewLine = "
+"`: one character per line break, like the view model, so the offsets of the toolbar edits are unchanged. Ctrl+Enter, Ctrl+B / I / K use
+  `KeyMapping.ToModifiers`, so Cmd does the same on macOS. The Tab order of the toolbar relies on `IsTabStop` and a handler on the buttons, as WinUI.
 
 ## Out of scope
 
