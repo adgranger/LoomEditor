@@ -1221,6 +1221,72 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 Take phase 15 cards in table order. Sonnet for every card except the three marked **Opus**. Unlike WinUI, the Avalonia cards are verified by headless tests
 (`tests/LoomEditor.Avalonia.Tests`); what headless cannot check goes to `docs/testing/phase-15-manual-tests.md`, written and not run by agents.
 
+## Phase 16 — Shared host logic (WinUI and Avalonia)
+
+Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.md); decision: [ADR 0017](../adr/0017-shared-host-logic.md); rules: [phase-16/README.md](phase-16/README.md).
+**Not a Monaco port:** a refactoring that removes the WinUI/Avalonia duplication (Sonar: 23.2% on PR #26, target ≤ 3%) without changing behavior or public API. Planned 2026-11-03.
+
+### Step A — Shared host source
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-01](phase-16/P16-01-host-shared-folder.md) | `src/LoomEditor.HostShared`: shared host source, its tests, the comment event args | P15-34 | todo |
+| [P16-02](phase-16/P16-02-public-types-one-source.md) | The other copied public types and namespace-only partials from one source | P16-01 | todo |
+
+### Step B — The `LoomEditor` control
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-03](phase-16/P16-03-host-dispatcher-reveal-snippets.md) | `HostDispatcher`; share `LoomEditor.Reveal` and `LoomEditor.Snippets` | P16-01 | todo |
+| [P16-04](phase-16/P16-04-host-hooks-and-diff-gutter.md) | Split WinUI `LoomEditor.HostHooks` like Avalonia; share the diff gutter and scroll hooks | P16-03 | todo |
+| [P16-05](phase-16/P16-05-view-zone-pointer.md) | Share the view zone pointer | P16-04 | todo |
+| [P16-06](phase-16/P16-06-editor-comment-threads-keyboard.md) | Share the `LoomEditor` comment threads, keybinding context, selection API and screen reader refresh | P16-03 | todo |
+| [P16-07](phase-16/P16-07-pointer-and-scrolling.md) | Share the pointer and scrolling decisions of `LoomEditor` (**Opus**) | P16-05 | todo |
+
+### Step C — `LoomDiffEditor`
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-08](phase-16/P16-08-hidden-regions-and-view-zones.md) | Share `HideUnchangedRegionsController` and `DiffEditorViewZones` | P16-03 | todo |
+| [P16-09](phase-16/P16-09-diff-comments-navigation-overview.md) | Share the diff editor's comment threads, navigation, overview ruler and gutter controllers | P16-08 | todo |
+| [P16-10](phase-16/P16-10-diff-editor-core-and-layout.md) | Share the duplicated members of `LoomDiffEditor.cs` and `LoomDiffEditor.Layout.cs` | P16-08 | todo |
+| [P16-11](phase-16/P16-11-accessible-diff-viewer.md) | Share the accessible diff viewer logic | P16-01 | todo |
+| [P16-12](phase-16/P16-12-diff-block-actions.md) | Share the diff block actions controller | P16-08 | todo |
+| [P16-13](phase-16/P16-13-diff-line-checkboxes.md) | Share the diff line check boxes and line selection | P16-12 | todo |
+
+### Step D — Widgets
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-14](phase-16/P16-14-find-widget.md) | Share the find widget logic | P16-03 | todo |
+| [P16-15](phase-16/P16-15-comment-gutter-and-zone-host.md) | Share the comment gutter controller and the comment zone host | P16-03 | todo |
+| [P16-16](phase-16/P16-16-comment-thread-widget.md) | Share the comment thread widget logic | P16-15 | todo |
+| [P16-17](phase-16/P16-17-small-widget-leftovers.md) | Share the leftovers of the suggestion block, composer toolbar, suggest and hover widgets | P16-16 | todo |
+
+### Step E — Rendering and tests
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-18](phase-16/P16-18-rendering-text-helpers.md) | Move the shared text layout helpers into `LoomEditor.Rendering` | P15-34 | todo |
+| [P16-19](phase-16/P16-19-avalonia-diff-test-window.md) | One helper for the Avalonia diff editor test window | P15-34 | todo |
+
+### Step F — Galleries
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-20](phase-16/P16-20-gallery-shared-setup-and-lsp.md) | Gallery: global control usings; share the LSP demo | P15-34 | todo |
+| [P16-21](phase-16/P16-21-gallery-diff-demo.md) | Gallery: share the diff demo window logic | P16-20 | todo |
+| [P16-22](phase-16/P16-22-gallery-host-api-demo.md) | Gallery: share the host API demo window logic | P16-20 | todo |
+| [P16-23](phase-16/P16-23-gallery-main-window.md) | Gallery: share the main window logic | P16-20 | todo |
+
+### Step G — Close
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-24](phase-16/P16-24-close-phase-16.md) | Close phase 16: self-checks, Native AOT, Sonar duplication ≤ 3% | P16-01 … P16-23 | todo |
+
+Take phase 16 cards in table order (the "Depends on" column allows other orders, but one card at a time keeps `docs/PORTING.md` and this index free of conflicts). Sonnet for every card except P16-07, marked **Opus**: it reshapes the pointer handlers of both controls, and the WinUI ones have no automated test. Each card keeps the Avalonia headless tests green **unchanged**; the WinUI control is checked by the Release build and, at the end, by the WinUI Gallery self-checks (P16-24). P16-24 asks the user to push and then reads the Sonar duplication of PR #26.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:

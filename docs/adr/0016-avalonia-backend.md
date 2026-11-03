@@ -2,6 +2,7 @@
 
 - **Status:** accepted (2026-11-03, with the decisions of [phase-15/README.md](../tasks/phase-15/README.md))
 - **Date:** 2026-11-03
+- **Amended by:** [ADR 0017](0017-shared-host-logic.md) (decisions 4 and 5: shared code and public UI-free types are compiled from one source)
 - **Extends:** [ADR 0002](0002-rendering-backend.md) (rendering behind `IRenderSurface`), [ADR 0007](0007-textmate-regex-engine.md) (native Oniguruma)
 
 ## Context
