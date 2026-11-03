@@ -1,6 +1,6 @@
 # P15-25 — `LoomDiffEditor` options and change navigation
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-24
 - **Size:** M
 
@@ -27,13 +27,13 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/DiffEditor/LoomDiffEditor.Option
 
 ## Tests
 
-- [ ] New: `RenderSideBySide_False_ShowsInline`; `IgnoreTrimWhitespace_WhitespaceOnly_NoChange`; `AltF5_GoesToNextChange`; `ShiftAltF5_GoesToPrevious`; `Changes_MatchesDiff`
+- [x] New: `RenderSideBySide_False_ShowsInline`; `IgnoreTrimWhitespace_WhitespaceOnly_NoChange`; `AltF5_GoesToNextChange`; `ShiftAltF5_GoesToPrevious`; `Changes_MatchesDiff`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

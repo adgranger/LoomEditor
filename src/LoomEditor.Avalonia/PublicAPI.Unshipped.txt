@@ -92,18 +92,49 @@ LoomEditor.Avalonia.Controls.LoomDiffEditor
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ChangeCount.get -> int
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Changes.get -> System.Collections.Generic.IReadOnlyList<LoomEditor.View.DiffEditor.DiffChangeBlock!>!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.DiffChanged -> System.EventHandler?
+LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizing.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.GoToNextChange() -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.GoToPreviousChange() -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegions.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegions.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCount.get -> int
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCount.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCount.get -> int
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCount.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.get -> int
+LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCount.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespace.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespace.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.IsDiffUpToDate.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnly.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageId.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineHeight.get -> double
+LoomEditor.Avalonia.Controls.LoomDiffEditor.LineHeight.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.LoomDiffEditor() -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.get -> int
+LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMs.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Modified.get -> LoomEditor.Avalonia.Controls.LoomEditor!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedText.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Original.get -> LoomEditor.Avalonia.Controls.LoomEditor!
+LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditable.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.get -> string!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalText.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicators.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicators.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRuler.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRuler.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySide.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySide.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.RevealFirstChangeAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.get -> LoomEditor.Themes.EditorTheme!
 LoomEditor.Avalonia.Controls.LoomDiffEditor.Theme.set -> void
+LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.get -> bool
+LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimited.set -> void
 LoomEditor.Avalonia.Controls.LoomDiffEditor.WaitForDiffAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
 LoomEditor.Avalonia.Controls.LoomEditor
 LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupport.get -> LoomEditor.Avalonia.Controls.EditorAccessibilitySupport
@@ -228,9 +259,22 @@ LoomEditor.Avalonia.LoomEditorStyles.LoomEditorStyles() -> void
 override LoomEditor.Avalonia.Controls.DiffLine.GetHashCode() -> int
 static LoomEditor.Avalonia.Controls.DiffLine.operator !=(LoomEditor.Avalonia.Controls.DiffLine left, LoomEditor.Avalonia.Controls.DiffLine right) -> bool
 static LoomEditor.Avalonia.Controls.DiffLine.operator ==(LoomEditor.Avalonia.Controls.DiffLine left, LoomEditor.Avalonia.Controls.DiffLine right) -> bool
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.EnableSplitViewResizingProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsContextLineCountProperty -> Avalonia.StyledProperty<int>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsMinimumLineCountProperty -> Avalonia.StyledProperty<int>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.HideUnchangedRegionsRevealLineCountProperty -> Avalonia.StyledProperty<int>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.IgnoreTrimWhitespaceProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.IsReadOnlyProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.LanguageIdProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.MaxComputationTimeMsProperty -> Avalonia.StyledProperty<int>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.ModifiedTextProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalEditableProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.OriginalTextProperty -> Avalonia.StyledProperty<string!>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderIndicatorsProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderOverviewRulerProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.RenderSideBySideProperty -> Avalonia.StyledProperty<bool>!
+static readonly LoomEditor.Avalonia.Controls.LoomDiffEditor.UseInlineViewWhenSpaceIsLimitedProperty -> Avalonia.StyledProperty<bool>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.AccessibilitySupportProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorAccessibilitySupport>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.BracketPairGuidesProperty -> Avalonia.StyledProperty<LoomEditor.Avalonia.Controls.EditorBracketPairGuides>!
 static readonly LoomEditor.Avalonia.Controls.LoomEditor.CommentGutterButtonEnabledProperty -> Avalonia.StyledProperty<bool>!

@@ -343,23 +343,4 @@ public sealed partial class LoomDiffEditor : TemplatedControl
             }
         }
     }
-
-    // Everything else the sub-editors get from this control. Safe to call again: it only assigns properties.
-    // shortcut: no diff navigation feature and no options of the control yet, P15-25 adds them.
-    private void ConfigureEditors()
-    {
-        if (_original is not { } original || _modified is not { } modified)
-        {
-            return;
-        }
-
-        foreach (LoomEditor editor in new[] { original, modified })
-        {
-            editor.IsInDiffEditor = true;
-            editor.MinimapEnabled = false;
-        }
-
-        original.IsReadOnly = !_options.OriginalEditable;
-        modified.IsReadOnly = _options.ReadOnly;
-    }
 }
