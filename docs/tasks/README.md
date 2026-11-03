@@ -1287,6 +1287,30 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 
 Take phase 16 cards in table order (the "Depends on" column allows other orders, but one card at a time keeps `docs/PORTING.md` and this index free of conflicts). Sonnet for every card except P16-07, marked **Opus**: it reshapes the pointer handlers of both controls, and the WinUI ones have no automated test. Each card keeps the Avalonia headless tests green **unchanged**; the WinUI control is checked by the Release build and, at the end, by the WinUI Gallery self-checks (P16-24). P16-24 asks the user to push and then reads the Sonar duplication of PR #26.
 
+## Phase 17 — Zero duplication between the WinUI and Avalonia hosts
+
+Roadmap: [phase-17-zero-host-duplication.md](../roadmap/phase-17-zero-host-duplication.md); decision: [ADR 0017](../adr/0017-shared-host-logic.md); rules: [phase-17/README.md](phase-17/README.md).
+**Not a Monaco port:** removes the last blocks copied between the two hosts and the two Galleries (Sonar: 2.15% on PR #26, target 0.0%) without changing behavior or public API. Planned 2026-11-03.
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P17-01](phase-17/P17-01-host-twin-duplication-test.md) | A test that finds blocks copied between the two hosts | P16-24 | todo |
+| [P17-02](phase-17/P17-02-editor-host-hooks.md) | Share the framework-free members of `LoomEditor.HostHooks.Host.cs` | P17-01 | todo |
+| [P17-03](phase-17/P17-03-diff-editor-sub-editors.md) | Share the sub-editor configuration of `LoomDiffEditor` | P17-01 | todo |
+| [P17-04](phase-17/P17-04-accessible-diff-viewer-rows.md) | Share the row colors and cells of the accessible diff viewer | P17-01 | todo |
+| [P17-05](phase-17/P17-05-comment-thread-widget-core.md) | Share the constructor and the framework-free members of `CommentThreadWidget` | P17-01 | todo |
+| [P17-06](phase-17/P17-06-comment-thread-widget-theme.md) | Share `CommentThreadWidget.ApplyTheme` | P17-05 | todo |
+| [P17-07](phase-17/P17-07-comment-thread-widget-header.md) | Share the header layout of `CommentThreadWidget` | P17-06 | todo |
+| [P17-08](phase-17/P17-08-comment-thread-widget-composer.md) | Share the composer actions and layout of `CommentThreadWidget` | P17-07 | todo |
+| [P17-09](phase-17/P17-09-composer-toolbar-and-suggestion-block.md) | Remove the copies in the composer toolbar and the suggestion block | P17-08 | todo |
+| [P17-10](phase-17/P17-10-hover-and-suggest-widgets.md) | Remove the copies in the hover and suggest widgets | P17-01 | todo |
+| [P17-11](phase-17/P17-11-gallery-startup-and-sonar-scope.md) | Gallery: share the main window start-up; keep the Gallery host parts out of Sonar's copy detection | P17-01 | todo |
+| [P17-12](phase-17/P17-12-close-phase-17.md) | Close phase 17: build, tests, self-checks, Sonar duplication 0% | P17-01 … P17-11 | todo |
+
+Take phase 17 cards in table order (one card at a time: they all edit `KnownDuplicates` in `HostTwinDuplicationTests`). Sonnet for every card. P17-01 adds
+the gate: a copy detector run by `dotnet test` that starts with today's 13 copied file pairs; each card deletes its pairs, and P17-12 removes the list.
+P17-12 asks the user to push and then reads the Sonar duplication of PR #26.
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
