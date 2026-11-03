@@ -57,7 +57,7 @@ public sealed partial class LoomEditor
         {
             _capturedZoneId = hit.Zone.Id;
             _capturedZoneTop = hit.Top;
-            CapturePointerForZone();
+            CapturePressedPointer();
         }
 
         return _viewModel.ViewZones.ShouldSuppressMouseDown(hit.Zone.Id);

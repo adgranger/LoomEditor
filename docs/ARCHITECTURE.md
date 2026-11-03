@@ -392,13 +392,13 @@ Code both controls need and that names a host type lives once in `src/LoomEditor
 | add a command or shortcut | the feature's `<Name>Commands.cs`; shortcuts in `src/LoomEditor.WinUI/Input/` (phase 3: `View/Commands/DefaultKeybindings.cs`) |
 | change cursors, selections, how typing / deleting / indenting / paste behave | `src/LoomEditor.View/Cursors/` (`CursorsController`, `TypeOperations`, `DeleteOperations`, `CursorMoveCommands`…) |
 | change a command or a default shortcut | `src/LoomEditor.View/Commands/` (`CoreNavigationCommands`, `CoreEditingCommands`, `DefaultKeybindings.cs`, `KeybindingResolver`) |
-| change mouse selection or hit testing | `src/LoomEditor.View/Controller/` (`MouseTargetFactory`, `MouseDownOperation`, `ViewController`), `src/LoomEditor.WinUI/Controls/LoomEditor.Pointer.cs` |
+| change mouse selection or hit testing | `src/LoomEditor.View/Controller/` (`MouseTargetFactory`, `MouseDownOperation`, `ViewController`), `src/LoomEditor.HostShared/Controls/LoomEditor.Pointer.cs` (event handlers: `LoomEditor.Pointer.Host.cs` in each host) |
 | change the clipboard | `src/LoomEditor.View/Controller/ClipboardData.cs`, `ClipboardCommands.cs`, `src/LoomEditor.WinUI/Input/WindowsClipboardService.cs` |
 | change IME input (composition, candidate window, underlines) | `src/LoomEditor.View/Controller/EditContext*.cs`, `src/LoomEditor.WinUI/Input/ImeInput.cs`, `src/LoomEditor.WinUI/Controls/LoomEditor.Ime.cs` |
 | change tracked ranges (ranges that follow edits) | `src/LoomEditor.Core/Decorations/` (interval tree), `src/LoomEditor.Core/Model/TextModel.TrackedRanges.cs` |
 | change how things are drawn | `src/LoomEditor.Rendering/TextViewRenderer.cs` |
 | change the Win2D backend | `src/LoomEditor.WinUI/Rendering/Win2D/` |
-| change scrolling, wheel or the scroll position | `src/LoomEditor.View/Layout/` (`Scrollable`, `ViewLayout`, `MouseWheelScrolling`); the control side is `src/LoomEditor.WinUI/Controls/LoomEditor.Scrolling.cs` |
+| change scrolling, wheel or the scroll position | `src/LoomEditor.View/Layout/` (`Scrollable`, `ViewLayout`, `MouseWheelScrolling`); the control side is `src/LoomEditor.HostShared/Controls/LoomEditor.Scrolling.cs` (scroll bars and wheel event: `LoomEditor.Scrolling.Host.cs` in each host) |
 | change the layout (line heights, content size, visible lines) | `src/LoomEditor.View/Layout/` (`LinesLayout`, `LineHeightsManager`, `ViewLayout`, `ViewModel`) |
 | change the tokens of a model (token store, states, `TokensChanged`, viewport-first tokenization) | `src/LoomEditor.Core/Model/Tokens/`, `src/LoomEditor.Core/Tokens/`, `src/LoomEditor.Core/Model/TextModel.Tokenization.cs` |
 | change how a grammar is loaded or a line is tokenized | `src/LoomEditor.TextMate/Grammar/` (vscode-textmate), `Parsing/`, `Tokenization/` (`TMGrammarFactory`, `TextMateTokenizationSupport`) |

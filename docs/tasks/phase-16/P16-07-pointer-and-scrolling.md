@@ -1,6 +1,6 @@
 # P16-07 — Share the pointer and scrolling decisions of `LoomEditor`
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P16-05
 - **Size:** M
 
@@ -39,16 +39,16 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
-- [ ] `LoomEditorPointerTests`, `LoomEditorScrollingTests` and `HostViewZoneTests` pass unchanged.
+- [x] No new test. The Avalonia headless tests stay green **unchanged** (they now run the shared code).
+- [x] `LoomEditorPointerTests`, `LoomEditorScrollingTests` and `HostViewZoneTests` pass unchanged.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -57,3 +57,21 @@ Keyboard and IME handlers. Any new pointer behavior.
 ## Suggested commit message
 
 `refactor(hosts): share the pointer and scrolling decisions of LoomEditor`
+
+## Result
+
+- `LoomEditor.Pointer.cs` (shared): `GutterClicked`, `_mouseDown`, `InitializePointer`, `HandlePointerPress(EditorMouseEvent, bool isMouse)` and
+  `HandlePointerMove(EditorMouseEvent, bool overScrollBar)` (both return whether the event is handled), `HandlePointerExit`, `HandleStickyPress`,
+  `UpdateStickyHover`, `SetHoveredStickyLine`, `TryGetMinimapPoint`, `MinimapLeft`, `CreateMouseTarget`, `UpdatePointerShape`, `SetMarginHovered`.
+- The press does not return an action for the host to run (the card's `PointerPressResult` example): the sticky press focuses *before* the sticky click
+  and the text press focuses and captures *before* `_mouseDown.Start` and the mouse-down event, so focus and capture are host members called from the
+  shared code at their WinUI places: `FocusFromPointer()`, `CapturePressedPointer()` (the host stores the pressed pointer in `_pressedPointer` before the
+  call; it replaces P16-05's `_zonePressPointer` / `CapturePointerForZone`, whose `LoomEditor.ViewZonePointer.Host.cs` files are deleted),
+  `SetTextAreaCursor(bool arrow)`, `InvalidateCanvas()` (added to Avalonia's `HostHooks.Host.cs`, it calls the render-pass-safe `Invalidate`).
+- `LoomEditor.Scrolling.cs` (shared): the part names, the pending scroll fields, `ScrollTop`, `ScrollLeft`, `ScrollByWheelDelta(MouseWheelInput)` (the wheel
+  arithmetic and the `alwaysConsumeMouseWheel` result), `ApplyPendingScrollPosition`, `ScrollFromScrollBar`, `OnViewLayoutContentSizeChanged`,
+  `UpdateScrollBarValues`, `UpdateScrollBar`. Host members: `IsAnyScrollBarVisible()`, `SetScrollBarValues(...)`, `UpdateScrollBars()` (Avalonia keeps its
+  post-during-draw guard). The wheel deltas, timestamps, classifier and zoom stay in the hosts (different units).
+- Kept in the hosts: `OnPointerReleased` and `OnPointerCaptureLost` (not listed; their releases differ: `ReleasePointerCapture(e.Pointer)` / `ReleaseCapture()`),
+  the source filters (WinUI: scroll bar, find widget, overlay; Avalonia: scroll bar, find widget) and WinUI's arrow cursor over the widgets in a move.
+- No twin looked wrong.

@@ -1241,7 +1241,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 | [P16-04](phase-16/P16-04-host-hooks-and-diff-gutter.md) | Split WinUI `LoomEditor.HostHooks` like Avalonia; share the diff gutter and scroll hooks | P16-03 | done |
 | [P16-05](phase-16/P16-05-view-zone-pointer.md) | Share the view zone pointer | P16-04 | done |
 | [P16-06](phase-16/P16-06-editor-comment-threads-keyboard.md) | Share the `LoomEditor` comment threads, keybinding context, selection API and screen reader refresh | P16-03 | done |
-| [P16-07](phase-16/P16-07-pointer-and-scrolling.md) | Share the pointer and scrolling decisions of `LoomEditor` (**Opus**) | P16-05 | todo |
+| [P16-07](phase-16/P16-07-pointer-and-scrolling.md) | Share the pointer and scrolling decisions of `LoomEditor` (**Opus**) | P16-05 | done |
 
 ### Step C — `LoomDiffEditor`
 
