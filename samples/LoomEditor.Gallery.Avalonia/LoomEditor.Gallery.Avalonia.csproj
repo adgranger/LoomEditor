@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+    <Using Include="LoomEditor.Avalonia.Controls.LoomEditor" Alias="LoomEditorControl" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +49,9 @@
     <Compile Include="..\LoomEditor.Gallery\Lsp\DemoProviders.cs" Link="Shared\Lsp\DemoProviders.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\GalleryLocationOpener.cs" Link="Shared\Lsp\GalleryLocationOpener.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoSample.cs" Link="Shared\Lsp\LspDemoSample.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoController.cs" Link="Shared\Lsp\LspDemoController.cs" />
+    <Compile Include="..\LoomEditor.Gallery\Lsp\LspSelfCheck.cs" Link="Shared\Lsp\LspSelfCheck.cs" />
+    <Compile Include="..\LoomEditor.Gallery\MainWindow.Lsp.cs" Link="Shared\MainWindow.Lsp.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspDemoWorkspace.cs" Link="Shared\Lsp\LspDemoWorkspace.cs" />
     <Compile Include="..\LoomEditor.Gallery\Lsp\LspServerLocator.cs" Link="Shared\Lsp\LspServerLocator.cs" />
   </ItemGroup>

@@ -1274,7 +1274,7 @@ Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.m
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P16-20](phase-16/P16-20-gallery-shared-setup-and-lsp.md) | Gallery: global control usings; share the LSP demo | P15-34 | todo |
+| [P16-20](phase-16/P16-20-gallery-shared-setup-and-lsp.md) | Gallery: global control usings; share the LSP demo | P15-34 | done |
 | [P16-21](phase-16/P16-21-gallery-diff-demo.md) | Gallery: share the diff demo window logic | P16-20 | todo |
 | [P16-22](phase-16/P16-22-gallery-host-api-demo.md) | Gallery: share the host API demo window logic | P16-20 | todo |
 | [P16-23](phase-16/P16-23-gallery-main-window.md) | Gallery: share the main window logic | P16-20 | todo |

@@ -10,7 +10,6 @@ using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using LoomEditorControl = LoomEditor.WinUI.Controls.LoomEditor;
 
 namespace LoomEditor.Gallery;
 

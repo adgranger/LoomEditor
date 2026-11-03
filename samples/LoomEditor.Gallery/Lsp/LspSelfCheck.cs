@@ -2,7 +2,6 @@ using System.Text;
 using LoomEditor.Core.Languages.Features;
 using LoomEditor.Core.Text;
 using LoomEditor.Lsp.Editor;
-using LoomEditorControl = LoomEditor.WinUI.Controls.LoomEditor;
 
 namespace LoomEditor.Gallery.Lsp;
 

@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <Using Include="LoomEditor.Core.Text.Range" Alias="Range" />
+    <Using Include="LoomEditor.WinUI.Controls.LoomEditor" Alias="LoomEditorControl" />
   </ItemGroup>
 
   <ItemGroup>

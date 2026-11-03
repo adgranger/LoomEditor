@@ -14,7 +14,6 @@ using LoomEditor.TextMate.Grammars;
 using LoomEditor.Themes;
 using LoomEditor.View.Features.FontZoom;
 using LoomEditor.View.Layout;
-using LoomEditorControl = LoomEditor.Avalonia.Controls.LoomEditor;
 
 namespace LoomEditor.Gallery;
 

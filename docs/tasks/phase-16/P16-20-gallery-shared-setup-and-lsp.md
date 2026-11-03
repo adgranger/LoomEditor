@@ -1,6 +1,6 @@
 # P16-20 — Gallery: global control usings; share the LSP demo
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-34
 - **Size:** S
 
@@ -37,15 +37,15 @@ Not a Monaco port (phase 16 is a refactoring). Read first: [phase-16/README.md](
 
 ## Tests
 
-- [ ] No new test. Run `--lsp-selfcheck` on the Avalonia Gallery (`dotnet run --project samples/LoomEditor.Gallery.Avalonia -c Release -- --lsp-selfcheck=<file>`) and the WinUI Gallery if it runs on the machine: PASS.
+- [x] No new test. Run `--lsp-selfcheck` on the Avalonia Gallery (`dotnet run --project samples/LoomEditor.Gallery.Avalonia -c Release -- --lsp-selfcheck=<file>`) and the WinUI Gallery if it runs on the machine: PASS.
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
+- [x] `docs/PORTING.md` rows of the moved files updated (rule 7 of the phase README)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -54,3 +54,9 @@ Other windows (P16-21 … P16-23).
 ## Suggested commit message
 
 `refactor(gallery): global control usings; share the LSP demo between the Galleries`
+
+## Result
+
+Done as written, except the global `<Using Include="LoomEditor.<Host>.Controls" />` of the card: only the `LoomEditorControl` alias is a global using (the namespace using is not needed by any shared file yet).
+`--lsp-selfcheck` on the Avalonia Gallery runs the shared code but reports `FAIL server found: not found` on this machine (`csharp-ls` is not installed), as it would before the change; it did not exit by itself
+within 150 s (the process was killed). Re-run it where `csharp-ls` is installed (P16-24 runs the self-checks).
