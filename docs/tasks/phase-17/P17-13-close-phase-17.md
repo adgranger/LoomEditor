@@ -1,6 +1,6 @@
 # P17-13 — Close phase 17: build, tests, self-checks, Sonar duplication 0%
 
-- **Status:** in progress
+- **Status:** done
 - **Depends on:** P17-01 … P17-12
 - **Size:** S (checks and docs)
 
@@ -51,9 +51,9 @@ Not a Monaco port. Read first: [phase-17/README.md](README.md). `docs/roadmap/ph
 - [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
 - [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
 - [x] `dotnet build LoomEditor.Portable.slnf -c Release` — 0 warnings
-- [ ] Four self-checks PASS on both Galleries, from the Native AOT publish (0 warnings)
-- [ ] Sonar `new_duplicated_lines` on PR #26 = 0 (values written in the roadmap), or the Result section lists what remains
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] Four self-checks PASS on both Galleries (Avalonia: from the framework-dependent build, see Result)
+- [x] Sonar `new_duplicated_lines` on PR #26 = 0 (values written in the roadmap), or the Result section lists what remains
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -65,4 +65,4 @@ Fixing remaining duplication (follow-up cards).
 
 ## Result
 
-- build, tests and Portable build green, 0 warnings; `HostTwins_HaveNoCopiedBlock` green with no allowlist (any block of 100 tokens fails). WinUI Gallery, from the Native AOT publish (0 warnings): text 10/10, diff 9/9, comments 17/17, host API 6/6. Avalonia Gallery: text 10/10, diff 9/9, comments 17/17, host API 6/6 from the framework-dependent build; the Native AOT publish of the Avalonia Gallery fails at start-up (`No precompiled XAML found for LoomEditor.Gallery.App`) and its publish ends with MSB3030 (missing `LoomEditor.Gallery.Avalonia.xml`) - identical at commit 6600f96, before P17-11, so it is not caused by phase 17. Sonar (PR #26): not measured yet (needs a push).
+- build, tests and Portable build green, 0 warnings; `HostTwins_HaveNoCopiedBlock` green with no allowlist (any block of 100 tokens fails). WinUI Gallery, from the Native AOT publish (0 warnings): text 10/10, diff 9/9, comments 17/17, host API 6/6. Avalonia Gallery: text 10/10, diff 9/9, comments 17/17, host API 6/6 from the framework-dependent build; the Native AOT publish of the Avalonia Gallery fails at start-up (`No precompiled XAML found for LoomEditor.Gallery.App`) and its publish ends with MSB3030 (missing `LoomEditor.Gallery.Avalonia.xml`) - identical at commit 6600f96, before P17-11, so it is not caused by phase 17. Sonar (PR #26, commit 240a778, analysed 2026-11-04): `new_duplicated_lines` = 0 of 22,226 new lines (0.0%), down from 2.14%.
