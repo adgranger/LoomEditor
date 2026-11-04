@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using LoomEditor.Avalonia.Rendering;
 
 namespace LoomEditor.Avalonia.Tests.TestHelpers;
@@ -74,6 +75,15 @@ internal sealed class FrameBitmap : IDisposable
         finally
         {
             handle.Free();
+        }
+
+        // The native format of the headless bitmap is RGBA on some platforms (macOS arm64): the helpers read BGRA.
+        if (_bitmap.Format == PixelFormat.Rgba8888)
+        {
+            for (int i = 0; i < pixels.Length; i += 4)
+            {
+                (pixels[i], pixels[i + 2]) = (pixels[i + 2], pixels[i]);
+            }
         }
 
         return pixels;

@@ -120,7 +120,14 @@ public class LspServerProcessTests
 
         await WaitForLineAsync(process, "cwd=");
 
-        Assert.Equal("cwd=" + dir, process.RecentErrorLines.First(l => l.StartsWith("cwd=", StringComparison.Ordinal)).TrimEnd(Path.DirectorySeparatorChar), ignoreCase: OperatingSystem.IsWindows());
+        string actual = process.RecentErrorLines.First(l => l.StartsWith("cwd=", StringComparison.Ordinal)).TrimEnd(Path.DirectorySeparatorChar);
+        if (OperatingSystem.IsMacOS())
+        {
+            // The temp folder is under /var, a link to /private/var, and the process reports the resolved path.
+            actual = actual.Replace("cwd=/private/", "cwd=/", StringComparison.Ordinal);
+        }
+
+        Assert.Equal("cwd=" + dir, actual, ignoreCase: OperatingSystem.IsWindows());
     }
 
     [Fact]

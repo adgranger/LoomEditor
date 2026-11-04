@@ -63,13 +63,15 @@ public sealed partial class LoomEditor
     private bool TryZoomFromWheel(PointerWheelEventArgs e, double delta)
     {
         KeyModifiers keys = e.KeyModifiers;
+        // Monaco: hasMouseWheelZoomModifiers. The zoom key is Cmd on macOS and Ctrl elsewhere; the other one must be up.
+        bool mac = OperatingSystem.IsMacOS();
         double? level = _wheelZoom.OnWheel(
             delta,
             _wheelClassifier.IsPhysicalMouseWheel(),
-            keys.HasFlag(KeyModifiers.Control),
+            keys.HasFlag(mac ? KeyModifiers.Meta : KeyModifiers.Control),
             keys.HasFlag(KeyModifiers.Shift),
             keys.HasFlag(KeyModifiers.Alt),
-            keys.HasFlag(KeyModifiers.Meta),
+            keys.HasFlag(mac ? KeyModifiers.Control : KeyModifiers.Meta),
             (long)e.Timestamp,
             _context.Zoom.Level);
         if (level is null)
