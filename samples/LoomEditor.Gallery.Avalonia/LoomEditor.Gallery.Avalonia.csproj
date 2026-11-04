@@ -12,6 +12,8 @@
     <RootNamespace>LoomEditor.Gallery</RootNamespace>
     <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
+    <!-- .NET 11's optimized AOT publish runs PrepareResources before ResolveReferences, so Avalonia's !AvaloniaResources is never embedded. -->
+    <UseOptimizedPublish>false</UseOptimizedPublish>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
 
