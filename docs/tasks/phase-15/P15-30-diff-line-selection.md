@@ -1,6 +1,6 @@
 # P15-30 — Diff line checkboxes, selection and the line action
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-29
 - **Size:** M (~550 lines; mechanical, allowed above 400)
 
@@ -31,14 +31,14 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/DiffEditor/DiffLineCheckBoxesCon
 
 ## Tests
 
-- [ ] New: `Click_TogglesOneLine`; `CtrlClick_TogglesPair`; `ShiftClick_ExtendsFromAnchor`; `NewDiff_SameVersions_KeepsSelection`; `LineActionKey_RaisesLineActionInvoked`
-- [ ] Parity: no `LoomDiffEditor` key left in `AvaloniaParityPending.txt`
+- [x] New: `Click_TogglesOneLine`; `CtrlClick_TogglesPair`; `ShiftClick_ExtendsFromAnchor`; `NewDiff_SameVersions_KeepsSelection`; `LineActionKey_RaisesLineActionInvoked`
+- [x] Parity: no `LoomDiffEditor` key left in `AvaloniaParityPending.txt`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

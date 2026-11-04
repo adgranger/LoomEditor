@@ -1,4 +1,4 @@
-using LoomEditor.WinUI.Controls.DiffEditor;
+using LoomEditor.View.DiffEditor;
 
 namespace LoomEditor.View.Tests.DiffEditor;
 

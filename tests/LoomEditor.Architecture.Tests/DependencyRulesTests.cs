@@ -5,7 +5,7 @@ namespace LoomEditor.Architecture.Tests;
 
 /// <summary>
 /// Rules 1 and 2 of docs/ARCHITECTURE.md: the core does not know WinUI, and dependencies go one way only:
-/// WinUI → Rendering → View → (TextMate, Themes) → Core.
+/// (WinUI | Avalonia) → Rendering → View → (TextMate, Themes) → Core.
 /// </summary>
 public class DependencyRulesTests
 {
@@ -20,6 +20,7 @@ public class DependencyRulesTests
         ["LoomEditor.Themes"] = ["LoomEditor.Core"],
         ["LoomEditor.View"] = ["LoomEditor.Core", "LoomEditor.TextMate", "LoomEditor.Themes"],
         ["LoomEditor.Rendering"] = ["LoomEditor.View"],
+        ["LoomEditor.Avalonia"] = ["LoomEditor.Rendering"],
         ["LoomEditor.WinUI"] = ["LoomEditor.Rendering"],
         ["LoomEditor.Lsp"] = ["LoomEditor.Core"],
     };
@@ -33,6 +34,7 @@ public class DependencyRulesTests
         "LoomEditor.TextMate",
         "LoomEditor.Themes",
         "LoomEditor.View",
+        "LoomEditor.Rendering",
         "LoomEditor.Lsp",
     };
 
@@ -64,6 +66,14 @@ public class DependencyRulesTests
 
         Assert.Equal("$(LoomNetTargetFramework)", RepositoryLayout.GetProperty(project, "TargetFramework"));
         Assert.Null(RepositoryLayout.GetProperty(project, "UseWinUI"));
+    }
+
+    [Fact]
+    public void AvaloniaProject_DoesNotReferenceWindowsPackages()
+    {
+        XDocument project = RepositoryLayout.SourceProjects["LoomEditor.Avalonia"];
+
+        Assert.Empty(RepositoryLayout.GetPackageReferences(project).Intersect(UiPackages));
     }
 
     [Theory]

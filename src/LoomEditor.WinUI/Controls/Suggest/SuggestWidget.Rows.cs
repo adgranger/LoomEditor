@@ -1,4 +1,3 @@
-using LoomEditor.Core.Filters;
 using LoomEditor.View.Suggest;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
@@ -55,17 +54,11 @@ internal sealed partial class SuggestWidget
         label.Foreground = text;
         label.TextDecorations = model.IsDeprecated ? Windows.UI.Text.TextDecorations.Strikethrough : Windows.UI.Text.TextDecorations.None;
         label.Inlines.Clear();
-        int position = 0;
-        foreach (FilterMatch match in model.Matches)
+        foreach ((string segment, bool isMatch) in model.LabelSegments())
         {
-            int start = Math.Clamp(match.Start, position, model.Label.Length);
-            int end = Math.Clamp(match.End, start, model.Label.Length);
-            AddRun(label, model.Label[position..start], null, false);
-            AddRun(label, model.Label[start..end], matchBrush, true);
-            position = end;
+            AddRun(label, segment, isMatch ? matchBrush : null, isMatch);
         }
 
-        AddRun(label, model.Label[position..], null, false);
         if (!string.IsNullOrEmpty(model.LabelDetail))
         {
             AddRun(label, model.LabelDetail, _dim, false);

@@ -10,7 +10,18 @@ namespace LoomEditor.WinUI.Controls.Comments;
 
 /// <summary>The brushes and code font of a <see cref="SuggestionBlockView"/>.</summary>
 /// <remarks>Threading: UI thread only (XAML brushes).</remarks>
-internal sealed record SuggestionBlockTheme(Brush Foreground, Brush Border, Brush RemovedLine, Brush InsertedLine, FontFamily CodeFont, double FontSize);
+internal sealed record SuggestionBlockTheme(Brush Foreground, Brush Border, Brush RemovedLine, Brush InsertedLine, FontFamily CodeFont, double FontSize)
+{
+    /// <summary>A code text block: the code font, never wrapped.</summary>
+    public TextBlock Code(string text) => new()
+    {
+        Text = text,
+        FontFamily = CodeFont,
+        FontSize = FontSize,
+        Foreground = Foreground,
+        TextWrapping = TextWrapping.NoWrap,
+    };
+}
 
 /// <summary>
 /// A ```suggestion block drawn as a diff of the commented line: a "Suggested change" header with an optional Apply button, then one row per
@@ -107,19 +118,10 @@ internal sealed partial class SuggestionBlockView : UserControl
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(MarkerWidth) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         // The marker is never empty (a space for context), so an empty line is still one line high.
-        grid.Children.Add(Code(row.Marker.ToString(), theme));
-        TextBlock text = Code(row.Text, theme);
+        grid.Children.Add(theme.Code(row.Marker.ToString()));
+        TextBlock text = theme.Code(row.Text);
         Grid.SetColumn(text, 1);
         grid.Children.Add(text);
         return grid;
     }
-
-    private static TextBlock Code(string text, SuggestionBlockTheme theme) => new()
-    {
-        Text = text,
-        FontFamily = theme.CodeFont,
-        FontSize = theme.FontSize,
-        Foreground = theme.Foreground,
-        TextWrapping = TextWrapping.NoWrap,
-    };
 }

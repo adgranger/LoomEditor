@@ -40,9 +40,6 @@ public sealed partial class DiffDemoWindow : Window
         DiffEditor.RenderOverviewRuler = OverviewRulerBox.IsChecked == true;
     }
 
-    private void OnDiffChanged(object? sender, EventArgs e) =>
-        StatusText.Text = $"{DiffEditor.ChangeCount} change(s) — diff up to date: {DiffEditor.IsDiffUpToDate}";
-
     private void OnPreviousChange(object sender, RoutedEventArgs e) => DiffEditor.GoToPreviousChange();
 
     private void OnNextChange(object sender, RoutedEventArgs e) => DiffEditor.GoToNextChange();

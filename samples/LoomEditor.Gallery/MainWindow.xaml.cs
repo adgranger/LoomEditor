@@ -1,75 +1,27 @@
-using System.Diagnostics;
 using System.Globalization;
 using LoomEditor.Core.Model;
 using LoomEditor.Core.Text;
-using LoomEditor.TextMate.Grammars;
 using LoomEditor.View.Features.FontZoom;
 using LoomEditor.View.Layout;
 using LoomEditor.Themes;
-using LoomEditor.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using LoomEditorControl = LoomEditor.WinUI.Controls.LoomEditor;
 
 namespace LoomEditor.Gallery;
 
 /// <summary>The main window: one editor showing a sample file, and buttons that drive its text model.</summary>
 public sealed partial class MainWindow : Window
 {
-    private bool _isBusy;
-    private readonly List<string> _injectedTextIds = [];
-
-    /// <summary>The ids of the built-in languages (the items of the language picker).</summary>
-    public string[] LanguageIds { get; } = [.. BuiltInLanguages.Ids];
-
-    /// <summary>The names of the built-in themes (the items of the theme picker).</summary>
-    public string[] ThemeNames { get; } = [.. EditorTheme.BuiltIn.Select(theme => theme.Name)];
-
-    // Items are added in code (strings as ComboBoxItem content): the same as the static items of the font picker, which work under Native AOT.
-    private void PopulatePickers()
-    {
-        foreach (string id in LanguageIds)
-        {
-            LanguageBox.Items.Add(new ComboBoxItem { Content = id });
-        }
-
-        foreach (string name in ThemeNames)
-        {
-            ThemeBox.Items.Add(new ComboBoxItem { Content = name });
-        }
-
-        foreach (FeatureSample sample in FeatureSamples.All)
-        {
-            FeatureSampleBox.Items.Add(new ComboBoxItem { Content = sample.Name });
-        }
-
-        LanguageBox.SelectedIndex = 0;
-        ThemeBox.SelectedIndex = 0;
-    }
-
     /// <summary>Creates the window and loads the sample text.</summary>
     public MainWindow()
     {
         InitializeComponent();
-        PopulatePickers();
-        InitializeComments();
-        Editor.LanguageId = "csharp";
-        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, "csharp");
-        Editor.Text = SampleText.HelloWorld;
-        Editor.Model.ContentChanged += (_, _) => RefreshStatus();
-        // A load detects the indentation: show the tab size it chose.
-        Editor.Model.OptionsChanged += (_, _) => TabSizeBox.Value = Editor.Model.Options.TabSize;
-        Editor.SelectionChanged += (_, _) => RefreshStatus();
+        InitializeEditor();
         Editor.RegisterPropertyChangedCallback(LoomEditorControl.InputModeProperty, (_, _) => OvertypeSwitch.IsOn = Editor.InputMode == LoomEditor.View.Cursors.EditorInputMode.Overtype);
         // Ctrl+M toggles the property from the keyboard: keep the switch in sync.
         Editor.RegisterPropertyChangedCallback(LoomEditorControl.TabMovesFocusProperty, (_, _) => TabFocusSwitch.IsOn = Editor.TabMovesFocus);
-        RefreshStatus();
-        InitializeLsp();
-        InitializeDiffSelfCheck();
-        InitializeTextSelfCheck();
-        InitializeCommentsSelfCheck();
-        InitializeHostApiSelfCheck();
+        InitializeChecks();
     }
 
     private void OnInsertHeader(object sender, RoutedEventArgs e) => ModelDemoActions.InsertHeader(Editor.Model);
@@ -265,32 +217,6 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    // Generates on a background thread; only the assignment of the text happens on the UI thread.
-    private async Task LoadDocumentAsync(Func<string> create)
-    {
-        if (!BeginBusy("Generating…"))
-        {
-            return;
-        }
-
-        try
-        {
-            var stopwatch = Stopwatch.StartNew();
-            string text = await Task.Run(create);
-            Editor.ScrollTop = 0;
-            Editor.ScrollLeft = 0;
-            Editor.Text = text;
-            await NextRenderingAsync();
-            stopwatch.Stop();
-            StatusText.Text = string.Create(
-                CultureInfo.InvariantCulture, $"Loaded {Editor.Model.LineCount:N0} lines in {stopwatch.ElapsedMilliseconds:N0} ms");
-        }
-        finally
-        {
-            EndBusy();
-        }
-    }
-
     private static Task NextRenderingAsync()
     {
         var completion = new TaskCompletionSource();
@@ -302,36 +228,6 @@ public sealed partial class MainWindow : Window
 
         CompositionTarget.Rendering += OnRendering;
         return completion.Task;
-    }
-
-    private bool BeginBusy(string message)
-    {
-        if (_isBusy)
-        {
-            return false;
-        }
-
-        _isBusy = true;
-        SetSampleButtonsEnabled(false);
-        StatusText.Text = message;
-        return true;
-    }
-
-    private void EndBusy()
-    {
-        _isBusy = false;
-        SetSampleButtonsEnabled(true);
-    }
-
-    private void SetSampleButtonsEnabled(bool isEnabled)
-    {
-        LargeFileButton.IsEnabled = isEnabled;
-        LongLineButton.IsEnabled = isEnabled;
-        UnicodeButton.IsEnabled = isEnabled;
-        ScrollTestButton.IsEnabled = isEnabled;
-        MultiCursorButton.IsEnabled = isEnabled;
-        LargeCSharpButton.IsEnabled = isEnabled;
-        FeatureSampleBox.IsEnabled = isEnabled;
     }
 
     private void OnFontSizeChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
@@ -406,13 +302,7 @@ public sealed partial class MainWindow : Window
         }
 
         FeatureSample sample = FeatureSamples.All[index];
-        Editor.LanguageId = sample.LanguageId;
-        LanguageBox.SelectedIndex = Array.IndexOf(LanguageIds, sample.LanguageId);
-        Editor.Text = string.Empty;
-        Editor.Text = sample.Text;
-        Editor.SetSelections(new[] { Selection.Collapsed(new Position(sample.Line, sample.Column)) });
-        FeatureHintText.Text = sample.Hint;
-        OnFeatureSampleLoaded(sample);
+        ShowFeatureSample(sample);
         Editor.Focus(FocusState.Programmatic);
     }
 

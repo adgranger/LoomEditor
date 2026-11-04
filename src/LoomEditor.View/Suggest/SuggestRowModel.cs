@@ -37,6 +37,27 @@ internal sealed record SuggestRowModel(
             isSelected);
     }
 
+    /// <summary>
+    /// The label cut at its matches: the plain text before each match, the match (<c>IsMatch</c>), then the rest. Empty segments are kept, in the
+    /// same places as the loop of the hosts, which skip them.
+    /// </summary>
+    public IReadOnlyList<(string Text, bool IsMatch)> LabelSegments()
+    {
+        List<(string Text, bool IsMatch)> segments = [];
+        int position = 0;
+        foreach (FilterMatch match in Matches)
+        {
+            int start = Math.Clamp(match.Start, position, Label.Length);
+            int end = Math.Clamp(match.End, start, Label.Length);
+            segments.Add((Label[position..start], false));
+            segments.Add((Label[start..end], true));
+            position = end;
+        }
+
+        segments.Add((Label[position..], false));
+        return segments;
+    }
+
     /// <summary>The detail strip: the detail, a blank line, then the documentation as plain text, cut to 400 characters; empty when there is neither.</summary>
     public static string DetailText(SuggestItem item)
     {

@@ -1,6 +1,4 @@
 using LoomEditor.Themes;
-using LoomEditor.View.Features;
-using LoomEditor.View.Features.Folding;
 using Microsoft.UI.Xaml;
 
 namespace LoomEditor.WinUI.Controls;
@@ -9,9 +7,6 @@ namespace LoomEditor.WinUI.Controls;
 // `_adjustOptionsForSubEditor`, `_adjustOptionsForLeftHandSide`, `_adjustOptionsForRightHandSide`.
 public sealed partial class LoomDiffEditor
 {
-    /// <summary>The features of the two editors: the default ones plus the diff navigation, without folding (Monaco turns folding off in a diff editor).</summary>
-    private IReadOnlyList<Func<IEditorFeature>>? _subEditorFeatures;
-
     /// <summary>Identifies the <see cref="OriginalText"/> dependency property.</summary>
     public static readonly DependencyProperty OriginalTextProperty = DependencyProperty.Register(
         nameof(OriginalText), typeof(string), typeof(LoomDiffEditor),
@@ -251,74 +246,6 @@ public sealed partial class LoomDiffEditor
         DependencyProperty.Register(
             name, typeof(bool), typeof(LoomDiffEditor), new PropertyMetadata(defaultValue, (d, e) => apply((LoomDiffEditor)d, (bool)e.NewValue)));
 
-    private List<Func<IEditorFeature>> CreateSubEditorFeatures()
-    {
-        // Created once to recognise the folding feature by type: the factories are the only list there is.
-        List<Func<IEditorFeature>> features = [];
-        foreach (Func<IEditorFeature> factory in EditorFeatures.ForDiffEditor(this))
-        {
-            if (factory() is not FoldingFeature)
-            {
-                features.Add(factory);
-            }
-        }
-
-        return features;
-    }
-
-    private void ApplyText(LoomEditor? editor, string? text)
-    {
-        // Before the template is applied OnApplyTemplate sets the texts.
-        if (_isSyncingText || editor is null)
-        {
-            return;
-        }
-
-        _isSyncingText = true;
-        try
-        {
-            editor.ResetText(text ?? string.Empty);
-        }
-        finally
-        {
-            _isSyncingText = false;
-        }
-    }
-
-    private void ApplyLanguageAndTheme()
-    {
-        foreach (LoomEditor? editor in new[] { _original, _modified })
-        {
-            if (editor is not null)
-            {
-                editor.LanguageId = LanguageId;
-                editor.Theme = Theme;
-            }
-        }
-
-        InvalidateOverview();
-    }
-
-    // Everything else the sub-editors get from this control. Safe to call again: it only assigns properties.
-    private void ConfigureEditors()
-    {
-        if (_original is not { } original || _modified is not { } modified)
-        {
-            return;
-        }
-
-        foreach (LoomEditor editor in new[] { original, modified })
-        {
-            editor.Features = _subEditorFeatures ??= CreateSubEditorFeatures();
-            editor.IsInDiffEditor = true;
-            editor.MinimapEnabled = false;
-            editor.OverviewRulerEnabled = false;
-            // Monaco: sticky scroll is turned off for both editors only while unchanged regions are hidden.
-            editor.StickyScrollEnabled = !HideUnchangedRegions;
-            editor.LineHeight = _lineHeight;
-        }
-
-        original.IsReadOnly = !OriginalEditable;
-        modified.IsReadOnly = IsReadOnly;
-    }
+    // The diff editor draws its own overview ruler.
+    static partial void ConfigureHostEditor(LoomEditor editor) => editor.OverviewRulerEnabled = false;
 }

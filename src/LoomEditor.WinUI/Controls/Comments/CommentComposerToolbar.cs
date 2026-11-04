@@ -44,15 +44,6 @@ internal sealed partial class CommentComposerToolbar : StackPanel
         KeyDown += OnKeyDown;
     }
 
-    /// <summary>Enables or disables every button (a panel has no <c>IsEnabled</c> of its own).</summary>
-    public void SetEnabled(bool enabled)
-    {
-        foreach (Button button in _buttons)
-        {
-            button.IsEnabled = enabled;
-        }
-    }
-
     /// <summary>Transparent buttons with this label color; <see langword="null"/> (high contrast) leaves the WinUI defaults.</summary>
     public void SetForeground(Brush? foreground)
     {
@@ -61,23 +52,6 @@ internal sealed partial class CommentComposerToolbar : StackPanel
             CommentThreadWidget.SetPlain(button, foreground);
         }
     }
-
-    private static string Label(MarkdownToolbarAction action) => action switch
-    {
-        MarkdownToolbarAction.Heading => "H",
-        MarkdownToolbarAction.Bold => "B",
-        MarkdownToolbarAction.Italic => "I",
-        MarkdownToolbarAction.Underline => "U",
-        MarkdownToolbarAction.Strikethrough => "S",
-        MarkdownToolbarAction.InlineCode => "<>",
-        MarkdownToolbarAction.CodeBlock => "{ }",
-        MarkdownToolbarAction.Link => "Link",
-        MarkdownToolbarAction.BulletList => "•",
-        MarkdownToolbarAction.NumberedList => "1.",
-        MarkdownToolbarAction.Quote => "\"",
-        MarkdownToolbarAction.Suggestion => "±",
-        _ => throw new ArgumentOutOfRangeException(nameof(action)),
-    };
 
     // The focused button becomes the only tab stop, so Shift+Tab back into the toolbar lands on it.
     private void MakeTabStop(Button focused)

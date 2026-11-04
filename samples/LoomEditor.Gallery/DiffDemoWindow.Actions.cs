@@ -1,7 +1,5 @@
 using System.Text;
 using LoomEditor.Themes;
-using LoomEditor.WinUI.Controls;
-using Microsoft.UI.Xaml;
 
 namespace LoomEditor.Gallery;
 
@@ -27,7 +25,7 @@ public sealed partial class DiffDemoWindow
         };
         DiffEditor.DiffChanged += (_, _) => LogStaging($"DiffChanged {DiffEditor.Changes.Count} blocks");
         DiffEditor.Loaded += (_, _) => ApplyWordWrap();
-        OnStagingOptionChanged(this, new RoutedEventArgs());
+        ApplyStagingOptions(themeClicked: false);
     }
 
     // Original / Modified exist only once the template is applied (before Loaded): the constructor runs earlier.
@@ -39,48 +37,45 @@ public sealed partial class DiffDemoWindow
     }
 
     // The ComboBox raises SelectionChanged inside InitializeComponent, before the other controls exist.
-    private void OnStagingOptionChanged(object sender, RoutedEventArgs e)
+    // themeClicked: the light theme box was clicked. The window opens with the theme of the main window, so the box is read only then.
+    private void ApplyStagingOptions(bool themeClicked)
     {
         if (DiffEditor is null || LightThemeBox is null)
         {
             return;
         }
 
-        DiffEditor.BlockActionsVisibility = (DiffBlockActionsVisibility)BlockActionsBox.SelectedIndex;
-        DiffEditor.PrimaryBlockActionGlyph = StageActionBox.IsChecked == true ? "" : null;
-        DiffEditor.SecondaryBlockActionGlyph = DiscardActionBox.IsChecked == true ? "" : null;
+        DiffEditor.BlockActionsVisibility = (DiffBlockActionsVisibility)BlockActionsIndex;
+        DiffEditor.PrimaryBlockActionGlyph = StageActionBox.IsChecked == true ? Glyph("", "+") : null;
+        DiffEditor.SecondaryBlockActionGlyph = DiscardActionBox.IsChecked == true ? Glyph("", "✕") : null;
         DiffEditor.LineSelectionEnabled = LineSelectionBox.IsChecked == true;
-        DiffEditor.LineActionGlyph = LineHoverButtonBox.IsChecked == true ? "" : null;
+        DiffEditor.LineActionGlyph = LineHoverButtonBox.IsChecked == true ? Glyph("", "+") : null;
         if (DiffEditor.IsLoaded)
         {
             ApplyWordWrap();
         }
 
         DiffEditor.LineHeight = LineHeight30Box.IsChecked == true ? 30 : 0;
-
-        // Only on a click: the window opens with the theme of the main window.
-        if (ReferenceEquals(sender, LightThemeBox))
+        if (themeClicked)
         {
             DiffEditor.Theme = LightThemeBox.IsChecked == true ? EditorTheme.Light : EditorTheme.Dark;
         }
     }
 
-    private void OnStagingSample(object sender, RoutedEventArgs e)
+    private void LoadStagingSample()
     {
         DiffEditor.OriginalText = string.Join("\r\n", StagingOriginal);
         DiffEditor.ModifiedText = string.Join('\n', StagingModified);
     }
 
-    private void OnLargeFile(object sender, RoutedEventArgs e)
+    private void LoadLargeStagingFile()
     {
         (string original, string modified) = CreateLargeStagingPair();
         DiffEditor.OriginalText = original;
         DiffEditor.ModifiedText = modified;
     }
 
-    private void OnClearSelection(object sender, RoutedEventArgs e) => DiffEditor.ClearSelection();
-
-    private void OnSelectAllAdded(object sender, RoutedEventArgs e) =>
+    private void SelectAllAdded() =>
         DiffEditor.SetSelection(DiffEditor.Changes.SelectMany(block =>
             Enumerable.Range(block.ModifiedStartLineNumber, block.ModifiedLineCount).Select(line => new DiffLine(DiffSide.Modified, line))));
 
@@ -144,7 +139,7 @@ public sealed partial class DiffDemoWindow
     // 50 000 original lines; about one line in 25 is changed, deleted or followed by an inserted line, which gives about 2 000 blocks.
     private static (string Original, string Modified) CreateLargeStagingPair()
     {
-        var random = new Random(14);
+        var random = new Random(14); // NOSONAR S2245: seeded demo data, not security-relevant
         var original = new StringBuilder();
         var modified = new StringBuilder();
         for (int i = 1; i <= 50_000; i++)

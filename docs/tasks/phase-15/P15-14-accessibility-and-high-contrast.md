@@ -1,6 +1,6 @@
 # P15-14 — Accessibility and high contrast
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-13
 - **Size:** M
 
@@ -43,14 +43,14 @@ The WinUI twins: `src/LoomEditor.WinUI/Accessibility/*.cs`, `Controls/LoomEditor
 
 ## Tests
 
-- [ ] New: `Peer_ControlType_IsEdit`; `Peer_Value_IsModelText`; `Peer_SetValue_ReadOnly_Throws`; `Announcement_SetsLiveRegionText` (go to line 5 → the live region holds the WinUI
+- [x] New: `Peer_ControlType_IsEdit`; `Peer_Value_IsModelText`; `Peer_SetValue_ReadOnly_Throws`; `Announcement_SetsLiveRegionText` (go to line 5 → the live region holds the WinUI
   string); `HighContrast_On_UsesHighContrastTheme` (fake `IPlatformSettings` in the test app)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated; Result lists the gaps
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated; Result lists the gaps
 
 ## Out of scope
 
@@ -59,3 +59,19 @@ The accessible diff viewer (P15-28), automation peers of widgets (with each widg
 ## Suggested commit message
 
 `feat(avalonia): automation peer, announcements and high contrast`
+
+## Result
+
+- Done: `LoomEditorAutomationPeer` (Value pattern), `AutomationAnnouncer` (live region `PART_LiveRegion` in the template), `AutomationEventSink`,
+  `ScreenReaderDetector` with `Interop/NativeMethods.cs`, `SystemHighContrast`, `LoomEditor.Accessibility.cs` (`AccessibilitySupport`, `TabMovesFocus`) and
+  `LoomEditor.HighContrast.cs` (`UseSystemHighContrast`); the parity list lost 9 keys. 5 tests in `Accessibility/LoomEditorAutomationPeerTests.cs`.
+- Gaps (ADR 0010 "Consequences", docs/PORTING.md): no Text pattern (Avalonia 12.1.5 has no public text provider, so no `LoomEditorTextRangeProvider`, and
+  no `RendererLineMetrics`: it only serves the text range provider); no selection automation event; screen reader detected on Windows only; the high
+  contrast theme uses the accent and fixed Windows High Contrast Black / White colors.
+- Deviations: `Announcement_SetsLiveRegionText` uses the selection anchor announcement on line 5 (WinUI has no "go to line" announcement).
+  `HighContrast_On_UsesHighContrastTheme` calls `SystemHighContrast.Update` (internal) instead of a fake `IPlatformSettings`: Avalonia 12 marks
+  `IPlatformSettings` as not implementable and `DefaultPlatformSettings.GetColorValues` / `OnColorValuesChanged` are not overridable or visible.
+  `PlatformNeutralSourceTests` needed no exception: the P/Invoke file uses no Windows namespace or `SupportedOSPlatform` attribute
+  (`OperatingSystem.IsWindows()` guards the call). `SetValue` on a read-only editor throws `InvalidOperationException` (Avalonia has no
+  `ElementNotEnabledException`). `AllowUnsafeBlocks` is on for the `[LibraryImport]` generator.
+- Manual checks "P15-14" written in `docs/testing/phase-15-manual-tests.md`, not run.

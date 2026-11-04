@@ -1,6 +1,6 @@
 # P15-33 — The `LoomEditor.Avalonia` package, package test, release workflow
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-32
 - **Size:** S
 
@@ -32,14 +32,24 @@ Sources: none (specified in this card). Read first: `eng/Pack.ps1`, `eng/Test-Pa
 
 ## Tests
 
-- [ ] `./eng/Test-Packages.ps1` passes locally (Windows) with the Avalonia app
-- [ ] CI: the Linux package test is green (link)
+- [x] `./eng/Test-Packages.ps1` passes locally (Windows) with the Avalonia app
+- [x] CI: the Linux package test is green (link)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `eng/Pack.ps1` packs `LoomEditor.Avalonia` (7 packages; `LoomEditor.WinUI` only on Windows), checks its dependencies (`LoomEditor.Rendering`, `Avalonia`) and, with `-RequireAllNatives`, the six
+  `runtimes/*/native` entries of TextMate (the local run needs the win-x64 library only; before, it also needed win-arm64, which this machine has not built).
+  `src/LoomEditor.Avalonia/README.md` is new (the readme check needs it); `PackageTags` has `macos;linux;cross-platform`.
+- `eng/package-test/LoomEditor.PackageTest.Avalonia`: a headless console app (Avalonia.Headless + Skia + the package) that uses the editor host API and the diff editor once and exits 0.
+  `eng/Test-Packages.ps1` publishes it with Native AOT for the runtime of the machine and runs it; the WinUI app runs on Windows only. Local Windows run: both apps pass, 0 warnings.
+- CI: new job `package-avalonia` (ubuntu); the pack job and `release.yml` pass `-RequireAllNatives`; `release.yml` pushes `LoomEditor.Avalonia` before `LoomEditor.WinUI`. Docs: `RELEASING.md`, `release-checklist.md`.
+- **CI:** `package-avalonia` (ubuntu, linux-x64) is green: https://github.com/adgranger/LoomEditor/actions/runs/41656687785 ("LoomEditor.Avalonia package test passed."). The macOS job of "Portable projects" still fails on the existing Lsp test noted in P15-32.
 
 ## Out of scope
 

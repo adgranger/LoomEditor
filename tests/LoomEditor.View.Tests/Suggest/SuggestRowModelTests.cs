@@ -76,4 +76,21 @@ public class SuggestRowModelTests
         string text = SuggestRowModel.DetailText(Make(new CompletionItem("a", "a") { Documentation = new MarkdownString(new string('x', 1000)) }));
         Assert.Equal(new string('x', 400) + "…", text);
     }
+
+    private static SuggestRowModel Model(string label, params FilterMatch[] matches)
+        => new(label, matches, null, null, "Me", "Method", false, false);
+
+    [Fact]
+    public void LabelSegments_NoMatch_ReturnsTheWholeLabel()
+        => Assert.Equal([("foo", false)], Model("foo").LabelSegments());
+
+    [Fact]
+    public void LabelSegments_Matches_AlternatePlainAndMatchedText()
+        => Assert.Equal(
+            [("", false), ("f", true), ("o", false), ("o", true), ("", false)],
+            Model("foo", new FilterMatch(0, 1), new FilterMatch(2, 3)).LabelSegments());
+
+    [Fact]
+    public void LabelSegments_MatchPastTheEnd_IsClamped()
+        => Assert.Equal([("fo", false), ("o", true), ("", false)], Model("foo", new FilterMatch(2, 9)).LabelSegments());
 }

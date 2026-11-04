@@ -35,6 +35,7 @@ the 2D engine is Direct2D. Three ways to reach them from C#:
 ## Consequences
 
 - `LoomEditor.Rendering` and `LoomEditor.WinUI` reference `Microsoft.Graphics.Win2D`.
+- Since P15-01 the `Win2D/` folder is in `LoomEditor.WinUI/Rendering/Win2D/` (ADR 0016).
 - Phase 2 will likely switch from `CanvasControl` to `CanvasVirtualControl` (virtualized drawing for very large
   documents) — an internal change of the WinUI project.
 - Phase 0 measures a single character to lay out text (monospaced fonts only). Phase 2 replaces it with per-line

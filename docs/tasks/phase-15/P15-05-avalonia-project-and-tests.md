@@ -1,6 +1,6 @@
 # P15-05 — `LoomEditor.Avalonia` project, headless test project, API parity test
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-04
 - **Size:** S (project files, one control stub, test helpers)
 
@@ -55,15 +55,15 @@ Sources: none (specified in this card; [phase-15/README.md](README.md) decisions
 
 ## Tests
 
-- [ ] New: `SmokeTests.HeadlessWindow_CapturesAFrame`
-- [ ] New: `AvaloniaApiParityTests.MissingMembers_MatchThePendingList`, `ParityKey_ReducesASignature` (3 inline cases: a method, a DP field, an event)
+- [x] New: `SmokeTests.HeadlessWindow_CapturesAFrame`
+- [x] New: `AvaloniaApiParityTests.MissingMembers_MatchThePendingList`, `ParityKey_ReducesASignature` (3 inline cases: a method, a DP field, an event)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green; the `portable` CI jobs run the Avalonia tests on Linux and macOS
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green; the `portable` CI jobs run the Avalonia tests on Linux and macOS
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -72,3 +72,10 @@ Any editor code (P15-06 on), the Gallery (P15-31), packaging (P15-33).
 ## Suggested commit message
 
 `feat(avalonia): add the LoomEditor.Avalonia project, headless tests and the API parity test`
+
+## Result
+
+- Avalonia 12.1.5 (latest stable). `LoomEditorStyles` loads a `LoomEditorStyles.axaml` (added beside `Themes/Generic.axaml` and `Themes/Icons.axaml`): the compiled `AvaloniaXamlLoader.Load(this)` pattern, no runtime `StyleInclude` in code.
+- Event lines of a PublicAPI file are `Type.Event -> handler`, so the parity key needs no special case for events.
+- Parity: 346 WinUI keys pending; `LoomEditor_WinUI_XamlTypeInfo` is the only exception.
+- Linux (Ubuntu 24.04 container + `libfontconfig1`): the headless Skia smoke test passes. A bare SDK image lacks `libfontconfig1`; `ubuntu-latest` has it.

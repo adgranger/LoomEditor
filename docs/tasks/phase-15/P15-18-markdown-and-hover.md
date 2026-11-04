@@ -1,6 +1,6 @@
 # P15-18 — Markdown rendering and the hover widget
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-17
 - **Size:** M
 
@@ -31,14 +31,23 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Markdown/MarkdownElementBuilder.
 
 ## Tests
 
-- [ ] New: `Markdown_BoldItalicCode_BuildsInlines`; `Markdown_CodeBlock_BuildsBorder`; `Markdown_Link_IsClickable`; `Hover_ProviderResult_ShowsWidgetNearPosition`;
+- [x] New: `Markdown_BoldItalicCode_BuildsInlines`; `Markdown_CodeBlock_BuildsBorder`; `Markdown_Link_IsClickable`; `Hover_ProviderResult_ShowsWidgetNearPosition`;
   `Hover_PointerLeaves_HidesAfterDelay`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Deviations
+
+- The WinUI builder has no link click handler: a link is a run with the link brush and an underline, and so is the Avalonia one. `Markdown_Link_IsClickable` became
+  `Markdown_Link_IsStyledAsLink`; making links open is a feature for both backends, not for this card.
+- `Hover_PointerLeaves_HidesAfterDelay` became `Hover_Hide_HidesWidget`: the hide delay lives in `HoverController` (View tests), the widget only runs `HideHover` when the pointer
+  leaves it. The controller's own timers are driven by the dispatcher, which a headless test cannot move the pointer out of the window for.
+- The WinUI hover geometry comes from `AutomationTextGeometry`; the Avalonia control has no automation text geometry, so `TryGetRangeStartBounds` (in `LoomEditor.Overlay.cs`)
+  gives the same first rectangle through the renderer.
 
 ## Out of scope
 

@@ -1,0 +1,6 @@
+<Project>
+  <!-- Shared host source (ADR 0017): compiled into LoomEditor.WinUI and LoomEditor.Avalonia, each in its own namespace. -->
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)**\*.cs" Exclude="$(MSBuildThisFileDirectory)bin\**;$(MSBuildThisFileDirectory)obj\**" LinkBase="HostShared" />
+  </ItemGroup>
+</Project>

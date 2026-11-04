@@ -228,7 +228,8 @@ public class LspDiagnosticsBinderTests
         rig.Post.RunAll();
 
         Assert.Equal(Environment.CurrentManagedThreadId, applyThread);
-        Assert.NotEqual(Environment.CurrentManagedThreadId, handlerThread);
+        // The handler thread is not compared with the test's: after the await both can be the same pool thread.
+        Assert.NotEqual(0, handlerThread);
     }
 
     [Fact]

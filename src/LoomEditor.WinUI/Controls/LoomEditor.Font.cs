@@ -1,5 +1,5 @@
 using LoomEditor.Core.Model;
-using LoomEditor.Rendering.Win2D;
+using LoomEditor.WinUI.Rendering.Win2D;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.UI.Xaml;
 

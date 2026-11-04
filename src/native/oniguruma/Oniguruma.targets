@@ -1,16 +1,28 @@
 <Project>
   <!--
-    Ships onig.dll (the Oniguruma regex engine) with LoomEditor.TextMate. Imported by LoomEditor.TextMate.csproj.
+    Ships the Oniguruma regex engine with LoomEditor.TextMate: onig.dll (Windows), libonig.so (Linux) or libonig.dylib
+    (macOS). Imported by LoomEditor.TextMate.csproj.
 
-    - The DLL is artifacts/native/win-<arch>/onig.dll, the output of build.ps1 (git-ignored).
-    - <arch> comes from $(RuntimeIdentifier), then $(Platform), then the architecture of the build machine.
-    - If the DLL is missing, the target LoomBuildOniguruma runs build.ps1 (CMake + MSVC) before the build.
-    - The DLL is copied next to the assemblies of every project that references TextMate (tests, apps, Native AOT
-      publish) and packed as runtimes/win-<arch>/native/onig.dll. The pack includes every architecture already built
-      in artifacts/native (CI downloads x64 and ARM64 before packing).
-    See docs/adr/0008-syntax-highlighting.md (decision 7, findings of P4-01) and src/native/oniguruma/README.md.
+    - The library is artifacts/native/<rid>/<file>, the output of build.ps1 (Windows) or build.sh (Linux, macOS), git-ignored.
+      <rid> is win-x64, win-arm64, linux-x64, linux-arm64, or osx (one universal dylib for osx-x64 and osx-arm64).
+    - The OS comes from $(RuntimeIdentifier), else from the build machine; <arch> from $(RuntimeIdentifier), then
+      $(Platform) (Windows only), then the architecture of the build machine.
+    - If the library is missing, the target LoomBuildOniguruma runs build.ps1 (CMake + MSVC) on Windows and build.sh
+      (CMake + cc) elsewhere before the build.
+    - The library is copied next to the assemblies of every project that references TextMate (tests, apps, Native AOT
+      publish) and packed as runtimes/<rid>/native/<file>. The pack includes every library already built in
+      artifacts/native (CI downloads them all before packing).
+    See docs/adr/0008-syntax-highlighting.md (decision 7, findings of P4-01), docs/adr/0016-avalonia-backend.md
+    (decision 8) and src/native/oniguruma/README.md.
   -->
   <PropertyGroup>
+    <LoomOnigOs Condition="'$(LoomOnigOs)' == '' and $(RuntimeIdentifier.StartsWith('win-'))">win</LoomOnigOs>
+    <LoomOnigOs Condition="'$(LoomOnigOs)' == '' and $(RuntimeIdentifier.StartsWith('linux-'))">linux</LoomOnigOs>
+    <LoomOnigOs Condition="'$(LoomOnigOs)' == '' and $(RuntimeIdentifier.StartsWith('osx-'))">osx</LoomOnigOs>
+    <LoomOnigOs Condition="'$(LoomOnigOs)' == '' and $([MSBuild]::IsOSPlatform('Linux'))">linux</LoomOnigOs>
+    <LoomOnigOs Condition="'$(LoomOnigOs)' == '' and $([MSBuild]::IsOSPlatform('OSX'))">osx</LoomOnigOs>
+    <LoomOnigOs Condition="'$(LoomOnigOs)' == ''">win</LoomOnigOs>
+
     <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and $(RuntimeIdentifier.EndsWith('-arm64'))">arm64</LoomOnigArch>
     <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and $(RuntimeIdentifier.EndsWith('-x64'))">x64</LoomOnigArch>
     <LoomOnigArch Condition="'$(LoomOnigArch)' == '' and '$(Platform)' == 'ARM64'">arm64</LoomOnigArch>
@@ -19,29 +31,53 @@
     <LoomOnigArch Condition="'$(LoomOnigArch)' == ''">x64</LoomOnigArch>
     <LoomOnigBuildArch Condition="'$(LoomOnigArch)' == 'arm64'">ARM64</LoomOnigBuildArch>
     <LoomOnigBuildArch Condition="'$(LoomOnigArch)' == 'x64'">x64</LoomOnigBuildArch>
+
+    <LoomOnigFolder Condition="'$(LoomOnigOs)' == 'osx'">osx</LoomOnigFolder>
+    <LoomOnigFolder Condition="'$(LoomOnigOs)' != 'osx'">$(LoomOnigOs)-$(LoomOnigArch)</LoomOnigFolder>
+    <LoomOnigFile Condition="'$(LoomOnigOs)' == 'win'">onig.dll</LoomOnigFile>
+    <LoomOnigFile Condition="'$(LoomOnigOs)' == 'linux'">libonig.so</LoomOnigFile>
+    <LoomOnigFile Condition="'$(LoomOnigOs)' == 'osx'">libonig.dylib</LoomOnigFile>
     <LoomOnigNativeRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..', '..', 'artifacts', 'native'))</LoomOnigNativeRoot>
-    <LoomOnigDll>$(LoomOnigNativeRoot)win-$(LoomOnigArch)\onig.dll</LoomOnigDll>
+    <LoomOnigLibrary>$(LoomOnigNativeRoot)$(LoomOnigFolder)/$(LoomOnigFile)</LoomOnigLibrary>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(LoomOnigDll)" Link="onig.dll" Pack="true" PackagePath="runtimes/win-$(LoomOnigArch)/native" CopyToOutputDirectory="PreserveNewest" Visible="false" />
-    <!-- The other architecture, when it is already built: packed only, never copied. -->
-    <None Include="$(LoomOnigNativeRoot)win-arm64\onig.dll" Pack="true" PackagePath="runtimes/win-arm64/native" Visible="false"
-          Condition="'$(LoomOnigArch)' != 'arm64' and Exists('$(LoomOnigNativeRoot)win-arm64\onig.dll')" />
-    <None Include="$(LoomOnigNativeRoot)win-x64\onig.dll" Pack="true" PackagePath="runtimes/win-x64/native" Visible="false"
-          Condition="'$(LoomOnigArch)' != 'x64' and Exists('$(LoomOnigNativeRoot)win-x64\onig.dll')" />
+    <!-- The library of the platform being built: copied next to the assemblies. -->
+    <None Include="$(LoomOnigLibrary)" Link="$(LoomOnigFile)" CopyToOutputDirectory="PreserveNewest" Visible="false" />
+
+    <!-- Packed: every library already built (the one being built is always there). -->
+    <None Include="$(LoomOnigNativeRoot)win-x64/onig.dll" Pack="true" PackagePath="runtimes/win-x64/native" Visible="false"
+          Condition="Exists('$(LoomOnigNativeRoot)win-x64/onig.dll')" />
+    <None Include="$(LoomOnigNativeRoot)win-arm64/onig.dll" Pack="true" PackagePath="runtimes/win-arm64/native" Visible="false"
+          Condition="Exists('$(LoomOnigNativeRoot)win-arm64/onig.dll')" />
+    <None Include="$(LoomOnigNativeRoot)linux-x64/libonig.so" Pack="true" PackagePath="runtimes/linux-x64/native" Visible="false"
+          Condition="Exists('$(LoomOnigNativeRoot)linux-x64/libonig.so')" />
+    <None Include="$(LoomOnigNativeRoot)linux-arm64/libonig.so" Pack="true" PackagePath="runtimes/linux-arm64/native" Visible="false"
+          Condition="Exists('$(LoomOnigNativeRoot)linux-arm64/libonig.so')" />
+    <!-- One universal dylib, packed under both macOS RIDs. -->
+    <None Include="$(LoomOnigNativeRoot)osx/libonig.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" Visible="false"
+          Condition="Exists('$(LoomOnigNativeRoot)osx/libonig.dylib')" />
+    <None Include="$(LoomOnigNativeRoot)osx/libonig.dylib" Pack="true" PackagePath="runtimes/osx-arm64/native" Visible="false"
+          Condition="Exists('$(LoomOnigNativeRoot)osx/libonig.dylib')" />
   </ItemGroup>
 
-  <!-- BeforeBuild, not Build: Build runs CoreBuild (which copies the DLL) before its BeforeTargets. -->
-  <Target Name="LoomBuildOniguruma" BeforeTargets="BeforeBuild" Condition="!Exists('$(LoomOnigDll)')">
-    <Exec Command="where pwsh" IgnoreExitCode="true" EchoOff="true" StandardOutputImportance="low">
+  <!-- BeforeBuild, not Build: Build runs CoreBuild (which copies the library) before its BeforeTargets. -->
+  <Target Name="LoomBuildOniguruma" BeforeTargets="BeforeBuild" Condition="!Exists('$(LoomOnigLibrary)')">
+    <Message Importance="high" Text="$(LoomOnigFile) ($(LoomOnigFolder)) is missing: building it." />
+
+    <!-- Windows build machine: build.ps1 (CMake + MSVC). -->
+    <Exec Condition="$([MSBuild]::IsOSPlatform('Windows'))" Command="where pwsh" IgnoreExitCode="true" EchoOff="true" StandardOutputImportance="low">
       <Output TaskParameter="ExitCode" PropertyName="_LoomWherePwshExitCode" />
     </Exec>
     <PropertyGroup>
       <_LoomPowerShell Condition="'$(_LoomWherePwshExitCode)' == '0'">pwsh</_LoomPowerShell>
       <_LoomPowerShell Condition="'$(_LoomWherePwshExitCode)' != '0'">powershell.exe</_LoomPowerShell>
     </PropertyGroup>
-    <Message Importance="high" Text="onig.dll ($(LoomOnigArch)) is missing: building it with build.ps1 (CMake + MSVC)." />
-    <Exec Command="$(_LoomPowerShell) -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)build.ps1&quot; -Architecture $(LoomOnigBuildArch)" />
+    <Exec Condition="$([MSBuild]::IsOSPlatform('Windows'))"
+          Command="$(_LoomPowerShell) -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)build.ps1&quot; -Architecture $(LoomOnigBuildArch)" />
+
+    <!-- Linux or macOS build machine: build.sh (CMake + cc). -->
+    <Exec Condition="!$([MSBuild]::IsOSPlatform('Windows'))"
+          Command="bash &quot;$(MSBuildThisFileDirectory)build.sh&quot; --rid $(LoomOnigFolder)" />
   </Target>
 </Project>

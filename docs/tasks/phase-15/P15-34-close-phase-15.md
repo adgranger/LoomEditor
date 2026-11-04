@@ -1,6 +1,6 @@
 # P15-34 — Close phase 15: parity, how-to, docs, CHANGELOG
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-33
 - **Size:** S (docs)
 
@@ -35,13 +35,22 @@ Sources: none (specified in this card). Read first: `docs/tasks/phase-14/P14-06-
 
 ## Tests
 
-- [ ] `AvaloniaApiParityTests` passes with no pending list
+- [x] `AvaloniaApiParityTests` passes with no pending list
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- `AvaloniaParityPending.txt` is deleted; the test is now `MissingMembers_AreOnlyTheExceptions`. The two last pending keys (`FindWidget.Connect`, `FindWidget.GetBindingConnector`) are WinUI XAML compiler output
+  and are now in `AvaloniaParityExceptions.txt` with that reason.
+- New: `docs/how-to/use-the-avalonia-control.md`. Updated: `README.md`, `docs/ARCHITECTURE.md`, `docs/PORTING.md` (the nine map rows that named a WinUI path only now name the Avalonia one),
+  `docs/adr/0016-avalonia-backend.md` (verified / not verified, with the CI runs), `docs/roadmap/phase-15-avalonia.md`, `CHANGELOG.md`, `CLAUDE.md`.
+- Also fixes the status of P15-33 in `docs/tasks/README.md` (left `todo` by the previous commit).
+- Not verified (written in the docs): the manual plan, `osx-x64` and `linux-arm64` Native AOT, the package test on macOS.
 
 ## Out of scope
 

@@ -18,8 +18,11 @@
     <!-- The renderer reads token metadata (font styles, color ids); the control gives the model a UI dispatcher. -->
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
+    <InternalsVisibleTo Include="LoomEditor.Avalonia.Tests" />
     <InternalsVisibleTo Include="LoomEditor.WinUI" />
+    <InternalsVisibleTo Include="LoomEditor.Avalonia" />
     <!-- The Gallery demo adds an injected text decoration (ModelDecorationOptions, InjectedTextOptions). -->
     <InternalsVisibleTo Include="LoomEditor.Gallery" />
+    <InternalsVisibleTo Include="LoomEditor.Gallery.Avalonia" />
   </ItemGroup>
 </Project>

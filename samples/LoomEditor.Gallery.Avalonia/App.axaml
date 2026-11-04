@@ -1,0 +1,11 @@
+<Application
+    x:Class="LoomEditor.Gallery.App"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loom="using:LoomEditor.Avalonia"
+    RequestedThemeVariant="Dark">
+    <Application.Styles>
+        <FluentTheme />
+        <loom:LoomEditorStyles />
+    </Application.Styles>
+</Application>

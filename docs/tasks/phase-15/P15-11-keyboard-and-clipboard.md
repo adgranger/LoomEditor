@@ -1,6 +1,6 @@
 # P15-11 — Keyboard, macOS modifiers, clipboard
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-10
 - **Size:** M
 
@@ -37,15 +37,15 @@ The WinUI twins: `src/LoomEditor.WinUI/Input/KeyboardInput.cs`, `KeyMapping.cs`,
 
 ## Tests
 
-- [ ] New: `ToModifiers_Windows_CtrlIsCtrl`, `ToModifiers_MacOS_CmdIsCtrl`, `ToModifiers_MacOS_ControlIsMeta`; `Typing_Hello_InsertsText` (`KeyTextInput("hello")`);
+- [x] New: `ToModifiers_Windows_CtrlIsCtrl`, `ToModifiers_MacOS_CmdIsCtrl`, `ToModifiers_MacOS_ControlIsMeta`; `Typing_Hello_InsertsText` (`KeyTextInput("hello")`);
   `CtrlA_SelectsAll` (pass `Control` on Windows/Linux runs, `Meta` on macOS: pick with `OperatingSystem.IsMacOS()`); `Enter_InsertsNewLineWithIndent`;
   `CopyPaste_RoundTrips` (headless clipboard); `Tab_InsertsIndent_KeepsFocus`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -54,3 +54,11 @@ IME (P15-13), pointer (P15-12).
 ## Suggested commit message
 
 `feat(avalonia): keyboard input, macOS modifiers and the clipboard`
+
+## Result
+
+- Done as written. No public API changes (`PublicAPI.Unshipped.txt` and `AvaloniaParityPending.txt` are unchanged).
+- Enter: typed from `KeyDown` (None or Shift), and `OnTextInput` drops CR and LF, so that a platform that also raises text input for Enter does not insert two line breaks.
+- `KeybindingContext`: `TabDoesNotMoveFocus` is `true`, the find widget keys are `false` (P15-14 and P15-17 set them), `IsComposing` is not read yet (P15-13).
+- `InsertSnippet` now reads the clipboard through `AvaloniaClipboardService`.
+- Manual checks "P15-11" written in `docs/testing/phase-15-manual-tests.md`, not run.

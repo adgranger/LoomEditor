@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- The geometries of the find widget and the diff editor (P15-17 on). Filled shapes on a 16 x 16 grid, drawn by PathIcon. -->
+  <StreamGeometry x:Key="LoomIconChevronRight">M5.5,3 L10.5,8 L5.5,13 L4.5,12 L8.5,8 L4.5,4 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconChevronDown">M3,5.5 L8,10.5 L13,5.5 L12,4.5 L8,8.5 L4,4.5 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconArrowUp">M8,3 L13,8 L12,9 L8.75,5.75 L8.75,13 L7.25,13 L7.25,5.75 L4,9 L3,8 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconArrowDown">M8,13 L13,8 L12,7 L8.75,10.25 L8.75,3 L7.25,3 L7.25,10.25 L4,7 L3,8 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconClose">M4,3 L8,7 L12,3 L13,4 L9,8 L13,12 L12,13 L8,9 L4,13 L3,12 L7,8 L3,4 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconFindInSelection">M2,3 H14 V4.5 H2 Z M5,7.25 H14 V8.75 H5 Z M5,11.5 H14 V13 H5 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconReplace">M2,3 H11 V4.5 H2 Z M2,7.25 H14 V8.75 H2 Z M2,11.5 H11 V13 H2 Z M12,10 L15,12.25 L12,14.5 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconReplaceAll">M2,2 H11 V3.5 H2 Z M2,5 H14 V6.5 H2 Z M2,8 H11 V9.5 H2 Z M2,11 H14 V12.5 H2 Z M12,7.5 L15,9.75 L12,12 Z</StreamGeometry>
+  <StreamGeometry x:Key="LoomIconPlus">M7.25,2 H8.75 V7.25 H14 V8.75 H8.75 V14 H7.25 V8.75 H2 V7.25 H7.25 Z</StreamGeometry>
+</ResourceDictionary>

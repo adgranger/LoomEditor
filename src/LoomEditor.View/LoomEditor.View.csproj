@@ -17,10 +17,13 @@
     <!-- The layers above View share its internals (ADR 0005). -->
     <InternalsVisibleTo Include="LoomEditor.Rendering" />
     <InternalsVisibleTo Include="LoomEditor.WinUI" />
+    <InternalsVisibleTo Include="LoomEditor.Avalonia" />
     <InternalsVisibleTo Include="LoomEditor.Rendering.Tests" />
+    <InternalsVisibleTo Include="LoomEditor.Avalonia.Tests" />
     <InternalsVisibleTo Include="LoomEditor.TextMate.Tests" />
     <!-- The Gallery demo registers its own decoration class name in DecorationStyles. -->
     <InternalsVisibleTo Include="LoomEditor.Gallery" />
+    <InternalsVisibleTo Include="LoomEditor.Gallery.Avalonia" />
   </ItemGroup>
 
   <ItemGroup>

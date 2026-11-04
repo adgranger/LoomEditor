@@ -1158,68 +1158,159 @@ Roadmap: [phase-15-avalonia.md](../roadmap/phase-15-avalonia.md); decision: [ADR
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-01](phase-15/P15-01-portable-rendering.md) | `LoomEditor.Rendering` becomes `net11.0`; Win2D moves into `LoomEditor.WinUI` | P14-06 | todo |
-| [P15-02](phase-15/P15-02-shared-host-helpers.md) | Move the UI-free helpers of `LoomEditor.WinUI` into View | P15-01 | todo |
-| [P15-03](phase-15/P15-03-oniguruma-linux-macos.md) | Oniguruma for Linux and macOS | P15-02 | todo |
-| [P15-04](phase-15/P15-04-portable-ci.md) | Build and test the portable projects on Linux and macOS | P15-03 | todo |
+| [P15-01](phase-15/P15-01-portable-rendering.md) | `LoomEditor.Rendering` becomes `net11.0`; Win2D moves into `LoomEditor.WinUI` | P14-06 | done |
+| [P15-02](phase-15/P15-02-shared-host-helpers.md) | Move the UI-free helpers of `LoomEditor.WinUI` into View | P15-01 | done |
+| [P15-03](phase-15/P15-03-oniguruma-linux-macos.md) | Oniguruma for Linux and macOS | P15-02 | done |
+| [P15-04](phase-15/P15-04-portable-ci.md) | Build and test the portable projects on Linux and macOS | P15-03 | done |
 
 ### Step B — Project and drawing
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-05](phase-15/P15-05-avalonia-project-and-tests.md) | `LoomEditor.Avalonia` project, headless test project, API parity test | P15-04 | todo |
-| [P15-06](phase-15/P15-06-text-measurer-and-line-layout.md) | `AvaloniaTextMeasurer` and `AvaloniaLineLayout` (**Opus**) | P15-05 | todo |
-| [P15-07](phase-15/P15-07-render-surface-and-minimap.md) | `AvaloniaRenderSurface`, bitmap cache, minimap font sampler | P15-06 | todo |
+| [P15-05](phase-15/P15-05-avalonia-project-and-tests.md) | `LoomEditor.Avalonia` project, headless test project, API parity test | P15-04 | done |
+| [P15-06](phase-15/P15-06-text-measurer-and-line-layout.md) | `AvaloniaTextMeasurer` and `AvaloniaLineLayout` (**Opus**) | P15-05 | done |
+| [P15-07](phase-15/P15-07-render-surface-and-minimap.md) | `AvaloniaRenderSurface`, bitmap cache, minimap font sampler | P15-06 | done |
 
 ### Step C — The `LoomEditor` control
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-08](phase-15/P15-08-control-shell-and-draw-loop.md) | Template, draw loop, font, zoom, schedulers | P15-07 | todo |
-| [P15-09](phase-15/P15-09-scrolling-caret-highlighting.md) | Scrolling, caret, highlighting, read-only, reveal | P15-08 | todo |
-| [P15-10](phase-15/P15-10-editor-options.md) | Editor option properties and the small partials | P15-09 | todo |
-| [P15-11](phase-15/P15-11-keyboard-and-clipboard.md) | Keyboard, macOS modifiers, clipboard | P15-10 | todo |
-| [P15-12](phase-15/P15-12-pointer.md) | Pointer: click, drag selection, multi-cursor, drag and drop | P15-11 | todo |
-| [P15-13](phase-15/P15-13-ime.md) | IME through `TextInputMethodClient` (**Opus**) | P15-12 | todo |
-| [P15-14](phase-15/P15-14-accessibility-and-high-contrast.md) | Accessibility and high contrast (**Opus**) | P15-13 | todo |
-| [P15-15](phase-15/P15-15-overlay-and-view-zones.md) | Overlay layer and host view zones | P15-14 | todo |
-| [P15-16](phase-15/P15-16-host-hooks.md) | The host API: decorations, scroll and layout sync, gutter clicks | P15-15 | todo |
+| [P15-08](phase-15/P15-08-control-shell-and-draw-loop.md) | Template, draw loop, font, zoom, schedulers | P15-07 | done |
+| [P15-09](phase-15/P15-09-scrolling-caret-highlighting.md) | Scrolling, caret, highlighting, read-only, reveal | P15-08 | done |
+| [P15-10](phase-15/P15-10-editor-options.md) | Editor option properties and the small partials | P15-09 | done |
+| [P15-11](phase-15/P15-11-keyboard-and-clipboard.md) | Keyboard, macOS modifiers, clipboard | P15-10 | done |
+| [P15-12](phase-15/P15-12-pointer.md) | Pointer: click, drag selection, multi-cursor, drag and drop | P15-11 | done |
+| [P15-13](phase-15/P15-13-ime.md) | IME through `TextInputMethodClient` (**Opus**) | P15-12 | done |
+| [P15-14](phase-15/P15-14-accessibility-and-high-contrast.md) | Accessibility and high contrast (**Opus**) | P15-13 | done |
+| [P15-15](phase-15/P15-15-overlay-and-view-zones.md) | Overlay layer and host view zones | P15-14 | done |
+| [P15-16](phase-15/P15-16-host-hooks.md) | The host API: decorations, scroll and layout sync, gutter clicks | P15-15 | done |
 
 ### Step D — Widgets
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-17](phase-15/P15-17-find-widget.md) | Find and replace widget | P15-16 | todo |
-| [P15-18](phase-15/P15-18-markdown-and-hover.md) | Markdown rendering and the hover widget | P15-17 | todo |
-| [P15-19](phase-15/P15-19-suggest-widget.md) | The suggest widget | P15-18 | todo |
-| [P15-20](phase-15/P15-20-comment-gutter.md) | Comment threads: event args, gutter "+", editor wiring | P15-19 | todo |
-| [P15-21](phase-15/P15-21-comment-thread-widget.md) | Comment thread widget: display | P15-20 | todo |
-| [P15-22](phase-15/P15-22-comment-composer.md) | Comment composer, toolbar, suggestion blocks | P15-21 | todo |
-| [P15-23](phase-15/P15-23-comment-zone-host.md) | Comment zones and their automation peer | P15-22 | todo |
+| [P15-17](phase-15/P15-17-find-widget.md) | Find and replace widget | P15-16 | done |
+| [P15-18](phase-15/P15-18-markdown-and-hover.md) | Markdown rendering and the hover widget | P15-17 | done |
+| [P15-19](phase-15/P15-19-suggest-widget.md) | The suggest widget | P15-18 | done |
+| [P15-20](phase-15/P15-20-comment-gutter.md) | Comment threads: event args, gutter "+", editor wiring | P15-19 | done |
+| [P15-21](phase-15/P15-21-comment-thread-widget.md) | Comment thread widget: display | P15-20 | done |
+| [P15-22](phase-15/P15-22-comment-composer.md) | Comment composer, toolbar, suggestion blocks | P15-21 | done |
+| [P15-23](phase-15/P15-23-comment-zone-host.md) | Comment zones and their automation peer | P15-22 | done |
 
 ### Step E — `LoomDiffEditor`
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-24](phase-15/P15-24-diff-editor-shell.md) | Shell, layout, sash, public diff types | P15-23 | todo |
-| [P15-25](phase-15/P15-25-diff-options-and-navigation.md) | Options and change navigation | P15-24 | todo |
-| [P15-26](phase-15/P15-26-diff-zones-and-overview.md) | Alignment zones and the diff overview ruler | P15-25 | todo |
-| [P15-27](phase-15/P15-27-diff-hidden-regions-and-comments.md) | Hidden unchanged regions and diff comment threads | P15-26 | todo |
-| [P15-28](phase-15/P15-28-accessible-diff-viewer.md) | The accessible diff viewer | P15-27 | todo |
-| [P15-29](phase-15/P15-29-diff-block-actions.md) | Diff block action buttons | P15-28 | todo |
-| [P15-30](phase-15/P15-30-diff-line-selection.md) | Diff line checkboxes, selection and the line action | P15-29 | todo |
+| [P15-24](phase-15/P15-24-diff-editor-shell.md) | Shell, layout, sash, public diff types | P15-23 | done |
+| [P15-25](phase-15/P15-25-diff-options-and-navigation.md) | Options and change navigation | P15-24 | done |
+| [P15-26](phase-15/P15-26-diff-zones-and-overview.md) | Alignment zones and the diff overview ruler | P15-25 | done |
+| [P15-27](phase-15/P15-27-diff-hidden-regions-and-comments.md) | Hidden unchanged regions and diff comment threads | P15-26 | done |
+| [P15-28](phase-15/P15-28-accessible-diff-viewer.md) | The accessible diff viewer | P15-27 | done |
+| [P15-29](phase-15/P15-29-diff-block-actions.md) | Diff block action buttons | P15-28 | done |
+| [P15-30](phase-15/P15-30-diff-line-selection.md) | Diff line checkboxes, selection and the line action | P15-29 | done |
 
 ### Step F — Ship
 
 | Card | Title | Depends on | Status |
 |---|---|---|---|
-| [P15-31](phase-15/P15-31-gallery-avalonia.md) | The Avalonia Gallery | P15-30 | todo |
-| [P15-32](phase-15/P15-32-native-aot-three-os.md) | Native AOT on Windows, macOS and Linux | P15-31 | todo |
-| [P15-33](phase-15/P15-33-package-and-release.md) | The `LoomEditor.Avalonia` package, package test, release workflow | P15-32 | todo |
-| [P15-34](phase-15/P15-34-close-phase-15.md) | Close phase 15: parity, how-to, docs, CHANGELOG | P15-33 | todo |
+| [P15-31](phase-15/P15-31-gallery-avalonia.md) | The Avalonia Gallery | P15-30 | done |
+| [P15-32](phase-15/P15-32-native-aot-three-os.md) | Native AOT on Windows, macOS and Linux | P15-31 | done |
+| [P15-33](phase-15/P15-33-package-and-release.md) | The `LoomEditor.Avalonia` package, package test, release workflow | P15-32 | done |
+| [P15-34](phase-15/P15-34-close-phase-15.md) | Close phase 15: parity, how-to, docs, CHANGELOG | P15-33 | done |
 
 Take phase 15 cards in table order. Sonnet for every card except the three marked **Opus**. Unlike WinUI, the Avalonia cards are verified by headless tests
 (`tests/LoomEditor.Avalonia.Tests`); what headless cannot check goes to `docs/testing/phase-15-manual-tests.md`, written and not run by agents.
+
+## Phase 16 — Shared host logic (WinUI and Avalonia)
+
+Roadmap: [phase-16-shared-host-logic.md](../roadmap/phase-16-shared-host-logic.md); decision: [ADR 0017](../adr/0017-shared-host-logic.md); rules: [phase-16/README.md](phase-16/README.md).
+**Not a Monaco port:** a refactoring that removes the WinUI/Avalonia duplication (Sonar: 23.2% on PR #26, target ≤ 3%) without changing behavior or public API. Planned 2026-11-03.
+
+### Step A — Shared host source
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-01](phase-16/P16-01-host-shared-folder.md) | `src/LoomEditor.HostShared`: shared host source, its tests, the comment event args | P15-34 | done |
+| [P16-02](phase-16/P16-02-public-types-one-source.md) | The other copied public types and namespace-only partials from one source | P16-01 | done |
+
+### Step B — The `LoomEditor` control
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-03](phase-16/P16-03-host-dispatcher-reveal-snippets.md) | `HostDispatcher`; share `LoomEditor.Reveal` and `LoomEditor.Snippets` | P16-01 | done |
+| [P16-04](phase-16/P16-04-host-hooks-and-diff-gutter.md) | Split WinUI `LoomEditor.HostHooks` like Avalonia; share the diff gutter and scroll hooks | P16-03 | done |
+| [P16-05](phase-16/P16-05-view-zone-pointer.md) | Share the view zone pointer | P16-04 | done |
+| [P16-06](phase-16/P16-06-editor-comment-threads-keyboard.md) | Share the `LoomEditor` comment threads, keybinding context, selection API and screen reader refresh | P16-03 | done |
+| [P16-07](phase-16/P16-07-pointer-and-scrolling.md) | Share the pointer and scrolling decisions of `LoomEditor` (**Opus**) | P16-05 | done |
+
+### Step C — `LoomDiffEditor`
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-08](phase-16/P16-08-hidden-regions-and-view-zones.md) | Share `HideUnchangedRegionsController` and `DiffEditorViewZones` | P16-03 | done |
+| [P16-09](phase-16/P16-09-diff-comments-navigation-overview.md) | Share the diff editor's comment threads, navigation, overview ruler and gutter controllers | P16-08 | done |
+| [P16-10](phase-16/P16-10-diff-editor-core-and-layout.md) | Share the duplicated members of `LoomDiffEditor.cs` and `LoomDiffEditor.Layout.cs` | P16-08 | done |
+| [P16-11](phase-16/P16-11-accessible-diff-viewer.md) | Share the accessible diff viewer logic | P16-01 | done |
+| [P16-12](phase-16/P16-12-diff-block-actions.md) | Share the diff block actions controller | P16-08 | done |
+| [P16-13](phase-16/P16-13-diff-line-checkboxes.md) | Share the diff line check boxes and line selection | P16-12 | done |
+
+### Step D — Widgets
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-14](phase-16/P16-14-find-widget.md) | Share the find widget logic | P16-03 | done |
+| [P16-15](phase-16/P16-15-comment-gutter-and-zone-host.md) | Share the comment gutter controller and the comment zone host | P16-03 | done |
+| [P16-16](phase-16/P16-16-comment-thread-widget.md) | Share the comment thread widget logic | P16-15 | done |
+| [P16-17](phase-16/P16-17-small-widget-leftovers.md) | Share the leftovers of the suggestion block, composer toolbar, suggest and hover widgets | P16-16 | done |
+
+### Step E — Rendering and tests
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-18](phase-16/P16-18-rendering-text-helpers.md) | Move the shared text layout helpers into `LoomEditor.Rendering` | P15-34 | done |
+| [P16-19](phase-16/P16-19-avalonia-diff-test-window.md) | One helper for the Avalonia diff editor test window | P15-34 | done |
+
+### Step F — Galleries
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-20](phase-16/P16-20-gallery-shared-setup-and-lsp.md) | Gallery: global control usings; share the LSP demo | P15-34 | done |
+| [P16-21](phase-16/P16-21-gallery-diff-demo.md) | Gallery: share the diff demo window logic | P16-20 | done |
+| [P16-22](phase-16/P16-22-gallery-host-api-demo.md) | Gallery: share the host API demo window logic | P16-20 | done |
+| [P16-23](phase-16/P16-23-gallery-main-window.md) | Gallery: share the main window logic | P16-20 | done |
+
+### Step G — Close
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P16-24](phase-16/P16-24-close-phase-16.md) | Close phase 16: self-checks, Native AOT, Sonar duplication ≤ 3% | P16-01 … P16-23 | done |
+
+Take phase 16 cards in table order (the "Depends on" column allows other orders, but one card at a time keeps `docs/PORTING.md` and this index free of conflicts). Sonnet for every card except P16-07, marked **Opus**: it reshapes the pointer handlers of both controls, and the WinUI ones have no automated test. Each card keeps the Avalonia headless tests green **unchanged**; the WinUI control is checked by the Release build and, at the end, by the WinUI Gallery self-checks (P16-24). P16-24 asks the user to push and then reads the Sonar duplication of PR #26.
+
+## Phase 17 — Zero duplication between the WinUI and Avalonia hosts
+
+Roadmap: [phase-17-zero-host-duplication.md](../roadmap/phase-17-zero-host-duplication.md); decision: [ADR 0017](../adr/0017-shared-host-logic.md); rules: [phase-17/README.md](phase-17/README.md).
+**Not a Monaco port:** removes the last blocks copied between the two hosts and the two Galleries (Sonar: 2.15% on PR #26, target 0.0%) without changing behavior or public API. Planned 2026-11-03.
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P17-01](phase-17/P17-01-host-twin-duplication-test.md) | A test that finds blocks copied between the two hosts | P16-24 | done |
+| [P17-02](phase-17/P17-02-editor-host-hooks.md) | Share the framework-free members of `LoomEditor.HostHooks.Host.cs` | P17-01 | done |
+| [P17-03](phase-17/P17-03-diff-editor-sub-editors.md) | Share the sub-editor configuration of `LoomDiffEditor` | P17-01 | done |
+| [P17-04](phase-17/P17-04-accessible-diff-viewer-rows.md) | Share the row colors and cells of the accessible diff viewer | P17-01 | done |
+| [P17-05](phase-17/P17-05-comment-thread-widget-core.md) | Share the constructor and the framework-free members of `CommentThreadWidget` | P17-01 | done |
+| [P17-06](phase-17/P17-06-comment-thread-widget-theme.md) | Share `CommentThreadWidget.ApplyTheme` | P17-05 | done |
+| [P17-07](phase-17/P17-07-comment-thread-widget-header.md) | Share the header layout of `CommentThreadWidget` | P17-06 | done |
+| [P17-08](phase-17/P17-08-comment-thread-widget-composer.md) | Share the composer actions and layout of `CommentThreadWidget` | P17-07 | done |
+| [P17-09](phase-17/P17-09-composer-toolbar-and-suggestion-block.md) | Remove the copies in the composer toolbar and the suggestion block | P17-08 | done |
+| [P17-10](phase-17/P17-10-hover-and-suggest-widgets.md) | Remove the copies in the hover and suggest widgets | P17-01 | done |
+| [P17-11](phase-17/P17-11-gallery-startup-and-sonar-scope.md) | Gallery: share the main window start-up; keep the Gallery host parts out of Sonar's copy detection | P17-01 | done |
+| [P17-12](phase-17/P17-12-pointer-release-zone-placement-diff-teardown.md) | Share the pointer release, the comment zone placement test and the diff editor teardown | P17-01 | done |
+| [P17-13](phase-17/P17-13-close-phase-17.md) | Close phase 17: build, tests, self-checks, Sonar duplication 0% | P17-01 … P17-12 | done |
+
+Take phase 17 cards in table order (one card at a time: they all edit `KnownDuplicates` in `HostTwinDuplicationTests`). Sonnet for every card. P17-01 adds
+the gate: a copy detector run by `dotnet test` that starts with 16 copied file pairs (Sonar's 13, plus 3 that only the detector found: P17-12); each card deletes its pairs, and P17-13 removes the
+list. P17-13 asks the user to push and then reads the Sonar duplication of PR #26.
 
 ## How to run a card with a coding agent (Claude Code)
 

@@ -13,9 +13,6 @@ namespace LoomEditor.WinUI.Controls.Suggest;
 /// <remarks>Threading: UI thread only.</remarks>
 internal sealed partial class SuggestWidget : UserControl
 {
-    internal const double WidgetWidth = 430;
-    internal const double RowHeight = 22;
-
     private readonly SolidColorBrush _background = new();
     private readonly SolidColorBrush _border = new();
     private readonly SolidColorBrush _foreground = new();
@@ -24,7 +21,6 @@ internal sealed partial class SuggestWidget : UserControl
     private readonly SolidColorBrush _selectedForeground = new();
     private readonly SolidColorBrush _highlight = new();
     private readonly SolidColorBrush _focusHighlight = new();
-    private readonly SuggestRow[] _rows = new SuggestRow[SuggestListState.MaxVisibleRows];
     private readonly TextBlock _details = new()
     {
         TextWrapping = TextWrapping.Wrap,
@@ -33,8 +29,6 @@ internal sealed partial class SuggestWidget : UserControl
         Margin = new Thickness(8, 4, 8, 4),
         Visibility = Visibility.Collapsed,
     };
-
-    private SuggestListState? _state;
 
     public SuggestWidget()
     {
@@ -69,9 +63,6 @@ internal sealed partial class SuggestWidget : UserControl
         };
         PointerWheelChanged += OnPointerWheelChanged;
     }
-
-    /// <summary>Raised with the visible row index (0-based) when a row is clicked.</summary>
-    public event Action<int>? RowPressed;
 
     private void OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
     {

@@ -25,6 +25,8 @@ Everything written in the repository is in **English**: code, comments, docs, te
 dotnet build LoomEditor.slnx -c Release                    # MUST pass: warnings are errors in Release
 dotnet test --solution LoomEditor.slnx -c Release          # MUST pass
 dotnet test --project tests/LoomEditor.Core.Tests -c Release   # faster loop while working on Core
+dotnet build LoomEditor.Portable.slnf -c Release              # the projects that must also build on Linux and macOS (CI)
+dotnet test --solution LoomEditor.Portable.slnf -c Release    # same filter, tests
 ./eng/Update-PublicApi.ps1 src/LoomEditor.Core             # after adding PUBLIC members (prefer internal!)
 dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64   # Native AOT check (only if the card asks)
 ```
@@ -68,5 +70,7 @@ test project must reference it too. No environment variable is needed.
 
 ## Architecture rules (enforced by tests in tests/LoomEditor.Architecture.Tests)
 
-`WinUI → Rendering → View → (TextMate, Themes) → Core`. Core/TextMate/Themes/View know nothing about Windows or UI.
+`WinUI | Avalonia → Rendering → View → (TextMate, Themes) → Core`. Core/TextMate/Themes/View know nothing about Windows or UI.
 Features live in `src/LoomEditor.View/Features/<Name>/` and are listed in `EditorFeatures.cs`.
+Code both controls need and that names a host type lives once in `src/LoomEditor.HostShared/` (ADR 0017); the framework-specific part goes to `<File>.Host.cs` in each host.
+No block of 100 tokens may be copied between the two hosts or the two Galleries (`HostTwinDuplicationTests`); move the code to `src/LoomEditor.HostShared/` instead.

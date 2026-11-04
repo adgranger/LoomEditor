@@ -1,6 +1,6 @@
 # P15-29 — Diff block action buttons
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-28
 - **Size:** M
 
@@ -32,14 +32,14 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/DiffEditor/DiffBlockActionsContr
 
 ## Tests
 
-- [ ] New: `Always_FiveBlocks_FiveButtons`; `Click_Third_RaisesBlockActionInvoked_WithChanges2`; `PureDeletion_ButtonOnOriginalSide`; `OnHover_OnlyHoveredBlock`;
+- [x] New: `Always_FiveBlocks_FiveButtons`; `Click_Third_RaisesBlockActionInvoked_WithChanges2`; `PureDeletion_ButtonOnOriginalSide`; `OnHover_OnlyHoveredBlock`;
   `NotSideBySide_NoButtons`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
 
 ## Out of scope
 

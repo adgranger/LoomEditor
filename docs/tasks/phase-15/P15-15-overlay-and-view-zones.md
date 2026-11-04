@@ -1,6 +1,6 @@
 # P15-15 — Overlay layer and host view zones
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-14
 - **Size:** M
 
@@ -31,14 +31,24 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Overlay/OverlayHost.cs`, `Contro
 
 ## Tests
 
-- [ ] New: `Overlay_Show_PlacesAtCoordinates`; `Overlay_Hide_CollapsesElement`; `AddViewZone_PushesNextLineDown` (`GetTopForLineNumber(5)` grows by the zone height);
+- [x] New: `Overlay_Show_PlacesAtCoordinates`; `Overlay_Hide_CollapsesElement`; `AddViewZone_PushesNextLineDown` (`GetTopForLineNumber(5)` grows by the zone height);
   `AddViewZone_ContentIsArrangedInGap` (the content's bounds are inside the gap); `RemoveViewZone_RestoresLayout`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+
+## Deviations
+
+- The zone controls are arranged in a dispatcher post after the frame is drawn, not inside the draw: Avalonia refuses a layout change (`Width`/`Height`) during the render pass.
+- The tests read the zone offsets from `ViewLayout`; `GetTopForLineNumber` arrives with P15-16.
+
+## Deviations
+
+- The zone controls are arranged in a dispatcher post after the frame is drawn, not inside the draw: Avalonia refuses a layout change (`Width`/`Height`) during the render pass.
+- The tests read the zone offsets from `ViewLayout`; `GetTopForLineNumber` arrives with P15-16.
 
 ## Out of scope
 

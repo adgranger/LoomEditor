@@ -1,6 +1,4 @@
 using LoomEditor.Core.Comments;
-using LoomEditor.WinUI.Controls;
-using Microsoft.UI.Xaml;
 
 namespace LoomEditor.Gallery;
 
@@ -39,12 +37,8 @@ public sealed partial class DiffDemoWindow
         };
     }
 
-    private void OnAddOnOriginal(object sender, RoutedEventArgs e) => AddOnSelection(DiffSide.Original, DiffEditor.Original);
-
-    private void OnAddOnModified(object sender, RoutedEventArgs e) => AddOnSelection(DiffSide.Modified, DiffEditor.Modified);
-
     // The text of the side's selection (the cursor line when empty), like the add command.
-    private void AddOnSelection(DiffSide side, LoomEditor.WinUI.Controls.LoomEditor editor) =>
+    private void AddOnSelection(DiffSide side, LoomEditorControl editor) =>
         DiffEditor.AddCommentThread(side, editor.Selections[0].Range, startComposing: true);
 
     private static string Lines(int start, int end) => start == end ? $"line {end}" : $"lines {start}\u2013{end}";
@@ -56,7 +50,7 @@ public sealed partial class DiffDemoWindow
         text is { } t ? $"{Lines(start, end)}, text {t.StartLineNumber}:{t.StartColumn}\u2013{t.EndLineNumber}:{t.EndColumn}" : Lines(start, end);
 
     // The gutter "+" is a property of each editor, not of the diff editor.
-    private void OnCommentGutterChanged(object sender, RoutedEventArgs e)
+    private void ApplyCommentGutter()
     {
         bool on = CommentGutterBox.IsChecked == true;
         DiffEditor.Original.CommentGutterButtonEnabled = on;
@@ -64,7 +58,7 @@ public sealed partial class DiffDemoWindow
     }
 
     // Two versions of the comment sample, with its threads on the modified side and one on the original side.
-    private void OnLoadCommentSample(object sender, RoutedEventArgs e)
+    private void LoadCommentSample()
     {
         foreach (CommentThread thread in DiffEditor.CommentThreads)
         {

@@ -1,0 +1,51 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:LoomEditor.Avalonia.Controls"
+        xmlns:find="using:LoomEditor.Avalonia.Controls.Find"
+        xmlns:diff="using:LoomEditor.Avalonia.Controls.DiffEditor">
+  <Styles.Resources>
+    <ResourceDictionary>
+      <!-- Default look of the LoomEditor control. PART_Canvas is required: all text is drawn on it. -->
+      <ControlTheme x:Key="{x:Type controls:LoomEditor}" TargetType="controls:LoomEditor">
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+          <ControlTemplate>
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <Panel>
+                <controls:EditorCanvas Name="PART_Canvas" />
+                <Canvas Name="PART_ZoneWidgetCanvas" />
+                <Canvas Name="PART_OverlayCanvas" />
+                <!-- The live region of the announcements (screen readers): present for automation, drawn invisibly. -->
+                <TextBlock Name="PART_LiveRegion" AutomationProperties.LiveSetting="Assertive" Opacity="0" IsHitTestVisible="False"
+                           Width="1" Height="1" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <find:FindWidget Name="PART_FindWidget" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,14,0" IsVisible="False" />
+                <ScrollBar Name="PART_VerticalScrollBar" Orientation="Vertical" HorizontalAlignment="Right" IsVisible="False" />
+                <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" VerticalAlignment="Bottom" IsVisible="False" />
+              </Panel>
+            </Border>
+          </ControlTemplate>
+        </Setter>
+      </ControlTheme>
+      <!-- Default look of the LoomDiffEditor control: the parts are required and placed by code (sash position, inline mode). -->
+      <ControlTheme x:Key="{x:Type controls:LoomDiffEditor}" TargetType="controls:LoomDiffEditor">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+          <ControlTemplate>
+            <Panel Background="{TemplateBinding Background}">
+              <controls:LoomEditor Name="PART_Original" HorizontalAlignment="Left" />
+              <controls:LoomEditor Name="PART_Modified" HorizontalAlignment="Stretch" />
+              <diff:DiffEditorSash Name="PART_Sash" HorizontalAlignment="Left" />
+              <diff:DiffOverviewRuler Name="PART_Overview" HorizontalAlignment="Right" />
+              <Panel Name="PART_ViewerHost" />
+            </Panel>
+          </ControlTemplate>
+        </Setter>
+      </ControlTheme>
+    </ResourceDictionary>
+  </Styles.Resources>
+</Styles>

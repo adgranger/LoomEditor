@@ -8,7 +8,7 @@ namespace LoomEditor.View.Layout;
 /// </summary>
 /// <remarks>
 /// Threading: immutable, safe from any thread.
-/// Not ported: <c>getId</c>, <c>getMassagedFontFamily</c>. The Windows values of Monaco's constants are used.
+/// Not ported: <c>getId</c>, <c>getMassagedFontFamily</c>. The Windows value of Monaco's <c>GOLDEN_LINE_HEIGHT_RATIO</c> is used; the default font families of the three OSes are ported.
 /// </remarks>
 internal record BareFontInfo(
     double PixelRatio,
@@ -26,8 +26,18 @@ internal record BareFontInfo(
     /// <summary>Monaco: <c>MINIMUM_LINE_HEIGHT</c>.</summary>
     public const int MinimumLineHeight = 8;
 
-    /// <summary>Monaco: <c>DEFAULT_WINDOWS_FONT_FAMILY</c> (<c>EDITOR_FONT_DEFAULTS.fontFamily</c> on Windows).</summary>
+    /// <summary>Monaco: <c>DEFAULT_WINDOWS_FONT_FAMILY</c> (<c>EDITOR_FONT_DEFAULTS.fontFamily</c> on Windows), fontInfo.ts line 222.</summary>
     public const string DefaultWindowsFontFamily = "Consolas, 'Courier New', monospace";
+
+    /// <summary>Monaco: <c>DEFAULT_MAC_FONT_FAMILY</c> (<c>EDITOR_FONT_DEFAULTS.fontFamily</c> on macOS), fontInfo.ts line 226.</summary>
+    public const string DefaultMacFontFamily = "Menlo, Monaco, 'Courier New', monospace";
+
+    /// <summary>Monaco: <c>DEFAULT_LINUX_FONT_FAMILY</c> (<c>EDITOR_FONT_DEFAULTS.fontFamily</c> on Linux), fontInfo.ts line 230.</summary>
+    public const string DefaultLinuxFontFamily = "'Droid Sans Mono', monospace";
+
+    /// <summary>Monaco: <c>EDITOR_FONT_DEFAULTS.fontFamily</c>, fontInfo.ts line 235: the default family list of the current OS.</summary>
+    public static string DefaultFontFamilyForCurrentOS =>
+        OperatingSystem.IsMacOS() ? DefaultMacFontFamily : OperatingSystem.IsWindows() ? DefaultWindowsFontFamily : DefaultLinuxFontFamily;
 
     /// <summary>
     /// Monaco: <c>BareFontInfo._create</c>. <paramref name="lineHeight"/> is <c>0</c> (golden ratio), a multiplier of

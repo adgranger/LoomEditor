@@ -20,3 +20,5 @@ One file per phase. Each file is written so it can be pasted as a GitHub issue (
 | 13 | [phase-13-host-api.md](phase-13-host-api.md) |
 | 14 | [phase-14-diff-actions.md](phase-14-diff-actions.md) |
 | 15 | [phase-15-avalonia.md](phase-15-avalonia.md) |
+| 16 | [phase-16-shared-host-logic.md](phase-16-shared-host-logic.md) |
+| 17 | [phase-17-zero-host-duplication.md](phase-17-zero-host-duplication.md) |

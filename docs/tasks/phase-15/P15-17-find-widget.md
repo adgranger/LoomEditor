@@ -1,6 +1,6 @@
 # P15-17 — Find and replace widget
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-16
 - **Size:** M (~600 lines with AXAML; code ~400)
 
@@ -33,14 +33,20 @@ The WinUI twins: `src/LoomEditor.WinUI/Controls/Find/FindWidget.xaml`, `FindWidg
 
 ## Tests
 
-- [ ] New: `CtrlF_OpensWidget_FocusesFindBox`; `TypingInFindBox_HighlightsMatches_ShowsCount` (`"1 of 3"`, same string as WinUI); `Enter_GoesToNextMatch`;
+- [x] New: `CtrlF_OpensWidget_FocusesFindBox`; `TypingInFindBox_HighlightsMatches_ShowsCount` (`"1 of 3"`, same string as WinUI); `Enter_GoesToNextMatch`;
   `Escape_ClosesAndFocusesEditor`; `ReplaceAll_ReplacesEveryMatch`; `RegexToggle_InvalidPattern_ShowsNoResults`
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status, `AvaloniaParityPending.txt` and `docs/tasks/README.md` updated
+
+## Deviations
+
+- `FindWidget` is public with its constructor and the generated `InitializeComponent`, as the WinUI one; `Connect`, the key routing and the theme are internal.
+- The icons are filled geometries in `Themes/Icons.axaml` (decision 6); the option toggles keep their text (`Aa`, `ab`, `.*`, `AB`).
+- The Fluent control themes are re-colored through the same resource keys the WinUI XAML overrides (`TextControlBackground`, `ToggleButtonBackgroundChecked`, ...), aliased to the widget brushes in the constructor.
 
 ## Out of scope
 

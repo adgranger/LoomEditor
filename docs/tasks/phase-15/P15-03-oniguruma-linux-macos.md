@@ -1,6 +1,6 @@
 # P15-03 — Oniguruma for Linux and macOS
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-02
 - **Size:** M (scripts and MSBuild)
 
@@ -38,15 +38,15 @@ Sources: none (specified in this card; [ADR 0007](../../adr/0007-textmate-regex-
 
 ## Tests
 
-- [ ] Existing TextMate tests pass on Linux and macOS (checked by CI after P15-04; in this card, the `native` jobs must be green and the artifact must contain the library)
-- [ ] `dotnet pack` of TextMate locally (Windows) still contains `runtimes/win-x64/native/onig.dll`; with the CI artifacts, the package contains all six RIDs (list in the Result)
+- [x] Existing TextMate tests pass on Linux and macOS (checked by CI after P15-04; in this card, the `native` jobs must be green and the artifact must contain the library)
+- [x] `dotnet pack` of TextMate locally (Windows) still contains `runtimes/win-x64/native/onig.dll`; with the CI artifacts, the package contains all six RIDs (list in the Result)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `bash src/native/oniguruma/build.sh --rid linux-x64` works in WSL or a Linux container if one is available (else: CI only, said in the Result)
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `bash src/native/oniguruma/build.sh --rid linux-x64` works in WSL or a Linux container if one is available (else: CI only, said in the Result)
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

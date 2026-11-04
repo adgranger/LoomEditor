@@ -6,7 +6,7 @@ namespace LoomEditor.Core.Snippets;
 /// <summary>Resolves the file variables from the host's file path (Monaco: <c>ModelBasedVariableResolver</c>).</summary>
 /// <remarks>
 /// Behavior difference: the paths come from <see cref="ISnippetVariableHost"/> and are handled with <see cref="Path"/>
-/// (no label service). Every value is <see langword="null"/> when the host gives <see langword="null"/>.
+/// (no label service; on Linux and macOS a <c>\</c> is read as a separator too). Every value is <see langword="null"/> when the host gives <see langword="null"/>.
 /// Threading: UI thread only; resolvers are created per insertion.
 /// </remarks>
 internal sealed class ModelBasedVariableResolver(ISnippetVariableHost host) : IVariableResolver
@@ -29,19 +29,22 @@ internal sealed class ModelBasedVariableResolver(ISnippetVariableHost host) : IV
         switch (variable.Name)
         {
             case "TM_FILENAME":
-                return Path.GetFileName(filePath);
+                return Path.GetFileName(Normalize(filePath));
             case "TM_FILENAME_BASE":
-                string name = Path.GetFileName(filePath);
+                string name = Path.GetFileName(Normalize(filePath));
                 int index = name.LastIndexOf('.');
                 return index <= 0 ? name : name[..index];
             case "TM_DIRECTORY":
-                return Path.GetDirectoryName(filePath) is { Length: > 0 } directory ? directory : string.Empty;
+                return Path.GetDirectoryName(Normalize(filePath)) is { Length: > 0 } directory ? directory : string.Empty;
             case "TM_DIRECTORY_BASE":
-                return Path.GetDirectoryName(filePath) is { Length: > 0 } baseDirectory ? Path.GetFileName(baseDirectory) : string.Empty;
+                return Path.GetDirectoryName(Normalize(filePath)) is { Length: > 0 } baseDirectory ? Path.GetFileName(baseDirectory) : string.Empty;
             case "TM_FILEPATH":
                 return filePath;
             default:
                 return null;
         }
     }
+
+    // A Windows path stays a Windows path on Linux and macOS, where Path only knows '/'.
+    private static string Normalize(string path) => OperatingSystem.IsWindows() ? path : path.Replace('\\', '/');
 }

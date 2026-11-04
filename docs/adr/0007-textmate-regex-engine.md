@@ -41,7 +41,7 @@ options before phase 4.
    negative "retry limit over" code, which the scanner treats as "no match" for that regex. The time limit per line is vscode-textmate's (500 ms, ADR 0008).
 5. **Packaging.** `onig.dll` is built by `build.ps1` (x64 locally, x64 and ARM64 in CI) and shipped as a native asset
    of `LoomEditor.TextMate` (`runtimes/win-<arch>/native/onig.dll`). The build of `LoomEditor.TextMate` runs
-   `build.ps1` when the DLL for the build architecture is missing (P4-02).
+   `build.ps1` when the DLL for the build architecture is missing (P4-02). Linux and macOS libraries (`build.sh`) are specified in [ADR 0016](0016-avalonia-backend.md) decision 8 (P15-03). Linux and macOS libraries (`build.sh`) are specified in [ADR 0016](0016-avalonia-backend.md) decision 8 (P15-03).
 6. **Reference differences.** VS Code uses Oniguruma 6.9.8; we use 6.9.10. A golden test that differs only because of
    the engine version is fixed by regenerating nothing: the difference is written in `docs/PORTING.md` and the test
    lists it as a known difference (P4-48 says how).

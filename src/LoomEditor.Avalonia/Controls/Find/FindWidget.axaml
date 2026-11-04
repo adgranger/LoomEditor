@@ -1,0 +1,193 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="LoomEditor.Avalonia.Controls.Find.FindWidget">
+
+  <UserControl.Resources>
+    <!-- One brush per theme color; ApplyTheme changes their Color, so a theme change needs no template refresh.
+         The brushes under the keys of the Fluent control themes (TextControlBackground...) are added by the constructor. -->
+    <SolidColorBrush x:Key="WidgetBackgroundBrush" />
+    <SolidColorBrush x:Key="WidgetForegroundBrush" />
+    <SolidColorBrush x:Key="WidgetBorderBrush" />
+    <SolidColorBrush x:Key="InputBackgroundBrush" />
+    <SolidColorBrush x:Key="InputForegroundBrush" />
+    <SolidColorBrush x:Key="InputBorderBrush" />
+    <SolidColorBrush x:Key="FocusBorderBrush" />
+    <SolidColorBrush x:Key="OptionActiveBackgroundBrush" />
+    <SolidColorBrush x:Key="OptionActiveBorderBrush" />
+    <SolidColorBrush x:Key="OptionActiveForegroundBrush" />
+    <SolidColorBrush x:Key="ErrorForegroundBrush" />
+    <SolidColorBrush x:Key="HoverBackgroundBrush" />
+    <SolidColorBrush x:Key="TransparentBrush" Color="Transparent" />
+  </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="Button.icon">
+      <Setter Property="Width" Value="22" />
+      <Setter Property="Height" Value="22" />
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="2,0,0,0" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="ToggleButton.option">
+      <Setter Property="Width" Value="22" />
+      <Setter Property="Height" Value="22" />
+      <Setter Property="MinWidth" Value="0" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="1,0,0,0" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    <Style Selector="TextBox.input">
+      <Setter Property="Width" Value="221" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="MaxHeight" Value="100" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="AcceptsReturn" Value="True" />
+      <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+    <Style Selector="PathIcon">
+      <Setter Property="Width" Value="12" />
+      <Setter Property="Height" Value="12" />
+    </Style>
+  </UserControl.Styles>
+
+  <Border Width="419"
+          Padding="4"
+          Background="{StaticResource WidgetBackgroundBrush}"
+          BorderBrush="{StaticResource WidgetBorderBrush}"
+          BorderThickness="1"
+          CornerRadius="4">
+    <Grid ColumnDefinitions="18,*" RowDefinitions="Auto,Auto" ColumnSpacing="4" RowSpacing="4">
+
+      <Button x:Name="ToggleReplaceButton"
+              Classes="icon"
+              Click="OnToggleReplaceClick"
+              Grid.RowSpan="2"
+              Width="18"
+              Margin="0"
+              Height="NaN"
+              VerticalAlignment="Stretch"
+              AutomationProperties.Name="Toggle Replace"
+              ToolTip.Tip="Toggle Replace">
+        <PathIcon x:Name="ToggleReplaceIcon" Data="{DynamicResource LoomIconChevronRight}" />
+      </Button>
+
+      <StackPanel Grid.Column="1" Orientation="Horizontal">
+        <Panel>
+          <TextBox x:Name="FindTextBox"
+                   Classes="input"
+                   Padding="6,3,72,3"
+                   TabIndex="1"
+                   AutomationProperties.Name="Find"
+                   PlaceholderText="Find"
+                   ToolTip.Tip="Find" />
+          <StackPanel Margin="0,0,3,0"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center"
+                      Orientation="Horizontal">
+            <ToggleButton x:Name="MatchCaseToggle"
+                          Classes="option"
+                          AutomationProperties.Name="Match Case"
+                          Click="OnOptionToggleClick"
+                          Content="Aa"
+                          ToolTip.Tip="Match Case (Alt+C)" />
+            <ToggleButton x:Name="WholeWordToggle"
+                          Classes="option"
+                          AutomationProperties.Name="Match Whole Word"
+                          Click="OnOptionToggleClick"
+                          ToolTip.Tip="Match Whole Word (Alt+W)">
+              <TextBlock Text="ab" TextDecorations="Underline" />
+            </ToggleButton>
+            <ToggleButton x:Name="RegexToggle"
+                          Classes="option"
+                          AutomationProperties.Name="Use Regular Expression"
+                          Click="OnOptionToggleClick"
+                          Content=".*"
+                          ToolTip.Tip="Use Regular Expression (Alt+R)" />
+          </StackPanel>
+        </Panel>
+        <TextBlock x:Name="MatchesCountText"
+                   MinWidth="69"
+                   Margin="4,0,0,0"
+                   VerticalAlignment="Center"
+                   FontSize="12"
+                   Foreground="{StaticResource WidgetForegroundBrush}"
+                   TextAlignment="Center" />
+        <Button x:Name="PreviousButton"
+                Classes="icon"
+                AutomationProperties.Name="Previous Match"
+                Click="OnPreviousClick"
+                ToolTip.Tip="Previous Match (Shift+Enter)">
+          <PathIcon Data="{DynamicResource LoomIconArrowUp}" />
+        </Button>
+        <Button x:Name="NextButton"
+                Classes="icon"
+                AutomationProperties.Name="Next Match"
+                Click="OnNextClick"
+                ToolTip.Tip="Next Match (Enter)">
+          <PathIcon Data="{DynamicResource LoomIconArrowDown}" />
+        </Button>
+        <ToggleButton x:Name="FindInSelectionToggle"
+                      Classes="option"
+                      Click="OnFindInSelectionClick"
+                      Margin="2,0,0,0"
+                      AutomationProperties.Name="Find in Selection"
+                      ToolTip.Tip="Find in Selection (Alt+L)">
+          <PathIcon Data="{DynamicResource LoomIconFindInSelection}" />
+        </ToggleButton>
+        <Button x:Name="CloseButton"
+                Classes="icon"
+                AutomationProperties.Name="Close"
+                Click="OnCloseClick"
+                ToolTip.Tip="Close (Escape)">
+          <PathIcon Data="{DynamicResource LoomIconClose}" />
+        </Button>
+      </StackPanel>
+
+      <StackPanel x:Name="ReplaceRow"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Orientation="Horizontal"
+                  IsVisible="False">
+        <Panel>
+          <TextBox x:Name="ReplaceTextBox"
+                   Classes="input"
+                   Padding="6,3,28,3"
+                   TabIndex="2"
+                   AutomationProperties.Name="Replace"
+                   PlaceholderText="Replace"
+                   ToolTip.Tip="Replace" />
+          <ToggleButton x:Name="PreserveCaseToggle"
+                        Classes="option"
+                        Click="OnPreserveCaseClick"
+                        Margin="0,0,3,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="Preserve Case"
+                        Content="AB"
+                        ToolTip.Tip="Preserve Case (Alt+P)" />
+        </Panel>
+        <Button x:Name="ReplaceButton"
+                Classes="icon"
+                Click="OnReplaceClick"
+                Margin="4,0,0,0"
+                AutomationProperties.Name="Replace"
+                ToolTip.Tip="Replace (Enter)">
+          <PathIcon Data="{DynamicResource LoomIconReplace}" />
+        </Button>
+        <Button x:Name="ReplaceAllButton"
+                Classes="icon"
+                Click="OnReplaceAllClick"
+                AutomationProperties.Name="Replace All"
+                ToolTip.Tip="Replace All (Ctrl+Alt+Enter)">
+          <PathIcon Data="{DynamicResource LoomIconReplaceAll}" />
+        </Button>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

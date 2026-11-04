@@ -4,6 +4,9 @@
     This is the ONLY project that knows about XAML, input and accessibility.
     It references LoomEditor.Rendering only (which brings View, Core, TextMate and Themes).
   -->
+  <!-- Source shared with the other host (ADR 0017). -->
+  <Import Project="..\LoomEditor.HostShared\LoomEditor.HostShared.props" />
+
   <PropertyGroup>
     <TargetFramework>$(LoomWindowsTargetFramework)</TargetFramework>
     <TargetPlatformMinVersion>$(LoomWindowsMinVersion)</TargetPlatformMinVersion>
@@ -13,13 +16,17 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>LoomEditor.WinUI</PackageId>
     <Description>LoomEditor: a native, Native AOT-compatible code editor control for WinUI 3, ported from the Monaco editor.</Description>
-    <!-- See the same setting in LoomEditor.Rendering.csproj. -->
+    <!--
+      Libraries are built AnyCPU. The native Microsoft.Graphics.Canvas.dll is copied by the *application*,
+      which is always built for x64 or ARM64, so Win2D's AnyCPU warning does not apply here.
+    -->
     <Win2DWarnNoPlatform>false</Win2DWarnNoPlatform>
     <!--
       RS0041: the XAML compiler generates a public XamlMetaDataProvider class without nullable annotations.
       We cannot change generated code; its members are still tracked in PublicAPI.Unshipped.txt.
     -->
     <NoWarn>$(NoWarn);RS0041</NoWarn>
+    <DefineConstants>$(DefineConstants);LOOM_WINUI</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

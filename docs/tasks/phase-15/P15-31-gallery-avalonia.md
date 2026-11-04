@@ -1,6 +1,6 @@
 # P15-31 — The Avalonia Gallery
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P15-30
 - **Size:** M (app code; samples and self-checks are shared, not copied)
 
@@ -42,15 +42,28 @@ The WinUI Gallery: `samples/LoomEditor.Gallery/` (`MainWindow.*`, `DiffDemoWindo
 
 ## Tests
 
-- [ ] `dotnet run --project samples/LoomEditor.Gallery.Avalonia -- --text-selfcheck=<file>` (and the diff, comments, host API self-checks) pass on Windows; record the
+- [x] `dotnet run --project samples/LoomEditor.Gallery.Avalonia -- --text-selfcheck=<file>` (and the diff, comments, host API self-checks) pass on Windows; record the
   numbers (`10 of 10`, …) in the Result
-- [ ] Manual (written, not run): the Gallery on macOS and Ubuntu, each window opens
+- [x] Manual (written, not run): the Gallery on macOS and Ubuntu, each window opens
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] Card status and `docs/tasks/README.md` updated
+
+## Result
+
+- **Self-checks on Windows** (Release build, exit code 0 each): `--text-selfcheck` 10 of 10, `--diff-selfcheck` 9 passed / 0 failed, `--comments-selfcheck` 17 of 17,
+  `--hostapi-selfcheck` 6 of 6. `--lsp-selfcheck` was not run (no language server needed by this card). The window starts and stays up (6 s smoke run).
+- **Manual** (written, not run): `docs/testing/phase-15-manual-tests.md` "Gallery setup" describes how to run the Gallery on macOS and Ubuntu.
+- **Linked files:** the 20 files listed above compile unchanged in both Galleries. To make them compile, `LoomEditor.Core` and `LoomEditor.View` also expose their
+  internals to `LoomEditor.Gallery.Avalonia` (`InternalsVisibleTo`, like `LoomEditor.Gallery`); no change to a WinUI Gallery file was needed.
+- **Deviations:** the WinUI "Comment threads" diagnostics line (`CommentZonesDiagnostics`, an internal of the WinUI control) has no Avalonia counterpart and is not shown.
+  The self-checks run on the main window's `Opened` event (the WinUI ones on `Activated`). `--uia-selfcheck` and the "UIA self-check" button print
+  `uia self-check: not available on Avalonia`. The Comment threads gutter-key (Ctrl+Alt+M) is a key handler on the editor. The font picker has Menlo and DejaVu Sans Mono
+  next to the Windows fonts, and the first entry restores the control's default font. The staging glyphs fall back to "+" and "✕" outside Windows
+  (the default glyph font, Segoe Fluent Icons, exists only there). The Gallery project is in `LoomEditor.slnx` and `LoomEditor.Portable.slnf`.
 
 ## Out of scope
 

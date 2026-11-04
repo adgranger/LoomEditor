@@ -3,8 +3,8 @@ using System.Text.RegularExpressions;
 namespace LoomEditor.Architecture.Tests;
 
 /// <summary>
-/// The four UI-independent projects must stay portable (for example to an Avalonia backend on macOS and Linux):
-/// their source files do not use Windows or WinUI namespaces or APIs. See docs/roadmap/phase-12-avalonia.md.
+/// The UI-independent projects must stay portable (for example to an Avalonia backend on macOS and Linux):
+/// their source files do not use Windows or WinUI namespaces or APIs. See docs/roadmap/phase-15-avalonia.md.
 /// </summary>
 public partial class PlatformNeutralSourceTests
 {
@@ -14,6 +14,10 @@ public partial class PlatformNeutralSourceTests
         "LoomEditor.TextMate",
         "LoomEditor.Themes",
         "LoomEditor.View",
+        "LoomEditor.Rendering",
+        "LoomEditor.Avalonia",
+        "LoomEditor.HostShared",
+        "LoomEditor.HostShared",
         "LoomEditor.Lsp",
     };
 

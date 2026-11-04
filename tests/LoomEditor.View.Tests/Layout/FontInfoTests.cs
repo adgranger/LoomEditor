@@ -36,4 +36,16 @@ public class FontInfoTests
         Assert.Equal(8, BareFontInfo.MinimumLineHeight);
         Assert.Equal("Consolas, 'Courier New', monospace", BareFontInfo.DefaultWindowsFontFamily);
     }
+
+    [Fact]
+    public void DefaultFontFamilyForCurrentOS_IsOneOfTheThree()
+    {
+        string[] all = [BareFontInfo.DefaultWindowsFontFamily, BareFontInfo.DefaultMacFontFamily, BareFontInfo.DefaultLinuxFontFamily];
+
+        Assert.Contains(BareFontInfo.DefaultFontFamilyForCurrentOS, all);
+        if (OperatingSystem.IsWindows())
+        {
+            Assert.Equal(BareFontInfo.DefaultWindowsFontFamily, BareFontInfo.DefaultFontFamilyForCurrentOS);
+        }
+    }
 }

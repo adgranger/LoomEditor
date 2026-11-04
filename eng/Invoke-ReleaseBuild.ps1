@@ -8,7 +8,9 @@
     ./eng/Invoke-ReleaseBuild.ps1 -Version v0.1.0-alpha.1
 #>
 param(
-    [Parameter(Mandatory)][string] $Version
+    [Parameter(Mandatory)][string] $Version,
+    # CI has downloaded the Oniguruma library of every platform: the TextMate package must carry all of them.
+    [switch] $RequireAllNatives
 )
 $ErrorActionPreference = 'Stop'
 
@@ -30,7 +32,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'test failed' }
 
     Write-Host '== package checks =='
-    & "$PSScriptRoot/Test-Packages.ps1" -Version $v
+    & "$PSScriptRoot/Test-Packages.ps1" -Version $v -RequireAllNatives:$RequireAllNatives
     if ($LASTEXITCODE -ne 0) { throw 'package checks failed' }
 
     Write-Host "Release build passed: $v; packages are in artifacts/packages."

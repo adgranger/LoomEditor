@@ -2,6 +2,7 @@
 
 - **Status:** accepted (2026-11-03, with the decisions of [phase-15/README.md](../tasks/phase-15/README.md))
 - **Date:** 2026-11-03
+- **Amended by:** [ADR 0017](0017-shared-host-logic.md) (decisions 4 and 5: shared code and public UI-free types are compiled from one source)
 - **Extends:** [ADR 0002](0002-rendering-backend.md) (rendering behind `IRenderSurface`), [ADR 0007](0007-textmate-regex-engine.md) (native Oniguruma)
 
 ## Context
@@ -68,4 +69,9 @@ Ways to draw text on Avalonia:
 - New packages: `LoomEditor.Avalonia`; `LoomEditor.TextMate` gains `runtimes/linux-*` and `runtimes/osx-*`.
 - The Avalonia Gallery (`samples/LoomEditor.Gallery.Avalonia`) is the manual test bed on macOS and Linux and is published with Native AOT on the three OSes in CI.
 - Known gaps at the end of phase 15: mac-specific keybindings, the UI Automation text-pattern details that Avalonia lacks, font variation axes other than `wght`.
-- Pinned versions: _(filled by P15-05)_.
+- Pinned versions (P15-05, latest stable on nuget.org on 2026-11-03): `Avalonia`, `Avalonia.Skia`, `Avalonia.Desktop`, `Avalonia.Themes.Fluent`, `Avalonia.Headless` all 12.1.5, in `Directory.Packages.props` (group `Avalonia`). `Avalonia.Headless.XUnit` is not used (xUnit v2 only): the tests start a `HeadlessUnitTestSession` themselves.
+- **Verified at the end of phase 15** (P15-31 … P15-34): the Avalonia headless tests; `AvaloniaApiParityTests` with no pending member (the only exceptions are the WinUI XAML compiler's `Connect` / `GetBindingConnector` of the find widget); the Avalonia Gallery
+  self-checks on Windows (text 10 of 10, diff 9 of 9, comments 17 of 17, host API 6 of 6); CI run [41654238868](https://github.com/adgranger/LoomEditor/actions/runs/41654238868): the Gallery published with Native AOT on `win-x64`, `linux-x64` and `osx-arm64`
+  with 0 warnings, the same self-check counts on each published binary, the app alive after 10 s; CI run [41656687785](https://github.com/adgranger/LoomEditor/actions/runs/41656687785): the `LoomEditor.Avalonia` package built with the others and a headless
+  package test app published with Native AOT and run on Linux (and on Windows locally). The TextMate package carries the six `runtimes/*/native` entries (`Pack.ps1 -RequireAllNatives`).
+- **Not verified:** the manual plan [phase-15-manual-tests.md](../testing/phase-15-manual-tests.md) (the control seen by a person on macOS and Ubuntu, real IMEs, screen readers, high DPI, the language server demo), `osx-x64` and `linux-arm64` Native AOT publishes (packed, not published in CI), and the package test on macOS.

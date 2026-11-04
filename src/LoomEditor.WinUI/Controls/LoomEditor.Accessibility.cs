@@ -1,6 +1,5 @@
 using LoomEditor.Rendering;
 using LoomEditor.View.Accessibility;
-using LoomEditor.View.Layout;
 using LoomEditor.WinUI.Accessibility;
 using Microsoft.UI.Xaml;
 
@@ -87,22 +86,4 @@ public sealed partial class LoomEditor
 
     private static void OnAccessibilitySupportChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) =>
         ((LoomEditor)sender).RefreshScreenReader();
-
-    private void RefreshScreenReader()
-    {
-        var options = new EditorAccessibilityOptions
-        {
-            Setting = AccessibilitySupport switch
-            {
-                EditorAccessibilitySupport.On => View.Layout.AccessibilitySupport.Enabled,
-                EditorAccessibilitySupport.Off => View.Layout.AccessibilitySupport.Disabled,
-                _ => View.Layout.AccessibilitySupport.Unknown,
-            },
-            Detected = ScreenReaderDetector.IsScreenReaderRunning() ? View.Layout.AccessibilitySupport.Enabled : View.Layout.AccessibilitySupport.Disabled,
-        };
-        if (options != _viewModel.LayoutOptions.Accessibility)
-        {
-            _viewModel.SetOptions(_viewModel.LayoutOptions with { Accessibility = options }, _viewModel.ViewLayoutOptions);
-        }
-    }
 }

@@ -8,6 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `LoomEditor.Avalonia`: the `LoomEditor` and `LoomDiffEditor` controls for Avalonia 12 on Windows, macOS and Linux, with the same public API as the WinUI controls (highlighting, editing, IME, clipboard, find, hover, suggest, comment threads, the diff editor with its block and line actions). See [how to use the Avalonia control](docs/how-to/use-the-avalonia-control.md). The macOS-specific keybindings, the UI Automation text pattern and the manual test plan are not done or not run.
+- `LoomEditor.TextMate`: the Oniguruma library for `linux-x64`, `linux-arm64`, `osx-x64` and `osx-arm64` (`runtimes/<rid>/native/`), next to the Windows ones.
+- `samples/LoomEditor.Gallery.Avalonia`, the demo app of the Avalonia control, published with Native AOT on Windows, Linux and macOS in CI.
+
+### Changed
+
+- `LoomEditor.Rendering` targets `net11.0` (no Windows API): Win2D and the Win2D backend moved into `LoomEditor.WinUI`. The WinUI public API is unchanged.
+- The code the WinUI and Avalonia controls and Galleries have in common lives once (`LoomEditor.HostShared`, shared Gallery sources). Internal refactoring: no public API change (phase 16).
+
 ## [0.4.0] - 2026-11-02
 
 ### Added

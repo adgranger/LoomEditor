@@ -11,6 +11,7 @@
     <Project Path="src/LoomEditor.View/LoomEditor.View.csproj" />
     <Project Path="src/LoomEditor.Lsp/LoomEditor.Lsp.csproj" />
     <Project Path="src/LoomEditor.Rendering/LoomEditor.Rendering.csproj" />
+    <Project Path="src/LoomEditor.Avalonia/LoomEditor.Avalonia.csproj" />
     <Project Path="src/LoomEditor.WinUI/LoomEditor.WinUI.csproj" />
   </Folder>
   <Folder Name="/samples/">
@@ -18,6 +19,7 @@
       <!-- A WinUI app needs a real platform: "Any CPU" builds of the solution build the gallery as x64. -->
       <Platform Solution="*|Any CPU" Project="x64" />
     </Project>
+    <Project Path="samples/LoomEditor.Gallery.Avalonia/LoomEditor.Gallery.Avalonia.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LoomEditor.Core.Tests/LoomEditor.Core.Tests.csproj" />
@@ -26,6 +28,7 @@
     <Project Path="tests/LoomEditor.Lsp.Tests/LoomEditor.Lsp.Tests.csproj" />
     <Project Path="tests/LoomEditor.Lsp.FakeServer/LoomEditor.Lsp.FakeServer.csproj" />
     <Project Path="tests/LoomEditor.Rendering.Tests/LoomEditor.Rendering.Tests.csproj" />
+    <Project Path="tests/LoomEditor.Avalonia.Tests/LoomEditor.Avalonia.Tests.csproj" />
     <Project Path="tests/LoomEditor.Architecture.Tests/LoomEditor.Architecture.Tests.csproj" />
     <Project Path="tests/LoomEditor.Benchmarks/LoomEditor.Benchmarks.csproj" />
   </Folder>

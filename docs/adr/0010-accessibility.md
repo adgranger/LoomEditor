@@ -95,3 +95,12 @@ Accessibility help dialog and verbosity settings, `ariaLabel` / `ariaRole` optio
 reduced motion (`UISettings.AnimationsEnabled` → smooth scrolling and caret blinking), UIA text edit pattern (`ITextEditProvider`),
 annotations, per-token text attributes (colors and font styles are reported as uniform), a UI Automation client based test, localization of
 announcements. (The accessible view of the diff editor was a cut point of phase 7 and was delivered in phase 9: P9-29, P9-30.)
+
+## Consequences
+
+**Avalonia (P15-14).** The Avalonia control has `LoomEditorAutomationPeer` (an `Edit` control with the Value pattern), the same
+announcements through an assertive live region (`PART_LiveRegion`, an invisible `TextBlock` of the template), screen reader mode
+(`AccessibilitySupport`, `TabMovesFocus`) and the high contrast theme (`UseSystemHighContrast`, from `IPlatformSettings.GetColorValues`).
+Gaps: Avalonia 12.1.5 has no public text provider, so there is no Text pattern (no lines, words, caret range or text selection events
+for screen readers: they read the value); a screen reader is detected on Windows only (macOS and Linux need `AccessibilitySupport = On`);
+the high contrast theme uses the platform accent and fixed scheme colors, not the colors of the user's scheme. See docs/PORTING.md.

@@ -1,6 +1,5 @@
 using LoomEditor.Lsp.Client;
 using LoomEditor.Lsp.Editor;
-using LoomEditorControl = LoomEditor.WinUI.Controls.LoomEditor;
 
 namespace LoomEditor.Gallery.Lsp;
 
@@ -53,7 +52,7 @@ internal sealed class LspDemoController(LoomEditorControl editor, Action<string>
                 info.ProgramUri,
                 choice.LanguageId,
                 new LspServerCommand(choice.FileName, choice.Arguments, info.Folder),
-                action => editor.DispatcherQueue.TryEnqueue(() => action()),
+                GalleryDispatcher.Post,
                 new LspSessionOptions { RootUri = info.FolderUri, ClientVersion = "gallery" });
             session.StateChanged += state => setStatus(Describe(state, session));
             session.ServerOutput += appendLog;
