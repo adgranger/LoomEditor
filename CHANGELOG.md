@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-05
+
 ### Added
 
 - `LoomEditor.Avalonia`: the `LoomEditor` and `LoomDiffEditor` controls for Avalonia 12 on Windows, macOS and Linux, with the same public API as the WinUI controls (highlighting, editing, IME, clipboard, find, hover, suggest, comment threads, the diff editor with its block and line actions). See [how to use the Avalonia control](docs/how-to/use-the-avalonia-control.md). The macOS-specific keybindings, the UI Automation text pattern and the manual test plan are not done or not run.
@@ -82,7 +84,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/adgranger/LoomEditor/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/adgranger/LoomEditor/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.5...v0.3.0
 [0.2.0-alpha.5]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.4...v0.2.0-alpha.5
