@@ -26,6 +26,7 @@ public static class BuiltInLanguages
         ("xml", "language.json"),
         ("markdown", "language.json"),
         ("python", "language.json"),
+        ("lua", "language.json"),
         ("yaml", "language.json"),
     ];
 

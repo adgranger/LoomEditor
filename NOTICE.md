@@ -100,6 +100,7 @@ SUCH DAMAGE.
 | XML | `atom/language-xml` | `7bc75dfe779ad5b35d9bf4013d9181864358cb49` | MIT |
 | Markdown | `textmate/markdown.tmbundle` and `microsoft/vscode-markdown-tm-grammar` | `11cf764606cb2cde54badb5d0e5a0758a8871c4b`, `0812fc4b190efc17bfed0d5b4ff918eff8e4e377` | TextMate Bundle License, MIT |
 | Python | `MagicStack/MagicPython` | `7d0f2b22a5ad8fccbd7341bc7b7a715169283044` | MIT |
+| Lua | `sumneko/lua.tmbundle` (via `microsoft/vscode` `extensions/lua`) | `b295d83bf0e91b5d3a69eb097f9ed351623b95be` | TextMate Bundle License |
 | YAML | `RedCMD/YAML-Syntax-Highlighter` | `53d38bbc66b704803de54ffce5b251bf97211c60` | MIT |
 
 The MIT-licensed grammars carry the license of their repository (copyright holders: the authors of each repository;

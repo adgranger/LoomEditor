@@ -19,6 +19,7 @@ internal static class HighlightingSamples
         "xml" => Xml,
         "markdown" => Markdown,
         "python" => Python,
+        "lua" => Lua,
         "yaml" => Yaml,
         _ => "Plain text has no colors.\nLine two.",
     };
@@ -194,6 +195,24 @@ internal static class HighlightingSamples
 
         # a comment
         print(f"{Point(3, 4).distance()}", os.getcwd())
+        """;
+
+    private const string Lua = """
+        -- A small module
+        local M = {}
+
+        function M.fib(n)
+          if n < 2 then return n end
+          return M.fib(n - 1) + M.fib(n - 2)
+        end
+
+        for i = 1, 10 do
+          print(("fib(%d) = %d"):format(i, M.fib(i)))
+        end
+
+        --[[ a block
+        comment ]]
+        return M
         """;
 
     private const string Yaml = """
