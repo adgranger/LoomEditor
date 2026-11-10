@@ -1,0 +1,9 @@
+{
+  "id": "lua",
+  "aliases": ["Lua", "lua"],
+  "extensions": [".lua"],
+  "scopeName": "source.lua",
+  "configuration": "language-configuration.json",
+  "path": "lua.tmLanguage.json",
+  "tokenTypes": { "comment.line.double-dash.doc.lua": "other" }
+}

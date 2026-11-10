@@ -20,7 +20,7 @@ public class GrammarBenchmarks : IDisposable
     private string[] _lines = null!;
 
     /// <summary>The language of the sample.</summary>
-    [Params("csharp", "typescript", "javascript", "json", "html", "css", "xml", "markdown", "python", "yaml")]
+    [Params("csharp", "typescript", "javascript", "json", "html", "css", "xml", "markdown", "python", "lua", "yaml")]
     public string Language { get; set; } = "csharp";
 
     [GlobalSetup]

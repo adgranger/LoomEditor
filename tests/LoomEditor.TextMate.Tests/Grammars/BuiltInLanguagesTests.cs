@@ -52,6 +52,7 @@ public class BuiltInLanguagesTests
         { "xml", "<?xml version=\"1.0\"?>", "<a b=\"c\">d</a>" },
         { "markdown", "# Title", "Some **bold** and `code`." },
         { "python", "def f(x): return x + 1", "class A: pass" },
+        { "lua", "local x = 1", "function f(a) return a end" },
         { "yaml", "key: value", "list:\n  - a" },
     };
 
@@ -147,7 +148,7 @@ public class BuiltInLanguagesTests
     [Fact]
     public void EveryLanguageWithAGrammar_HasAConfiguration()
     {
-        Assert.Equal(12, BuiltInLanguages.All.Count);
+        Assert.Equal(13, BuiltInLanguages.All.Count);
         Assert.All(
             BuiltInLanguages.All.Where(language => language.Grammar is not null),
             language => Assert.NotNull(BuiltInLanguages.ReadFile(language.ConfigurationLocation ?? string.Empty)));

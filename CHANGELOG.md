@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-10
+
+### Added
+
+- `LoomEditor.TextMate`: syntax highlighting for Lua (new `lua` language, `.lua` files; grammar from `sumneko/lua.tmbundle` as bundled by VS Code).
+
 ## [0.5.0] - 2026-11-05
 
 ### Added
@@ -84,7 +90,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/adgranger/LoomEditor/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/adgranger/LoomEditor/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/adgranger/LoomEditor/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/adgranger/LoomEditor/compare/v0.2.0-alpha.5...v0.3.0
