@@ -1312,6 +1312,14 @@ Take phase 17 cards in table order (one card at a time: they all edit `KnownDupl
 the gate: a copy detector run by `dotnet test` that starts with 16 copied file pairs (Sonar's 13, plus 3 that only the detector found: P17-12); each card deletes its pairs, and P17-13 removes the
 list. P17-13 asks the user to push and then reads the Sonar duplication of PR #26.
 
+## Phase 18 — More built-in grammars
+
+**Not a Monaco port:** the common languages of the built-in extensions of VS Code that phase 4 did not bundle. Planned 2026-11-12.
+
+| Card | Title | Depends on | Status |
+|---|---|---|---|
+| [P18-01](phase-18/P18-01-bundle-more-grammars.md) | Bundle 17 more grammars (C, C++, Java, Go, Rust, PHP, Ruby, SQL, shell, PowerShell, SCSS, Less, Swift, Dart, Dockerfile, ini, diff) | — | todo |
+
 ## How to run a card with a coding agent (Claude Code)
 
 Start a fresh session for each card, on the phase branch, with a clean working tree, and type:
