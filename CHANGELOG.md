@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-12
+
 ### Added
 
 - `LoomEditor.TextMate`: syntax highlighting for C, C++, Java, Go, Rust, PHP, Ruby, SQL, shell, PowerShell, SCSS, Less, Swift, Dart, Dockerfile, ini and diff (new `c`, `cpp`, `java`, `go`, `rust`, `php`, `ruby`, `sql`, `shellscript`, `powershell`, `scss`, `less`, `swift`, `dart`, `dockerfile`, `ini` and `diff` languages, grammars as bundled by VS Code), also in Markdown fenced code blocks. Detection by first line (`#!`) and by file name pattern (`Dockerfile.*`) is not supported.
@@ -96,7 +98,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - All six packages are Native AOT compatible, checked by CI.
 - Windows only for now (Windows 10 build 19041 or later, x64 or ARM64).
 
-[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/adgranger/LoomEditor/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/adgranger/LoomEditor/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/adgranger/LoomEditor/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/adgranger/LoomEditor/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/adgranger/LoomEditor/compare/v0.3.0...v0.4.0
