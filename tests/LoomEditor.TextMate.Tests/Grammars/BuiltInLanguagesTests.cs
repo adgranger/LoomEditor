@@ -96,6 +96,14 @@ public class BuiltInLanguagesTests
         { "bat", "@echo off", "set A=1" },
         { "dotenv", "A=1", "# comment" },
         { "properties", "a.b=c", "# comment" },
+        { "javascriptreact", "const x = <div className=\"a\">{1}</div>;", "function f(a) { return a; }" },
+        { "jsonl", "{ \"a\": 1 }", "{ \"b\": [true, null] }" },
+        { "snippets", "{ \"Log\": {", "  \"prefix\": \"log\", \"body\": [\"console.log($1);\"] } }" },
+        { "xsl", "<xsl:template match=\"/\">", "</xsl:template>" },
+        { "dockercompose", "services:", "  web: nginx" },
+        { "git-commit", "Fix a bug", "# Please enter the commit message" },
+        { "git-rebase", "pick abc1234 Fix a bug", "# Rebase abc..def onto 123" },
+        { "ignore", "bin/", "!keep.txt" },
     };
 
     // vscode: every language of the extension point must produce a tokenization support.
@@ -240,7 +248,7 @@ public class BuiltInLanguagesTests
     [Fact]
     public void EveryLanguageWithAGrammar_HasAConfiguration()
     {
-        Assert.Equal(55, BuiltInLanguages.All.Count);
+        Assert.Equal(63, BuiltInLanguages.All.Count);
         Assert.All(
             BuiltInLanguages.All.Where(language => language.Grammar is not null),
             language => Assert.NotNull(BuiltInLanguages.ReadFile(language.ConfigurationLocation ?? string.Empty)));
@@ -274,7 +282,15 @@ public class BuiltInLanguagesTests
     [InlineData("Program.cs", "csharp")]
     [InlineData(@"C:\repo\src\App.TS", "typescript")]
     [InlineData("App.tsx", "typescriptreact")]
-    [InlineData("App.jsx", "javascript")]
+    [InlineData("App.jsx", "javascriptreact")]
+    [InlineData("a.js", "javascript")]
+    [InlineData("a.jsonl", "jsonl")]
+    [InlineData("a.ndjson", "jsonl")]
+    [InlineData("a.code-snippets", "snippets")]
+    [InlineData("a.xslt", "xsl")]
+    [InlineData("COMMIT_EDITMSG", "git-commit")]
+    [InlineData("git-rebase-todo", "git-rebase")]
+    [InlineData(".gitignore", "ignore")]
     [InlineData("README.md", "markdown")]
     [InlineData("notes.txt", "plaintext")]
     [InlineData("tsconfig.json", "jsonc")]

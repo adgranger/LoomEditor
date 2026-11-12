@@ -1,0 +1,8 @@
+{
+  "id": "jsonl",
+  "aliases": ["JSON Lines"],
+  "extensions": [".jsonl", ".ndjson"],
+  "scopeName": "source.json.lines",
+  "configuration": "language-configuration.json",
+  "path": "JSONL.tmLanguage.json"
+}

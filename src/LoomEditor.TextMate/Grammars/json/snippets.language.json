@@ -1,0 +1,8 @@
+{
+  "id": "snippets",
+  "aliases": ["Code Snippets"],
+  "extensions": [".code-snippets"],
+  "scopeName": "source.json.comments.snippets",
+  "configuration": "language-configuration.json",
+  "path": "snippets.tmLanguage.json"
+}

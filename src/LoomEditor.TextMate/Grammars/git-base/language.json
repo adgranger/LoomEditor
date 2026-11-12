@@ -1,0 +1,8 @@
+{
+  "id": "git-commit",
+  "aliases": ["Git Commit Message", "git-commit"],
+  "filenames": ["COMMIT_EDITMSG", "MERGE_MSG"],
+  "scopeName": "text.git-commit",
+  "configuration": "git-commit.language-configuration.json",
+  "path": "git-commit.tmLanguage.json"
+}

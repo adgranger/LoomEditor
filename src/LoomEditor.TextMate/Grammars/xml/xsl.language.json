@@ -1,0 +1,8 @@
+{
+  "id": "xsl",
+  "aliases": ["XSL", "xsl"],
+  "extensions": [".xsl", ".xslt"],
+  "scopeName": "text.xml.xsl",
+  "configuration": "xsl.language-configuration.json",
+  "path": "xsl.tmLanguage.json"
+}

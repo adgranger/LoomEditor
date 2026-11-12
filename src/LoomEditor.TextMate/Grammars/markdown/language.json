@@ -47,7 +47,10 @@
     "meta.embedded.block.pug": "jade",
     "meta.embedded.block.latex": "latex",
     "meta.embedded.block.restructuredtext": "restructuredtext",
-    "meta.embedded.block.fsharp": "fsharp"
+    "meta.embedded.block.fsharp": "fsharp",
+    "meta.embedded.block.xsl": "xsl",
+    "meta.embedded.block.ignore": "ignore",
+    "meta.embedded.block.jsonl": "jsonl"
   },
   "unbalancedBracketScopes": [
     "markup.underline.link.markdown",

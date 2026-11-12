@@ -1,0 +1,7 @@
+{
+  "id": "dockercompose",
+  "aliases": ["Compose", "compose"],
+  "scopeName": "source.yaml",
+  "configuration": "language-configuration.json",
+  "path": "yaml.tmLanguage.json"
+}

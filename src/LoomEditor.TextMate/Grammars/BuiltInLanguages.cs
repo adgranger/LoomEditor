@@ -12,7 +12,7 @@ public static class BuiltInLanguages
     /// <summary>The prefix of every embedded grammar resource (<c>Grammars/&lt;folder&gt;/&lt;file&gt;</c>).</summary>
     internal const string ResourcePrefix = "Grammars/";
 
-    // (folder, language file): a folder holds one language, except json/ (json and jsonc), typescript/ (typescript and typescriptreact), cpp/ (c, cpp and cuda-cpp), ini/ (ini and properties) and, in the same way, objective-c/, perl/ and latex/ (several languages each).
+    // (folder, language file): a folder holds one language, except json/ (json, jsonc, jsonl and snippets), typescript/ (typescript and typescriptreact), javascript/ (javascript and javascriptreact), xml/ (xml and xsl), yaml/ (yaml and dockercompose), git-base/ (three languages), cpp/ (c, cpp and cuda-cpp), ini/ (ini and properties) and, in the same way, objective-c/, perl/ and latex/ (several languages each).
     private static readonly (string Folder, string File)[] Sources =
     [
         ("csharp", "language.json"),
@@ -70,6 +70,14 @@ public static class BuiltInLanguages
         ("bat", "language.json"),
         ("dotenv", "language.json"),
         ("ini", "properties.language.json"),
+        ("javascript", "jsx.language.json"),
+        ("json", "jsonl.language.json"),
+        ("json", "snippets.language.json"),
+        ("xml", "xsl.language.json"),
+        ("yaml", "dockercompose.language.json"),
+        ("git-base", "language.json"),
+        ("git-base", "git-rebase.language.json"),
+        ("git-base", "ignore.language.json"),
     ];
 
     /// <summary>The bundled languages, in the order of <see cref="Sources"/>.</summary>

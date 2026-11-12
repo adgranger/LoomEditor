@@ -1,0 +1,8 @@
+{
+  "id": "git-rebase",
+  "aliases": ["Git Rebase Message", "git-rebase"],
+  "filenames": ["git-rebase-todo"],
+  "scopeName": "text.git-rebase",
+  "configuration": "git-rebase.language-configuration.json",
+  "path": "git-rebase.tmLanguage.json"
+}

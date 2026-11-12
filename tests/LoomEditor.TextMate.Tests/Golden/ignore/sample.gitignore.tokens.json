@@ -1,0 +1,9 @@
+{ "language": "ignore", "lines": [
+  {"text":"# Build output","tokens":[{"start":0,"end":14,"scopes":"source.ignore comment.line.number-sign.ignore"}],"darkModern":[{"start":0,"foreground":"#6A9955","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#008000","fontStyle":""}]},
+  {"text":"bin/","tokens":[{"start":0,"end":5,"scopes":"source.ignore"}],"darkModern":[{"start":0,"foreground":"#CCCCCC","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#3B3B3B","fontStyle":""}]},
+  {"text":"obj/","tokens":[{"start":0,"end":5,"scopes":"source.ignore"}],"darkModern":[{"start":0,"foreground":"#CCCCCC","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#3B3B3B","fontStyle":""}]},
+  {"text":"*.user","tokens":[{"start":0,"end":7,"scopes":"source.ignore"}],"darkModern":[{"start":0,"foreground":"#CCCCCC","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#3B3B3B","fontStyle":""}]},
+  {"text":"!keep.user","tokens":[{"start":0,"end":11,"scopes":"source.ignore"}],"darkModern":[{"start":0,"foreground":"#CCCCCC","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#3B3B3B","fontStyle":""}]},
+  {"text":"/node_modules","tokens":[{"start":0,"end":14,"scopes":"source.ignore"}],"darkModern":[{"start":0,"foreground":"#CCCCCC","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#3B3B3B","fontStyle":""}]},
+  {"text":"","tokens":[{"start":0,"end":1,"scopes":"source.ignore"}],"darkModern":[{"start":0,"foreground":"#CCCCCC","fontStyle":""}],"lightModern":[{"start":0,"foreground":"#3B3B3B","fontStyle":""}]}
+] }

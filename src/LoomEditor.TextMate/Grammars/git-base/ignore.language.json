@@ -1,0 +1,8 @@
+{
+  "id": "ignore",
+  "aliases": ["Ignore", "ignore"],
+  "extensions": [".gitignore_global", ".gitignore", ".git-blame-ignore-revs"],
+  "scopeName": "source.ignore",
+  "configuration": "ignore.language-configuration.json",
+  "path": "ignore.tmLanguage.json"
+}

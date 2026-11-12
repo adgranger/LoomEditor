@@ -38,6 +38,14 @@ internal static class HighlightingSamples
         "dockerfile" => Dockerfile,
         "ini" => Ini,
         "diff" => Diff,
+        "javascriptreact" => JavaScriptReact,
+        "jsonl" => JsonLines,
+        "snippets" => CodeSnippets,
+        "xsl" => Xsl,
+        "dockercompose" => DockerCompose,
+        "git-commit" => GitCommit,
+        "git-rebase" => GitRebase,
+        "ignore" => Ignore,
         "objective-c" => ObjectiveC,
         "objective-cpp" => ObjectiveCpp,
         "cuda-cpp" => Cuda,
@@ -764,5 +772,77 @@ internal static class HighlightingSamples
         path=C:\\tools\\bin
         message=Hello, \
             world!
+        """;
+
+    private const string JavaScriptReact = """
+        import React from 'react';
+
+        // A component
+        export function Greeting({ name }) {
+            return <h1 className="title">Hello, {name}!</h1>;
+        }
+        """;
+
+    private const string JsonLines = """
+        {"id": 1, "name": "alpha", "tags": ["a", "b"]}
+        {"id": 2, "name": "beta", "ok": true, "value": null}
+        {"id": 3, "score": 4.5}
+        """;
+
+    private const string CodeSnippets = """
+        {
+            // A snippet
+            "Log": {
+                "prefix": "log",
+                "body": ["console.log($1);", "$0"],
+                "description": "Log to the console"
+            }
+        }
+        """;
+
+    private const string Xsl = """
+        <?xml version="1.0"?>
+        <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+          <!-- A template -->
+          <xsl:template match="/">
+            <xsl:for-each select="items/item">
+              <li><xsl:value-of select="@name"/></li>
+            </xsl:for-each>
+          </xsl:template>
+        </xsl:stylesheet>
+        """;
+
+    private const string DockerCompose = """
+        # Compose file
+        services:
+          web:
+            image: "nginx:latest"
+            ports:
+              - "8080:80"
+            environment:
+              DEBUG: true
+        """;
+
+    private const string GitCommit = """
+        Fix the tokenizer for long lines
+
+        The previous limit cut the last token.
+
+        # Please enter the commit message for your changes.
+        """;
+
+    private const string GitRebase = """
+        pick 1a2b3c4 Add the grammar
+        squash 5d6e7f8 Fix a typo
+        # Rebase 1a2b3c4..5d6e7f8 onto 9a0b1c2
+        """;
+
+    private const string Ignore = """
+        # Build output
+        bin/
+        obj/
+        *.user
+        !keep.user
+        /node_modules
         """;
 }

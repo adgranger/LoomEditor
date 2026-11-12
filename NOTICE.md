@@ -138,6 +138,8 @@ SUCH DAMAGE.
 | Makefile | `fadeevab/make.tmbundle` | `1d4c0b541959995db098df751ffc129da39a294b` | TextMate Bundle License |
 | Batch | `mmims/language-batchfile` | `6154ae25a24e01ac9329e7bcf958e093cd8733a9` | MIT |
 | dotenv | `dotenv-org/dotenv-vscode` | `e7e41baa5b23e01c1ff0567a4e596c24860e7def` | MIT |
+| Code snippets | `jeff-hykin/better-snippet-syntax` | `2b1bb124cb2b9c75c3c80eae1b8f3a043841d654` | MIT |
+| Git commit and rebase messages, ignore files | `textmate/git.tmbundle`, `walles/git-commit-message-plus` | `5870cf3f8abad3a6637bdf69250b5d2ded427dc4`, `35a079dea5a91b087021b40c01a6bb4eb0337a87` | MIT |
 
 The `properties` language uses the ini grammar, and `.properties`-style files need no other grammar.
 

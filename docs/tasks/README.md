@@ -1320,6 +1320,7 @@ list. P17-13 asks the user to push and then reads the Sonar duplication of PR #2
 |---|---|---|---|
 | [P18-01](phase-18/P18-01-bundle-more-grammars.md) | Bundle 17 more grammars (C, C++, Java, Go, Rust, PHP, Ruby, SQL, shell, PowerShell, SCSS, Less, Swift, Dart, Dockerfile, ini, diff) | — | done |
 | [P18-02](phase-18/P18-02-bundle-remaining-grammars.md) | Bundle the remaining built-in grammars of VS Code (Objective-C, CUDA, R, Perl, Raku, F#, VB, Razor, Clojure, CoffeeScript, Groovy, Julia, Handlebars, Pug, HLSL, ShaderLab, LaTeX, reStructuredText, Makefile, Batch, dotenv, properties) | P18-01 | done |
+| [P18-03](phase-18/P18-03-bundle-last-grammars.md) | Bundle the last grammars of VS Code (JSX, JSON Lines, code snippets, XSL, Docker Compose, Git commit and rebase messages, ignore files) | P18-02 | done |
 
 ## How to run a card with a coding agent (Claude Code)
 
