@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - `LoomEditor.TextMate`: syntax highlighting for C, C++, Java, Go, Rust, PHP, Ruby, SQL, shell, PowerShell, SCSS, Less, Swift, Dart, Dockerfile, ini and diff (new `c`, `cpp`, `java`, `go`, `rust`, `php`, `ruby`, `sql`, `shellscript`, `powershell`, `scss`, `less`, `swift`, `dart`, `dockerfile`, `ini` and `diff` languages, grammars as bundled by VS Code), also in Markdown fenced code blocks. Detection by first line (`#!`) and by file name pattern (`Dockerfile.*`) is not supported.
+- `LoomEditor.TextMate`: syntax highlighting for the remaining built-in languages of VS Code: Objective-C, Objective-C++, CUDA C++, R, Perl, Raku, F#, Visual Basic, Razor, Clojure, CoffeeScript, Groovy, Julia, Handlebars, Pug (`jade`), HLSL, ShaderLab, TeX, LaTeX, BibTeX, reStructuredText, Makefile, Batch, dotenv and properties (new `objective-c`, `objective-cpp`, `cuda-cpp`, `r`, `perl`, `raku`, `fsharp`, `vb`, `razor`, `clojure`, `coffeescript`, `groovy`, `julia`, `handlebars`, `jade`, `hlsl`, `shaderlab`, `tex`, `latex`, `bibtex`, `restructuredtext`, `makefile`, `bat`, `dotenv` and `properties` languages), also in Markdown fenced code blocks where VS Code maps them. Detection by first line and by file name pattern (`.env.*`, `Jenkinsfile*`) is not supported.
 
 ## [0.6.0] - 2026-11-10
 

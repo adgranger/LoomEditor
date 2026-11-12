@@ -1,0 +1,8 @@
+{
+  "id": "objective-c",
+  "aliases": ["Objective-C"],
+  "extensions": [".m"],
+  "scopeName": "source.objc",
+  "configuration": "language-configuration.json",
+  "path": "objective-c.tmLanguage.json"
+}

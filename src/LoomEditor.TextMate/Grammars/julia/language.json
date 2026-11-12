@@ -1,0 +1,15 @@
+{
+  "id": "julia",
+  "aliases": ["Julia", "julia"],
+  "extensions": [".jl"],
+  "scopeName": "source.julia",
+  "configuration": "language-configuration.json",
+  "path": "julia.tmLanguage.json",
+  "embeddedLanguages": {
+    "meta.embedded.inline.cpp": "cpp",
+    "meta.embedded.inline.javascript": "javascript",
+    "meta.embedded.inline.python": "python",
+    "meta.embedded.inline.r": "r",
+    "meta.embedded.inline.sql": "sql"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "clojure",
+  "aliases": ["Clojure", "clojure"],
+  "extensions": [".clj", ".cljs", ".cljc", ".cljx", ".clojure", ".edn"],
+  "scopeName": "source.clojure",
+  "configuration": "language-configuration.json",
+  "path": "clojure.tmLanguage.json"
+}

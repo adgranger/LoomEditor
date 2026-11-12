@@ -38,7 +38,16 @@
     "meta.embedded.block.rust": "rust",
     "meta.embedded.block.shellscript": "shellscript",
     "meta.embedded.block.swift": "swift",
-    "meta.embedded.block.dart": "dart"
+    "meta.embedded.block.dart": "dart",
+    "meta.embedded.block.makefile": "makefile",
+    "meta.embedded.block.perl": "perl",
+    "meta.embedded.block.r": "r",
+    "meta.embedded.block.clojure": "clojure",
+    "meta.embedded.block.groovy": "groovy",
+    "meta.embedded.block.pug": "jade",
+    "meta.embedded.block.latex": "latex",
+    "meta.embedded.block.restructuredtext": "restructuredtext",
+    "meta.embedded.block.fsharp": "fsharp"
   },
   "unbalancedBracketScopes": [
     "markup.underline.link.markdown",

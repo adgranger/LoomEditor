@@ -38,6 +38,31 @@ internal static class HighlightingSamples
         "dockerfile" => Dockerfile,
         "ini" => Ini,
         "diff" => Diff,
+        "objective-c" => ObjectiveC,
+        "objective-cpp" => ObjectiveCpp,
+        "cuda-cpp" => Cuda,
+        "r" => R,
+        "perl" => Perl,
+        "raku" => Raku,
+        "fsharp" => FSharp,
+        "vb" => VisualBasic,
+        "razor" => Razor,
+        "clojure" => Clojure,
+        "coffeescript" => CoffeeScript,
+        "groovy" => Groovy,
+        "julia" => Julia,
+        "handlebars" => Handlebars,
+        "jade" => Pug,
+        "hlsl" => Hlsl,
+        "shaderlab" => ShaderLab,
+        "tex" => Tex,
+        "latex" => Latex,
+        "bibtex" => Bibtex,
+        "restructuredtext" => Rst,
+        "makefile" => Makefile,
+        "bat" => Batch,
+        "dotenv" => Dotenv,
+        "properties" => Properties,
         _ => "Plain text has no colors.\nLine two.",
     };
 
@@ -472,5 +497,272 @@ internal static class HighlightingSamples
          unchanged
         -removed
         +added
+        """;
+
+    private const string ObjectiveC = """
+        #import <Foundation/Foundation.h>
+
+        @interface Greeter : NSObject
+        - (NSString *)greet:(NSString *)name;
+        @end
+
+        @implementation Greeter
+        - (NSString *)greet:(NSString *)name {
+            return [NSString stringWithFormat:@"Hello, %@!", name];
+        }
+        @end
+        """;
+
+    private const string ObjectiveCpp = """
+        #import <Foundation/Foundation.h>
+        #include <vector>
+
+        @implementation Counter
+        - (NSUInteger)count {
+            std::vector<int> values = {1, 2, 3};
+            return values.size();
+        }
+        @end
+        """;
+
+    private const string Cuda = """
+        #include <cuda_runtime.h>
+
+        __global__ void add(const float* a, const float* b, float* c, int n) {
+            int i = blockIdx.x * blockDim.x + threadIdx.x;
+            if (i < n) {
+                c[i] = a[i] + b[i];
+            }
+        }
+
+        int main() {
+            add<<<16, 256>>>(nullptr, nullptr, nullptr, 0);
+            return 0;
+        }
+        """;
+
+    private const string R = """
+        # Mean of a vector
+        x <- c(1, 2, 3, 4.5)
+        mean_of <- function(values, na.rm = FALSE) {
+          sum(values, na.rm = na.rm) / length(values)
+        }
+        print(paste("mean:", mean_of(x)))
+        """;
+
+    private const string Perl = """
+        #!/usr/bin/perl
+        use strict;
+        use warnings;
+
+        my %ages = (alice => 30, bob => 25);
+        foreach my $name (sort keys %ages) {
+            print "$name is $ages{$name}\n";
+        }
+        """;
+
+    private const string Raku = """
+        use v6;
+
+        my %ages = alice => 30, bob => 25;
+        for %ages.keys.sort -> $name {
+            say "$name is %ages{$name}";
+        }
+        """;
+
+    private const string FSharp = """
+        module Greeter
+
+        // Greets someone
+        let greet (name: string) =
+            sprintf "Hello, %s!" name
+
+        [<EntryPoint>]
+        let main argv =
+            printfn "%s" (greet "world")
+            0
+        """;
+
+    private const string VisualBasic = """
+        ' Greets someone
+        Public Class Greeter
+            Public Function Greet(name As String) As String
+                Return "Hello, " & name & "!"
+            End Function
+        End Class
+        """;
+
+    private const string Razor = """
+        @page "/counter"
+        @{
+            var count = 3;
+        }
+        <h1>Counter</h1>
+        <p class="total">Current count: @count</p>
+        @if (count > 1)
+        {
+            <p>More than one.</p>
+        }
+        """;
+
+    private const string Clojure = """
+        ; Greets someone
+        (ns greeter.core)
+
+        (defn greet [name]
+          (str "Hello, " name "!"))
+
+        (println (greet "world"))
+        """;
+
+    private const string CoffeeScript = """
+        # Greets someone
+        greet = (name) -> "Hello, #{name}!"
+
+        class Greeter
+          constructor: (@name) ->
+          hello: -> greet @name
+
+        console.log new Greeter("world").hello()
+        """;
+
+    private const string Groovy = """
+        // Greets someone
+        class Greeter {
+            String name
+
+            String greet() {
+                "Hello, ${name}!"
+            }
+        }
+
+        println new Greeter(name: 'world').greet()
+        """;
+
+    private const string Julia = """
+        # Greets someone
+        function greet(name::String)
+            return "Hello, $(name)!"
+        end
+
+        println(greet("world"))
+        """;
+
+    private const string Handlebars = """
+        <div class="entry">
+          {{! A comment }}
+          <h1>{{title}}</h1>
+          {{#each items}}
+            <li>{{this.name}}</li>
+          {{/each}}
+        </div>
+        """;
+
+    private const string Pug = """
+        doctype html
+        html
+          head
+            title= pageTitle
+          body
+            // A comment
+            h1.title Hello
+            ul
+              each item in items
+                li= item
+        """;
+
+    private const string Hlsl = """
+        // Pixel shader
+        Texture2D tex : register(t0);
+        SamplerState samp : register(s0);
+
+        float4 main(float2 uv : TEXCOORD0) : SV_Target
+        {
+            return tex.Sample(samp, uv) * 0.5f;
+        }
+        """;
+
+    private const string ShaderLab = """
+        Shader "Custom/Unlit"
+        {
+            Properties { _Color ("Color", Color) = (1, 1, 1, 1) }
+            SubShader
+            {
+                Pass
+                {
+                    CGPROGRAM
+                    #pragma vertex vert
+                    ENDCG
+                }
+            }
+        }
+        """;
+
+    private const string Tex = """
+        % A package
+        \ProvidesPackage{greeter}
+        \newcommand{\greet}[1]{Hello, #1!}
+        \def\answer{42}
+        """;
+
+    private const string Latex = """
+        \documentclass{article}
+        \begin{document}
+        % A comment
+        \section{Intro}
+        Euler: $e^{i\pi} + 1 = 0$.
+        \begin{equation}
+          \int_0^1 x\,dx = \frac{1}{2}
+        \end{equation}
+        \end{document}
+        """;
+
+    private const string Bibtex = """
+        @article{knuth84,
+          author  = {Donald E. Knuth},
+          title   = {Literate Programming},
+          journal = {The Computer Journal},
+          year    = 1984
+        }
+        """;
+
+    private const string Rst = """
+        Title
+        =====
+
+        A paragraph with *emphasis* and ``code``.
+
+        .. note:: A directive.
+
+        - first item
+        - second item
+        """;
+
+    // A raw string cannot hold the tabs a recipe line needs once indented, so this one is escaped.
+    private const string Makefile = "# Build\nCC = gcc\nCFLAGS := -O2 -Wall\n\nall: app\n\napp: main.o util.o\n\t$(CC) $(CFLAGS) -o $@ $^\n\n.PHONY: clean\nclean:\n\trm -f app *.o\n";
+
+    private const string Batch = """
+        @echo off
+        REM Builds the project
+        set CONFIG=Release
+        if "%1"=="debug" set CONFIG=Debug
+        echo Building %CONFIG%
+        dotnet build -c %CONFIG% || exit /b 1
+        """;
+
+    private const string Dotenv = """
+        # Application settings
+        APP_NAME=LoomEditor
+        DEBUG=true
+        DATABASE_URL="postgres://user:pass@localhost/db"
+        """;
+
+    private const string Properties = """
+        # Build settings
+        app.name=LoomEditor
+        app.version = 1.0
+        path=C:\\tools\\bin
+        message=Hello, \
+            world!
         """;
 }

@@ -1,0 +1,9 @@
+{
+  "id": "groovy",
+  "aliases": ["Groovy", "groovy"],
+  "extensions": [".groovy", ".gvy", ".gradle", ".jenkinsfile", ".nf"],
+  "filenames": ["Jenkinsfile"],
+  "scopeName": "source.groovy",
+  "configuration": "language-configuration.json",
+  "path": "groovy.tmLanguage.json"
+}

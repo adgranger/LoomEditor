@@ -1,0 +1,8 @@
+{
+  "id": "raku",
+  "aliases": ["Raku", "Perl6", "perl6"],
+  "extensions": [".raku", ".rakumod", ".rakutest", ".rakudoc", ".nqp", ".p6", ".pl6", ".pm6"],
+  "scopeName": "source.perl.6",
+  "configuration": "perl6.language-configuration.json",
+  "path": "perl6.tmLanguage.json"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "vb",
+  "aliases": ["Visual Basic", "vb"],
+  "extensions": [".vb", ".brs", ".vbs", ".bas", ".vba"],
+  "scopeName": "source.asp.vb.net",
+  "configuration": "language-configuration.json",
+  "path": "asp-vb-net.tmLanguage.json"
+}

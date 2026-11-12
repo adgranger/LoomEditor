@@ -1,0 +1,19 @@
+{
+  "id": "properties",
+  "aliases": ["Properties", "properties"],
+  "extensions": [
+    ".conf",
+    ".properties",
+    ".cfg",
+    ".directory",
+    ".gitattributes",
+    ".gitconfig",
+    ".gitmodules",
+    ".editorconfig",
+    ".repo"
+  ],
+  "filenames": ["gitconfig"],
+  "scopeName": "source.ini",
+  "configuration": "properties.language-configuration.json",
+  "path": "ini.tmLanguage.json"
+}

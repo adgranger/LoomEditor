@@ -1,0 +1,8 @@
+{
+  "id": "restructuredtext",
+  "aliases": ["reStructuredText"],
+  "extensions": [".rst"],
+  "scopeName": "source.rst",
+  "configuration": "language-configuration.json",
+  "path": "rst.tmLanguage.json"
+}

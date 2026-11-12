@@ -1,0 +1,12 @@
+{
+  "id": "makefile",
+  "aliases": ["Makefile", "makefile"],
+  "extensions": [".mak", ".mk"],
+  "filenames": ["Makefile", "makefile", "GNUmakefile", "OCamlMakefile"],
+  "scopeName": "source.makefile",
+  "configuration": "language-configuration.json",
+  "path": "make.tmLanguage.json",
+  "tokenTypes": {
+    "string.interpolated": "other"
+  }
+}

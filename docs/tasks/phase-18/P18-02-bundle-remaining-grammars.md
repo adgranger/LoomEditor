@@ -1,6 +1,6 @@
 # P18-02 — Bundle the remaining built-in grammars of VS Code
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** P18-01
 - **Size:** M (data files, one list, tests; almost no code). Not a Monaco port: no `// Ported from` header on JSON files.
 
@@ -64,12 +64,12 @@ Same four kinds as P18-01 for the new ids: golden tests (one sample per id: 20�
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` and `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] Size added to `LoomEditor.TextMate.dll` written in the result
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` and `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] Size added to `LoomEditor.TextMate.dll` written in the result
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 
@@ -80,3 +80,14 @@ languages (Kotlin, Scala, GraphQL, Protobuf, …); first-line detection; any gra
 ## Suggested commit message
 
 `feat(textmate): bundle the remaining built-in grammars of VS Code`
+
+## Result
+
+- 25 language ids in 19 new folders (`objective-c`, `r`, `perl`, `fsharp`, `vb`, `razor`, `clojure`, `coffeescript`, `groovy`, `julia`, `handlebars`, `pug`, `hlsl`, `shaderlab`, `latex`, `restructuredtext`, `make`, `bat`, `dotenv`) plus `cuda-cpp` in `cpp/` and `properties` in `ini/` (it shares `ini.tmLanguage.json`: the loader, the golden generator and the "no orphan resource" test all accept it). `BuiltInLanguages` now holds 55 languages.
+- Size added to `LoomEditor.TextMate.dll`: about 1.6 MB (1,612,425 bytes of embedded grammars, configurations and `language.json` files); the Release assembly is now 5.8 MB.
+- `firstLine` (perl, raku, groovy, julia, makefile) and `filenamePatterns` (groovy `Jenkinsfile*`, dotenv `.env.*`, properties) are not read by `LanguageDefinitionReader`: left out. No Oniguruma rewrite was needed (all golden tests match the real vscode-textmate).
+- `bibtex` has no configuration upstream: `latex/bibtex.language-configuration.json` is ours (`{ }` brackets and auto-closing pair). `tex`/`latex` embed only bundled languages (no `cpp_embedded_latex`, no `markdown_latex_combined`). `shaderlab` and `julia`: manifests as upstream (the ShaderLab manifest has no `embeddedLanguages`).
+- Markdown fenced code: added `makefile`, `perl`, `r`, `clojure`, `groovy`, `pug` (`jade`), `latex`, `restructuredtext` and `fsharp`; the other scopes of the upstream map (`coffee`, `perl6`, `objc`, `dosbatch`, &) name ids that do not exist here.
+- Razor: the upstream manifest does not map HTML or C# to a language id (the C# is the inline `source.cs` scope), so the test is `Razor_StyleAndScript_AreTokenizedAsEmbeddedLanguages` (CSS and JavaScript) instead of `Razor_HtmlAndCsharp_&`.
+- Samples are the `vscode-colorize-tests` fixtures (copied unchanged, so some are longer than 40 lines); `properties` has no upstream fixture, its sample is ours.
+- `Makefile` is no longer an unknown file name: the Gallery `HostApiSelfCheck` now uses `notes.xyz` for its "unknown name" case.

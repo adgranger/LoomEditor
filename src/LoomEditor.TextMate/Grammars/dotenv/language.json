@@ -1,0 +1,9 @@
+{
+  "id": "dotenv",
+  "aliases": ["Dotenv"],
+  "extensions": [".env"],
+  "filenames": [".env", ".flaskenv", "user-dirs.dirs"],
+  "scopeName": "source.dotenv",
+  "configuration": "language-configuration.json",
+  "path": "dotenv.tmLanguage.json"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "razor",
+  "aliases": ["Razor", "razor"],
+  "extensions": [".cshtml", ".razor"],
+  "scopeName": "text.html.cshtml",
+  "configuration": "language-configuration.json",
+  "path": "cshtml.tmLanguage.json",
+  "embeddedLanguages": {
+    "section.embedded.source.cshtml": "csharp",
+    "source.css": "css",
+    "source.js": "javascript"
+  }
+}

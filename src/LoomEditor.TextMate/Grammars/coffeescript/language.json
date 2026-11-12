@@ -1,0 +1,8 @@
+{
+  "id": "coffeescript",
+  "aliases": ["CoffeeScript", "coffeescript", "coffee"],
+  "extensions": [".coffee", ".cson", ".iced"],
+  "scopeName": "source.coffee",
+  "configuration": "language-configuration.json",
+  "path": "coffeescript.tmLanguage.json"
+}

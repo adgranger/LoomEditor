@@ -1,0 +1,8 @@
+{
+  "id": "bibtex",
+  "aliases": ["BibTeX", "bibtex"],
+  "extensions": [".bib"],
+  "scopeName": "text.bibtex",
+  "configuration": "bibtex.language-configuration.json",
+  "path": "Bibtex.tmLanguage.json"
+}

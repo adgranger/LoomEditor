@@ -1,0 +1,8 @@
+{
+  "id": "fsharp",
+  "aliases": ["F#", "FSharp", "fsharp"],
+  "extensions": [".fs", ".fsi", ".fsx", ".fsscript"],
+  "scopeName": "source.fsharp",
+  "configuration": "language-configuration.json",
+  "path": "fsharp.tmLanguage.json"
+}

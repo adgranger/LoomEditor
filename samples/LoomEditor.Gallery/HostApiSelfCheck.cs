@@ -97,7 +97,7 @@ internal static class HostApiSelfCheck
             BuiltInLanguages.GetLanguageIdByFileName("Program.cs"),
             BuiltInLanguages.GetLanguageIdByFileName("src/tsconfig.json"),
             BuiltInLanguages.GetLanguageIdByFileName(HostApiSamples.FileName),
-            BuiltInLanguages.GetLanguageIdByFileName("Makefile"),
+            BuiltInLanguages.GetLanguageIdByFileName("notes.xyz"),
         ];
         string?[] expected = ["csharp", "jsonc", "csharp", null];
         for (int i = 0; i < expected.Length; i++)
@@ -105,7 +105,7 @@ internal static class HostApiSelfCheck
             Require(actual[i] == expected[i], $"file name #{i} gave '{actual[i] ?? "null"}', expected '{expected[i] ?? "null"}'");
         }
 
-        return "Program.cs → csharp, tsconfig.json → jsonc, Conflicts.cs → csharp, Makefile → null";
+        return "Program.cs → csharp, tsconfig.json → jsonc, Conflicts.cs → csharp, notes.xyz → null";
     }
 
     private static string DecorationOptions()

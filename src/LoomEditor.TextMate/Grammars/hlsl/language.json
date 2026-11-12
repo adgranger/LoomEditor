@@ -1,0 +1,8 @@
+{
+  "id": "hlsl",
+  "aliases": ["HLSL", "hlsl"],
+  "extensions": [".hlsl", ".hlsli", ".fx", ".fxh", ".vsh", ".psh", ".cginc", ".compute"],
+  "scopeName": "source.hlsl",
+  "configuration": "language-configuration.json",
+  "path": "hlsl.tmLanguage.json"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "objective-cpp",
+  "aliases": ["Objective-C++"],
+  "extensions": [".mm"],
+  "scopeName": "source.objcpp",
+  "configuration": "language-configuration.json",
+  "path": "objective-c++.tmLanguage.json"
+}

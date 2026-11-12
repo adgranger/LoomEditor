@@ -12,7 +12,7 @@ public static class BuiltInLanguages
     /// <summary>The prefix of every embedded grammar resource (<c>Grammars/&lt;folder&gt;/&lt;file&gt;</c>).</summary>
     internal const string ResourcePrefix = "Grammars/";
 
-    // (folder, language file): a folder holds one language, except json/ (json and jsonc), typescript/ (typescript and typescriptreact) and cpp/ (c and cpp).
+    // (folder, language file): a folder holds one language, except json/ (json and jsonc), typescript/ (typescript and typescriptreact), cpp/ (c, cpp and cuda-cpp), ini/ (ini and properties) and, in the same way, objective-c/, perl/ and latex/ (several languages each).
     private static readonly (string Folder, string File)[] Sources =
     [
         ("csharp", "language.json"),
@@ -45,6 +45,31 @@ public static class BuiltInLanguages
         ("docker", "language.json"),
         ("ini", "language.json"),
         ("diff", "language.json"),
+        ("cpp", "cuda.language.json"),
+        ("objective-c", "language.json"),
+        ("objective-c", "objective-cpp.language.json"),
+        ("r", "language.json"),
+        ("perl", "language.json"),
+        ("perl", "raku.language.json"),
+        ("fsharp", "language.json"),
+        ("vb", "language.json"),
+        ("razor", "language.json"),
+        ("clojure", "language.json"),
+        ("coffeescript", "language.json"),
+        ("groovy", "language.json"),
+        ("julia", "language.json"),
+        ("handlebars", "language.json"),
+        ("pug", "language.json"),
+        ("hlsl", "language.json"),
+        ("shaderlab", "language.json"),
+        ("latex", "tex.language.json"),
+        ("latex", "language.json"),
+        ("latex", "bibtex.language.json"),
+        ("restructuredtext", "language.json"),
+        ("make", "language.json"),
+        ("bat", "language.json"),
+        ("dotenv", "language.json"),
+        ("ini", "properties.language.json"),
     ];
 
     /// <summary>The bundled languages, in the order of <see cref="Sources"/>.</summary>

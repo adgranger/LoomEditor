@@ -1,0 +1,8 @@
+{
+  "id": "r",
+  "aliases": ["R", "r"],
+  "extensions": [".R", ".Rhistory", ".Rprofile", ".rt"],
+  "scopeName": "source.r",
+  "configuration": "language-configuration.json",
+  "path": "r.tmLanguage.json"
+}

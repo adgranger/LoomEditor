@@ -118,6 +118,28 @@ SUCH DAMAGE.
 | Dockerfile | `moby/moby` | `bea959c7b793b32a893820b97c4eadc7c87fabb0` | Apache-2.0 (below) |
 | ini | `textmate/ini.tmbundle` | `2af0cbb0704940f967152616f2f1ff0aae6287a6` | TextMate Bundle License |
 | diff | `textmate/diff.tmbundle` | `0593bb775eab1824af97ef2172fd38822abd97d7` | TextMate Bundle License |
+| Objective-C, Objective-C++ | `jeff-hykin/better-objc-syntax`, `jeff-hykin/better-objcpp-syntax` | `119b75fb1f4d3e8726fa62588e3b935e0b719294`, `5a7eb15eee382dd5aa388bc04fdb60a0d2128e14` | MIT |
+| CUDA C++ | `NVIDIA/cuda-cpp-grammar` | `81e88eaec5170aa8585736c63627c73e3589998c` | MIT |
+| R | `REditorSupport/vscode-R-syntax` | `b199996070723eefbe7a61e0384b2ae4768eb7f0` | MIT |
+| Perl, Raku | `textmate/perl.tmbundle` | `a85927a902d6e5d7805f56a653f324d34dfad53a` | TextMate Bundle License |
+| F# | `ionide/ionide-fsgrammar` | `0cb968a4b8fdb2e0656b95342cdffbeff04a1248` | MIT |
+| Visual Basic | `textmate/asp.vb.net.tmbundle` | `72d44550b3286d0382d7be0624140cf97857ff69` | TextMate Bundle License |
+| Razor | `dotnet/roslyn` | `79e211a2e4287f9f7508089b81311b2c7fdc169f` | MIT |
+| Clojure | `atom/language-clojure` | `45bdb881501d0b8f8b707ca1d3fcc8b4b99fca03` | MIT |
+| CoffeeScript | `atom/language-coffee-script` | `0f6db9143663e18b1ad00667820f46747dba495e` | MIT |
+| Groovy | `textmate/groovy.tmbundle` | `85d8f7c97ae473ccb9473f6c8d27e4ec957f4be1` | TextMate Bundle License |
+| Julia | `JuliaEditorSupport/atom-language-julia` | `dbaa99358d1dbc2fc6c337f0f6571060dbc4ee1f` | MIT |
+| Handlebars | `daaain/Handlebars` | `0ffd0a2d95bfc052c3ff29a3eb4dd3749957b466` | MIT |
+| Pug | `davidrios/pug-tmbundle` | `ae1dd60ca4aa4b45617f236d584216cd8d19eecf` | MIT |
+| HLSL | `tgjones/shaders-tmLanguage` | `87c0dca3a39170dbd7ee7e277db4f915fb2de14a` | MIT |
+| ShaderLab | `tgjones/shaders-tmLanguage` | `c72c8b39380ba5a86c58ceed053b5d965ebf38b3` | MIT |
+| TeX, LaTeX, BibTeX | `jlelong/vscode-latex-basics` | `76dc409348227db00f6779772f7763dc90cdf22e` | MIT |
+| reStructuredText | `trond-snekvik/vscode-rst` | `7f2d6bb4e20642b60f2979afcb594cfe4b48117a` | MIT |
+| Makefile | `fadeevab/make.tmbundle` | `1d4c0b541959995db098df751ffc129da39a294b` | TextMate Bundle License |
+| Batch | `mmims/language-batchfile` | `6154ae25a24e01ac9329e7bcf958e093cd8733a9` | MIT |
+| dotenv | `dotenv-org/dotenv-vscode` | `e7e41baa5b23e01c1ff0567a4e596c24860e7def` | MIT |
+
+The `properties` language uses the ini grammar, and `.properties`-style files need no other grammar.
 
 The MIT-licensed grammars carry the license of their repository (copyright holders: the authors of each repository;
 `microsoft/*` repositories: Microsoft Corporation, with the MIT terms shown above). The YAML grammar:

@@ -1,0 +1,8 @@
+{
+  "id": "jade",
+  "aliases": ["Pug", "Jade", "jade"],
+  "extensions": [".pug", ".jade"],
+  "scopeName": "text.pug",
+  "configuration": "language-configuration.json",
+  "path": "pug.tmLanguage.json"
+}

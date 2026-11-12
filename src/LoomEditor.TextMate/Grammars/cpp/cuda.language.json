@@ -1,0 +1,8 @@
+{
+  "id": "cuda-cpp",
+  "aliases": ["CUDA C++"],
+  "extensions": [".cu", ".cuh"],
+  "scopeName": "source.cuda-cpp",
+  "configuration": "language-configuration.json",
+  "path": "cuda-cpp.tmLanguage.json"
+}

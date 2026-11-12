@@ -1,0 +1,9 @@
+{
+  "id": "tex",
+  "aliases": ["TeX", "tex"],
+  "extensions": [".sty", ".cls", ".bbx", ".cbx"],
+  "scopeName": "text.tex",
+  "configuration": "latex-language-configuration.json",
+  "path": "TeX.tmLanguage.json",
+  "unbalancedBracketScopes": ["keyword.control.ifnextchar.tex", "punctuation.math.operator.tex"]
+}

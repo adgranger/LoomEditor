@@ -1,0 +1,8 @@
+{
+  "id": "handlebars",
+  "aliases": ["Handlebars", "handlebars"],
+  "extensions": [".handlebars", ".hbs", ".hjs"],
+  "scopeName": "text.html.handlebars",
+  "configuration": "language-configuration.json",
+  "path": "Handlebars.tmLanguage.json"
+}

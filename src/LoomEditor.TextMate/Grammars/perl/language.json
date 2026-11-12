@@ -1,0 +1,9 @@
+{
+  "id": "perl",
+  "aliases": ["Perl", "perl"],
+  "extensions": [".pl", ".pm", ".pod", ".t", ".PL", ".psgi"],
+  "scopeName": "source.perl",
+  "configuration": "perl.language-configuration.json",
+  "path": "perl.tmLanguage.json",
+  "unbalancedBracketScopes": ["variable.other.predefined.perl"]
+}

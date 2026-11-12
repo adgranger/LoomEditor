@@ -71,6 +71,31 @@ public class BuiltInLanguagesTests
         { "dockerfile", "FROM alpine", "RUN echo hi" },
         { "ini", "[section]", "key=value" },
         { "diff", "--- a/f", "+++ b/f" },
+        { "objective-c", "#import <Foundation/Foundation.h>", "@interface A : NSObject" },
+        { "objective-cpp", "#import <Foundation/Foundation.h>", "@interface A : NSObject" },
+        { "cuda-cpp", "__global__ void k(int* a)", "{ a[threadIdx.x] = 1; }" },
+        { "r", "x <- c(1, 2, 3)", "print(mean(x))" },
+        { "perl", "use strict;", "my $a = 1;" },
+        { "raku", "my $a = 1;", "say $a;" },
+        { "fsharp", "let x = 1", "let f a = a + 1" },
+        { "vb", "Dim x As Integer = 1", "Public Class A" },
+        { "razor", "<p>@Model.Name</p>", "@{ var x = 1; }" },
+        { "clojure", "(defn f [a] a)", "(println \"hi\")" },
+        { "coffeescript", "x = 1", "f = (a) -> a" },
+        { "groovy", "def x = 1", "println \"hi\"" },
+        { "julia", "x = 1", "function f(a) a end" },
+        { "handlebars", "<p>{{name}}</p>", "{{#if a}}b{{/if}}" },
+        { "jade", "div.a", "  p text" },
+        { "hlsl", "float4 main() : SV_Target", "{ return 1; }" },
+        { "shaderlab", "Shader \"A\"", "{ Properties { } }" },
+        { "tex", "\\def\\a{b}", "% comment" },
+        { "latex", "\\section{A}", "\\begin{document}" },
+        { "bibtex", "@article{a,", "  title = {B}" },
+        { "restructuredtext", "Title", "=====" },
+        { "makefile", "all: a.o", "\t$(CC) -o a a.o" },
+        { "bat", "@echo off", "set A=1" },
+        { "dotenv", "A=1", "# comment" },
+        { "properties", "a.b=c", "# comment" },
     };
 
     // vscode: every language of the extension point must produce a tokenization support.
@@ -125,6 +150,31 @@ public class BuiltInLanguagesTests
         List<int> ids = TokenLanguages(support, "```cpp", "int x = 1;", "```");
 
         Assert.Contains(languages.Codec.EncodeLanguageId("cpp"), ids);
+    }
+
+    [Fact]
+    public void Markdown_FencedR_IsTokenizedAsR()
+    {
+        (LanguageRegistry languages, TMGrammarFactory factory, TextMateTokenizationFactory tokenization) = Create();
+        using TMGrammarFactory _ = factory;
+        ITokenizationSupport support = Assert.IsAssignableFrom<ITokenizationSupport>(tokenization.CreateTokenizationSupport("markdown"));
+
+        List<int> ids = TokenLanguages(support, "```r", "x <- 1", "```");
+
+        Assert.Contains(languages.Codec.EncodeLanguageId("r"), ids);
+    }
+
+    [Fact]
+    public void Razor_StyleAndScript_AreTokenizedAsEmbeddedLanguages()
+    {
+        (LanguageRegistry languages, TMGrammarFactory factory, TextMateTokenizationFactory tokenization) = Create();
+        using TMGrammarFactory _ = factory;
+        ITokenizationSupport support = Assert.IsAssignableFrom<ITokenizationSupport>(tokenization.CreateTokenizationSupport("razor"));
+
+        List<int> ids = TokenLanguages(support, "<style>a { color: red; }</style>", "<script>", "var y = 2;", "</script>");
+
+        Assert.Contains(languages.Codec.EncodeLanguageId("css"), ids);
+        Assert.Contains(languages.Codec.EncodeLanguageId("javascript"), ids);
     }
 
     [Fact]
@@ -190,7 +240,7 @@ public class BuiltInLanguagesTests
     [Fact]
     public void EveryLanguageWithAGrammar_HasAConfiguration()
     {
-        Assert.Equal(30, BuiltInLanguages.All.Count);
+        Assert.Equal(55, BuiltInLanguages.All.Count);
         Assert.All(
             BuiltInLanguages.All.Where(language => language.Grammar is not null),
             language => Assert.NotNull(BuiltInLanguages.ReadFile(language.ConfigurationLocation ?? string.Empty)));
@@ -231,7 +281,6 @@ public class BuiltInLanguagesTests
     [InlineData("src/tsconfig.json", "jsonc")]
     [InlineData("package.json", "json")]
     [InlineData("SConstruct", "python")]
-    [InlineData("Makefile", null)]
     [InlineData("a.cpp", "cpp")]
     [InlineData("a.h", "cpp")]
     [InlineData("a.c", "c")]
@@ -253,6 +302,35 @@ public class BuiltInLanguagesTests
     [InlineData("a.dockerfile", "dockerfile")]
     [InlineData("a.ini", "ini")]
     [InlineData("a.patch", "diff")]
+    [InlineData("a.m", "objective-c")]
+    [InlineData("a.mm", "objective-cpp")]
+    [InlineData("a.cu", "cuda-cpp")]
+    [InlineData("a.R", "r")]
+    [InlineData("a.pl", "perl")]
+    [InlineData("a.raku", "raku")]
+    [InlineData("a.fs", "fsharp")]
+    [InlineData("a.vb", "vb")]
+    [InlineData("a.cshtml", "razor")]
+    [InlineData("a.razor", "razor")]
+    [InlineData("a.clj", "clojure")]
+    [InlineData("a.coffee", "coffeescript")]
+    [InlineData("a.groovy", "groovy")]
+    [InlineData("Jenkinsfile", "groovy")]
+    [InlineData("a.jl", "julia")]
+    [InlineData("a.hbs", "handlebars")]
+    [InlineData("a.pug", "jade")]
+    [InlineData("a.hlsl", "hlsl")]
+    [InlineData("a.shader", "shaderlab")]
+    [InlineData("a.sty", "tex")]
+    [InlineData("a.tex", "latex")]
+    [InlineData("a.bib", "bibtex")]
+    [InlineData("a.rst", "restructuredtext")]
+    [InlineData("Makefile", "makefile")]
+    [InlineData("a.mk", "makefile")]
+    [InlineData("a.bat", "bat")]
+    [InlineData(".env", "dotenv")]
+    [InlineData("a.properties", "properties")]
+    [InlineData("gitconfig", "properties")]
     [InlineData("", null)]
     public void GetLanguageIdByFileName_KnownAndUnknownNames_ReturnsExpectedId(string fileName, string? expected)
     {

@@ -1,0 +1,8 @@
+{
+  "id": "shaderlab",
+  "aliases": ["ShaderLab", "shaderlab"],
+  "extensions": [".shader"],
+  "scopeName": "source.shaderlab",
+  "configuration": "language-configuration.json",
+  "path": "shaderlab.tmLanguage.json"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "bat",
+  "aliases": ["Batch", "bat"],
+  "extensions": [".bat", ".cmd"],
+  "scopeName": "source.batchfile",
+  "configuration": "language-configuration.json",
+  "path": "batchfile.tmLanguage.json"
+}
