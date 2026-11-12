@@ -1,0 +1,8 @@
+{
+  "id": "dart",
+  "aliases": ["Dart"],
+  "extensions": [".dart"],
+  "scopeName": "source.dart",
+  "configuration": "language-configuration.json",
+  "path": "dart.tmLanguage.json"
+}

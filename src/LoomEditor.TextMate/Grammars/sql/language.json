@@ -1,0 +1,8 @@
+{
+  "id": "sql",
+  "aliases": ["MS SQL", "T-SQL"],
+  "extensions": [".sql", ".dsql"],
+  "scopeName": "source.sql",
+  "configuration": "language-configuration.json",
+  "path": "sql.tmLanguage.json"
+}

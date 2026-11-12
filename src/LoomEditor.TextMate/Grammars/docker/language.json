@@ -1,0 +1,9 @@
+{
+  "id": "dockerfile",
+  "aliases": ["Docker", "Dockerfile", "Containerfile"],
+  "extensions": [".dockerfile", ".containerfile"],
+  "filenames": ["Dockerfile", "Containerfile"],
+  "scopeName": "source.dockerfile",
+  "configuration": "language-configuration.json",
+  "path": "docker.tmLanguage.json"
+}

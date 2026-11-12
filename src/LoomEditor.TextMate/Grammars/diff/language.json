@@ -1,0 +1,8 @@
+{
+  "id": "diff",
+  "aliases": ["Diff", "diff"],
+  "extensions": [".diff", ".patch", ".rej"],
+  "scopeName": "source.diff",
+  "configuration": "language-configuration.json",
+  "path": "diff.tmLanguage.json"
+}

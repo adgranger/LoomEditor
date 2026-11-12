@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `LoomEditor.TextMate`: syntax highlighting for C, C++, Java, Go, Rust, PHP, Ruby, SQL, shell, PowerShell, SCSS, Less, Swift, Dart, Dockerfile, ini and diff (new `c`, `cpp`, `java`, `go`, `rust`, `php`, `ruby`, `sql`, `shellscript`, `powershell`, `scss`, `less`, `swift`, `dart`, `dockerfile`, `ini` and `diff` languages, grammars as bundled by VS Code), also in Markdown fenced code blocks. Detection by first line (`#!`) and by file name pattern (`Dockerfile.*`) is not supported.
+
 ## [0.6.0] - 2026-11-10
 
 ### Added

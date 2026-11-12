@@ -1,0 +1,8 @@
+{
+  "id": "ini",
+  "aliases": ["Ini", "ini"],
+  "extensions": [".ini"],
+  "scopeName": "source.ini",
+  "configuration": "ini.language-configuration.json",
+  "path": "ini.tmLanguage.json"
+}

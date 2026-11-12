@@ -12,7 +12,7 @@ public static class BuiltInLanguages
     /// <summary>The prefix of every embedded grammar resource (<c>Grammars/&lt;folder&gt;/&lt;file&gt;</c>).</summary>
     internal const string ResourcePrefix = "Grammars/";
 
-    // (folder, language file): a folder holds one language, except json/ (json and jsonc) and typescript/ (typescript and typescriptreact).
+    // (folder, language file): a folder holds one language, except json/ (json and jsonc), typescript/ (typescript and typescriptreact) and cpp/ (c and cpp).
     private static readonly (string Folder, string File)[] Sources =
     [
         ("csharp", "language.json"),
@@ -28,6 +28,23 @@ public static class BuiltInLanguages
         ("python", "language.json"),
         ("lua", "language.json"),
         ("yaml", "language.json"),
+        ("cpp", "c.language.json"),
+        ("cpp", "language.json"),
+        ("java", "language.json"),
+        ("go", "language.json"),
+        ("rust", "language.json"),
+        ("php", "language.json"),
+        ("ruby", "language.json"),
+        ("sql", "language.json"),
+        ("shellscript", "language.json"),
+        ("powershell", "language.json"),
+        ("scss", "language.json"),
+        ("less", "language.json"),
+        ("swift", "language.json"),
+        ("dart", "language.json"),
+        ("docker", "language.json"),
+        ("ini", "language.json"),
+        ("diff", "language.json"),
     ];
 
     /// <summary>The bundled languages, in the order of <see cref="Sources"/>.</summary>

@@ -1,0 +1,8 @@
+{
+  "id": "go",
+  "aliases": ["Go"],
+  "extensions": [".go"],
+  "scopeName": "source.go",
+  "configuration": "language-configuration.json",
+  "path": "go.tmLanguage.json"
+}

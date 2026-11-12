@@ -1,0 +1,8 @@
+{
+  "id": "rust",
+  "aliases": ["Rust", "rust"],
+  "extensions": [".rs"],
+  "scopeName": "source.rust",
+  "configuration": "language-configuration.json",
+  "path": "rust.tmLanguage.json"
+}

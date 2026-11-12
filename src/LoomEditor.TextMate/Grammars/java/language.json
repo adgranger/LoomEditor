@@ -1,0 +1,8 @@
+{
+  "id": "java",
+  "aliases": ["Java", "java"],
+  "extensions": [".java", ".jav"],
+  "scopeName": "source.java",
+  "configuration": "language-configuration.json",
+  "path": "java.tmLanguage.json"
+}

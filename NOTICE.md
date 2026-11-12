@@ -84,7 +84,7 @@ SUCH DAMAGE.
 
 ## Bundled TextMate grammars
 
-`src/LoomEditor.TextMate/Grammars/` contains grammar files copied from `microsoft/vscode` (unchanged, except `yaml-1.2.tmLanguage.json` and `yaml-embedded.tmLanguage.json`, where the character class `[\x{85}[^...]]` is written `(?:[^...]|\x{85})`, see `docs/PORTING.md`)
+`src/LoomEditor.TextMate/Grammars/` contains grammar files copied from `microsoft/vscode` (unchanged, except `less.tmLanguage.json`, where the nested class `[[-\w][^\x{00}-\x{7F}]]` is written `(?:[-\w]|[^\x{00}-\x{7F}])`, and `yaml-1.2.tmLanguage.json` and `yaml-embedded.tmLanguage.json`, where the character class `[\x{85}[^...]]` is written `(?:[^...]|\x{85})`, see `docs/PORTING.md`)
 (`extensions/<name>/syntaxes/`, commit `0c9c0a4295a9222e12a605537738719455ae3056`). They come from these repositories
 (source: each extension's `cgmanifest.json`):
 
@@ -102,6 +102,22 @@ SUCH DAMAGE.
 | Python | `MagicStack/MagicPython` | `7d0f2b22a5ad8fccbd7341bc7b7a715169283044` | MIT |
 | Lua | `sumneko/lua.tmbundle` (via `microsoft/vscode` `extensions/lua`) | `b295d83bf0e91b5d3a69eb097f9ed351623b95be` | TextMate Bundle License |
 | YAML | `RedCMD/YAML-Syntax-Highlighter` | `53d38bbc66b704803de54ffce5b251bf97211c60` | MIT |
+| C, C++ | `jeff-hykin/better-c-syntax`, `jeff-hykin/better-cpp-syntax`, `textmate/c.tmbundle` | `34712a6106a4ffb0a04d2fa836fd28ff6c5849a4`, `071dd6ecc9eda347bd84c8aa0e0b557396cb6a40`, `60daf83b9d45329524f7847a75e9298b3aae5805` | MIT, TextMate Bundle License |
+| Java | `redhat-developer/vscode-java` | `f09b712f5d6d6339e765f58c8dfab3f78a378183` | MIT |
+| Go | `worlpaker/go-syntax` | `c74e22eb9ef32958e3edd130ea750ce78d8b8241` | MIT |
+| Rust | `dustypomerleau/rust-syntax` | `ca34cf382a7b250144f2ccb99ff9af96912c79f2` | MIT |
+| PHP | `KapitanOczywisty/language-php` | `d94fd6b7dff1613d34bc0d36328f9982e65bd545` | MIT |
+| Ruby | `Shopify/ruby-lsp` | `e044408a069f43c892143f19c389628eebffbd01` | MIT |
+| SQL | `microsoft/vscode-mssql` | `684648ee5414eb2d9df22b0392ef05079f91e44e` | MIT |
+| Shell | `jeff-hykin/better-shell-syntax` | `35020b0bd79a90d3b262b4c13a8bb0b33adc1f45` | MIT |
+| PowerShell | `PowerShell/EditorSyntax` | `23eed76d483c887a1608609e9dd57e09666411cc` | MIT |
+| SCSS | `atom/language-sass` | `303bbf0c250fe380b9e57375598cfd916110758b` | MIT |
+| Less | `radium-v/Better-Less` | `63c0cba9792e49e255cce0f6dd03250fb30591e6` | MIT |
+| Swift | `jtbandes/swift-tmlanguage`, `owensd/vscode-swift` | `2be007b6bc88e54a0edfd3c313ff31276edc923d`, `cec27af6662e3799120b208e64483efdfe5521f5` | MIT |
+| Dart | `dart-lang/dart-syntax-highlight` | `b308b4b3502c8639149e63d74844da51031b5f47` | BSD 3-Clause (below) |
+| Dockerfile | `moby/moby` | `bea959c7b793b32a893820b97c4eadc7c87fabb0` | Apache-2.0 (below) |
+| ini | `textmate/ini.tmbundle` | `2af0cbb0704940f967152616f2f1ff0aae6287a6` | TextMate Bundle License |
+| diff | `textmate/diff.tmbundle` | `0593bb775eab1824af97ef2172fd38822abd97d7` | TextMate Bundle License |
 
 The MIT-licensed grammars carry the license of their repository (copyright holders: the authors of each repository;
 `microsoft/*` repositories: Microsoft Corporation, with the MIT terms shown above). The YAML grammar:
@@ -114,11 +130,11 @@ Copyright 2024 RedCMD
 (Same MIT terms as above.)
 ```
 
-The grammars under the **TextMate Bundle License** (HTML, Markdown and the JavaScript regular expressions; the CSS
-grammar also derives from such a bundle) are distributed under this license:
+The grammars under the **TextMate Bundle License** (HTML, Markdown, the JavaScript regular expressions, the C, ini and diff
+bundles; the CSS grammar also derives from such a bundle) are distributed under this license:
 
 ```
-Copyright (c) textmate-javascript.tmbundle, textmate-html.tmbundle and markdown.tmbundle project authors
+Copyright (c) textmate-javascript.tmbundle, textmate-html.tmbundle, markdown.tmbundle, c.tmbundle, ini.tmbundle and diff.tmbundle project authors
 
 If not otherwise specified (see below), files in this repository fall under the following license:
 
@@ -132,6 +148,41 @@ or files where an accompanying file exists (in the same directory) with a "-lice
 to the base-name name of the original file, and an extension of txt, html, or similar. For example
 "tidy" is accompanied by "tidy-license.txt".
 ```
+
+The Dart grammar (`dart-lang/dart-syntax-highlight`):
+
+```
+Copyright 2020, the Dart project authors.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+    * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following
+    disclaimer in the documentation and/or other materials provided
+    with the distribution.
+    * Neither the name of Google LLC nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+```
+
+The Dockerfile grammar comes from `moby/moby` (Apache License 2.0, https://www.apache.org/licenses/LICENSE-2.0, Copyright
+2013-2018 Docker, Inc.); the license text is that of the repository and is not repeated here.
 
 ## Win2D and Windows App SDK
 

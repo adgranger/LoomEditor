@@ -1,0 +1,8 @@
+{
+  "id": "c",
+  "aliases": ["C", "c"],
+  "extensions": [".c", ".i"],
+  "scopeName": "source.c",
+  "configuration": "language-configuration.json",
+  "path": "c.tmLanguage.json"
+}

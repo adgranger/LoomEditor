@@ -54,6 +54,23 @@ public class BuiltInLanguagesTests
         { "python", "def f(x): return x + 1", "class A: pass" },
         { "lua", "local x = 1", "function f(a) return a end" },
         { "yaml", "key: value", "list:\n  - a" },
+        { "c", "#include <stdio.h>", "int main(void) { return 0; }" },
+        { "cpp", "#include <vector>", "class A { public: int x = 1; };" },
+        { "java", "package a.b;", "public class A { int x = 1; }" },
+        { "go", "package main", "func f(a int) int { return a }" },
+        { "rust", "fn main() {}", "let x: i32 = 1;" },
+        { "php", "<?php", "$a = 1; echo $a;" },
+        { "ruby", "def f(a)", "  a + 1" },
+        { "sql", "SELECT * FROM t", "WHERE a = 1;" },
+        { "shellscript", "#!/bin/bash", "echo \"$HOME\" | grep a" },
+        { "powershell", "$a = 1", "Write-Host \"hi\"" },
+        { "scss", "$c: red;", "a { b { color: $c; } }" },
+        { "less", "@c: red;", ".a { .b { color: @c; } }" },
+        { "swift", "import Foundation", "let x: Int = 1" },
+        { "dart", "import 'a.dart';", "void main() { var x = 1; }" },
+        { "dockerfile", "FROM alpine", "RUN echo hi" },
+        { "ini", "[section]", "key=value" },
+        { "diff", "--- a/f", "+++ b/f" },
     };
 
     // vscode: every language of the extension point must produce a tokenization support.
@@ -96,6 +113,31 @@ public class BuiltInLanguagesTests
         List<int> ids = TokenLanguages(support, "```csharp", "int x = 1;", "```");
 
         Assert.Contains(languages.Codec.EncodeLanguageId("csharp"), ids);
+    }
+
+    [Fact]
+    public void Markdown_FencedCpp_IsTokenizedAsCpp()
+    {
+        (LanguageRegistry languages, TMGrammarFactory factory, TextMateTokenizationFactory tokenization) = Create();
+        using TMGrammarFactory _ = factory;
+        ITokenizationSupport support = Assert.IsAssignableFrom<ITokenizationSupport>(tokenization.CreateTokenizationSupport("markdown"));
+
+        List<int> ids = TokenLanguages(support, "```cpp", "int x = 1;", "```");
+
+        Assert.Contains(languages.Codec.EncodeLanguageId("cpp"), ids);
+    }
+
+    [Fact]
+    public void Php_HtmlOutsideTheTags_IsTokenizedAsHtml()
+    {
+        (LanguageRegistry languages, TMGrammarFactory factory, TextMateTokenizationFactory tokenization) = Create();
+        using TMGrammarFactory _ = factory;
+        ITokenizationSupport support = Assert.IsAssignableFrom<ITokenizationSupport>(tokenization.CreateTokenizationSupport("php"));
+
+        List<int> ids = TokenLanguages(support, "<div class=\"a\"><?php echo 1; ?></div>");
+
+        Assert.Contains(languages.Codec.EncodeLanguageId("html"), ids);
+        Assert.Contains(languages.Codec.EncodeLanguageId("php"), ids);
     }
 
     [Fact]
@@ -148,7 +190,7 @@ public class BuiltInLanguagesTests
     [Fact]
     public void EveryLanguageWithAGrammar_HasAConfiguration()
     {
-        Assert.Equal(13, BuiltInLanguages.All.Count);
+        Assert.Equal(30, BuiltInLanguages.All.Count);
         Assert.All(
             BuiltInLanguages.All.Where(language => language.Grammar is not null),
             language => Assert.NotNull(BuiltInLanguages.ReadFile(language.ConfigurationLocation ?? string.Empty)));
@@ -190,6 +232,27 @@ public class BuiltInLanguagesTests
     [InlineData("package.json", "json")]
     [InlineData("SConstruct", "python")]
     [InlineData("Makefile", null)]
+    [InlineData("a.cpp", "cpp")]
+    [InlineData("a.h", "cpp")]
+    [InlineData("a.c", "c")]
+    [InlineData("A.java", "java")]
+    [InlineData("a.go", "go")]
+    [InlineData("a.rs", "rust")]
+    [InlineData("a.php", "php")]
+    [InlineData("a.rb", "ruby")]
+    [InlineData("Rakefile", "ruby")]
+    [InlineData("Gemfile", "ruby")]
+    [InlineData("a.sql", "sql")]
+    [InlineData("a.sh", "shellscript")]
+    [InlineData("a.ps1", "powershell")]
+    [InlineData("a.scss", "scss")]
+    [InlineData("a.less", "less")]
+    [InlineData("a.swift", "swift")]
+    [InlineData("a.dart", "dart")]
+    [InlineData("Dockerfile", "dockerfile")]
+    [InlineData("a.dockerfile", "dockerfile")]
+    [InlineData("a.ini", "ini")]
+    [InlineData("a.patch", "diff")]
     [InlineData("", null)]
     public void GetLanguageIdByFileName_KnownAndUnknownNames_ReturnsExpectedId(string fileName, string? expected)
     {

@@ -20,7 +20,7 @@ internal static class GoldenFile
     private static readonly string Root = Path.Combine(AppContext.BaseDirectory, "Golden");
 
     /// <summary>The languages that have a golden file.</summary>
-    public static readonly string[] Languages = ["csharp", "typescript", "typescriptreact", "javascript", "json", "html", "css", "xml", "markdown", "python", "lua", "yaml"];
+    public static readonly string[] Languages = ["csharp", "typescript", "typescriptreact", "javascript", "json", "html", "css", "xml", "markdown", "python", "lua", "yaml", "c", "cpp", "java", "go", "rust", "php", "ruby", "sql", "shellscript", "powershell", "scss", "less", "swift", "dart", "dockerfile", "ini", "diff"];
 
     /// <summary>Reads the golden file of <paramref name="language"/>.</summary>
     public static IReadOnlyList<GoldenLine> Read(string language)

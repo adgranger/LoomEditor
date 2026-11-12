@@ -1,6 +1,6 @@
 # P18-01 — Bundle 17 more grammars (C, C++, Java, Go, Rust, PHP, Ruby, SQL, shell, PowerShell, SCSS, Less, Swift, Dart, Dockerfile, ini, diff)
 
-- **Status:** todo
+- **Status:** done
 - **Depends on:** — (Lua, PR #29, is the model: read `src/LoomEditor.TextMate/Grammars/lua/` and `docs/how-to/add-a-language.md` first)
 - **Size:** M (data files, one list, tests; almost no code). Not a Monaco port: no `// Ported from` header on JSON files.
 
@@ -63,20 +63,20 @@ already reads it; otherwise leave it out and say so in the result (no reader cha
 
 ## Tests
 
-- [ ] New: golden tests, one per language id (`c`, `cpp`, `java`, `go`, `rust`, `php`, `ruby`, `sql`, `shellscript`, `powershell`, `scss`, `less`, `swift`, `dart`, `dockerfile`, `ini`, `diff`), tokens made by the real vscode-textmate
-- [ ] New: `EveryBuiltInGrammar_LoadsAndTokenizesAShortSample` rows for the 17 new ids; the language count in `EveryLanguageWithAGrammar_HasAConfiguration` updated
-- [ ] New: `Markdown_FencedCpp_IsTokenizedAsCpp` (like the existing fenced C# test) and `Php_HtmlOutsideTheTags_IsTokenizedAsHtml`
-- [ ] New: `GetLanguageIdByFileName_NewExtensions_ReturnsTheLanguage` (theory: `a.cpp` and `a.h` → `cpp`, `a.c` → `c`, `Dockerfile`, `Rakefile`, `a.sh`, `a.ps1`, `a.patch`, …)
-- [ ] Existing `EveryEmbeddedResource_IsListedByALanguage` still green (no orphan file)
+- [x] New: golden tests, one per language id (`c`, `cpp`, `java`, `go`, `rust`, `php`, `ruby`, `sql`, `shellscript`, `powershell`, `scss`, `less`, `swift`, `dart`, `dockerfile`, `ini`, `diff`), tokens made by the real vscode-textmate
+- [x] New: `EveryBuiltInGrammar_LoadsAndTokenizesAShortSample` rows for the 17 new ids; the language count in `EveryLanguageWithAGrammar_HasAConfiguration` updated
+- [x] New: `Markdown_FencedCpp_IsTokenizedAsCpp` (like the existing fenced C# test) and `Php_HtmlOutsideTheTags_IsTokenizedAsHtml`
+- [x] New: `GetLanguageIdByFileName_NewExtensions_ReturnsTheLanguage` (theory: `a.cpp` and `a.h` → `cpp`, `a.c` → `c`, `Dockerfile`, `Rakefile`, `a.sh`, `a.ps1`, `a.patch`, …)
+- [x] Existing `EveryEmbeddedResource_IsListedByALanguage` still green (no orphan file)
 
 ## Acceptance criteria
 
-- [ ] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
-- [ ] `dotnet test --solution LoomEditor.slnx -c Release` — all green
-- [ ] `dotnet build LoomEditor.Portable.slnf -c Release` and `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green
-- [ ] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
-- [ ] The size added to `LoomEditor.TextMate.dll` (embedded grammars) is written in the card's result
-- [ ] Card status and `docs/tasks/README.md` updated
+- [x] `dotnet build LoomEditor.slnx -c Release` — 0 warnings
+- [x] `dotnet test --solution LoomEditor.slnx -c Release` — all green
+- [x] `dotnet build LoomEditor.Portable.slnf -c Release` and `dotnet test --solution LoomEditor.Portable.slnf -c Release` — green
+- [x] `dotnet publish samples/LoomEditor.Gallery -c Release -r win-x64` — 0 warnings
+- [x] The size added to `LoomEditor.TextMate.dll` (embedded grammars) is written in the card's result
+- [x] Card status and `docs/tasks/README.md` updated
 
 ## Out of scope
 

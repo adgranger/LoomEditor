@@ -21,6 +21,23 @@ internal static class HighlightingSamples
         "python" => Python,
         "lua" => Lua,
         "yaml" => Yaml,
+        "c" => C,
+        "cpp" => Cpp,
+        "java" => Java,
+        "go" => Go,
+        "rust" => Rust,
+        "php" => Php,
+        "ruby" => Ruby,
+        "sql" => Sql,
+        "shellscript" => Shell,
+        "powershell" => PowerShell,
+        "scss" => Scss,
+        "less" => Less,
+        "swift" => Swift,
+        "dart" => Dart,
+        "dockerfile" => Dockerfile,
+        "ini" => Ini,
+        "diff" => Diff,
         _ => "Plain text has no colors.\nLine two.",
     };
 
@@ -228,5 +245,232 @@ internal static class HighlightingSamples
                 env:
                   DEBUG: "false"
                   RETRIES: 3
+        """;
+
+    private const string C = """
+        #include <stdio.h>
+
+        /* Prints the first squares. */
+        int main(void) {
+            for (int i = 1; i <= 5; i++) {
+                printf("%d\n", i * i);
+            }
+            return 0;
+        }
+        """;
+
+    private const string Cpp = """
+        #include <iostream>
+        #include <vector>
+
+        // Sums a vector.
+        template <typename T>
+        T sum(const std::vector<T>& v) {
+            T total{};
+            for (const auto& x : v) total += x;
+            return total;
+        }
+
+        int main() {
+            std::cout << sum<int>({1, 2, 3}) << "\n";
+        }
+        """;
+
+    private const string Java = """
+        package demo;
+
+        /** A tiny greeter. */
+        public class Greeter {
+            private final String name;
+
+            public Greeter(String name) { this.name = name; }
+
+            @Override
+            public String toString() {
+                return "Hello, " + name + "!"; // greeting
+            }
+        }
+        """;
+
+    private const string Go = """
+        package main
+
+        import "fmt"
+
+        // fib returns the n-th Fibonacci number.
+        func fib(n int) int {
+        	if n < 2 {
+        		return n
+        	}
+        	return fib(n-1) + fib(n-2)
+        }
+
+        func main() {
+        	fmt.Println(fib(10))
+        }
+        """;
+
+    private const string Rust = """
+        use std::collections::HashMap;
+
+        /// Counts the words of a text.
+        fn count(text: &str) -> HashMap<&str, usize> {
+            let mut map = HashMap::new();
+            for word in text.split_whitespace() {
+                *map.entry(word).or_insert(0) += 1;
+            }
+            map
+        }
+
+        fn main() {
+            println!("{:?}", count("a b a"));
+        }
+        """;
+
+    private const string Php = """
+        <!DOCTYPE html>
+        <html>
+        <body>
+        <?php
+        // A short loop
+        $names = ["Ada", "Linus"];
+        foreach ($names as $name) {
+            echo "<p>Hello, $name!</p>";
+        }
+        ?>
+        </body>
+        </html>
+        """;
+
+    private const string Ruby = """
+        # A small class
+        class Greeter
+          def initialize(name)
+            @name = name
+          end
+
+          def greet
+            puts "Hello, #{@name}!"
+          end
+        end
+
+        Greeter.new("Ada").greet
+        """;
+
+    private const string Sql = """
+        -- Top customers
+        SELECT c.name, COUNT(*) AS orders
+        FROM customers AS c
+        JOIN orders AS o ON o.customer_id = c.id
+        WHERE o.created_at >= '2026-01-01'
+        GROUP BY c.name
+        ORDER BY orders DESC;
+        """;
+
+    private const string Shell = """
+        #!/bin/bash
+        # Prints the size of each file
+        for f in *.txt; do
+          size=$(wc -c < "$f")
+          echo "$f: $size bytes"
+        done
+        """;
+
+    private const string PowerShell = """
+        # Lists the large files
+        Get-ChildItem -Path . -Recurse |
+            Where-Object { $_.Length -gt 1MB } |
+            ForEach-Object { Write-Host "$($_.Name): $($_.Length)" }
+        """;
+
+    private const string Scss = """
+        $primary: #0078d4;
+
+        @mixin rounded($radius: 4px) {
+          border-radius: $radius;
+        }
+
+        .button {
+          color: $primary;
+          @include rounded;
+          &:hover { color: darken($primary, 10%); }
+        }
+        """;
+
+    private const string Less = """
+        @primary: #0078d4;
+
+        .rounded(@radius: 4px) {
+          border-radius: @radius;
+        }
+
+        .button {
+          color: @primary;
+          .rounded();
+          &:hover { color: darken(@primary, 10%); }
+        }
+        """;
+
+    private const string Swift = """
+        import Foundation
+
+        /// A tiny greeter.
+        struct Greeter {
+            let name: String
+
+            func greet() -> String {
+                return "Hello, \(name)!"
+            }
+        }
+
+        print(Greeter(name: "Ada").greet())
+        """;
+
+    private const string Dart = """
+        import 'dart:math';
+
+        /// A point in the plane.
+        class Point {
+          final double x, y;
+          const Point(this.x, this.y);
+
+          double distanceTo(Point other) =>
+              sqrt(pow(x - other.x, 2) + pow(y - other.y, 2));
+        }
+
+        void main() => print(Point(0, 0).distanceTo(Point(3, 4)));
+        """;
+
+    private const string Dockerfile = """
+        # Build stage
+        FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+        WORKDIR /src
+        COPY . .
+        RUN dotnet publish -c Release -o /app
+
+        FROM mcr.microsoft.com/dotnet/runtime:10.0
+        COPY --from=build /app /app
+        ENTRYPOINT ["dotnet", "/app/App.dll"]
+        """;
+
+    private const string Ini = """
+        ; Settings
+        [editor]
+        fontSize=14
+        wordWrap = on
+
+        [theme]
+        name = "Dark Modern"
+        """;
+
+    private const string Diff = """
+        diff --git a/a.txt b/a.txt
+        index 83db48f..bf2a3c1 100644
+        --- a/a.txt
+        +++ b/a.txt
+        @@ -1,3 +1,3 @@
+         unchanged
+        -removed
+        +added
         """;
 }

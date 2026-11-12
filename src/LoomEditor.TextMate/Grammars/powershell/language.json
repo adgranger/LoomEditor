@@ -1,0 +1,8 @@
+{
+  "id": "powershell",
+  "aliases": ["PowerShell", "powershell", "ps", "ps1", "pwsh"],
+  "extensions": [".ps1", ".psm1", ".psd1", ".pssc", ".psrc"],
+  "scopeName": "source.powershell",
+  "configuration": "language-configuration.json",
+  "path": "powershell.tmLanguage.json"
+}

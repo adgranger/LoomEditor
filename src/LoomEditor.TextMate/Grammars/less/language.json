@@ -1,0 +1,8 @@
+{
+  "id": "less",
+  "aliases": ["Less", "less"],
+  "extensions": [".less"],
+  "scopeName": "source.css.less",
+  "configuration": "language-configuration.json",
+  "path": "less.tmLanguage.json"
+}

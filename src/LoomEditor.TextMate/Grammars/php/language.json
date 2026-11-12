@@ -1,0 +1,23 @@
+{
+  "id": "php",
+  "aliases": ["PHP", "php"],
+  "extensions": [".php", ".php4", ".php5", ".phtml", ".ctp"],
+  "scopeName": "text.html.php",
+  "configuration": "language-configuration.json",
+  "path": "html.tmLanguage.json",
+  "embeddedLanguages": {
+    "text.html": "html",
+    "source.php": "php",
+    "source.sql": "sql",
+    "text.xml": "xml",
+    "source.js": "javascript",
+    "source.json": "json",
+    "source.css": "css"
+  },
+  "grammars": [
+    {
+      "scopeName": "source.php",
+      "path": "php.tmLanguage.json"
+    }
+  ]
+}

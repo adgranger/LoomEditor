@@ -1,0 +1,14 @@
+{
+  "id": "scss",
+  "aliases": ["SCSS", "scss"],
+  "extensions": [".scss"],
+  "scopeName": "source.css.scss",
+  "configuration": "language-configuration.json",
+  "path": "scss.tmLanguage.json",
+  "grammars": [
+    {
+      "scopeName": "source.sassdoc",
+      "path": "sassdoc.tmLanguage.json"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "ruby",
+  "aliases": ["Ruby", "rb"],
+  "extensions": [".rb", ".rbx", ".rjs", ".gemspec", ".rake", ".ru", ".erb", ".podspec", ".rbi"],
+  "filenames": [
+    "rakefile",
+    "gemfile",
+    "guardfile",
+    "podfile",
+    "capfile",
+    "cheffile",
+    "hobofile",
+    "vagrantfile",
+    "appraisals",
+    "rantfile",
+    "berksfile",
+    "berksfile.lock",
+    "thorfile",
+    "puppetfile",
+    "dangerfile",
+    "brewfile",
+    "fastfile",
+    "appfile",
+    "deliverfile",
+    "matchfile",
+    "scanfile",
+    "snapfile",
+    "gymfile"
+  ],
+  "scopeName": "source.ruby",
+  "configuration": "language-configuration.json",
+  "path": "ruby.tmLanguage.json"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "cpp",
+  "aliases": ["C++", "Cpp", "cpp"],
+  "extensions": [
+    ".cpp",
+    ".cppm",
+    ".cc",
+    ".ccm",
+    ".cxx",
+    ".cxxm",
+    ".c++",
+    ".c++m",
+    ".hpp",
+    ".hh",
+    ".hxx",
+    ".h++",
+    ".h",
+    ".ii",
+    ".ino",
+    ".inl",
+    ".ipp",
+    ".ixx",
+    ".mpp",
+    ".mxx",
+    ".tpp",
+    ".txx",
+    ".hpp.in",
+    ".h.in"
+  ],
+  "scopeName": "source.cpp",
+  "configuration": "language-configuration.json",
+  "path": "cpp.tmLanguage.json",
+  "grammars": [
+    {
+      "scopeName": "source.cpp.embedded.macro",
+      "path": "cpp.embedded.macro.tmLanguage.json"
+    },
+    {
+      "scopeName": "source.c.platform",
+      "path": "platform.tmLanguage.json"
+    }
+  ]
+}
