@@ -263,6 +263,12 @@ public class DiffLineSelectionTests
         var selection = new DiffLineSelection();
         selection.SetBlocks(blocks, keepSelection: false);
         const int Seed = 14;
+        // Warm-up: the JIT must not count in the timing (a cold CI runner took 250 ms for the first pass).
+        for (int i = 0; i < 10_000; i++)
+        {
+            _ = selection.IsChangedLine(i % 2 == 0, (i % 50_000) + 1);
+        }
+
         var random = new Random(Seed);
         int hits = 0;
         var watch = Stopwatch.StartNew();
